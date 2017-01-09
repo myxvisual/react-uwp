@@ -17,5 +17,9 @@
     "react-uwp"
   ],
   "author": "myxvisual",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/myxvisual/react-uwp/issues"
+  },
+  "homepage": "https://antcores.com/react-uwp/"
 }
