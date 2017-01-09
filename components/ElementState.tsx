@@ -69,7 +69,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 	resetStyle = () => { setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle } ); }
 
 	render() {
-		let { style, hoverStyle, focusStyle, activeStyle, visitedStyle, children, ...attributes } = this.props;
+		const { style, hoverStyle, focusStyle, activeStyle, visitedStyle, children, ...attributes } = this.props;
 
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,

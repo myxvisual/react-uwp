@@ -6,7 +6,7 @@ let theme: ThemeType;
 import * as styles from "./index.scss";
 const defaultProps: MenusProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-interface DataProps {
+export interface DataProps {
 	direction?: "top" | "right" | "bottom" | "left";
 }
 interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}

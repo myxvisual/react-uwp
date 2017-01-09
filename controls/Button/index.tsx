@@ -1,20 +1,15 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState"
-
+import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
-import addArrayEvent from "../../common/addArrayEvent";
-import setStyleToElement from "../../common/setStyleToElement";
 
 let theme: ThemeType;
-
-import * as styles from "./index.scss";
 const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 interface EventHanlder {
 	(e?: React.SyntheticEvent<HTMLButtonElement>): void;
 }
-interface DataProps {
+export interface DataProps {
 	borderSize?: string;
 }
 interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -31,7 +26,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
 	render() {
 		const {
-			borderSize, className,  children,
+			borderSize, children,
 			...attributes
 		} = this.props;
 		theme = this.context.theme;
@@ -48,7 +43,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				hoverStyle={{
 					border: `${this.props.borderSize} solid ${theme.baseMediumLow}`
 				}}
-				className={`${styles.c} ${className}`}
 				{...attributes}
 			>
 				<button>

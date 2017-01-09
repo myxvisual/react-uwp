@@ -1,11 +1,12 @@
 import * as React from "react";
 
+import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
 
-import * as styles from "./index.scss";
+
 const defaultProps: MockProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-interface DataProps {}
+export interface DataProps {}
 interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface MockState {}
 
@@ -15,14 +16,20 @@ export default class Mock extends React.Component<MockProps, MockState> {
 	static contextTypes = { theme: React.PropTypes.object };
 
 	render() {
-		const { className, ...attributes } = this.props;
+		const { ...attributes } = this.props;
 		let theme: ThemeType;
 		theme = this.context.theme;
 
 		return (
-			<div {...attributes} className={`${styles.c} ${className}`}>
-				Mock
-			</div>
+			<ElementState
+				{...attributes}
+				style={attributes.style}
+				hoverStyle={{ background: "red" }}
+			>
+				<div>
+					Mock
+				</div>
+			</ElementState>
 		);
 	}
 }
