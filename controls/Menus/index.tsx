@@ -1,9 +1,9 @@
 import * as React from "react";
 
+import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
-let theme: ThemeType;
 
-import * as styles from "./index.scss";
+let theme: ThemeType;
 const defaultProps: MenusProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -17,35 +17,28 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	static contextTypes = { theme: React.PropTypes.object };
 	state: MenusState = {};
 
-	enterHanlder = (e?: React.SyntheticEvent<HTMLDivElement>) => {
-		const { style } = e.currentTarget;
-		style.background = theme.accent;
-		style.color = theme.baseHigh;
-	}
-
-	leaveHandler = (e?: React.SyntheticEvent<HTMLDivElement>) => {
-		const { currentTarget: { style } } = e;
-		style.background = theme.baseLow;
-		style.color = theme.baseMediumHigh;
-	}
-
 	render() {
-		const { direction, className, onMouseEnter, children, ...attributes } = this.props;
+		const { direction, children, ...attributes } = this.props;
 		theme = this.context.theme;
 
 		return (
-			<div
+			<ElementState
 				{...attributes}
 				style={{
+					padding: "5px 20px",
+					userSelect: "none",
+					cursor: "pointer",
+					...attributes.style,
 					color: theme.baseMediumHigh,
-					background: theme.baseLow
+					background: theme.accent
 				}}
-				onMouseLeave={this.leaveHandler}
-				onMouseEnter={this.enterHanlder}
-				className={`${styles.c} ${className}`
-			}>
-				{children}
-			</div>
+				hoverStyle={{
+					color: theme.baseHigh,
+					background: theme.accentDarker1
+				}}
+			>
+				<div>{children}</div>
+			</ElementState >
 		);
 	}
 }
