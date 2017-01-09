@@ -1,0 +1,21 @@
+{
+  "name": "react-uwp",
+  "version": "1.0.0",
+  "description": "UWP Design Ui by React",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myxvisual/react-uwp.git"
+  },
+  "keywords": [
+    "uwp",
+    "react",
+    "uwp design",
+    "react-uwp"
+  ],
+  "author": "myxvisual",
+  "license": "MIT"
+}
