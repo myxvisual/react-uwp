@@ -1,10 +1,10 @@
 import { ThemeType } from "./Theme";
-
+import * as colors from "./colors";
 import { fade, darken, lighten } from "../common/colorManipulator.js";
 
 const baseHigh = "rgb(255, 255, 255)";
 const altHigh = "rgb(0, 0, 0)";
-const accent = "blue";
+const accent = colors.blue500;
 
 const darkTheme: ThemeType = {
 	accent,
