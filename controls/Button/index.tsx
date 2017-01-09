@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import { ThemeType } from "react-uwp/style/ThemeType";
+import addArrayEvent from "../../common/addArrayEvent";
+
 let theme: ThemeType;
 
 import * as styles from "./index.scss";
@@ -21,6 +23,12 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 	};
 	state: ButtonState = {};
 	static contextTypes = { theme: React.PropTypes.object };
+	refs: { container: HTMLButtonElement };
+
+	componentDidMount() {
+		addArrayEvent(this.refs.container, ["click", "mousedown", "mouseenter", "touchstart"], this.clickOrMouseEnterHandler);
+		addArrayEvent(this.refs.container, ["mouseup", "mouseleave", "touchend"], this.mouseLeaveOrUpHandler);
+	}
 
 	clickOrMouseEnterHandler = (e?: React.SyntheticEvent<HTMLButtonElement>) => {
 		e.currentTarget.style.border = `${this.props.borderSize} solid ${theme.baseMediumLow}`;
@@ -32,14 +40,14 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
 	render() {
 		const {
-			borderSize, className,
-			onClick, onMouseDown, onMouseEnter, onMouseLeave, onTouchStart, onTouchEnd, children,
+			borderSize, className,  children,
 			...attributes
 		} = this.props;
 		theme = this.context.theme;
 
 		return (
 			<button
+				ref="container"
 				{...attributes}
 				className={`${styles.c} ${className}`}
 				style={{
@@ -49,12 +57,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 					...attributes.style,
 					border: `${borderSize} solid transparent`
 				}}
-				onClick={(e) => { this.clickOrMouseEnterHandler(e); }}
-				onMouseDown={this.clickOrMouseEnterHandler}
-				onMouseEnter={this.clickOrMouseEnterHandler}
-				onTouchStart={this.clickOrMouseEnterHandler}
-				onMouseLeave={this.mouseLeaveOrUpHandler}
-				onTouchEnd={this.mouseLeaveOrUpHandler}
 			>
 				{children}
 			</button>
