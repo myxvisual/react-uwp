@@ -13,11 +13,11 @@ export interface ThemeType {
 	baseMediumHigh?: string;
 	baseHigh?: string;
 
-	AltLow?: string;
-	AltMediumLow?: string;
-	AltMedium?: string;
-	AltMediumHigh?: string;
-	AltHigh?: string;
+	altLow?: string;
+	altMediumLow?: string;
+	altMedium?: string;
+	altMediumHigh?: string;
+	altHigh?: string;
 
 	listLow?: string;
 	listMedium?: string;
@@ -29,7 +29,7 @@ export interface ThemeType {
 	chromeMediumLow?: string;
 	chromeMedium?: string;
 	chromeHigh?: string;
-	chromeAltLow?: string;
+	chromealtLow?: string;
 	chromeDisabledLow?: string;
 	chromeDisabledHigh?: string;
 	chromeBlackLow?: string;

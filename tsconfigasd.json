@@ -14,9 +14,8 @@
 		"lib": ["dom", "es5"],
 		"paths": {},
 		"typeRoots": [
-			"node_modules/@types"
-		],
-		"baseUrl": "src"
+			"../../node_modules/@types"
+		]
 	},
 	"filesGlob": [
 		"**/*.ts",
@@ -24,7 +23,6 @@
 	],
 	"include": [
 		"*.ts",
-		"source/**/*.ts",
 		"**/*.ts",
 		"**/*.tsx",
 		"__mocks__/**/*.ts",
@@ -32,9 +30,6 @@
 		"declaration/**/*.d.ts"
 	],
 	"exclude": [
-		"node_modules",
-		"src/source",
-		"build",
-		"dist"
+		"node_modules"
 	]
 }
