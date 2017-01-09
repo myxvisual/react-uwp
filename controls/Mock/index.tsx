@@ -3,7 +3,7 @@ import * as React from "react";
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
 
-
+let theme: ThemeType;
 const defaultProps: MockProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {}
@@ -17,7 +17,6 @@ export default class Mock extends React.Component<MockProps, MockState> {
 
 	render() {
 		const { ...attributes } = this.props;
-		let theme: ThemeType;
 		theme = this.context.theme;
 
 		return (
