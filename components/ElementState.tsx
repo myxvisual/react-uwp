@@ -1,5 +1,10 @@
 import * as React from "react";
 
+interface PrefixAll {
+	(style: React.CSSProperties): React.CSSProperties;
+}
+const prefixAll: PrefixAll = require("inline-style-prefix-all");
+
 import addArrayEvent from "../common/addArrayEvent";
 import setStyleToElement from "../common/setStyleToElement";
 import removeArrayEvent from "../common/removeArrayEvent";
@@ -55,14 +60,14 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		}
 	}
 
-	hoverHandle = () => { setStyleToElement(this.currentDOM, this.props.hoverStyle); }
+	hoverHandle = () => { setStyleToElement(this.currentDOM, prefixAll(this.props.hoverStyle)); }
 
-	activeHandle = () => { setStyleToElement(this.currentDOM, this.props.activeStyle); }
+	activeHandle = () => { setStyleToElement(this.currentDOM, prefixAll(this.props.activeStyle)); }
 
-	focusHandle = () => { setStyleToElement(this.currentDOM, this.props.focusStyle); }
+	focusHandle = () => { setStyleToElement(this.currentDOM, prefixAll(this.props.focusStyle)); }
 
 	visitedHandle = () => {
-		{ setStyleToElement(this.currentDOM, this.props.visitedStyle); }
+		{ setStyleToElement(this.currentDOM, prefixAll(this.props.visitedStyle)); }
 		this.visitedStyle = this.props.visitedStyle;
 	}
 
@@ -73,7 +78,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,
-			style,
+			style: prefixAll(style),
 			...attributes
 		});
 	}
