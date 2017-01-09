@@ -1,6 +1,6 @@
-import { Theme } from "./Theme";
+import { ThemeType } from "./Theme";
 
-const lightTheme: Theme = {
+const lightTheme: ThemeType = {
 
 };
 

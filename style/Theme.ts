@@ -1,4 +1,4 @@
-export interface Theme {
+export interface ThemeType {
 	accent?: string;
 	accentLighter1?: string;
 	accentLighter2?: string;
