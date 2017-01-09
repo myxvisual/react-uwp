@@ -1,7 +1,7 @@
 export default function addEventListener<T>(elm: HTMLElement, event: string, func = () => {}) {
-	if (elm.addEventListener) {
+	if ("addEventListener" in elm) {
 		elm.addEventListener(event, func, false);
-	} else if (elm.attachEvent) {
+	} else if ("attachEvent" in elm) {
 		elm.attachEvent(`on${event}`, func);
 	}
 };

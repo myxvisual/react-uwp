@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import ElementState from "../../components/ElementState"
+
 import { ThemeType } from "react-uwp/style/ThemeType";
 import addArrayEvent from "../../common/addArrayEvent";
 import setStyleToElement from "../../common/setStyleToElement";
@@ -27,19 +29,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 	static contextTypes = { theme: React.PropTypes.object };
 	refs: { container: HTMLButtonElement };
 
-	componentDidMount() {
-		addArrayEvent(this.refs.container, ["click", "mousedown", "mouseenter", "touchstart"], this.clickOrMouseEnterHandler);
-		addArrayEvent(this.refs.container, ["mouseup", "mouseleave", "touchend"], this.mouseLeaveOrUpHandler);
-	}
-
-	clickOrMouseEnterHandler: EventHanlder = (e) => {
-		setStyleToElement(e.currentTarget, { border: `${this.props.borderSize} solid ${theme.baseMediumLow}` });
-	}
-
-	mouseLeaveOrUpHandler: EventHanlder = (e) => {
-		setStyleToElement(e.currentTarget, { border: `${this.props.borderSize} solid transparent` });
-	}
-
 	render() {
 		const {
 			borderSize, className,  children,
@@ -48,10 +37,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 		theme = this.context.theme;
 
 		return (
-			<button
-				ref="container"
-				{...attributes}
-				className={`${styles.c} ${className}`}
+			<ElementState
 				style={{
 					background: theme.baseLow,
 					color: theme.baseMediumHigh,
@@ -59,9 +45,16 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 					...attributes.style,
 					border: `${borderSize} solid transparent`
 				}}
+				hoverStyle={{
+					border: `${this.props.borderSize} solid ${theme.baseMediumLow}`
+				}}
+				className={`${styles.c} ${className}`}
+				{...attributes}
 			>
-				{children}
-			</button>
+				<button>
+					{children}
+				</button>
+			</ElementState>
 		);
 	}
 }

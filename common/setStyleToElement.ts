@@ -1,5 +1,5 @@
-export default function setStyleToElement<T>(elm: HTMLElement| EventTarget & T, style: React.CSSProperties) {
-	for (const styleName in style) {
-		elm[styleName] = style[styleName];
+export default function setStyleToElement(elm: HTMLElement, style: React.CSSProperties) {
+	for (const property in style) {
+		elm.style[property as any] = style[property];
 	}
 };

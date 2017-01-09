@@ -1,4 +1,4 @@
-export default function removeEventListener<T>(elm: HTMLElement, event: string, func = () => {}) {
+export default function removeEventListener<T>(elm: any, event: string, func = () => {}) {
 	if (elm.removeEventListener) {
 		elm.removeEventListener(event, func);
 	} else if (elm.detachEvent) {
