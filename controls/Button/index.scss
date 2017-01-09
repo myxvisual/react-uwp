@@ -3,9 +3,8 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	outline: none;
+	border: none;
 	cursor: pointer;
-
 	transition: all .25s 0s ease-in-out;
-	padding: 10px 20px;
-	user-select: none;
 }

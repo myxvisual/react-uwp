@@ -1,4 +1,4 @@
-import { ThemeType } from "./Theme";
+import { ThemeType } from "./ThemeType";
 import * as colors from "./colors";
 import { fade, darken, lighten } from "../common/colorManipulator.js";
 
