@@ -271,8 +271,8 @@ export const grey700 = "#616161";
 export const grey800 = "#424242";
 export const grey900 = "#212121";
 
-export const black = "#000000";
-export const white = "#ffffff";
+export const black = "#000";
+export const white = "#fff";
 
 export const transparent = "rgba(0, 0, 0, 0)";
 export const fullBlack = "rgba(0, 0, 0, 1)";

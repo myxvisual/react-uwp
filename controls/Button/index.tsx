@@ -52,8 +52,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				onClick={(e) => { this.clickOrMouseEnterHandler(e); }}
 				onMouseDown={this.clickOrMouseEnterHandler}
 				onMouseEnter={this.clickOrMouseEnterHandler}
-				onMouseLeave={this.mouseLeaveOrUpHandler}
 				onTouchStart={this.clickOrMouseEnterHandler}
+				onMouseLeave={this.mouseLeaveOrUpHandler}
 				onTouchEnd={this.mouseLeaveOrUpHandler}
 			>
 				{children}
