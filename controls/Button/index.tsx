@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { ThemeType } from "react-uwp/style/ThemeType";
 import addArrayEvent from "../../common/addArrayEvent";
+import setStyleToElement from "../../common/setStyleToElement";
 
 let theme: ThemeType;
 
@@ -9,6 +10,7 @@ import * as styles from "./index.scss";
 const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 interface EventHanlder {
+	(e?: React.SyntheticEvent<HTMLButtonElement>): void;
 }
 interface DataProps {
 	borderSize?: string;
@@ -30,12 +32,12 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 		addArrayEvent(this.refs.container, ["mouseup", "mouseleave", "touchend"], this.mouseLeaveOrUpHandler);
 	}
 
-	clickOrMouseEnterHandler = (e?: React.SyntheticEvent<HTMLButtonElement>) => {
-		e.currentTarget.style.border = `${this.props.borderSize} solid ${theme.baseMediumLow}`;
+	clickOrMouseEnterHandler: EventHanlder = (e) => {
+		setStyleToElement(e.currentTarget, { border: `${this.props.borderSize} solid ${theme.baseMediumLow}` });
 	}
 
-	mouseLeaveOrUpHandler = (e?: React.SyntheticEvent<HTMLButtonElement>, attributeFun?: (e?: React.SyntheticEvent<HTMLButtonElement>) => void) => {
-		e.currentTarget.style.border = `${this.props.borderSize} solid transparent`;
+	mouseLeaveOrUpHandler: EventHanlder = (e) => {
+		setStyleToElement(e.currentTarget, { border: `${this.props.borderSize} solid transparent` });
 	}
 
 	render() {
