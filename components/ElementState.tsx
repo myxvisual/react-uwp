@@ -60,14 +60,16 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		}
 	}
 
-	hoverHandle = () => { setStyleToElement(this.currentDOM, prefixAll(this.props.hoverStyle)); }
+	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ ...this.props.style, ...style })); }
 
-	activeHandle = () => { setStyleToElement(this.currentDOM, prefixAll(this.props.activeStyle)); }
+	hoverHandle = () => { this.setStyle(this.props.hoverStyle); }
 
-	focusHandle = () => { setStyleToElement(this.currentDOM, prefixAll(this.props.focusStyle)); }
+	activeHandle = () => { this.setStyle(this.props.activeStyle); }
+
+	focusHandle = () => { this.setStyle(this.props.focusStyle); }
 
 	visitedHandle = () => {
-		{ setStyleToElement(this.currentDOM, prefixAll(this.props.visitedStyle)); }
+		{ this.setStyle(this.props.visitedStyle); }
 		this.visitedStyle = this.props.visitedStyle;
 	}
 

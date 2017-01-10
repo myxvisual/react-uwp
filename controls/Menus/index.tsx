@@ -13,7 +13,7 @@ interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface MenusState {}
 
 export default class Menus extends React.Component<MenusProps, MenusState> {
-	static defaultProps: MenusProps = { ...defaultProps, className: "" };
+	static defaultProps: MenusProps = { ...defaultProps };
 	static contextTypes = { theme: React.PropTypes.object };
 	state: MenusState = {};
 

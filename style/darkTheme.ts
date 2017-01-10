@@ -1,6 +1,6 @@
 import { ThemeType } from "./ThemeType";
 import * as colors from "./colors";
-import { fade, darken, lighten } from "../common/colorManipulator.js";
+import { fade, darken, lighten } from "../common/colorManipulator";
 
 const baseHigh = "rgb(255, 255, 255)";
 const altHigh = "rgb(0, 0, 0)";

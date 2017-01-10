@@ -17,7 +17,6 @@ interface ButtonState {}
 export default class Button extends React.Component<ButtonProps, ButtonState> {
 	static defaultProps: ButtonProps = {
 		...defaultProps,
-		className: "",
 		borderSize: "2px"
 	};
 	state: ButtonState = {};
@@ -36,6 +35,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				style={{
 					background: theme.baseLow,
 					color: theme.baseMediumHigh,
+					display: "flex",
+					flex: "1 1 auto",
 					padding: "5px 20px",
 					...attributes.style,
 					border: `${borderSize} solid transparent`

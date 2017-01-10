@@ -11,7 +11,7 @@ interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface MockState {}
 
 export default class Mock extends React.Component<MockProps, MockState> {
-	static defaultProps: MockProps = { ...defaultProps, className: "" };
+	static defaultProps: MockProps = { ...defaultProps };
 	state: MockState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 
@@ -23,7 +23,6 @@ export default class Mock extends React.Component<MockProps, MockState> {
 			<ElementState
 				{...attributes}
 				style={attributes.style}
-				hoverStyle={{ background: "red" }}
 			>
 				<div>
 					Mock
