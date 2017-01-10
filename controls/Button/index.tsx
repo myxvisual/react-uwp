@@ -6,11 +6,9 @@ import { ThemeType } from "react-uwp/style/ThemeType";
 let theme: ThemeType;
 const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-interface EventHanlder {
-	(e?: React.SyntheticEvent<HTMLButtonElement>): void;
-}
 export interface DataProps {
 	borderSize?: string;
+	hoverStyle?: React.CSSProperties;
 }
 interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 interface ButtonState {}
@@ -25,7 +23,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
 	render() {
 		const {
-			borderSize, children,
+			borderSize, style, hoverStyle, children,
 			...attributes
 		} = this.props;
 		theme = this.context.theme;
@@ -35,13 +33,16 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				style={{
 					background: theme.baseLow,
 					color: theme.baseMediumHigh,
+					outline: "none",
 					display: "flex",
 					padding: "5px 20px",
-					...attributes.style,
-					border: `${borderSize} solid transparent`
+					border: `${borderSize} solid transparent`,
+					transition: "all ease-in-out .25s",
+					...style,
 				}}
 				hoverStyle={{
-					border: `${this.props.borderSize} solid ${theme.baseMediumLow}`
+					border: `2px solid ${theme.baseMediumLow}`,
+					...hoverStyle
 				}}
 				{...attributes}
 			>

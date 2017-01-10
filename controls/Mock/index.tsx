@@ -16,13 +16,13 @@ export default class Mock extends React.Component<MockProps, MockState> {
 	static contextTypes = { theme: React.PropTypes.object };
 
 	render() {
-		const { ...attributes } = this.props;
+		const { style, ...attributes } = this.props;
 		theme = this.context.theme;
 
 		return (
 			<ElementState
 				{...attributes}
-				style={attributes.style}
+				style={style}
 			>
 				<div>
 					Mock

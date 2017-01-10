@@ -30,7 +30,8 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					cursor: "pointer",
 					...attributes.style,
 					color: theme.baseMediumHigh,
-					background: theme.accent
+					background: theme.accent,
+					transition: "all ease-in-out .25s"
 				}}
 				hoverStyle={{
 					color: theme.baseHigh,
