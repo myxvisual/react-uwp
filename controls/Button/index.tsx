@@ -36,7 +36,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 					background: theme.baseLow,
 					color: theme.baseMediumHigh,
 					display: "flex",
-					flex: "1 1 auto",
 					padding: "5px 20px",
 					...attributes.style,
 					border: `${borderSize} solid transparent`
