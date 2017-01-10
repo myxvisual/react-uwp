@@ -2,6 +2,7 @@ import * as React from "react";
 
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
+import * as styles from "./index.scss";
 
 let theme: ThemeType;
 const defaultProps: MenusProps = __DEV__ ? require("./devDefaultProps").default : {};
@@ -13,17 +14,18 @@ interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface MenusState {}
 
 export default class Menus extends React.Component<MenusProps, MenusState> {
-	static defaultProps: MenusProps = { ...defaultProps };
+	static defaultProps: MenusProps = { ...defaultProps, className: "" };
 	static contextTypes = { theme: React.PropTypes.object };
 	state: MenusState = {};
 
 	render() {
-		const { direction, children, ...attributes } = this.props;
+		const { direction, children, className, ...attributes } = this.props;
 		theme = this.context.theme;
 
 		return (
 			<ElementState
 				{...attributes}
+				className={`${styles.c} ${className}`}
 				style={{
 					padding: "5px 20px",
 					userSelect: "none",
@@ -38,7 +40,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					background: theme.accentDarker1
 				}}
 			>
-				<div>{children}</div>
+				<div><p>{children}</p></div>
 			</ElementState >
 		);
 	}
