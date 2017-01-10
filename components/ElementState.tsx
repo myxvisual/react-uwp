@@ -27,53 +27,60 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 	componentDidMount() {
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
-			addArrayEvent(this.currentDOM, ["touchstart", "mouseenter"], this.hoverHandle);
+			addArrayEvent(this.currentDOM, ["touchstart", "mouseenter"], this.hover);
 			addArrayEvent(this.currentDOM, ["touchend", "mouseleave"], this.resetStyle);
 		}
 		if (activeStyle) {
-			addArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.activeHandle);
+			addArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
 			addArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.resetStyle);
 		}
 		if (focusStyle) {
-			addArrayEvent(this.currentDOM, ["focus"], this.focusHandle);
+			addArrayEvent(this.currentDOM, ["focus"], this.focus);
 		}
 		if (visitedStyle) {
-			addArrayEvent(this.currentDOM, ["click"], this.visitedHandle);
+			addArrayEvent(this.currentDOM, ["click"], this.visited);
 		}
 	}
 
 	componentWillUnmount() {
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
-			removeArrayEvent(this.currentDOM, ["touchstart", "mouseenter"], this.hoverHandle);
+			removeArrayEvent(this.currentDOM, ["touchstart", "mouseenter"], this.hover);
 			removeArrayEvent(this.currentDOM, ["touchend", "mouseleave"], this.resetStyle);
 		}
 		if (activeStyle) {
-			removeArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.activeHandle);
+			removeArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
 			removeArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.resetStyle);
 		}
 		if (focusStyle) {
-			removeArrayEvent(this.currentDOM, ["focus"], this.focusHandle);
+			removeArrayEvent(this.currentDOM, ["focus"], this.focus);
 		}
 		if (visitedStyle) {
-			removeArrayEvent(this.currentDOM, ["click"], this.visitedHandle);
+			removeArrayEvent(this.currentDOM, ["click"], this.visited);
 		}
 	}
 
 	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ ...this.props.style, ...style })); }
 
-	hoverHandle = () => { this.setStyle(this.props.hoverStyle); }
+	hover = () => { this.setStyle(this.props.hoverStyle); }
+	unHover = () => { this.resetStyle(); }
 
-	activeHandle = () => { this.setStyle(this.props.activeStyle); }
+	active = () => { this.setStyle(this.props.activeStyle); }
+	unActive = () => { this.resetStyle(); }
 
-	focusHandle = () => { this.setStyle(this.props.focusStyle); }
+	focus = () => { this.setStyle(this.props.focusStyle); }
+	unFocus = () => { this.resetStyle(); }
 
-	visitedHandle = () => {
+	visited = () => {
 		{ this.setStyle(this.props.visitedStyle); }
 		this.visitedStyle = this.props.visitedStyle;
 	}
+	unVisited = () => { this.resetStyle(true); }
 
-	resetStyle = () => { setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle } ); }
+	resetStyle = (resetVisited = false) => {
+		if (resetVisited) this.visitedStyle = void(0);
+		setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle } );
+	}
 
 	render() {
 		const { style, hoverStyle, focusStyle, activeStyle, visitedStyle, children, ...attributes } = this.props;
