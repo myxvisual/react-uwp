@@ -3,4 +3,31 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
+	user-select: none;
+	cursor: pointer;
+	padding: 5px 20px;
+	transition: all .25s 0s ease-in-out;
+	position: relative;
+
+	&Item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		overflow: hidden;
+		max-height: 0;
+
+		transition: all .25s 0s ease-in-out;
+
+		&Items {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			transition: all .25s 0s ease-in-out;
+		}
+	}
 }
