@@ -1,6 +1,8 @@
 import * as React from "react";
 
-import setStyleToElement from "../../common/setStyleToElement";
+import addArrayEvent from "../../common/addArrayEvent";
+import removeArrayEvent from "../../common/removeArrayEvent";
+
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
 import * as styles from "./index.scss";
@@ -11,6 +13,8 @@ const defaultProps: MenusProps = __DEV__ ? require("./devDefaultProps").default 
 export interface DataProps {
 	direction?: "top" | "right" | "bottom" | "left";
 	title?: string;
+	canToggleShow?: boolean;
+	showItems?: boolean;
 }
 interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface MenusState {
@@ -27,20 +31,28 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		direction: "bottom"
 	};
 	static contextTypes = { theme: React.PropTypes.object };
-	state: MenusState = {};
+	state: MenusState = { showItems: this.props.showItems };
 	refs: { container: ElementState; itmesContainer: HTMLDivElement };
 	itemsElm: HTMLDivElement[] = [];
 
+	componentWillReceiveProps(nextProps: MenusProps) {
+		this.setState({
+			showItems: nextProps.showItems
+		});
+	}
+
 	toggleShowItems = (e?: React.SyntheticEvent<HTMLDivElement> | boolean) => {
-		const { direction, children } = this.props;
+		const { direction, canToggleShow, children } = this.props;
 		const setToState = typeof e === "boolean";
 		let { showItems } = this.state;
 		if (setToState) showItems = Boolean(e);
 		const { width, height, borderWidth } = window.getComputedStyle(this.refs.container.getDOM());
 		this.setState((prevState, prevProps) => {
-			return { showItems: true, width, height, borderWidth };
+			return { showItems: canToggleShow ? (!prevState.showItems) : true, width, height, borderWidth };
 		});
 	}
+
+	unShowItems = () => this.toggleShowItems(false)
 
 	getPxNumber = (str: string | number) => typeof str === "string" ? Number(str.slice(0, str.length - 2)) : str;
 
@@ -84,12 +96,13 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 
 	render() {
 		const { style, direction, title, children, className, ...attributes } = this.props;
+		delete attributes.showItems;
 		const { showItems, width, height, borderWidth } = this.state;
 		theme = this.context.theme;
 
 		const baseStyle: React.CSSProperties = {
-			height: style.height,
-			width: style.width,
+			height: style.height || height,
+			width: style.width || width,
 			color: theme.baseMediumHigh,
 			background: theme.altHigh,
 			fontSize: 14
@@ -109,7 +122,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					...baseStyle,
 					pointerEvents: showItems ? "none" : "all"
 				}}
-				hoverStyle={showItems ? void(0) : baseHoverStyle}
+				hoverStyle={showItems ? void(0) : { ...baseHoverStyle }}
 			>
 				<div onClick={this.toggleShowItems} >
 					<p>{title}</p>
@@ -123,14 +136,11 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 								key={`${index}`}
 								className={styles.cItemItems}
 								style={{
-									...baseStyle,
-									border: `3px solid ${theme.altHigh}`
+									...baseStyle
 								}}
 								hoverStyle={{
-									...baseStyle,
 									...baseHoverStyle,
-									background: theme.accent,
-									border: `3px solid ${theme.accentDarker1}`
+									background: theme.accent
 								}}
 							>
 								<div>
