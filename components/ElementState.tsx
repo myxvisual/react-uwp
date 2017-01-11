@@ -94,7 +94,19 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 	getDOM = () => this.currentDOM
 
 	render() {
-		const { style, hoverStyle, focusStyle, activeStyle, visitedStyle, children, ...attributes } = this.props;
+		const {
+			style,
+			hoverStyle,
+			focusStyle,
+			activeStyle,
+			visitedStyle,
+			children,
+			onHover,
+			onFocus,
+			onActive,
+			onVisited,
+			...attributes
+		} = this.props;
 
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,

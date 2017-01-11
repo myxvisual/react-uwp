@@ -17,6 +17,7 @@ interface MenusState {
 	showItems?: boolean;
 	height?: string;
 	width?: string;
+	borderWidth?: string;
 }
 
 export default class Menus extends React.Component<MenusProps, MenusState> {
@@ -35,35 +36,60 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		const setToState = typeof e === "boolean";
 		let { showItems } = this.state;
 		if (setToState) showItems = Boolean(e);
-		const { width, height } = window.getComputedStyle(this.refs.container.getDOM());
+		const { width, height, borderWidth } = window.getComputedStyle(this.refs.container.getDOM());
+		this.setState((prevState, prevProps) => {
+			return { showItems: true, width, height, borderWidth };
+		});
+	}
+
+	getPxNumber = (str: string | number) => typeof str === "string" ? Number(str.slice(0, str.length - 2)) : str;
+
+	addPxStr = (str1: string, str2: string) => `${this.getPxNumber(str1) + this.getPxNumber(str2)}`
+
+	getItemStyle = () => {
+		const { direction, children } = this.props;
+		const { showItems, width, height, borderWidth } = this.state;
+		const baseStyle: React.CSSProperties = {
+			pointerEvents: "all",
+			width,
+			overflow: showItems ? "visible" : "hidden",
+			maxHeight: showItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0
+		};
 		switch (direction) {
 			case "bottom": {
-				setStyleToElement(this.refs.itmesContainer, showItems ? {
+				return {
 					top: height,
-					width: width,
-					maxHeight: 0
-				} : {
-					top: height,
-					width: width,
-					maxHeight: `${React.Children.count(children) * Number(height.slice(0, height.length - 2))}px`
-				});
-				break;
+					...baseStyle
+				};
+			}
+			case "left": {
+				return {
+					top: 0,
+					right: width,
+					...baseStyle
+				};
+			}
+			case "right": {
+				return {
+					top: 0,
+					left: width,
+					...baseStyle
+				};
 			}
 			default: {
 				break;
 			}
 		}
-		this.setState((prevState, prevProps) => {
-			return { showItems: setToState ? showItems : !prevState.showItems, width, height };
-		});
 	}
 
 	render() {
-		const { direction, title, children, className, ...attributes } = this.props;
-		const { showItems, width, height } = this.state;
+		const { style, direction, title, children, className, ...attributes } = this.props;
+		const { showItems, width, height, borderWidth } = this.state;
 		theme = this.context.theme;
 
 		const baseStyle: React.CSSProperties = {
+			height: style.height,
+			width: style.width,
 			color: theme.baseMediumHigh,
 			background: theme.altHigh,
 			fontSize: 14
@@ -78,24 +104,32 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 				{...attributes}
 				ref="container"
 				className={`${styles.c} ${className}`}
-				style={{ ...attributes.style, ...baseStyle }}
-				hoverStyle={baseHoverStyle}
+				style={{
+					...style,
+					...baseStyle,
+					pointerEvents: showItems ? "none" : "all"
+				}}
+				hoverStyle={showItems ? void(0) : baseHoverStyle}
 			>
 				<div onClick={this.toggleShowItems} >
 					<p>{title}</p>
-					<div ref="itmesContainer" className={styles.cItem}>
+					<div
+						ref="itmesContainer"
+						className={styles.cItem}
+						style={this.getItemStyle()}
+					>
 						{React.Children.map(children, (child, index) => (
 							<ElementState
 								key={`${index}`}
 								className={styles.cItemItems}
 								style={{
-									...baseStyle, width, height,
-									border: `3px solid transparent`
+									...baseStyle,
+									border: `3px solid ${theme.altHigh}`
 								}}
 								hoverStyle={{
+									...baseStyle,
 									...baseHoverStyle,
-									background:
-									theme.accent,
+									background: theme.accent,
 									border: `3px solid ${theme.accentDarker1}`
 								}}
 							>
