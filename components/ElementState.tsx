@@ -1,9 +1,7 @@
 import * as React from "react";
 
-interface PrefixAll {
-	(style: React.CSSProperties): React.CSSProperties;
-}
-const prefixAll: PrefixAll = require("inline-style-prefix-all");
+
+import prefixAll from "../common/prefixAll";
 
 import addArrayEvent from "../common/addArrayEvent";
 import setStyleToElement from "../common/setStyleToElement";

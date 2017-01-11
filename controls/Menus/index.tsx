@@ -41,11 +41,11 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 				setStyleToElement(this.refs.itmesContainer, showItems ? {
 					top: height,
 					width: width,
-					"max-height": 0
+					maxHeight: 0
 				} : {
 					top: height,
 					width: width,
-					"max-height": `${React.Children.count(children) * Number(height.slice(0, height.length - 2))}px`
+					maxHeight: `${React.Children.count(children) * Number(height.slice(0, height.length - 2))}px`
 				});
 				break;
 			}
@@ -66,7 +66,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		const baseStyle: React.CSSProperties = {
 			color: theme.baseMediumHigh,
 			background: theme.altHigh,
-			"font-size": "14px"
+			fontSize: 14
 		};
 		const baseHoverStyle: React.CSSProperties = {
 			color: theme.baseHigh,
@@ -96,7 +96,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 									...baseHoverStyle,
 									background:
 									theme.accent,
-									border: `3px solid ${theme.accentLighter3}`
+									border: `3px solid ${theme.accentDarker1}`
 								}}
 							>
 								<div>
