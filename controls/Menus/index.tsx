@@ -65,7 +65,8 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 
 		const baseStyle: React.CSSProperties = {
 			color: theme.baseMediumHigh,
-			background: theme.altHigh
+			background: theme.altHigh,
+			"font-size": "14px"
 		};
 		const baseHoverStyle: React.CSSProperties = {
 			color: theme.baseHigh,
