@@ -42,7 +42,8 @@ export default class Input extends React.Component<InputProps, InputState> {
 				}}
 				activeStyle={{
 					color: theme.baseHigh,
-					background: fade(theme.baseLow, 0.1)
+					background: fade(theme.baseLow, 0.1),
+					border: `2px solid ${fade(theme.accent, 0.75)}`
 				}}
 			>
 				<input />

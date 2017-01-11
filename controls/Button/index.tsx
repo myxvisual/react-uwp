@@ -15,6 +15,7 @@ interface ButtonState {}
 export default class Button extends React.Component<ButtonProps, ButtonState> {
 	static defaultProps: ButtonProps = {
 		...defaultProps,
+		children: "Button",
 		borderSize: "2px"
 	};
 	state: ButtonState = {};

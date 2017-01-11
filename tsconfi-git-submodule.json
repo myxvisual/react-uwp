@@ -27,7 +27,7 @@
 		"**/*.tsx",
 		"__mocks__/**/*.ts",
 		"__mocks__/**/*.tsx",
-		"declaration/**/*.d.ts"
+		"typings/**/*.d.ts"
 	],
 	"exclude": [
 		"node_modules"
