@@ -61,11 +61,12 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	getItemStyle = () => {
 		const { direction, children } = this.props;
 		const { showItems, width, height, borderWidth } = this.state;
+		const maxHeight = showItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0
 		const baseStyle: React.CSSProperties = {
 			pointerEvents: "all",
 			width,
 			overflow: showItems ? "visible" : "hidden",
-			maxHeight: showItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0
+			maxHeight: maxHeight
 		};
 		switch (direction) {
 			case "bottom": {
@@ -87,6 +88,13 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					left: width,
 					...baseStyle
 				};
+			}
+			case "top": {
+				return {
+					top: `-${maxHeight}`,
+					left: 0,
+					...baseStyle
+				} as React.CSSProperties;
 			}
 			default: {
 				break;

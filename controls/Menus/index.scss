@@ -1,5 +1,6 @@
 .c {
 	display: flex;
+	flex: 0 0 auto;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -24,7 +25,18 @@
 			flex-direction: row;
 			align-items: center;
 			justify-content: center;
+			width: 100%;
+			height: 100%;
 			transition: all .25s 0s ease-in-out;
+
+			> * {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+			}
 		}
 	}
 }
