@@ -14,7 +14,7 @@
 		"lib": ["dom", "es5"],
 		"paths": {},
 		"typeRoots": [
-			"../../node_modules/@types"
+			"node_modules/@types"
 		]
 	},
 	"filesGlob": [
