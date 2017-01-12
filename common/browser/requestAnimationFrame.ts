@@ -4,8 +4,9 @@ let requestAnimationFrame = window.requestAnimationFrame;
 
 if (!requestAnimationFrame) {
 	for (const vendor of vendors) {
-		if (window[`${vendor}RequestAnimationFrame`]) {
-			requestAnimationFrame = window[`${vendor}RequestAnimationFrame`];
+		const requestAnimationFrameName = `${vendor}RequestAnimationFrame`;
+		if (window[requestAnimationFrameName]) {
+			requestAnimationFrame = window[requestAnimationFrameName];
 			break;
 		}
 	}
