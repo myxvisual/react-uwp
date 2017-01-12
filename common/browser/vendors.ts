@@ -1,1 +1,1 @@
-export default ["ms", "moz", "webkit", "o"];
+export default ["webkit", "moz", "ms", "o"];
