@@ -7,8 +7,8 @@ const prefixAll: PrefixAll = (style) => {
 	for (const property in style) {
 		let value = style[property];
 		if (typeof value === "object") {
-			if (Array.isArray(value)) {
-				style[property] = value[value.length - 1];
+			if (Array.isArray(value) && property === "display") {
+				style[property] = style[property].join("; display: ");
 			} else { throw Error(`${property}: ${value} is Wrong!`); }
 		}
 	}
