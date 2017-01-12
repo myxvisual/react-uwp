@@ -5,7 +5,6 @@ import removeArrayEvent from "../../common/removeArrayEvent";
 
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
-import * as styles from "./index.scss";
 
 let theme: ThemeType;
 const defaultProps: MenusProps = __DEV__ ? require("./devDefaultProps").default : {};
@@ -61,9 +60,15 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	getItemStyle = () => {
 		const { direction, children } = this.props;
 		const { showItems, width, height, borderWidth } = this.state;
-		const maxHeight = showItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0
+		const maxHeight = showItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0;
 		const baseStyle: React.CSSProperties = {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			justifyContent: "center",
+			position: "absolute",
 			pointerEvents: "all",
+			transition: "all .25s 0s ease-in-out",
 			width,
 			overflow: showItems ? "visible" : "hidden",
 			maxHeight: maxHeight
@@ -103,19 +108,29 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	}
 
 	render() {
-		const { style, direction, title, children, className, ...attributes } = this.props;
+		const { style, direction, title, children, ...attributes } = this.props;
 		delete attributes.showItems;
 		const { showItems, width, height, borderWidth } = this.state;
 		theme = this.context.theme;
 
+		const centerFlex = {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center"
+		} as React.CSSProperties;
+
 		const baseStyle: React.CSSProperties = {
+			...centerFlex,
+			cursor: "pointer",
 			height: style.height || height,
 			width: style.width || width,
 			color: theme.baseMediumHigh,
+			transition: "all .25s 0s ease-in-out",
 			background: theme.altHigh,
 			fontSize: 14
 		};
 		const baseHoverStyle: React.CSSProperties = {
+			...baseStyle,
 			color: theme.baseHigh,
 			background: theme.accentDarker1
 		};
@@ -124,7 +139,6 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 			<ElementState
 				{...attributes}
 				ref="container"
-				className={`${styles.c} ${className}`}
 				style={{
 					...style,
 					...baseStyle,
@@ -132,17 +146,15 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 				}}
 				hoverStyle={showItems ? void(0) : { ...baseHoverStyle }}
 			>
-				<div onClick={this.toggleShowItems} >
+				<div onClick={this.toggleShowItems}>
 					<p>{title}</p>
 					<div
 						ref="itmesContainer"
-						className={styles.cItem}
 						style={this.getItemStyle()}
 					>
 						{React.Children.map(children, (child, index) => (
 							<ElementState
 								key={`${index}`}
-								className={styles.cItemItems}
 								style={{
 									...baseStyle
 								}}

@@ -19,6 +19,41 @@ export interface DataProps {
 interface ProgressRingProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface ProgressRingState {}
 
+const getInnerCSS = (instance: ProgressRing) => (
+`
+.react-uwp-progress-ring {
+}
+${Array(instance.props.itemLength).fill(0).map((name, index) => (
+	[".react-uwp-progress-ring-item-" + index + " {",
+	"		animation: CircleLoopFade 2500ms " + index * .125 + "s linear infinite normal forwards;",
+	"	}"].join("")
+)).join("")}
+
+@keyframes CircleLoopFade {
+	0% {
+		transform: rotateZ(0deg);
+		opacity: 0.5;
+	}
+	25% {
+		transform: rotateZ(180deg);
+		opacity: 1;
+	}
+	50% {
+		transform: rotateZ(270deg);
+		opacity: .8;
+	}
+	75% {
+		transform: rotateZ(300deg);
+		opacity: .125;
+	}
+	100% {
+		transform: rotateZ(360deg);
+		opacity: 0;
+	}
+}
+`
+);
+
 export default class ProgressRing extends React.Component<ProgressRingProps, ProgressRingState> {
 	static defaultProps: ProgressRingProps = {
 		...defaultProps,
@@ -37,15 +72,15 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 	}
 
 	runItemsAnimation = () => {
-		const speed = 3000;
-		this.itemElms.forEach((itemElm, index) => {
-			animation(.4, 0, 1, easing.easeInOutCubic, (value) => {
-				itemElm.style.transform = `rotateZ(${value * 360}deg)`;
-				itemElm.style.opacity = `${value < 0.125 ? value : (
-					value < 0.9 ? 1 - value ** 2 + 0.25 : 1 - value
-				)}`;
-			}, index * 250, true);
-		});
+		// const speed = 3000;
+		// this.itemElms.forEach((itemElm, index) => {
+		// 	animation(.4, 0, 1, easing.easeInOutCubic, (value) => {
+		// 		itemElm.style.transform = `rotateZ(${value * 360}deg)`;
+		// 		itemElm.style.opacity = `${value < 0.125 ? value : (
+		// 			value < 0.9 ? 1 - value ** 2 + 0.25 : 1 - value
+		// 		)}`;
+		// 	}, index * 250, true);
+		// });
 	}
 
 	render() {
@@ -60,18 +95,20 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 		return (
 			<div
 				{...attributes}
+				className="react-uwp-progress-ring"
 				style={{
 					...style,
 					width: size,
 					height: size,
-					// background: "dodgerblue",
 					position: "relative"
 				}}
 			>
+				<style type="text/css"  dangerouslySetInnerHTML={{ __html: getInnerCSS(this) }}/>
 				<div>
 					{Array(itemLength).fill(0).map((numb, index) => (
 						<div
 							key={`${index}`}
+							className={`react-uwp-progress-ring-item-${index}`}
 							ref={(item) => this.itemElms.push(item)}
 							style={prefixAll({
 								background: "#fff",
@@ -92,7 +129,3 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 		);
 	}
 }
-
-// (y * 2) ** 2 = x ** 2 * 2
-// x = Math.sqrt(y ** 2 * 2)
-// y = Math.sqrt(x ** 2 * 2) / 2
