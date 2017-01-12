@@ -1,6 +1,8 @@
 import vendors from "./vendors";
 
-let requestAnimationFrame = window.requestAnimationFrame;
+let requestAnimationFrame =  window.requestAnimationFrame || ((callback: FrameRequestCallback) => {
+	return window.setTimeout(callback, 1000 / 60);
+});
 
 if (!requestAnimationFrame) {
 	for (const vendor of vendors) {
@@ -12,6 +14,4 @@ if (!requestAnimationFrame) {
 	}
 }
 
-export default requestAnimationFrame = requestAnimationFrame || ((callback: FrameRequestCallback) => {
-	return window.setTimeout(callback, 1000 / 60);
-});
+export default requestAnimationFrame;

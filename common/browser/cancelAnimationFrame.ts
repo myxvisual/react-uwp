@@ -12,6 +12,6 @@ if (!cancelAnimationFrame) {
 	}
 }
 
-export default cancelAnimationFrame = cancelAnimationFrame || ((id: number) => {
+export default cancelAnimationFrame || ((id: number) => {
 	clearTimeout(id);
 });
