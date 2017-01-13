@@ -11,9 +11,10 @@ export interface DataProps {
 	isChecked?: true | false | null;
 	isDisable?: boolean;
 	onChangeCb?: Function;
+	isRadioBtn?: boolean;
 }
-interface CheckBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface CheckBoxState {
+export interface CheckBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CheckBoxState {
 	checked?: boolean;
 }
 
@@ -50,8 +51,9 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 			height: size,
 			background: theme.altMediumHigh,
 			transition: "all .25s ease-in-out",
+			overflow: "hidden",
 			...this.props.style,
-		};
+		} as React.CSSProperties;
 		const hoverStyle = { border: `2px solid ${theme.baseHigh}` };
 		switch (checked) {
 			case true: {
@@ -84,8 +86,9 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 	}
 
 	render() {
-		const { isChecked, onChangeCb, isDisable, style, ...attributes } = this.props;
+		const { isChecked, onChangeCb, isDisable, isRadioBtn, style, ...attributes } = this.props;
 		const { checked } = this.state;
+		const size = style ? style.width : 8;
 		theme = this.context.theme;
 
 		return (
@@ -95,6 +98,8 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 				onClick={isDisable ? void(0) : this.toggleChecked}
 			>
 				<div ref="container">
+					{isRadioBtn
+						?
 						<Icon
 							style={{
 								transition: "all .25s 0s ease-in-out",
@@ -103,6 +108,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 								fontSize: 20,
 								transform: checked === null || checked ? "scale(1)" : "scale(0)",
 								background: theme.accent,
+								...style,
 							}}
 							hoverStyle={{}}
 						>
@@ -123,6 +129,16 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 								: null
 							}
 						</Icon>
+						:
+						<p
+							style={{
+								background: theme.accent,
+								borderRadius: size,
+								width: checked ? (size || 8) : 0,
+								height: checked ? (size || 8) : 0,
+							}}
+						/>
+					}
 				</div>
 			</ElementState>
 		);
