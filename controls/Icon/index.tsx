@@ -29,7 +29,6 @@ export default class Icon extends React.Component<IconProps, IconState> {
 				style={{
 					fontFamily: "Segoe MDL2 Assets",
 					userSelect: "none",
-					padding: 8,
 					fontSize: 22,
 					cursor: "default",
 					color: theme.baseHigh,
