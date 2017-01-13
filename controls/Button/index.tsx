@@ -35,6 +35,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				style={{
 					background: theme.baseLow,
 					color: theme.baseMedium,
+					cursor: "pointer",
 					outline: "none",
 					display: "flex",
 					padding: "5px 20px",
