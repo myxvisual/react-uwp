@@ -4,3 +4,4 @@ export { default as Theme } from "./controls/Theme";
 export { default as Input } from "./controls/Input";
 export { default as Icon } from "./controls/Icon";
 export { default as ProgressRing } from "./controls/ProgressRing";
+export { default as CheckBox } from "./controls/CheckBox";

@@ -6,17 +6,21 @@ import { ThemeType } from "react-uwp/style/ThemeType";
 let theme: ThemeType;
 const defaultProps: IconProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-export interface DataProps {}
+export interface DataProps {
+	hoverStyle?: React.CSSProperties;
+}
 interface IconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface IconState {}
 
 export default class Icon extends React.Component<IconProps, IconState> {
-	static defaultProps: IconProps = { ...defaultProps };
+	static defaultProps: IconProps = {
+		...defaultProps
+	};
 	state: IconState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 
 	render() {
-		const { style, children, ...attributes } = this.props;
+		const { style, hoverStyle, children, ...attributes } = this.props;
 		theme = this.context.theme;
 
 		return (
@@ -31,11 +35,9 @@ export default class Icon extends React.Component<IconProps, IconState> {
 					color: theme.baseHigh,
 					...style
 				}}
-				hoverStyle={{
-					color: theme.accent
-				}}
+				hoverStyle={hoverStyle || { color: theme.accent }}
 			>
-				<p>{children}</p>
+				<p>{children || "&#xE73E;"}</p>
 			</ElementState>
 		);
 	}
