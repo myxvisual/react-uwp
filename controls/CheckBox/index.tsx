@@ -100,6 +100,15 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 				<div ref="container">
 					{isRadioBtn
 						?
+						<p
+							style={{
+								background: theme.accent,
+								borderRadius: size,
+								width: checked ? (size || 8) : 0,
+								height: checked ? (size || 8) : 0,
+							}}
+						/>
+						:
 						<Icon
 							style={{
 								transition: "all .25s 0s ease-in-out",
@@ -129,15 +138,6 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 								: null
 							}
 						</Icon>
-						:
-						<p
-							style={{
-								background: theme.accent,
-								borderRadius: size,
-								width: checked ? (size || 8) : 0,
-								height: checked ? (size || 8) : 0,
-							}}
-						/>
 					}
 				</div>
 			</ElementState>

@@ -22,6 +22,15 @@ export default class Radius extends CheckBox {
 		const { size, ...attributes } = this.props;
 		theme = this.context.theme;
 
-		return <CheckBox style={{ borderRadius: size, width: size, height: size }} />;
+		return (
+			<CheckBox
+				isRadioBtn
+				style={{
+					borderRadius: size,
+					width: size,
+					height: size
+				}}
+			/>
+		);
 	}
 }
