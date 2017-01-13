@@ -158,12 +158,12 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 								key={`${index}`}
 								style={{
 									...baseStyle,
-			border: "2px solid transparent",
+									border: "2px solid transparent",
 									...itemStyle
 								}}
 								hoverStyle={{
 									...baseHoverStyle,
-			border: `2px solid ${theme.baseMediumLow}`,
+									border: `2px solid ${theme.baseMediumLow}`,
 									background: theme.accent
 								}}
 							>
