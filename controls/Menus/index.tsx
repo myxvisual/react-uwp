@@ -2,6 +2,7 @@ import * as React from "react";
 
 import addArrayEvent from "../../common/addArrayEvent";
 import removeArrayEvent from "../../common/removeArrayEvent";
+import { fade } from "../../common/colorManipulator";
 
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
@@ -14,6 +15,7 @@ export interface DataProps {
 	title?: string;
 	canToggleShow?: boolean;
 	showItems?: boolean;
+	itemStyle?: React.CSSProperties;
 }
 interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface MenusState {
@@ -57,7 +59,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 
 	addPxStr = (str1: string, str2: string) => `${this.getPxNumber(str1) + this.getPxNumber(str2)}`
 
-	getItemStyle = () => {
+	getItemsContainerStyle = () => {
 		const { direction, children } = this.props;
 		const { showItems, width, height, borderWidth } = this.state;
 		const maxHeight = showItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0;
@@ -108,7 +110,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	}
 
 	render() {
-		const { style, direction, title, children, ...attributes } = this.props;
+		const { style, direction, title, children, itemStyle, ...attributes } = this.props;
 		delete attributes.showItems;
 		const { showItems, width, height, borderWidth } = this.state;
 		theme = this.context.theme;
@@ -116,7 +118,8 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		const centerFlex = {
 			display: "flex",
 			alignItems: "center",
-			justifyContent: "center"
+			justifyContent: "center",
+			flex: "0 0 auto",
 		} as React.CSSProperties;
 
 		const baseStyle: React.CSSProperties = {
@@ -127,12 +130,10 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 			color: theme.baseMediumHigh,
 			transition: "all .25s 0s ease-in-out",
 			background: theme.altHigh,
-			fontSize: 14
+			fontSize: 14,
 		};
 		const baseHoverStyle: React.CSSProperties = {
-			...baseStyle,
-			color: theme.baseHigh,
-			background: theme.accentDarker1
+			background: fade(theme.accent, 0.5),
 		};
 
 		return (
@@ -150,16 +151,19 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					<p>{title}</p>
 					<div
 						ref="itmesContainer"
-						style={this.getItemStyle()}
+						style={this.getItemsContainerStyle()}
 					>
 						{React.Children.map(children, (child, index) => (
 							<ElementState
 								key={`${index}`}
 								style={{
-									...baseStyle
+									...baseStyle,
+			border: "2px solid transparent",
+									...itemStyle
 								}}
 								hoverStyle={{
 									...baseHoverStyle,
+			border: `2px solid ${theme.baseMediumLow}`,
 									background: theme.accent
 								}}
 							>

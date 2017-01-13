@@ -61,7 +61,7 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 		itemLength: 6,
 		size: 200,
 		itemSize: 26,
-		delay: 100
+		delay: 100,
 	};
 	state: ProgressRingState = {};
 	static contextTypes = { theme: React.PropTypes.object };

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import ElementState from "../../components/ElementState";
+import { fade } from "../../common/colorManipulator";
 import { ThemeType } from "react-uwp/style/ThemeType";
 
 let theme: ThemeType;
@@ -33,7 +34,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 			<ElementState
 				style={{
 					background: theme.baseLow,
-					color: theme.baseMediumHigh,
+					color: theme.baseMedium,
 					outline: "none",
 					display: "flex",
 					padding: "5px 20px",
@@ -44,6 +45,9 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				hoverStyle={{
 					border: `2px solid ${theme.baseMediumLow}`,
 					...hoverStyle
+				}}
+				activeStyle={{
+					background: theme.baseMedium
 				}}
 				{...attributes}
 			>

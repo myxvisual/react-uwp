@@ -32,18 +32,17 @@ export default class Input extends React.Component<InputProps, InputState> {
 					fontSize: 14,
 					transition: "all .25s 0s ease-in-out",
 					color: theme.baseMedium,
-					border: `2px solid ${theme.baseMediumLow}`,
-					background: theme.baseLow,
+					border: `2px solid ${theme.baseLow}`,
+					background: theme.altHigh,
 					...style
 				}}
 				hoverStyle={{
 					color: theme.baseMediumHigh,
-					border: `2px solid ${theme.baseLow}`
+					border: `2px solid ${theme.baseMedium}`
 				}}
 				activeStyle={{
 					color: theme.baseHigh,
-					background: fade(theme.baseLow, 0.1),
-					border: `2px solid ${fade(theme.accent, 0.75)}`
+					border: `2px solid ${theme.accent}`
 				}}
 			>
 				<input />

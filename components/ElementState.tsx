@@ -71,17 +71,17 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
 	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ ...this.props.style, ...style })); }
 
-	hover = () => { this.setStyle({ ...this.props.style, ...this.props.hoverStyle }); this.props.onHover(); }
+	hover = () => { this.setStyle(this.props.hoverStyle); this.props.onHover(); }
 	unHover = () => { this.resetStyle(); }
 
-	active = () => { this.setStyle({ ...this.props.style, ...this.props.activeStyle }); this.props.onActive(); }
+	active = () => { this.setStyle(this.props.activeStyle); this.props.onActive(); }
 	unActive = () => { this.resetStyle(); }
 
-	focus = () => { this.setStyle({ ...this.props.style, ...this.props.focusStyle }); this.props.onFocus(); }
+	focus = () => { this.setStyle(this.props.focusStyle); this.props.onFocus(); }
 	unFocus = () => { this.resetStyle(); }
 
 	visited = () => {
-		{ this.setStyle({ ...this.props.style, ...this.props.visitedStyle }); this.props.onVisited(); }
+		{ this.setStyle(this.props.visitedStyle); this.props.onVisited(); }
 		this.visitedStyle = this.props.visitedStyle;
 	}
 	unVisited = () => { this.resetStyle(true); }
