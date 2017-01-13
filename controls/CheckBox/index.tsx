@@ -88,7 +88,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 	render() {
 		const { isChecked, onChangeCb, isDisable, isRadioBtn, style, ...attributes } = this.props;
 		const { checked } = this.state;
-		const size = style ? style.width : 8;
+		const size = style ? style.width / 2.5 : 8;
 		theme = this.context.theme;
 
 		return (
