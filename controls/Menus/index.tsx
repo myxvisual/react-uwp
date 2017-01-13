@@ -48,9 +48,11 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		let { showItems } = this.state;
 		if (setToState) showItems = Boolean(e);
 		const { width, height, borderWidth } = window.getComputedStyle(this.refs.container.getDOM());
-		this.setState((prevState, prevProps) => {
-			return { showItems: canToggleShow ? (!prevState.showItems) : true, width, height, borderWidth };
-		});
+		if (this.state.showItems !== canToggleShow ? (!this.state.showItems) : true) {
+			this.setState((prevState, prevProps) => {
+				return { showItems: canToggleShow ? (!this.state.showItems) : true, width, height, borderWidth };
+			});
+		}
 	}
 
 	unShowItems = () => this.toggleShowItems(false)
@@ -146,8 +148,9 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					pointerEvents: showItems ? "none" : "all"
 				}}
 				hoverStyle={showItems ? void(0) : { ...baseHoverStyle }}
+				onClick={this.toggleShowItems}
 			>
-				<div onClick={this.toggleShowItems}>
+				<div>
 					<p>{title}</p>
 					<div
 						ref="itmesContainer"

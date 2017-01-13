@@ -54,7 +54,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 	componentWillUnmount() {
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
-			removeArrayEvent(this.currentDOM, ["touchstart", "mouseenter"], this.hover);
+			removeArrayEvent(this.currentDOM, ["mouseenter"], this.hover);
 			removeArrayEvent(this.currentDOM, ["touchend", "mouseleave"], this.resetStyle);
 		}
 		if (activeStyle) {
