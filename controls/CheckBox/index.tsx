@@ -22,6 +22,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 		...defaultProps,
 		isChecked: null,
 		size: 24,
+		onChangeCb: () => {},
 	};
 	state: CheckBoxState = {
 		checked: this.props.isChecked
@@ -48,7 +49,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 			width: size,
 			height: size,
 			background: theme.altMediumHigh,
-			transition: "all .25s 0s ease-in-out",
+			transition: "all .25s ease-in-out",
 			...this.props.style,
 		};
 		const hoverStyle = { border: `2px solid ${theme.baseHigh}` };
@@ -94,20 +95,34 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 				onClick={isDisable ? void(0) : this.toggleChecked}
 			>
 				<div ref="container">
-					{checked !== false
-						?
 						<Icon
 							style={{
+								transition: "all .25s 0s ease-in-out",
 								padding: 0,
 								margin: 0,
 								fontSize: 20,
-								background: checked === true ? theme.accent : void(0),
+								transform: checked === null || checked ? "scale(1)" : "scale(0)",
+								background: theme.accent,
 							}}
 							hoverStyle={{}}
 						>
 							&#xE73E;
+							{checked === null
+								?
+								<p
+									style={{
+										background: theme.accent,
+										position: "absolute",
+										top: 0,
+										left: 0,
+										height: "100%",
+										width: "100%",
+										border: `4px solid ${theme.altHigh}`
+									}}
+								/>
+								: null
+							}
 						</Icon>
-						: null}
 				</div>
 			</ElementState>
 		);

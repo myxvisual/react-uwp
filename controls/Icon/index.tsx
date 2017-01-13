@@ -28,6 +28,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
 				{...attributes}
 				style={{
 					fontFamily: "Segoe MDL2 Assets",
+					transition: "all .25s 0s ease-in-out",
 					userSelect: "none",
 					fontSize: 22,
 					cursor: "default",

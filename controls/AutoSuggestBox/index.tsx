@@ -11,6 +11,7 @@ const defaultProps: AutoSuggestBoxProps = __DEV__ ? require("./devDefaultProps")
 export interface DataProps {
 	leftNode?: any;
 	rightNode?: any;
+	onChangeValue?: (value: string) => void;
 }
 interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface AutoSuggestBoxState {}
@@ -18,13 +19,20 @@ interface AutoSuggestBoxState {}
 export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
 	static defaultProps: AutoSuggestBoxProps = {
 		...defaultProps,
-		rightNode: <Icon style={{ fontSize: 14 }}>&#xE721;</Icon>
+		rightNode: (<Icon style={{ fontSize: 14 }}>&#xE721;</Icon>),
+		onChangeValue: () => {}
 	};
 	state: AutoSuggestBoxState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 
+	handleOnchange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
+		let event: React.SyntheticEvent<HTMLInputElement>;
+		event = e;
+		this.props.onChangeValue(event.currentTarget.value);
+	}
+
 	render() {
-		const { leftNode, rightNode, ...attributes } = this.props;
+		const { leftNode, rightNode, onChangeValue, ...attributes } = this.props;
 		theme = this.context.theme;
 
 		return (
@@ -45,7 +53,8 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 				<Input
 					leftNode={leftNode}
 					rightNode={rightNode}
-					defaultValue="AutoSuggestBox"
+					placeholder="AutoSuggestBox"
+					onChange={this.handleOnchange}
 				/>
 			</ElementState>
 		);

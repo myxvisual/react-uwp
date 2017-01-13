@@ -31,6 +31,14 @@ export default class Input extends React.Component<InputProps, InputState> {
 	state: InputState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 
+	handleFocus = (e?: React.SyntheticEvent<HTMLInputElement>) => {
+		e.currentTarget.style.color = theme.baseHigh;
+	}
+
+	handleMouseLeave = (e?: React.SyntheticEvent<HTMLInputElement>) => {
+		e.currentTarget.style.color = theme.baseMediumHigh;
+	}
+
 	render() {
 		const { hoverStyle, activeStyle, leftNode, rightNode, style, inputStyle, ...attributes } = this.props;
 		const haveChild = leftNode || rightNode;
@@ -60,6 +68,8 @@ export default class Input extends React.Component<InputProps, InputState> {
 				<div>
 					{leftNode}
 					<input
+						onFocus={this.handleFocus}
+						onMouseLeave={this.handleMouseLeave}
 						style={{
 							color: theme.baseMedium,
 							background: "none",

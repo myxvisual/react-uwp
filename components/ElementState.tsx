@@ -69,7 +69,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		}
 	}
 
-	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ ...this.props.style, ...style })); }
+	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ transition: "all .25s 0s ease-in-out" , ...this.props.style, ...style })); }
 
 	hover = () => { this.setStyle(this.props.hoverStyle); this.props.onHover(); }
 	unHover = () => { this.resetStyle(); }
@@ -107,10 +107,11 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			onVisited,
 			...attributes
 		} = this.props;
+		const prefixAllStyle = prefixAll({ transition: "all .25s 0s ease-in-out", ...style }, );
 
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,
-			style: prefixAll(style),
+			style: prefixAllStyle,
 			...attributes
 		});
 	}
