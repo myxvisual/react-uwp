@@ -83,7 +83,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 	}
 
 	render() {
-		const { isChecked, onChangeCb, style, ...attributes } = this.props;
+		const { isChecked, onChangeCb, isDisable, style, ...attributes } = this.props;
 		const { checked } = this.state;
 		theme = this.context.theme;
 
@@ -91,7 +91,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 			<ElementState
 				{...attributes}
 				{...this.getStyles()}
-				onClick={this.toggleChecked}
+				onClick={isDisable ? void(0) : this.toggleChecked}
 			>
 				<div ref="container">
 					{checked !== false
