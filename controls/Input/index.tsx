@@ -72,6 +72,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 						onMouseLeave={this.handleMouseLeave}
 						style={{
 							color: theme.baseMedium,
+							width: "100%",
 							background: "none",
 							border: "none",
 							...inputStyle,

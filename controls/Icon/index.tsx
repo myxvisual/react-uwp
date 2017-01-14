@@ -37,7 +37,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
 				}}
 				hoverStyle={hoverStyle || { color: theme.accent }}
 			>
-				<p>{children || "&#xE73E;"}</p>
+				<span>{children || "&#xE73E;"}</span>
 			</ElementState>
 		);
 	}

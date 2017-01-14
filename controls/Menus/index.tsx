@@ -36,21 +36,34 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	refs: { container: ElementState; itmesContainer: HTMLDivElement };
 	itemsElm: HTMLDivElement[] = [];
 
+	componentDidMount() {
+		this.setItemStyleValue(true);
+	}
+
 	componentWillReceiveProps(nextProps: MenusProps) {
 		this.setState({
 			showItems: nextProps.showItems
 		});
 	}
 
+	setItemStyleValue = (update = false) => {
+		const { width, height, borderWidth } = window.getComputedStyle(this.refs.container.getDOM());
+		if (update) {
+			this.setState({ width, height, borderWidth });
+		} else {
+			this.state = { ...this.state, width, height, borderWidth };
+		}
+	}
+
 	toggleShowItems = (e?: React.SyntheticEvent<HTMLDivElement> | boolean) => {
+		this.setItemStyleValue();
 		const { direction, canToggleShow, children } = this.props;
 		const setToState = typeof e === "boolean";
 		let { showItems } = this.state;
 		if (setToState) showItems = Boolean(e);
-		const { width, height, borderWidth } = window.getComputedStyle(this.refs.container.getDOM());
 		if (this.state.showItems !== canToggleShow ? (!this.state.showItems) : true) {
 			this.setState((prevState, prevProps) => {
-				return { showItems: canToggleShow ? (!this.state.showItems) : true, width, height, borderWidth };
+				return { showItems: canToggleShow ? (!this.state.showItems) : true };
 			});
 		}
 	}

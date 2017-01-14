@@ -23,7 +23,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 		...defaultProps,
 		isChecked: null,
 		size: 24,
-		onChangeCb: () => {},
+		onChangeCb: (() => {}),
 	};
 	state: CheckBoxState = {
 		checked: this.props.isChecked
@@ -39,14 +39,14 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 	}
 
 	getStyles = (): React.CSSProperties => {
-		const { isChecked, size, style } = this.props;
+		const { isChecked, size, style, isRadioBtn } = this.props;
 		const { checked } = this.state;
 		const baseStyle = {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			color: theme.baseMediumLow,
-			border: `2px solid ${theme.baseMediumLow}`,
+			color: theme.altHigh,
+			border: `2px solid ${theme.baseMediumHigh}`,
 			width: size,
 			height: size,
 			background: theme.altMediumHigh,
@@ -59,19 +59,21 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 			case true: {
 				return {
 					style: { ...baseStyle, border: `2px solid ${theme.accent}` },
-					hoverStyle
+					hoverStyle: isRadioBtn ? void(0) : hoverStyle,
+					activeStyle: isRadioBtn ? { border: `2px solid ${theme.baseHigh}` } : void(0)
 				};
 			}
 			case false: {
 				return {
 					style: baseStyle,
-					hoverStyle
+					hoverStyle: isRadioBtn ? void(0) : hoverStyle,
+					activeStyle: isRadioBtn ? { border: `2px solid ${theme.baseHigh}` } : void(0)
 				};
 			}
 			case null: {
 				return {
 					style: baseStyle,
-					hoverStyle: {}
+					hoverStyle: isRadioBtn ? void(0) : hoverStyle,
 				};
 			}
 			default: {
@@ -100,18 +102,24 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 				<div ref="container">
 					{isRadioBtn
 						?
-						<p
+						<ElementState
 							style={{
-								background: theme.accent,
+								background: theme.baseHigh,
 								borderRadius: size,
 								width: checked ? (size || 8) : 0,
 								height: checked ? (size || 8) : 0,
 							}}
-						/>
+							activeStyle={{
+								background: theme.baseMediumHigh
+							}}
+						>
+							<p />
+						</ElementState>
 						:
 						<Icon
 							style={{
 								transition: "all .25s 0s ease-in-out",
+								color: theme.altHigh,
 								padding: 0,
 								margin: 0,
 								fontSize: 20,
@@ -124,7 +132,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 							&#xE73E;
 							{checked === null
 								?
-								<p
+								<div
 									style={{
 										background: theme.accent,
 										position: "absolute",
