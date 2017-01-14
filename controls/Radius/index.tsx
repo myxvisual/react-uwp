@@ -14,7 +14,7 @@ interface RadiusProps extends CheckBoxProps {}
 interface RadiusState extends CheckBoxState {}
 
 export default class Radius extends CheckBox {
-	static defaultProps: RadiusProps = { ...defaultProps, size: 20 };
+	static defaultProps: RadiusProps = { ...defaultProps, size: 20, onChangeCb: () => {} };
 	state: RadiusState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 

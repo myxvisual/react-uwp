@@ -7,3 +7,8 @@ export { default as ProgressRing } from "./controls/ProgressRing";
 export { default as CheckBox } from "./controls/CheckBox";
 export { default as Radius } from "./controls/Radius";
 export { default as AutoSuggestBox } from "./controls/AutoSuggestBox";
+
+import * as colorManipulator from "./common/colorManipulator";
+export { colorManipulator };
+
+export { ThemeType } from "./style/ThemeType";
