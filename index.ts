@@ -8,6 +8,7 @@ export { default as CheckBox } from "./controls/CheckBox";
 export { default as Radius } from "./controls/Radius";
 export { default as AutoSuggestBox } from "./controls/AutoSuggestBox";
 export { default as Switch } from "./controls/Switch";
+export { default as Swipe } from "./controls/Swipe";
 
 import * as colorManipulator from "./common/colorManipulator";
 export { colorManipulator };
