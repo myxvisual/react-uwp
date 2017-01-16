@@ -131,7 +131,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			}
 		}
 		window.addEventListener("touchmove", this.mouseOrTouchMoveHandler);
-		// window.addEventListener("mousemove", this.mouseOrTouchMoveHandler);
+		window.addEventListener("mousemove", this.mouseOrTouchMoveHandler);
 		window.addEventListener("touchend", this.mouseOrTouchUpHandler);
 		window.addEventListener("mouseup", this.mouseOrTouchUpHandler);
 	}
@@ -174,7 +174,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		}
 		this.setNextSlider();
 		window.removeEventListener("touchmove", this.mouseOrTouchMoveHandler);
-		// window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
+		window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
 		window.removeEventListener("touchend", this.mouseOrTouchUpHandler);
 		window.removeEventListener("mouseup", this.mouseOrTouchUpHandler);
 	}
@@ -218,6 +218,7 @@ function getStyles(): {
 } {
 	const content = {
 		flex: "0 0 auto",
+		cursor: "pointer",
 		display: "flex",
 		flexDirection: "row",
 		flexWrap: "nowrap",
@@ -242,6 +243,7 @@ function getStyles(): {
 		content: { ...prefixAll(content), ...content },
 		item: prefixAll({
 			position: "relative",
+			pointerEvents: "none",
 			width: "100%",
 			height: "100%",
 			display: "flex",
