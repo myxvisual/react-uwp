@@ -23,8 +23,8 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
 		style: {},
 		id: null,
 		className: "",
-		width: 40,
-		height: 16,
+		width: 42,
+		height: 18,
 		background: "#3a3a48",
 		callback: () => {},
 	};
@@ -46,12 +46,6 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
 	}
 
 	getState = () => this.state.isOpen;
-
-	getRightTranslateX = (width: any, height: any) => {
-		if (typeof width === "number" && typeof height === "number") {
-			return `${width - height}px`;
-		}
-	}
 
 	render() {
 		const { style, id, className, background, width, height, ...attributes } = this.props;
@@ -101,7 +95,7 @@ function getStyles(context: Switch): {
 			transition: "all .25s 0s ease-in-out",
 		},
 		button: {
-			...(isOpen ? { WebkitTransform: `translateX(${context.getRightTranslateX(width, height)})` } : { WebkitTransform: `translateX(${Number(height) * 0.5}px)` }),
+			...(isOpen ? { WebkitTransform: `translateX(${Number(width) - Number(height) + 6}px)` } : { WebkitTransform: `translateX(${6}px)` }),
 			flex: "0 0 auto",
 			position: "absolute",
 			left: 0,
