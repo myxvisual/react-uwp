@@ -102,8 +102,7 @@ function getStyles(context: Switch): {
 			width: itemSize,
 			height: itemSize,
 			borderRadius: itemSize,
-			background: "#fff",
-			boxShadow: "0rem 0rem .75rem hsla(0, 0%, 0%, .25)",
+			background: isOpen ? "#fff" : theme.baseMediumHigh,
 			transition: "all .25s 0s ease-in-out",
 		}
 	};
