@@ -48,7 +48,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
 	getState = () => this.state.isOpen;
 
 	render() {
-		const { style, id, className, background, width, height, ...attributes } = this.props;
+		const { style, id, className, background, callback, width, height, ...attributes } = this.props;
 		const { isOpen } = this.state;
 		const styles = getStyles(this);
 

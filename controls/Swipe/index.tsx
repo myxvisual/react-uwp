@@ -3,7 +3,7 @@ import * as React from "react";
 import prefixAll from "../../common/prefixAll";
 const defaultProps: SwipeProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-interface DataProps {
+export interface DataProps {
 	initialFocusIndex?: number;
 	canSwipe?: boolean;
 	autoSwipe?: boolean;
@@ -11,7 +11,7 @@ interface DataProps {
 	easey?: number;
 	directionIsRight?: boolean;
 }
-interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface SwipeState {
 	stopSwip?: boolean;
 	focusIndex?: number;
@@ -218,7 +218,6 @@ function getStyles(): {
 } {
 	const content = {
 		flex: "0 0 auto",
-		cursor: "pointer",
 		display: "flex",
 		flexDirection: "row",
 		flexWrap: "nowrap",

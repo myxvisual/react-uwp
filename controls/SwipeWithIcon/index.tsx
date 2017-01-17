@@ -1,0 +1,73 @@
+import * as React from "react";
+
+import prefixAll from "../../common/prefixAll";
+import Swipe, { DataProps, SwipeProps } from "../Swipe";
+import IconButton from "../IconButton";
+import { ThemeType } from "../../style/ThemeType";
+
+let theme: ThemeType;
+const defaultProps: SwipeWithIconProps = __DEV__ ? require("./devDefaultProps").default : {};
+
+export interface DataProps {
+	initialFocusIndex?: number;
+	canSwipe?: boolean;
+	autoSwipe?: boolean;
+	speed?: number;
+	easey?: number;
+	directionIsRight?: boolean;
+}
+export interface SwipeWithIconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+interface SwipeWithIconState {}
+export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, SwipeWithIconState> {
+	static defaultProps = { ...defaultProps, className: "" };
+	static contextTypes = { theme: React.PropTypes.object };
+
+	render() {
+		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, ...attributes } = this.props;
+		theme = this.context.theme;
+
+		const styles = getStyles(this);
+		return (
+			<div style={{ ...styles.container, ...attributes.style }}>
+				<IconButton style={styles.iconLeft}>&#xE012;</IconButton>
+				<Swipe {...this.props} style={attributes.style} />
+				<IconButton style={styles.iconRight}>&#xE013;</IconButton>
+			</div>
+		);
+	}
+}
+
+function getStyles(contex: SwipeWithIcon): {
+	container?: React.CSSProperties;
+	iconLeft?: React.CSSProperties;
+	iconRight?: React.CSSProperties;
+} {
+	return {
+		container: prefixAll({
+			display: "flex",
+			flexDirection: "row",
+			alignItems: "center",
+			justifyContent: "center",
+			position: "relative",
+			zIndex: 0,
+			width: "100%",
+			background: theme.baseMediumHigh,
+			height: "auto",
+			transition: "all 0.5s 0s cubic-bezier(.8, -.5, .2, 1.4)",
+		}),
+		iconLeft: ({
+			position: "absolute",
+			zIndex: 20,
+			width: 40,
+			height: 40,
+			left: 20,
+		}),
+		iconRight: ({
+			position: "absolute",
+			right: 20,
+			width: 40,
+			height: 40,
+			zIndex: 20,
+		}),
+	};
+}
