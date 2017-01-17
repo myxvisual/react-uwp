@@ -4,19 +4,19 @@ import ElementState from "../../components/ElementState";
 import { ThemeType } from "../../style/ThemeType";
 
 let theme: ThemeType;
-const defaultProps: IconProps = __DEV__ ? require("./devDefaultProps").default : {};
+const defaultProps: IconButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 }
-interface IconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface IconState {}
+interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+interface IconButtonState {}
 
-export default class Icon extends React.Component<IconProps, IconState> {
-	static defaultProps: IconProps = {
+export default class IconButton extends React.Component<IconButtonProps, IconButtonState> {
+	static defaultProps: IconButtonProps = {
 		...defaultProps
 	};
-	state: IconState = {};
+	state: IconButtonState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 
 	render() {
@@ -31,11 +31,14 @@ export default class Icon extends React.Component<IconProps, IconState> {
 					transition: "all .25s 0s ease-in-out",
 					userSelect: "none",
 					fontSize: 22,
-					cursor: "default",
+					cursor: "pointer",
 					color: theme.baseHigh,
+					padding: 4,
 					...style
 				}}
-				hoverStyle={hoverStyle || { color: theme.accent }}
+				hoverStyle={hoverStyle || {
+					background: theme.accent,
+				}}
 			>
 				<span>{children || "&#xE73E;"}</span>
 			</ElementState>
