@@ -151,7 +151,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	}
 
 	mouseOrTouchUpHandler = (e: any) => {
-		this.currentTarget.style.webkitTransition = "all 0.5s 0s cubic-bezier(.8, -.5, .2, 1.4)";
+		this.currentTarget.style.webkitTransition = "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)";
 		const length = this.getItemsLength();
 		this.state.stopSwip = false;
 		let easey = this.props.easey;
@@ -226,6 +226,7 @@ function getStyles(): {
 		position: "relative",
 		height: "100%",
 		overflow: "hidden",
+		transition: "all 2.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 	} as React.CSSProperties;
 	return {
 		container: prefixAll({
@@ -237,7 +238,7 @@ function getStyles(): {
 			overflow: "hidden",
 			width: "100%",
 			height: "auto",
-			transition: "all 0.5s 0s cubic-bezier(.8, -.5, .2, 1.4)",
+			transition: "all 2.5s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 		}),
 		content: { ...prefixAll(content), ...content },
 		item: prefixAll({

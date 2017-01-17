@@ -9,7 +9,7 @@ const defaultProps: IconButtonProps = __DEV__ ? require("./devDefaultProps").def
 export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 }
-interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 interface IconButtonState {}
 
 export default class IconButton extends React.Component<IconButtonProps, IconButtonState> {
@@ -30,6 +30,9 @@ export default class IconButton extends React.Component<IconButtonProps, IconBut
 					fontFamily: "Segoe MDL2 Assets",
 					transition: "all .25s 0s ease-in-out",
 					userSelect: "none",
+					background: theme.altHigh,
+					border: "none",
+					outline: "none",
 					fontSize: 22,
 					cursor: "pointer",
 					color: theme.baseHigh,
@@ -40,7 +43,7 @@ export default class IconButton extends React.Component<IconButtonProps, IconBut
 					background: theme.accent,
 				}}
 			>
-				<span>{children || "&#xE73E;"}</span>
+				<button {...attributes}>{children || "&#xE73E;"}</button>
 			</ElementState>
 		);
 	}

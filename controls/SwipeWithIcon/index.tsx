@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import prefixAll from "../../common/prefixAll";
-import Swipe, { DataProps, SwipeProps } from "../Swipe";
+import Swipe, { SwipeProps } from "../Swipe";
 import IconButton from "../IconButton";
 import { ThemeType } from "../../style/ThemeType";
 
@@ -15,23 +15,35 @@ export interface DataProps {
 	speed?: number;
 	easey?: number;
 	directionIsRight?: boolean;
+	iconStyle?: React.CSSProperties;
+	iconHoverStyle?: React.CSSProperties;
 }
 export interface SwipeWithIconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface SwipeWithIconState {}
 export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, SwipeWithIconState> {
 	static defaultProps = { ...defaultProps, className: "" };
 	static contextTypes = { theme: React.PropTypes.object };
+	refs: { swipe?: Swipe };
+
+	swipeForward = () => {
+		this.refs.swipe.swipeForward();
+	}
+
+	swipeBackWord = () => {
+		this.refs.swipe.swipeBackWord();
+	}
 
 	render() {
-		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, ...attributes } = this.props;
+		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, ...attributes } = this.props;
 		theme = this.context.theme;
 
 		const styles = getStyles(this);
 		return (
 			<div style={{ ...styles.container, ...attributes.style }}>
-				<IconButton style={styles.iconLeft}>&#xE012;</IconButton>
-				<Swipe {...this.props} style={attributes.style} />
-				<IconButton style={styles.iconRight}>&#xE013;</IconButton>
+				<IconButton onClick={this.swipeBackWord} style={{ ...styles.iconLeft, ...iconStyle }} hoverStyle={iconHoverStyle
+					}>&#xE012;</IconButton>
+				<Swipe ref="swipe" {...this.props} style={attributes.style} />
+				<IconButton onClick={this.swipeForward} style={styles.iconRight}>&#xE013;</IconButton>
 			</div>
 		);
 	}
@@ -53,7 +65,7 @@ function getStyles(contex: SwipeWithIcon): {
 			width: "100%",
 			background: theme.baseMediumHigh,
 			height: "auto",
-			transition: "all 0.5s 0s cubic-bezier(.8, -.5, .2, 1.4)",
+			transition: "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 		},
 		iconLeft: {
 			position: "absolute",
