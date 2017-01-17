@@ -43,7 +43,7 @@ export default function setStyleToElement(elm: HTMLElement, style: React.CSSProp
 		const propertyNow = [].map.call(property, (str: string) => str === str.toUpperCase() ? `-${str.toLowerCase()}` : str).join("");
 		if (setToCSSText) {
 			let value: any = style[property];
-			if (typeof value === "number" && !isUnitlessNumber.includes(propertyNow)) value = `${value}px`;
+			if (typeof value === "number" && !isUnitlessNumber.includes(property)) value = `${value}px`;
 			if (typeof value === "object") {
 				if (Array.isArray(value)) {
 					value = value[value.length - 1];
