@@ -1,8 +1,6 @@
 import * as React from "react";
 
-
 import prefixAll from "../common/prefixAll";
-
 import addArrayEvent from "../common/addArrayEvent";
 import setStyleToElement from "../common/setStyleToElement";
 import removeArrayEvent from "../common/removeArrayEvent";
@@ -36,8 +34,8 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 	componentDidMount() {
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
-			addArrayEvent(this.currentDOM, ["touchstart", "mouseenter"], this.hover);
-			addArrayEvent(this.currentDOM, ["touchend", "mouseleave"], this.resetStyle);
+			addArrayEvent(this.currentDOM, ["mouseenter"], this.hover);
+			addArrayEvent(this.currentDOM, ["mouseleave"], this.resetStyle);
 		}
 		if (activeStyle) {
 			addArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
@@ -55,7 +53,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
 			removeArrayEvent(this.currentDOM, ["mouseenter"], this.hover);
-			removeArrayEvent(this.currentDOM, ["touchend", "mouseleave"], this.resetStyle);
+			removeArrayEvent(this.currentDOM, ["mouseleave"], this.resetStyle);
 		}
 		if (activeStyle) {
 			removeArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
@@ -69,7 +67,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		}
 	}
 
-	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ transition: "all .25s 0s ease-in-out" , ...this.props.style, ...style })); }
+	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ ...this.props.style, ...style })); }
 
 	hover = () => { this.setStyle(prefixAll(this.props.hoverStyle)); this.props.onHover(); }
 	unHover = () => { this.resetStyle(); }
@@ -107,11 +105,10 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			onVisited,
 			...attributes
 		} = this.props;
-		const prefixAllStyle = prefixAll({ transition: "all .25s 0s ease-in-out", ...style }, );
 
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,
-			style: prefixAllStyle,
+			style: prefixAll(style),
 			...attributes
 		});
 	}

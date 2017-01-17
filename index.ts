@@ -11,6 +11,7 @@ export { default as Switch } from "./controls/Switch";
 export { default as Swipe } from "./controls/Swipe";
 export { default as SwipeWithIcon } from "./controls/SwipeWithIcon";
 export { default as IconButton } from "./controls/IconButton";
+export { default as Tooltip } from "./controls/Tooltip";
 
 import * as colorManipulator from "./common/colorManipulator";
 export { colorManipulator };

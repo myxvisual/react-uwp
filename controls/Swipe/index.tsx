@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { findDOMNode } from "react-dom";
 import prefixAll from "../../common/prefixAll";
 const defaultProps: SwipeProps = __DEV__ ? require("./devDefaultProps").default : {};
 
@@ -16,6 +16,8 @@ interface SwipeState {
 	stopSwip?: boolean;
 	focusIndex?: number;
 	updateComponent?: boolean;
+	childrenLength?: number;
+	width?: number;
 }
 const styles = getStyles();
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
@@ -24,18 +26,25 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	state: SwipeState = {
 		focusIndex: this.props.initialFocusIndex || 0,
 		updateComponent: false,
-		stopSwip: false
+		stopSwip: false,
+		childrenLength: 0
 	};
 
 	private timeoutId: any;
-	private currentTarget: HTMLDivElement;
-	private width: number;
-	private startPosition: number;
-	private endPosition: number;
-	private clientX: number;
-	private originClassName: string;
+	refs: {
+		container: HTMLDivElement;
+		content: HTMLDivElement;
+	};
+	private containerDOM: HTMLDivElement;
+	private startClientX: number;
+	private endClientX: number;
 
 	componentDidMount() {
+		this.containerDOM = findDOMNode(this.refs.container) as HTMLDivElement;
+		this.setState({
+			width: this.containerDOM.getClientRects()[0].width,
+			childrenLength: React.Children.count(this.props.children)
+		});
 		if (this.props.autoSwipe) {
 			this.setNextSlider();
 		}
@@ -68,7 +77,10 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	getItemsLength = () => React.Children.count(this.props.children);
 
-	setRightFocusIndex = (focusIndex: number): number => React.Children.count(this.props.children)
+	setRightFocusIndex = (focusIndex: number): number => {
+		const length = this.getItemsLength();
+		return focusIndex < 0 ? length - Math.abs(focusIndex) % length : focusIndex % length;
+	}
 
 	setNextSlider: {
 		(): void;
@@ -100,69 +112,58 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	mouseOrTouchDownHandler = (e: any) => {
 		this.setState({ stopSwip: true });
 		const isToucheEvent = this.checkIsToucheEvent(e);
-
-		const length = this.getItemsLength();
-		// this.clientX = isToucheEvent ? e.changedTouches[0] : e;
 		if (isToucheEvent) {
-			this.clientX = e.changedTouches[0].clientX;
+			window.addEventListener("touchmove", this.mouseOrTouchMoveHandler);
+			window.addEventListener("touchend", this.mouseOrTouchUpHandler);
 		} else {
-			this.clientX = e.clientX;
+			window.addEventListener("mousemove", this.mouseOrTouchMoveHandler);
+			window.addEventListener("mouseup", this.mouseOrTouchUpHandler);
 		}
-		const currentTarget = e.currentTarget as HTMLDivElement;
-		currentTarget.style.webkitTransition = "all 0.06125s 0s linear";
-		this.currentTarget = currentTarget;
-		this.width = currentTarget.getClientRects()[0].width;
-		const { left } = currentTarget.style;
-		const startPositions = left.match(/(\-?\d+\.*\d*)(.+)$/);
-		switch (startPositions[2]) {
-			case "rem": {
-				this.startPosition = (+startPositions[1]) * 16;
-				break;
-			}
-			case "%": {
-				this.startPosition = (+startPositions[1] / 100) * this.width / length;
-				break;
-			}
-			default: {
-				this.startPosition = (+startPositions[1]);
-			}
+		const { childrenLength } = this.state;
+		if (isToucheEvent) {
+			this.startClientX = e.changedTouches[0].clientX;
+		} else {
+			this.startClientX = e.clientX;
 		}
-		window.addEventListener("touchmove", this.mouseOrTouchMoveHandler);
-		window.addEventListener("mousemove", this.mouseOrTouchMoveHandler);
-		window.addEventListener("touchend", this.mouseOrTouchUpHandler);
-		window.addEventListener("mouseup", this.mouseOrTouchUpHandler);
+		this.refs.content.style.webkitTransition = "all 0.06125s 0s linear";
 	}
 
 	mouseOrTouchMoveHandler: {
 		(e: any): void;
 	} = (e) => {
 		const isToucheEvent = this.checkIsToucheEvent(e);
+		const { width, childrenLength, focusIndex } = this.state;
 		let clientX: number;
 		if (isToucheEvent) {
-			clientX = e.changedTouches[0].clientX;
+			this.endClientX = e.changedTouches[0].clientX;
 		} else {
-			clientX = e.clientX;
+			this.endClientX = e.clientX;
 		}
-		this.endPosition = this.startPosition - this.clientX + clientX;
-		this.currentTarget.style.left = `${this.endPosition / 16}rem`;
+		this.refs.content.style.webkitTransform = `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex) - this.startClientX + this.endClientX}px)`;
 	}
 
 	mouseOrTouchUpHandler = (e: any) => {
-		this.currentTarget.style.webkitTransition = "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)";
-		const length = this.getItemsLength();
+		const isToucheEvent = this.checkIsToucheEvent(e);
+		const { childrenLength, width } = this.state;
+		if (isToucheEvent) {
+			window.removeEventListener("touchmove", this.mouseOrTouchMoveHandler);
+			window.removeEventListener("touchend", this.mouseOrTouchUpHandler);
+		} else {
+			window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
+			window.removeEventListener("mouseup", this.mouseOrTouchUpHandler);
+		}
+		this.refs.content.style.webkitTransition = "all 0.5s 0s cubic-bezier(.8, -.5, .2, 1.4)";
 		this.state.stopSwip = false;
-		let easey = this.props.easey;
+		let { easey } = this.props;
 		if (easey < 0) easey = 0;
 		if (easey > 1) easey = 1;
-		const isNext = this.startPosition > this.endPosition;
-		let focusIndex = (this.width / 2 - this.endPosition) / this.width * length - 0.5;
-		if (typeof focusIndex === "number" && `${focusIndex}` === "NaN") {
-			return;
-		}
-		focusIndex = isNext ? Math.ceil(focusIndex - 1 + easey) : Math.floor(focusIndex + 1 - easey);
-		focusIndex = focusIndex < 0 ? length - Math.abs(focusIndex) % length : focusIndex % length;
+		const movePosition = this.endClientX - this.startClientX;
+		const isNext = movePosition > 0;
+		let focusIndex = this.state.focusIndex + movePosition / width;
+		focusIndex = isNext ? Math.ceil(focusIndex + easey / 2) : Math.floor(focusIndex - easey / 2);
+		focusIndex = this.setRightFocusIndex(focusIndex);
 		if (focusIndex === this.state.focusIndex) {
-			this.currentTarget.style.left = `${length * 50 - 50 - focusIndex * 100}%`;
+			this.refs.content.style.webkitTransform = `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)`;
 		} else {
 			this.setState({
 				focusIndex,
@@ -170,16 +171,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			});
 		}
 		this.setNextSlider();
-		window.removeEventListener("touchmove", this.mouseOrTouchMoveHandler);
-		window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
-		window.removeEventListener("touchend", this.mouseOrTouchUpHandler);
-		window.removeEventListener("mouseup", this.mouseOrTouchUpHandler);
 	}
 
 	render() {
 		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, ...attributes } = this.props;
-		const length = this.getItemsLength();
-		const { focusIndex, stopSwip } = this.state;
+		const { focusIndex, stopSwip, width, childrenLength } = this.state;
 		return (
 			<div {...attributes} ref="container" style={{ ...styles.container, ...style }}>
 				<div
@@ -189,10 +185,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 					onTouchStart= {
 						canSwipe ? this.mouseOrTouchDownHandler : void(0)
 					}
+					ref="content"
 					style={{
 						...styles.content,
-						width: `${length * 100}%`,
-						left: `${length * 50 - 50 - focusIndex * 100}%`,
+						width: `${childrenLength * 100}%`,
+						...prefixAll({ transform: `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)` }),
 					}}
 				>
 					{React.Children.map(children, (child, index) => {
@@ -223,10 +220,12 @@ function getStyles(): {
 		position: "relative",
 		height: "100%",
 		overflow: "hidden",
+		left: 0,
 		transition: "all 2.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 	} as React.CSSProperties;
 	return {
 		container: prefixAll({
+			background: "red",
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",

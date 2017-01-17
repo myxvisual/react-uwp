@@ -1,6 +1,6 @@
 {
   "name": "react-uwp",
-  "version": "1.0.2",
+  "version": "0.0.1",
   "description": "UWP Design Ui by React",
   "main": "index.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "source-map-loader": "^0.1.5",
     "tslint": "^3.15.1",
     "tslint-eslint-rules": "^3.2.0",
-    "typescript": "^2.1.4",
+    "typescript": "^2.1.5",
     "uglify-js": "^2.7.5",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3"

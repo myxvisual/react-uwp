@@ -14,7 +14,7 @@
 		"lib": ["dom", "es5"],
 		"paths": {},
 		"typeRoots": [
-			"node_modules/@types"
+			"../../node_modules/@types"
 		]
 	},
 	"filesGlob": [
@@ -27,9 +27,9 @@
 		"**/*.tsx",
 		"__mocks__/**/*.ts",
 		"__mocks__/**/*.tsx",
-		"typings/**/*.d.ts"
+		"../../typings/**/*.d.ts"
 	],
 	"exclude": [
-		"node_modules"
+		"../../node_modules"
 	]
 }

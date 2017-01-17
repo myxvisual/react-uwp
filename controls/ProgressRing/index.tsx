@@ -2,7 +2,6 @@ import * as React from "react";
 
 import animation from "../../common/animation";
 import prefixAll from "../../common/prefixAll";
-import * as easing from "../../common/easing";
 import { ThemeType } from "../../style/ThemeType";
 import * as styles from "./index.scss";
 
@@ -66,22 +65,6 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 	state: ProgressRingState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 	itemElms: HTMLDivElement[] = [];
-
-	componentDidMount() {
-		this.runItemsAnimation();
-	}
-
-	runItemsAnimation = () => {
-		// const speed = 3000;
-		// this.itemElms.forEach((itemElm, index) => {
-		// 	animation(.4, 0, 1, easing.easeInOutCubic, (value) => {
-		// 		itemElm.style.transform = `rotateZ(${value * 360}deg)`;
-		// 		itemElm.style.opacity = `${value < 0.125 ? value : (
-		// 			value < 0.9 ? 1 - value ** 2 + 0.25 : 1 - value
-		// 		)}`;
-		// 	}, index * 250, true);
-		// });
-	}
 
 	render() {
 		const {

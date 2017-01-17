@@ -42,7 +42,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 			<div style={{ ...styles.container, ...attributes.style }}>
 				<IconButton onClick={this.swipeBackWord} style={{ ...styles.iconLeft, ...iconStyle }} hoverStyle={iconHoverStyle
 					}>&#xE012;</IconButton>
-				<Swipe ref="swipe" {...this.props} style={attributes.style} />
+				<Swipe ref="swipe" {...this.props} autoSwipe={false} style={attributes.style} />
 				<IconButton onClick={this.swipeForward} style={styles.iconRight}>&#xE013;</IconButton>
 			</div>
 		);
