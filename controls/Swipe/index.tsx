@@ -68,10 +68,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	getItemsLength = () => React.Children.count(this.props.children);
 
-	setRightFocusIndex = (focusIndex: number): number => {
-		const length = this.getItemsLength();
-		return focusIndex < 0 ? length - Math.abs(focusIndex) % length : focusIndex % length;
-	}
+	setRightFocusIndex = (focusIndex: number): number => React.Children.count(this.props.children)
 
 	setNextSlider: {
 		(): void;
