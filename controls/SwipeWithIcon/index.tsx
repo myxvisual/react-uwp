@@ -43,7 +43,7 @@ function getStyles(contex: SwipeWithIcon): {
 	iconRight?: React.CSSProperties;
 } {
 	return {
-		container: prefixAll({
+		container: {
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -54,20 +54,20 @@ function getStyles(contex: SwipeWithIcon): {
 			background: theme.baseMediumHigh,
 			height: "auto",
 			transition: "all 0.5s 0s cubic-bezier(.8, -.5, .2, 1.4)",
-		}),
-		iconLeft: ({
+		},
+		iconLeft: {
 			position: "absolute",
 			zIndex: 20,
 			width: 40,
 			height: 40,
 			left: 20,
-		}),
-		iconRight: ({
+		},
+		iconRight: {
 			position: "absolute",
 			right: 20,
 			width: 40,
 			height: 40,
 			zIndex: 20,
-		}),
+		},
 	};
 }
