@@ -21,7 +21,10 @@ export interface DataProps {
 export interface SwipeWithIconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface SwipeWithIconState {}
 export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, SwipeWithIconState> {
-	static defaultProps = { ...defaultProps, className: "" };
+	static defaultProps = {
+		...defaultProps,
+		className: ""
+	};
 	static contextTypes = { theme: React.PropTypes.object };
 	refs: { swipe?: Swipe };
 
@@ -40,10 +43,21 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 		const styles = getStyles(this);
 		return (
 			<div style={{ ...styles.container, ...attributes.style }}>
-				<IconButton onClick={this.swipeBackWord} style={{ ...styles.iconLeft, ...iconStyle }} hoverStyle={iconHoverStyle
-					}>&#xE012;</IconButton>
+				<IconButton
+					onClick={this.swipeBackWord}
+					style={{ ...styles.iconLeft, ...iconStyle }}
+					hoverStyle={iconHoverStyle || { background: theme.altHigh }}
+				>
+					&#xE012;
+				</IconButton>
 				<Swipe ref="swipe" {...this.props} autoSwipe={false} style={attributes.style} />
-				<IconButton onClick={this.swipeForward} style={styles.iconRight}>&#xE013;</IconButton>
+				<IconButton
+					onClick={this.swipeForward}
+					style={{ ...styles.iconRight, ...iconStyle }}
+					hoverStyle={iconHoverStyle || { background: theme.altHigh }}
+				>
+					&#xE013;
+				</IconButton>
 			</div>
 		);
 	}
@@ -63,12 +77,13 @@ function getStyles(contex: SwipeWithIcon): {
 			position: "relative",
 			zIndex: 0,
 			width: "100%",
-			background: theme.baseMediumHigh,
+			background: theme.accent,
 			height: "auto",
 			transition: "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 		},
 		iconLeft: {
 			position: "absolute",
+			background: theme.baseLow,
 			zIndex: 20,
 			width: 40,
 			height: 40,
@@ -76,6 +91,7 @@ function getStyles(contex: SwipeWithIcon): {
 		},
 		iconRight: {
 			position: "absolute",
+			background: theme.baseLow,
 			right: 20,
 			width: 40,
 			height: 40,

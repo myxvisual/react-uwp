@@ -10,6 +10,7 @@ export interface DataProps {
 	speed?: number;
 	easey?: number;
 	directionIsRight?: boolean;
+	transition?: string;
 }
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface SwipeState {
@@ -19,15 +20,18 @@ interface SwipeState {
 	childrenLength?: number;
 	width?: number;
 }
-const styles = getStyles();
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
-	static defaultProps = { ...defaultProps, className: "" };
+	static defaultProps = {
+		...defaultProps,
+		className: "",
+		transition: "all 1s 0s cubic-bezier(.8, -.5, .2, 1.4)",
+	};
 
 	state: SwipeState = {
 		focusIndex: this.props.initialFocusIndex || 0,
 		updateComponent: false,
 		stopSwip: false,
-		childrenLength: 0
+		childrenLength: 0,
 	};
 
 	private timeoutId: any;
@@ -152,7 +156,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
 			window.removeEventListener("mouseup", this.mouseOrTouchUpHandler);
 		}
-		this.refs.content.style.webkitTransition = "all 0.5s 0s cubic-bezier(.8, -.5, .2, 1.4)";
+		this.refs.content.style.webkitTransition = this.props.transition;
 		this.state.stopSwip = false;
 		let { easey } = this.props;
 		if (easey < 0) easey = 0;
@@ -176,6 +180,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	render() {
 		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, ...attributes } = this.props;
 		const { focusIndex, stopSwip, width, childrenLength } = this.state;
+		const styles = getStyles(this);
 		return (
 			<div {...attributes} ref="container" style={{ ...styles.container, ...style }}>
 				<div
@@ -205,11 +210,12 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	}
 }
 
-function getStyles(): {
+function getStyles(context: Swipe): {
 	container?: React.CSSProperties;
 	content?: React.CSSProperties;
 	item?: React.CSSProperties;
 } {
+	const { transition } = context.props;
 	const content = {
 		flex: "0 0 auto",
 		display: "flex",
@@ -221,11 +227,10 @@ function getStyles(): {
 		height: "100%",
 		overflow: "hidden",
 		left: 0,
-		transition: "all 2.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
+		transition,
 	} as React.CSSProperties;
 	return {
 		container: prefixAll({
-			background: "red",
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -234,12 +239,10 @@ function getStyles(): {
 			overflow: "hidden",
 			width: "100%",
 			height: "auto",
-			transition: "all 2.5s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 		}),
 		content: { ...prefixAll(content), ...content },
 		item: prefixAll({
 			position: "relative",
-			pointerEvents: "none",
 			width: "100%",
 			height: "100%",
 			display: "flex",
