@@ -7,6 +7,8 @@ const altHigh = "rgb(0, 0, 0)";
 const accent = colors.blue500;
 
 const darkTheme: ThemeType = {
+	fontFamily: "Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
+
 	accent,
 	accentLighter1: lighten(accent, 0.5),
 	accentLighter2: lighten(accent, 0.7),

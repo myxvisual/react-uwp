@@ -15,6 +15,8 @@ interface TooltipState {
 	showTooltip?: boolean;
 	width?: number;
 	height?: number;
+	top?: number;
+	left?: number;
 }
 
 export default class Tooltip extends React.Component<TooltipProps, TooltipState> {
@@ -33,9 +35,9 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	componentDidMount() {
 		const parentNode = this.refs.container.parentNode as HTMLDivElement;
-		parentNode.style.position = "relative";
+		const { top, left } = parentNode.getClientRects()[0];
 		const { width, height } = window.getComputedStyle(parentNode);
-		this.setState({ width: parseInt(width), height: parseInt(height) });
+		this.setState({ width: parseInt(width), height: parseInt(height), top, left });
 		parentNode.addEventListener("mouseenter", this.showTooltip);
 		parentNode.addEventListener("mouseleave", this.notShowTooltip);
 	}
@@ -59,37 +61,40 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	getStyle = (): React.CSSProperties => {
 		const { verticalPosition, horizontalPosition, style, maxHeight } = this.props;
-		const { showTooltip, width, height } = this.state;
+		const { showTooltip, width, height, top, left } = this.state;
 		const { theme } = this.context;
 		const positionStyle: React.CSSProperties = {};
-		switch (horizontalPosition) {
-			case "left": {
-				positionStyle.right = width ? width + 4 : 0;
-				break;
+		if (width !== void(0) && height !== void(0) && top !== void(0) && left !== void(0)) {
+			switch (horizontalPosition) {
+				case "left": {
+					positionStyle.left = left + width + 4;
+					break;
+				}
+				case "center": {
+					const size = width - this.refs.container.clientWidth;
+					positionStyle.left = left - (size > 0 ? size / 2 : + width / 2);
+					break;
+				}
+				case "right": {
+					positionStyle.left = left + width + 4;
+					break;
+				}
+				default: {
+					break;
+				}
 			}
-			case "center": {
-				positionStyle.left = width ? (width - this.refs.container.clientWidth) / 2 : 0;
-				break;
-			}
-			case "right": {
-				positionStyle.left = width ? width + 4 : 0;
-				break;
-			}
-			default: {
-				break;
-			}
-		}
-		switch (verticalPosition) {
-			case "top": {
-				positionStyle.bottom = height ? height + 4 : 0;
-				break;
-			}
-			case "bottom": {
-				positionStyle.top = height ? height + 4 : 0;
-				break;
-			}
-			default: {
-				break;
+			switch (verticalPosition) {
+				case "top": {
+					positionStyle.bottom = top + height + 4;
+					break;
+				}
+				case "bottom": {
+					positionStyle.top = top + height + 4;
+					break;
+				}
+				default: {
+					break;
+				}
 			}
 		}
 		return prefixAll({
@@ -103,7 +108,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 			fontSize: 14,
 			...style,
 			...positionStyle,
-			position: "absolute",
+			position: "fixed",
 		});
 	}
 

@@ -1,4 +1,6 @@
 export interface ThemeType {
+	fontFamily?: string;
+
 	accent?: string;
 	accentLighter1?: string;
 	accentLighter2?: string;
