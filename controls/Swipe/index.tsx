@@ -138,7 +138,6 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	} = (e) => {
 		const isToucheEvent = this.checkIsToucheEvent(e);
 		const { width, childrenLength, focusIndex } = this.state;
-		let clientX: number;
 		if (isToucheEvent) {
 			this.endClientX = e.changedTouches[0].clientX;
 		} else {
@@ -179,7 +178,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	}
 
 	render() {
-		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, ...attributes } = this.props;
+		// tslint:disable-next-line:no-unused-variable
+		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, transition, ...attributes } = this.props;
 		const { focusIndex, stopSwip, width, childrenLength } = this.state;
 		const styles = getStyles(this);
 		return (
@@ -216,7 +216,7 @@ function getStyles(context: Swipe): {
 	content?: React.CSSProperties;
 	item?: React.CSSProperties;
 } {
-	const { transition } = context.props;
+	const { transition, children } = context.props;
 	const content = {
 		flex: "0 0 auto",
 		display: "flex",
@@ -244,7 +244,7 @@ function getStyles(context: Swipe): {
 		content: { ...prefixAll(content), ...content },
 		item: prefixAll({
 			position: "relative",
-			width: "100%",
+			width: `${100 / React.Children.count(children)}%`,
 			height: "100%",
 			display: "flex",
 			flex: "0 0 auto",
