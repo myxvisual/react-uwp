@@ -54,9 +54,11 @@
   },
   "dependencies": {
     "core-js": "^2.4.1",
+    "inline-style-prefixer": "^2.0.5",
     "keycode": "^2.1.8",
     "react": "^15.4.2",
     "react-dom": "^15.3.2",
-    "react-prefixer": "^2.0.0"
+    "react-prefixer": "^2.0.0",
+    "warning": "^3.0.0"
   }
 }

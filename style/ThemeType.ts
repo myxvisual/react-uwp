@@ -29,7 +29,7 @@ export interface ThemeType {
 	chromeMediumLow?: string;
 	chromeMedium?: string;
 	chromeHigh?: string;
-	chromealtLow?: string;
+	chromeAltLow?: string;
 	chromeDisabledLow?: string;
 	chromeDisabledHigh?: string;
 	chromeBlackLow?: string;

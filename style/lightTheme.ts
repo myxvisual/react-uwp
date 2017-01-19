@@ -37,7 +37,7 @@ const lightTheme: ThemeType = {
 	chromeMediumLow: "#f2f2f2",
 	chromeMedium: "#e6e6e6",
 	chromeHigh: "#ccc",
-	chromealtLow: "#171717",
+	chromeAltLow: "#171717",
 	chromeDisabledLow: "#7a7a7a",
 	chromeDisabledHigh: "#ccc",
 	chromeBlackLow: fade("#000", 0.2),

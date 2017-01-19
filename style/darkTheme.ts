@@ -37,7 +37,7 @@ const darkTheme: ThemeType = {
 	chromeMediumLow: "#2b2b2b",
 	chromeMedium: "#1f1f1f",
 	chromeHigh: "#767676",
-	chromealtLow: "#f2f2f2",
+	chromeAltLow: "#f2f2f2",
 	chromeDisabledLow: "#858585",
 	chromeDisabledHigh: "#333",
 	chromeBlackLow: fade("#000", 0.2),

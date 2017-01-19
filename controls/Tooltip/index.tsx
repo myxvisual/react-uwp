@@ -1,10 +1,11 @@
 import * as React from "react";
 
+import prefixAll from "../../common/prefixAll";
 import { ThemeType } from "../../style/ThemeType";
 const defaultProps: TooltipProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
-	verticalPosition?: "left" | "right" | "center";
+	verticalPosition?: "top" | "bottom";
 	horizontalPosition?: "left" | "right" | "center";
 	show?: boolean;
 }
@@ -17,7 +18,10 @@ interface TooltipState {
 
 export default class Tooltip extends React.Component<TooltipProps, TooltipState> {
 	static defaultProps: TooltipProps = {
-		...defaultProps
+		...defaultProps,
+		verticalPosition: "bottom",
+		horizontalPosition: "center",
+		children: "Tooltip"
 	};
 	state: TooltipState = {
 		showTooltip: false
@@ -52,30 +56,68 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		});
 	}
 
-	getStyle = (width: number, height: number) => {
-
+	getStyle = (): React.CSSProperties => {
+		const { verticalPosition, horizontalPosition, style } = this.props;
+		const { showTooltip, width, height } = this.state;
+		const { theme } = this.context;
+		const positionStyle: React.CSSProperties = {};
+		switch (horizontalPosition) {
+			case "left": {
+				positionStyle.right = width ? width + 4 : 0;
+				break;
+			}
+			case "center": {
+				positionStyle.left = width ? (width - this.refs.container.clientWidth) / 2 : 0;
+				break;
+			}
+			case "right": {
+				positionStyle.left = width ? width + 4 : 0;
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+		switch (verticalPosition) {
+			case "top": {
+				positionStyle.bottom = height ? height + 4 : 0;
+				break;
+			}
+			case "bottom": {
+				positionStyle.top = height ? height + 4 : 0;
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+		return prefixAll({
+			maxHeight: showTooltip ? 50 : 0,
+			overflow: "hidden",
+			padding: "4px 8px",
+			transition: "all .25s 0s ease-in-out",
+			border: `1px solid ${showTooltip ? theme.baseLow : "transparent"}`,
+			color: showTooltip ? theme.baseMediumHigh : "transparent",
+			background: showTooltip ? theme.chromeLow : "transparent",
+			fontSize: 14,
+			...style,
+			...positionStyle,
+			position: "absolute",
+		});
 	}
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { verticalPosition, horizontalPosition, show, ...attributes } = this.props;
+		const { verticalPosition, horizontalPosition, show, children, ...attributes } = this.props;
 		const { theme } = this.context;
-		const { showTooltip, width, height } = this.state;
 
 		return (
 			<span
 				{...attributes}
 				ref="container"
-				style={{
-					visibility: !showTooltip ? "visible" : "hidden",
-					color: theme.baseMediumHigh,
-					background: theme.altMediumHigh,
-					fontSize: 14,
-					...attributes.style,
-					position: "absolute",
-				}}
+				style={this.getStyle()}
 			>
-				Tooltip
+				{children}
 			</span>
 		);
 	}
