@@ -23,6 +23,7 @@ interface SwipeState {
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	static defaultProps = {
 		...defaultProps,
+		autoSwipe: true,
 		className: "",
 		transition: "all 1s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 	};
@@ -246,6 +247,7 @@ function getStyles(context: Swipe): {
 			width: "100%",
 			height: "100%",
 			display: "flex",
+			flex: "0 0 auto",
 			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "center",
