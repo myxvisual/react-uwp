@@ -37,6 +37,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 	}
 
 	render() {
+		// tslint:disable-next-line:no-unused-variable
 		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, ...attributes } = this.props;
 		theme = this.context.theme;
 

@@ -13,7 +13,7 @@
         "no-unused-expression": true,
         "no-unused-new": true,
         "no-unused-variable": [
-            false,
+            true,
             "react"
         ],
         "no-use-before-declare": true,

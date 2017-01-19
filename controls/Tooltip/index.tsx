@@ -3,7 +3,10 @@ import * as React from "react";
 import { ThemeType } from "../../style/ThemeType";
 const defaultProps: TooltipProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-export interface DataProps {}
+export interface DataProps {
+	verticalPosition?: "left" | "right" | "center";
+	horizontalPosition?: "left" | "right" | "center";
+}
 interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface TooltipState {}
 
@@ -17,7 +20,8 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 	context: { theme: ThemeType };
 
 	render() {
-		const { ...attributes } = this.props;
+		// tslint:disable-next-line:no-unused-variable
+		const { verticalPosition, horizontalPosition, ...attributes } = this.props;
 		const { theme } = this.context;
 
 		return (
