@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import prefixAll from "../../common/prefixAll";
-import Swipe, { SwipeProps } from "../Swipe";
+
+import Swipe from "../Swipe";
 import IconButton from "../IconButton";
 import { ThemeType } from "../../style/ThemeType";
 

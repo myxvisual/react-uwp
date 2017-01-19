@@ -8,6 +8,7 @@ export interface DataProps {
 	verticalPosition?: "top" | "bottom";
 	horizontalPosition?: "left" | "right" | "center";
 	show?: boolean;
+	maxHeight?: number;
 }
 interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 interface TooltipState {
@@ -57,7 +58,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 	}
 
 	getStyle = (): React.CSSProperties => {
-		const { verticalPosition, horizontalPosition, style } = this.props;
+		const { verticalPosition, horizontalPosition, style, maxHeight } = this.props;
 		const { showTooltip, width, height } = this.state;
 		const { theme } = this.context;
 		const positionStyle: React.CSSProperties = {};
@@ -92,13 +93,13 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 			}
 		}
 		return prefixAll({
-			maxHeight: showTooltip ? 50 : 0,
+			maxHeight: showTooltip ? (maxHeight || 50) : 0,
 			overflow: "hidden",
 			padding: "4px 8px",
 			transition: "all .25s 0s ease-in-out",
 			border: `1px solid ${showTooltip ? theme.baseLow : "transparent"}`,
 			color: showTooltip ? theme.baseMediumHigh : "transparent",
-			background: showTooltip ? theme.chromeLow : "transparent",
+			background: showTooltip ? theme.chromeMedium : "transparent",
 			fontSize: 14,
 			...style,
 			...positionStyle,
@@ -108,7 +109,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { verticalPosition, horizontalPosition, show, children, ...attributes } = this.props;
+		const { verticalPosition, horizontalPosition, show, children, maxHeight, ...attributes } = this.props;
 		const { theme } = this.context;
 
 		return (

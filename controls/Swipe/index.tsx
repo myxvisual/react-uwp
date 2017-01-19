@@ -1,5 +1,6 @@
 import * as React from "react";
 import { findDOMNode } from "react-dom";
+
 import prefixAll from "../../common/prefixAll";
 const defaultProps: SwipeProps = __DEV__ ? require("./devDefaultProps").default : {};
 

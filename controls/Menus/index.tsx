@@ -1,9 +1,7 @@
 import * as React from "react";
 
-import addArrayEvent from "../../common/addArrayEvent";
-import removeArrayEvent from "../../common/removeArrayEvent";
 import { fade } from "../../common/colorManipulator";
-
+import prefixAll from "../../common/prefixAll";
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "react-uwp/style/ThemeType";
 
@@ -12,10 +10,12 @@ const defaultProps: MenusProps = __DEV__ ? require("./devDefaultProps").default 
 
 export interface DataProps {
 	direction?: "top" | "right" | "bottom" | "left";
-	title?: string;
+	titleNode?: any;
 	canToggleShow?: boolean;
 	showItems?: boolean;
+	itemContainerStyle?: React.CSSProperties;
 	itemStyle?: React.CSSProperties;
+	autoShowItems?: boolean;
 }
 interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface MenusState {
@@ -29,7 +29,8 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	static defaultProps: MenusProps = {
 		...defaultProps,
 		className: "",
-		direction: "bottom"
+		direction: "bottom",
+		autoShowItems: false
 	};
 	static contextTypes = { theme: React.PropTypes.object };
 	state: MenusState = { showItems: this.props.showItems };
@@ -57,10 +58,15 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 
 	toggleShowItems = (e?: React.SyntheticEvent<HTMLDivElement> | boolean) => {
 		this.setItemStyleValue();
-		const { direction, canToggleShow, children } = this.props;
+		const { canToggleShow } = this.props;
 		const setToState = typeof e === "boolean";
 		let { showItems } = this.state;
-		if (setToState) showItems = Boolean(e);
+		if (setToState) {
+			this.setState({
+				showItems: Boolean(e)
+			});
+			return;
+		};
 		if (this.state.showItems !== canToggleShow ? (!this.state.showItems) : true) {
 			this.setState((prevState, prevProps) => {
 				return { showItems: canToggleShow ? (!this.state.showItems) : true };
@@ -125,7 +131,8 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	}
 
 	render() {
-		const { style, direction, title, children, itemStyle, ...attributes } = this.props;
+		// tslint:disable-next-line:no-unused-variable
+		const { style, direction, autoShowItems, itemContainerStyle, titleNode, children, itemStyle, ...attributes } = this.props;
 		delete attributes.showItems;
 		const { showItems, width, height, borderWidth } = this.state;
 		theme = this.context.theme;
@@ -156,18 +163,22 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 				{...attributes}
 				ref="container"
 				style={{
-					...style,
 					...baseStyle,
-					pointerEvents: showItems ? "none" : "all"
+					...style,
 				}}
 				hoverStyle={showItems ? void(0) : { ...baseHoverStyle }}
+				onHover={autoShowItems ? () => this.toggleShowItems(true) : void(0)}
+				unHover={autoShowItems ? () => { this.toggleShowItems(false); } : void(0)}
 				onClick={this.toggleShowItems}
 			>
 				<div>
-					<p>{title}</p>
+					<div>{titleNode}</div>
 					<div
 						ref="itmesContainer"
-						style={this.getItemsContainerStyle()}
+						style={prefixAll({
+							...this.getItemsContainerStyle(),
+							...(showItems ? itemContainerStyle : void(0)),
+						})}
 					>
 						{React.Children.map(children, (child, index) => (
 							<ElementState

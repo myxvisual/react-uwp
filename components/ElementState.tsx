@@ -15,6 +15,10 @@ interface DataProps {
 	onFocus?: Function;
 	onActive?: Function;
 	onVisited?: Function;
+	unHover?: Function;
+	unFocus?: Function;
+	unActive?: Function;
+	unVisited?: Function;
 }
 interface Attributes {
 	[key: string]: any;
@@ -26,7 +30,11 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		onHover: defaultFunc,
 		onFocus: defaultFunc,
 		onActive: defaultFunc,
-		onVisited: defaultFunc
+		onVisited: defaultFunc,
+		unHover: defaultFunc,
+		unFocus: defaultFunc,
+		unActive: defaultFunc,
+		unVisited: defaultFunc,
 	};
 	currentDOM: any;
 	visitedStyle: any = {};
@@ -35,11 +43,11 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
 			addArrayEvent(this.currentDOM, ["mouseenter"], this.hover);
-			addArrayEvent(this.currentDOM, ["mouseleave"], this.resetStyle);
+			addArrayEvent(this.currentDOM, ["mouseleave"], this.unHover);
 		}
 		if (activeStyle) {
 			addArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
-			addArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.resetStyle);
+			addArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.unActive);
 		}
 		if (focusStyle) {
 			addArrayEvent(this.currentDOM, ["focus"], this.focus);
@@ -53,11 +61,11 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
 			removeArrayEvent(this.currentDOM, ["mouseenter"], this.hover);
-			removeArrayEvent(this.currentDOM, ["mouseleave"], this.resetStyle);
+			removeArrayEvent(this.currentDOM, ["mouseleave"], this.unHover);
 		}
 		if (activeStyle) {
 			removeArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
-			removeArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.resetStyle);
+			removeArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.unActive);
 		}
 		if (focusStyle) {
 			removeArrayEvent(this.currentDOM, ["focus"], this.focus);
@@ -69,20 +77,20 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
 	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ ...this.props.style, ...style })); }
 
-	hover = () => { this.setStyle(prefixAll(this.props.hoverStyle)); this.props.onHover(); }
-	unHover = () => { this.resetStyle(); }
+	hover = () => { this.setStyle(this.props.hoverStyle); this.props.onHover(); }
+	unHover = () => { this.resetStyle(); this.props.unHover(); }
 
-	active = () => { this.setStyle(prefixAll(this.props.activeStyle)); this.props.onActive(); }
-	unActive = () => { this.resetStyle(); }
+	active = () => { this.setStyle(this.props.activeStyle); this.props.onActive(); }
+	unActive = () => { this.resetStyle(); this.props.unActive(); }
 
-	focus = () => { this.setStyle(prefixAll(this.props.focusStyle)); this.props.onFocus(); }
-	unFocus = () => { this.resetStyle(); }
+	focus = () => { this.setStyle(this.props.focusStyle); this.props.onFocus(); }
+	unFocus = () => { this.resetStyle(); this.props.unFocus(); }
 
 	visited = () => {
-		{ this.setStyle(prefixAll(this.props.visitedStyle)); this.props.onVisited(); }
+		{ this.setStyle(this.props.visitedStyle); this.props.onVisited(); }
 		this.visitedStyle = this.props.visitedStyle;
 	}
-	unVisited = () => { this.resetStyle(true); }
+	unVisited = () => { this.resetStyle(true); this.props.unVisited(); }
 
 	resetStyle = (resetVisited = false) => {
 		if (resetVisited) this.visitedStyle = void(0);
@@ -92,23 +100,11 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 	getDOM = () => this.currentDOM
 
 	render() {
-		const {
-			style,
-			hoverStyle,
-			focusStyle,
-			activeStyle,
-			visitedStyle,
-			children,
-			onHover,
-			onFocus,
-			onActive,
-			onVisited,
-			...attributes
-		} = this.props;
-
+		// tslint:disable-next-line:no-unused-variable
+		const { style, hoverStyle, focusStyle, activeStyle, visitedStyle, onHover, onFocus, onActive, onVisited, unHover, unFocus, unActive, unVisited, children, ...attributes } = this.props;
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,
-			style: prefixAll(style),
+			style: style ? prefixAll(style) : void(0),
 			...attributes
 		});
 	}
