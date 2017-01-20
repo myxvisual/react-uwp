@@ -1,6 +1,7 @@
 import { ThemeType } from "./ThemeType";
 import * as colors from "./colors";
 import { fade, darken, lighten } from "../common/colorManipulator";
+import prefixAll from "../common/prefixAll";
 
 const baseHigh = "rgb(0, 0, 0)";
 const altHigh = "rgb(255, 255, 255)";
@@ -46,7 +47,9 @@ const lightTheme: ThemeType = {
 	chromeBlackMediumLow: fade("#000", 0.4),
 	chromeBlackMedium: fade("#000", 0.8),
 	chromeBlackHigh: "#000",
-	chromeWhite: "#fff"
+	chromeWhite: "#fff",
+
+	prepareStyles: prefixAll(),
 };
 
 export default lightTheme;
