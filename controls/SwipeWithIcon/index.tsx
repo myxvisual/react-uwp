@@ -40,10 +40,11 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 		// tslint:disable-next-line:no-unused-variable
 		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, ...attributes } = this.props;
 		const { theme } = this.context;
+		const { prepareStyles } = theme;
 
 		const styles = getStyles(this);
 		return (
-			<div style={{ ...styles.container, ...attributes.style }}>
+			<div style={prepareStyles({ ...styles.container, ...attributes.style })}>
 				<IconButton
 					onClick={this.swipeBackWord}
 					style={{ ...styles.iconLeft, ...iconStyle }}
@@ -51,7 +52,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 				>
 					&#xE012;
 				</IconButton>
-				<Swipe ref="swipe" {...this.props} autoSwipe={false} style={attributes.style} />
+				<Swipe ref="swipe" {...this.props} autoSwipe={false} style={prepareStyles(attributes.style)} />
 				<IconButton
 					onClick={this.swipeForward}
 					style={{ ...styles.iconRight, ...iconStyle }}

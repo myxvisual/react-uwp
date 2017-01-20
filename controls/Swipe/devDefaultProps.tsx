@@ -10,7 +10,7 @@ export default {
 		<img src="//img.alicdn.com/imgextra/i3/170/TB2CBY9Xz2C11BjSszgXXaKlpXa_!!170-0-yamato.jpg_760x760q30s0.jpg_.webp" />,
 	],
 	initialFocusIndex: 0,
-	canSwipe: true,
+	canSwipe: false,
 	autoSwipe: true,
 	speed: 5000,
 	easey: 0.85,

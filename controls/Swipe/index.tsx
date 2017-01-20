@@ -27,6 +27,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		autoSwipe: true,
 		className: "",
 		transition: "all 1s 0s cubic-bezier(.8, -.5, .2, 1.4)",
+		initialFocusIndex: 0,
+		canSwipe: true,
+		speed: 5000,
+		easey: 0.85,
+		directionIsRight: true,
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -189,7 +194,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		const styles = getStyles(this);
 
 		return (
-			<div {...attributes} ref="container" style={{ ...styles.container, ...style }}>
+			<div {...attributes} ref="container" style={theme.prepareStyles({ ...styles.container, ...style })}>
 				<div
 					onMouseDown={
 						canSwipe ? this.mouseOrTouchDownHandler : void(0)
@@ -198,15 +203,15 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 						canSwipe ? this.mouseOrTouchDownHandler : void(0)
 					}
 					ref="content"
-					style={{
+					style={theme.prepareStyles({
 						...styles.content,
 						width: `${childrenLength * 100}%`,
 						...theme.prepareStyles({ transform: `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)` }),
-					}}
+					})}
 				>
 					{React.Children.map(children, (child, index) => {
 						return (
-							<div style={styles.item} key={`${index}`}>
+							<div style={theme.prepareStyles(styles.item)} key={`${index}`}>
 								{child}
 							</div>
 						);
