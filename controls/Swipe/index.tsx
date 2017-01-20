@@ -12,6 +12,7 @@ export interface DataProps {
 	easey?: number;
 	directionIsRight?: boolean;
 	transition?: string;
+	iconSize?: number;
 }
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface SwipeState {
@@ -188,7 +189,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, transition, ...attributes } = this.props;
+		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, transition, iconSize, ...attributes } = this.props;
 		const { focusIndex, stopSwip, width, childrenLength } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);

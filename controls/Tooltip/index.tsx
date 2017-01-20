@@ -8,6 +8,8 @@ export interface DataProps {
 	horizontalPosition?: "left" | "right" | "center";
 	show?: boolean;
 	itemHeigh?: number;
+	autoClose?: boolean;
+	timeout?: number;
 }
 interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 interface TooltipState {
@@ -25,6 +27,8 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		horizontalPosition: "center",
 		children: "Tooltip",
 		itemHeigh: 28,
+		autoClose: true,
+		timeout: 2500,
 	};
 	state: TooltipState = {
 		showTooltip: false
@@ -32,6 +36,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 	refs: { container: HTMLDivElement };
+	timer: any = null;
 
 	componentDidMount() {
 		const parentNode = this.refs.container.parentNode as HTMLDivElement;
@@ -39,18 +44,33 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		const { width, height } = window.getComputedStyle(parentNode);
 		this.setState({ width: parseInt(width), height: parseInt(height), top, left });
 		parentNode.addEventListener("mouseenter", this.showTooltip);
+		parentNode.addEventListener("click", this.showTooltip);
 		parentNode.addEventListener("mouseleave", this.notShowTooltip);
 	}
 
 	componentWillUnmount() {
 		this.refs.container.parentNode.removeEventListener("mouseenter", this.showTooltip);
+		this.refs.container.parentNode.removeEventListener("click", this.showTooltip);
 		this.refs.container.parentNode.removeEventListener("mouseleave", this.notShowTooltip);
+		clearTimeout(this.timer);
 	}
 
 	showTooltip = (e: MouseEvent) => {
-		this.setState({
-			showTooltip: true
-		});
+		const show = () => {
+			this.setState({
+				showTooltip: true
+			});
+		};
+		if (this.props.autoClose) {
+			show();
+			this.timer = setTimeout(() => {
+				this.setState({
+					showTooltip: false
+				});
+			}, this.props.timeout);
+		} else {
+			show();
+		}
 	}
 
 	notShowTooltip = (e: MouseEvent) => {
@@ -129,7 +149,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { verticalPosition, horizontalPosition, show, children, itemHeigh, ...attributes } = this.props;
+		const { verticalPosition, timeout, autoClose, horizontalPosition, show, children, itemHeigh, ...attributes } = this.props;
 		const { theme } = this.context;
 
 		return (

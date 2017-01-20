@@ -14,6 +14,7 @@ export interface DataProps {
 	speed?: number;
 	easey?: number;
 	directionIsRight?: boolean;
+	iconSize?: number;
 	iconStyle?: React.CSSProperties;
 	iconHoverStyle?: React.CSSProperties;
 }
@@ -22,11 +23,12 @@ interface SwipeWithIconState {}
 export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, SwipeWithIconState> {
 	static defaultProps = {
 		...defaultProps,
-		className: ""
+		className: "",
+		iconSize: 40,
 	};
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
-	refs: { swipe?: Swipe };
+	refs: { swipe?: Swipe; container: HTMLDivElement };
 
 	swipeForward = () => {
 		this.refs.swipe.swipeForward();
@@ -38,13 +40,13 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, ...attributes } = this.props;
+		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
 		const { theme } = this.context;
 		const { prepareStyles } = theme;
 
 		const styles = getStyles(this);
 		return (
-			<div style={prepareStyles({ ...styles.container, ...attributes.style })}>
+			<div ref="container" style={prepareStyles({ ...styles.container, ...attributes.style })}>
 				<IconButton
 					onClick={this.swipeBackWord}
 					style={{ ...styles.iconLeft, ...iconStyle }}
@@ -70,7 +72,9 @@ function getStyles(contex: SwipeWithIcon): {
 	iconLeft?: React.CSSProperties;
 	iconRight?: React.CSSProperties;
 } {
+	const { iconSize } = contex.props;
 	const { theme } = contex.context;
+
 	return {
 		container: theme.prepareStyles({
 			display: "flex",
@@ -88,17 +92,19 @@ function getStyles(contex: SwipeWithIcon): {
 			position: "absolute",
 			background: theme.baseLow,
 			zIndex: 20,
-			width: 40,
-			height: 40,
+			width: iconSize,
+			height: iconSize,
 			left: 20,
+			top: `calc(50% - ${iconSize / 2}px)`,
 		},
 		iconRight: {
 			position: "absolute",
 			background: theme.baseLow,
-			right: 20,
-			width: 40,
-			height: 40,
+			width: iconSize,
+			height: iconSize,
 			zIndex: 20,
+			right: 20,
+			top: `calc(50% - ${iconSize / 2}px)`,
 		},
 	};
 }
