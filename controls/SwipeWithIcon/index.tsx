@@ -5,7 +5,6 @@ import Swipe from "../Swipe";
 import IconButton from "../IconButton";
 import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: SwipeWithIconProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -26,6 +25,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 		className: ""
 	};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 	refs: { swipe?: Swipe };
 
 	swipeForward = () => {
@@ -39,7 +39,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 	render() {
 		// tslint:disable-next-line:no-unused-variable
 		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, ...attributes } = this.props;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		const styles = getStyles(this);
 		return (
@@ -69,8 +69,9 @@ function getStyles(contex: SwipeWithIcon): {
 	iconLeft?: React.CSSProperties;
 	iconRight?: React.CSSProperties;
 } {
+	const { theme } = contex.context;
 	return {
-		container: {
+		container: theme.prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -81,7 +82,7 @@ function getStyles(contex: SwipeWithIcon): {
 			background: theme.accent,
 			height: "auto",
 			transition: "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
-		},
+		}),
 		iconLeft: {
 			position: "absolute",
 			background: theme.baseLow,

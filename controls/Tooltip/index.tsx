@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import prefixAll from "../../common/prefixAll";
 import { ThemeType } from "../../style/ThemeType";
 const defaultProps: TooltipProps = __DEV__ ? require("./devDefaultProps").default : {};
 
@@ -97,7 +96,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 				}
 			}
 		}
-		return prefixAll({
+		return theme.prepareStyles({
 			maxHeight: showTooltip ? (maxHeight || 50) : 0,
 			overflow: "hidden",
 			padding: "4px 8px",

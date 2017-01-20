@@ -1,11 +1,9 @@
 import * as React from "react";
 
-import animation from "../../common/animation";
-import prefixAll from "../../common/prefixAll";
 import { ThemeType } from "../../style/ThemeType";
-import * as styles from "./index.scss";
+import vendors from "../../common/browser/vendors";
+const vendorStrs: string[] = vendors.map(str => str ? `-${str}-` : str);
 
-let theme: ThemeType;
 const defaultProps: ProgressRingProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -19,16 +17,15 @@ interface ProgressRingProps extends DataProps, React.HTMLAttributes<HTMLDivEleme
 interface ProgressRingState {}
 
 const getInnerCSS = (instance: ProgressRing) => (
-`
-.react-uwp-progress-ring {
+`.react-uwp-progress-ring {
 }
 ${Array(instance.props.itemLength).fill(0).map((name, index) => (
 	[".react-uwp-progress-ring-item-" + index + " {",
-	"		animation: CircleLoopFade 2500ms " + index * .125 + "s linear infinite normal forwards;",
+	vendorStrs.map(str => (`		${str}animation: CircleLoopFade 2500ms ${index * .125}s linear infinite normal forwards;`)).join("\n"),
 	"	}"].join("")
 )).join("")}
 
-@keyframes CircleLoopFade {
+${vendorStrs.map(str => `@${str}keyframes CircleLoopFade {
 	0% {
 		transform: rotateZ(0deg);
 		opacity: 0.5;
@@ -49,9 +46,7 @@ ${Array(instance.props.itemLength).fill(0).map((name, index) => (
 		transform: rotateZ(360deg);
 		opacity: 0;
 	}
-}
-`
-);
+}`)}.join("")`);
 
 export default class ProgressRing extends React.Component<ProgressRingProps, ProgressRingState> {
 	static defaultProps: ProgressRingProps = {
@@ -64,16 +59,17 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 	};
 	state: ProgressRingState = {};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 	itemElms: HTMLDivElement[] = [];
 
 	render() {
 		const {
 			itemLength, itmeStyle, size,
+			// tslint:disable-next-line:no-unused-variable
 			itemSize, delay,
 			style, ...attributes
 		} = this.props;
-		const center = size / 2;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		return (
 			<div
@@ -86,14 +82,14 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 					position: "relative"
 				}}
 			>
-				<style type="text/css"  dangerouslySetInnerHTML={{ __html: getInnerCSS(this) }}/>
+				<style type="text/css"  dangerouslySetInnerHTML={{ __html: getInnerCSS(this) }} />
 				<div>
 					{Array(itemLength).fill(0).map((numb, index) => (
 						<div
 							key={`${index}`}
 							className={`react-uwp-progress-ring-item-${index}`}
 							ref={(item) => this.itemElms.push(item)}
-							style={prefixAll({
+							style={theme.prepareStyles({
 								background: "#fff",
 								...itmeStyle,
 								position: "absolute",

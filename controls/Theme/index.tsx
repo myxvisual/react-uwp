@@ -20,6 +20,7 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
 	}
 
 	render() {
+		// tslint:disable-next-line:no-unused-variable
 		const { children, theme, ...attributes } = this.props;
 
 		return (

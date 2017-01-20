@@ -1,11 +1,9 @@
 import * as React from "react";
 
 import { fade } from "../../common/colorManipulator";
-import prefixAll from "../../common/prefixAll";
 import ElementState from "../../components/ElementState";
-import { ThemeType } from "react-uwp/style/ThemeType";
+import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: MenusProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -33,6 +31,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		autoShowItems: false
 	};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 	state: MenusState = { showItems: this.props.showItems };
 	refs: { container: ElementState; itmesContainer: HTMLDivElement };
 	itemsElm: HTMLDivElement[] = [];
@@ -135,7 +134,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		const { style, direction, autoShowItems, itemContainerStyle, titleNode, children, itemStyle, ...attributes } = this.props;
 		delete attributes.showItems;
 		const { showItems, width, height, borderWidth } = this.state;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		const centerFlex = {
 			display: "flex",
@@ -175,7 +174,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					<div>{titleNode}</div>
 					<div
 						ref="itmesContainer"
-						style={prefixAll({
+						style={theme.prepareStyles({
 							...this.getItemsContainerStyle(),
 							...(showItems ? itemContainerStyle : void(0)),
 						})}

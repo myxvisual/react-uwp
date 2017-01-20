@@ -39,4 +39,6 @@ export interface ThemeType {
 	chromeBlackMedium?: string;
 	chromeBlackHigh?: string;
 	chromeWhite?: string;
+
+	prepareStyles?: (style: React.CSSProperties) => React.CSSProperties;
 }

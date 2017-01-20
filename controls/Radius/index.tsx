@@ -1,10 +1,8 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
 import CheckBox, { CheckBoxProps, CheckBoxState } from "../CheckBox";
 import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: RadiusProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -17,10 +15,11 @@ export default class Radius extends CheckBox {
 	static defaultProps: RadiusProps = { ...defaultProps, size: 20, onChangeCb: () => {} };
 	state: RadiusState = {};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	render() {
 		const { size, ...attributes } = this.props;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		return (
 			<CheckBox
@@ -30,6 +29,7 @@ export default class Radius extends CheckBox {
 					width: size,
 					height: size
 				}}
+				{...attributes}
 			/>
 		);
 	}

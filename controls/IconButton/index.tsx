@@ -3,7 +3,6 @@ import * as React from "react";
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: IconButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -17,11 +16,12 @@ export default class IconButton extends React.Component<IconButtonProps, IconBut
 		...defaultProps
 	};
 	state: IconButtonState = {};
+	context: { theme: ThemeType };
 	static contextTypes = { theme: React.PropTypes.object };
 
 	render() {
 		const { style, hoverStyle, children, ...attributes } = this.props;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		return (
 			<ElementState

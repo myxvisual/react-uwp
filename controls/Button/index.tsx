@@ -1,10 +1,8 @@
 import * as React from "react";
 
 import ElementState from "../../components/ElementState";
-import { fade } from "../../common/colorManipulator";
-import { ThemeType } from "react-uwp/style/ThemeType";
+import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -21,6 +19,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 	};
 	state: ButtonState = {};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 	refs: { container: HTMLButtonElement };
 
 	render() {
@@ -28,7 +27,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 			borderSize, style, hoverStyle, children,
 			...attributes
 		} = this.props;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		return (
 			<ElementState

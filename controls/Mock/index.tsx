@@ -3,7 +3,6 @@ import * as React from "react";
 import ElementState from "../../components/ElementState";
 import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: MockProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {}
@@ -14,10 +13,11 @@ export default class Mock extends React.Component<MockProps, MockState> {
 	static defaultProps: MockProps = { ...defaultProps };
 	state: MockState = {};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	render() {
 		const { ...attributes } = this.props;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		return (
 			<ElementState

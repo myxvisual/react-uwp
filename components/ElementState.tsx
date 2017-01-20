@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import prefixAll from "../common/prefixAll";
+import { ThemeType } from "../style/ThemeType";
 import addArrayEvent from "../common/addArrayEvent";
 import setStyleToElement from "../common/setStyleToElement";
 import removeArrayEvent from "../common/removeArrayEvent";
@@ -36,6 +36,8 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		unActive: defaultFunc,
 		unVisited: defaultFunc,
 	};
+	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 	currentDOM: any;
 	visitedStyle: any = {};
 
@@ -75,7 +77,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		}
 	}
 
-	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, prefixAll({ ...this.props.style, ...style })); }
+	setStyle = (style: React.CSSProperties) => { setStyleToElement(this.currentDOM, this.context.theme.prepareStyles({ ...this.props.style, ...style })); }
 
 	hover = () => { this.setStyle(this.props.hoverStyle); this.props.onHover(); }
 	unHover = () => { this.resetStyle(); this.props.unHover(); }
@@ -104,7 +106,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		const { style, hoverStyle, focusStyle, activeStyle, visitedStyle, onHover, onFocus, onActive, onVisited, unHover, unFocus, unActive, unVisited, children, ...attributes } = this.props;
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,
-			style: style ? prefixAll(style) : void(0),
+			style: style ? this.context.theme.prepareStyles(style) : void(0),
 			...attributes
 		});
 	}

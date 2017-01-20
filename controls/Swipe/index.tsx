@@ -1,7 +1,7 @@
 import * as React from "react";
 import { findDOMNode } from "react-dom";
 
-import prefixAll from "../../common/prefixAll";
+import { ThemeType } from "../../style/ThemeType";
 const defaultProps: SwipeProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -28,6 +28,9 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		className: "",
 		transition: "all 1s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 	};
+
+	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	state: SwipeState = {
 		focusIndex: this.props.initialFocusIndex || 0,
@@ -182,7 +185,9 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		// tslint:disable-next-line:no-unused-variable
 		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, transition, ...attributes } = this.props;
 		const { focusIndex, stopSwip, width, childrenLength } = this.state;
+		const { theme } = this.context;
 		const styles = getStyles(this);
+
 		return (
 			<div {...attributes} ref="container" style={{ ...styles.container, ...style }}>
 				<div
@@ -196,7 +201,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 					style={{
 						...styles.content,
 						width: `${childrenLength * 100}%`,
-						...prefixAll({ transform: `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)` }),
+						...theme.prepareStyles({ transform: `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)` }),
 					}}
 				>
 					{React.Children.map(children, (child, index) => {
@@ -218,6 +223,7 @@ function getStyles(context: Swipe): {
 	item?: React.CSSProperties;
 } {
 	const { transition, children } = context.props;
+	const { prepareStyles } = context.context.theme;
 	const content = {
 		flex: "0 0 auto",
 		display: "flex",
@@ -232,7 +238,7 @@ function getStyles(context: Swipe): {
 		transition,
 	} as React.CSSProperties;
 	return {
-		container: prefixAll({
+		container: prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -242,8 +248,8 @@ function getStyles(context: Swipe): {
 			width: "100%",
 			height: "auto",
 		}),
-		content: { ...prefixAll(content), ...content },
-		item: prefixAll({
+		content: { ...prepareStyles(content), ...content },
+		item: prepareStyles({
 			position: "relative",
 			width: `${100 / React.Children.count(children)}%`,
 			height: "100%",

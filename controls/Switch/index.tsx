@@ -1,9 +1,7 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
 import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: SwitchProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -27,12 +25,14 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
 		height: 18,
 		background: "#3a3a48",
 		callback: () => {},
+		onClick: () => {},
 	};
 
 	state: SwitchState = {
 		isOpen: this.props.isOpen
 	};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	componentWillReceiveProps(nextProps: SwitchProps) {
 		this.setState({ isOpen: nextProps.isOpen });
@@ -48,24 +48,26 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
 	getState = () => this.state.isOpen;
 
 	render() {
-		const { style, id, className, background, callback, width, height, ...attributes } = this.props;
+		// tslint:disable-next-line:no-unused-variable
+		const { style, background, callback, ...attributes } = this.props;
 		const { isOpen } = this.state;
+		const { theme } = this.context;
 		const styles = getStyles(this);
 
 		return (
 			<div
-				style={{
+				style={theme.prepareStyles({
 					...styles.container,
 					...style,
-				}}
+				})}
 				{...attributes}
-				onClick={this.toggleSwitch}
+				onClick={(e) => { this.toggleSwitch(); attributes.onClick(e); }}
 			>
 				<div
-					style={{
+					style={theme.prepareStyles({
 						...styles.button,
 						...styles.button,
-					}}
+					})}
 				/>
 			</div>
 		);
@@ -77,7 +79,7 @@ function getStyles(context: Switch): {
 	button: React.CSSProperties;
 } {
 	const { width, height } = context.props;
-	theme = context.context.theme;
+	const { theme } = context.context;
 	const { isOpen } = context.state;
 	const itemSize = Number(height) / 1.5;
 	return {
@@ -95,7 +97,7 @@ function getStyles(context: Switch): {
 			transition: "all .25s 0s ease-in-out",
 		},
 		button: {
-			...(isOpen ? { WebkitTransform: `translateX(${Number(width) - Number(height) + 6}px)` } : { WebkitTransform: `translateX(${6}px)` }),
+			...(isOpen ? { transform: `translateX(${Number(width) - Number(height) + 6}px)` } : { transform: `translateX(${6}px)` }),
 			flex: "0 0 auto",
 			position: "absolute",
 			left: 0,

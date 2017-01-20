@@ -4,7 +4,6 @@ import ElementState from "../../components/ElementState";
 import Icon from "../Icon";
 import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: CheckBoxProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -29,6 +28,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 		checked: this.props.isChecked
 	};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 	refs: { container: HTMLDivElement };
 
 	componentWillReceiveProps(nextProps: CheckBoxProps) {
@@ -39,7 +39,8 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 	}
 
 	getStyles = (): React.CSSProperties => {
-		const { isChecked, size, style, isRadioBtn } = this.props;
+		const { size, style, isRadioBtn } = this.props;
+		const { theme } = this.context;
 		const { checked } = this.state;
 		const baseStyle = {
 			display: "flex",
@@ -52,7 +53,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 			background: theme.altMediumHigh,
 			transition: "all .25s ease-in-out",
 			overflow: "hidden",
-			...this.props.style,
+			...style,
 		} as React.CSSProperties;
 		const hoverStyle = { border: `2px solid ${theme.baseHigh}` };
 		switch (checked) {
@@ -88,10 +89,11 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 	}
 
 	render() {
+		// tslint:disable-next-line:no-unused-variable
 		const { isChecked, onChangeCb, isDisable, isRadioBtn, style, ...attributes } = this.props;
 		const { checked } = this.state;
 		const size = style ? style.width / 2.5 : 8;
-		theme = this.context.theme;
+		const { theme } = this.context;
 
 		return (
 			<ElementState

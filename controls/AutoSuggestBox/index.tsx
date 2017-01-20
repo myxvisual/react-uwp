@@ -5,7 +5,6 @@ import Input from "../Input";
 import Icon from "../Icon";
 import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: AutoSuggestBoxProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -24,6 +23,7 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 	};
 	state: AutoSuggestBoxState = {};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	handleOnchange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
 		let event: React.SyntheticEvent<HTMLInputElement>;
@@ -32,8 +32,9 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 	}
 
 	render() {
+		// tslint:disable-next-line:no-unused-variable
 		const { leftNode, rightNode, onChangeValue, ...attributes } = this.props;
-		theme = this.context.theme;
+		const { theme: { baseMediumHigh, altMediumHigh } } = this.context;
 
 		return (
 			<ElementState
@@ -43,8 +44,8 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 					flexDirection: "row",
 					alignItems: "center",
 					justifyContent: "space-between",
-					color: theme.baseMediumHigh,
-					background: theme.altMediumHigh,
+					color: baseMediumHigh,
+					background: altMediumHigh,
 					padding: "6px 10px",
 					fontSize: 14,
 					...attributes.style,

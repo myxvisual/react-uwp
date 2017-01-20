@@ -1,10 +1,8 @@
 import * as React from "react";
 
 import ElementState from "../../components/ElementState";
-import { fade } from "../../common/colorManipulator";
-import { ThemeType } from "react-uwp/style/ThemeType";
+import { ThemeType } from "../../style/ThemeType";
 
-let theme: ThemeType;
 const defaultProps: InputProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -30,19 +28,21 @@ export default class Input extends React.Component<InputProps, InputState> {
 	};
 	state: InputState = {};
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	handleFocus = (e?: React.SyntheticEvent<HTMLInputElement>) => {
-		e.currentTarget.style.color = theme.baseHigh;
+		e.currentTarget.style.color = this.context.theme.baseHigh;
 	}
 
 	handleMouseLeave = (e?: React.SyntheticEvent<HTMLInputElement>) => {
-		e.currentTarget.style.color = theme.baseMediumHigh;
+		e.currentTarget.style.color = this.context.theme.baseMediumHigh;
 	}
 
 	render() {
+		// tslint:disable-next-line:no-unused-variable
 		const { hoverStyle, activeStyle, leftNode, rightNode, style, inputStyle, ...attributes } = this.props;
 		const haveChild = leftNode || rightNode;
-		theme = this.context.theme;
+		const { theme } = this.context;
 		const styles = {
 			style : {
 				padding: "5px 10px",
@@ -70,13 +70,13 @@ export default class Input extends React.Component<InputProps, InputState> {
 					<input
 						onFocus={this.handleFocus}
 						onMouseLeave={this.handleMouseLeave}
-						style={{
+						style={theme.prepareStyles({
 							color: theme.baseMedium,
 							width: "100%",
 							background: "none",
 							border: "none",
 							...inputStyle,
-						}}
+						})}
 						{...attributes as any}
 					/>
 					{rightNode}
