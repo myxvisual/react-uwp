@@ -44,6 +44,9 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		if (showList) {
 			currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));
 		}
+		if (currentValue !== this.state.currentValue) {
+			this.props.onChangeValue(currentValue);
+		}
 		this.setState({
 			currentValue,
 			showList: !showList,
@@ -53,7 +56,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, ...attributes } = this.props;
+		const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, onChangeValue, ...attributes } = this.props;
 		const { showList, currentValue, currentValues } = this.state;
 		const { theme } = this.context;
 
@@ -95,9 +98,8 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 										height: itemHeight,
 										fontSize: 18,
 										background: isCurrent && showList ? theme.accentDarker2 : theme.chromeLow,
-										transition: "all .25s 0s ease-in-out",
 										display: "flex",
-										padding: "8px 20px",
+										padding: "0 8px",
 										flexDirection: "row",
 										alignItems: "center",
 										justifyContent: "space-between",
@@ -114,7 +116,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 									key={`${index}`}
 								>
 									<p>{value}</p>
-									{!showList && isCurrent ? <Icon>&#xE011;</Icon> : null}
+									{!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>&#xE011;</Icon> : null}
 								</div>
 						);
 					})}

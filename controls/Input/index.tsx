@@ -9,13 +9,14 @@ export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 	activeStyle?: React.CSSProperties;
 	inputStyle?: React.CSSProperties;
+	onChangeValue?: (value: string) => void;
 	leftNode?: any;
 	rightNode?: any;
 }
 type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>
 interface InputProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface InputState {}
-
+const emptyFunc = () => {};
 export default class Input extends React.Component<InputProps, InputState> {
 	static defaultProps: InputProps = {
 		...defaultProps,
@@ -24,11 +25,14 @@ export default class Input extends React.Component<InputProps, InputState> {
 			fontSize: 14,
 			outline: "none",
 			transition: "all .25s 0s ease-in-out",
-		}
+		},
+		onChange: emptyFunc,
+		onChangeValue: emptyFunc,
 	};
 	state: InputState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+	refs: { input: HTMLInputElement };
 
 	handleFocus = (e?: React.SyntheticEvent<HTMLInputElement>) => {
 		e.currentTarget.style.color = this.context.theme.baseHigh;
@@ -38,9 +42,14 @@ export default class Input extends React.Component<InputProps, InputState> {
 		e.currentTarget.style.color = this.context.theme.baseMediumHigh;
 	}
 
+	setValue = (value: string) => this.refs.input.value = value;
+
+	getValue = () => this.refs.input.value;
+
+
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { hoverStyle, activeStyle, leftNode, rightNode, style, inputStyle, ...attributes } = this.props;
+		const { hoverStyle, activeStyle, leftNode, rightNode, style, inputStyle, onChangeValue, ...attributes } = this.props;
 		const haveChild = leftNode || rightNode;
 		const { theme } = this.context;
 		const styles = {
@@ -68,6 +77,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 				<div>
 					{leftNode}
 					<input
+						ref="input"
 						onFocus={this.handleFocus}
 						onMouseLeave={this.handleMouseLeave}
 						style={theme.prepareStyles({
@@ -77,6 +87,10 @@ export default class Input extends React.Component<InputProps, InputState> {
 							border: "none",
 							...inputStyle,
 						})}
+						onChange={(e) => {
+							onChangeValue(e.currentTarget.value);
+							attributes.onChange(e as any);
+						}}
 						{...attributes as any}
 					/>
 					{rightNode}
@@ -84,7 +98,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 			</ElementState>
 			:
 			<ElementState {...styles}>
-				<input {...attributes as any}/>
+				<input ref="input" {...attributes as any}/>
 			</ElementState>
 		);
 	}

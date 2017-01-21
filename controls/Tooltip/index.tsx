@@ -110,12 +110,11 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		if (width !== void(0) && height !== void(0) && top !== void(0) && left !== void(0)) {
 			switch (horizontalPosition) {
 				case "left": {
-					positionStyle.left = left - this.refs.container.clientWidth - 4;
+					positionStyle.left = left - this.refs.container.getBoundingClientRect().width - 4;
 					break;
 				}
 				case "center": {
-					const size = width - this.refs.container.clientWidth;
-					positionStyle.left = left + (size > 0 ? size / 2 : + width / 2);
+					positionStyle.left = left + (width - this.refs.container.getBoundingClientRect().width) / 2;
 					break;
 				}
 				case "right": {

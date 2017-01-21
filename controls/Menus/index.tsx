@@ -89,7 +89,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 			alignItems: "center",
 			justifyContent: "center",
 			position: "absolute",
-			pointerEvents: "all",
+			pointerEvents: showItems ? "none" : "all",
 			transition: "all .25s 0s ease-in-out",
 			width,
 			overflow: showItems ? "visible" : "hidden",
@@ -146,6 +146,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		const baseStyle: React.CSSProperties = {
 			...centerFlex,
 			cursor: "pointer",
+			pointerEvents: "all",
 			height: style.height || height,
 			width: style.width || width,
 			color: theme.baseMediumHigh,
@@ -171,7 +172,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 				onClick={this.toggleShowItems}
 			>
 				<div>
-					<div>{titleNode}</div>
+					<div style={{ width: "100%", height: "100%" }}>{titleNode}</div>
 					<div
 						ref="itmesContainer"
 						style={theme.prepareStyles({

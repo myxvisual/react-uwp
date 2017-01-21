@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
 import Input from "../Input";
 import Icon from "../Icon";
 import { ThemeType } from "../../style/ThemeType";
@@ -13,7 +12,9 @@ export interface DataProps {
 	onChangeValue?: (value: string) => void;
 }
 interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface AutoSuggestBoxState {}
+interface AutoSuggestBoxState {
+	currentRightNode?: any;
+}
 
 export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
 	static defaultProps: AutoSuggestBoxProps = {
@@ -21,9 +22,17 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 		rightNode: (<Icon style={{ fontSize: 14 }}>&#xE721;</Icon>),
 		onChangeValue: () => {}
 	};
-	state: AutoSuggestBoxState = {};
+	state: AutoSuggestBoxState = {
+		currentRightNode: this.props.rightNode
+	};
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+	refs: { input: Input };
+	componentWillReceiveProps(nextProps: AutoSuggestBoxProps) {
+		this.setState({
+			currentRightNode: nextProps.rightNode
+		});
+	}
 
 	handleOnchange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
 		let event: React.SyntheticEvent<HTMLInputElement>;
@@ -31,14 +40,32 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 		this.props.onChangeValue(event.currentTarget.value);
 	}
 
+	handleFocus = () => {
+		this.setState({
+			currentRightNode: (<Icon style={{ fontSize: 14 }}>&#xE10A;</Icon>)
+		});
+	}
+
+	handleBlur = () => {
+		this.setState({
+			currentRightNode: (<Icon onClick={() => this.setValue("")} style={{ fontSize: 14 }}>&#xE721;</Icon>)
+		});
+	}
+
+	getValue = () => this.refs.input.getValue();
+
+	setValue = (value: string) => this.refs.input.setValue(value);
+
 	render() {
 		// tslint:disable-next-line:no-unused-variable
 		const { leftNode, rightNode, onChangeValue, ...attributes } = this.props;
+		const { currentRightNode } = this.state;
 		const { theme: { baseMediumHigh, altMediumHigh } } = this.context;
 
 		return (
-			<ElementState
+			<Input
 				{...attributes}
+				ref="input"
 				style={{
 					display: "flex",
 					flexDirection: "row",
@@ -50,14 +77,13 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 					fontSize: 14,
 					...attributes.style,
 				}}
-			>
-				<Input
-					leftNode={leftNode}
-					rightNode={rightNode}
-					placeholder="AutoSuggestBox"
-					onChange={this.handleOnchange}
-				/>
-			</ElementState>
+				onFocus={this.handleFocus}
+				onBlur={this.handleBlur}
+				leftNode={leftNode}
+				rightNode={currentRightNode}
+				placeholder="AutoSuggestBox"
+				onChange={this.handleOnchange}
+			/>
 		);
 	}
 }
