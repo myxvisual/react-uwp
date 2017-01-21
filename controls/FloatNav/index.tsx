@@ -5,7 +5,7 @@ import { ThemeType } from "../../style/ThemeType";
 const defaultProps: FloatNavProps = __DEV__ ? require("./devDefaultProps").default : { items: [], };
 
 interface Item {
-	image?: any;
+	showNode?: any;
 	title?: string;
 	href?: string;
 	color?: string;
@@ -13,8 +13,8 @@ interface Item {
 export interface DataProps {
 	focusItem?: number;
 	onFocusIndex?: (index: number) => void;
-	topNode?: React.ReactNode;
-	bottomNode?: React.ReactNode;
+	topNode?: React.ReactElement<any>;
+	bottomNode?: React.ReactElement<any>;
 	isFloatRight?: boolean;
 	items?: Item[];
 	floatNavWidth?: number;
@@ -30,7 +30,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 		...defaultProps,
 		onFocusIndex: () => {},
 		width: 40,
-		isFloatRight: false,
+		isFloatRight: true,
 		floatNavWidth: 240,
 	};
 	state: FloatNavState = {
@@ -76,33 +76,33 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 		return (
 			<div
 				{...attributes}
-				style={{ position: "relative", width }}
+				style={theme.prepareStyles({ position: "fixed", right: 20, bottom: 60, zIndex: 200, ...attributes.style })}
 			>
 				<div
 					{...attributes}
 					style={theme.prepareStyles({
 						position: "aboslute",
+						width,
 						display: "flex",
 						flexDirection: "column",
 						justifyContent: "center",
 						alignItems: isFloatRight ? "flex-end" : "flex-start",
 					})}
 				>
-					{React.Children.map(topNode, (child, index) => (
+					{React.Children.map(topNode, (child: React.ReactElement<any>, index) => (
 						<div
 							key={`${index}`}
-							// className={styles.icon}
 							style={theme.prepareStyles({
 								...itemStyle,
 								width,
 								height: width,
 							})}
 						>
-							{child}
+							{React.cloneElement(child, { style: { ...child.props.style, width, height: width, } })}
 						</div>
 					))}
 					{items.map((item, index) => {
-						const { image, color, title } = item;
+						const { showNode, color, title } = item;
 						const isFirst = focusItem === index;
 						const isHovered = hoverItem === index;
 						const padding = Number.parseInt(width.toString()) / 2;
@@ -127,40 +127,43 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 									transition: "all .25s 0s ease-in-out",
 									color: "inherit",
 									textDecoration: "none",
-									background: (isFirst || isHovered) ? color : "#fff",
+									background: (isFirst || isHovered) ? (theme.accent || color) : "#fff",
 									width: hoverIndexs[index] ? floatNavWidth : width,
 									height: width,
 								})}
 								key={`${index}`}
 							>
-								{isHovered && <span style={{ color: "#fff", margin: `0 ${padding}px` }}>{title}</span>}
-								<div
-									style={theme.prepareStyles({
-										transition: [
-											"width cubic-bezier(.04, .89, .44, 1.07),",
-											"opacity cubic-bezier(.04, .89, .44, 1.07),",
-											"visibility cubic-bezier(.04, .89, .44, 1.07)"
-										].join(""),
-										width,
-										height: padding,
-										background: `url(${image}) no-repeat center center / contain`,
-										filter: isHovered ? "brightness(100)" : void(0),
-									})}
-								/>
+								{isHovered && <span style={{ cursor: "default", color: "#fff", margin: `0 ${padding}px` }}>{title}</span>}
+								{typeof showNode === "string"
+									?
+									<div
+										style={theme.prepareStyles({
+											transition: [
+												"width cubic-bezier(.04, .89, .44, 1.07),",
+												"opacity cubic-bezier(.04, .89, .44, 1.07),",
+												"visibility cubic-bezier(.04, .89, .44, 1.07)"
+											].join(""),
+											width,
+											height: padding,
+											background: `url(${showNode}) no-repeat center center / contain`,
+											filter: isHovered ? "brightness(100)" : void(0),
+										})}
+									/>
+									: React.cloneElement(showNode, { style: { ...showNode.props.style, width, height: width, } })
+								}
 							</a>
 						);
 					})}
-					{React.Children.map(bottomNode, (child, index) => (
+					{React.Children.map(bottomNode, (child: React.ReactElement<any>, index) => (
 						<div
 							key={`${index}`}
-							// className={styles.icon}
 							style={theme.prepareStyles({
 								...itemStyle,
 								width,
 								height: width,
 							})}
 						>
-							{child}
+							{React.cloneElement(child, { style: { ...child.props.style, width, height: width, } })}
 						</div>
 					))}
 				</div>

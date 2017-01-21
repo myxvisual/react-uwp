@@ -23,15 +23,14 @@ interface DropdownMenuState {
 export default class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState> {
 	static defaultProps: DropdownMenuProps = {
 		...defaultProps,
-		defaultValue: "a",
-		values: ["a", "b", "c"],
 		itemWidth: 400,
 		itemHeight: 50,
+		onChangeValue: () => {},
 		containerAttributes: { onMouseEnter: () => {}, onMouseLeave: () => {} },
 		itemAttributes: { onMouseEnter: () => {}, onMouseLeave: () => {} },
 	};
 	state: DropdownMenuState = {
-		currentValue: this.props.defaultValue,
+		currentValue: this.props.defaultValue || this.props.values[0],
 		currentValues: this.props.values
 	};
 	static contextTypes = { theme: React.PropTypes.object };
@@ -61,9 +60,8 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		const { theme } = this.context;
 
 		return (
-			<div style={{ position: "relative", zIndex: 20, width: itemWidth, height: itemHeight }}>
+			<div {...attributes} style={theme.prepareStyles({ position: "relative", zIndex: 20, width: itemWidth, height: itemHeight, ...attributes.style })}>
 				<div
-					{...attributes}
 					ref="container"
 					style={theme.prepareStyles({
 						position: "aboslute",
@@ -72,13 +70,11 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 						color: theme.baseMediumHigh,
 						background: theme.chromeLow,
 						width: itemWidth,
-						height: showList ? values.length * itemHeight + 40 : itemHeight,
+						height: showList ? values.length * itemHeight + 40 : itemHeight + 4,
 						overflow: "hidden",
 						padding: showList ? "20px 0" : 0,
-						fontSize: 14,
 						transition: "all .25s 0s ease-in-out",
 						border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`,
-						...attributes.style,
 					})}
 					onMouseEnter={!showList ? (e) => {
 						e.currentTarget.style.border = `2px solid ${theme.baseHigh}`;
@@ -96,7 +92,6 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 									style={theme.prepareStyles({
 										width: itemWidth,
 										height: itemHeight,
-										fontSize: 18,
 										background: isCurrent && showList ? theme.accentDarker2 : theme.chromeLow,
 										display: "flex",
 										padding: "0 8px",
