@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
 import { ThemeType } from "../../style/ThemeType";
 
 const defaultProps: MockProps = __DEV__ ? require("./devDefaultProps").default : {};
@@ -20,7 +19,7 @@ export default class Mock extends React.Component<MockProps, MockState> {
 		const { theme } = this.context;
 
 		return (
-			<ElementState
+			<div
 				{...attributes}
 				style={{
 					color: theme.baseMediumHigh,
@@ -29,10 +28,8 @@ export default class Mock extends React.Component<MockProps, MockState> {
 					...attributes.style,
 				}}
 			>
-				<div>
-					Mock
-				</div>
-			</ElementState>
+				Mock
+			</div>
 		);
 	}
 }

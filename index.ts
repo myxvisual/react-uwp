@@ -13,6 +13,7 @@ export { default as SwipeWithIcon } from "./controls/SwipeWithIcon";
 export { default as IconButton } from "./controls/IconButton";
 export { default as Tooltip } from "./controls/Tooltip";
 export { default as DropdownMenu } from "./controls/DropdownMenu";
+export { default as FloatNav } from "./controls/FloatNav";
 
 import * as colorManipulator from "./common/colorManipulator";
 export { colorManipulator };
