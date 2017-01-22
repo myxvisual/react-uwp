@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ThemeType } from "../style/ThemeType";
+import { ThemeType } from "../styles/ThemeType";
 import addArrayEvent from "../common/addArrayEvent";
 import setStyleToElement from "../common/setStyleToElement";
 import removeArrayEvent from "../common/removeArrayEvent";
