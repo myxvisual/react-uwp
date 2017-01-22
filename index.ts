@@ -14,6 +14,7 @@ export { default as IconButton } from "./components/IconButton";
 export { default as Tooltip } from "./components/Tooltip";
 export { default as DropdownMenu } from "./components/DropdownMenu";
 export { default as FloatNav } from "./components/FloatNav";
+export { default as ArticleCard } from "./components/ArticleCard";
 
 import * as colorManipulator from "./common/colorManipulator";
 export { colorManipulator };
