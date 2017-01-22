@@ -197,10 +197,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		return (
 			<div {...attributes} ref="container" style={theme.prepareStyles({ ...styles.container, ...style })}>
 				<div
-					onMouseDown={
-						canSwipe ? this.mouseOrTouchDownHandler : void(0)
-					}
-					onTouchStart= {
+					onClick={
 						canSwipe ? this.mouseOrTouchDownHandler : void(0)
 					}
 					ref="content"

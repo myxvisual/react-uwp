@@ -58,7 +58,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 				<IconButton
 					onClick={this.swipeForward}
 					style={{ ...styles.iconRight, ...iconStyle }}
-					hoverStyle={iconHoverStyle || { background: theme.altHigh }}
+					hoverStyle={iconHoverStyle || { background: theme.accent }}
 				>
 					&#xE013;
 				</IconButton>
@@ -90,7 +90,7 @@ function getStyles(contex: SwipeWithIcon): {
 		}),
 		iconLeft: {
 			position: "absolute",
-			background: theme.baseLow,
+			background: theme.altHigh,
 			zIndex: 20,
 			width: iconSize,
 			height: iconSize,
@@ -99,7 +99,7 @@ function getStyles(contex: SwipeWithIcon): {
 		},
 		iconRight: {
 			position: "absolute",
-			background: theme.baseLow,
+			background: theme.altHigh,
 			width: iconSize,
 			height: iconSize,
 			zIndex: 20,
