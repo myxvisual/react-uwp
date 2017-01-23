@@ -17,6 +17,7 @@ export interface DataProps {
 	iconSize?: number;
 	iconStyle?: React.CSSProperties;
 	iconHoverStyle?: React.CSSProperties;
+	showIcon?: boolean;
 }
 export interface SwipeWithIconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface SwipeWithIconState {}
@@ -25,6 +26,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 		...defaultProps,
 		className: "",
 		iconSize: 40,
+		showIcon: true,
 	};
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
@@ -40,8 +42,9 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
+		const { children, showIcon, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
 		const { theme } = this.context;
+		const count = React.Children.count(children);
 
 		const styles = getStyles(this);
 		return (
@@ -52,37 +55,41 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 					...theme.prepareStyles(attributes.style)
 				}}
 			>
-				<IconButton
-					onClick={this.swipeBackWord}
-					style={{
-						...styles.iconLeft,
-						...theme.prepareStyles(iconStyle),
-					}}
-					hoverStyle={{
-						background: theme.accent,
-						...theme.prepareStyles(iconHoverStyle),
-					}}
-				>
-					&#xE012;
-				</IconButton>
+				{count > 1 && showIcon && (
+					<IconButton
+						onClick={this.swipeBackWord}
+						style={{
+							...styles.iconLeft,
+							...theme.prepareStyles(iconStyle),
+						}}
+						hoverStyle={{
+							background: theme.accent,
+							...theme.prepareStyles(iconHoverStyle),
+						}}
+					>
+						&#xE012;
+					</IconButton>
+				)}
 				<Swipe
 					ref="swipe"
 					{...this.props}
 					style={attributes.style}
 				/>
-				<IconButton
-					onClick={this.swipeForward}
-					style={{
-						...styles.iconRight,
-						...theme.prepareStyles(iconStyle),
-					}}
-					hoverStyle={{
-						background: theme.accent,
-						...theme.prepareStyles(iconHoverStyle),
-					}}
-				>
-					&#xE013;
-				</IconButton>
+				{count > 1 && showIcon && (
+					<IconButton
+						onClick={this.swipeForward}
+						style={{
+							...styles.iconRight,
+							...theme.prepareStyles(iconStyle),
+						}}
+						hoverStyle={{
+							background: theme.accent,
+							...theme.prepareStyles(iconHoverStyle),
+						}}
+					>
+						&#xE013;
+					</IconButton>
+				)}
 			</div>
 		);
 	}

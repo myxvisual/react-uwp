@@ -15,6 +15,8 @@ export { default as Tooltip } from "./components/Tooltip";
 export { default as DropdownMenu } from "./components/DropdownMenu";
 export { default as FloatNav } from "./components/FloatNav";
 export { default as ArticleCard } from "./components/ArticleCard";
+export { default as lightTheme } from "./styles/lightTheme";
+export { default as darkTheme } from "./styles/darkTheme";
 
 import * as colorManipulator from "./common/colorManipulator";
 export { colorManipulator };
