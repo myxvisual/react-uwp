@@ -195,51 +195,41 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		const styles = getStyles(this);
 
 		return (
-			<div {...attributes} ref="container" style={theme.prepareStyles({ ...styles.container, ...style })}>
+			<div
+				{...attributes}
+				ref="container"
+				style={{
+					...styles.container,
+					...theme.prepareStyles(style),
+				}}
+			>
 				<div
 					onClick={
 						canSwipe ? this.mouseOrTouchDownHandler : void(0)
 					}
 					ref="content"
-					style={theme.prepareStyles({
-						...styles.content,
-						width: `${childrenLength * 100}%`,
-						...theme.prepareStyles({ transform: `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)` }),
-					})}
+					style={styles.content}
 				>
-					{React.Children.map(children, (child, index) => {
-						return (
-							<div style={theme.prepareStyles(styles.item)} key={`${index}`}>
-								{child}
-							</div>
-						);
-					})}
+					{React.Children.map(children, (child, index) => (
+						<div style={styles.item} key={`${index}`}>
+							{child}
+						</div>
+					))}
 				</div>
 			</div>
 		);
 	}
 }
 
-function getStyles(context: Swipe): {
+function getStyles(instance: Swipe): {
 	container?: React.CSSProperties;
 	content?: React.CSSProperties;
 	item?: React.CSSProperties;
 } {
-	const { transition, children } = context.props;
-	const { prepareStyles } = context.context.theme;
-	const content = {
-		flex: "0 0 auto",
-		display: "flex",
-		flexDirection: "row",
-		flexWrap: "nowrap",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative",
-		height: "100%",
-		overflow: "hidden",
-		left: 0,
-		transition,
-	} as React.CSSProperties;
+	const { transition, children } = instance.props;
+	const { prepareStyles } = instance.context.theme;
+	const { focusIndex, width, childrenLength } = instance.state;
+
 	return {
 		container: prepareStyles({
 			display: "flex",
@@ -251,7 +241,21 @@ function getStyles(context: Swipe): {
 			width: "100%",
 			height: "auto",
 		}),
-		content: { ...prepareStyles(content), ...content },
+		content: prepareStyles({
+			flex: "0 0 auto",
+			display: "flex",
+			flexDirection: "row",
+			flexWrap: "nowrap",
+			alignItems: "center",
+			justifyContent: "center",
+			position: "relative",
+			height: "100%",
+			overflow: "hidden",
+			width: `${childrenLength * 100}%`,
+			transform: `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)`,
+			left: 0,
+			transition,
+		}),
 		item: prepareStyles({
 			position: "relative",
 			width: `${100 / React.Children.count(children)}%`,

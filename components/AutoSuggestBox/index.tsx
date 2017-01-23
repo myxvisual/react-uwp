@@ -48,7 +48,14 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 
 	handleBlur = () => {
 		this.setState({
-			currentRightNode: (<Icon onClick={() => this.setValue("")} style={{ fontSize: 14 }}>&#xE721;</Icon>)
+			currentRightNode: (
+				<Icon
+					onClick={() => this.setValue("")}
+					style={{ fontSize: 14 }}
+				>
+					&#xE721;
+				</Icon>
+			)
 		});
 	}
 
@@ -60,30 +67,43 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 		// tslint:disable-next-line:no-unused-variable
 		const { leftNode, rightNode, onChangeValue, ...attributes } = this.props;
 		const { currentRightNode } = this.state;
-		const { theme: { baseMediumHigh, altMediumHigh } } = this.context;
+		const { theme } = this.context;
+		const styles = getStyles(this);
 
 		return (
 			<Input
 				{...attributes}
 				ref="input"
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					justifyContent: "space-between",
-					color: baseMediumHigh,
-					background: altMediumHigh,
-					padding: "6px 10px",
-					fontSize: 14,
-					...attributes.style,
+					...styles.container,
+					...theme.prepareStyles(attributes.style),
 				}}
 				onFocus={this.handleFocus}
 				onBlur={this.handleBlur}
 				leftNode={leftNode}
 				rightNode={currentRightNode}
-				placeholder="AutoSuggestBox"
 				onChange={this.handleOnchange}
 			/>
 		);
 	}
+}
+
+function getStyles(instance: AutoSuggestBox): {
+	container?: React.CSSProperties;
+} {
+	const { context } = instance;
+	const { theme } = context;
+
+	return {
+		container: theme.prepareStyles({
+			display: "flex",
+			flexDirection: "row",
+			alignItems: "center",
+			justifyContent: "space-between",
+			color: theme.baseMediumHigh,
+			background: theme.altMediumHigh,
+			padding: "6px 10px",
+			fontSize: 14,
+		}),
+	};
 }

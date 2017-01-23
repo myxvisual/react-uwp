@@ -42,23 +42,44 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 		// tslint:disable-next-line:no-unused-variable
 		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
 		const { theme } = this.context;
-		const { prepareStyles } = theme;
 
 		const styles = getStyles(this);
 		return (
-			<div ref="container" style={prepareStyles({ ...styles.container, ...attributes.style })}>
+			<div
+				ref="container"
+				style={{
+					...styles.container,
+					...theme.prepareStyles(attributes.style)
+				}}
+			>
 				<IconButton
 					onClick={this.swipeBackWord}
-					style={{ ...styles.iconLeft, ...iconStyle }}
-					hoverStyle={iconHoverStyle || { background: theme.altHigh }}
+					style={{
+						...styles.iconLeft,
+						...theme.prepareStyles(iconStyle),
+					}}
+					hoverStyle={{
+						background: theme.accent,
+						...theme.prepareStyles(iconHoverStyle),
+					}}
 				>
 					&#xE012;
 				</IconButton>
-				<Swipe ref="swipe" {...this.props} autoSwipe={false} style={prepareStyles(attributes.style)} />
+				<Swipe
+					ref="swipe"
+					{...this.props}
+					style={attributes.style}
+				/>
 				<IconButton
 					onClick={this.swipeForward}
-					style={{ ...styles.iconRight, ...iconStyle }}
-					hoverStyle={iconHoverStyle || { background: theme.accent }}
+					style={{
+						...styles.iconRight,
+						...theme.prepareStyles(iconStyle),
+					}}
+					hoverStyle={{
+						background: theme.accent,
+						...theme.prepareStyles(iconHoverStyle),
+					}}
 				>
 					&#xE013;
 				</IconButton>
@@ -67,16 +88,27 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 	}
 }
 
-function getStyles(contex: SwipeWithIcon): {
+function getStyles(instance: SwipeWithIcon): {
 	container?: React.CSSProperties;
 	iconLeft?: React.CSSProperties;
 	iconRight?: React.CSSProperties;
 } {
-	const { iconSize } = contex.props;
-	const { theme } = contex.context;
+	const { iconSize } = instance.props;
+	const { theme } = instance.context;
+	const { prepareStyles } = theme;
+
+	const baseIconStyle: React.CSSProperties = {
+		position: "absolute",
+		background: theme.altHigh,
+		zIndex: 20,
+		fontSize: iconSize / 2,
+		width: iconSize,
+		height: iconSize,
+		top: `calc(50% - ${iconSize / 2}px)`,
+	};
 
 	return {
-		container: theme.prepareStyles({
+		container: prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -89,22 +121,12 @@ function getStyles(contex: SwipeWithIcon): {
 			transition: "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 		}),
 		iconLeft: {
-			position: "absolute",
-			background: theme.altHigh,
-			zIndex: 20,
-			width: iconSize,
-			height: iconSize,
-			left: 20,
-			top: `calc(50% - ${iconSize / 2}px)`,
+			...baseIconStyle,
+			left: 0,
 		},
 		iconRight: {
-			position: "absolute",
-			background: theme.altHigh,
-			width: iconSize,
-			height: iconSize,
-			zIndex: 20,
-			right: 20,
-			top: `calc(50% - ${iconSize / 2}px)`,
+			...baseIconStyle,
+			right: 0,
 		},
 	};
 }

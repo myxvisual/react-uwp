@@ -40,15 +40,13 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 					padding: "5px 20px",
 					border: `${borderSize} solid transparent`,
 					transition: "all ease-in-out .25s",
-					...style,
+					...theme.prepareStyles(style),
 				}}
 				hoverStyle={{
 					border: `2px solid ${theme.baseMediumLow}`,
-					...hoverStyle
+					...theme.prepareStyles(hoverStyle),
 				}}
-				activeStyle={{
-					background: theme.baseMedium
-				}}
+				activeStyle={{ background: theme.baseMedium }}
 				{...attributes}
 			>
 				<button>

@@ -7,7 +7,8 @@ const prefixAll = () => {
 	const { userAgent } = navigator || {} as any;
 	const isServer = window === void(0);
 	if (userAgent === void(0)) {
-		return (style: React.CSSProperties) => {
+		return (style?: React.CSSProperties) => {
+			if (!style) return {};
 			if (isServer) {
 				const stylePrefixed = Prefixer.prefixAll(style) as React.CSSProperties;
 				const isFlex = ["flex", "inline-flex"].includes(style.display);
@@ -23,7 +24,10 @@ const prefixAll = () => {
 	}
 
 	const prefixer = new Prefixer({ userAgent });
-	return (style: React.CSSProperties) => prefixer.prefix(style) as React.CSSProperties;
+	return (style?: React.CSSProperties) => {
+		if (!style) return {};
+		return prefixer.prefix(style) as React.CSSProperties;
+	};
 };
 
 export default prefixAll;

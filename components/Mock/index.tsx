@@ -17,14 +17,13 @@ export default class Mock extends React.Component<MockProps, MockState> {
 	render() {
 		const { ...attributes } = this.props;
 		const { theme } = this.context;
+		const styles = getStyles(this);
 
 		return (
 			<div
 				{...attributes}
 				style={{
-					color: theme.baseMediumHigh,
-					background: theme.altMediumHigh,
-					fontSize: 14,
+					...styles.container,
 					...attributes.style,
 				}}
 			>
@@ -32,4 +31,21 @@ export default class Mock extends React.Component<MockProps, MockState> {
 			</div>
 		);
 	}
+}
+
+function getStyles(instance: Mock): {
+	container?: React.CSSProperties;
+} {
+	const { context } = instance;
+	const { theme } = context;
+	// tslint:disable-next-line:no-unused-variable
+	const { prepareStyles } = theme;
+
+	return {
+		container: {
+			fontSize: 14,
+			color: theme.baseMediumHigh,
+			background: theme.altMediumHigh,
+		},
+	};
 }
