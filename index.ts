@@ -19,6 +19,7 @@ export { default as lightTheme } from "./styles/lightTheme";
 export { default as darkTheme } from "./styles/darkTheme";
 
 import * as colorManipulator from "./common/colorManipulator";
+export { default as addCSSRule } from "./common/browser/addCSSRule";
 export { colorManipulator };
 
 export { ThemeType } from "./styles/ThemeType";

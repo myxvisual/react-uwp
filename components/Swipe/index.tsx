@@ -13,15 +13,18 @@ export interface DataProps {
 	directionIsRight?: boolean;
 	transition?: string;
 	iconSize?: number;
+	showIcon?: boolean;
 }
+
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 interface SwipeState {
 	stopSwip?: boolean;
 	focusIndex?: number;
-	updateComponent?: boolean;
 	childrenLength?: number;
-	width?: number;
+	isSingleChildren?: boolean;
 }
+
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	static defaultProps = {
 		...defaultProps,
@@ -40,7 +43,6 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	state: SwipeState = {
 		focusIndex: this.props.initialFocusIndex || 0,
-		updateComponent: false,
 		stopSwip: false,
 		childrenLength: 0,
 	};
@@ -56,17 +58,27 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	componentDidMount() {
 		this.containerDOM = findDOMNode(this.refs.container) as HTMLDivElement;
-		this.setState({
-			width: this.containerDOM.getClientRects()[0].width,
-			childrenLength: React.Children.count(this.props.children)
-		});
-		if (this.props.autoSwipe) {
-			this.setNextSlider();
-		}
+		this.updateState(this.props);
+	}
+
+	componentWillReceiveProps(nextProps: SwipeProps) {
+		this.updateState(nextProps);
 	}
 
 	componentWillUnmount() {
 		clearTimeout(this.timeoutId);
+	}
+
+	updateState = (props: SwipeProps) => {
+		const childrenLength = React.Children.count(props.children);
+		const isSingleChildren = childrenLength === 1;
+		this.setState({
+			childrenLength,
+			isSingleChildren
+		});
+		if (0 /*this.props.autoSwipe && !isSingleChildren*/) {
+			this.setNextSlider();
+		}
 	}
 
 	getfocusIndex = () => this.state.focusIndex;
@@ -147,18 +159,18 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		(e: any): void;
 	} = (e) => {
 		const isToucheEvent = this.checkIsToucheEvent(e);
-		const { width, childrenLength, focusIndex } = this.state;
+		const { childrenLength, focusIndex } = this.state;
 		if (isToucheEvent) {
 			this.endClientX = e.changedTouches[0].clientX;
 		} else {
 			this.endClientX = e.clientX;
 		}
-		this.refs.content.style.webkitTransform = `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex) - this.startClientX + this.endClientX}px)`;
+		this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (childrenLength / 2 - 0.5 - focusIndex) - this.startClientX + this.endClientX}px)`;
 	}
 
 	mouseOrTouchUpHandler = (e: any) => {
 		const isToucheEvent = this.checkIsToucheEvent(e);
-		const { childrenLength, width } = this.state;
+		const { childrenLength } = this.state;
 		if (isToucheEvent) {
 			window.removeEventListener("touchmove", this.mouseOrTouchMoveHandler);
 			window.removeEventListener("touchend", this.mouseOrTouchUpHandler);
@@ -173,11 +185,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		if (easey > 1) easey = 1;
 		const movePosition = this.endClientX - this.startClientX;
 		const isNext = movePosition > 0;
-		let focusIndex = this.state.focusIndex + movePosition / width;
+		let focusIndex = this.state.focusIndex + movePosition / this.refs.container.getBoundingClientRect().width;
 		focusIndex = isNext ? Math.ceil(focusIndex + easey / 2) : Math.floor(focusIndex - easey / 2);
 		focusIndex = this.setRightFocusIndex(focusIndex);
 		if (focusIndex === this.state.focusIndex) {
-			this.refs.content.style.webkitTransform = `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)`;
+			this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (childrenLength / 2 - 0.5 - focusIndex)}px)`;
 		} else {
 			this.setState({
 				focusIndex,
@@ -189,10 +201,16 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, style, transition, iconSize, ...attributes } = this.props;
-		const { focusIndex, stopSwip, width, childrenLength } = this.state;
+		const { children, initialFocusIndex, showIcon, canSwipe, autoSwipe, speed, easey, directionIsRight, style, transition, iconSize, ...attributes } = this.props;
+		const { focusIndex, stopSwip, childrenLength, isSingleChildren } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
+		const childrens = React.Children.toArray(children);
+		const childrensLeng = childrens.length;
+		if (childrensLeng > 1) {
+			childrens.push(childrens[0]);
+			childrens.unshift(childrens[childrensLeng - 2]);
+		}
 
 		return (
 			<div
@@ -210,8 +228,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 					ref="content"
 					style={styles.content}
 				>
-					{React.Children.map(children, (child, index) => (
-						<div style={styles.item} key={`${index}`}>
+					{childrens.map((child, index) => (
+						<div data-index={index} style={styles.item} key={`${index}`}>
 							{child}
 						</div>
 					))}
@@ -221,14 +239,15 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	}
 }
 
-function getStyles(instance: Swipe): {
+function getStyles(swipe: Swipe): {
 	container?: React.CSSProperties;
 	content?: React.CSSProperties;
 	item?: React.CSSProperties;
 } {
-	const { transition, children } = instance.props;
-	const { prepareStyles } = instance.context.theme;
-	const { focusIndex, width, childrenLength } = instance.state;
+	const { transition } = swipe.props;
+	const { prepareStyles } = swipe.context.theme;
+	const { focusIndex, childrenLength, isSingleChildren } = swipe.state;
+	// const { width } = swipe.refs.container.getBoundingClientRect();
 
 	return {
 		container: prepareStyles({
@@ -250,15 +269,14 @@ function getStyles(instance: Swipe): {
 			justifyContent: "center",
 			position: "relative",
 			height: "100%",
-			overflow: "hidden",
 			width: `${childrenLength * 100}%`,
-			transform: `translateX(${width * (childrenLength / 2 - 0.5 - focusIndex)}px)`,
-			left: 0,
+			transform: `translate3D(${-focusIndex * 100 / childrenLength}%, 0px, 0px)`,
+			left: `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
 			transition,
 		}),
 		item: prepareStyles({
 			position: "relative",
-			width: `${100 / React.Children.count(children)}%`,
+			width: `${100 / childrenLength}%`,
 			height: "100%",
 			display: "flex",
 			flex: "0 0 auto",

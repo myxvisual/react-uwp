@@ -20,7 +20,9 @@ export interface DataProps {
 	href?: string;
 	size?: number;
 }
+
 interface ArticleCardProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
+
 interface ArticleCardState {
 	isHovered?: boolean;
 }
@@ -31,9 +33,11 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 		target: "_blank",
 		size: 200,
 	};
+
 	state: ArticleCardState = {
 		isHovered: false
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 

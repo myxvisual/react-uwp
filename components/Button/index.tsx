@@ -9,17 +9,23 @@ export interface DataProps {
 	borderSize?: string;
 	hoverStyle?: React.CSSProperties;
 }
+
 interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
+
 interface ButtonState {}
+
 export default class Button extends React.Component<ButtonProps, ButtonState> {
 	static defaultProps: ButtonProps = {
 		...defaultProps,
 		children: "Button",
 		borderSize: "2px"
 	};
+
 	state: ButtonState = {};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+
 	refs: { container: HTMLButtonElement };
 
 	render() {
@@ -33,7 +39,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 			<ElementState
 				style={{
 					background: theme.baseLow,
-					color: theme.baseMedium,
+					color: theme.chromeBlackLow,
 					cursor: "pointer",
 					outline: "none",
 					display: "flex",

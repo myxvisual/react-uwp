@@ -8,7 +8,9 @@ const defaultProps: IconProps = __DEV__ ? require("./devDefaultProps").default :
 export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 }
+
 interface IconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 interface IconState {}
 
 export default class Icon extends React.Component<IconProps, IconState> {

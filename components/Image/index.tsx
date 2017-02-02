@@ -7,7 +7,9 @@ interface DataProps {
 	isLazyLoad?: boolean;
 	useDivContainer?: boolean;
 }
+
 interface ImageProps extends DataProps, ReactLazyloadProps, React.HTMLAttributes<HTMLElement> {}
+
 interface ImageState {
 	showEmptyImage?: boolean;
 }
@@ -15,6 +17,7 @@ interface ImageState {
 class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>, {}> {
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+
 	render() {
 		const { ...attributes } = this.props;
 		const { theme } = this.context;

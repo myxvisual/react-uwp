@@ -5,12 +5,18 @@ import { ThemeType } from "../../styles/ThemeType";
 const defaultProps: MockProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {}
+
 interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 interface MockState {}
 
 export default class Mock extends React.Component<MockProps, MockState> {
-	static defaultProps: MockProps = { ...defaultProps };
+	static defaultProps: MockProps = {
+		...defaultProps
+	};
+
 	state: MockState = {};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
@@ -33,10 +39,10 @@ export default class Mock extends React.Component<MockProps, MockState> {
 	}
 }
 
-function getStyles(instance: Mock): {
+function getStyles(mock: Mock): {
 	container?: React.CSSProperties;
 } {
-	const { context } = instance;
+	const { context } = mock;
 	const { theme } = context;
 	// tslint:disable-next-line:no-unused-variable
 	const { prepareStyles } = theme;

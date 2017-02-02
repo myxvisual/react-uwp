@@ -8,16 +8,20 @@ const defaultProps: IconButtonProps = __DEV__ ? require("./devDefaultProps").def
 export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 }
+
 interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
+
 interface IconButtonState {}
 
 export default class IconButton extends React.Component<IconButtonProps, IconButtonState> {
 	static defaultProps: IconButtonProps = {
 		...defaultProps
 	};
+
 	state: IconButtonState = {};
-	context: { theme: ThemeType };
+
 	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	render() {
 		const { style, hoverStyle, children, ...attributes } = this.props;

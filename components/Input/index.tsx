@@ -13,7 +13,9 @@ export interface DataProps {
 	leftNode?: any;
 	rightNode?: any;
 }
+
 type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>
+
 interface InputProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface InputState {}
 const emptyFunc = () => {};
@@ -29,9 +31,12 @@ export default class Input extends React.Component<InputProps, InputState> {
 		onChange: emptyFunc,
 		onChangeValue: emptyFunc,
 	};
+
 	state: InputState = {};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+	
 	refs: { input: HTMLInputElement };
 
 	handleFocus = (e?: React.SyntheticEvent<HTMLInputElement>) => {

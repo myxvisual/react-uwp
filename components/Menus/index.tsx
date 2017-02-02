@@ -15,7 +15,9 @@ export interface DataProps {
 	itemStyle?: React.CSSProperties;
 	autoShowItems?: boolean;
 }
+
 interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 interface MenusState {
 	showItems?: boolean;
 	height?: string;
@@ -30,10 +32,14 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		direction: "bottom",
 		autoShowItems: false
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+
 	state: MenusState = { showItems: this.props.showItems };
+
 	refs: { container: ElementState; itmesContainer: HTMLDivElement };
+
 	itemsElm: HTMLDivElement[] = [];
 
 	componentDidMount() {

@@ -12,7 +12,9 @@ export interface DataProps {
 	onChangeCb?: Function;
 	isRadioBtn?: boolean;
 }
+
 export interface CheckBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 export interface CheckBoxState {
 	checked?: boolean;
 }
@@ -22,13 +24,16 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 		...defaultProps,
 		isChecked: null,
 		size: 24,
-		onChangeCb: (() => {}),
+		onChangeCb: () => {},
 	};
+
 	state: CheckBoxState = {
 		checked: this.props.isChecked
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+
 	refs: { container: HTMLDivElement };
 
 	componentWillReceiveProps(nextProps: CheckBoxProps) {

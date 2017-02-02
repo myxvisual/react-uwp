@@ -10,6 +10,7 @@ interface Item {
 	href?: string;
 	color?: string;
 }
+
 export interface DataProps {
 	focusItem?: number;
 	onFocusIndex?: (index: number) => void;
@@ -19,12 +20,15 @@ export interface DataProps {
 	items?: Item[];
 	floatNavWidth?: number;
 }
+
 interface FloatNavProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 interface FloatNavState {
 	focusItem?: number;
 	hoverItem?: number;
 	hoverIndexs?: boolean[];
 }
+
 export default class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
 	static defaultProps: FloatNavProps = {
 		...defaultProps,
@@ -33,11 +37,13 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 		isFloatRight: true,
 		floatNavWidth: 240,
 	};
+
 	state: FloatNavState = {
 		focusItem: this.props.focusItem,
 		hoverItem: null,
 		hoverIndexs: [],
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 

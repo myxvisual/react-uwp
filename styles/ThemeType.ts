@@ -1,4 +1,5 @@
 export interface ThemeType {
+	themeName: "dark" | "light";
 	fontFamily?: string;
 	iconFontFamily?: string;
 

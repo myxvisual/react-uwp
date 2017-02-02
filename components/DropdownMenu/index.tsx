@@ -13,26 +13,38 @@ export interface DataProps {
 	itemAttributes?: React.HTMLAttributes<HTMLDivElement>;
 	onChangeValue?: (value: string) => void;
 }
+
 interface DropdownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 interface DropdownMenuState {
 	showList?: boolean;
 	currentValue?: string | string[];
 	currentValues?: string[];
 }
 
+const emptyFunc = () => {};
+
 export default class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState> {
 	static defaultProps: DropdownMenuProps = {
 		...defaultProps,
 		itemWidth: 400,
 		itemHeight: 50,
-		onChangeValue: () => {},
-		containerAttributes: { onMouseEnter: () => {}, onMouseLeave: () => {} },
-		itemAttributes: { onMouseEnter: () => {}, onMouseLeave: () => {} },
+		onChangeValue: emptyFunc,
+		containerAttributes: {
+			onMouseEnter: emptyFunc,
+			onMouseLeave: emptyFunc
+		},
+		itemAttributes: {
+			onMouseEnter: emptyFunc,
+			onMouseLeave: emptyFunc
+		},
 	};
+
 	state: DropdownMenuState = {
 		currentValue: this.props.defaultValue || this.props.values[0],
 		currentValues: this.props.values
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 

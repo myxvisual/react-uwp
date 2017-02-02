@@ -11,7 +11,9 @@ export interface DataProps {
 	rightNode?: any;
 	onChangeValue?: (value: string) => void;
 }
+
 interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 interface AutoSuggestBoxState {
 	currentRightNode?: any;
 }
@@ -22,12 +24,16 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 		rightNode: (<Icon style={{ fontSize: 14 }}>&#xE721;</Icon>),
 		onChangeValue: () => {}
 	};
+
 	state: AutoSuggestBoxState = {
 		currentRightNode: this.props.rightNode
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+
 	refs: { input: Input };
+
 	componentWillReceiveProps(nextProps: AutoSuggestBoxProps) {
 		this.setState({
 			currentRightNode: nextProps.rightNode

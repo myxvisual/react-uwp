@@ -48,8 +48,8 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			addArrayEvent(this.currentDOM, ["mouseleave"], this.unHover);
 		}
 		if (activeStyle) {
-			addArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
-			addArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.unActive);
+			addArrayEvent(this.currentDOM, ["click", "mousedown"], this.active);
+			addArrayEvent(this.currentDOM, ["mouseup"], this.unActive);
 		}
 		if (focusStyle) {
 			addArrayEvent(this.currentDOM, ["focus"], this.focus);
@@ -66,8 +66,8 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			removeArrayEvent(this.currentDOM, ["mouseleave"], this.unHover);
 		}
 		if (activeStyle) {
-			removeArrayEvent(this.currentDOM, ["touchstart", "click", "mousedown"], this.active);
-			removeArrayEvent(this.currentDOM, ["touchend", "mouseup"], this.unActive);
+			removeArrayEvent(this.currentDOM, ["click", "mousedown"], this.active);
+			removeArrayEvent(this.currentDOM, ["mouseup"], this.unActive);
 		}
 		if (focusStyle) {
 			removeArrayEvent(this.currentDOM, ["focus"], this.focus);
