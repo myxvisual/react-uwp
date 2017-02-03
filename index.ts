@@ -2,6 +2,7 @@ export { default as ArticleCard } from "./components/ArticleCard";
 export { default as AutoSuggestBox } from "./components/AutoSuggestBox";
 export { default as Button } from "./components/Button";
 export { default as CheckBox } from "./components/CheckBox";
+export { default as ContentDialog } from "./components/ContentDialog";
 export { default as DropdownMenu } from "./components/DropdownMenu";
 export { default as FloatNav } from "./components/FloatNav";
 export { default as Icon } from "./components/Icon";
