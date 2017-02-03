@@ -42,7 +42,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 
 	state: DropdownMenuState = {
 		currentValue: this.props.defaultValue || this.props.values[0],
-		currentValues: this.props.values
+		currentValues: [...this.props.values]
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -61,7 +61,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		this.setState({
 			currentValue,
 			showList: !showList,
-			currentValues
+			currentValues: showList ? currentValues : [...this.props.values]
 		});
 	}
 
