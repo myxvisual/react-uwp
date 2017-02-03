@@ -63,16 +63,18 @@ export default class Input extends React.Component<InputProps, InputState> {
 				border: `2px solid ${theme.baseLow}`,
 				color: theme.baseMedium,
 				background: theme.altHigh,
-				...style,
+				...theme.prepareStyles(style),
 				...inputStyle,
 			},
 			hoverStyle: {
 				color: theme.baseMediumHigh,
-				border: `2px solid ${theme.baseMedium}`
+				border: `2px solid ${theme.baseMedium}`,
+				...theme.prepareStyles(hoverStyle)
 			},
 			activeStyle: {
 				color: theme.baseHigh,
-				border: `2px solid ${theme.accent}`
+				border: `2px solid ${theme.accent}`,
+				...theme.prepareStyles(activeStyle)
 			}
 		};
 

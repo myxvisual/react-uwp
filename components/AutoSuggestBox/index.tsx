@@ -94,10 +94,10 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 	}
 }
 
-function getStyles(instance: AutoSuggestBox): {
+function getStyles(autoSuggestBox: AutoSuggestBox): {
 	container?: React.CSSProperties;
 } {
-	const { context } = instance;
+	const { context } = autoSuggestBox;
 	const { theme } = context;
 
 	return {

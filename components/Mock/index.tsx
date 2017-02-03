@@ -30,7 +30,7 @@ export default class Mock extends React.Component<MockProps, MockState> {
 				{...attributes}
 				style={{
 					...styles.container,
-					...attributes.style,
+					...theme.prepareStyles(attributes.style),
 				}}
 			>
 				Mock

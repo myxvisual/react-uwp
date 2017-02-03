@@ -38,8 +38,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 		return (
 			<ElementState
 				style={{
-					background: theme.baseLow,
-					color: theme.chromeBlackLow,
+					background: theme.chromeMedium,
+					color: theme.baseHigh,
 					cursor: "pointer",
 					outline: "none",
 					display: "flex",

@@ -8,6 +8,7 @@ export interface DataProps {
 	horizontalPosition?: "left" | "right" | "center";
 	show?: boolean;
 	itemHeigh?: number;
+	margin?: number;
 	autoClose?: boolean;
 	timeout?: number;
 }
@@ -27,15 +28,21 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		horizontalPosition: "center",
 		children: "Tooltip",
 		itemHeigh: 28,
+		margin: 4,
 		autoClose: true,
 		timeout: 2500,
 	};
+
 	state: TooltipState = {
 		showTooltip: false
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
+
 	context: { theme: ThemeType };
+
 	refs: { container: HTMLDivElement };
+
 	timer: any = null;
 
 	componentDidMount() {
@@ -81,7 +88,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	getStyle = (): React.CSSProperties => {
 		const { theme } = this.context;
-		const { verticalPosition, horizontalPosition, style, itemHeigh } = this.props;
+		const { verticalPosition, horizontalPosition, style, itemHeigh, margin } = this.props;
 		const getStyles = (showTooltip = false, positionStyle = {}): React.CSSProperties => theme.prepareStyles({
 			height: showTooltip ? (itemHeigh || 28) : 0,
 			overflow: "hidden",
@@ -110,7 +117,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		if (width !== void(0) && height !== void(0) && top !== void(0) && left !== void(0)) {
 			switch (horizontalPosition) {
 				case "left": {
-					positionStyle.left = left - this.refs.container.getBoundingClientRect().width - 4;
+					positionStyle.left = left - this.refs.container.getBoundingClientRect().width - margin;
 					break;
 				}
 				case "center": {
@@ -118,7 +125,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 					break;
 				}
 				case "right": {
-					positionStyle.left = left + width + 4;
+					positionStyle.left = left + width + margin;
 					break;
 				}
 				default: {
@@ -127,7 +134,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 			}
 			switch (verticalPosition) {
 				case "top": {
-					positionStyle.top = top - itemHeigh - 4;
+					positionStyle.top = top - itemHeigh - margin;
 					break;
 				}
 				case "center": {
@@ -135,7 +142,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 					break;
 				}
 				case "bottom": {
-					positionStyle.top = top + height + 4;
+					positionStyle.top = top + height + margin;
 					break;
 				}
 				default: {
@@ -148,7 +155,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { verticalPosition, timeout, autoClose, horizontalPosition, show, children, itemHeigh, ...attributes } = this.props;
+		const { verticalPosition, timeout, autoClose, margin, horizontalPosition, show, children, itemHeigh, ...attributes } = this.props;
 		const { theme } = this.context;
 
 		return (

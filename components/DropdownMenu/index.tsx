@@ -8,6 +8,7 @@ const defaultProps: DropdownMenuProps = __DEV__ ? require("./devDefaultProps").d
 export interface DataProps {
 	itemWidth?: number;
 	itemHeight?: number;
+	padding?: number;
 	values?: string[];
 	containerAttributes?: React.HTMLAttributes<HTMLDivElement>;
 	itemAttributes?: React.HTMLAttributes<HTMLDivElement>;
@@ -28,6 +29,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 	static defaultProps: DropdownMenuProps = {
 		...defaultProps,
 		itemWidth: 400,
+		padding: 4,
 		itemHeight: 50,
 		onChangeValue: emptyFunc,
 		containerAttributes: {
@@ -67,7 +69,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, onChangeValue, ...attributes } = this.props;
+		const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, onChangeValue, padding, ...attributes } = this.props;
 		const { showList, currentValue, currentValues } = this.state;
 		const { theme } = this.context;
 
@@ -82,7 +84,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 						color: theme.baseMediumHigh,
 						background: theme.chromeLow,
 						width: itemWidth,
-						height: showList ? values.length * itemHeight + 40 : itemHeight + 4,
+						height: showList ? values.length * itemHeight + 40 : itemHeight + padding,
 						overflow: "hidden",
 						padding: showList ? "20px 0" : 0,
 						transition: "all .25s 0s ease-in-out",
@@ -100,31 +102,31 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 					{currentValues.map((value, index) => {
 						const isCurrent = currentValue === value;
 						return (
-								<div
-									style={theme.prepareStyles({
-										width: itemWidth,
-										height: itemHeight,
-										background: isCurrent && showList ? theme.accentDarker2 : theme.chromeLow,
-										display: "flex",
-										padding: "0 8px",
-										flexDirection: "row",
-										alignItems: "center",
-										justifyContent: "space-between",
-									})}
-									onClick={this.toggleShowList}
-									onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
-										e.currentTarget.style.background = isCurrent ? theme.accentDarker1 : theme.chromeMediumLow;
-										itemAttributes.onMouseEnter(e);
-									}}
-									onMouseLeave={!showList ? itemAttributes.onMouseLeave : (e) => {
-										e.currentTarget.style.background = isCurrent ? theme.accentDarker2 : theme.chromeLow;
-										itemAttributes.onMouseLeave(e);
-									}}
-									key={`${index}`}
-								>
-									<p>{value}</p>
-									{!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>&#xE011;</Icon> : null}
-								</div>
+							<div
+								style={theme.prepareStyles({
+									width: itemWidth,
+									height: itemHeight,
+									background: isCurrent && showList ? theme.accentDarker2 : theme.chromeLow,
+									display: "flex",
+									padding: "0 8px",
+									flexDirection: "row",
+									alignItems: "center",
+									justifyContent: "space-between",
+								})}
+								onClick={this.toggleShowList}
+								onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
+									e.currentTarget.style.background = isCurrent ? theme.accentDarker1 : theme.chromeMediumLow;
+									itemAttributes.onMouseEnter(e);
+								}}
+								onMouseLeave={!showList ? itemAttributes.onMouseLeave : (e) => {
+									e.currentTarget.style.background = isCurrent ? theme.accentDarker2 : theme.chromeLow;
+									itemAttributes.onMouseLeave(e);
+								}}
+								key={`${index}`}
+							>
+								<p>{value}</p>
+								{!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>&#xE011;</Icon> : null}
+							</div>
 						);
 					})}
 				</div>
