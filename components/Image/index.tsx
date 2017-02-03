@@ -1,7 +1,9 @@
 import * as React from "react";
 import ReactLazyLoad from "react-lazyload";
 import { DataProps as ReactLazyloadProps } from "react-lazyload";
-import { Icon, ThemeType } from "react-uwp";
+
+import Icon from "../Icon";
+import { ThemeType } from "../../styles/ThemeType";
 
 interface DataProps {
 	isLazyLoad?: boolean;
@@ -90,8 +92,6 @@ export default class Image extends React.Component<ImageProps, {}> {
 						debounce,
 						throttle
 					}}
-					once={false}
-					offset={offset}
 					height={attributes.height}
 					placeholder={placeholder}
 				>
