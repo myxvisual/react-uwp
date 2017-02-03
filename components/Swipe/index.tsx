@@ -1,7 +1,6 @@
 import * as React from "react";
 import { findDOMNode } from "react-dom";
 
-import { ThemeType } from "../../styles/ThemeType";
 const defaultProps: SwipeProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
@@ -10,10 +9,12 @@ export interface DataProps {
 	autoSwipe?: boolean;
 	speed?: number;
 	easey?: number;
+	delay?: number;
 	directionIsRight?: boolean;
-	transition?: string;
+	bezier?: string;
 	iconSize?: number;
 	showIcon?: boolean;
+	animate?: "slide" | "opacity";
 }
 
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -23,28 +24,36 @@ interface SwipeState {
 	focusIndex?: number;
 	childrenLength?: number;
 	isSingleChildren?: boolean;
+	haveAnimate?: boolean;
+	swiping?: boolean;
 }
 
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
-	static defaultProps = {
+	static defaultProps: SwipeProps = {
 		...defaultProps,
-		autoSwipe: true,
+		autoSwipe: false,
 		className: "",
-		transition: "all 1s 0s cubic-bezier(.8, -.5, .2, 1.4)",
+		animate: "slide",
+		bezier: "cubic-bezier(.8, -.5, .2, 1.4)",
 		initialFocusIndex: 0,
 		canSwipe: true,
-		speed: 5000,
+		speed: 1000,
+		delay: 5000,
 		easey: 0.85,
 		directionIsRight: true,
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
-	context: { theme: ThemeType };
+
+	isSingleChildren = React.Children.count(this.props.children) === 1;
 
 	state: SwipeState = {
-		focusIndex: this.props.initialFocusIndex || 0,
+		isSingleChildren: this.isSingleChildren,
+		focusIndex: this.isSingleChildren ? this.props.initialFocusIndex : this.props.initialFocusIndex + 1,
 		stopSwip: false,
 		childrenLength: 0,
+		haveAnimate: true,
+		swiping: false
 	};
 
 	private timeoutId: any;
@@ -76,7 +85,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			childrenLength,
 			isSingleChildren
 		});
-		if (0 /*this.props.autoSwipe && !isSingleChildren*/) {
+		if (this.props.autoSwipe && !isSingleChildren) {
 			this.setNextSlider();
 		}
 	}
@@ -91,18 +100,70 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	}
 
 	swipeForward = () => {
-		this.setState({
-			focusIndex: this.setRightFocusIndex(this.state.focusIndex + 1)
-		});
+		if (this.state.swiping) return;
+		this.state.swiping = true;
+		const { focusIndex } = this.state;
+		const isLast = focusIndex === this.getItemsLength() - 2;
+
+		if (isLast) {
+			this.setState({
+				focusIndex: this.setRightFocusIndex(focusIndex + 1),
+				haveAnimate: true
+			}, () => {
+				setTimeout(() => {
+					this.setState({
+						focusIndex: 1,
+						haveAnimate: false
+					});
+					this.state.swiping = false;
+				}, this.props.speed);
+			});
+		} else {
+			this.setState({
+				focusIndex: this.setRightFocusIndex(focusIndex + 1),
+				haveAnimate: true
+			});
+			setTimeout(() => {
+				this.state.swiping = false;
+			}, this.props.speed);
+		}
 	}
 
 	swipeBackWord = () => {
-		this.setState({
-			focusIndex: this.setRightFocusIndex(this.state.focusIndex - 1)
-		});
+		if (this.state.swiping) return;
+		this.state.swiping = true;
+		const { focusIndex } = this.state;
+		const isFirst = focusIndex === 1;
+
+		if (isFirst) {
+			this.setState({
+				focusIndex: this.setRightFocusIndex(focusIndex - 1),
+				haveAnimate: true
+			}, () => {
+				setTimeout(() => {
+					this.setState({
+						focusIndex: this.getItemsLength() - 2,
+						haveAnimate: false
+					});
+					this.state.swiping = false;
+				}, this.props.speed);
+			});
+		} else {
+			this.setState({
+				focusIndex: this.setRightFocusIndex(focusIndex - 1),
+				haveAnimate: true
+			});
+			setTimeout(() => {
+				this.state.swiping = false;
+			}, this.props.speed);
+		}
 	}
 
-	getItemsLength = () => React.Children.count(this.props.children);
+	getItemsLength = () => {
+		const { children } = this.props;
+		const childrensLeng = React.Children.toArray(children).length;
+		return childrensLeng > 1 ? childrensLeng + 2 : childrensLeng;
+	}
 
 	setRightFocusIndex = (focusIndex: number): number => {
 		const length = this.getItemsLength();
@@ -113,28 +174,32 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		(): void;
 		funStartTime?: number;
 	} = () => {
-		const { speed } = this.props;
+		const { delay } = this.props;
 		if (this.state.stopSwip || !this.props.autoSwipe) {
 			setTimeout(() => {
 				this.setNextSlider();
-			}, speed);
+			}, delay);
 			return;
-		}
-		if (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < speed) {
-			return;
-		}
+		};
+		if (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay) return;
 		this.timeoutId = setTimeout(() => {
 			if (!this.state.stopSwip) {
-				this.setState({
-					focusIndex: this.setRightFocusIndex(this.state.focusIndex + 1)
-				});
+				this.swipeForward();
 			}
 			this.setNextSlider();
-		}, this.props.speed);
+		}, delay);
 		this.setNextSlider.funStartTime = Date.now();
 	}
 
 	checkIsToucheEvent = (e: React.SyntheticEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => "changedTouches" in e;
+
+	mouseEnterHandler = (e: React.SyntheticEvent<HTMLDivElement>) => {
+		this.state.stopSwip = true;
+	}
+
+	mouseLeaveHandler = (e: React.SyntheticEvent<HTMLDivElement>) => {
+		this.state.stopSwip = false;
+	}
 
 	mouseOrTouchDownHandler = (e: any) => {
 		this.setState({ stopSwip: true });
@@ -165,7 +230,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		} else {
 			this.endClientX = e.clientX;
 		}
-		this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (childrenLength / 2 - 0.5 - focusIndex) - this.startClientX + this.endClientX}px)`;
+		this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (-focusIndex) - this.startClientX + this.endClientX}px)`;
 	}
 
 	mouseOrTouchUpHandler = (e: any) => {
@@ -178,30 +243,29 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
 			window.removeEventListener("mouseup", this.mouseOrTouchUpHandler);
 		}
-		this.refs.content.style.webkitTransition = this.props.transition;
+		const { bezier, speed } = this.props;
+		const transition = `all ${speed}ms 0s ${bezier}`;
+		this.refs.content.style.webkitTransition = transition;
 		this.state.stopSwip = false;
 		let { easey } = this.props;
 		if (easey < 0) easey = 0;
 		if (easey > 1) easey = 1;
 		const movePosition = this.endClientX - this.startClientX;
-		const isNext = movePosition > 0;
+		const isNext = movePosition < 0;
 		let focusIndex = this.state.focusIndex + movePosition / this.refs.container.getBoundingClientRect().width;
 		focusIndex = isNext ? Math.ceil(focusIndex + easey / 2) : Math.floor(focusIndex - easey / 2);
 		focusIndex = this.setRightFocusIndex(focusIndex);
 		if (focusIndex === this.state.focusIndex) {
-			this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (childrenLength / 2 - 0.5 - focusIndex)}px)`;
+			this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (-focusIndex / childrenLength) - this.startClientX + this.endClientX}px)`;
 		} else {
-			this.setState({
-				focusIndex,
-				stopSwip: false
-			});
+			if (isNext) { this.swipeForward(); } else { this.swipeBackWord(); }
 		}
 		this.setNextSlider();
 	}
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, showIcon, canSwipe, autoSwipe, speed, easey, directionIsRight, style, transition, iconSize, ...attributes } = this.props;
+		const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easey, directionIsRight, style, bezier, iconSize, ...attributes } = this.props;
 		const { focusIndex, stopSwip, childrenLength, isSingleChildren } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
@@ -209,7 +273,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		const childrensLeng = childrens.length;
 		if (childrensLeng > 1) {
 			childrens.push(childrens[0]);
-			childrens.unshift(childrens[childrensLeng - 2]);
+			childrens.unshift(childrens[childrensLeng - 1]);
 		}
 
 		return (
@@ -222,9 +286,14 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 				}}
 			>
 				<div
-					onClick={
+					onMouseDown={
 						canSwipe ? this.mouseOrTouchDownHandler : void(0)
 					}
+					onTouchStart={
+						canSwipe ? this.mouseOrTouchDownHandler : void(0)
+					}
+					onMouseEnter={this.mouseEnterHandler}
+					onMouseLeave={this.mouseLeaveHandler}
 					ref="content"
 					style={styles.content}
 				>
@@ -244,13 +313,13 @@ function getStyles(swipe: Swipe): {
 	content?: React.CSSProperties;
 	item?: React.CSSProperties;
 } {
-	const { transition } = swipe.props;
-	const { prepareStyles } = swipe.context.theme;
-	const { focusIndex, childrenLength, isSingleChildren } = swipe.state;
+	const { bezier, speed } = swipe.props;
+	const transition = `all ${speed}ms 0s ${bezier}`;
+	const { focusIndex, childrenLength, isSingleChildren, haveAnimate } = swipe.state;
 	// const { width } = swipe.refs.container.getBoundingClientRect();
 
 	return {
-		container: prepareStyles({
+		container: {
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -259,8 +328,8 @@ function getStyles(swipe: Swipe): {
 			overflow: "hidden",
 			width: "100%",
 			height: "auto",
-		}),
-		content: prepareStyles({
+		},
+		content: {
 			flex: "0 0 auto",
 			display: "flex",
 			flexDirection: "row",
@@ -270,11 +339,12 @@ function getStyles(swipe: Swipe): {
 			position: "relative",
 			height: "100%",
 			width: `${childrenLength * 100}%`,
-			transform: `translate3D(${-focusIndex * 100 / childrenLength}%, 0px, 0px)`,
+			WebkitTransform: `translate3D(${-focusIndex * 100 / childrenLength}%, 0px, 0px)`,
 			left: `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
-			transition,
-		}),
-		item: prepareStyles({
+			transition: haveAnimate ? transition : void(0),
+			WebkitTransition: haveAnimate ? transition : void(0),
+		},
+		item: {
 			position: "relative",
 			width: `${100 / childrenLength}%`,
 			height: "100%",
@@ -286,6 +356,6 @@ function getStyles(swipe: Swipe): {
 			userSelect: "none",
 			userDrag: "none",
 			WebkitUserDrag: "none",
-		})
+		}
 	};
 }
