@@ -48,7 +48,7 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 
 	handleFocus = () => {
 		this.setState({
-			currentRightNode: (<Icon style={{ fontSize: 14 }}>&#xE10A;</Icon>)
+			currentRightNode: (<Icon style={{ fontSize: 14 }}>{"\uE10A"}</Icon>)
 		});
 	}
 

@@ -44,9 +44,9 @@ export default class Link extends React.Component<LinkProps, LinkState> {
 
 		return (
 			<a
+				{...attributes}
 				onMouseEnter={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
-				{...attributes}
 				style={{
 					...styles.container,
 					...theme.prepareStyles(attributes.style),
