@@ -1,9 +1,7 @@
 import * as React from "react";
 
 import { ThemeType } from "../styles/ThemeType";
-import addArrayEvent from "../common/addArrayEvent";
 import setStyleToElement from "../common/setStyleToElement";
-import removeArrayEvent from "../common/removeArrayEvent";
 
 interface DataProps {
 	style?: React.CSSProperties;
@@ -24,56 +22,62 @@ interface Attributes {
 	[key: string]: any;
 }
 interface ElementStateProps extends DataProps, Attributes {}
-const defaultFunc = () => {};
+const emptyFunc = () => {};
 export default class ElementState extends React.Component<ElementStateProps, {}> {
 	static defaultProps: ElementStateProps = {
-		onHover: defaultFunc,
-		onFocus: defaultFunc,
-		onActive: defaultFunc,
-		onVisited: defaultFunc,
-		unHover: defaultFunc,
-		unFocus: defaultFunc,
-		unActive: defaultFunc,
-		unVisited: defaultFunc,
+		onHover: emptyFunc,
+		onFocus: emptyFunc,
+		onActive: emptyFunc,
+		onVisited: emptyFunc,
+		unHover: emptyFunc,
+		unFocus: emptyFunc,
+		unActive: emptyFunc,
+		unVisited: emptyFunc,
 	};
+
 	static contextTypes = { theme: React.PropTypes.object };
+
 	context: { theme: ThemeType };
-	currentDOM: any;
-	visitedStyle: any = {};
+
+	currentDOM: HTMLElement;
+
+	visitedStyle: React.CSSProperties = {};
 
 	componentDidMount() {
+		const { currentDOM } = this;
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
-			addArrayEvent(this.currentDOM, ["mouseenter"], this.hover);
-			addArrayEvent(this.currentDOM, ["mouseleave"], this.unHover);
+			currentDOM.addEventListener("mouseenter", this.hover);
+			currentDOM.addEventListener("mouseleave", this.unHover);
 		}
 		if (activeStyle) {
-			addArrayEvent(this.currentDOM, ["click", "mousedown"], this.active);
-			addArrayEvent(this.currentDOM, ["mouseup"], this.unActive);
+			currentDOM.addEventListener("click", this.active);
+			currentDOM.addEventListener("mouseup", this.unActive);
 		}
 		if (focusStyle) {
-			addArrayEvent(this.currentDOM, ["focus"], this.focus);
+			currentDOM.addEventListener("focus", this.focus);
 		}
 		if (visitedStyle) {
-			addArrayEvent(this.currentDOM, ["click"], this.visited);
+			currentDOM.addEventListener("click", this.visited);
 		}
 	}
 
 	componentWillUnmount() {
+		const { currentDOM } = this;
 		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
 		if (hoverStyle) {
-			removeArrayEvent(this.currentDOM, ["mouseenter"], this.hover);
-			removeArrayEvent(this.currentDOM, ["mouseleave"], this.unHover);
+			currentDOM.removeEventListener("mouseenter", this.hover);
+			currentDOM.removeEventListener("mouseleave", this.unHover);
 		}
 		if (activeStyle) {
-			removeArrayEvent(this.currentDOM, ["click", "mousedown"], this.active);
-			removeArrayEvent(this.currentDOM, ["mouseup"], this.unActive);
+			currentDOM.removeEventListener("click", this.active);
+			currentDOM.removeEventListener("mouseup", this.unActive);
 		}
 		if (focusStyle) {
-			removeArrayEvent(this.currentDOM, ["focus"], this.focus);
+			currentDOM.removeEventListener("focus", this.focus);
 		}
 		if (visitedStyle) {
-			removeArrayEvent(this.currentDOM, ["click"], this.visited);
+			currentDOM.removeEventListener("click", this.visited);
 		}
 	}
 
