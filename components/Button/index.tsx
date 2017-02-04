@@ -42,7 +42,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 					color: theme.baseHigh,
 					cursor: "pointer",
 					outline: "none",
-					display: "flex",
 					padding: "5px 20px",
 					border: `${borderSize} solid transparent`,
 					transition: "all ease-in-out .25s",

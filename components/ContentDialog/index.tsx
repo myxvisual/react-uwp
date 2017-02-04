@@ -13,7 +13,7 @@ export interface DataProps {
 	secondaryButtonText?: string;
 	showCloseButton?: boolean;
 	defaultShow?: boolean;
-	contentElm?: any;
+	contentNode?: any;
 }
 
 interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -27,13 +27,13 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 		...defaultProps,
 		statuBarTitle: "ContentDialog",
 		title: "Delete file permanently?",
-		contentElm: "If you delete this file, you won't be able to recover it. Do you want to delete it?",
+		content: "If you delete this file, you won't be able to recover it. Do you want to delete it?",
 		primaryButtonText: "Delete",
 		showCloseButton: true,
 		secondaryButtonText: "Cancel"
 	};
 
-	state: ContentDialogState = {};
+	state: ContentDialogState = { show: false };
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
@@ -60,7 +60,7 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { statuBarTitle, title, primaryButtonText, secondaryButtonText, defaultShow, showCloseButton, contentElm, ...attributes } = this.props;
+		const { statuBarTitle, title, primaryButtonText, secondaryButtonText, defaultShow, showCloseButton, content, contentNode, ...attributes } = this.props;
 		const { theme } = this.context;
 		const styles = getStyles(this);
 
@@ -82,11 +82,7 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 						{showCloseButton
 							?
 							<IconButton
-								style={{
-									fontSize: 10,
-									width: 40,
-									height: 26,
-								}}
+								style={styles.iconButton}
 								hoverStyle={{ background: "#d00f2a" }}
 							>
 								{"\uE894"}
@@ -95,15 +91,14 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 						}
 					</div>
 					<div style={styles.content}>
-						<div>
-							<h5 style={styles.title}>
-								{title}
-							</h5>
-							{typeof contentElm === "string" ? <p>{contentElm}</p> : contentElm}
+						<div style={{ width: "100%" }}>
+							<h5 style={styles.title}>{title}</h5>
+							<p>{content}</p>
+							{contentNode}
 						</div>
 						<div style={styles.buttonGroup}>
-							<Button style={{ width: "calc(50% - 2px)" }}>{primaryButtonText}</Button>
-							<Button style={{ width: "calc(50% - 2px)" }}>{secondaryButtonText}</Button>
+							<Button style={styles.button}>{primaryButtonText}</Button>
+							<Button style={styles.button}>{secondaryButtonText}</Button>
 						</div>
 					</div>
 				</div>
@@ -117,8 +112,10 @@ function getStyles(contentDialog: ContentDialog): {
 	container?: React.CSSProperties;
 	content?: React.CSSProperties;
 	statuBarTitle?: React.CSSProperties;
+	iconButton?: React.CSSProperties;
 	title?: React.CSSProperties;
 	buttonGroup?: React.CSSProperties;
+	button?: React.CSSProperties;
 } {
 	const { context } = contentDialog;
 	const { theme } = context;
@@ -141,17 +138,24 @@ function getStyles(contentDialog: ContentDialog): {
 			color: theme.baseHigh,
 			background: theme.altMediumHigh,
 		}),
+		iconButton: {
+			fontSize: 10,
+			width: 40,
+			height: 26,
+		},
 		container: theme.prepareStyles({
 			background: theme.altHigh,
 			border: `1px solid ${theme.baseLow}`,
 			flex: "0 0 auto",
-			width: 280,
+			width: "80%",
+			maxWidth: 720,
 			cursor: "default",
-			height: 320,
+			height: 240,
 			transition: "all .25s 0s ease-in-out",
 		}),
 		content: theme.prepareStyles({
 			width: "100%",
+			height: "calc(100% - 26px)",
 			padding: 16,
 			display: "flex",
 			flexDirection: "column",
@@ -175,6 +179,9 @@ function getStyles(contentDialog: ContentDialog): {
 			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "space-between",
-		})
+		}),
+		button: {
+			width: "calc(50% - 2px)",
+		},
 	};
 }
