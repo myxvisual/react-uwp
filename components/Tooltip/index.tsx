@@ -15,10 +15,6 @@ export interface DataProps {
 interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 interface TooltipState {
 	showTooltip?: boolean;
-	width?: number;
-	height?: number;
-	top?: number;
-	left?: number;
 }
 
 export default class Tooltip extends React.Component<TooltipProps, TooltipState> {
@@ -27,7 +23,6 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		verticalPosition: "bottom",
 		horizontalPosition: "center",
 		children: "Tooltip",
-		itemHeigh: 28,
 		margin: 4,
 		autoClose: true,
 		timeout: 2500,
@@ -47,9 +42,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	componentDidMount() {
 		const parentNode = this.refs.container.parentNode as HTMLDivElement;
-		const { top, left } = parentNode.getBoundingClientRect();
-		const { width, height } = window.getComputedStyle(parentNode);
-		this.setState({ width: parseInt(width), height: parseInt(height), top, left });
+		parentNode.style.position = "relative";
 		parentNode.addEventListener("mouseenter", this.showTooltip);
 		parentNode.addEventListener("click", this.showTooltip);
 		parentNode.addEventListener("mouseleave", this.notShowTooltip);
@@ -88,44 +81,44 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 	getStyle = (): React.CSSProperties => {
 		const { theme } = this.context;
-		const { verticalPosition, horizontalPosition, style, itemHeigh, margin } = this.props;
+		const { verticalPosition, horizontalPosition, style, margin } = this.props;
 		const getStyles = (showTooltip = false, positionStyle = {}): React.CSSProperties => theme.prepareStyles({
-			height: showTooltip ? (itemHeigh || 28) : 0,
-			overflow: "hidden",
+			height: 28,
 			padding: "4px 8px",
-			transition: "border .25s 0s ease-in-out, height .25s 0s ease-in-out, color .25s 0s ease-in-out, background .25s 0s ease-in-out",
-			border: `1px solid ${showTooltip ? theme.baseLow : "transparent"}`,
-			color: showTooltip ? theme.baseMediumHigh : "transparent",
-			background: showTooltip ? theme.chromeMedium : "transparent",
+			transition: "all .25s 0s ease-in-out",
+			border: `1px solid ${theme.baseLow}`,
+			color: theme.baseMediumHigh,
+			background: theme.chromeMedium,
+			opacity: showTooltip ? 1 : 0,
+			transform: `translateY(${showTooltip ? "0px" : "10px"})`,
+			position: "absolute",
 			fontSize: 14,
 			...style,
 			...positionStyle,
-			position: "fixed",
 		});
 		let parentNode: HTMLDivElement;
 		try {
 			parentNode = this.refs.container.parentNode as HTMLDivElement;
 		} catch (e) {}
 		if (!parentNode) return getStyles();
-
-		const { top, left } = parentNode.getBoundingClientRect() as any;
-		let { width, height } = window.getComputedStyle(parentNode) as any;
-		width = +width.slice(0, width.length - 2);
-		height = +height.slice(0, height.length - 2);
+		parentNode.style.position = "relative";
+		const { width, height } = parentNode.getBoundingClientRect();
+		const containerWidth = this.refs.container.getBoundingClientRect().width;
+		const containerHeight = this.refs.container.getBoundingClientRect().height;
 		const { showTooltip } = this.state;
 		const positionStyle: React.CSSProperties = {};
-		if (width !== void(0) && height !== void(0) && top !== void(0) && left !== void(0)) {
+		if (width !== void(0) && height !== void(0)) {
 			switch (horizontalPosition) {
 				case "left": {
-					positionStyle.left = left - this.refs.container.getBoundingClientRect().width - margin;
+					positionStyle.left = -containerWidth - margin;
 					break;
 				}
 				case "center": {
-					positionStyle.left = left + (width - this.refs.container.getBoundingClientRect().width) / 2;
+					positionStyle.left = (width - containerWidth) / 2;
 					break;
 				}
 				case "right": {
-					positionStyle.left = left + width + margin;
+					positionStyle.left = width + margin;
 					break;
 				}
 				default: {
@@ -134,15 +127,15 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 			}
 			switch (verticalPosition) {
 				case "top": {
-					positionStyle.top = top - itemHeigh - margin;
+					positionStyle.top = -containerHeight - margin;
 					break;
 				}
 				case "center": {
-					positionStyle.top = top - (itemHeigh - height) / 2;
+					positionStyle.top = (height - containerHeight) / 2;
 					break;
 				}
 				case "bottom": {
-					positionStyle.top = top + height + margin;
+					positionStyle.top = height + margin;
 					break;
 				}
 				default: {

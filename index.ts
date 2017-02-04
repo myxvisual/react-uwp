@@ -5,6 +5,7 @@ export { default as CheckBox } from "./components/CheckBox";
 export { default as ContentDialog } from "./components/ContentDialog";
 export { default as DropdownMenu } from "./components/DropdownMenu";
 export { default as FloatNav } from "./components/FloatNav";
+export { default as Flyout } from "./components/Flyout";
 export { default as Icon } from "./components/Icon";
 export { default as IconButton } from "./components/IconButton";
 export { default as Input } from "./components/Input";
