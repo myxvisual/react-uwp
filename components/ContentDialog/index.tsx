@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import Button from "../Button";
+import RenderToBody from "../RenderToBody";
 import IconButton from "../IconButton";
 import { ThemeType } from "../../styles/ThemeType";
 
@@ -12,14 +13,14 @@ export interface DataProps {
 	primaryButtonText?: string;
 	secondaryButtonText?: string;
 	showCloseButton?: boolean;
-	defaultShow?: boolean;
+	show?: boolean;
 	contentNode?: any;
 }
 
 interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 interface ContentDialogState {
-	show?: boolean;
+	showDialog?: boolean;
 }
 
 export default class ContentDialog extends React.Component<ContentDialogProps, ContentDialogState> {
@@ -33,19 +34,20 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 		secondaryButtonText: "Cancel"
 	};
 
-	state: ContentDialogState = { show: false };
+	state: ContentDialogState = { showDialog: this.props.show };
+	refs: { renderToBody: RenderToBody };
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
-	getShowStatus = () => this.state.show
+	getShowStatus = () => this.state.showDialog
 
-	toggleShow = (show?: boolean) => {
-		if (typeof show === "bolean") {
-			this.setState({ show });
+	toggleShow = (showDialog?: boolean) => {
+		if (typeof showDialog === "boolean") {
+			if (showDialog !== this.state.showDialog) this.setState({ showDialog });
 		} else {
 			this.setState({
-				show: !this.state.show
+				showDialog: !this.state.showDialog
 			});
 		}
 	}
@@ -60,49 +62,53 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { statuBarTitle, title, primaryButtonText, secondaryButtonText, defaultShow, showCloseButton, content, contentNode, ...attributes } = this.props;
+		const { statuBarTitle, title, primaryButtonText, secondaryButtonText, show, showCloseButton, content, contentNode, ...attributes } = this.props;
+		const { showDialog } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
 
 		return (
-			<div
-				{...attributes}
-				style={{
-					...styles.mask,
-					...theme.prepareStyles(attributes.style),
-				}}
-			>
+			<RenderToBody ref="renderToBody">
 				<div
-					style={styles.container}
-					onMouseEnter={this.containerMouseEnterHandle}
-					onMouseLeave={this.containerMouseLeaveHandle}
+					{...attributes}
+					style={{
+						...styles.mask,
+						...theme.prepareStyles(attributes.style),
+					}}
 				>
-					<div style={styles.statuBarTitle}>
-						<p style={{ fontSize: 12, marginLeft: 8 }}>{statuBarTitle}</p>
-						{showCloseButton
-							?
-							<IconButton
-								style={styles.iconButton}
-								hoverStyle={{ background: "#d00f2a" }}
-							>
-								{"\uE894"}
-							</IconButton>
-							: null
-						}
-					</div>
-					<div style={styles.content}>
-						<div style={{ width: "100%" }}>
-							<h5 style={styles.title}>{title}</h5>
-							<p>{content}</p>
-							{contentNode}
+					<div
+						style={styles.container}
+						onMouseEnter={this.containerMouseEnterHandle}
+						onMouseLeave={this.containerMouseLeaveHandle}
+					>
+						<div style={styles.statuBarTitle}>
+							<p style={{ fontSize: 12, marginLeft: 8 }}>{statuBarTitle}</p>
+							{showCloseButton
+								?
+								<IconButton
+									onClick={() => { this.toggleShow(false); }}
+									style={styles.iconButton}
+									hoverStyle={{ background: "#d00f2a" }}
+								>
+									{"\uE894"}
+								</IconButton>
+								: null
+							}
 						</div>
-						<div style={styles.buttonGroup}>
-							<Button style={styles.button}>{primaryButtonText}</Button>
-							<Button style={styles.button}>{secondaryButtonText}</Button>
+						<div style={styles.content}>
+							<div style={{ width: "100%" }}>
+								<h5 style={styles.title}>{title}</h5>
+								<p>{content}</p>
+								{contentNode}
+							</div>
+							<div style={styles.buttonGroup}>
+								<Button style={styles.button}>{primaryButtonText}</Button>
+								<Button style={styles.button}>{secondaryButtonText}</Button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</RenderToBody>
 		);
 	}
 }
@@ -118,18 +124,20 @@ function getStyles(contentDialog: ContentDialog): {
 	button?: React.CSSProperties;
 } {
 	const { context } = contentDialog;
+	const { showDialog } = contentDialog.state;
 	const { theme } = context;
-	// tslint:disable-next-line:no-unused-variable
 	const { prepareStyles } = theme;
 
 	return {
-		mask: theme.prepareStyles({
-			zIndex: 9999999,
+		mask: prepareStyles({
+			zIndex: 2000,
+			opacity: showDialog ? 1 : 0,
+			pointerEvents: showDialog ? "all" : "none",
 			position: "fixed",
 			top: 0,
 			left: 0,
-			width: "100%",
-			height: "100%",
+			width: "100vw",
+			height: "100vh",
 			fontSize: 14,
 			display: "flex",
 			flexDirection: "row",
@@ -137,13 +145,14 @@ function getStyles(contentDialog: ContentDialog): {
 			justifyContent: "center",
 			color: theme.baseHigh,
 			background: theme.altMediumHigh,
+			transition: `all .25s ${showDialog ? 0 : 0.25}s ease-in-out`,
 		}),
 		iconButton: {
 			fontSize: 10,
 			width: 40,
 			height: 26,
 		},
-		container: theme.prepareStyles({
+		container: prepareStyles({
 			background: theme.altHigh,
 			border: `1px solid ${theme.baseLow}`,
 			flex: "0 0 auto",
@@ -151,9 +160,11 @@ function getStyles(contentDialog: ContentDialog): {
 			maxWidth: 720,
 			cursor: "default",
 			height: 240,
-			transition: "all .25s 0s ease-in-out",
+			transform: `scale(${showDialog ? 1 : 0})`,
+			opacity: showDialog ? 1 : 0,
+			transition: `all .5s ${showDialog ? 0.25 : 0}s ease-in-out`,
 		}),
-		content: theme.prepareStyles({
+		content: prepareStyles({
 			width: "100%",
 			height: "calc(100% - 26px)",
 			padding: 16,
@@ -162,7 +173,7 @@ function getStyles(contentDialog: ContentDialog): {
 			alignItems: "center",
 			justifyContent: "space-between",
 		}),
-		statuBarTitle: theme.prepareStyles({
+		statuBarTitle: prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -173,7 +184,7 @@ function getStyles(contentDialog: ContentDialog): {
 			lineHeight: 1,
 			marginBottom: 16,
 		},
-		buttonGroup: theme.prepareStyles({
+		buttonGroup: prepareStyles({
 			width: "100%",
 			display: "flex",
 			flexDirection: "row",

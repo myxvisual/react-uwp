@@ -24,6 +24,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 		...defaultProps,
 		isChecked: null,
 		size: 24,
+		onClick: () => {},
 		onChangeCb: () => {},
 	};
 
@@ -104,7 +105,10 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 			<ElementState
 				{...attributes}
 				{...this.getStyles()}
-				onClick={isDisable ? void(0) : this.toggleChecked}
+				onClick={isDisable ? attributes.onClick : (e: React.MouseEvent<HTMLDivElement>) => {
+					this.toggleChecked(e);
+					attributes.onClick(e);
+				}}
 			>
 				<div ref="container">
 					{isRadioBtn
