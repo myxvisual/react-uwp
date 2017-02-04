@@ -123,7 +123,7 @@ function getStyles(instance: SwipeWithIcon): {
 			position: "relative",
 			zIndex: 0,
 			width: "100%",
-			background: theme.accent,
+			background: theme.chromeLow,
 			height: "auto",
 			transition: "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)",
 		}),

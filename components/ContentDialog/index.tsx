@@ -162,7 +162,7 @@ function getStyles(contentDialog: ContentDialog): {
 			height: 240,
 			transform: `scale(${showDialog ? 1 : 0})`,
 			opacity: showDialog ? 1 : 0,
-			transition: `all .5s ${showDialog ? 0.25 : 0}s ease-in-out`,
+			transition: `all .25s ${showDialog ? 0.25 : 0}s ease-in-out`,
 		}),
 		content: prepareStyles({
 			width: "100%",

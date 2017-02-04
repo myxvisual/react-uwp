@@ -14,7 +14,7 @@ export interface DataProps {
 	bezier?: string;
 	iconSize?: number;
 	showIcon?: boolean;
-	animate?: "slide" | "opacity";
+	animate?: "slide" | "opacity" | "scale";
 }
 
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -316,7 +316,6 @@ function getStyles(swipe: Swipe): {
 	const { bezier, speed } = swipe.props;
 	const transition = `all ${speed}ms 0s ${bezier}`;
 	const { focusIndex, childrenLength, isSingleChildren, haveAnimate } = swipe.state;
-	// const { width } = swipe.refs.container.getBoundingClientRect();
 
 	return {
 		container: {
