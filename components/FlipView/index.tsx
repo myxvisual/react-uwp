@@ -5,7 +5,7 @@ import Swipe from "../Swipe";
 import IconButton from "../IconButton";
 import { ThemeType } from "../../styles/ThemeType";
 
-const defaultProps: SwipeWithIconProps = __DEV__ ? require("./devDefaultProps").default : {};
+const defaultProps: FlipViewProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
 	initialFocusIndex?: number;
@@ -19,9 +19,9 @@ export interface DataProps {
 	iconHoverStyle?: React.CSSProperties;
 	showIcon?: boolean;
 }
-export interface SwipeWithIconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface SwipeWithIconState {}
-export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, SwipeWithIconState> {
+export interface FlipViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+interface FlipViewState {}
+export default class FlipView extends React.Component<FlipViewProps, FlipViewState> {
 	static defaultProps = {
 		...defaultProps,
 		direction: "horizontal",
@@ -97,13 +97,13 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 	}
 }
 
-function getStyles(swipeWithIcon: SwipeWithIcon): {
+function getStyles(flipView: FlipView): {
 	container?: React.CSSProperties;
 	iconLeft?: React.CSSProperties;
 	iconRight?: React.CSSProperties;
 } {
-	const { iconSize, direction } = swipeWithIcon.props;
-	const { theme } = swipeWithIcon.context;
+	const { iconSize, direction } = flipView.props;
+	const { theme } = flipView.context;
 	const { prepareStyles } = theme;
 	const isHorizontal = direction === "horizontal";
 

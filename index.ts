@@ -16,7 +16,7 @@ export { default as PasswordBox } from "./components/PasswordBox";
 export { default as ProgressRing } from "./components/ProgressRing";
 export { default as Radius } from "./components/Radius";
 export { default as Swipe } from "./components/Swipe";
-export { default as SwipeWithIcon } from "./components/SwipeWithIcon";
+export { default as FlipView } from "./components/FlipView";
 export { default as Switch } from "./components/Switch";
 export { default as Theme } from "./components/Theme";
 export { default as Tooltip } from "./components/Tooltip";
