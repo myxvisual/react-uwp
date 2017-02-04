@@ -21,7 +21,7 @@ const getInnerCSS = (instance: ProgressRing) => (
 }
 ${Array(instance.props.itemLength).fill(0).map((name, index) => (
 	[".react-uwp-progress-ring-item-" + index + " {",
-	vendorStrs.map(str => (`		${str}animation: CircleLoopFade 2500ms ${index * .125}s linear infinite normal forwards;`)).join("\n"),
+	vendorStrs.map(str => (`		${str}animation: CircleLoopFade 2500ms ${index * instance.props.delay}ms linear infinite normal forwards;`)).join("\n"),
 	"	}"].join("")
 )).join("")}
 
@@ -53,14 +53,12 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 		...defaultProps,
 		className: "",
 		itemLength: 6,
-		size: 200,
-		itemSize: 26,
-		delay: 100,
+		size: 100,
+		delay: 150,
 	};
 	state: ProgressRingState = {};
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
-	itemElms: HTMLDivElement[] = [];
 
 	render() {
 		const {
@@ -69,6 +67,7 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 			itemSize, delay,
 			style, ...attributes
 		} = this.props;
+		const currentItemSize = itemSize || size / 10;
 		const { theme } = this.context;
 
 		return (
@@ -88,18 +87,17 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 						<div
 							key={`${index}`}
 							className={`react-uwp-progress-ring-item-${index}`}
-							ref={(item) => this.itemElms.push(item)}
 							style={theme.prepareStyles({
 								background: "#fff",
 								...itmeStyle,
 								position: "absolute",
 								top: 0,
 								left: size / 2,
-								width: itemSize,
-								height: itemSize,
+								width: currentItemSize,
+								height: currentItemSize,
 								opacity: 0,
 								transformOrigin: `0px ${size / 2}px`,
-								borderRadius: itemSize,
+								borderRadius: currentItemSize,
 							})}
 						/>
 					))}
