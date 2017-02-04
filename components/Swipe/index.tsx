@@ -10,11 +10,11 @@ export interface DataProps {
 	speed?: number;
 	easey?: number;
 	delay?: number;
-	directionIsRight?: boolean;
+	direction?: "vertical" | "horizontal";
 	bezier?: string;
 	iconSize?: number;
 	showIcon?: boolean;
-	animate?: "slide" | "opacity" | "scale";
+	animate?: "slide" | "opacity";
 }
 
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -23,6 +23,7 @@ interface SwipeState {
 	stopSwip?: boolean;
 	focusIndex?: number;
 	childrenLength?: number;
+	isHorizontal?: boolean;
 	isSingleChildren?: boolean;
 	haveAnimate?: boolean;
 	swiping?: boolean;
@@ -31,6 +32,7 @@ interface SwipeState {
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	static defaultProps: SwipeProps = {
 		...defaultProps,
+		direction: "horizontal",
 		autoSwipe: false,
 		className: "",
 		animate: "slide",
@@ -82,10 +84,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		const childrenLength = React.Children.count(props.children);
 		const isSingleChildren = childrenLength === 1;
 		this.setState({
+			isHorizontal: props.direction === "horizontal",
 			childrenLength,
 			isSingleChildren
 		});
-		if (this.props.autoSwipe && !isSingleChildren) {
+		if (this.props.autoSwipe && !isSingleChildren && 0) {
 			this.setNextSlider();
 		}
 	}
@@ -260,12 +263,14 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		} else {
 			if (isNext) { this.swipeForward(); } else { this.swipeBackWord(); }
 		}
-		this.setNextSlider();
+		if (this.props.autoSwipe && !this.state.isSingleChildren && 0) {
+			this.setNextSlider();
+		}
 	}
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easey, directionIsRight, style, bezier, iconSize, ...attributes } = this.props;
+		const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easey, direction, style, bezier, iconSize, ...attributes } = this.props;
 		const { focusIndex, stopSwip, childrenLength, isSingleChildren } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
@@ -315,12 +320,12 @@ function getStyles(swipe: Swipe): {
 } {
 	const { bezier, speed } = swipe.props;
 	const transition = `all ${speed}ms 0s ${bezier}`;
-	const { focusIndex, childrenLength, isSingleChildren, haveAnimate } = swipe.state;
+	const { focusIndex, childrenLength, isHorizontal, isSingleChildren, haveAnimate } = swipe.state;
 
 	return {
 		container: {
 			display: "flex",
-			flexDirection: "row",
+			flexDirection: isHorizontal ? "row" : "column",
 			alignItems: "center",
 			justifyContent: "center",
 			position: "relative",
@@ -331,22 +336,24 @@ function getStyles(swipe: Swipe): {
 		content: {
 			flex: "0 0 auto",
 			display: "flex",
-			flexDirection: "row",
+			flexDirection: isHorizontal ? "row" : "column",
 			flexWrap: "nowrap",
 			alignItems: "center",
 			justifyContent: "center",
 			position: "relative",
-			height: "100%",
-			width: `${childrenLength * 100}%`,
-			WebkitTransform: `translate3D(${-focusIndex * 100 / childrenLength}%, 0px, 0px)`,
-			left: `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
+			height: isHorizontal ? "100%" : `${childrenLength * 100}%`,
+			width: isHorizontal ? `${childrenLength * 100}%` : "100%",
+			WebkitTransform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
+			left: isHorizontal ? `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%` : void(0),
+			top: isHorizontal ? void(0) : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
 			transition: haveAnimate ? transition : void(0),
 			WebkitTransition: haveAnimate ? transition : void(0),
 		},
 		item: {
 			position: "relative",
-			width: `${100 / childrenLength}%`,
-			height: "100%",
+			overflow: "hidden",
+			width: isHorizontal ? `${100 / childrenLength}%` : "100%",
+			height: isHorizontal ? "100%" : `${100 / childrenLength}%`,
 			display: "flex",
 			flex: "0 0 auto",
 			flexDirection: "row",

@@ -13,7 +13,7 @@ export interface DataProps {
 	autoSwipe?: boolean;
 	speed?: number;
 	easey?: number;
-	directionIsRight?: boolean;
+	direction?: "vertical" | "horizontal";
 	iconSize?: number;
 	iconStyle?: React.CSSProperties;
 	iconHoverStyle?: React.CSSProperties;
@@ -24,8 +24,9 @@ interface SwipeWithIconState {}
 export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, SwipeWithIconState> {
 	static defaultProps = {
 		...defaultProps,
+		direction: "horizontal",
 		className: "",
-		iconSize: 40,
+		iconSize: 32,
 		showIcon: true,
 	};
 	static contextTypes = { theme: React.PropTypes.object };
@@ -42,9 +43,10 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, showIcon, initialFocusIndex, canSwipe, autoSwipe, speed, easey, directionIsRight, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
+		const { children, showIcon, initialFocusIndex, canSwipe, autoSwipe, speed, easey, direction, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
 		const { theme } = this.context;
 		const count = React.Children.count(children);
+		const isHorizontal = direction === "horizontal";
 
 		const styles = getStyles(this);
 		return (
@@ -67,7 +69,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 							...theme.prepareStyles(iconHoverStyle),
 						}}
 					>
-						&#xE012;
+						{isHorizontal ? "\uE012" : "\uE010"}
 					</IconButton>
 				)}
 				<Swipe
@@ -87,7 +89,7 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 							...theme.prepareStyles(iconHoverStyle),
 						}}
 					>
-						&#xE013;
+						{isHorizontal ? "\uE013" : "\uE011"}
 					</IconButton>
 				)}
 			</div>
@@ -95,23 +97,23 @@ export default class SwipeWithIcon extends React.Component<SwipeWithIconProps, S
 	}
 }
 
-function getStyles(instance: SwipeWithIcon): {
+function getStyles(swipeWithIcon: SwipeWithIcon): {
 	container?: React.CSSProperties;
 	iconLeft?: React.CSSProperties;
 	iconRight?: React.CSSProperties;
 } {
-	const { iconSize } = instance.props;
-	const { theme } = instance.context;
+	const { iconSize, direction } = swipeWithIcon.props;
+	const { theme } = swipeWithIcon.context;
 	const { prepareStyles } = theme;
+	const isHorizontal = direction === "horizontal";
 
 	const baseIconStyle: React.CSSProperties = {
 		position: "absolute",
-		background: theme.altHigh,
+		background: theme.altMedium,
 		zIndex: 20,
 		fontSize: iconSize / 2,
-		width: iconSize,
-		height: iconSize,
-		top: `calc(50% - ${iconSize / 2}px)`,
+		width: iconSize * (isHorizontal ? 1 : 2),
+		height: iconSize * (isHorizontal ? 2 : 1),
 	};
 
 	return {
@@ -129,11 +131,13 @@ function getStyles(instance: SwipeWithIcon): {
 		}),
 		iconLeft: {
 			...baseIconStyle,
-			left: 0,
+			top: isHorizontal ? `calc(50% - ${iconSize}px)` : 0,
+			left: isHorizontal ? 0 : `calc(50% - ${iconSize}px)`,
 		},
 		iconRight: {
 			...baseIconStyle,
-			right: 0,
+			bottom: isHorizontal ? `calc(50% - ${iconSize}px)` : 0,
+			right: isHorizontal ? 0 : `calc(50% - ${iconSize}px)`,
 		},
 	};
 }
