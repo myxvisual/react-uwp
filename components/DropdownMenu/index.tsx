@@ -50,6 +50,14 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
+	componentWillReceiveProps(nextProps: DropdownMenuProps) {
+		this.props = nextProps;
+		this.setState({
+			currentValue: this.props.defaultValue || this.props.values[0],
+			currentValues: [...this.props.values]
+		});
+	}
+
 	toggleShowList = (e: React.SyntheticEvent<HTMLDivElement>) => {
 		const { currentValues, showList } = this.state;
 		const valueNode = e.currentTarget.children[0] as any;
