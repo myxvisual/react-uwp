@@ -16,12 +16,12 @@ export interface DataProps {
 interface ProgressRingProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 interface ProgressRingState {}
 
-const getInnerCSS = (instance: ProgressRing) => (
+const getInnerCSS = (progressRing: ProgressRing) => (
 `.react-uwp-progress-ring {
 }
-${Array(instance.props.itemLength).fill(0).map((name, index) => (
+${Array(progressRing.props.itemLength).fill(0).map((name, index) => (
 	[".react-uwp-progress-ring-item-" + index + " {",
-	vendorStrs.map(str => (`		${str}animation: CircleLoopFade 2500ms ${index * instance.props.delay}ms linear infinite normal forwards;`)).join("\n"),
+	vendorStrs.map(str => (`		${str}animation: CircleLoopFade 2500ms ${index * progressRing.props.delay}ms linear infinite normal forwards;`)).join("\n"),
 	"	}"].join("")
 )).join("")}
 
