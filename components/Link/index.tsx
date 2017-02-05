@@ -6,7 +6,7 @@ const defaultProps: LinkProps = __DEV__ ? require("./devDefaultProps").default :
 
 export interface DataProps {}
 
-interface LinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
+export interface LinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
 interface LinkState {
 	hover?: boolean;
