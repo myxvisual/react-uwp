@@ -65,7 +65,9 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	};
 	private containerDOM: HTMLDivElement;
 	private startClientX: number;
+	private startClientY: number;
 	private endClientX: number;
+	private endClientY: number;
 
 	componentDidMount() {
 		this.containerDOM = findDOMNode(this.refs.container) as HTMLDivElement;
@@ -205,6 +207,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	}
 
 	mouseOrTouchDownHandler = (e: any) => {
+		const { isHorizontal } = this.state;
 		this.setState({ stopSwip: true });
 		const isToucheEvent = this.checkIsToucheEvent(e);
 		if (isToucheEvent) {
@@ -216,9 +219,17 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		}
 		const { childrenLength } = this.state;
 		if (isToucheEvent) {
-			this.startClientX = e.changedTouches[0].clientX;
+			if (isHorizontal) {
+				this.startClientX = e.changedTouches[0].clientX;
+			} else {
+				this.startClientY = e.changedTouches[0].clientY;
+			}
 		} else {
-			this.startClientX = e.clientX;
+			if (isHorizontal) {
+				this.startClientX = e.clientX;
+			} else {
+				this.startClientY = e.clientY;
+			}
 		}
 		this.refs.content.style.webkitTransition = "all 0.06125s 0s linear";
 	}
@@ -227,13 +238,21 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		(e: any): void;
 	} = (e) => {
 		const isToucheEvent = this.checkIsToucheEvent(e);
-		const { childrenLength, focusIndex } = this.state;
+		const { childrenLength, focusIndex, isHorizontal } = this.state;
 		if (isToucheEvent) {
-			this.endClientX = e.changedTouches[0].clientX;
+			if (isHorizontal) {
+				this.endClientX = e.changedTouches[0].clientX;
+			} else {
+				this.endClientY = e.changedTouches[0].clientY;
+			}
 		} else {
-			this.endClientX = e.clientX;
+			if (isHorizontal) {
+				this.endClientX = e.clientX;
+			} else {
+				this.endClientY = e.clientY;
+			}
 		}
-		this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (-focusIndex) - this.startClientX + this.endClientX}px)`;
+		this.refs.content.style.webkitTransform = `translate${isHorizontal ? "X" : "Y"}(${this.refs.container.getBoundingClientRect()[isHorizontal ? "width" : "height"] * (-focusIndex) - this[isHorizontal ? "startClientX" : "startClientY"] + this[isHorizontal ? "endClientX" : "endClientY"]}px)`;
 	}
 
 	mouseOrTouchUpHandler = (e: any) => {
