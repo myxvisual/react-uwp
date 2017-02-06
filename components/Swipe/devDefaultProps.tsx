@@ -14,5 +14,4 @@ export default {
 	autoSwipe: true,
 	speed: 5000,
 	easey: 0.85,
-	directionIsRight: true
 };

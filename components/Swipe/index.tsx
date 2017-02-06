@@ -11,7 +11,7 @@ export interface DataProps {
 	easey?: number;
 	delay?: number;
 	direction?: "vertical" | "horizontal";
-	bezier?: string;
+	transitionTimingFunction?: string;
 	iconSize?: number;
 	showIcon?: boolean;
 	animate?: "slide" | "opacity";
@@ -36,13 +36,12 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		autoSwipe: false,
 		className: "",
 		animate: "slide",
-		bezier: "cubic-bezier(.8, -.5, .2, 1.4)",
+		transitionTimingFunction: "cubic-bezier(0.5, 0, 0.5, 1)",
 		initialFocusIndex: 0,
 		canSwipe: true,
 		speed: 1000,
 		delay: 5000,
 		easey: 0.85,
-		directionIsRight: true,
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -265,8 +264,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
 			window.removeEventListener("mouseup", this.mouseOrTouchUpHandler);
 		}
-		const { bezier, speed } = this.props;
-		const transition = `all ${speed}ms 0s ${bezier}`;
+		const { transitionTimingFunction, speed } = this.props;
+		const transition = `all ${speed}ms 0s ${transitionTimingFunction}`;
 		this.refs.content.style.webkitTransition = transition;
 		this.state.stopSwip = false;
 		let { easey } = this.props;
@@ -289,7 +288,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easey, direction, style, bezier, iconSize, ...attributes } = this.props;
+		const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easey, direction, style, transitionTimingFunction, iconSize, ...attributes } = this.props;
 		const { focusIndex, stopSwip, childrenLength, isSingleChildren } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
@@ -337,8 +336,8 @@ function getStyles(swipe: Swipe): {
 	content?: React.CSSProperties;
 	item?: React.CSSProperties;
 } {
-	const { bezier, speed } = swipe.props;
-	const transition = `all ${speed}ms 0s ${bezier}`;
+	const { transitionTimingFunction, speed } = swipe.props;
+	const transition = `all ${speed}ms 0s ${transitionTimingFunction}`;
 	const { focusIndex, childrenLength, isHorizontal, isSingleChildren, haveAnimate } = swipe.state;
 
 	return {
