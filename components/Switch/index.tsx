@@ -5,9 +5,9 @@ import { ThemeType } from "../../styles/ThemeType";
 const defaultProps: SwitchProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
-	background?: any;
-	isOpen?: boolean;
+	open?: boolean;
 	callback?: Function;
+	padding?: number;
 }
 interface SwitchProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
 }
@@ -18,29 +18,28 @@ interface SwitchState {
 export default class Switch extends React.Component<SwitchProps, SwitchState> {
 	static defaultProps: SwitchProps = {
 		...defaultProps,
-		style: {},
-		id: null,
-		className: "",
 		width: 42,
 		height: 18,
-		background: "#3a3a48",
+		padding: 6,
 		callback: () => {},
 		onClick: () => {},
 	};
 
 	state: SwitchState = {
-		isOpen: this.props.isOpen
+		isOpen: this.props.open
 	};
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
 	componentWillReceiveProps(nextProps: SwitchProps) {
-		this.setState({ isOpen: nextProps.isOpen });
+		this.setState({ isOpen: nextProps.open });
 	}
 
-	toggleSwitch = () => {
+	toggleSwitch = (isOpen?: boolean) => {
+		if (typeof isOpen !== "boolean") {
+			isOpen = !this.state.isOpen;
+		}
 		const { callback } = this.props;
-		const isOpen = !this.state.isOpen;
 		this.setState({ isOpen });
 		callback(isOpen);
 	}
@@ -49,7 +48,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { style, background, callback, ...attributes } = this.props;
+		const { style, open, callback, padding, ...attributes } = this.props;
 		const { isOpen } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
@@ -78,7 +77,7 @@ function getStyles(context: Switch): {
 	container: React.CSSProperties;
 	button: React.CSSProperties;
 } {
-	const { width, height } = context.props;
+	const { width, height, padding } = context.props;
 	const { theme } = context.context;
 	const { isOpen } = context.state;
 	const itemSize = Number(height) / 1.5;
@@ -97,7 +96,7 @@ function getStyles(context: Switch): {
 			transition: "all .25s 0s ease-in-out",
 		},
 		button: {
-			...(isOpen ? { transform: `translateX(${Number(width) - Number(height) + 6}px)` } : { transform: `translateX(${6}px)` }),
+			transform: `translateX(${isOpen ? Number(width) - Number(height) + padding : padding}px)`,
 			flex: "0 0 auto",
 			position: "absolute",
 			left: 0,
