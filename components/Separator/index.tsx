@@ -32,9 +32,7 @@ export default class Separator extends React.Component<SeparatorProps, Separator
 					...styles.container,
 					...theme.prepareStyles(attributes.style),
 				}}
-			>
-				Separator
-			</div>
+			/>
 		);
 	}
 }
@@ -49,9 +47,9 @@ function getStyles(separator: Separator): {
 
 	return {
 		container: {
-			fontSize: 14,
-			color: theme.baseMediumHigh,
-			background: theme.altMediumHigh,
+			width: "86%",
+			height: 1,
+			background: theme.baseMediumHigh,
 		},
 	};
 }
