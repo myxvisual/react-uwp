@@ -4,6 +4,7 @@ const $ = (selectors: string) => document.querySelector(selectors);
 
 interface List {
 	titleNode?: string | React.ReactElement<any>;
+	expanded?: boolean;
 	children?: List[];
 }
 interface TreeViewState {
@@ -109,8 +110,7 @@ export default class TreeView extends React.Component<any, TreeViewState> {
 	}
 
 	render() {
-		// tslint:disable-next-line:no-unused-variable
-		const { style, className, focusFolder, ...attributes } = this.props;
+		const { style, className, listItems, focusFolder, ...attributes } = this.props;
 
 		const { directories } = this.state;
 		if (!directories) {
