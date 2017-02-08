@@ -86,6 +86,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 				>
 					<div
 						style={{
+							cursor: disabled ? "not-allowed" : "default",
 							...styles.title,
 							background: (visited && !havedChild) ? fadeAccent : void(0)
 						}}
@@ -95,7 +96,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						onMouseLeave={e => {
 							e.currentTarget.style.background = (visited && !havedChild) ? fadeAccent : "none";
 						}}
-						onClick={(e) => {
+						onClick={disabled ? void(0) : (e) => {
 							this.clickHandel(e, list);
 						}}
 					>
@@ -105,7 +106,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						<p>{havedChild && (
 							<Icon
 								style={prepareStyles({
-									cursor: "pointer",
+									cursor: disabled ? "not-allowed" : "pointer",
 									width: isRight ? void(0) : 20,
 									fontSize: 14,
 									transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`,
@@ -169,7 +170,6 @@ function getStyles(treeView: TreeView): {
 		title: prepareStyles({
 			height: listItemHeight,
 			fontSize: 14,
-			cursor: "pointer",
 			display: "flex",
 			flexDirection: `row${isRight ? "" : "-reverse"}`,
 			alignItems: "center",
