@@ -88,7 +88,7 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 							key={`${index}`}
 							className={`react-uwp-progress-ring-item-${index}`}
 							style={theme.prepareStyles({
-								background: "#fff",
+								background: theme.accent,
 								...itmeStyle,
 								position: "absolute",
 								top: 0,

@@ -46,9 +46,10 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		currentValue: this.props.defaultValue || this.props.values[0],
 		currentValues: (() => {
 			let { values, defaultValue } = this.props;
-			defaultValue = defaultValue as string;
+			values = [...values];
+			defaultValue = (defaultValue || values[0]) as string;
 			values.unshift(...values.splice(values.indexOf(defaultValue), 1));
-			return [...values];
+			return values;
 		})()
 	};
 
@@ -60,9 +61,10 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 			currentValue: nextProps.defaultValue || nextProps.values[0],
 			currentValues: (() => {
 				let { values, defaultValue } = nextProps;
-				defaultValue = defaultValue as string;
+				values = [...values];
+				defaultValue = (defaultValue || values[0]) as string;
 				values.unshift(...values.splice(values.indexOf(defaultValue), 1));
-				return [...values];
+				return values;
 			})()
 		});
 	}
@@ -87,7 +89,6 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, onChangeValue, padding, ...attributes } = this.props;
 		const { showList, currentValue, currentValues } = this.state;
 		const { theme } = this.context;
-		console.log(theme.themeName);
 		const isDarkTheme = theme.themeName === "Dark";
 
 		return (
