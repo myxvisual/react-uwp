@@ -104,6 +104,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 						width: itemWidth,
 						height: showList ? values.length * itemHeight + 40 : itemHeight + padding,
 						overflow: "hidden",
+						zIndex: showList ? 20 : 0,
 						padding: showList ? "20px 0" : 0,
 						transition: "all .25s 0s ease-in-out",
 						border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`,

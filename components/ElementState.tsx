@@ -51,7 +51,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			currentDOM.addEventListener("mouseleave", this.unHover);
 		}
 		if (activeStyle) {
-			currentDOM.addEventListener("click", this.active);
+			currentDOM.addEventListener("mousedown", this.active);
 			currentDOM.addEventListener("mouseup", this.unActive);
 		}
 		if (focusStyle) {
@@ -70,7 +70,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			currentDOM.removeEventListener("mouseleave", this.unHover);
 		}
 		if (activeStyle) {
-			currentDOM.removeEventListener("click", this.active);
+			currentDOM.removeEventListener("mousedown", this.active);
 			currentDOM.removeEventListener("mouseup", this.unActive);
 		}
 		if (focusStyle) {

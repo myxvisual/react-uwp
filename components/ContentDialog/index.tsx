@@ -88,7 +88,7 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 								<IconButton
 									onClick={() => { this.toggleShow(false); }}
 									style={styles.iconButton}
-									hoverStyle={{ background: "#d00f2a" }}
+									hoverStyle={{ background: "#d00f2a", color: "#fff" }}
 								>
 									{"\uE894"}
 								</IconButton>
