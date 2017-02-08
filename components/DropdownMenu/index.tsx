@@ -44,17 +44,26 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 
 	state: DropdownMenuState = {
 		currentValue: this.props.defaultValue || this.props.values[0],
-		currentValues: [...this.props.values]
+		currentValues: (() => {
+			let { values, defaultValue } = this.props;
+			defaultValue = defaultValue as string;
+			values.unshift(...values.splice(values.indexOf(defaultValue), 1));
+			return [...values];
+		})()
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
 	componentWillReceiveProps(nextProps: DropdownMenuProps) {
-		this.props = nextProps;
 		this.setState({
-			currentValue: this.props.defaultValue || this.props.values[0],
-			currentValues: [...this.props.values]
+			currentValue: nextProps.defaultValue || nextProps.values[0],
+			currentValues: (() => {
+				let { values, defaultValue } = nextProps;
+				defaultValue = defaultValue as string;
+				values.unshift(...values.splice(values.indexOf(defaultValue), 1));
+				return [...values];
+			})()
 		});
 	}
 
@@ -64,8 +73,6 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		const currentValue = valueNode.innerText;
 		if (showList) {
 			currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));
-		}
-		if (currentValue !== this.state.currentValue) {
 			this.props.onChangeValue(currentValue);
 		}
 		this.setState({
@@ -80,6 +87,8 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, onChangeValue, padding, ...attributes } = this.props;
 		const { showList, currentValue, currentValues } = this.state;
 		const { theme } = this.context;
+		console.log(theme.themeName);
+		const isDarkTheme = theme.themeName === "Dark";
 
 		return (
 			<div {...attributes} style={theme.prepareStyles({ position: "relative", zIndex: 20, width: itemWidth, height: itemHeight, ...attributes.style })}>
@@ -114,7 +123,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 								style={theme.prepareStyles({
 									width: itemWidth,
 									height: itemHeight,
-									background: isCurrent && showList ? theme.accentDarker2 : theme.chromeLow,
+									background: isCurrent && showList ? theme[isDarkTheme ? "accentDarker2" : "accentLighter2"] : theme.chromeLow,
 									display: "flex",
 									padding: "0 8px",
 									flexDirection: "row",
@@ -123,16 +132,16 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 								})}
 								onClick={this.toggleShowList}
 								onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
-									e.currentTarget.style.background = isCurrent ? theme.accentDarker1 : theme.chromeMediumLow;
+									e.currentTarget.style.background = isCurrent ? theme[isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.chromeMedium;
 									itemAttributes.onMouseEnter(e);
 								}}
 								onMouseLeave={!showList ? itemAttributes.onMouseLeave : (e) => {
-									e.currentTarget.style.background = isCurrent ? theme.accentDarker2 : theme.chromeLow;
+									e.currentTarget.style.background = isCurrent ? theme[isDarkTheme ? "accentDarker2" : "accentLighter2"] : theme.chromeLow;
 									itemAttributes.onMouseLeave(e);
 								}}
 								key={`${index}`}
 							>
-								<p>{value}</p>
+								<p style={{ cursor: "default" }}>{value}</p>
 								{!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>&#xE011;</Icon> : null}
 							</div>
 						);

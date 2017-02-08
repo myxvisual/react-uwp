@@ -1,5 +1,5 @@
 export interface ThemeType {
-	themeName: "dark" | "light";
+	themeName: "Dark" | "Light";
 	fontFamily?: string;
 	iconFontFamily?: string;
 
@@ -43,4 +43,5 @@ export interface ThemeType {
 	chromeWhite?: string;
 
 	prepareStyles?: (style: React.CSSProperties) => React.CSSProperties;
+	updateTheme?: (theme: ThemeType) => void;
 }

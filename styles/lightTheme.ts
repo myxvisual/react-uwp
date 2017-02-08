@@ -9,7 +9,7 @@ const altHigh = "rgb(255, 255, 255)";
 const accent = colors.blue500;
 
 const lightTheme: ThemeType = {
-	themeName: "light",
+	themeName: "Light",
 	fontFamily: "Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
 	iconFontFamily: "Segoe MDL2 Assets",
 

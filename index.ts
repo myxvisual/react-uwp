@@ -22,8 +22,9 @@ export { default as Swipe } from "./components/Swipe";
 export { default as Switch } from "./components/Switch";
 export { default as Theme } from "./components/Theme";
 export { default as Tooltip } from "./components/Tooltip";
-export { default as addCSSRule } from "./common/browser/addCSSRule";
+export { default as TreeView } from "./components/TreeView";
 
+export { default as addCSSRule } from "./common/browser/addCSSRule";
 export { default as darkTheme } from "./styles/darkTheme";
 export { default as lightTheme } from "./styles/lightTheme";
 export { ThemeType } from "./styles/ThemeType";

@@ -1,128 +1,160 @@
 import * as React from "react";
-import styles from "./index.scss";
-const $ = (selectors: string) => document.querySelector(selectors);
+
+import Icon from "../Icon";
+import { ThemeType } from "../../styles/ThemeType";
+
+const defaultProps: TreeViewProps = __DEV__ ? require("./devDefaultProps").default : {
+	listItems: []
+};
 
 interface List {
-	titleNode?: string | React.ReactElement<any>;
+	titleNode?: string | React.ReactNode;
 	expanded?: boolean;
+	disabled?: boolean;
+	onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 	children?: List[];
 }
-interface TreeViewState {
-	directories?: any;
-	focusFolder?: any;
+export interface DataProps {
 	listItems?: List[];
+	iconDirection?: "left" | "right";
+	listItemHeight?: number;
+	onChangeList?: (listItems: List[]) => void;
+	rootStyle?: React.CSSProperties;
 }
-export default class TreeView extends React.Component<any, TreeViewState> {
-	static defaultProps = {
-		className: "",
-		focusFolder: "",
-		style: {}
+interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+interface TreeViewState {
+	currListItems?: List[];
+}
+export default class TreeView extends React.Component<TreeViewProps, TreeViewState> {
+	static defaultProps: TreeViewProps = {
+		...defaultProps,
+		listItemHeight: 28,
+		iconDirection: "left",
+		onChangeList: () => {},
+		rootStyle: { width: 400 }
 	};
 
 	state: TreeViewState = {
-		directories: null,
-		focusFolder: null
+		currListItems: this.props.listItems
 	};
 
-	refs: {
-		[key: string]: any;
-	};
+	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
-	initDirTree = () => {
-		for (const item of this.state.focusFolder) {
-			this.toggleFolder({ currentTarget: $(`a[data-path="${item}"]`) }, true);
-		}
+	clickHandel = (e: React.MouseEvent<HTMLDivElement>, list: List) => {
+		list.expanded = !list.expanded;
+		this.setState({
+			currListItems: this.state.currListItems
+		});
+		this.props.onChangeList(this.state.currListItems);
+		// const { style } = e.currentTarget;
+		// if (style.height !== "auto") {
+		// 	style.height = "auto";
+		// 	style.padding = "0 0";
+		// } else {
+		// 	style.height = "0";
+		// 	style.padding = "2px 0";
+		// }
 	}
 
-	toggleFolder = (e: any, isInit = false) => {
-		const currentTarget = e.currentTarget;
-		const path = currentTarget.getAttribute("data-path");
-		const ref = `ref-${path}`;
-		const indexFolder = this.state.focusFolder.indexOf(path);
-		const setLocalStorage = () => window.localStorage.setItem("wikiDirTreeFocusFolder", JSON.stringify(this.state.focusFolder));
-		if (this.refs[ref].style.height !== "auto") {
-			if (!isInit) {
-				this.state.focusFolder.push(path);
-				setLocalStorage();
-			}
-			currentTarget.children[0].innerText = "keyboard_arrow_down";
-			currentTarget.children[1].innerText = "folder_open";
-			this.refs[ref].style.height = "auto";
-			this.refs[ref].style.padding = "0 0";
-			currentTarget.setAttribute("data-openFolder", "true");
-		} else {
-			if (!isInit) {
-				this.state.focusFolder.splice(indexFolder, indexFolder + 1);
-				setLocalStorage();
-			}
-			currentTarget.children[0].innerText = "keyboard_arrow_right";
-			currentTarget.children[1].innerText = "folder";
-			this.refs[ref].style.height = "0";
-			this.refs[ref].style.padding = "2px 0";
-			currentTarget.setAttribute("data-openFolder", "false");
-		}
-	}
-
-	renderFolder = (folder: any) => {
-		const listItems: List[] = [];
-		listItems.map(({ titleNode, children }, index) => (
-			<div className="parent-folder" key={`${index}`}>
-				<div>{titleNode}</div>
-				<div>
-					{children.map((list) => this.renderFolder(list))}
-				</div>
-			</div>
-		));
-		const { name, path, children, type } = folder;
-		const dataFocusFile = `is-${path === `./${window.location.href.match(/wiki\/(.+)/)[1]}`}`;
-		const filePattern = /.+\.(\w+)$/;
-		const fileType = filePattern.test(path) ? path.match(filePattern)[1] : "folder";
-		if (type === "folder") {
+	renderTree = (): React.ReactNode => {
+		const { currListItems } = this.state;
+		const { theme: { prepareStyles } } = this.context;
+		const { iconDirection, listItemHeight } = this.props;
+		const isRight = iconDirection === "right";
+		const styles = getStyles(this);
+		const renderList = ((list: List, index: number, isChild?: boolean): React.ReactNode => {
+			const { titleNode, expanded, disabled, children } = list;
+			const havedChild = Array.isArray(children) && children.length !== 0;
 			return (
-				<div className={styles.folder} key={`${Math.random()}`}>
-					<a
-						data-path={path}
-						onClick={e => this.toggleFolder(e)}
-						data-openFolder="false"
-						data-focusFile={dataFocusFile}
+				<div
+					style={{
+						paddingLeft: isChild ? (isRight ? 20 : 40) : void(0),
+					}}
+					key={`${index}`}
+				>
+					<div
+						style={styles.title}
+						onClick={(e) => {
+							this.clickHandel(e, list);
+						}}
 					>
-						<p className={styles["material-icons"]}>keyboard_arrow_right</p>
-						<p className={styles["material-icons"]}>folder</p>
-						{name}
-					</a>
-					<div ref={`ref-${path}`} className={styles.content}>
-						{children.map((child: any) => this.renderFolder(child))}
+						<div>{titleNode}</div>
+						<p>{havedChild && (
+							<Icon
+								style={prepareStyles({
+									cursor: "pointer",
+									fontSize: 14,
+									transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`,
+									marginRight: isRight ? void(0) : 12
+								})}
+							>
+								{"\uE011"}
+							</Icon>
+						)}</p>
 					</div>
+					{havedChild && (
+						<div
+							style={{
+								height: expanded ? listItemHeight : 0,
+								overflow: expanded ? void(0) : "hidden",
+								padding: expanded ? "2px 0" : 0,
+							...styles.parent
+							}}
+						>
+							{children.map((list: List[], index) => renderList(list, index, true))}
+						</div>
+					)}
 				</div>
 			);
-		}
+		});
 
-		return (
-			<div
-				className={styles.file}
-				key={`${Math.random()}`}
-			>
-				<a data-path={path} data-focusFile={dataFocusFile} href={`/wiki/${path.slice(2)}`} className={styles[fileType]}>
-					{name}
-				</a>
-			</div>
-		);
+		return currListItems.map((list, index) => renderList(list, index));
 	}
 
 	render() {
-		const { style, className, listItems, focusFolder, ...attributes } = this.props;
-
-		const { directories } = this.state;
-		if (!directories) {
-			return <div style={style} className={`${styles.container } ${ className}`} {...attributes} />;
-		}
+		// tslint:disable-next-line:no-unused-variable
+		const { listItems, iconDirection, listItemHeight, onChangeList, rootStyle, ...attributes } = this.props;
+		const { currListItems } = this.state;
+		const styles = getStyles(this);
 
 		return (
-			<div style={style} className={`${styles.container } ${ className}`} {...attributes}>
-				<div className={styles.tree}>
-					{this.renderFolder(directories)}
-				</div>
+			<div {...attributes} style={{ ...styles.root, ...attributes.style }}>
+				{currListItems ? this.renderTree() : null}
 			</div>
 		);
 	}
+}
+
+function getStyles(treeView: TreeView): {
+	root?: React.CSSProperties;
+	title?: React.CSSProperties;
+	parent?: React.CSSProperties;
+	icon?: React.CSSProperties;
+} {
+	const { context, props: { iconDirection, listItemHeight, rootStyle } } = treeView;
+	const isRight = iconDirection === "right";
+	const { theme } = context;
+	const { prepareStyles } = theme;
+	return {
+		root: {
+			fontSize: 14,
+			color: theme.baseMediumHigh,
+			background: theme.altMediumHigh,
+			padding: 12,
+			...prepareStyles(rootStyle),
+		},
+		title: prepareStyles({
+			height: listItemHeight,
+			fontSize: 14,
+			cursor: "pointer",
+			display: "flex",
+			flexDirection: `row${isRight ? "" : "-reverse"}`,
+			alignItems: "center",
+			justifyContent: isRight ? "space-between" : "flex-end",
+		}),
+		parent: prepareStyles({
+			transition: "all .25s 0s ease-in-out",
+		})
+	};
 }

@@ -25,6 +25,8 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 		margin: 4,
 		autoClose: false,
 		timeout: 2500,
+		onMouseLeave: () => {},
+		onMouseEnter: () => {}
 	};
 
 	state: FlyoutState = {
