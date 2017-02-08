@@ -79,7 +79,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 					style={styles.image}
 				/>
 				<div style={styles.content}>
-					<p style={{ opacity: isHovered ? 1 : 0 }}>
+					<p style={{ color: "#fff", opacity: isHovered ? 1 : 0 }}>
 						{title}
 					</p>
 				</div>

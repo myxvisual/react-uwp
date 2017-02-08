@@ -93,6 +93,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 			transform: `translateY(${showTooltip ? "0px" : "10px"})`,
 			position: "absolute",
 			fontSize: 14,
+			pointerEvents: showTooltip ? "all" : "none",
 			...style,
 			...positionStyle,
 		});
