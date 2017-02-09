@@ -48,10 +48,10 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 					...theme.prepareStyles(style),
 				}}
 				hoverStyle={{
-					border: `2px solid ${theme.chromeHigh}`,
+					border: `2px solid ${theme.baseMediumLow}`,
 					...theme.prepareStyles(hoverStyle),
 				}}
-				activeStyle={{ background: theme.chromeHigh }}
+				activeStyle={{ background: theme.baseMediumLow }}
 				{...attributes}
 			>
 				<button>

@@ -104,7 +104,6 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		funStartTime?: number;
 	} = () => {
 		const { delay } = this.props;
-		console.log(this.state.stopSwipe, (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay));
 		if (this.state.stopSwipe || (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay)) return;
 		this.timeoutId = setTimeout(() => {
 			if (!this.state.stopSwipe) this.swipeForward();

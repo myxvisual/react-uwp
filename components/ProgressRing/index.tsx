@@ -8,8 +8,9 @@ const defaultProps: ProgressRingProps = __DEV__ ? require("./devDefaultProps").d
 
 export interface DataProps {
 	itemLength?: number;
-	itmeStyle?: React.CSSProperties;
+	itemStyle?: React.CSSProperties;
 	size?: number;
+	speed?: number;
 	itemSize?: number;
 	delay?: number;
 }
@@ -21,7 +22,7 @@ const getInnerCSS = (progressRing: ProgressRing) => (
 }
 ${Array(progressRing.props.itemLength).fill(0).map((name, index) => (
 	[".react-uwp-progress-ring-item-" + index + " {",
-	vendorStrs.map(str => (`		${str}animation: CircleLoopFade 2500ms ${index * progressRing.props.delay}ms linear infinite normal forwards;`)).join("\n"),
+	vendorStrs.map(str => (`		${str}animation: CircleLoopFade ${progressRing.props.speed}ms ${index * progressRing.props.delay}ms linear infinite normal forwards;`)).join("\n"),
 	"	}"].join("")
 )).join("")}
 
@@ -36,15 +37,15 @@ ${vendorStrs.map(str => `@${str}keyframes CircleLoopFade {
 	}
 	50% {
 		transform: rotateZ(270deg);
-		opacity: .8;
+		opacity: 0;
 	}
 	75% {
 		transform: rotateZ(300deg);
-		opacity: .125;
+		opacity: 0;
 	}
 	100% {
 		transform: rotateZ(360deg);
-		opacity: 0;
+		opacity: 0.125;
 	}
 }`)}.join("")`);
 
@@ -53,6 +54,7 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 		...defaultProps,
 		className: "",
 		itemLength: 6,
+		speed: 2500,
 		size: 100,
 		delay: 150,
 	};
@@ -62,9 +64,9 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 
 	render() {
 		const {
-			itemLength, itmeStyle, size,
+			itemLength, itemStyle, size,
 			// tslint:disable-next-line:no-unused-variable
-			itemSize, delay,
+			itemSize, delay, speed,
 			style, ...attributes
 		} = this.props;
 		const currentItemSize = itemSize || size / 10;
@@ -89,7 +91,7 @@ export default class ProgressRing extends React.Component<ProgressRingProps, Pro
 							className={`react-uwp-progress-ring-item-${index}`}
 							style={theme.prepareStyles({
 								background: theme.accent,
-								...itmeStyle,
+								...itemStyle,
 								position: "absolute",
 								top: 0,
 								left: size / 2,
