@@ -74,7 +74,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "center",
-			background: "#fff",
+			background: theme.altHigh,
 			transition: "all .25s 0s cubic-bezier(.04, .89, .44, 1.07)",
 			fontSize: 12,
 		});
@@ -82,7 +82,14 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 		return (
 			<div
 				{...attributes}
-				style={theme.prepareStyles({ position: "fixed", right: 20, bottom: 60, zIndex: 200, ...attributes.style })}
+				style={theme.prepareStyles({
+					position: "fixed",
+					right: 20,
+					bottom: 60,
+					zIndex: 200,
+					background: theme.altHigh,
+					...attributes.style
+				})}
 			>
 				<div
 					{...attributes}
@@ -133,13 +140,13 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 									transition: "all .25s 0s ease-in-out",
 									color: "inherit",
 									textDecoration: "none",
-									background: (isFirst || isHovered) ? (theme.accent || color) : "#fff",
+									background: (isFirst || isHovered) ? (theme.accent || color) : theme.altHigh,
 									width: hoverIndexs[index] ? floatNavWidth : width,
 									height: width,
 								})}
 								key={`${index}`}
 							>
-								{isHovered && <span style={{ cursor: "default", color: "#fff", margin: `0 ${padding}px` }}>{title}</span>}
+								{isHovered && <span style={{ cursor: "default", color: theme.baseHigh, margin: `0 ${padding}px` }}>{title}</span>}
 								{typeof showNode === "string"
 									?
 									<div
