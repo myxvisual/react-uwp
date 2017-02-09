@@ -87,14 +87,33 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		this.setState({
 			isHorizontal: props.direction === "horizontal",
 			childrenLength,
-			isSingleChildren
+			isSingleChildren,
+			stopSwipe: !props.autoSwipe
 		});
 		if (props.autoSwipe && !isSingleChildren) {
-			this.setNextSlider();
+			this.timeoutId = setTimeout(() => {
+				this.swipeForward();
+				this.setNextSlider();
+			}, props.delay);
+			this.setNextSlider.funStartTime = Date.now();
 		}
 	}
 
-	getfocusIndex = () => this.state.focusIndex;
+	setNextSlider: {
+		(): void;
+		funStartTime?: number;
+	} = () => {
+		const { delay } = this.props;
+		console.log(this.state.stopSwipe, (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay));
+		if (this.state.stopSwipe || (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay)) return;
+		this.timeoutId = setTimeout(() => {
+			if (!this.state.stopSwipe) this.swipeForward();
+			this.setNextSlider();
+		}, delay);
+		this.setNextSlider.funStartTime = Date.now();
+	}
+
+	getFocusIndex = () => this.state.focusIndex;
 
 	focusIndex = (focusIndex: number) => {
 		this.setState({
@@ -174,36 +193,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		return focusIndex < 0 ? length - Math.abs(focusIndex) % length : focusIndex % length;
 	}
 
-	setNextSlider: {
-		(): void;
-		funStartTime?: number;
-	} = () => {
-		const { delay } = this.props;
-		if (this.state.stopSwipe || !this.props.autoSwipe) {
-			setTimeout(() => {
-				this.setNextSlider();
-			}, delay);
-			return;
-		};
-		if (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay) return;
-		this.timeoutId = setTimeout(() => {
-			if (!this.state.stopSwipe) {
-				this.swipeForward();
-			}
-			this.setNextSlider();
-		}, delay);
-		this.setNextSlider.funStartTime = Date.now();
-	}
-
 	checkIsToucheEvent = (e: React.SyntheticEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => "changedTouches" in e;
-
-	mouseEnterHandler = (e: React.SyntheticEvent<HTMLDivElement>) => {
-		this.state.stopSwipe = true;
-	}
-
-	mouseLeaveHandler = (e: React.SyntheticEvent<HTMLDivElement>) => {
-		this.state.stopSwipe = false;
-	}
 
 	mouseOrTouchDownHandler = (e: any) => {
 		const { isHorizontal } = this.state;
@@ -315,8 +305,6 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 					onTouchStart={
 						canSwipe ? this.mouseOrTouchDownHandler : void(0)
 					}
-					onMouseEnter={this.mouseEnterHandler}
-					onMouseLeave={this.mouseLeaveHandler}
 					ref="content"
 					style={styles.content}
 				>
