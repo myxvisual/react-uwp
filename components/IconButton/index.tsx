@@ -34,7 +34,7 @@ export default class IconButton extends React.Component<IconButtonProps, IconBut
 					fontFamily: "Segoe MDL2 Assets",
 					transition: "all .25s 0s ease-in-out",
 					userSelect: "none",
-					background: theme.altHigh,
+					background: "none",
 					border: "none",
 					outline: "none",
 					fontSize: 22,

@@ -88,19 +88,20 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						style={{
 							cursor: disabled ? "not-allowed" : "default",
 							...styles.title,
-							background: (visited && !havedChild) ? fadeAccent : void(0)
 						}}
 						onMouseEnter={e => {
-							e.currentTarget.style.background = (visited && !havedChild) ? theme.accent : theme.baseLow;
+							const bgNode = e.currentTarget.querySelector(".react-uwp-treeview-bg") as HTMLDivElement;
+							bgNode.style.background = (visited && !havedChild) ? theme.accent : theme.baseLow;
 						}}
 						onMouseLeave={e => {
-							e.currentTarget.style.background = (visited && !havedChild) ? fadeAccent : "none";
+							const bgNode = e.currentTarget.querySelector(".react-uwp-treeview-bg") as HTMLDivElement;
+							bgNode.style.background = (visited && !havedChild) ? fadeAccent : "none";
 						}}
 						onClick={disabled ? void(0) : (e) => {
 							this.clickHandel(e, list);
 						}}
 					>
-						<div style={{ padding: 10 }}>
+						<div style={styles.titleNode}>
 							{titleNode}
 						</div>
 						<p>{havedChild && (
@@ -115,6 +116,14 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 								{"\uE011"}
 							</Icon>
 						)}</p>
+						<div
+							style={{
+								zIndex: 0,
+								background: (visited && !havedChild) ? fadeAccent : void(0),
+								...styles.bg
+							}}
+							className="react-uwp-treeview-bg"
+						/>
 					</div>
 					{havedChild && (
 						<div
@@ -152,8 +161,10 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 function getStyles(treeView: TreeView): {
 	root?: React.CSSProperties;
 	title?: React.CSSProperties;
+	titleNode?: React.CSSProperties;
 	parent?: React.CSSProperties;
 	icon?: React.CSSProperties;
+	bg?: React.CSSProperties;
 } {
 	const { context, props: { iconDirection, listItemHeight, rootStyle } } = treeView;
 	const isRight = iconDirection === "right";
@@ -162,12 +173,17 @@ function getStyles(treeView: TreeView): {
 	return {
 		root: {
 			fontSize: 14,
+			overflow: "hidden",
 			color: theme.baseMediumHigh,
 			background: theme.altMediumHigh,
-			padding: 12,
+			padding: "8px 0",
 			...prepareStyles(rootStyle),
 		},
 		title: prepareStyles({
+			whiteSpace: "nowrap",
+			textOverflow: "ellipsis",
+			width: "100%",
+			position: "relative",
 			height: listItemHeight,
 			fontSize: 14,
 			display: "flex",
@@ -176,8 +192,23 @@ function getStyles(treeView: TreeView): {
 			justifyContent: isRight ? "space-between" : "flex-end",
 			transition: "all .25s 0s ease-in-out",
 		}),
+		titleNode: {
+			padding: 10,
+			zIndex: 1,
+			width: "100%",
+			overflow: "hidden",
+			whiteSpace: "nowrap",
+			textOverflow: "ellipsis",
+		},
 		parent: prepareStyles({
 			transition: "all .25s 0s ease-in-out",
-		})
+		}),
+		bg: {
+			position: "absolute",
+			top: 0,
+			left: "-100%",
+			width: "200%",
+			height: "100%",
+		}
 	};
 }

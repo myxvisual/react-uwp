@@ -50,8 +50,8 @@ function getStyles(navPane: NavPane): {
 	return {
 		container: {
 			fontSize: 14,
-			color: theme.baseMediumHigh,
-			background: theme.altMediumHigh,
+			color: theme.baseHigh,
+			background: theme.chromeLow,
 		},
 	};
 }

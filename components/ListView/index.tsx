@@ -110,6 +110,7 @@ function getStyles(listView: ListView): {
 
 	return {
 		container: {
+			width: "100%",
 			fontSize: 14,
 			padding: "8px 0",
 			color: theme.baseMediumHigh,
