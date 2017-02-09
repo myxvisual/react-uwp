@@ -43,5 +43,6 @@ export interface ThemeType {
 	chromeWhite?: string;
 
 	prepareStyles?: (style: React.CSSProperties) => React.CSSProperties;
+	isDarkTheme?: boolean;
 	updateTheme?: (theme: ThemeType) => void;
 }

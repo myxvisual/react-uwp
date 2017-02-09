@@ -47,9 +47,9 @@ function getStyles(separator: Separator): {
 
 	return {
 		container: {
-			width: "86%",
+			width: "100%",
 			height: 1,
-			background: theme.baseMediumHigh,
+			background: theme.baseLow,
 		},
 	};
 }

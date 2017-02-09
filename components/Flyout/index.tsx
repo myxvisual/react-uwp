@@ -62,6 +62,10 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 		const getStyles = (showFlyout = false, positionStyle = {}): React.CSSProperties => theme.prepareStyles({
 			width: 280,
 			height: 60,
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "flex-start",
+			justifyContent: "flex-start",
 			padding: "4px 8px",
 			transition: "all .25s 0s ease-in-out",
 			border: `1px solid ${theme.baseLow}`,

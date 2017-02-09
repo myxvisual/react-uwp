@@ -52,6 +52,7 @@ const darkTheme: ThemeType = {
 	chromeBlackHigh: "#000",
 	chromeWhite: "#fff",
 
+	isDarkTheme: true,
 	prepareStyles: prefixAll(),
 };
 
