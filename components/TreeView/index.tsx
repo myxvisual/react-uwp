@@ -75,7 +75,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 		const styles = getStyles(this);
 		const renderList = ((list: List, index: number, isChild?: boolean): React.ReactNode => {
 			const { titleNode, expanded, disabled, visited, children } = list;
-			const havedChild = Array.isArray(children) && children.length !== 0;
+			const haveChild = Array.isArray(children) && children.length !== 0;
 			const fadeAccent = theme[theme.themeName === "Dark" ? "accentDarker1" : "accentLighter1"];
 			return (
 				<div
@@ -91,11 +91,11 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						}}
 						onMouseEnter={e => {
 							const bgNode = e.currentTarget.querySelector(".react-uwp-treeview-bg") as HTMLDivElement;
-							bgNode.style.background = (visited && !havedChild) ? theme.accent : theme.baseLow;
+							bgNode.style.background = (visited && !haveChild) ? theme.accent : theme.baseLow;
 						}}
 						onMouseLeave={e => {
 							const bgNode = e.currentTarget.querySelector(".react-uwp-treeview-bg") as HTMLDivElement;
-							bgNode.style.background = (visited && !havedChild) ? fadeAccent : "none";
+							bgNode.style.background = (visited && !haveChild) ? fadeAccent : "none";
 						}}
 						onClick={disabled ? void(0) : (e) => {
 							this.clickHandel(e, list);
@@ -104,7 +104,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						<div style={styles.titleNode}>
 							{titleNode}
 						</div>
-						<p>{havedChild && (
+						<p>{haveChild && (
 							<Icon
 								style={prepareStyles({
 									cursor: disabled ? "not-allowed" : "pointer",
@@ -119,13 +119,13 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						<div
 							style={{
 								zIndex: 0,
-								background: (visited && !havedChild) ? fadeAccent : void(0),
+								background: (visited && !haveChild) ? fadeAccent : void(0),
 								...styles.bg
 							}}
 							className="react-uwp-treeview-bg"
 						/>
 					</div>
-					{havedChild && (
+					{haveChild && (
 						<div
 							style={{
 								height: expanded ? "auto" : 0,
