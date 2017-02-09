@@ -12,7 +12,7 @@ export interface DataProps {
 	canSwipe?: boolean;
 	autoSwipe?: boolean;
 	speed?: number;
-	easey?: number;
+	easy?: number;
 	direction?: "vertical" | "horizontal";
 	iconSize?: number;
 	iconStyle?: React.CSSProperties;
@@ -41,9 +41,13 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
 		this.refs.swipe.swipeBackWord();
 	}
 
+	shouldComponentUpdate(nextProps: FlipViewProps, nextState: FlipViewState) {
+		return nextProps !== this.props || nextState !== this.state;
+	}
+
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, showIcon, initialFocusIndex, canSwipe, autoSwipe, speed, easey, direction, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
+		const { children, showIcon, initialFocusIndex, canSwipe, autoSwipe, speed, easy, direction, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
 		const { theme } = this.context;
 		const count = React.Children.count(children);
 		const isHorizontal = direction === "horizontal";

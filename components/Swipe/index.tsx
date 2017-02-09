@@ -8,7 +8,7 @@ export interface DataProps {
 	canSwipe?: boolean;
 	autoSwipe?: boolean;
 	speed?: number;
-	easey?: number;
+	easy?: number;
 	delay?: number;
 	direction?: "vertical" | "horizontal";
 	transitionTimingFunction?: string;
@@ -20,7 +20,7 @@ export interface DataProps {
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 interface SwipeState {
-	stopSwip?: boolean;
+	stopSwipe?: boolean;
 	focusIndex?: number;
 	childrenLength?: number;
 	isHorizontal?: boolean;
@@ -41,7 +41,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		canSwipe: true,
 		speed: 1000,
 		delay: 5000,
-		easey: 0.85,
+		easy: 0.85,
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -51,7 +51,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	state: SwipeState = {
 		isSingleChildren: this.isSingleChildren,
 		focusIndex: this.isSingleChildren ? this.props.initialFocusIndex : this.props.initialFocusIndex + 1,
-		stopSwip: false,
+		stopSwipe: false,
 		childrenLength: 0,
 		haveAnimate: true,
 		swiping: false
@@ -89,7 +89,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			childrenLength,
 			isSingleChildren
 		});
-		if (this.props.autoSwipe && !isSingleChildren && 0) {
+		if (props.autoSwipe && !isSingleChildren) {
 			this.setNextSlider();
 		}
 	}
@@ -99,7 +99,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	focusIndex = (focusIndex: number) => {
 		this.setState({
 			focusIndex: this.setRightFocusIndex(focusIndex),
-			stopSwip: false
+			stopSwipe: false
 		});
 	}
 
@@ -179,7 +179,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		funStartTime?: number;
 	} = () => {
 		const { delay } = this.props;
-		if (this.state.stopSwip || !this.props.autoSwipe) {
+		if (this.state.stopSwipe || !this.props.autoSwipe) {
 			setTimeout(() => {
 				this.setNextSlider();
 			}, delay);
@@ -187,7 +187,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		};
 		if (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay) return;
 		this.timeoutId = setTimeout(() => {
-			if (!this.state.stopSwip) {
+			if (!this.state.stopSwipe) {
 				this.swipeForward();
 			}
 			this.setNextSlider();
@@ -198,16 +198,16 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 	checkIsToucheEvent = (e: React.SyntheticEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => "changedTouches" in e;
 
 	mouseEnterHandler = (e: React.SyntheticEvent<HTMLDivElement>) => {
-		this.state.stopSwip = true;
+		this.state.stopSwipe = true;
 	}
 
 	mouseLeaveHandler = (e: React.SyntheticEvent<HTMLDivElement>) => {
-		this.state.stopSwip = false;
+		this.state.stopSwipe = false;
 	}
 
 	mouseOrTouchDownHandler = (e: any) => {
 		const { isHorizontal } = this.state;
-		this.setState({ stopSwip: true });
+		this.setState({ stopSwipe: true });
 		const isToucheEvent = this.checkIsToucheEvent(e);
 		if (isToucheEvent) {
 			window.addEventListener("touchmove", this.mouseOrTouchMoveHandler);
@@ -267,14 +267,14 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		const { transitionTimingFunction, speed } = this.props;
 		const transition = `all ${speed}ms 0s ${transitionTimingFunction}`;
 		this.refs.content.style.webkitTransition = transition;
-		this.state.stopSwip = false;
-		let { easey } = this.props;
-		if (easey < 0) easey = 0;
-		if (easey > 1) easey = 1;
+		this.state.stopSwipe = false;
+		let { easy } = this.props;
+		if (easy < 0) easy = 0;
+		if (easy > 1) easy = 1;
 		const movePosition = this.endClientX - this.startClientX;
 		const isNext = movePosition < 0;
 		let focusIndex = this.state.focusIndex + movePosition / this.refs.container.getBoundingClientRect().width;
-		focusIndex = isNext ? Math.ceil(focusIndex + easey / 2) : Math.floor(focusIndex - easey / 2);
+		focusIndex = isNext ? Math.ceil(focusIndex + easy / 2) : Math.floor(focusIndex - easy / 2);
 		focusIndex = this.setRightFocusIndex(focusIndex);
 		if (focusIndex === this.state.focusIndex) {
 			this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (-focusIndex / childrenLength) - this.startClientX + this.endClientX}px)`;
@@ -288,8 +288,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easey, direction, style, transitionTimingFunction, iconSize, ...attributes } = this.props;
-		const { focusIndex, stopSwip, childrenLength, isSingleChildren } = this.state;
+		const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easy, direction, style, transitionTimingFunction, iconSize, ...attributes } = this.props;
+		const { focusIndex, stopSwipe, childrenLength, isSingleChildren } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
 		const childrens = React.Children.toArray(children);

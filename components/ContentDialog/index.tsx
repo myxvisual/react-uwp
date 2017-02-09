@@ -8,13 +8,16 @@ import { ThemeType } from "../../styles/ThemeType";
 const defaultProps: ContentDialogProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
-	statuBarTitle?: string;
+	statusBarTitle?: string;
 	title?: string;
 	primaryButtonText?: string;
 	secondaryButtonText?: string;
+	primaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	secondaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	showCloseButton?: boolean;
 	show?: boolean;
 	contentNode?: any;
+	autoClose?: boolean;
 }
 
 interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -26,12 +29,14 @@ interface ContentDialogState {
 export default class ContentDialog extends React.Component<ContentDialogProps, ContentDialogState> {
 	static defaultProps: ContentDialogProps = {
 		...defaultProps,
-		statuBarTitle: "ContentDialog",
+		statusBarTitle: "ContentDialog",
 		title: "Delete file permanently?",
 		content: "If you delete this file, you won't be able to recover it. Do you want to delete it?",
 		primaryButtonText: "Delete",
+		secondaryButtonText: "Cancel",
+		primaryButtonAction: () => {},
+		secondaryButtonAction: () => {},
 		showCloseButton: true,
-		secondaryButtonText: "Cancel"
 	};
 
 	state: ContentDialogState = { showDialog: this.props.show };
@@ -62,7 +67,7 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { statuBarTitle, title, primaryButtonText, secondaryButtonText, show, showCloseButton, content, contentNode, ...attributes } = this.props;
+		const { statusBarTitle, title, primaryButtonText, secondaryButtonText, show, showCloseButton, content, contentNode, primaryButtonAction, secondaryButtonAction, autoClose, ...attributes } = this.props;
 		const { showDialog } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
@@ -81,8 +86,8 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 						onMouseEnter={this.containerMouseEnterHandle}
 						onMouseLeave={this.containerMouseLeaveHandle}
 					>
-						<div style={styles.statuBarTitle}>
-							<p style={{ fontSize: 12, marginLeft: 8 }}>{statuBarTitle}</p>
+						<div style={styles.statusBarTitle}>
+							<p style={{ fontSize: 12, marginLeft: 8 }}>{statusBarTitle}</p>
 							{showCloseButton
 								?
 								<IconButton
@@ -97,13 +102,13 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 						</div>
 						<div style={styles.content}>
 							<div style={{ width: "100%" }}>
-								<h5 style={styles.title}>{title}</h5>
+								{title ? <h5 style={styles.title}>{title}</h5> : null}
 								<p>{content}</p>
 								{contentNode}
 							</div>
 							<div style={styles.buttonGroup}>
-								<Button style={styles.button}>{primaryButtonText}</Button>
-								<Button style={styles.button}>{secondaryButtonText}</Button>
+								<Button onClick={autoClose ? e => { this.toggleShow(false); primaryButtonAction(e); } : primaryButtonAction} style={styles.button}>{primaryButtonText}</Button>
+								<Button onClick={autoClose ? e => { this.toggleShow(false); secondaryButtonAction(e); } : secondaryButtonAction} style={styles.button}>{secondaryButtonText}</Button>
 							</div>
 						</div>
 					</div>
@@ -117,7 +122,7 @@ function getStyles(contentDialog: ContentDialog): {
 	mask?: React.CSSProperties;
 	container?: React.CSSProperties;
 	content?: React.CSSProperties;
-	statuBarTitle?: React.CSSProperties;
+	statusBarTitle?: React.CSSProperties;
 	iconButton?: React.CSSProperties;
 	title?: React.CSSProperties;
 	buttonGroup?: React.CSSProperties;
@@ -173,7 +178,7 @@ function getStyles(contentDialog: ContentDialog): {
 			alignItems: "center",
 			justifyContent: "space-between",
 		}),
-		statuBarTitle: prepareStyles({
+		statusBarTitle: prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",

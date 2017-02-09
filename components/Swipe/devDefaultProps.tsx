@@ -13,5 +13,5 @@ export default {
 	canSwipe: false,
 	autoSwipe: true,
 	speed: 5000,
-	easey: 0.85,
+	easy: 0.85,
 };

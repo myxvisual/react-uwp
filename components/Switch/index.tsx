@@ -83,6 +83,7 @@ function getStyles(context: Switch): {
 	const itemSize = Number(height) / 1.5;
 	return {
 		container: {
+			position: "relative",
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
