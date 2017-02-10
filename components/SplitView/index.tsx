@@ -130,11 +130,10 @@ function getStyles(SplitView: SplitView): {
 		state: { opened }
 	} = SplitView;
 	const { theme } = context;
-	// tslint:disable-next-line:no-unused-variable
 	const { prepareStyles } = theme;
 
 	return {
-		root: {
+		root: prepareStyles({
 			display: "flex",
 			flex: "0 0 auto",
 			flexDirection: "row",
@@ -145,8 +144,8 @@ function getStyles(SplitView: SplitView): {
 			background: theme.chromeMedium,
 			position: "relative",
 			height: 400,
-		},
-		pane: {
+		}),
+		pane: prepareStyles({
 			flex: "0 0 auto",
 			overflow: "hidden",
 			display: "flex",
@@ -162,14 +161,14 @@ function getStyles(SplitView: SplitView): {
 				left: 0,
 				top: 0,
 			} : {}),
-		},
-		paneTop: {
+		}),
+		paneTop: prepareStyles({
 			width: "100%",
 			flex: "0 0 auto",
-		},
-		paneBottom: {
+		}),
+		paneBottom: prepareStyles({
 			width: "100%",
 			flex: "0 0 auto",
-		},
+		}),
 	};
 }

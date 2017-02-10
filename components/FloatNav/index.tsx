@@ -138,7 +138,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 									justifyContent: isHovered ? "space-between" : "center",
 									boxSizing: "border-box",
 									transition: "all .25s 0s ease-in-out",
-									color: "inherit",
+									color: hoverIndexs[index] ? "#fff" : theme.baseHigh,
 									textDecoration: "none",
 									background: (isFirst || isHovered) ? (theme.accent || color) : theme.altHigh,
 									width: hoverIndexs[index] ? floatNavWidth : width,
@@ -146,7 +146,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 								})}
 								key={`${index}`}
 							>
-								{isHovered && <span style={{ cursor: "default", color: theme.baseHigh, margin: `0 ${padding}px` }}>{title}</span>}
+								{isHovered && <span style={{ cursor: "default", color: "#fff", margin: `0 ${padding}px` }}>{title}</span>}
 								{typeof showNode === "string"
 									?
 									<div

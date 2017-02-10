@@ -38,6 +38,8 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
 		// tslint:disable-next-line:no-unused-variable
 		const { label, labelNode, icon, visited, onMouseEnter, onMouseLeave, ...attributes } = this.props;
 		const { theme } = this.context;
+		const fadeAccent1 = theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"];
+		const fadeAccent2 = theme[theme.isDarkTheme ? "accentDarker2" : "accentLighter2"];
 		const styles = getStyles(this);
 
 		return (
@@ -48,20 +50,18 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
 					...theme.prepareStyles(attributes.style),
 				}}
 				onMouseEnter={e => {
-					e.currentTarget.style.background = theme.baseLow
-					;
+					e.currentTarget.style.background = visited ? fadeAccent1 : fadeAccent2;
 					if (onMouseEnter) onMouseEnter(e);
 				}}
 				onMouseLeave={e => {
-					e.currentTarget.style.background = theme.altHigh;
+					e.currentTarget.style.background = visited ? fadeAccent1 : theme.altHigh;
 					if (onMouseLeave) onMouseLeave(e);
 				}}
 			>
-				{visited ? <div style={styles.visitedBorder} /> : null}
-				<Icon hoverStyle={{ color: theme.accent }} style={styles.icon}>
+				<Icon hoverStyle={{ color: theme.baseHigh }} style={styles.icon}>
 					{icon}
 				</Icon>
-				<div style={{ color: visited ? theme.accent : theme.baseHigh }}>{label || labelNode}</div>
+				<div>{label || labelNode}</div>
 			</div>
 		);
 	}
@@ -70,7 +70,6 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
 function getStyles(splitViewCommand: SplitViewCommand): {
 	root?: React.CSSProperties;
 	icon?: React.CSSProperties;
-	visitedBorder?: React.CSSProperties;
 } {
 	const { context, props: { style, iconStyle, visited } } = splitViewCommand;
 	const { theme } = context;
@@ -80,28 +79,18 @@ function getStyles(splitViewCommand: SplitViewCommand): {
 		root: prepareStyles({
 			fontSize: 14,
 			color: theme.baseMediumHigh,
-			background: theme.altHigh,
+			background: visited ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.altHigh,
 			width: "100%",
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
-			position: "relative",
 			transition: "all .25s 0s ease-in-out",
 			...style,
 		}),
-		visitedBorder: {
-			width: 0,
-			borderLeft: `4px solid ${theme.accent}`,
-			height: "50%",
-			left: 0,
-			top: "25%",
-			position: "absolute",
-		},
 		icon: prepareStyles({
 			flex: "0 0 auto",
 			width: 48,
 			height: 48,
-			color: visited ? theme.accent : theme.baseHigh,
 			fontSize: 18,
 			...iconStyle,
 		})

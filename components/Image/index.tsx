@@ -50,6 +50,9 @@ export default class Image extends React.Component<ImageProps, {}> {
 		throttle: 60,
 	};
 
+	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
+
 	state = {
 		showEmptyImage: false
 	};
