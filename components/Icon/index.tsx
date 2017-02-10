@@ -30,6 +30,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
 				{...attributes}
 				style={theme.prepareStyles({
 					display: "flex",
+					flex: "0 0 auto",
 					alignItems: "center",
 					justifyContent: "center",
 					fontFamily: "Segoe MDL2 Assets",

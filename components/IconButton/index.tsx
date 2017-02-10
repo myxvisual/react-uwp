@@ -7,6 +7,7 @@ const defaultProps: IconButtonProps = __DEV__ ? require("./devDefaultProps").def
 
 export interface DataProps {
 	hoverStyle?: React.CSSProperties;
+	activeStyle?: React.CSSProperties;
 }
 
 interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -24,7 +25,7 @@ export default class IconButton extends React.Component<IconButtonProps, IconBut
 	context: { theme: ThemeType };
 
 	render() {
-		const { style, hoverStyle, children, ...attributes } = this.props;
+		const { style, hoverStyle, activeStyle, children, ...attributes } = this.props;
 		const { theme } = this.context;
 
 		return (
@@ -43,11 +44,16 @@ export default class IconButton extends React.Component<IconButtonProps, IconBut
 					padding: 4,
 					...style
 				}}
-				hoverStyle={hoverStyle || {
+				hoverStyle={{
+					background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"],
+					...hoverStyle,
+				}}
+				activeStyle={{
 					background: theme.accent,
+					...activeStyle,
 				}}
 			>
-				<button {...attributes}>{children || "&#xE73E;"}</button>
+				<button {...attributes}>{children || "\uE73E"}</button>
 			</ElementState>
 		);
 	}

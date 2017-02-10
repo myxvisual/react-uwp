@@ -5,6 +5,7 @@ export { default as CheckBox } from "./components/CheckBox";
 export { default as NavPane } from "./components/NavPane";
 export { default as ContentDialog } from "./components/ContentDialog";
 export { default as DropdownMenu } from "./components/DropdownMenu";
+export { default as SplitView } from "./components/SplitView";
 export { default as FlipView } from "./components/FlipView";
 export { default as FloatNav } from "./components/FloatNav";
 export { default as Flyout } from "./components/Flyout";
