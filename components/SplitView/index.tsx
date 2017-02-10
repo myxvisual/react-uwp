@@ -37,8 +37,8 @@ export default class SplitView extends React.Component<SplitViewProps, SplitView
 			<SplitViewCommand label="Print" icon={"\uE2F6"} />
 		],
 		bottomNodes: [
-			<SplitViewCommand label="Print" icon={"\uE713"} /> ,
-			<SplitViewCommand label="Print" icon={"\uE161"} />,
+			<SplitViewCommand label="Settings" icon={"\uE713"} /> ,
+			<SplitViewCommand label="CalendarDay" icon={"\uE161"} />,
 		],
 		children: "Inside Component",
 	};
@@ -46,6 +46,7 @@ export default class SplitView extends React.Component<SplitViewProps, SplitView
 	state: SplitViewState = {
 		focusNodeIndex: void(0)
 	};
+
 	splitViewCommands: SplitViewCommand[] = [];
 
 	static contextTypes = { theme: React.PropTypes.object };
