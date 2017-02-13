@@ -19,8 +19,6 @@ interface SplitViewCommandState {}
 export default class SplitViewCommand extends React.Component<SplitViewCommandProps, SplitViewCommandState> {
 	static defaultProps: SplitViewCommandProps = {
 		...defaultProps,
-		labelNode: "Settings",
-		icon: "\uE700",
 	};
 
 	state: SplitViewCommandState = {};
@@ -102,7 +100,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
 			width: 48,
 			height: 48,
 			color: visited ? theme.accent : theme.baseHigh,
-			fontSize: 18,
+			fontSize: 16,
 			...iconStyle,
 		})
 	};

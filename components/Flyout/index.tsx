@@ -71,6 +71,7 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 			border: `1px solid ${theme.baseLow}`,
 			color: theme.baseMediumHigh,
 			background: theme.chromeMedium,
+			pointerEvents: showFlyout ? "all" : "none",
 			opacity: showFlyout ? 1 : 0,
 			transform: `translateY(${showFlyout ? "0px" : "10px"})`,
 			position: "absolute",

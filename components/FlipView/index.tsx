@@ -31,7 +31,7 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
 	};
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
-	refs: { swipe?: Swipe; container: HTMLDivElement };
+	refs: { swipe?: Swipe; root: HTMLDivElement };
 
 	swipeForward = () => {
 		this.refs.swipe.swipeForward();
@@ -55,9 +55,9 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
 		const styles = getStyles(this);
 		return (
 			<div
-				ref="container"
+				ref="root"
 				style={{
-					...styles.container,
+					...styles.root,
 					...theme.prepareStyles(attributes.style)
 				}}
 			>
@@ -102,7 +102,7 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
 }
 
 function getStyles(flipView: FlipView): {
-	container?: React.CSSProperties;
+	root?: React.CSSProperties;
 	iconLeft?: React.CSSProperties;
 	iconRight?: React.CSSProperties;
 } {
@@ -121,7 +121,7 @@ function getStyles(flipView: FlipView): {
 	};
 
 	return {
-		container: prepareStyles({
+		root: prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",

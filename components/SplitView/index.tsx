@@ -11,13 +11,17 @@ interface TNode {
 	opened?: any;
 }
 export interface DataProps {
-	openedWidth?: number;
+	expandedWidth?: number;
 	initWidth?: number;
 	defaultOpened?: boolean;
 	topIcon?: any;
 	topNodes?: Array<TNode>;
 	bottomNodes?: Array<TNode>;
-	overLay?: boolean;
+	mode?: "Overlay" | "Compact" | "Inline";
+	pageTitle?: string;
+	position?: "left" | "right";
+	paneStyle?: React.CSSProperties;
+	paneViewStyle?: React.CSSProperties;
 }
 
 interface SplitViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -30,16 +34,19 @@ interface SplitViewState {
 export default class SplitView extends React.Component<SplitViewProps, SplitViewState> {
 	static defaultProps: SplitViewProps = {
 		...defaultProps,
-		openedWidth: 250,
+		expandedWidth: 320,
 		initWidth: 48,
-		topIcon: <IconButton style={{ width: 48, height: 48 }}>{"\uE700"}</IconButton>,
+		topIcon: <IconButton style={{ fontSize: 16, width: 48, height: 48 }}>{"\uE700"}</IconButton>,
 		topNodes: [
-			<SplitViewCommand label="Print" icon={"\uE2F6"} />
+			<SplitViewCommand icon={"\uE716"} />,
+			<SplitViewCommand label="Print" icon={"\uE2F6"} />,
 		],
 		bottomNodes: [
 			<SplitViewCommand label="Settings" icon={"\uE713"} /> ,
 			<SplitViewCommand label="CalendarDay" icon={"\uE161"} />,
 		],
+		pageTitle: "PageTitle",
+		mode: "Compact",
 		children: "Inside Component",
 	};
 
@@ -77,7 +84,7 @@ export default class SplitView extends React.Component<SplitViewProps, SplitView
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { topIcon, initWidth, topNodes, bottomNodes, openedWidth, overLay, children, ...attributes } = this.props;
+		const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, mode, pageTitle, ...attributes } = this.props;
 		const { theme } = this.context;
 		const { opened, focusNodeIndex } = this.state;
 		const styles = getStyles(this);
@@ -91,28 +98,40 @@ export default class SplitView extends React.Component<SplitViewProps, SplitView
 					...theme.prepareStyles(attributes.style),
 				}}
 			>
-				<div style={styles.pane} onClick={() => this.toggleOpened() }>
-					<div style={styles.paneTop}>
-						{topIcon}
-						{topNodes.map((node, index) => {
-							let currNode = node as any;
-							if (node.default) currNode = node.default;
-							if ("opened" in node && opened) currNode = node.opened;
-							++nodeIndex;
-							return React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex));
-						})}
-					</div>
-					<div style={styles.paneBottom}>
-						{bottomNodes.map((node, index) => {
-							let currNode = node as any;
-							if (node.default) currNode = node.default;
-							if ("opened" in node && opened) currNode = node.opened;
-							++nodeIndex;
-							return React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex));
-						})}
+				<div style={styles.paneParent}>
+					<div style={styles.pane}>
+						<div style={styles.paneTop}>
+							<div style={styles.topIcon}>
+								{React.cloneElement(topIcon, {
+									onClick: (e) => {
+										this.toggleOpened();
+										if (topIcon.onClick) topIcon.onclick(e);
+									}
+								})}
+								{opened ? <p>{pageTitle}</p> : null}
+							</div>
+							<div style={styles.paneTopItems}>
+								{topNodes.map((node, index) => {
+									let currNode = node as any;
+									if (node.default) currNode = node.default;
+									if ("opened" in node && opened) currNode = node.opened;
+									++nodeIndex;
+									return React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex));
+								})}
+							</div>
+						</div>
+						<div style={styles.paneBottom}>
+							{bottomNodes.map((node, index) => {
+								let currNode = node as any;
+								if (node.default) currNode = node.default;
+								if ("opened" in node && opened) currNode = node.opened;
+								++nodeIndex;
+								return React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex));
+							})}
+						</div>
 					</div>
 				</div>
-				<div>{children}</div>
+				<div style={styles.paneView}>{children}</div>
 			</div>
 		);
 	}
@@ -120,16 +139,22 @@ export default class SplitView extends React.Component<SplitViewProps, SplitView
 
 function getStyles(SplitView: SplitView): {
 	root?: React.CSSProperties;
+	paneParent?: React.CSSProperties;
+	paneView?: React.CSSProperties;
+	topIcon?: React.CSSProperties;
 	pane?: React.CSSProperties;
 	paneTop?: React.CSSProperties;
+	paneTopItems?: React.CSSProperties;
 	paneBottom?: React.CSSProperties;
 	view?: React.CSSProperties;
 } {
 	const {
 		context,
-		props: { initWidth, openedWidth, overLay },
+		props: { initWidth, expandedWidth, mode, paneStyle, paneViewStyle },
 		state: { opened }
 	} = SplitView;
+	const isOverLay = mode === "Overlay";
+	const isCompact = mode === "Compact";
 	const { theme } = context;
 	const { prepareStyles } = theme;
 
@@ -137,39 +162,76 @@ function getStyles(SplitView: SplitView): {
 		root: prepareStyles({
 			display: "flex",
 			flex: "0 0 auto",
-			flexDirection: "row",
+			flexDirection: isCompact ? "column" : "row",
 			alignItems: "flex-start",
 			justifyContent: "flex-start",
-			fontSize: 14,
+			fontSize: 16,
 			color: theme.baseMediumHigh,
 			background: theme.chromeMedium,
 			position: "relative",
-			height: 400,
 		}),
-		pane: prepareStyles({
-			flex: "0 0 auto",
-			overflow: "hidden",
+		paneParent: prepareStyles({
 			display: "flex",
-			flexDirection: "column",
-			alignItems: "flex-start",
-			justifyContent: "space-between",
-			background: theme.altHigh,
-			width: opened ? openedWidth : initWidth,
-			height: "100%",
-			transition: "all .25s 0s ease-in-out",
-			...(overLay ? {
+			flex: "0 0 auto",
+			width: opened ? expandedWidth : initWidth,
+			height: isCompact ? initWidth : "100%",
+			...(isOverLay ? {
 				position: "absolute",
 				left: 0,
 				top: 0,
 			} : {}),
 		}),
+		pane: prepareStyles({
+			flex: "0 0 auto",
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "flex-start",
+			justifyContent: "space-between",
+			background: theme.altHigh,
+			width: opened ? expandedWidth : (isCompact ? 0 : initWidth),
+			height: "100%",
+			transition: "all .25s 0s ease-in-out",
+			...(isOverLay ? {
+				position: "absolute",
+				left: 0,
+				top: 0,
+			} : {}),
+			...prepareStyles(paneStyle),
+		}),
+		topIcon: prepareStyles({
+			display: "flex",
+			flexDirection: "row",
+			alignItems: "center",
+			justifyContent: "flex-start",
+			background: theme.altHigh,
+			width: isCompact ? "100vw" : (opened ? expandedWidth : initWidth),
+			transition: "all .25s 0s ease-in-out",
+		}),
 		paneTop: prepareStyles({
+			display: "flex",
+			flexDirection: "column",
 			width: "100%",
 			flex: "0 0 auto",
 		}),
-		paneBottom: prepareStyles({
-			width: "100%",
+		paneTopItems: prepareStyles({
+			display: "flex",
+			flexDirection: "column",
 			flex: "0 0 auto",
+			overflow: "hidden",
+			width: opened ? "100%" : (isCompact ? 0 : initWidth),
+		}),
+		paneBottom: prepareStyles({
+			display: "flex",
+			flexDirection: "column",
+			flex: "0 0 auto",
+			overflow: "hidden",
+			width: opened ? "100%" : (isCompact ? 0 : initWidth),
+		}),
+		paneView: prepareStyles({
+			width: isCompact ? "100%" : `calc(100% - ${(opened && !isOverLay) ? expandedWidth : initWidth}px)`,
+			position: isOverLay ? "absolute" : void(0),
+			left: isOverLay ? initWidth : void(0),
+			...paneViewStyle,
 		}),
 	};
 }
