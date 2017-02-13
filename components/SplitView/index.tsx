@@ -108,7 +108,7 @@ export default class SplitView extends React.Component<SplitViewProps, SplitView
 										if (topIcon.onClick) topIcon.onclick(e);
 									}
 								})}
-								{opened ? <p>{pageTitle}</p> : null}
+								{(opened || mode === "Compact") ? <p>{pageTitle}</p> : null}
 							</div>
 							<div style={styles.paneTopItems}>
 								{topNodes.map((node, index) => {
