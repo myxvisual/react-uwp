@@ -1,27 +1,30 @@
 import * as React from "react";
 
+import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 
-const defaultProps: MockProps = __DEV__ ? require("./devDefaultProps").default : {};
+const defaultProps: CommandBarButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-export interface DataProps {}
+export interface DataProps {
+	icon?: string;
+}
 
-interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CommandBarButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface MockState {}
+interface CommandBarButtonState {}
 
-export default class Mock extends React.Component<MockProps, MockState> {
-	static defaultProps: MockProps = {
+export default class CommandBarButton extends React.Component<CommandBarButtonProps, CommandBarButtonState> {
+	static defaultProps: CommandBarButtonProps = {
 		...defaultProps
 	};
 
-	state: MockState = {};
+	state: CommandBarButtonState = {};
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
 	render() {
-		const { ...attributes } = this.props;
+		const { icon, label, ...attributes } = this.props;
 		const { theme } = this.context;
 		const styles = getStyles(this);
 
@@ -33,16 +36,17 @@ export default class Mock extends React.Component<MockProps, MockState> {
 					...theme.prepareStyles(attributes.style),
 				}}
 			>
-				Mock
+				<Icon>{icon}</Icon>
+				<p>{label}</p>
 			</div>
 		);
 	}
 }
 
-function getStyles(mock: Mock): {
+function getStyles(commandBarButton: CommandBarButton): {
 	root?: React.CSSProperties;
 } {
-	const { context } = mock;
+	const { context } = commandBarButton;
 	const { theme } = context;
 	// tslint:disable-next-line:no-unused-variable
 	const { prepareStyles } = theme;

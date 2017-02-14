@@ -2,6 +2,8 @@ export { default as ArticleCard } from "./components/ArticleCard";
 export { default as AutoSuggestBox } from "./components/AutoSuggestBox";
 export { default as Button } from "./components/Button";
 export { default as CheckBox } from "./components/CheckBox";
+export { default as CommandBar } from "./components/CommandBar";
+export { default as CommandBarButton } from "./components/CommandBarButton";
 export { default as NavPane } from "./components/NavPane";
 export { default as ContentDialog } from "./components/ContentDialog";
 export { default as DropdownMenu } from "./components/DropdownMenu";

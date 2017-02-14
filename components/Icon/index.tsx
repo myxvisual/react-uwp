@@ -1,6 +1,9 @@
 import * as React from "react";
 
 import ElementState from "../../components/ElementState";
+import iconsType from "./icons";
+const icons: any = iconsType;
+const iconKeys = Object.keys(icons);
 import { ThemeType } from "../../styles/ThemeType";
 
 const defaultProps: IconProps = __DEV__ ? require("./devDefaultProps").default : {};
@@ -43,9 +46,9 @@ export default class Icon extends React.Component<IconProps, IconState> {
 					color: theme.baseHigh,
 					...style
 				})}
-				hoverStyle={hoverStyle || { color: theme.accent }}
+				hoverStyle={hoverStyle}
 			>
-				<span>{children || "&#xE73E;"}</span>
+				<span>{iconKeys.includes(children as any) ? icons[children as any] : children}</span>
 			</ElementState>
 		);
 	}
