@@ -32,6 +32,7 @@ export default class IconButton extends React.Component<IconButtonProps, IconBut
 			<ElementState
 				{...attributes}
 				style={{
+					flex: "0 0 auto",
 					fontFamily: "Segoe MDL2 Assets",
 					transition: "all .25s 0s ease-in-out",
 					userSelect: "none",
