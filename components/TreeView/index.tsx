@@ -10,7 +10,7 @@ const defaultProps: TreeViewProps = __DEV__ ? require("./devDefaultProps").defau
 interface List {
 	titleNode?: string | React.ReactNode;
 	expanded?: boolean;
-	disabled?: boolean;
+	disable?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 	focus?: boolean;
 	visited?: boolean;
@@ -20,6 +20,7 @@ export interface DataProps {
 	listItems?: List[];
 	iconDirection?: "left" | "right";
 	listItemHeight?: number;
+	titleNodeStyle?: React.CSSProperties;
 	onChangeList?: (listItems: List[]) => void;
 	rootStyle?: React.CSSProperties;
 }
@@ -32,7 +33,7 @@ interface TreeViewState {
 export default class TreeView extends React.Component<TreeViewProps, TreeViewState> {
 	static defaultProps: TreeViewProps = {
 		...defaultProps,
-		listItemHeight: 28,
+		listItemHeight: 46,
 		iconDirection: "left",
 		onChangeList: () => {},
 		rootStyle: { width: 400 }
@@ -74,20 +75,22 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 		const { iconDirection } = this.props;
 		const isRight = iconDirection === "right";
 		const styles = getStyles(this);
+		const paddingValue = 40;
 		const renderList = ((list: List, index: number, isChild?: boolean): React.ReactNode => {
-			const { titleNode, expanded, disabled, visited, children } = list;
+			const { titleNode, expanded, disable, visited, children } = list;
 			const haveChild = Array.isArray(children) && children.length !== 0;
 			const fadeAccent = theme[theme.themeName === "Dark" ? "accentDarker1" : "accentLighter1"];
 			return (
 				<div
 					style={{
-						paddingLeft: isChild ? (isRight ? 10 : 20) : void(0),
+						paddingLeft: isChild ? (isRight ? 10 : paddingValue) : void(0),
 					}}
 					key={`${index}`}
 				>
 					<div
 						style={{
-							cursor: disabled ? "not-allowed" : "default",
+							cursor: disable ? "not-allowed" : "default",
+							color: disable ? theme.baseLow : void(0),
 							...styles.title,
 						}}
 						onMouseEnter={e => {
@@ -98,17 +101,18 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 							const bgNode = e.currentTarget.querySelector(".react-uwp-treeview-bg") as HTMLDivElement;
 							bgNode.style.background = (visited && !haveChild) ? fadeAccent : "none";
 						}}
-						onClick={disabled ? void(0) : (e) => {
+						onClick={disable ? void(0) : (e) => {
 							this.clickHandel(e, list);
 						}}
 					>
-						<div style={styles.titleNode}>
+						<div style={{ paddingLeft: !haveChild ? 0 : 10, ...styles.titleNode }}>
 							{titleNode}
 						</div>
 						<p>{haveChild && (
 							<Icon
 								style={prepareStyles({
-									cursor: disabled ? "not-allowed" : "pointer",
+									cursor: disable ? "not-allowed" : "pointer",
+									color: disable ? theme.baseLow : void(0),
 									width: isRight ? void(0) : 20,
 									fontSize: 14,
 									transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`,
@@ -118,11 +122,12 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 							</Icon>
 						)}</p>
 						<div
-							style={{
+							style={prepareStyles({
+								transition: "all 0.25s",
 								zIndex: 0,
 								background: (visited && !haveChild) ? fadeAccent : void(0),
 								...styles.bg
-							}}
+							})}
 							className="react-uwp-treeview-bg"
 						/>
 					</div>
@@ -147,7 +152,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { listItems, iconDirection, listItemHeight, onChangeList, rootStyle, ...attributes } = this.props;
+		const { listItems, iconDirection, listItemHeight, onChangeList, rootStyle, titleNodeStyle, ...attributes } = this.props;
 		const { currListItems } = this.state;
 		const styles = getStyles(this);
 
@@ -167,17 +172,18 @@ function getStyles(treeView: TreeView): {
 	icon?: React.CSSProperties;
 	bg?: React.CSSProperties;
 } {
-	const { context, props: { iconDirection, listItemHeight, style } } = treeView;
+	const { context, props: { iconDirection, listItemHeight, style, titleNodeStyle } } = treeView;
 	const isRight = iconDirection === "right";
 	const { theme } = context;
 	const { prepareStyles } = theme;
 	return {
 		root: prepareStyles({
 			fontSize: 14,
-			overflow: "auto",
+			overflowX: "hidden",
+			overflowY: "auto",
 			color: theme.baseMediumHigh,
 			background: theme.altMediumHigh,
-			padding: "8px 0",
+			padding: 20,
 			...prepareStyles(style),
 		}),
 		title: prepareStyles({
@@ -185,22 +191,22 @@ function getStyles(treeView: TreeView): {
 			textOverflow: "ellipsis",
 			width: "100%",
 			position: "relative",
-			height: listItemHeight,
 			fontSize: 14,
 			display: "flex",
+			height: listItemHeight,
 			flexDirection: `row${isRight ? "" : "-reverse"}`,
 			alignItems: "center",
 			justifyContent: isRight ? "space-between" : "flex-end",
 			transition: "all .25s 0s ease-in-out",
 		}),
-		titleNode: {
-			padding: 10,
+		titleNode: prepareStyles({
 			zIndex: 1,
 			width: "100%",
 			overflow: "hidden",
 			whiteSpace: "nowrap",
 			textOverflow: "ellipsis",
-		},
+			...titleNodeStyle,
+		}),
 		parent: prepareStyles({
 			transition: "all .25s 0s ease-in-out",
 		}),
@@ -208,7 +214,7 @@ function getStyles(treeView: TreeView): {
 			position: "absolute",
 			top: 0,
 			left: "-100%",
-			width: "200%",
+			width: "400%",
 			height: "100%",
 		}
 	};

@@ -28,10 +28,7 @@ export default class Mock extends React.Component<MockProps, MockState> {
 		return (
 			<div
 				{...attributes}
-				style={{
-					...styles.root,
-					...theme.prepareStyles(attributes.style),
-				}}
+				style={styles.root}
 			>
 				Mock
 			</div>
@@ -42,16 +39,16 @@ export default class Mock extends React.Component<MockProps, MockState> {
 function getStyles(mock: Mock): {
 	root?: React.CSSProperties;
 } {
-	const { context } = mock;
+	const { context, props: { style } } = mock;
 	const { theme } = context;
-	// tslint:disable-next-line:no-unused-variable
 	const { prepareStyles } = theme;
 
 	return {
-		root: {
+		root: prepareStyles({
 			fontSize: 14,
 			color: theme.baseMediumHigh,
 			background: theme.altMediumHigh,
-		},
+			...style,
+		}),
 	};
 }
