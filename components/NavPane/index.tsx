@@ -17,7 +17,7 @@ export interface DataProps {
 	topIcon?: any;
 	topNodes?: Array<TNode>;
 	bottomNodes?: Array<TNode>;
-	mode?: "Overlay" | "Compact" | "Inline";
+	displayMode?: "Overlay" | "Compact" | "Inline";
 	pageTitle?: string;
 	position?: "left" | "right";
 	paneStyle?: React.CSSProperties;
@@ -48,11 +48,12 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 		],
 		pageTitle: "PageTitle",
 		// background: "none",
-		mode: "Compact",
+		displayMode: "Compact",
 		children: "Inside Component",
 	};
 
 	state: NavPaneState = {
+		opened: false,
 		focusNodeIndex: void(0)
 	};
 
@@ -60,6 +61,20 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+
+	componentWillMount() {
+		this.updateProps2State(this.props);
+	}
+
+	componentWillReceiveProps(nextProps: NavPaneProps) {
+		this.updateProps2State(nextProps);
+	}
+
+	updateProps2State = ({ defaultOpened }: NavPaneProps) => {
+		if (defaultOpened !== this.state.opened) {
+			this.setState({ opened: defaultOpened });
+		}
+	}
 
 	toggleOpened = (opened?: boolean) => {
 		if (typeof opened === "boolean" && opened !== this.state.opened) {
@@ -86,7 +101,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, mode, pageTitle, background, isTenFt, ...attributes } = this.props;
+		const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, defaultOpened, displayMode, pageTitle, background, isTenFt, ...attributes } = this.props;
 		const { theme } = this.context;
 		const { opened, focusNodeIndex } = this.state;
 		const styles = getStyles(this);
@@ -118,7 +133,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 										if (topIcon.onClick) topIcon.onclick(e);
 									}
 								})}
-								<p style={theme.prepareStyles({ transition: "all 0.25s", opacity: (opened || mode === "Compact") ? 1 : 0 })}>
+								<p style={theme.prepareStyles({ transition: "all 0.25s", opacity: (opened || displayMode === "Compact") ? 1 : 0 })}>
 									{pageTitle}
 								</p>
 							</div>
@@ -162,11 +177,11 @@ function getStyles(navPane: NavPane): {
 } {
 	const {
 		context,
-		props: { initWidth, expandedWidth, mode, paneStyle, paneViewStyle, background },
+		props: { initWidth, expandedWidth, displayMode, paneStyle, paneViewStyle, background },
 		state: { opened }
 	} = navPane;
-	const isOverLay = mode === "Overlay";
-	const isCompact = mode === "Compact";
+	const isOverLay = displayMode === "Overlay";
+	const isCompact = displayMode === "Compact";
 	const { theme } = context;
 	const { prepareStyles } = theme;
 

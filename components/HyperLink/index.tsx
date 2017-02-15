@@ -5,6 +5,7 @@ export default (props: LinkProps) => (
 	<Link
 		{...{
 			style: { textDecoration: "underline" },
+			children: "HyperLink",
 			...props
 		}}
 	/>

@@ -28,6 +28,7 @@ interface TreeViewState {
 	currListItems?: List[];
 	visitedList?: List;
 }
+
 export default class TreeView extends React.Component<TreeViewProps, TreeViewState> {
 	static defaultProps: TreeViewProps = {
 		...defaultProps,
@@ -134,7 +135,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 								...styles.parent
 							}}
 						>
-							{children.map((list: List[], index) => renderList(list, index, true))}
+							{expanded && children.map((list: List[], index) => renderList(list, index, true))}
 						</div>
 					)}
 				</div>
@@ -151,7 +152,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 		const styles = getStyles(this);
 
 		return (
-			<div {...attributes} style={{ ...styles.root, ...attributes.style }}>
+			<div {...attributes} style={styles.root}>
 				{currListItems ? this.renderTree() : null}
 			</div>
 		);
@@ -166,19 +167,19 @@ function getStyles(treeView: TreeView): {
 	icon?: React.CSSProperties;
 	bg?: React.CSSProperties;
 } {
-	const { context, props: { iconDirection, listItemHeight, rootStyle } } = treeView;
+	const { context, props: { iconDirection, listItemHeight, style } } = treeView;
 	const isRight = iconDirection === "right";
 	const { theme } = context;
 	const { prepareStyles } = theme;
 	return {
-		root: {
+		root: prepareStyles({
 			fontSize: 14,
-			overflow: "hidden",
+			overflow: "auto",
 			color: theme.baseMediumHigh,
 			background: theme.altMediumHigh,
 			padding: "8px 0",
-			...prepareStyles(rootStyle),
-		},
+			...prepareStyles(style),
+		}),
 		title: prepareStyles({
 			whiteSpace: "nowrap",
 			textOverflow: "ellipsis",
