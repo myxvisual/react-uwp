@@ -81,11 +81,10 @@ export default class Input extends React.Component<InputProps, InputState> {
 		return (haveChild
 			?
 			<ElementState {...styles}>
-				<form>
+				<div>
 					{leftNode}
 					<input
 						ref="input"
-						id="input"
 						onFocus={this.handleFocus}
 						onMouseLeave={this.handleMouseLeave}
 						style={theme.prepareStyles({
@@ -102,8 +101,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 						{...attributes as any}
 					/>
 					{rightNode}
-					<label htmlFor="input" style={{ display: "none" }}>Input Label</label>
-				</form>
+				</div>
 			</ElementState>
 			:
 			<ElementState {...styles}>
