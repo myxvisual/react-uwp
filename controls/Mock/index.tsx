@@ -6,13 +6,13 @@ const defaultProps: MockProps = __DEV__ ? require("./devDefaultProps").default :
 
 export interface DataProps {}
 
-interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 interface MockState {}
 
 export default class Mock extends React.Component<MockProps, MockState> {
 	static defaultProps: MockProps = {
-		...defaultProps
+		...defaultProps,
 	};
 
 	state: MockState = {};
@@ -39,8 +39,10 @@ export default class Mock extends React.Component<MockProps, MockState> {
 function getStyles(mock: Mock): {
 	root?: React.CSSProperties;
 } {
-	const { context, props: { style } } = mock;
-	const { theme } = context;
+	const {
+		context: { theme },
+		props: { style }
+	} = mock;
 	const { prepareStyles } = theme;
 
 	return {

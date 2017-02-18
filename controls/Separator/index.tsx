@@ -4,9 +4,11 @@ import { ThemeType } from "../../styles/ThemeType";
 
 const defaultProps: SeparatorProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-export interface DataProps {}
+export interface DataProps {
+	direction?: "row" | "column";
+}
 
-interface SeparatorProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface SeparatorProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 interface SeparatorState {}
 
@@ -28,28 +30,26 @@ export default class Separator extends React.Component<SeparatorProps, Separator
 		return (
 			<div
 				{...attributes}
-				style={{
-					...styles.container,
-					...theme.prepareStyles(attributes.style),
-				}}
+				style={styles.root}
 			/>
 		);
 	}
 }
 
 function getStyles(separator: Separator): {
-	container?: React.CSSProperties;
+	root?: React.CSSProperties;
 } {
-	const { context } = separator;
+	const { context, props: { direction, style } } = separator;
 	const { theme } = context;
-	// tslint:disable-next-line:no-unused-variable
 	const { prepareStyles } = theme;
+	const isColumn = direction === "column";
 
 	return {
-		container: {
-			width: "100%",
-			height: 1,
+		root: prepareStyles({
+			width: isColumn ? 1 : "100%",
+			height: isColumn ? "100%" : 1,
 			background: theme.baseLow,
-		},
+			...style,
+		}),
 	};
 }

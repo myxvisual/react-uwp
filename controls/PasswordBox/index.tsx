@@ -67,10 +67,8 @@ export default class PasswordBox extends React.Component<PasswordBoxProps, Passw
 				type={showPassword ? "text" : "password"}
 				ref="input"
 				style={{
-					...styles.container,
 					height: iconHeight,
-					overflow: "hidden",
-					paddingRight: 0,
+					...styles.container,
 					...theme.prepareStyles(attributes.style),
 				}}
 				hoverStyle={{
@@ -87,7 +85,6 @@ export default class PasswordBox extends React.Component<PasswordBoxProps, Passw
 							cursor: "pointer",
 							height: iconHeight,
 							width: iconHeight,
-							fontSize: 14,
 							background: "none",
 							color: theme.baseHigh,
 						}}
@@ -116,7 +113,8 @@ function getStyles(passwordBox: PasswordBox): {
 			color: theme.baseMediumHigh,
 			background: theme.altMediumHigh,
 			padding: "6px 10px",
-			fontSize: 14,
+			overflow: "hidden",
+			paddingRight: 0,
 		}),
 	};
 }

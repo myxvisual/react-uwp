@@ -45,7 +45,7 @@ export default class ScrollBar extends React.Component<ScrollBarProps, ScrollBar
 	state: ScrollBarState = {
 		mouseDowning: false,
 	};
-	loopIconMouseDownTimeOut: NodeJS.Timer = null;
+	loopIconMouseDownTimeOut: any = null;
 	translateX: number = 0;
 	translateY: number = 0;
 

@@ -21,7 +21,7 @@ interface AutoSuggestBoxState {
 export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
 	static defaultProps: AutoSuggestBoxProps = {
 		...defaultProps,
-		rightNode: (<Icon style={{ fontSize: 14 }}>&#xE721;</Icon>),
+		rightNode: (<Icon>&#xE721;</Icon>),
 		onChangeValue: () => {}
 	};
 
@@ -48,17 +48,14 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 
 	handleFocus = () => {
 		this.setState({
-			currentRightNode: (<Icon style={{ fontSize: 14 }}>{"\uE10A"}</Icon>)
+			currentRightNode: (<Icon>{"\uE10A"}</Icon>)
 		});
 	}
 
 	handleBlur = () => {
 		this.setState({
 			currentRightNode: (
-				<Icon
-					onClick={() => this.setValue("")}
-					style={{ fontSize: 14 }}
-				>
+				<Icon onClick={() => this.setValue("")}>
 					&#xE721;
 				</Icon>
 			)
@@ -73,17 +70,13 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 		// tslint:disable-next-line:no-unused-variable
 		const { leftNode, rightNode, onChangeValue, ...attributes } = this.props;
 		const { currentRightNode } = this.state;
-		const { theme } = this.context;
 		const styles = getStyles(this);
 
 		return (
 			<Input
 				{...attributes}
 				ref="input"
-				style={{
-					...styles.container,
-					...theme.prepareStyles(attributes.style),
-				}}
+				style={styles.root}
 				onFocus={this.handleFocus}
 				onBlur={this.handleBlur}
 				leftNode={leftNode}
@@ -95,13 +88,13 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 }
 
 function getStyles(autoSuggestBox: AutoSuggestBox): {
-	container?: React.CSSProperties;
+	root?: React.CSSProperties;
 } {
-	const { context } = autoSuggestBox;
+	const { context, props: { style } } = autoSuggestBox;
 	const { theme } = context;
 
 	return {
-		container: theme.prepareStyles({
+		root: theme.prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
@@ -109,7 +102,7 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
 			color: theme.baseMediumHigh,
 			background: theme.altMediumHigh,
 			padding: "6px 10px",
-			fontSize: 14,
+			...style,
 		}),
 	};
 }

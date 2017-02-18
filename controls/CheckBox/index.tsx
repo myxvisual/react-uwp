@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
+import ElementState from "../ElementState";
 import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 

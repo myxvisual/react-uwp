@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
+import ElementState from "../ElementState";
 import { ThemeType } from "../../styles/ThemeType";
 
 const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default : {};

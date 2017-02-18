@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
+import ElementState from "../ElementState";
 import iconsType from "./icons";
 const icons: any = iconsType;
 const iconKeys = Object.keys(icons);
@@ -41,7 +41,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
 					border: "none",
 					outline: "none",
 					userSelect: "none",
-					fontSize: 22,
+					fontSize: "inherit",
 					cursor: "default",
 					color: theme.baseHigh,
 					...style

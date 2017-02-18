@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ElementState from "../../components/ElementState";
+import ElementState from "../ElementState";
 import { ThemeType } from "../../styles/ThemeType";
 
 const defaultProps: InputProps = __DEV__ ? require("./devDefaultProps").default : {};
@@ -24,7 +24,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 		...defaultProps,
 		placeholder: "Input Component",
 		inputStyle: {
-			fontSize: 14,
+			fontSize: "inherit",
 			outline: "none",
 			transition: "all .25s 0s ease-in-out",
 		},
@@ -36,7 +36,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
-	
+
 	refs: { input: HTMLInputElement };
 
 	handleFocus = (e?: React.SyntheticEvent<HTMLInputElement>) => {
