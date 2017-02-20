@@ -19,11 +19,14 @@ interface CalendarViewState {
 	viewDate?: Date;
 	direction?: "Bottom" | "Top";
 	chooseISODates?: string[];
+	currChooseModeIndex?: number;
 }
-
+const chooseModes = ["YearChoose" , "MonthChoose" , "DayChoose"];
 export default class CalendarView extends React.Component<CalendarViewProps, CalendarViewState> {
 	static defaultProps: CalendarViewProps = {
-		...defaultProps
+		...defaultProps,
+		chooseMode: "DayChoose",
+		mode: "Small",
 	};
 
 	state: CalendarViewState = {
@@ -31,6 +34,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 		viewDate: new Date(),
 		direction: "Bottom",
 		chooseISODates: [],
+		currChooseModeIndex: chooseModes.indexOf(this.props.chooseMode),
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -88,11 +92,16 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 		this.setState({ chooseISODates });
 	}
 
+	toggleMode = (e: React.MouseEvent<HTMLDivElement>) => {
+		this.setState({ currChooseModeIndex: (this.state.currChooseModeIndex + 1) % 3 });
+	}
+
 	render() {
-		const { ...attributes } = this.props;
+		const { chooseMode, mode, ...attributes } = this.props;
 		const { theme } = this.context;
 		const styles = getStyles(this);
-		const { dateNow, viewDate, direction, chooseISODates } = this.state;
+		const { dateNow, viewDate, direction, chooseISODates, currChooseModeIndex } = this.state;
+		const currChooseMode = chooseModes[currChooseModeIndex];
 		const mmyy = `${dateUtils.monthList[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
 
 		return (
@@ -101,7 +110,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 				style={styles.root}
 			>
 				<div style={styles.title}>
-					<p>{mmyy}</p>
+					<div onClick={this.toggleMode}>{mmyy}</div>
 					<div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
 						<Icon
 							style={styles.titleIcon}
@@ -123,25 +132,31 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 							<button style={styles.weeklyHeadItem} key={`${index}`}>{str}</button>
 						))}
 					</div>
-					<SlideInOut style={styles.weekly} mode="Both" speed={350} direction={direction}>
-						<div key={mmyy}>
-							{this.getDaysArray().map(({ day, isCurrMonth, date }, index) => (
-								<button
-									onMouseEnter={(e) => this.handleDayMouseEnter(e, date)}
-									onMouseLeave={(e) => this.handleDayMouseLeave(e, date)}
-									style={{
-										...styles.dayItem,
-										border: `1px solid ${chooseISODates.includes(date.toISOString()) ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.baseLow}`,
-										background: isCurrMonth ? theme.altHigh : theme.baseLow
-									}}
-									onClick={() => this.chooseDate(date)}
-									key={`${index}`}
-								>
-									{day}
-								</button>
-							))}
-						</div>
-					</SlideInOut>
+					{currChooseMode === "DayChoose" ? (
+						<SlideInOut style={styles.weekly} mode="Both" speed={350} direction={direction}>
+							<div key={mmyy}>
+								{this.getDaysArray().map(({ day, isCurrMonth, date }, index) => (
+									<button
+										onMouseEnter={(e) => this.handleDayMouseEnter(e, date)}
+										onMouseLeave={(e) => this.handleDayMouseLeave(e, date)}
+										style={{
+											...styles.dayItem,
+											border: `1px solid ${chooseISODates.includes(date.toISOString()) ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.baseLow}`,
+											background: isCurrMonth ? theme.altHigh : theme.baseLow
+										}}
+										onClick={() => this.chooseDate(date)}
+										key={`${index}`}
+									>
+										{day}
+									</button>
+								))}
+							</div>
+						</SlideInOut>
+					) : (
+						<ScaleInOut style={styles.weekly} mode="Both" speed={350}>
+							<p key={currChooseModeIndex}>Test</p>
+						</ScaleInOut>
+					)}
 				</div>
 			</div>
 		);

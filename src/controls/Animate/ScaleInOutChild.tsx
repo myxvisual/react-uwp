@@ -38,6 +38,11 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
 			callback();
 		}
 	}
+
+	componentDidAppear() {
+		if (this.props.mode !== "Out") this.animate();
+	}
+
 	componentDidEnter() {
 		if (this.props.mode !== "Out") this.animate();
 	}
