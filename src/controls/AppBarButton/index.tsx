@@ -45,7 +45,7 @@ export default class AppBarButtonButton extends React.Component<AppBarButtonButt
 					<Icon style={styles.icon}>
 						{icon}
 					</Icon>
-					<p style={{ lineHeight: 1, marginBottom: 4, height: 12, fontSize: 12, }}>
+					<p style={styles.label}>
 						{label}
 					</p>
 				</div>
@@ -57,6 +57,7 @@ export default class AppBarButtonButton extends React.Component<AppBarButtonButt
 function getStyles(AppBarButtonButton: AppBarButtonButton): {
 	root?: React.CSSProperties;
 	icon?: React.CSSProperties;
+	label?: React.CSSProperties;
 } {
 	// tslint:disable-next-line:no-unused-variable
 	const { context, props: { opened, defaultLabelPosition, style } } = AppBarButtonButton;
@@ -66,6 +67,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
 		"Bottom": "column",
 		"Right": "row"
 	};
+	const isRight = defaultLabelPosition === "Right";
 
 	return {
 		root: prepareStyles({
@@ -78,8 +80,18 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
 			flex: "0 0 auto",
 			height: "100%",
 			padding: "0 10px",
+			maxWidth: isRight ? void 0 : 72,
 			...style,
 		}),
+		label: {
+			lineHeight: isRight ? void 0 : 1,
+			height: isRight ? void 0 : 28,
+			fontSize: 12,
+			width: "100%",
+			textAlign: "center",
+			textOverflow: "ellipsis",
+			overflow: "hidden",
+		},
 		icon: prepareStyles({
 			width: 48,
 			height: 48,

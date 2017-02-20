@@ -1,4 +1,5 @@
 import * as React from "react";
+import { findDOMNode } from "react-dom";
 
 import ElementState from "../ElementState";
 import { ThemeType } from "../../styles/ThemeType";
@@ -7,7 +8,7 @@ const defaultProps: InputProps = __DEV__ ? require("./devDefaultProps").default 
 
 export interface DataProps {
 	hoverStyle?: React.CSSProperties;
-	activeStyle?: React.CSSProperties;
+	focusStyle?: React.CSSProperties;
 	inputStyle?: React.CSSProperties;
 	onChangeValue?: (value: string) => void;
 	leftNode?: any;
@@ -28,6 +29,8 @@ export default class Input extends React.Component<InputProps, InputState> {
 			outline: "none",
 			transition: "all .25s 0s ease-in-out",
 		},
+		onFocus: () => {},
+		onBlur: () => {},
 		onChange: emptyFunc,
 		onChangeValue: emptyFunc,
 	};
@@ -39,12 +42,18 @@ export default class Input extends React.Component<InputProps, InputState> {
 
 	refs: { input: HTMLInputElement };
 
-	handleFocus = (e?: React.SyntheticEvent<HTMLInputElement>) => {
+	handleFocus = (e?: React.FocusEvent<HTMLInputElement>) => {
 		e.currentTarget.style.color = this.context.theme.baseHigh;
+		const rootElm = findDOMNode(this) as HTMLDivElement;
+		rootElm.style.border = `2px solid ${this.context.theme.accent}`;
+		this.props.onFocus(e as any);
 	}
 
-	handleMouseLeave = (e?: React.SyntheticEvent<HTMLInputElement>) => {
-		e.currentTarget.style.color = this.context.theme.baseMediumHigh;
+	handleBlur = (e?: React.FocusEvent<HTMLInputElement>) => {
+		e.currentTarget.style.color = this.context.theme.baseHigh;
+		const rootElm = findDOMNode(this) as HTMLDivElement;
+		rootElm.style.border = `2px solid ${this.context.theme.baseLow}`;
+		this.props.onBlur(e as any);
 	}
 
 	setValue = (value: string) => this.refs.input.value = value;
@@ -54,12 +63,18 @@ export default class Input extends React.Component<InputProps, InputState> {
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { hoverStyle, activeStyle, leftNode, rightNode, style, inputStyle, onChangeValue, ...attributes } = this.props;
+		const { hoverStyle, focusStyle, leftNode, rightNode, style, inputStyle, onChangeValue, ...attributes } = this.props;
 		const haveChild = leftNode || rightNode;
 		const { theme } = this.context;
 		const styles = {
-			style : {
-				padding: "5px 10px",
+			style: {
+				height: 32,
+				width: 296,
+				padding: 10,
+				fontSize: 15,
+				display: "flex",
+				flexDirection: "row",
+				alignItems: "center",
 				border: `2px solid ${theme.baseLow}`,
 				color: theme.baseMedium,
 				background: theme.altHigh,
@@ -71,11 +86,6 @@ export default class Input extends React.Component<InputProps, InputState> {
 				border: `2px solid ${theme.baseMedium}`,
 				...theme.prepareStyles(hoverStyle)
 			},
-			activeStyle: {
-				color: theme.baseHigh,
-				border: `2px solid ${theme.accent}`,
-				...theme.prepareStyles(activeStyle)
-			}
 		};
 
 		return (haveChild
@@ -85,8 +95,6 @@ export default class Input extends React.Component<InputProps, InputState> {
 					{leftNode}
 					<input
 						ref="input"
-						onFocus={this.handleFocus}
-						onMouseLeave={this.handleMouseLeave}
 						style={theme.prepareStyles({
 							color: theme.baseMedium,
 							width: "100%",
@@ -99,6 +107,8 @@ export default class Input extends React.Component<InputProps, InputState> {
 							attributes.onChange(e as any);
 						}}
 						{...attributes as any}
+						onFocus={this.handleFocus}
+						onBlur={this.handleBlur}
 					/>
 					{rightNode}
 				</div>

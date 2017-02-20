@@ -36,7 +36,7 @@ export default class CommandBar extends React.Component<CommandBarProps, Command
 			<AppBarButton icon="Forward" label="Forward" />,
 		],
 		flowDirection: "LeftToRight",
-		defaultLabelPosition: "Bottom",
+		defaultLabelPosition: "Right",
 	};
 
 	state: CommandBarState = {};
@@ -92,21 +92,23 @@ function getStyles(commandBar: CommandBar): {
 } {
 	const {
 		context: { theme },
-		props: { style, flowDirection },
+		props: { style, flowDirection, defaultLabelPosition },
 		state: { opened }
 	} = commandBar;
 	const { prepareStyles } = theme;
+	const LeftToRight = flowDirection === "LeftToRight";
+	const isRight = defaultLabelPosition === "Right";
 
 	return {
 		root: prepareStyles({
 			display: "flex",
-			flexDirection: `row${flowDirection === "LeftToRight" ? "" : "-reverse"}`,
+			flexDirection: `row${LeftToRight ? "" : "-reverse"}`,
 			alignItems: "flex-start",
 			justifyContent: "space-between",
 			fontSize: 14,
 			color: theme.baseMediumHigh,
 			background: theme.altHigh,
-			height: opened ? "auto" : 48,
+			height: (opened && !isRight) ? 72 : 48,
 			overflow: "hidden",
 			transition: "all .125s 0s ease-in-out",
 			...style,

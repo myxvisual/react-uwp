@@ -48,5 +48,5 @@ export function getLastDayOfMonth(d: Date) {
 }
 
 export function getLastDayOfPrevMonth(d: Date) {
-	return new Date(d.getFullYear(), d.getMonth() - 1, 0);
+	return new Date(d.getFullYear(), d.getMonth(), 0);
 }

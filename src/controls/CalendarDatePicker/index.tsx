@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import { ThemeType } from "../../styles/ThemeType";
+import Input from "../Input";
+import Icon from "../Icon";
 
 const defaultProps: CalendarDatePickerProps = __DEV__ ? require("./devDefaultProps").default : {};
 
@@ -12,7 +14,7 @@ interface CalendarDatePickerState {}
 
 export default class CalendarDatePicker extends React.Component<CalendarDatePickerProps, CalendarDatePickerState> {
 	static defaultProps: CalendarDatePickerProps = {
-		...defaultProps
+		...defaultProps,
 	};
 
 	state: CalendarDatePickerState = {};
@@ -30,7 +32,10 @@ export default class CalendarDatePicker extends React.Component<CalendarDatePick
 				{...attributes}
 				style={styles.root}
 			>
-				CalendarDatePicker
+				<Input
+					placeholder="mm/dd/yyyy"
+					rightNode={<Icon>Calendar</Icon>}
+				/>
 			</div>
 		);
 	}
@@ -45,9 +50,6 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
 
 	return {
 		root: prepareStyles({
-			fontSize: 14,
-			color: theme.baseMediumHigh,
-			background: theme.altMediumHigh,
 			...style,
 		}),
 	};
