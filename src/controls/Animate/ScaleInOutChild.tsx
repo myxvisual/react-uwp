@@ -1,22 +1,22 @@
 import * as React from "react";
 
 interface DataProps {
-	direction?: "Left" | "Right" | "Top" | "Bottom";
+	minScale?: number;
+	maxScale?: number;
 	speed?: number;
 	enterDelay?: number;
-	mode?: "In" | "Out" | "Both";
 	leaveDelay?: number;
-	distance?: string | number;
+	mode?: "In" | "Out" | "Both";
 }
-interface SlideInChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-export default class SlideInChild extends React.Component<SlideInChildProps, {}> {
+interface ScaleInOutChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export default class ScaleInOutChild extends React.Component<ScaleInOutChildProps, {}> {
 	static defaultProps = {
 		speed: 500,
 		enterDelay: 0,
 		leaveDelay: 0,
-		direction: "Left",
+		minScale: 0,
+		maxScale: 1,
 		mode: "Both",
-		distance: "100%",
 	};
 
 	enterTimer: number;
@@ -38,11 +38,6 @@ export default class SlideInChild extends React.Component<SlideInChildProps, {}>
 			callback();
 		}
 	}
-
-	componentDidAppear() {
-		if (this.props.mode !== "Out") this.animate();
-	}
-
 	componentDidEnter() {
 		if (this.props.mode !== "Out") this.animate();
 	}
@@ -62,24 +57,19 @@ export default class SlideInChild extends React.Component<SlideInChildProps, {}>
 	}
 
 	animate = (callback = () => {}) => {
-		const { speed, enterDelay } = this.props;
+		const { speed, maxScale, enterDelay } = this.props;
 		const { style } = this.rootElm;
 		style.opacity = "1";
-		style.transform = "translate(0, 0)";
+		style.transform = `scale(${maxScale})`;
 
 		this.enterTimer = setTimeout(callback, speed + enterDelay) as any;
 	}
 
 	initializeAnimation = (callback = () => {}, revers = false) => {
-		let { direction, speed, leaveDelay, distance } = this.props;
+		const { minScale, speed, leaveDelay } = this.props;
 		const { style } = this.rootElm;
-		distance = typeof distance === "string" ? distance : `${distance}px`;
-		const x = direction === "Left" ? `${revers ? "-" : ""}${distance}` :
-			direction === "Right" ? `${revers ? "" : "-"}${distance}` : "0";
-		const y = direction === "Top" ? `${revers ? "" : "-"}${distance}` :
-			direction === "Bottom" ? `${revers ? "-" : ""}${distance}` : "0";
-		style.transform = `translate(${x}, ${y})`;
-		style.webkitTransform = `translate(${x}, ${y})`;
+		style.transform = `scale(${minScale})`;
+		style.webkitTransform = `scale(${minScale})`;
 		style.opacity = "0";
 
 		this.leaveTimer = setTimeout(callback, speed / 2 + leaveDelay) as any;
@@ -90,7 +80,7 @@ export default class SlideInChild extends React.Component<SlideInChildProps, {}>
 			children,
 			enterDelay, // tslint:disable-line:no-unused-variable
 			leaveDelay, // tslint:disable-line:no-unused-variable
-			direction, // tslint:disable-line:no-unused-variable
+			minScale, // tslint:disable-line:no-unused-variable
 			speed,
 			style,
 		} = this.props;

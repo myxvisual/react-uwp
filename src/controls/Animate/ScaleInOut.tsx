@@ -1,36 +1,34 @@
 import * as React from "react";
 import * as ReactTransitionGroup from "react-addons-transition-group";
-import SlideInOutChild from "./SlideInOutChild";
+import ScaleInOutChild from "./ScaleInOutChild";
 interface DataProps {
 	[key: string]: any;
 }
-export interface SlideInOutProps extends DataProps {
-	direction?: "Left" | "Right" | "Top" | "Bottom";
+export interface ScaleInOutProps extends DataProps {
+	minScale?: number;
+	maxScale?: number;
 	speed?: number;
 	enterDelay?: number;
-	style?: React.CSSProperties;
 	leaveDelay?: number;
-	children?: React.ReactElement<any>;
-	childAttribute?: React.HTMLAttributes<HTMLDivElement>;
 	mode?: "In" | "Out" | "Both";
-	distance?: string | number;
 }
-interface SlideInOutState {}
+interface ScaleInOutState {}
 
-export default class SlideInOut extends React.Component<SlideInOutProps, SlideInOutState> {
-	static defaultProps: SlideInOutProps = {
+export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleInOutState> {
+	static defaultProps: ScaleInOutProps = {
+		minScale: 0,
+		maxScale: 1,
 		speed: 500,
 		enterDelay: 0,
 		leaveDelay: 0,
-		direction: "Left",
 		mode: "Both",
-		distance: "100%",
-		children: <div>SlideInOut</div>,
+		children: <div>ScaleInOut</div>,
 	};
 
 	render() {
 		const {
-			direction,
+			minScale,
+			maxScale,
 			speed,
 			enterDelay,
 			leaveDelay,
@@ -38,7 +36,6 @@ export default class SlideInOut extends React.Component<SlideInOutProps, SlideIn
 			children,
 			childAttribute,
 			mode,
-			distance,
 			...others,
 		} = this.props;
 		const styles = getStyles(this);
@@ -50,30 +47,30 @@ export default class SlideInOut extends React.Component<SlideInOutProps, SlideIn
 				component="div"
 			>
 				{React.Children.map(children, (child: any, index) => (
-					<SlideInOutChild
+					<ScaleInOutChild
 						key={child.key}
-						direction={direction}
+						minScale={minScale}
+						maxScale={maxScale}
 						enterDelay={enterDelay}
 						leaveDelay={leaveDelay}
 						mode={mode}
 						speed={speed}
-						distance={distance}
 						{...childAttribute}
 					>
 						{child}
-					</SlideInOutChild>
+					</ScaleInOutChild>
 				))}
 			</ReactTransitionGroup>
 		);
 	}
 }
 
-function getStyles(SlideInOut: SlideInOut): {
+function getStyles(ScaleInOut: ScaleInOut): {
 	root?: React.CSSProperties;
 } {
 	const {
 		props: { style, speed }
-	} = SlideInOut;
+	} = ScaleInOut;
 
 	return {
 		root: {

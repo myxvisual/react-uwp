@@ -3,6 +3,7 @@ import Icon from "../Icon";
 import  * as dateUtils from "../../common/date.utils";
 import { ThemeType } from "../../styles/ThemeType";
 import SlideInOut from "../Animate/SlideInOut";
+import ScaleInOut from "../Animate/ScaleInOut";
 
 const defaultProps: CalendarViewProps = __DEV__ ? require("./devDefaultProps").default : {};
 
@@ -17,6 +18,7 @@ interface CalendarViewState {
 	dateNow?: Date;
 	viewDate?: Date;
 	direction?: "Bottom" | "Top";
+	chooseISODates?: string[];
 }
 
 export default class CalendarView extends React.Component<CalendarViewProps, CalendarViewState> {
@@ -28,6 +30,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 		dateNow: new Date(),
 		viewDate: new Date(),
 		direction: "Bottom",
+		chooseISODates: [],
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -39,7 +42,9 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 
 	getDaysArray = () => {
 		const { viewDate } = this.state;
-		const daysArray: { day?: number; isCurrMonth?: boolean }[] = [];
+		const currMonth = viewDate.getMonth();
+		const currYear = viewDate.getFullYear();
+		const daysArray: { day?: number; isCurrMonth?: boolean; date?: Date }[] = [];
 		const prevMonthLast = dateUtils.getLastDayOfPrevMonth(viewDate);
 		const prevMonthLastDay = prevMonthLast.getDay();
 		const prevMonthLastDate = prevMonthLast.getDate();
@@ -48,33 +53,46 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 		const monthLastDate = dateUtils.getLastDayOfMonth(viewDate).getDate();
 		for (let i = 0; i < 42; i++) {
 			daysArray[i] = {};
+			let day: number;
 			if (i < prevMonthLastDay) {
-				daysArray[i]["day"] = prevMonthLastDate - prevMonthLastDay + i + 1;
+				day = prevMonthLastDate - prevMonthLastDay + i + 1;
 				daysArray[i]["isCurrMonth"] = false;
 			} else if (i < monthLastDate + prevMonthLastDay) {
-				daysArray[i]["day"] = monthFirstDate - prevMonthLastDay + i;
+				day = monthFirstDate - prevMonthLastDay + i;
 				daysArray[i]["isCurrMonth"] = true;
 			} else {
-				daysArray[i]["day"] = i - prevMonthLastDay - monthLastDate + 1;
+				day = i - prevMonthLastDay - monthLastDate + 1;
 				daysArray[i]["isCurrMonth"] = false;
 			}
+			daysArray[i]["day"] = day;
+			daysArray[i]["date"] = new Date(currYear, currMonth, day);
 		}
 		return daysArray;
 	}
 
-	handleDayMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.currentTarget.style.border = `2px solid ${this.context.theme.baseMedium}`;
+	handleDayMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, date: Date) => {
+		const { theme } = this.context;
+		e.currentTarget.style.border = `2px solid ${this.state.chooseISODates.includes(date.toISOString()) ? theme.accent : theme.baseMedium}`;
 	}
 
-	handleDayMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;
+	handleDayMouseLeave = (e: React.MouseEvent<HTMLButtonElement>, date: Date) => {
+		const { theme } = this.context;
+		e.currentTarget.style.border = `2px solid ${this.state.chooseISODates.includes(date.toISOString()) ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.baseLow}`;
+	}
+
+	chooseDate = (date: Date) => {
+		let { chooseISODates } = this.state;
+		const dateISOString = date.toISOString();
+		const index = chooseISODates.indexOf(dateISOString);
+		index > -1 ? chooseISODates.splice(index, 1) : (chooseISODates = [...chooseISODates, dateISOString]);
+		this.setState({ chooseISODates });
 	}
 
 	render() {
 		const { ...attributes } = this.props;
 		const { theme } = this.context;
 		const styles = getStyles(this);
-		const { dateNow, viewDate, direction } = this.state;
+		const { dateNow, viewDate, direction, chooseISODates } = this.state;
 		const mmyy = `${dateUtils.monthList[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
 
 		return (
@@ -107,14 +125,16 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 					</div>
 					<SlideInOut style={styles.weekly} mode="Both" speed={350} direction={direction}>
 						<div key={mmyy}>
-							{this.getDaysArray().map(({ day, isCurrMonth }, index) => (
+							{this.getDaysArray().map(({ day, isCurrMonth, date }, index) => (
 								<button
-									onMouseEnter={this.handleDayMouseEnter}
-									onMouseLeave={this.handleDayMouseLeave}
+									onMouseEnter={(e) => this.handleDayMouseEnter(e, date)}
+									onMouseLeave={(e) => this.handleDayMouseLeave(e, date)}
 									style={{
 										...styles.dayItem,
+										border: `1px solid ${chooseISODates.includes(date.toISOString()) ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.baseLow}`,
 										background: isCurrMonth ? theme.altHigh : theme.baseLow
 									}}
+									onClick={() => this.chooseDate(date)}
 									key={`${index}`}
 								>
 									{day}
@@ -193,7 +213,6 @@ function getStyles(calendarView: CalendarView): {
 			background: "none",
 			outline: "none",
 			color: theme.baseHigh,
-			border: `1px solid ${theme.baseLow}`,
 			width: 292 / 7,
 			height: 292 / 7,
 		}
