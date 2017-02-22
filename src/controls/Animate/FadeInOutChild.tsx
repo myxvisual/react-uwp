@@ -4,19 +4,19 @@ interface DataProps {
 	appearAnimate?: boolean;
 	enterDelay?: number;
 	leaveDelay?: number;
-	maxScale?: number;
-	minScale?: number;
+	maxValue?: number;
+	minValue?: number;
 	mode?: "In" | "Out" | "Both";
 	speed?: number;
 }
-interface ScaleInOutChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-export default class ScaleInOutChild extends React.Component<ScaleInOutChildProps, {}> {
+interface FadeInOutChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export default class FadeInOutChild extends React.Component<FadeInOutChildProps, {}> {
 	static defaultProps = {
 		appearAnimate: true,
 		enterDelay: 0,
 		leaveDelay: 0,
-		maxScale: 1,
-		minScale: 0,
+		maxValue: 1,
+		minValue: 0,
 		mode: "Both",
 		speed: 500,
 	};
@@ -60,26 +60,17 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
 	}
 
 	animate = (callback = () => {}) => {
-		const { speed, maxScale, enterDelay } = this.props;
+		const { speed, maxValue, enterDelay } = this.props;
 		const { style } = this.rootElm;
-		const transform = `scale(${maxScale})`;
-		Object.assign(style, {
-			transform,
-			webkitTransform: transform,
-			opacity: "1"
-		} as CSSStyleDeclaration);
+		style.opacity = `${maxValue}`;
 
 		this.enterTimer = setTimeout(callback, speed + enterDelay) as any;
 	}
 
 	initializeAnimation = (callback = () => {}, revers = false) => {
-		const { minScale, speed, leaveDelay } = this.props;
-		const transform = `scale(${minScale})`;
-		Object.assign(this.rootElm.style, {
-			transform,
-			webkitTransform: transform,
-			opacity: "0"
-		} as CSSStyleDeclaration);
+		const { minValue, speed, leaveDelay } = this.props;
+		const { style } = this.rootElm;
+		style.opacity = `${minValue}`;
 
 		this.leaveTimer = setTimeout(callback, speed / 2 + leaveDelay) as any;
 	}
@@ -90,8 +81,8 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
 			children,
 			enterDelay, // tslint:disable-line:no-unused-variable
 			leaveDelay, // tslint:disable-line:no-unused-variable
-			maxScale, // tslint:disable-line:no-unused-variable
-			minScale, // tslint:disable-line:no-unused-variable
+			maxValue, // tslint:disable-line:no-unused-variable
+			minValue, // tslint:disable-line:no-unused-variable
 			speed,
 			style,
 			...attributes
@@ -102,11 +93,6 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
 				{...attributes}
 				ref={(rootElm) => this.rootElm = rootElm}
 				style={{
-					position: "absolute",
-					top: 0,
-					left: 0,
-					width: "100%",
-					height: "100%",
 					transition: `all ${speed}ms 0s ease-in-out`,
 					...style
 				}}

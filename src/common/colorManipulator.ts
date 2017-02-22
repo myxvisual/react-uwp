@@ -1,3 +1,5 @@
+// The MIT License (MIT) - Rewrite from https://github.com/callemall/material-ui/blob/master/src/utils/colorManipulator.js
+
 /**
  * Returns a number whose value is limited to the given range.
  *
@@ -6,6 +8,7 @@
  * @param {number} max The upper boundary of the output range
  * @returns {number} A number in the range [min, max]
  */
+
 function clamp(value: any, min: any, max: any) {
 	if (value < min) {
 		return min;
@@ -25,7 +28,7 @@ function clamp(value: any, min: any, max: any) {
  * @returns {string} A CSS color string
  */
 export function convertColorToString(color: any) {
-	const {type, values} = color;
+	const { type, values } = color;
 
 	if (type.indexOf("rgb") > -1) {
 		// Only convert the first 3 values to int (i.e. not alpha)

@@ -3,13 +3,13 @@ import { fade, darken, lighten } from "../common/colorManipulator";
 import "./segoe-mdl2-assets";
 import prefixAll from "../common/prefixAll";
 
-export default function getTheme(themeType: "Dark" | "Light" = "Dark", accent = "#0078D7"): ThemeType {
-	const isDark = themeType === "Dark";
+export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7"): ThemeType {
+	const isDark = themeName === "Dark";
 	const baseHigh = isDark ? "#fff" : "#000";
 	const altHigh = isDark ? "#000" : "#fff";
 
 	return {
-		themeName: "Dark",
+		themeName,
 		fontFamily: "Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
 		iconFontFamily: "Segoe MDL2 Assets",
 
@@ -54,7 +54,7 @@ export default function getTheme(themeType: "Dark" | "Light" = "Dark", accent = 
 		chromeBlackHigh: "#000",
 		chromeWhite: "#fff",
 
-		isDarkTheme: true,
+		isDarkTheme: isDark,
 		prepareStyles: prefixAll(),
 	} as ThemeType;
 }

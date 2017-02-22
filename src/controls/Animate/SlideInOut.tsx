@@ -5,15 +5,17 @@ interface DataProps {
 	[key: string]: any;
 }
 export interface SlideInOutProps extends DataProps {
-	direction?: "Left" | "Right" | "Top" | "Bottom";
-	speed?: number;
-	enterDelay?: number;
-	style?: React.CSSProperties;
-	leaveDelay?: number;
-	children?: React.ReactElement<any>;
+	appearAnimate?: boolean;
 	childAttribute?: React.HTMLAttributes<HTMLDivElement>;
-	mode?: "In" | "Out" | "Both";
+	childAttributes?: React.HTMLAttributes<HTMLDivElement>;
+	children?: React.ReactElement<any>;
+	direction?: "Left" | "Right" | "Top" | "Bottom";
 	distance?: string | number;
+	enterDelay?: number;
+	leaveDelay?: number;
+	mode?: "In" | "Out" | "Both";
+	speed?: number;
+	style?: React.CSSProperties;
 }
 interface SlideInOutState {}
 
@@ -26,19 +28,21 @@ export default class SlideInOut extends React.Component<SlideInOutProps, SlideIn
 		mode: "Both",
 		distance: "100%",
 		children: <div>SlideInOut</div>,
+		appearAnimate: true,
 	};
 
 	render() {
 		const {
+			appearAnimate, // tslint:disable-line:no-unused-variable
+			childAttributes,
+			children,
 			direction,
-			speed,
+			distance,
 			enterDelay,
 			leaveDelay,
-			style, // tslint:disable-line:no-unused-variable
-			children,
-			childAttribute,
 			mode,
-			distance,
+			speed,
+			style, // tslint:disable-line:no-unused-variable
 			...others,
 		} = this.props;
 		const styles = getStyles(this);
@@ -58,7 +62,8 @@ export default class SlideInOut extends React.Component<SlideInOutProps, SlideIn
 						mode={mode}
 						speed={speed}
 						distance={distance}
-						{...childAttribute}
+						appearAnimate={appearAnimate}
+						{...childAttributes}
 					>
 						{child}
 					</SlideInOutChild>

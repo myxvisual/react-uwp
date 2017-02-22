@@ -131,7 +131,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		} = this.props;
 		return React.cloneElement(children as any, {
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,
-			style: style ? this.context.theme.prepareStyles(style) : void(0),
+			style: style ? this.context.theme.prepareStyles(style) : void 0,
 			...attributes
 		});
 	}

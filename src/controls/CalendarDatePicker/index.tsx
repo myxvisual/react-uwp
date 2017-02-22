@@ -29,10 +29,10 @@ export default class CalendarDatePicker extends React.Component<CalendarDatePick
 
 		return (
 			<div
-				{...attributes}
 				style={styles.root}
 			>
 				<Input
+					{...attributes}
 					placeholder="mm/dd/yyyy"
 					rightNode={<Icon>Calendar</Icon>}
 				/>

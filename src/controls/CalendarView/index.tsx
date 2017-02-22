@@ -2,14 +2,16 @@ import * as React from "react";
 import Icon from "../Icon";
 import  * as dateUtils from "../../common/date.utils";
 import { ThemeType } from "../../styles/ThemeType";
-import SlideInOut from "../Animate/SlideInOut";
+import DayPicker from "./DayPicker";
+import MonthPicker from "./MonthPicker";
+import YearPicker from "./YearPicker";
 import ScaleInOut from "../Animate/ScaleInOut";
-
-const defaultProps: CalendarViewProps = __DEV__ ? require("./devDefaultProps").default : {};
+import FadeInOut from "../Animate/FadeInOut";
 
 export interface DataProps {
 	mode?: "Large" | "Small";
-	chooseMode?: "YearChoose" | "MonthChoose" | "DayChoose";
+	pickerMode?: "Year" | "Month" | "Day";
+	onChangeDate?: (date?: Date) => void;
 }
 
 interface CalendarViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -19,14 +21,14 @@ interface CalendarViewState {
 	viewDate?: Date;
 	direction?: "Bottom" | "Top";
 	chooseISODates?: string[];
-	currChooseModeIndex?: number;
+	currPickerMode?: "Year" | "Month" | "Day";
 }
-const chooseModes = ["YearChoose" , "MonthChoose" , "DayChoose"];
+
 export default class CalendarView extends React.Component<CalendarViewProps, CalendarViewState> {
 	static defaultProps: CalendarViewProps = {
-		...defaultProps,
-		chooseMode: "DayChoose",
+		pickerMode: "Day",
 		mode: "Small",
+		onChangeDate: () => {},
 	};
 
 	state: CalendarViewState = {
@@ -34,75 +36,152 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 		viewDate: new Date(),
 		direction: "Bottom",
 		chooseISODates: [],
-		currChooseModeIndex: chooseModes.indexOf(this.props.chooseMode),
+		currPickerMode: this.props.pickerMode,
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
-	nextMonth = () => this.setState({ viewDate: dateUtils.addMonths(this.state.viewDate, 1), direction: "Top" })
-
-	prevMonth = () => this.setState({ viewDate: dateUtils.addMonths(this.state.viewDate, -1), direction: "Bottom" })
-
-	getDaysArray = () => {
-		const { viewDate } = this.state;
-		const currMonth = viewDate.getMonth();
-		const currYear = viewDate.getFullYear();
-		const daysArray: { day?: number; isCurrMonth?: boolean; date?: Date }[] = [];
-		const prevMonthLast = dateUtils.getLastDayOfPrevMonth(viewDate);
-		const prevMonthLastDay = prevMonthLast.getDay();
-		const prevMonthLastDate = prevMonthLast.getDate();
-		const monthFirst = dateUtils.getFirstDayOfMonth(viewDate);
-		const monthFirstDate = monthFirst.getDate();
-		const monthLastDate = dateUtils.getLastDayOfMonth(viewDate).getDate();
-		for (let i = 0; i < 42; i++) {
-			daysArray[i] = {};
-			let day: number;
-			if (i < prevMonthLastDay) {
-				day = prevMonthLastDate - prevMonthLastDay + i + 1;
-				daysArray[i]["isCurrMonth"] = false;
-			} else if (i < monthLastDate + prevMonthLastDay) {
-				day = monthFirstDate - prevMonthLastDay + i;
-				daysArray[i]["isCurrMonth"] = true;
-			} else {
-				day = i - prevMonthLastDay - monthLastDate + 1;
-				daysArray[i]["isCurrMonth"] = false;
+	nextAction = () => {
+		const { viewDate, currPickerMode } = this.state;
+		switch (currPickerMode) {
+			case "Day": {
+				this.setState({
+					viewDate: dateUtils.addMonths(viewDate, 1),
+					direction: "Bottom"
+				});
+				break;
 			}
-			daysArray[i]["day"] = day;
-			daysArray[i]["date"] = new Date(currYear, currMonth, day);
+			case "Month": {
+				this.setState({
+					viewDate: dateUtils.addYears(viewDate, 1),
+					direction: "Bottom"
+				});
+				break;
+			}
+			case "Year": {
+				this.setState({
+					viewDate: dateUtils.addYears(viewDate, 10),
+					direction: "Bottom"
+				});
+				break;
+			}
+			default: {
+				break;
+			}
 		}
-		return daysArray;
 	}
 
-	handleDayMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, date: Date) => {
-		const { theme } = this.context;
-		e.currentTarget.style.border = `2px solid ${this.state.chooseISODates.includes(date.toISOString()) ? theme.accent : theme.baseMedium}`;
+	prevAction = () => {
+		const { viewDate, currPickerMode } = this.state;
+		switch (currPickerMode) {
+			case "Day": {
+				this.setState({
+					viewDate: dateUtils.addMonths(viewDate, -1),
+					direction: "Top"
+				});
+				break;
+			}
+			case "Month": {
+				this.setState({
+					viewDate: dateUtils.addYears(viewDate, -1),
+					direction: "Top"
+				});
+				break;
+			}
+			case "Year": {
+				this.setState({
+					viewDate: dateUtils.addYears(viewDate, -10),
+					direction: "Top"
+				});
+				break;
+			}
+			default: {
+				break;
+			}
+		}
 	}
 
-	handleDayMouseLeave = (e: React.MouseEvent<HTMLButtonElement>, date: Date) => {
-		const { theme } = this.context;
-		e.currentTarget.style.border = `2px solid ${this.state.chooseISODates.includes(date.toISOString()) ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.baseLow}`;
-	}
-
-	chooseDate = (date: Date) => {
+	chooseDay = (date: Date) => {
 		let { chooseISODates } = this.state;
 		const dateISOString = date.toISOString();
 		const index = chooseISODates.indexOf(dateISOString);
 		index > -1 ? chooseISODates.splice(index, 1) : (chooseISODates = [...chooseISODates, dateISOString]);
 		this.setState({ chooseISODates });
+		this.props.onChangeDate(date);
 	}
 
-	toggleMode = (e: React.MouseEvent<HTMLDivElement>) => {
-		this.setState({ currChooseModeIndex: (this.state.currChooseModeIndex + 1) % 3 });
+	onChooseMonth = (month: number) => {
+		const { viewDate } = this.state;
+		const newDate = new Date(viewDate.getFullYear(), month, viewDate.getDate());
+		this.setState({
+			viewDate: new Date(viewDate.getFullYear(), month, viewDate.getDate()),
+			currPickerMode: "Day"
+		});
+		this.props.onChangeDate(newDate);
+	}
+
+	onChooseYear = (year: number) => {
+		const { viewDate } = this.state;
+		const newDate = new Date(year, viewDate.getMonth(), viewDate.getDate());
+		this.setState({
+			viewDate: newDate,
+			currPickerMode: "Month"
+		});
+		this.props.onChangeDate(newDate);
+	}
+
+	getTitle = () => {
+		const { viewDate, currPickerMode } = this.state;
+		switch (currPickerMode) {
+			case "Day": {
+				return `${dateUtils.monthList[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
+			}
+			case "Month": {
+				const year = viewDate.getFullYear();
+				return `${year} Year`;
+			}
+			case "Year": {
+				const year = viewDate.getFullYear();
+				const minYearOfTen = Math.floor(year / 10) * 10;
+				const maxYearOfTen = Math.ceil(year / 10) * 10;
+				return `${minYearOfTen}-${maxYearOfTen}`;
+			}
+			default: {
+				break;
+			}
+		}
+	}
+
+	togglePickerMode = (e: React.MouseEvent<HTMLParagraphElement> | "Year" | "Month" | "Day") => {
+		if (typeof e === "string") {
+			this.setState({ currPickerMode: e as any });
+		}
+		switch (this.state.currPickerMode) {
+			case "Day": {
+				this.setState({ currPickerMode: "Month" });
+				break;
+			}
+			case "Month": {
+				this.setState({ currPickerMode: "Year" });
+				break;
+			}
+			case "Year": {
+				break;
+			}
+			default: {
+				break;
+			}
+		}
 	}
 
 	render() {
-		const { chooseMode, mode, ...attributes } = this.props;
+		// tslint:disable-next-line:no-unused-variable
+		const { pickerMode, mode, onChangeDate, ...attributes } = this.props;
 		const { theme } = this.context;
 		const styles = getStyles(this);
-		const { dateNow, viewDate, direction, chooseISODates, currChooseModeIndex } = this.state;
-		const currChooseMode = chooseModes[currChooseModeIndex];
-		const mmyy = `${dateUtils.monthList[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
+		const { dateNow, viewDate, direction, chooseISODates, currPickerMode } = this.state;
+		const title = this.getTitle();
 
 		return (
 			<div
@@ -110,54 +189,72 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
 				style={styles.root}
 			>
 				<div style={styles.title}>
-					<div onClick={this.toggleMode}>{mmyy}</div>
+					<FadeInOut
+						appearAnimate={true}
+						speed={200}
+						direction={direction}
+						style={{
+							overflow: "hidden",
+						}}
+						childAttributes={{
+							style: theme.prepareStyles({
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center",
+								justifyContent: "flex-start",
+							})
+						}}
+						key={`${currPickerMode} ${viewDate.toISOString().slice(0, 10)}`}
+					>
+						<p style={{ cursor: "pointer" }} onClick={this.togglePickerMode}>{title}</p>
+					</FadeInOut>
 					<div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
 						<Icon
 							style={styles.titleIcon}
-							onClick={this.prevMonth}
+							onClick={this.prevAction}
+							hoverStyle={{ color: theme.baseMedium }}
 						>
 							ChevronUp
 						</Icon>
 						<Icon
 							style={styles.titleIcon}
-							onClick={this.nextMonth}
+							onClick={this.nextAction}
+							hoverStyle={{ color: theme.baseMedium }}
 						>
 							ChevronDown
 						</Icon>
 					</div>
 				</div>
-				<div>
-					<div style={styles.weeklyHead}>
-						{dateUtils.dayShortList.map((str, index) => (
-							<button style={styles.weeklyHeadItem} key={`${index}`}>{str}</button>
-						))}
-					</div>
-					{currChooseMode === "DayChoose" ? (
-						<SlideInOut style={styles.weekly} mode="Both" speed={350} direction={direction}>
-							<div key={mmyy}>
-								{this.getDaysArray().map(({ day, isCurrMonth, date }, index) => (
-									<button
-										onMouseEnter={(e) => this.handleDayMouseEnter(e, date)}
-										onMouseLeave={(e) => this.handleDayMouseLeave(e, date)}
-										style={{
-											...styles.dayItem,
-											border: `1px solid ${chooseISODates.includes(date.toISOString()) ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.baseLow}`,
-											background: isCurrMonth ? theme.altHigh : theme.baseLow
-										}}
-										onClick={() => this.chooseDate(date)}
-										key={`${index}`}
-									>
-										{day}
-									</button>
-								))}
-							</div>
-						</SlideInOut>
+				<ScaleInOut
+					appearAnimate={false}
+					style={styles.body}
+					mode="Both"
+					speed={350}
+				>
+					{currPickerMode === "Day" ? (
+						<DayPicker
+							date={viewDate}
+							direction={direction}
+							chooseDay={(date) => this.chooseDay(date)}
+							chooseISODates={chooseISODates}
+							key={currPickerMode}
+						/>
+					) : (currPickerMode === "Month" ? (
+						<MonthPicker
+							date={viewDate}
+							direction={direction}
+							key={currPickerMode}
+							onChooseMonth={this.onChooseMonth}
+						/>
 					) : (
-						<ScaleInOut style={styles.weekly} mode="Both" speed={350}>
-							<p key={currChooseModeIndex}>Test</p>
-						</ScaleInOut>
-					)}
-				</div>
+						<YearPicker
+							date={viewDate}
+							direction={direction}
+							key={currPickerMode}
+							onChooseYear={this.onChooseYear}
+						/>
+					))}
+				</ScaleInOut>
 			</div>
 		);
 	}
@@ -168,10 +265,6 @@ function getStyles(calendarView: CalendarView): {
 	title?: React.CSSProperties;
 	titleIcon?: React.CSSProperties;
 	body?: React.CSSProperties;
-	weeklyHead?: React.CSSProperties;
-	weeklyHeadItem?: React.CSSProperties;
-	weekly?: React.CSSProperties;
-	dayItem?: React.CSSProperties;
 } {
 	const { context, props: { style } } = calendarView;
 	const { theme } = context;
@@ -188,7 +281,7 @@ function getStyles(calendarView: CalendarView): {
 			...style,
 		}),
 		title: prepareStyles({
-			fontSize: 20,
+			fontSize: 14,
 			height: 42,
 			padding: "0 16px",
 			fontWeight: "lighter",
@@ -203,33 +296,7 @@ function getStyles(calendarView: CalendarView): {
 		},
 		body: prepareStyles({
 			width: 296,
-			height: 296,
+			height: 292,
 		}),
-		weeklyHead: prepareStyles({
-			display: "flex",
-			flexDirection: "row",
-		}),
-		weeklyHeadItem: {
-			background: "none",
-			border: "none",
-			outline: "none",
-			color: theme.baseHigh,
-			width: 292 / 7,
-			height: 40,
-		},
-		weekly: prepareStyles({
-			width: 296,
-			height: 292 / 7 * 6 - 2,
-			display: "flex",
-			flexDirection: "row",
-			flexWrap: "wrap",
-		}),
-		dayItem: {
-			background: "none",
-			outline: "none",
-			color: theme.baseHigh,
-			width: 292 / 7,
-			height: 292 / 7,
-		}
 	};
 }

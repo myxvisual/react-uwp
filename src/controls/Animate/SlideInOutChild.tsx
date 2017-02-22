@@ -1,46 +1,44 @@
 import * as React from "react";
 
 interface DataProps {
+	appearAnimate?: boolean;
 	direction?: "Left" | "Right" | "Top" | "Bottom";
-	speed?: number;
-	enterDelay?: number;
-	mode?: "In" | "Out" | "Both";
-	leaveDelay?: number;
 	distance?: string | number;
+	enterDelay?: number;
+	leaveDelay?: number;
+	mode?: "In" | "Out" | "Both";
+	speed?: number;
 }
 interface SlideInChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 export default class SlideInChild extends React.Component<SlideInChildProps, {}> {
 	static defaultProps = {
-		speed: 500,
+		appearAnimate: true,
+		direction: "Left",
+		distance: "100%",
 		enterDelay: 0,
 		leaveDelay: 0,
-		direction: "Left",
 		mode: "Both",
-		distance: "100%",
+		speed: 500,
 	};
 
 	enterTimer: number;
 	leaveTimer: number;
 	rootElm: HTMLDivElement;
 
-	componentWillAppear(callback: () => void) {
+	componentWillAppear = this.props.appearAnimate ? (callback: () => void) => {
 		if (this.props.mode !== "Out") {
 			this.initializeAnimation(callback);
-		} else {
-			callback();
-		};
-	}
+		} else { callback(); };
+	} : void 0;
+
+	componentDidAppear = this.props.appearAnimate ? () => {
+		if (this.props.mode !== "Out") this.animate();
+	} : void 0;
 
 	componentWillEnter(callback: () => void) {
 		if (this.props.mode !== "Out") {
 			this.initializeAnimation(callback);
-		} else {
-			callback();
-		}
-	}
-
-	componentDidAppear() {
-		if (this.props.mode !== "Out") this.animate();
+		} else { callback(); }
 	}
 
 	componentDidEnter() {
@@ -63,40 +61,50 @@ export default class SlideInChild extends React.Component<SlideInChildProps, {}>
 
 	animate = (callback = () => {}) => {
 		const { speed, enterDelay } = this.props;
-		const { style } = this.rootElm;
-		style.opacity = "1";
-		style.transform = "translate(0, 0)";
+		const transform = "translate(0, 0)";
+		Object.assign(this.rootElm.style, {
+			transform,
+			webkitTransform: transform,
+			opacity: "1"
+		} as CSSStyleDeclaration);
 
 		this.enterTimer = setTimeout(callback, speed + enterDelay) as any;
 	}
 
 	initializeAnimation = (callback = () => {}, revers = false) => {
 		let { direction, speed, leaveDelay, distance } = this.props;
-		const { style } = this.rootElm;
 		distance = typeof distance === "string" ? distance : `${distance}px`;
 		const x = direction === "Left" ? `${revers ? "-" : ""}${distance}` :
 			direction === "Right" ? `${revers ? "" : "-"}${distance}` : "0";
 		const y = direction === "Top" ? `${revers ? "" : "-"}${distance}` :
 			direction === "Bottom" ? `${revers ? "-" : ""}${distance}` : "0";
-		style.transform = `translate(${x}, ${y})`;
-		style.webkitTransform = `translate(${x}, ${y})`;
-		style.opacity = "0";
+		const transform = `translate(${x}, ${y})`;
+		Object.assign(this.rootElm.style, {
+			transform,
+			webkitTransform: transform,
+			opacity: "0"
+		} as CSSStyleDeclaration);
 
 		this.leaveTimer = setTimeout(callback, speed / 2 + leaveDelay) as any;
 	}
 
 	render() {
 		const {
+			appearAnimate, // tslint:disable-line:no-unused-variable
 			children,
+			direction, // tslint:disable-line:no-unused-variable
+			distance, // tslint:disable-line:no-unused-variable
 			enterDelay, // tslint:disable-line:no-unused-variable
 			leaveDelay, // tslint:disable-line:no-unused-variable
-			direction, // tslint:disable-line:no-unused-variable
+			mode, // tslint:disable-line:no-unused-variable
 			speed,
 			style,
+			...attributes,
 		} = this.props;
 
 		return (
 			<div
+				{...attributes}
 				ref={(rootElm) => this.rootElm = rootElm}
 				style={{
 					position: "absolute",

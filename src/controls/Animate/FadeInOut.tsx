@@ -1,29 +1,29 @@
 import * as React from "react";
 import * as ReactTransitionGroup from "react-addons-transition-group";
-import ScaleInOutChild from "./ScaleInOutChild";
+import FadeInOutChild from "./FadeInOutChild";
 interface DataProps {
 	[key: string]: any;
 }
-export interface ScaleInOutProps extends DataProps {
+export interface FadeInOutProps extends DataProps {
 	appearAnimate?: boolean;
 	childAttributes?: React.HTMLAttributes<HTMLDivElement>;
 	enterDelay?: number;
 	leaveDelay?: number;
-	maxScale?: number;
-	minScale?: number;
+	maxValue?: number;
+	minValue?: number;
 	mode?: "In" | "Out" | "Both";
 	speed?: number;
 }
-interface ScaleInOutState {}
+interface FadeInOutState {}
 
-export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleInOutState> {
-	static defaultProps: ScaleInOutProps = {
+export default class FadeInOut extends React.Component<FadeInOutProps, FadeInOutState> {
+	static defaultProps: FadeInOutProps = {
 		appearAnimate: true,
-		children: <div>ScaleInOut</div>,
+		children: <div>FadeInOut</div>,
 		enterDelay: 0,
 		leaveDelay: 0,
-		maxScale: 1,
-		minScale: 0,
+		maxValue: 1,
+		minValue: 0,
 		mode: "Both",
 		speed: 500,
 	};
@@ -35,8 +35,8 @@ export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleIn
 			children,
 			enterDelay,
 			leaveDelay,
-			maxScale,
-			minScale,
+			maxValue,
+			minValue,
 			mode,
 			speed,
 			style, // tslint:disable-line:no-unused-variable
@@ -51,10 +51,10 @@ export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleIn
 				component="div"
 			>
 				{React.Children.map(children, (child: any, index) => (
-					<ScaleInOutChild
+					<FadeInOutChild
 						key={child.key}
-						minScale={minScale}
-						maxScale={maxScale}
+						minValue={minValue}
+						maxValue={maxValue}
 						enterDelay={enterDelay}
 						leaveDelay={leaveDelay}
 						mode={mode}
@@ -63,23 +63,22 @@ export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleIn
 						{...childAttributes}
 					>
 						{child}
-					</ScaleInOutChild>
+					</FadeInOutChild>
 				))}
 			</ReactTransitionGroup>
 		);
 	}
 }
 
-function getStyles(ScaleInOut: ScaleInOut): {
+function getStyles(fadeInOut: FadeInOut): {
 	root?: React.CSSProperties;
 } {
 	const {
 		props: { style, speed }
-	} = ScaleInOut;
+	} = fadeInOut;
 
 	return {
 		root: {
-			position: "relative",
 			transition: `transform ${speed}ms 0s ease-in-out`,
 			...style,
 		},
