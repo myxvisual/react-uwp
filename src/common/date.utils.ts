@@ -3,14 +3,6 @@ const dayList = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthShortList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-export {
-	dayShortList,
-	dayList,
-	monthShortList,
-	monthList,
-};
-
-
 export function addDays(d: Date, days: number) {
 	const newDate = cloneDate(d);
 	newDate.setDate(d.getDate() + days);
@@ -50,3 +42,10 @@ export function getLastDayOfMonth(d: Date) {
 export function getLastDayOfPrevMonth(d: Date) {
 	return new Date(d.getFullYear(), d.getMonth(), 0);
 }
+
+export {
+	dayShortList,
+	dayList,
+	monthShortList,
+	monthList,
+};
