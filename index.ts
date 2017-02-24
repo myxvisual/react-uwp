@@ -12,6 +12,7 @@ export { default as DropdownMenu } from "./src/controls/DropdownMenu";
 export { default as FlipView } from "./src/controls/FlipView";
 export { default as FloatNav } from "./src/controls/FloatNav";
 export { default as Flyout } from "./src/controls/Flyout";
+export { default as FlyoutWrapper } from "./src/controls/FlyoutWrapper";
 export { default as HyperLink } from "./src/controls/HyperLink";
 export { default as Icon } from "./src/controls/Icon";
 export { default as IconButton } from "./src/controls/IconButton";
@@ -34,6 +35,7 @@ export { default as TreeView } from "./src/controls/TreeView";
 
 export { default as addCSSRule } from "./src/common/browser/addCSSRule";
 export { default as darkTheme } from "./src/styles/darkTheme";
+export { default as getTheme } from "./src/styles/getTheme";
 export { default as lightTheme } from "./src/styles/lightTheme";
 export { ThemeType } from "./src/styles/ThemeType";
 

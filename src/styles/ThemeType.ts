@@ -45,4 +45,9 @@ export interface ThemeType {
 	prepareStyles?: (style: React.CSSProperties) => React.CSSProperties;
 	isDarkTheme?: boolean;
 	updateTheme?: (theme: ThemeType) => void;
+	zIndex?: {
+		tooltip?: number;
+		flyout?: number;
+		[key: string]: number;
+	};
 }

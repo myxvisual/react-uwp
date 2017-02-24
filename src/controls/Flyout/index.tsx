@@ -16,7 +16,7 @@ interface FlyoutState {
 	showFlyout?: boolean;
 }
 
-export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
+class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 	static defaultProps: FlyoutProps = {
 		...defaultProps,
 		verticalPosition: "top",
@@ -32,17 +32,10 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 	state: FlyoutState = {
 		showFlyout: this.props.show
 	};
+	refs: { flyoutElm: HTMLDivElement };
 
 	static contextTypes = { theme: React.PropTypes.object };
-
 	context: { theme: ThemeType };
-
-	refs: { container: HTMLDivElement };
-
-	componentDidMount() {
-		const parentNode = this.refs.container.parentNode as HTMLDivElement;
-		parentNode.style.position = "relative";
-	}
 
 	toggleShowFlyout = (showFlyout?: boolean) => {
 		if (typeof showFlyout === "boolean") {
@@ -56,43 +49,43 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 		}
 	}
 
-	getStyle = (): React.CSSProperties => {
-		const { theme } = this.context;
-		const { verticalPosition, horizontalPosition, style, margin } = this.props;
-		const getStyles = (showFlyout = false, positionStyle = {}): React.CSSProperties => theme.prepareStyles({
+	getStyle = (showFlyout = false, positionStyle = {}): React.CSSProperties => {
+		const { context: { theme }, props: { style } } = this;
+		return theme.prepareStyles({
 			width: 280,
 			height: 60,
-			display: "flex",
-			flexDirection: "column",
-			alignItems: "flex-start",
-			justifyContent: "flex-start",
+
 			padding: "4px 8px",
-			transition: "all .25s 0s ease-in-out",
 			border: `1px solid ${theme.baseLow}`,
 			color: theme.baseMediumHigh,
 			background: theme.chromeMedium,
+			transition: "all .25s 0s ease-in-out",
 			pointerEvents: showFlyout ? "all" : "none",
 			opacity: showFlyout ? 1 : 0,
 			transform: `translateY(${showFlyout ? "0px" : "10px"})`,
 			position: "absolute",
-			fontSize: 14,
-			...style,
+			zIndex: theme.zIndex.flyout,
 			...positionStyle,
+			...style,
 		});
-		let parentNode: HTMLDivElement;
-		try {
-			parentNode = this.refs.container.parentNode as HTMLDivElement;
-		} catch (e) {}
-		if (!parentNode) return getStyles();
+	}
+
+	getFlyoutStyle = (): React.CSSProperties => {
+		const { flyoutElm } = this.refs;
+		if (!flyoutElm) return this.getStyle();
+		let parentNode: any = flyoutElm.parentNode;
+
+		const { theme } = this.context;
+		const { verticalPosition, horizontalPosition, margin } = this.props;
 		const { width, height } = parentNode.getBoundingClientRect();
-		const containerWidth = this.refs.container.getBoundingClientRect().width;
-		const containerHeight = this.refs.container.getBoundingClientRect().height;
+		const containerWidth = flyoutElm.getBoundingClientRect().width;
+		const containerHeight = flyoutElm.getBoundingClientRect().height;
 		const { showFlyout } = this.state;
 		const positionStyle: React.CSSProperties = {};
 		if (width !== void(0) && height !== void(0)) {
 			switch (horizontalPosition) {
 				case "left": {
-					positionStyle.left = -containerWidth - margin;
+					positionStyle.right = 0;
 					break;
 				}
 				case "center": {
@@ -100,7 +93,7 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 					break;
 				}
 				case "right": {
-					positionStyle.left = width + margin;
+					positionStyle.left = 0;
 					break;
 				}
 				default: {
@@ -125,7 +118,17 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 				}
 			}
 		};
-		return getStyles(showFlyout, positionStyle);
+		return this.getStyle(showFlyout, positionStyle);
+	}
+
+	handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.currentTarget.style.borderColor = this.context.theme.accent;
+		this.props.onMouseEnter(e);
+	}
+
+	handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.currentTarget.style.borderColor = this.context.theme.baseLow;
+		this.props.onMouseLeave(e);
 	}
 
 	render() {
@@ -136,19 +139,15 @@ export default class Flyout extends React.Component<FlyoutProps, FlyoutState> {
 		return (
 			<div
 				{...attributes}
-				onMouseEnter={(e) => {
-					e.currentTarget.style.borderColor = theme.accent;
-					attributes.onMouseEnter(e);
-				}}
-				onMouseLeave={(e) => {
-					e.currentTarget.style.borderColor = theme.baseLow;
-					attributes.onMouseLeave(e);
-				}}
-				ref="container"
-				style={this.getStyle()}
+				onMouseEnter={this.handelMouseEnter}
+				onMouseLeave={this.handelMouseLeave}
+				ref="flyoutElm"
+				style={this.getFlyoutStyle()}
 			>
 				{children}
 			</div>
 		);
 	}
 }
+
+export default Flyout;

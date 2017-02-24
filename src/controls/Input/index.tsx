@@ -29,18 +29,17 @@ export default class Input extends React.Component<InputProps, InputState> {
 			outline: "none",
 			transition: "all .25s 0s ease-in-out",
 		},
-		onFocus: () => {},
-		onBlur: () => {},
+		onFocus: emptyFunc,
+		onBlur: emptyFunc,
 		onChange: emptyFunc,
 		onChangeValue: emptyFunc,
 	};
 
 	state: InputState = {};
+	refs: { input: HTMLInputElement };
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
-
-	refs: { input: HTMLInputElement };
 
 	handleFocus = (e?: React.FocusEvent<HTMLInputElement>) => {
 		e.currentTarget.style.color = this.context.theme.baseHigh;
@@ -67,10 +66,10 @@ export default class Input extends React.Component<InputProps, InputState> {
 		const haveChild = leftNode || rightNode;
 		const { theme } = this.context;
 		const styles = {
-			style: {
+			style: theme.prepareStyles({
 				height: 32,
 				width: 296,
-				padding: 10,
+				padding: haveChild ? 10 : void 0,
 				fontSize: 15,
 				display: "flex",
 				flexDirection: "row",
@@ -78,26 +77,30 @@ export default class Input extends React.Component<InputProps, InputState> {
 				border: `2px solid ${theme.baseLow}`,
 				color: theme.baseMedium,
 				background: theme.altHigh,
-				...theme.prepareStyles(style),
+				...style,
 				...inputStyle,
-			},
+			}),
 			hoverStyle: {
 				color: theme.baseMediumHigh,
 				border: `2px solid ${theme.baseMedium}`,
 				...theme.prepareStyles(hoverStyle)
 			},
+			focusStyle: {
+				border: `2px solid ${this.context.theme.accent}`
+			}
 		};
 
-		return (haveChild
-			?
+		return (
 			<ElementState {...styles}>
 				<div>
 					{leftNode}
 					<input
 						ref="input"
+						{...attributes as any}
 						style={theme.prepareStyles({
 							color: theme.baseMedium,
 							width: "100%",
+							height: "100%",
 							background: "none",
 							border: "none",
 							...inputStyle,
@@ -106,16 +109,12 @@ export default class Input extends React.Component<InputProps, InputState> {
 							onChangeValue(e.currentTarget.value);
 							attributes.onChange(e as any);
 						}}
-						{...attributes as any}
+						onClick={this.handleFocus}
 						onFocus={this.handleFocus}
 						onBlur={this.handleBlur}
 					/>
 					{rightNode}
 				</div>
-			</ElementState>
-			:
-			<ElementState {...styles}>
-				<input ref="input" {...attributes as any}/>
 			</ElementState>
 		);
 	}

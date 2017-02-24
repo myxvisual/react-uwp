@@ -53,7 +53,7 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
 					if (onMouseEnter) onMouseEnter(e);
 				}}
 				onMouseLeave={e => {
-					e.currentTarget.style.background = (visited && isTenFt) ? theme.baseLow : theme.altHigh;
+					e.currentTarget.style.background = (visited && isTenFt) ? theme.baseLow : "none";
 					if (onMouseLeave) onMouseLeave(e);
 				}}
 			>
@@ -86,7 +86,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
 		root: prepareStyles({
 			fontSize: 14,
 			color: theme.baseMediumHigh,
-			background: isTenFt ? (visited ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.altHigh) : theme.altHigh,
+			background: isTenFt ? (visited ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : "none") : "none",
 			width: "100%",
 			display: "flex",
 			flexDirection: "row",

@@ -10,7 +10,7 @@ export interface DataProps {
 	icon?: string;
 	hoverStyle?: React.CSSProperties;
 	opened?: boolean;
-	defaultLabelPosition?: "Right" | "Left" | "Bottom" | "Top" | "Collapsed";
+	defaultLabelPosition?: "Right" | "Bottom" | "Collapsed";
 }
 
 export interface AppBarButtonButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -45,9 +45,9 @@ export default class AppBarButtonButton extends React.Component<AppBarButtonButt
 					<Icon style={styles.icon}>
 						{icon}
 					</Icon>
-					<p style={styles.label}>
+					{defaultLabelPosition !== "Collapsed" && <p style={styles.label}>
 						{label}
-					</p>
+					</p>}
 				</div>
 			</ElementState>
 		);
@@ -65,7 +65,8 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
 	const { prepareStyles } = theme;
 	const flexDirection: any = {
 		"Bottom": "column",
-		"Right": "row"
+		"Right": "row",
+		"Left": "row-reverse"
 	};
 	const isRight = defaultLabelPosition === "Right";
 

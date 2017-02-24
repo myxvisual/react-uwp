@@ -8,7 +8,7 @@ export default function AppBarSeparator(props: SeparatorProps) {
 			style={{
 				height: 28,
 				width: 2,
-				margin: "auto 10px",
+				margin: "10px 0",
 				...props.style,
 			}}
 		/>

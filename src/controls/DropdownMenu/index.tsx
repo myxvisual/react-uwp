@@ -75,6 +75,8 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		const currentValue = valueNode.innerText;
 		if (showList) {
 			currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));
+		}
+		if (currentValue !== this.state.currentValue) {
 			this.props.onChangeValue(currentValue);
 		}
 		this.setState({

@@ -11,6 +11,7 @@ export interface DataProps {
 	margin?: number;
 	autoClose?: boolean;
 	timeout?: number;
+	contentNode?: any;
 }
 interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 interface TooltipState {
@@ -22,40 +23,26 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		...defaultProps,
 		verticalPosition: "bottom",
 		horizontalPosition: "center",
-		children: "Tooltip",
+		content: "Tooltip",
 		margin: 4,
-		autoClose: true,
+		autoClose: false,
 		timeout: 2500,
 	};
 
 	state: TooltipState = {
 		showTooltip: false
 	};
-
-	static contextTypes = { theme: React.PropTypes.object };
-
-	context: { theme: ThemeType };
-
-	refs: { container: HTMLDivElement };
-
+	refs: { rootElm: HTMLDivElement; tooltipElm: HTMLSpanElement };
 	timer: any = null;
 
-	componentDidMount() {
-		const parentNode = this.refs.container.parentNode as HTMLDivElement;
-		parentNode.style.position = "relative";
-		parentNode.addEventListener("mouseenter", this.showTooltip);
-		parentNode.addEventListener("click", this.showTooltip);
-		parentNode.addEventListener("mouseleave", this.notShowTooltip);
-	}
+	static contextTypes = { theme: React.PropTypes.object };
+	context: { theme: ThemeType };
 
 	componentWillUnmount() {
-		this.refs.container.parentNode.removeEventListener("mouseenter", this.showTooltip);
-		this.refs.container.parentNode.removeEventListener("click", this.showTooltip);
-		this.refs.container.parentNode.removeEventListener("mouseleave", this.notShowTooltip);
 		clearTimeout(this.timer);
 	}
 
-	showTooltip = (e: MouseEvent) => {
+	showTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
 		const show = () => {
 			this.setState({
 				showTooltip: true
@@ -73,17 +60,19 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		}
 	}
 
-	notShowTooltip = (e: MouseEvent) => {
+	notShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
 		this.setState({
 			showTooltip: false
 		});
 	}
 
-	getStyle = (): React.CSSProperties => {
-		const { theme } = this.context;
-		const { verticalPosition, horizontalPosition, style, margin } = this.props;
-		const getStyles = (showTooltip = false, positionStyle = {}): React.CSSProperties => theme.prepareStyles({
+	getStyle = (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {
+		const { context: { theme }, props: { style } } = this;
+		return theme.prepareStyles({
 			height: 28,
+			width: "100%",
+			overflow: "hidden",
+			textOverflow: "ellipsis",
 			padding: "4px 8px",
 			transition: "all .25s 0s ease-in-out",
 			border: `1px solid ${theme.baseLow}`,
@@ -94,24 +83,27 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 			position: "absolute",
 			fontSize: 14,
 			pointerEvents: showTooltip ? "all" : "none",
+			zIndex: theme.zIndex.tooltip,
 			...style,
 			...positionStyle,
 		});
-		let parentNode: HTMLDivElement;
-		try {
-			parentNode = this.refs.container.parentNode as HTMLDivElement;
-		} catch (e) {}
-		if (!parentNode) return getStyles();
-		parentNode.style.position = "relative";
-		const { width, height } = parentNode.getBoundingClientRect();
-		const containerWidth = this.refs.container.getBoundingClientRect().width;
-		const containerHeight = this.refs.container.getBoundingClientRect().height;
+	}
+
+	getTooltipStyle = (): React.CSSProperties => {
+		const { rootElm, tooltipElm } = this.refs;
+		if (!(rootElm && tooltipElm)) return this.getStyle();
+
+		const { theme } = this.context;
+		const { verticalPosition, horizontalPosition, margin } = this.props;
+		const { width, height } = rootElm.getBoundingClientRect();
+		const containerWidth = tooltipElm.getBoundingClientRect().width;
+		const containerHeight = tooltipElm.getBoundingClientRect().height;
 		const { showTooltip } = this.state;
 		const positionStyle: React.CSSProperties = {};
 		if (width !== void(0) && height !== void(0)) {
 			switch (horizontalPosition) {
 				case "left": {
-					positionStyle.left = -containerWidth - margin;
+					positionStyle.right = 0;
 					break;
 				}
 				case "center": {
@@ -119,7 +111,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 					break;
 				}
 				case "right": {
-					positionStyle.left = width + margin;
+					positionStyle.left = 0;
 					break;
 				}
 				default: {
@@ -144,22 +136,31 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 				}
 			}
 		};
-		return getStyles(showTooltip, positionStyle);
+		return this.getStyle(showTooltip, positionStyle);
 	}
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { verticalPosition, timeout, autoClose, margin, horizontalPosition, show, children, itemHeigh, ...attributes } = this.props;
+		const { verticalPosition, timeout, autoClose, margin, horizontalPosition, show, children, itemHeigh, content, contentNode, ...attributes } = this.props;
 		const { theme } = this.context;
 
 		return (
-			<span
-				{...attributes}
-				ref="container"
-				style={this.getStyle()}
+			<div
+				style={{ position: "relative" }}
+				ref="rootElm"
+				onMouseEnter={this.showTooltip}
+				onClick={this.showTooltip}
+				onMouseLeave={this.notShowTooltip}
 			>
+				<span
+					{...attributes}
+					ref="tooltipElm"
+					style={this.getTooltipStyle()}
+				>
+					{content || contentNode}
+				</span>
 				{children}
-			</span>
+			</div>
 		);
 	}
 }

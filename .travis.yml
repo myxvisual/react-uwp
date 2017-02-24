@@ -1,6 +1,9 @@
 language: node_js
+sudo: required
 node_js:
-  - "6.0"
+  - "6"
+install:
+  npm install
 before_install: npm install mocha
 notifications:
   email:

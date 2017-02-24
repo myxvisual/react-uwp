@@ -8,10 +8,11 @@ import { ThemeType } from "../../styles/ThemeType";
 const defaultProps: CommandBarProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
+	contentStyle?: React.CSSProperties;
 	contentNode?: any;
 	primaryCommands?: any[] | any;
 	secondaryCommands?: any[] | any;
-	defaultLabelPosition?: "Right" | "Left" | "Bottom" | "Top" | "Collapsed";
+	defaultLabelPosition?: "Right" | "Bottom" | "Collapsed";
 	mode?: "Compact" | "Minimal" | "Hidden";
 	flowDirection?: "RightToLeft" | "LeftToRight";
 }
@@ -36,7 +37,7 @@ export default class CommandBar extends React.Component<CommandBarProps, Command
 			<AppBarButton icon="Forward" label="Forward" />,
 		],
 		flowDirection: "LeftToRight",
-		defaultLabelPosition: "Right",
+		defaultLabelPosition: "Bottom",
 	};
 
 	state: CommandBarState = {};
@@ -56,7 +57,7 @@ export default class CommandBar extends React.Component<CommandBarProps, Command
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { contentNode, defaultLabelPosition, primaryCommands, secondaryCommands, flowDirection, mode, ...attributes } = this.props;
+		const { content, contentStyle, contentNode, defaultLabelPosition, primaryCommands, secondaryCommands, flowDirection, mode, ...attributes } = this.props;
 		const { opened } = this.state;
 		const { theme } = this.context;
 		const styles = getStyles(this);
@@ -66,8 +67,8 @@ export default class CommandBar extends React.Component<CommandBarProps, Command
 				{...attributes}
 				style={styles.root}
 			>
-				{contentNode !== void 0 && (
-					<div style={styles.content}>{contentNode}</div>
+				{(content !== void 0 || contentNode !== void 0) && (
+					<div style={styles.content}>{content || contentNode}</div>
 				)}
 				<div style={styles.commands}>
 					{React.Children.map(primaryCommands, (child: any, index) => (
@@ -92,7 +93,7 @@ function getStyles(commandBar: CommandBar): {
 } {
 	const {
 		context: { theme },
-		props: { style, flowDirection, defaultLabelPosition },
+		props: { style, flowDirection, defaultLabelPosition, contentStyle },
 		state: { opened }
 	} = commandBar;
 	const { prepareStyles } = theme;
@@ -113,10 +114,11 @@ function getStyles(commandBar: CommandBar): {
 			transition: "all .125s 0s ease-in-out",
 			...style,
 		}),
-		content: {
+		content: prepareStyles({
 			height: 48,
 			lineHeight: "48px",
-		},
+			...contentStyle,
+		}),
 		commands: prepareStyles({
 			display: "flex",
 			flexDirection: "row",

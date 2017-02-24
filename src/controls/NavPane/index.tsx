@@ -24,6 +24,7 @@ export interface DataProps {
 	paneViewStyle?: React.CSSProperties;
 	background?: string;
 	isTenFt?: boolean;
+	autoResize?: boolean;
 }
 
 interface NavPaneProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -31,11 +32,15 @@ interface NavPaneProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
 interface NavPaneState {
 	opened?: boolean;
 	focusNodeIndex?: number;
+	currDisplayMode?: "Overlay" | "Compact" | "Inline";
+	currInitWidth?: number;
 }
 
 export default class NavPane extends React.Component<NavPaneProps, NavPaneState> {
 	static defaultProps: NavPaneProps = {
 		...defaultProps,
+		isTenFt: false,
+		autoResize: true,
 		expandedWidth: 320,
 		initWidth: 48,
 		topNodes: [
@@ -54,7 +59,9 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 
 	state: NavPaneState = {
 		opened: false,
-		focusNodeIndex: void(0)
+		focusNodeIndex: void 0,
+		currDisplayMode: this.props.displayMode,
+		currInitWidth: this.props.initWidth
 	};
 
 	SplitViewCommands: SplitViewCommand[] = [];
@@ -62,12 +69,43 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
+	componentDidMount() {
+		this.autoResize();
+		if (this.props.autoResize) {
+			window.addEventListener("resize", this.autoResize);
+		}
+	}
+
 	componentWillMount() {
 		this.updateProps2State(this.props);
 	}
 
 	componentWillReceiveProps(nextProps: NavPaneProps) {
 		this.updateProps2State(nextProps);
+	}
+
+	componentWillUnmount() {
+		if (this.props.autoResize) {
+			window.removeEventListener("resize", this.autoResize);
+		}
+	}
+
+	autoResize = (e?: Event) => {
+		if (window.innerWidth < 1280) {
+			if (this.state.currDisplayMode !== "Compact") {
+				this.setState({
+					currDisplayMode: "Compact",
+					currInitWidth: 0
+				});
+			}
+		} else {
+			if (this.state.currDisplayMode === "Compact") {
+				this.setState({
+					currDisplayMode: "Inline",
+					currInitWidth: 48
+				});
+			}
+		}
 	}
 
 	updateProps2State = ({ defaultOpened }: NavPaneProps) => {
@@ -101,9 +139,9 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, defaultOpened, displayMode, pageTitle, background, isTenFt, ...attributes } = this.props;
+		const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, defaultOpened, displayMode, pageTitle, background, isTenFt, autoResize, ...attributes } = this.props;
 		const { theme } = this.context;
-		const { opened, focusNodeIndex } = this.state;
+		const { opened, focusNodeIndex, currDisplayMode } = this.state;
 		const styles = getStyles(this);
 		let nodeIndex: number = -1;
 
@@ -121,7 +159,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 							<div style={styles.topIcon}>
 								{React.cloneElement(topIcon || (
 									<IconButton
-										style={{ fontSize: 16, width: 48, height: 48 }}
+										style={{ fontSize: 16, width: 48, height: 48, background: "none" }}
 										hoverStyle={{ background: theme.baseLow }}
 										activeStyle={{ background: theme.baseMediumLow }}
 									>
@@ -130,10 +168,10 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 								), {
 									onClick: (e) => {
 										this.toggleOpened();
-										if (topIcon.onClick) topIcon.onclick(e);
+										if (topIcon && topIcon.props.onClick) topIcon.props.onclick(e);
 									}
 								})}
-								<p style={theme.prepareStyles({ transition: "all 0.25s", opacity: (opened || displayMode === "Compact") ? 1 : 0 })}>
+								<p style={theme.prepareStyles({ transition: "all 0.25s", opacity: (opened || currDisplayMode === "Compact") ? 1 : 0 })}>
 									{pageTitle}
 								</p>
 							</div>
@@ -177,11 +215,11 @@ function getStyles(navPane: NavPane): {
 } {
 	const {
 		context,
-		props: { initWidth, expandedWidth, displayMode, paneStyle, paneViewStyle, background },
-		state: { opened }
+		props: { expandedWidth, paneStyle, paneViewStyle, background },
+		state: { currInitWidth, opened, currDisplayMode }
 	} = navPane;
-	const isOverLay = displayMode === "Overlay";
-	const isCompact = displayMode === "Compact";
+	const isOverLay = currDisplayMode === "Overlay";
+	const isCompact = currDisplayMode === "Compact";
 	const { theme } = context;
 	const { prepareStyles } = theme;
 
@@ -194,15 +232,15 @@ function getStyles(navPane: NavPane): {
 			justifyContent: "flex-start",
 			fontSize: 16,
 			color: theme.baseMediumHigh,
-			background: background || theme.chromeMedium,
+			background: isCompact ? (background || theme.altHigh) : theme.altHigh,
 			position: "relative",
 		}),
 		paneParent: prepareStyles({
 			display: "flex",
 			flex: "0 0 auto",
-			width: opened ? expandedWidth : initWidth,
+			width: opened ? expandedWidth : currInitWidth,
 			transition: "all .25s 0s ease-in-out",
-			height: isCompact ? initWidth : "100%",
+			height: isCompact ? currInitWidth : "100%",
 			...(isOverLay ? {
 				position: "absolute",
 				left: 0,
@@ -215,8 +253,8 @@ function getStyles(navPane: NavPane): {
 			flexDirection: "column",
 			alignItems: "flex-start",
 			justifyContent: "space-between",
-			background: opened ? theme.altHigh : background || theme.altHigh,
-			width: opened ? expandedWidth : (isCompact ? 0 : initWidth),
+			background: (opened || !isCompact) ? theme.altHigh : background || theme.altHigh,
+			width: opened ? expandedWidth : (isCompact ? 0 : currInitWidth),
 			height: "100%",
 			transition: "width .25s 0s ease-in-out",
 			...(isOverLay ? {
@@ -231,7 +269,7 @@ function getStyles(navPane: NavPane): {
 			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "flex-start",
-			background: (opened && !isCompact) ? theme.altHigh : background || theme.altHigh,
+			background: isCompact ? (background || theme.altHigh) : theme.altHigh,
 			width: isCompact ? "100vw" : (opened ? "100%" : 48),
 		}),
 		paneTop: prepareStyles({
@@ -245,17 +283,17 @@ function getStyles(navPane: NavPane): {
 			flexDirection: "column",
 			flex: "0 0 auto",
 			overflow: "hidden",
-			width: opened ? "100%" : (isCompact ? 0 : initWidth),
+			width: opened ? "100%" : (isCompact ? 0 : currInitWidth),
 		}),
 		paneBottom: prepareStyles({
 			display: "flex",
 			flexDirection: "column",
 			flex: "0 0 auto",
 			overflow: "hidden",
-			width: opened ? "100%" : (isCompact ? 0 : initWidth),
+			width: opened ? "100%" : (isCompact ? 0 : currInitWidth),
 		}),
 		paneView: prepareStyles({
-			width: (isCompact || isOverLay) ? "100%" : `calc(100% - ${(opened && !isOverLay) ? expandedWidth : initWidth}px)`,
+			width: (isCompact || isOverLay) ? "100%" : `calc(100% - ${(opened && !isOverLay) ? expandedWidth : currInitWidth}px)`,
 			position: isOverLay ? "absolute" : void(0),
 			left: isOverLay ? 0 : void(0),
 			...paneViewStyle,
