@@ -19,7 +19,7 @@ export interface DataProps {
 interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 interface MenusState {
-	showItems?: boolean;
+	currShowItems?: boolean;
 	height?: string;
 	width?: string;
 	borderWidth?: string;
@@ -36,7 +36,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
-	state: MenusState = { showItems: this.props.showItems };
+	state: MenusState = { currShowItems: this.props.showItems };
 
 	refs: { container: ElementState; itmesContainer: HTMLDivElement };
 
@@ -48,7 +48,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 
 	componentWillReceiveProps(nextProps: MenusProps) {
 		this.setState({
-			showItems: nextProps.showItems
+			currShowItems: nextProps.showItems
 		});
 	}
 
@@ -65,16 +65,16 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 		this.setItemStyleValue();
 		const { canToggleShow } = this.props;
 		const setToState = typeof e === "boolean";
-		let { showItems } = this.state;
+		let { currShowItems } = this.state;
 		if (setToState) {
 			this.setState({
-				showItems: Boolean(e)
+				currShowItems: Boolean(e)
 			});
 			return;
 		};
-		if (this.state.showItems !== canToggleShow ? (!this.state.showItems) : true) {
+		if (this.state.currShowItems !== canToggleShow ? (!this.state.currShowItems) : true) {
 			this.setState((prevState, prevProps) => {
-				return { showItems: canToggleShow ? (!this.state.showItems) : true };
+				return { showItems: canToggleShow ? (!this.state.currShowItems) : true };
 			});
 		}
 	}
@@ -87,18 +87,18 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 
 	getItemsContainerStyle = () => {
 		const { direction, children } = this.props;
-		const { showItems, width, height, borderWidth } = this.state;
-		const maxHeight = showItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0;
+		const { currShowItems, width, height, borderWidth } = this.state;
+		const maxHeight = currShowItems ? `${React.Children.count(children) * this.getPxNumber(height)}px` : 0;
 		const baseStyle: React.CSSProperties = {
 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
 			justifyContent: "center",
 			position: "absolute",
-			pointerEvents: showItems ? "none" : "all",
+			pointerEvents: currShowItems ? "none" : "all",
 			transition: "all .25s 0s ease-in-out",
 			width,
-			overflow: showItems ? "visible" : "hidden",
+			overflow: currShowItems ? "visible" : "hidden",
 			maxHeight: maxHeight
 		};
 		switch (direction) {
@@ -137,9 +137,8 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { style, direction, autoShowItems, itemContainerStyle, titleNode, children, itemStyle, ...attributes } = this.props;
-		delete attributes.showItems;
-		const { showItems, width, height, borderWidth } = this.state;
+		const { style, direction, autoShowItems, showItems, itemContainerStyle, titleNode, children, itemStyle, ...attributes } = this.props;
+		const { currShowItems, width, height, borderWidth } = this.state;
 		const { theme } = this.context;
 
 		const centerFlex = {
@@ -172,7 +171,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 					...baseStyle,
 					...style,
 				}}
-				hoverStyle={showItems ? void(0) : { ...baseHoverStyle }}
+				hoverStyle={currShowItems ? void(0) : { ...baseHoverStyle }}
 				onHover={autoShowItems ? () => this.toggleShowItems(true) : void(0)}
 				unHover={autoShowItems ? () => { this.toggleShowItems(false); } : void(0)}
 				onClick={this.toggleShowItems}
@@ -183,7 +182,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
 						ref="itmesContainer"
 						style={theme.prepareStyles({
 							...this.getItemsContainerStyle(),
-							...(showItems ? itemContainerStyle : void(0)),
+							...(currShowItems ? itemContainerStyle : void(0)),
 						})}
 					>
 						{React.Children.map(children, (child, index) => (
