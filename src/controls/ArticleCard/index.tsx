@@ -41,7 +41,9 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 
 	state: ArticleCardState = {
 		isHovered: false,
-		normalColor: Math.random() < 0.875 ? this.context.theme.altLow : fade(this.context.theme.accent, 0.875)
+		normalColor: Math.random() < 0.875 ?
+			`linear-gradient(0deg, ${this.context.theme.altMediumHigh} 0%, ${this.context.theme.altLow} 35%, transparent 100%)` :
+			fade(this.context.theme.accent, 0.875)
 	};
 
 	handleMouseEnter = (e: any) => {
@@ -96,7 +98,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 					}
 				/>
 				<div style={{ ...styles.content, background: (isHovered || !image) ? "transparent" : normalColor }}>
-					<p style={theme.prepareStyles({ color: "#fff", textAlign: "center", opacity: isHovered ? 0 : 1, transition: "all .5s 0s ease-in-out", })}>
+					<p style={theme.prepareStyles({ fontSize: 12, color: "#fff", textAlign: "left", opacity: isHovered ? 0 : 1, transition: "all .5s 0s ease-in-out", })}>
 						{title}
 					</p>
 				</div>
@@ -129,6 +131,7 @@ function getStyles(instance: ArticleCard): {
 			overflow: "hidden",
 			margin: 2,
 			flex: "1 1 auto",
+			flexDirection: "column",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
@@ -156,7 +159,7 @@ function getStyles(instance: ArticleCard): {
 			transition: "all .5s 0s ease-in-out",
 			display: "flex",
 			flexDirection: "column",
-			justifyContent: "center",
+			justifyContent: "flex-end",
 			alignItems: "center",
 			width: "100%",
 			height: "100%",
