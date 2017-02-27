@@ -58,6 +58,13 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 		});
 	}
 
+	shouldComponentUpdate(nextProps: ArticleCardProps, nextState: ArticleCardState, nextContext: { theme: ThemeType }) {
+		this.state.normalColor = Math.random() < 0.875 ?
+			`linear-gradient(0deg, ${this.context.theme.altMediumHigh} 0%, ${this.context.theme.altLow} 35%, transparent 100%)` :
+			fade(nextContext.theme.accent, 0.875);
+		return nextProps !== this.props || nextState !== this.state || nextContext !== this.context;
+	}
+
 	render() {
 		// tslint:disable-next-line:no-unused-variable
 		const { title, image, size, ...attributes } = this.props;
