@@ -25,6 +25,7 @@ export interface DataProps {
 	background?: string;
 	isTenFt?: boolean;
 	autoResize?: boolean;
+	focusIndex?: number;
 }
 
 interface NavPaneProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -43,12 +44,12 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 		autoResize: true,
 		expandedWidth: 320,
 		initWidth: 48,
-		topNodes: [
+		topNodes: __DEV__ ? [] : [
 			<SplitViewCommand icon={"\uE716"} />,
 			<SplitViewCommand label="Print" icon={"\uE2F6"} />,
 		],
-		bottomNodes: [
-			<SplitViewCommand label="Settings" icon={"\uE713"} /> ,
+		bottomNodes: __DEV__ ? [] : [
+			<SplitViewCommand label="Settings" icon={"\uE713"} />,
 			<SplitViewCommand label="CalendarDay" icon={"\uE161"} />,
 		],
 		pageTitle: "PageTitle",
@@ -59,7 +60,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 
 	state: NavPaneState = {
 		opened: false,
-		focusNodeIndex: void 0,
+		focusNodeIndex: this.props.focusIndex,
 		currDisplayMode: this.props.displayMode,
 		currInitWidth: this.props.initWidth
 	};
@@ -139,7 +140,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 
 	render() {
 		// tslint:disable-next-line:no-unused-variable
-		const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, defaultOpened, displayMode, pageTitle, background, isTenFt, autoResize, ...attributes } = this.props;
+		const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, defaultOpened, displayMode, pageTitle, background, isTenFt, autoResize, focusIndex, ...attributes } = this.props;
 		const { theme } = this.context;
 		const { opened, focusNodeIndex, currDisplayMode } = this.state;
 		const styles = getStyles(this);
@@ -232,7 +233,7 @@ function getStyles(navPane: NavPane): {
 			justifyContent: "flex-start",
 			fontSize: 16,
 			color: theme.baseMediumHigh,
-			background: isCompact ? (background || theme.altHigh) : theme.altHigh,
+			// background: isCompact ? (background || theme.altHigh) : theme.altHigh,
 			position: "relative",
 		}),
 		paneParent: prepareStyles({
@@ -293,6 +294,7 @@ function getStyles(navPane: NavPane): {
 			width: opened ? "100%" : (isCompact ? 0 : currInitWidth),
 		}),
 		paneView: prepareStyles({
+			background: "none",
 			width: (isCompact || isOverLay) ? "100%" : `calc(100% - ${(opened && !isOverLay) ? expandedWidth : currInitWidth}px)`,
 			position: isOverLay ? "absolute" : void(0),
 			left: isOverLay ? 0 : void(0),

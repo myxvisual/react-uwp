@@ -94,11 +94,11 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		const isDarkTheme = theme.themeName === "Dark";
 
 		return (
-			<div {...attributes} style={theme.prepareStyles({ position: "relative", zIndex: 20, width: itemWidth, height: itemHeight, ...attributes.style })}>
+			<div {...attributes} style={theme.prepareStyles({ position: "relative", zIndex: showList ? theme.zIndex.dropDownMenu : 1, width: itemWidth, height: itemHeight, ...attributes.style })}>
 				<div
 					ref="container"
 					style={theme.prepareStyles({
-						position: "aboslute",
+						position: "absolute",
 						top: 0,
 						left: 0,
 						color: theme.baseMediumHigh,
@@ -106,7 +106,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 						width: itemWidth,
 						height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
 						overflow: "hidden",
-						zIndex: showList ? 20 : 0,
+						zIndex: showList ? theme.zIndex.dropDownMenu : 1,
 						padding: showList ? "8px 0" : 0,
 						transition: "all .25s 0s ease-in-out",
 						border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`,

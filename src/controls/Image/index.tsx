@@ -10,7 +10,7 @@ interface DataProps {
 	useDivContainer?: boolean;
 }
 
-interface ImageProps extends DataProps, ReactLazyloadProps, React.HTMLAttributes<HTMLElement> {}
+interface ImageProps extends DataProps, ReactLazyloadProps, React.HTMLAttributes<HTMLDivElement> {}
 
 interface ImageState {
 	showEmptyImage?: boolean;
@@ -65,7 +65,7 @@ export default class Image extends React.Component<ImageProps, {}> {
 			once, scroll, offset, overflow, resize, debounce, throttle,
 			...attributes
 		} = this.props;
-		const placeholder = (attributes.placeholder || <Placeholder {...attributes} />) as any;
+		const placeholder = (attributes.placeholder || <Placeholder {...attributes as any} />) as any;
 
 		const ImageOrDiv = () => (useDivContainer
 			?
@@ -76,7 +76,7 @@ export default class Image extends React.Component<ImageProps, {}> {
 					...attributes.style,
 				}}
 			/>
-			: <img {...attributes as React.HTMLAttributes<HTMLImageElement>} onError={this.errorHandler} />
+			: <img {...attributes as any} onError={this.errorHandler} />
 		);
 
 		if (!attributes.src || this.state.showEmptyImage) {

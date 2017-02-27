@@ -1,4 +1,6 @@
 export { default as ArticleCard } from "./src/controls/ArticleCard";
+import * as Animate from "./src/controls/Animate";
+export { Animate };
 export { default as AutoSuggestBox } from "./src/controls/AutoSuggestBox";
 export { default as Button } from "./src/controls/Button";
 export { default as CalendarDatePicker } from "./src/controls/CalendarDatePicker";
@@ -8,6 +10,7 @@ export { default as CommandBar } from "./src/controls/CommandBar";
 export { default as AppBarButton } from "./src/controls/AppBarButton";
 export { default as ContentDialog } from "./src/controls/ContentDialog";
 export { default as Dialog } from "./src/controls/Dialog";
+export { default as SplitViewCommand } from "./src/controls/SplitViewCommand";
 export { default as DropdownMenu } from "./src/controls/DropdownMenu";
 export { default as Slider } from "./src/controls/Slider";
 export { default as FlipView } from "./src/controls/FlipView";

@@ -59,6 +59,7 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
 		zIndex: {
 			tooltip: 1,
 			flyout: 1,
+			dropDownMenu: 10,
 		}
 	} as ThemeType;
 }

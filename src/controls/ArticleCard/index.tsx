@@ -26,6 +26,7 @@ interface ArticleCardProps extends DataProps, React.HTMLAttributes<HTMLAnchorEle
 
 interface ArticleCardState {
 	isHovered?: boolean;
+	normalColor: string;
 }
 
 export default class ArticleCard extends React.Component<ArticleCardProps, ArticleCardState> {
@@ -35,12 +36,13 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 		size: 200,
 	};
 
-	state: ArticleCardState = {
-		isHovered: false
-	};
-
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
+
+	state: ArticleCardState = {
+		isHovered: false,
+		normalColor: Math.random() < 0.875 ? this.context.theme.altLow : fade(this.context.theme.accent, 0.875)
+	};
 
 	handleMouseEnter = (e: any) => {
 		this.setState({
@@ -58,7 +60,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 		// tslint:disable-next-line:no-unused-variable
 		const { title, image, size, ...attributes } = this.props;
 		const { theme } = this.context;
-		const { isHovered } = this.state;
+		const { isHovered, normalColor } = this.state;
 		const styles = getStyles(this);
 
 		return (
@@ -93,8 +95,8 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 						</div> as any
 					}
 				/>
-				<div style={styles.content}>
-					<p style={{ color: "#fff", opacity: isHovered ? 1 : 0 }}>
+				<div style={{ ...styles.content, background: (isHovered || !image) ? "transparent" : normalColor }}>
+					<p style={theme.prepareStyles({ color: "#fff", textAlign: "center", opacity: isHovered ? 0 : 1, transition: "all .5s 0s ease-in-out", })}>
 						{title}
 					</p>
 				</div>
@@ -124,10 +126,9 @@ function getStyles(instance: ArticleCard): {
 			fontSize: 14,
 			width: size,
 			height: size,
-			maxWidth: size * Math.PI,
 			overflow: "hidden",
 			margin: 2,
-			flex: `1 0 ${size}px`,
+			flex: "1 1 auto",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
@@ -160,7 +161,6 @@ function getStyles(instance: ArticleCard): {
 			width: "100%",
 			height: "100%",
 			padding: 12,
-			background: isHovered ? fade(theme.accent, .85) : "transparent",
 		})
 	};
 }

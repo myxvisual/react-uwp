@@ -48,6 +48,7 @@ export interface ThemeType {
 	zIndex?: {
 		tooltip?: number;
 		flyout?: number;
+		dropDownMenu?: number;
 		[key: string]: number;
 	};
 }
