@@ -3,7 +3,7 @@ import * as React from "react";
 import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 
-const defaultProps: DropdownMenuProps = __DEV__ ? require("./devDefaultProps").default : {};
+const defaultProps: DropDownMenuProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
 	itemWidth?: number;
@@ -15,9 +15,9 @@ export interface DataProps {
 	onChangeValue?: (value: string) => void;
 }
 
-interface DropdownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface DropdownMenuState {
+interface DropDownMenuState {
 	showList?: boolean;
 	currentValue?: string | string[];
 	currentValues?: string[];
@@ -25,8 +25,8 @@ interface DropdownMenuState {
 
 const emptyFunc = () => {};
 
-export default class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState> {
-	static defaultProps: DropdownMenuProps = {
+export default class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
+	static defaultProps: DropDownMenuProps = {
 		...defaultProps,
 		itemWidth: 400,
 		padding: 4,
@@ -42,7 +42,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 		},
 	};
 
-	state: DropdownMenuState = {
+	state: DropDownMenuState = {
 		currentValue: this.props.defaultValue || this.props.values[0],
 		currentValues: (() => {
 			let { values, defaultValue } = this.props;
@@ -56,7 +56,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps, Dro
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
-	componentWillReceiveProps(nextProps: DropdownMenuProps) {
+	componentWillReceiveProps(nextProps: DropDownMenuProps) {
 		this.setState({
 			currentValue: nextProps.defaultValue || nextProps.values[0],
 			currentValues: (() => {

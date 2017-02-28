@@ -80,6 +80,7 @@ function getStyles(ScaleInOut: ScaleInOut): {
 	return {
 		root: {
 			position: "relative",
+			overflow: "inherit",
 			transition: `transform ${speed}ms 0s ease-in-out`,
 			...style,
 		},

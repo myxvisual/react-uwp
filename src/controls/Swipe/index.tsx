@@ -53,7 +53,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 		focusIndex: this.isSingleChildren ? this.props.initialFocusIndex : this.props.initialFocusIndex + 1,
 		stopSwipe: false,
 		childrenLength: 0,
-		haveAnimate: true,
+		haveAnimate: false,
 		swiping: false
 	};
 
@@ -299,10 +299,10 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 			>
 				<div
 					onMouseDown={
-						canSwipe ? this.mouseOrTouchDownHandler : void(0)
+						canSwipe ? this.mouseOrTouchDownHandler : void 0
 					}
 					onTouchStart={
-						canSwipe ? this.mouseOrTouchDownHandler : void(0)
+						canSwipe ? this.mouseOrTouchDownHandler : void 0
 					}
 					ref="content"
 					style={styles.content}
@@ -324,7 +324,7 @@ function getStyles(swipe: Swipe): {
 	item?: React.CSSProperties;
 } {
 	const { transitionTimingFunction, speed } = swipe.props;
-	const transition = `all ${speed}ms 0s ${transitionTimingFunction}`;
+	const transition = `transform ${speed}ms 0s ${transitionTimingFunction}`;
 	const { focusIndex, childrenLength, isHorizontal, isSingleChildren, haveAnimate } = swipe.state;
 
 	return {
@@ -334,11 +334,13 @@ function getStyles(swipe: Swipe): {
 			alignItems: "center",
 			justifyContent: "center",
 			position: "relative",
-			overflow: "hidden",
 			width: "100%",
 			height: "auto",
+			overflow: "hidden",
+			flex: "0 0 auto",
 		},
 		content: {
+			overflow: "hidden",
 			flex: "0 0 auto",
 			display: "flex",
 			flexDirection: isHorizontal ? "row" : "column",
@@ -349,18 +351,18 @@ function getStyles(swipe: Swipe): {
 			height: isHorizontal ? "100%" : `${childrenLength * 100}%`,
 			width: isHorizontal ? `${childrenLength * 100}%` : "100%",
 			WebkitTransform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
-			left: (isHorizontal && !isSingleChildren) ? `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%` : void(0),
-			top: isHorizontal ? void(0) : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
-			transition: haveAnimate ? transition : void(0),
-			WebkitTransition: haveAnimate ? transition : void(0),
+			left: (isHorizontal && !isSingleChildren) ? `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%` : void 0,
+			top: isHorizontal ? void 0 : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
+			transition: haveAnimate ? transition : void 0,
+			WebkitTransition: haveAnimate ? transition : void 0,
 		},
 		item: {
 			position: "relative",
 			overflow: "hidden",
 			width: isHorizontal ? `${100 / childrenLength}%` : "100%",
 			height: isHorizontal ? "100%" : `${100 / childrenLength}%`,
-			display: "flex",
 			flex: "0 0 auto",
+			display: "flex",
 			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "center",

@@ -27,6 +27,9 @@ export default class SlideInChild extends React.Component<SlideInChildProps, {}>
 
 	componentWillAppear = this.props.appearAnimate ? (callback: () => void) => {
 		if (this.props.mode !== "Out") {
+			Object.assign(this.rootElm.parentElement.style, {
+				overflow: "hidden"
+			} as CSSStyleDeclaration);
 			this.initializeAnimation(callback);
 		} else { callback(); };
 	} : void 0;
@@ -83,6 +86,9 @@ export default class SlideInChild extends React.Component<SlideInChildProps, {}>
 			transform,
 			webkitTransform: transform,
 			opacity: "0"
+		} as CSSStyleDeclaration);
+		Object.assign(this.rootElm.parentElement.style, {
+			overflow: "inherit"
 		} as CSSStyleDeclaration);
 
 		this.leaveTimer = setTimeout(callback, speed / 2 + leaveDelay) as any;

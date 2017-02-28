@@ -37,6 +37,9 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
 
 	componentWillEnter(callback: () => void) {
 		if (this.props.mode !== "Out") {
+			Object.assign(this.rootElm.parentElement.style, {
+				overflow: "hidden"
+			} as CSSStyleDeclaration);
 			this.initializeAnimation(callback);
 		} else { callback(); }
 	}
@@ -63,6 +66,9 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
 		const { speed, maxValue, enterDelay } = this.props;
 		const { style } = this.rootElm;
 		style.opacity = `${maxValue}`;
+		Object.assign(this.rootElm.parentElement.style, {
+			overflow: "inherit"
+		} as CSSStyleDeclaration);
 
 		this.enterTimer = setTimeout(callback, speed + enterDelay) as any;
 	}
@@ -93,6 +99,8 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
 				{...attributes}
 				ref={(rootElm) => this.rootElm = rootElm}
 				style={{
+					width: "100%",
+					height: "100%",
 					transition: `all ${speed}ms 0s ease-in-out`,
 					...style
 				}}

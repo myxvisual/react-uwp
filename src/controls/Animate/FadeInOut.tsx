@@ -74,12 +74,15 @@ function getStyles(fadeInOut: FadeInOut): {
 	root?: React.CSSProperties;
 } {
 	const {
+		// tslint:disable-next-line:no-unused-variable
 		props: { style, speed }
 	} = fadeInOut;
 
 	return {
 		root: {
-			transition: `transform ${speed}ms 0s ease-in-out`,
+			width: "100%",
+			height: "100%",
+			overflow: "inherit",
 			...style,
 		},
 	};

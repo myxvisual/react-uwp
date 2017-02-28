@@ -24,7 +24,15 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
 		const { children, theme, ...attributes } = this.props;
 
 		return (
-			<div {...attributes}>
+			<div
+				{...attributes}
+				style={theme.prepareStyles({
+					width: "100%",
+					height: "100%",
+					...attributes.style,
+					})
+				}
+			>
 				{children}
 			</div>
 		);

@@ -2,6 +2,7 @@ import * as React from "react";
 
 import Image from "../Image";
 import Icon from "../Icon";
+import shallowEqual from "../../common/shallowEqual";
 import { fade } from "../../common/colorManipulator";
 import { ThemeType } from "../../styles/ThemeType";
 
@@ -60,9 +61,11 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 
 	shouldComponentUpdate(nextProps: ArticleCardProps, nextState: ArticleCardState, nextContext: { theme: ThemeType }) {
 		this.state.normalColor = Math.random() < 0.875 ?
-			`linear-gradient(0deg, ${this.context.theme.altMediumHigh} 0%, ${this.context.theme.altLow} 35%, transparent 100%)` :
+			`linear-gradient(0deg, ${nextContext.theme.altMediumHigh} 0%, ${nextContext.theme.altLow} 35%, transparent 100%)` :
 			fade(nextContext.theme.accent, 0.875);
-		return nextProps !== this.props || nextState !== this.state || nextContext !== this.context;
+		return (!shallowEqual(nextProps, this.props) ||
+			!shallowEqual(nextState, this.state) ||
+			!shallowEqual(nextContext, this.context));
 	}
 
 	render() {
@@ -83,29 +86,31 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 					...theme.prepareStyles(attributes.style),
 				}}
 			>
-				<Image
-					isLazyLoad
-					useDivContainer
-					src={image}
-					alt="Work Show"
-					style={styles.image}
-					placeholder={
-						<div style={styles.imagePlaceholder}>
-							<Icon
-								style={{
-									color: theme.baseMedium,
-									fontSize: 80,
-									textDecoration: "none",
-								}}
-								hoverStyle={{}}
-							>
-								&#xEB9F;
-							</Icon>
-						</div> as any
-					}
-				/>
-				<div style={{ ...styles.content, background: (isHovered || !image) ? "transparent" : normalColor }}>
-					<p style={theme.prepareStyles({ fontSize: 12, color: "#fff", textAlign: "left", opacity: isHovered ? 0 : 1, transition: "all .5s 0s ease-in-out", })}>
+				{image && (
+					<Image
+						isLazyLoad
+						useDivContainer
+						src={image}
+						alt="Work Show"
+						style={styles.image}
+						placeholder={
+							<div style={styles.imagePlaceholder}>
+								<Icon
+									style={{
+										color: theme.baseMedium,
+										fontSize: 80,
+										textDecoration: "none",
+									}}
+									hoverStyle={{}}
+								>
+									&#xEB9F;
+								</Icon>
+							</div> as any
+						}
+					/>
+				)}
+				<div style={{ ...styles.content, background: isHovered ? "transparent" : (image ? normalColor : fade(theme.accent, 0.875)) }}>
+					<p style={theme.prepareStyles({ fontSize: 12, color: "#fff", textAlign: "left", opacity: (isHovered && image) ? 0 : 1, transition: "all .5s 0s ease-in-out", })}>
 						{title}
 					</p>
 				</div>

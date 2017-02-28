@@ -6,7 +6,6 @@ interface DataProps {
 }
 export interface SlideInOutProps extends DataProps {
 	appearAnimate?: boolean;
-	childAttribute?: React.HTMLAttributes<HTMLDivElement>;
 	childAttributes?: React.HTMLAttributes<HTMLDivElement>;
 	children?: React.ReactElement<any>;
 	direction?: "Left" | "Right" | "Top" | "Bottom";
@@ -83,8 +82,10 @@ function getStyles(SlideInOut: SlideInOut): {
 	return {
 		root: {
 			position: "relative",
-			overflow: "hidden",
-			transition: `transform ${speed}ms 0s ease-in-out`,
+			width: "100%",
+			height: "100%",
+			overflow: "overflow",
+			transition: `all ${speed}ms 0s ease-in-out`,
 			...style,
 		},
 	};

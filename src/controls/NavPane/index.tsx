@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import shallowEqual from "../../common/shallowEqual";
+
 import { ThemeType } from "../../styles/ThemeType";
 import IconButton from "../IconButton";
 import SplitViewCommand from "../SplitViewCommand";
@@ -81,8 +83,8 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 		this.updateProps2State(this.props);
 	}
 
-	componentWillReceiveProps(nextProps: NavPaneProps) {
-		this.updateProps2State(nextProps);
+	shouldComponentUpdate(nextProps: NavPaneProps, nextState: NavPaneState, nextContext: { theme: ThemeType }) {
+		return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state) || !shallowEqual(!nextContext, this.context);
 	}
 
 	componentWillUnmount() {
@@ -130,9 +132,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 			key: `${index}`,
 			visited: focusNodeIndex === void(0) ? void(0) : focusNodeIndex === index,
 			onClick: (e: any) => {
-				this.setState({
-					focusNodeIndex: index
-				});
+				this.setState({ focusNodeIndex: index });
 				if (onClick) onClick(e);
 			},
 		};
@@ -241,7 +241,7 @@ function getStyles(navPane: NavPane): {
 			flex: "0 0 auto",
 			width: opened ? expandedWidth : currInitWidth,
 			transition: "all .25s 0s ease-in-out",
-			height: isCompact ? currInitWidth : "100%",
+			height: isCompact ? 0 : "100%",
 			...(isOverLay ? {
 				position: "absolute",
 				left: 0,
@@ -295,6 +295,7 @@ function getStyles(navPane: NavPane): {
 		}),
 		paneView: prepareStyles({
 			background: "none",
+			height: "100%",
 			width: (isCompact || isOverLay) ? "100%" : `calc(100% - ${(opened && !isOverLay) ? expandedWidth : currInitWidth}px)`,
 			position: isOverLay ? "absolute" : void(0),
 			left: isOverLay ? 0 : void(0),
