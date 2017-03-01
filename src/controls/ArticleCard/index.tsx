@@ -40,11 +40,15 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
+	getNormalColor = (context: { theme: ThemeType }) => (
+		Math.random() < 0.875 ?
+			`linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 35%, transparent 100%)` :
+			fade(context.theme.accent, 0.875)
+	)
+
 	state: ArticleCardState = {
 		isHovered: false,
-		normalColor: Math.random() < 0.875 ?
-			`linear-gradient(0deg, ${this.context.theme.altMediumHigh} 0%, ${this.context.theme.altLow} 35%, transparent 100%)` :
-			fade(this.context.theme.accent, 0.875)
+		normalColor: this.getNormalColor(this.context)
 	};
 
 	handleMouseEnter = (e: any) => {
@@ -60,9 +64,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 	}
 
 	shouldComponentUpdate(nextProps: ArticleCardProps, nextState: ArticleCardState, nextContext: { theme: ThemeType }) {
-		this.state.normalColor = Math.random() < 0.875 ?
-			`linear-gradient(0deg, ${nextContext.theme.altMediumHigh} 0%, ${nextContext.theme.altLow} 35%, transparent 100%)` :
-			fade(nextContext.theme.accent, 0.875);
+		this.state.normalColor = this.getNormalColor(nextContext);
 		return (!shallowEqual(nextProps, this.props) ||
 			!shallowEqual(nextState, this.state) ||
 			!shallowEqual(nextContext, this.context));

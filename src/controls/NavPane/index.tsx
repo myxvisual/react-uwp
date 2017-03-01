@@ -2,6 +2,7 @@ import * as React from "react";
 
 import shallowEqual from "../../common/shallowEqual";
 
+import SlideInOut from "../Animate/SlideInOut";
 import { ThemeType } from "../../styles/ThemeType";
 import IconButton from "../IconButton";
 import SplitViewCommand from "../SplitViewCommand";
@@ -42,6 +43,7 @@ interface NavPaneState {
 export default class NavPane extends React.Component<NavPaneProps, NavPaneState> {
 	static defaultProps: NavPaneProps = {
 		...defaultProps,
+		position: "left",
 		isTenFt: false,
 		autoResize: true,
 		expandedWidth: 320,
@@ -125,14 +127,17 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 		}
 	}
 
-	getNewNodeProps = (currNode: any, index: number) => {
+	getNewNodeProps = (currNode: any, index: number, opened?: boolean, haveOpenNode?: boolean) => {
 		const { onClick } = currNode.props;
 		const { focusNodeIndex } = this.state;
 		return {
-			key: `${index}`,
+			key: `${index} ${opened}`,
 			visited: focusNodeIndex === void(0) ? void(0) : focusNodeIndex === index,
 			onClick: (e: any) => {
-				this.setState({ focusNodeIndex: index });
+				this.setState({
+					focusNodeIndex: index,
+					opened: haveOpenNode ? true : this.state.opened
+				});
 				if (onClick) onClick(e);
 			},
 		};
@@ -179,20 +184,42 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
 							<div style={styles.paneTopItems}>
 								{topNodes.map((node, index) => {
 									let currNode = node as any;
+									const haveOpenNode = "opened" in node;
 									if (node.default) currNode = node.default;
-									if ("opened" in node && opened) currNode = node.opened;
+									if (haveOpenNode && opened) currNode = node.opened;
 									++nodeIndex;
-									return React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex));
+									return (
+										<SlideInOut
+											appearAnimate={false}
+											mode="In"
+											direction={position === "left" ? "Right" : "Left"}
+											key={`${index}`}
+											style={{ height: 48, }}
+										>
+											{React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex, Boolean(opened && haveOpenNode), haveOpenNode))}
+										</SlideInOut>
+									);
 								})}
 							</div>
 						</div>
 						<div style={styles.paneBottom}>
 							{bottomNodes.map((node, index) => {
 								let currNode = node as any;
+								const haveOpenNode = "opened" in node;
 								if (node.default) currNode = node.default;
-								if ("opened" in node && opened) currNode = node.opened;
+								if (haveOpenNode && opened) currNode = node.opened;
 								++nodeIndex;
-								return React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex));
+								return (
+									<SlideInOut
+										appearAnimate={false}
+										mode="In"
+										direction={position === "left" ? "Right" : "Left"}
+										key={`${index}`}
+										style={{ height: 48, }}
+									>
+										{React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex, Boolean(opened && haveOpenNode), haveOpenNode))}
+									</SlideInOut>
+								);
 							})}
 						</div>
 					</div>
@@ -270,7 +297,7 @@ function getStyles(navPane: NavPane): {
 			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "flex-start",
-			background: isCompact ? (background || theme.altHigh) : theme.altHigh,
+			background: background || theme.altHigh,
 			width: isCompact ? "100vw" : (opened ? "100%" : 48),
 		}),
 		paneTop: prepareStyles({

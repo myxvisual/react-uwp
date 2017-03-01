@@ -19,20 +19,21 @@ interface SliderState {
 	valueRatio?: number;
 }
 
+const emptyFunc = () => {};
 export default class Slider extends React.Component<SliderProps, SliderState> {
 	static defaultProps: SliderProps = {
 		...defaultProps,
 		minValue: 0,
 		maxValue: 100,
 		initValue: 50,
-		onChangeValue: () => {},
+		onChangeValue: emptyFunc,
 		width: 400,
-		height: 28,
-		barHeight: 4,
-		onMouseEnter: () => {},
-		onMouseLeave: () => {},
-		onMouseDown: () => {},
-		onMouseUp: () => {},
+		height: 24,
+		barHeight: 2,
+		onMouseEnter: emptyFunc,
+		onMouseLeave: emptyFunc,
+		onMouseDown: emptyFunc,
+		onMouseUp: emptyFunc,
 	};
 
 	state: SliderState = {
@@ -172,7 +173,7 @@ function getStyles(slider: Slider): {
 			position: "relative",
 			width: "100%",
 			overflow: "hidden",
-			height: 4,
+			height: barHeight,
 			left: 0,
 			top: `calc(50% - ${barHeight2px}px)`,
 		},
@@ -189,7 +190,7 @@ function getStyles(slider: Slider): {
 		controller: {
 			position: "absolute",
 			background: theme.accent,
-			borderRadius: 4,
+			borderRadius: barHeight,
 			left: 0,
 			top: 0,
 			width: 8,
