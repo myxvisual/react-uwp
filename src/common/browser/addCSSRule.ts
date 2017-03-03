@@ -1,6 +1,12 @@
-export default function addCSSRule(styleSheetStr: string, styleSheet = document.styleSheets[0]) {
+export default function addCSSRule(styleSheetStr: string | string[], styleSheet = document.styleSheets[0]) {
 	const insertToRule = (styleSheet: any) => {
-		styleSheet.insertRule(styleSheetStr, "styleSheet" in styleSheet ? styleSheet.cssRules.length : styleSheet.rules.length);
+		if (Array.isArray(styleSheetStr)) {
+			styleSheetStr.forEach(str => {
+				styleSheet.insertRule(str, "styleSheet" in styleSheet ? styleSheet.cssRules.length : styleSheet.rules.length);
+			});
+		} else {
+			styleSheet.insertRule(styleSheetStr, "styleSheet" in styleSheet ? styleSheet.cssRules.length : styleSheet.rules.length);
+		}
 	};
 	if (!styleSheet) {
 		const { head, createElement } = document;

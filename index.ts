@@ -38,6 +38,7 @@ export { default as Tooltip } from "./src/controls/Tooltip";
 export { default as TreeView } from "./src/controls/TreeView";
 
 export { default as addCSSRule } from "./src/common/browser/addCSSRule";
+export { default as setScrollBarStyle } from "./src/styles/setScrollBarStyle";
 export { default as darkTheme } from "./src/styles/darkTheme";
 export { default as getTheme } from "./src/styles/getTheme";
 export { default as lightTheme } from "./src/styles/lightTheme";

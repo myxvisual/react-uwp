@@ -33,6 +33,7 @@ export default class CalendarDatePicker extends React.Component<CalendarDatePick
 			>
 				<Input
 					{...attributes}
+					style={{ padding: "0 10px", }}
 					placeholder="mm/dd/yyyy"
 					rightNode={<Icon>Calendar</Icon>}
 				/>

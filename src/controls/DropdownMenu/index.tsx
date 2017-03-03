@@ -86,6 +86,8 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
 		});
 	}
 
+	getValue = () => this.state.currentValue;
+
 	render() {
 		// tslint:disable-next-line:no-unused-variable
 		const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, onChangeValue, padding, ...attributes } = this.props;

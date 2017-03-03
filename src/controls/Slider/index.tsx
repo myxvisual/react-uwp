@@ -9,7 +9,9 @@ export interface DataProps {
 	maxValue?: number;
 	initValue?: number;
 	onChangeValue?: (value?: number) => void;
+	onChangeValueRatio?: (valueRatio?: number) => void;
 	barHeight?: number;
+	controllerWidth?: number;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -27,9 +29,11 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 		maxValue: 100,
 		initValue: 50,
 		onChangeValue: emptyFunc,
+		onChangeValueRatio: emptyFunc,
 		width: 400,
 		height: 24,
 		barHeight: 2,
+		controllerWidth: 8,
 		onMouseEnter: emptyFunc,
 		onMouseLeave: emptyFunc,
 		onMouseDown: emptyFunc,
@@ -48,8 +52,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 	context: { theme: ThemeType };
 
 	handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-		const controller = e.currentTarget.children[1] as HTMLDivElement;
-		Object.assign(controller.style, {
+		Object.assign(this.controllerElm.style, {
 			background: this.context.theme.baseHigh
 		} as CSSProperties);
 		this.props.onMouseEnter(e);
@@ -63,18 +66,12 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 	}
 
 	handelOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
-		Object.assign(this.controllerElm.style, {
-			background: this.context.theme.accent
-		} as CSSProperties);
 		this.props.onClick(e);
 		this.setValueByEvent(e);
 	}
 
 	handelMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 		document.body.addEventListener("mousemove", this.setValueByEvent);
-		Object.assign(this.controllerElm.style, {
-			background: this.context.theme.accent
-		} as CSSProperties);
 		this.props.onMouseDown(e);
 		this.setValueByEvent(e);
 	}
@@ -118,7 +115,9 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 			maxValue, // tslint:disable-line:no-unused-variable
 			initValue, // tslint:disable-line:no-unused-variable
 			onChangeValue, // tslint:disable-line:no-unused-variable
+			onChangeValueRatio, // tslint:disable-line:no-unused-variable
 			barHeight, // tslint:disable-line:no-unused-variable
+			controllerWidth, // tslint:disable-line:no-unused-variable
 			...attributes
 		} = this.props;
 		const { currValue } = this.state;
@@ -152,19 +151,21 @@ function getStyles(slider: Slider): {
 } {
 	const {
 		context: { theme },
-		props: { style, width, height, barHeight },
+		props: { style, width, height, barHeight, controllerWidth },
 		state: { currValue, valueRatio }
 	} = slider;
 	const { prepareStyles } = theme;
 	const width2px: number = Number.parseFloat(width as any);
 	const height2px: number = Number.parseFloat(height as any);
 	const barHeight2px: number = Number.parseFloat(barHeight as any);
+	const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
 	const transition = "all .25s 0s linear";
 
 	return {
 		root: prepareStyles({
 			width,
 			height: height2px,
+			cursor: "default",
 			...style,
 			position: "relative",
 		}),
@@ -175,7 +176,7 @@ function getStyles(slider: Slider): {
 			overflow: "hidden",
 			height: barHeight,
 			left: 0,
-			top: `calc(50% - ${barHeight2px}px)`,
+			top: `calc(50% - ${barHeight2px / 2}px)`,
 		},
 		bar: {
 			background: theme.accent,
@@ -190,10 +191,10 @@ function getStyles(slider: Slider): {
 		controller: {
 			position: "absolute",
 			background: theme.accent,
-			borderRadius: barHeight,
+			borderRadius: controllerWidth2px / 2,
 			left: 0,
 			top: 0,
-			width: 8,
+			width: controllerWidth2px,
 			height: height2px,
 			transform: `translateX(${valueRatio * width2px - 4}px)`,
 			transition,

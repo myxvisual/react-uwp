@@ -84,7 +84,6 @@ function getStyles(SlideInOut: SlideInOut): {
 			position: "relative",
 			width: "100%",
 			height: "100%",
-			overflow: "overflow",
 			transition: `all ${speed}ms 0s ease-in-out`,
 			...style,
 		},
