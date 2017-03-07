@@ -81,10 +81,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 			<div
 				{...attributes}
 				style={theme.prepareStyles({
-					position: "fixed",
-					right: 20,
-					bottom: 60,
-					zIndex: 200,
+					width: 40,
 					background: theme.altHigh,
 					...attributes.style
 				})}
@@ -92,7 +89,6 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 				<div
 					{...attributes}
 					style={theme.prepareStyles({
-						position: "absolute",
 						width,
 						display: "flex",
 						flexDirection: "column",
