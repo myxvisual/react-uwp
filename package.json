@@ -43,6 +43,7 @@
     "npm-run-all": "^3.1.1",
     "react-addons-test-utils": "^15.4.1",
     "react-hot-loader": "^3.0.0-beta.6",
+    "react-to-typescript-definitions": "^0.19.1",
     "source-map-loader": "^0.1.5",
     "tslint": "^3.15.1",
     "tslint-eslint-rules": "^3.2.0",

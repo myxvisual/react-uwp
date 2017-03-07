@@ -88,27 +88,27 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		);
 	}
 
-	hover = () => { this.setStyle(this.props.hoverStyle); this.props.onHover(); }
-	unHover = () => { this.resetStyle(); this.props.unHover(); }
+	hover = () => { this.setStyle(this.props.hoverStyle); this.props.onHover(); };
+	unHover = () => { this.resetStyle(); this.props.unHover(); };
 
-	active = () => { this.setStyle(this.props.activeStyle); this.props.onActive(); }
-	unActive = () => { this.resetStyle(); this.props.unActive(); }
+	active = () => { this.setStyle(this.props.activeStyle); this.props.onActive(); };
+	unActive = () => { this.resetStyle(); this.props.unActive(); };
 
-	focus = () => { this.setStyle(this.props.focusStyle); this.props.onFocus(); }
-	unFocus = () => { this.resetStyle(); this.props.unFocus(); }
+	focus = () => { this.setStyle(this.props.focusStyle); this.props.onFocus(); };
+	unFocus = () => { this.resetStyle(); this.props.unFocus(); };
 
 	visited = () => {
 		{ this.setStyle(this.props.visitedStyle); this.props.onVisited(); }
 		this.visitedStyle = this.props.visitedStyle;
 	}
-	unVisited = () => { this.resetStyle(true); this.props.unVisited(); }
+	unVisited = () => { this.resetStyle(true); this.props.unVisited(); };
 
 	resetStyle = (resetVisited = false) => {
 		if (resetVisited) this.visitedStyle = void(0);
 		setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle } );
 	}
 
-	getDOM = () => this.currentDOM
+	getDOM = () => this.currentDOM;
 
 	render() {
 		const {

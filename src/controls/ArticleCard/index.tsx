@@ -170,6 +170,8 @@ function getStyles(instance: ArticleCard): {
 		}),
 		content: prepareStyles({
 			position: "absolute",
+			top: 0,
+			left: 0,
 			transition: "all .5s 0s ease-in-out",
 			display: "flex",
 			flexDirection: "column",
