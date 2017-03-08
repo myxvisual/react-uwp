@@ -10,9 +10,9 @@ export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 }
 
-interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
+export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 
-interface ButtonState {}
+export interface ButtonState {}
 
 export default class Button extends React.Component<ButtonProps, ButtonState> {
 	static defaultProps: ButtonProps = {

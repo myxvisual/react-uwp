@@ -1,2 +1,5 @@
 import getTheme from "./getTheme";
-export default getTheme("Light");
+
+const lightTheme = getTheme("Light");
+
+export default lightTheme;

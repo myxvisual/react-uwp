@@ -64,5 +64,5 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
 			contentDialog: 15,
 			calendarView: 20,
 		}
-	} as ThemeType;
+	};
 }

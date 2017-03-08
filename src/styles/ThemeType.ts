@@ -1,4 +1,4 @@
-export interface ThemeType {
+type ThemeType = {
 	themeName: "Dark" | "Light";
 	fontFamily?: string;
 	iconFontFamily?: string;
@@ -51,4 +51,6 @@ export interface ThemeType {
 		dropDownMenu?: number;
 		[key: string]: number;
 	};
-}
+};
+
+export { ThemeType }
