@@ -35,7 +35,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
 	toggleShow = (showDialog?: boolean) => {
 		if (typeof showDialog === "undefined") {
-			this.setState((prevState, prevProps) => ({ showDialog: prevState.showDialog }));
+			this.setState((prevState, prevProps) => ({
+				showDialog: prevState.showDialog
+			}));
 		} else {
 			if (showDialog !== this.state.showDialog) this.setState({ showDialog });
 		}
