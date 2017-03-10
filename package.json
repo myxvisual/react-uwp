@@ -4,7 +4,8 @@
   "description": "UWP Design Ui by React",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc -p tsconfig.json"
   },
   "repository": {
     "type": "git",

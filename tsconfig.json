@@ -7,7 +7,6 @@
 		"moduleResolution": "node",
 		"allowJs": false,
 		"declaration": true,
-		"declarationDir": "./typings/build",
 		"jsx": "react",
 		"experimentalDecorators": true,
 		"removeComments": true,
