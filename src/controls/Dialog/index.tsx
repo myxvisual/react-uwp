@@ -3,12 +3,13 @@ import * as React from "react";
 import { ThemeType } from "../../styles/ThemeType";
 const defaultProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-interface DataProps {
+export interface DataProps {
 	show?: boolean;
 	contentAttributes?: React.HTMLAttributes<HTMLDivElement>;
 }
-interface DialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface DialogState {
+export interface DialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export interface DialogState {
 	showDialog?: boolean;
 }
 

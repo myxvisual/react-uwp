@@ -20,9 +20,10 @@ export interface DataProps {
 	showIcon?: boolean;
 }
 export interface FlipViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface FlipViewState {}
+
+export interface FlipViewState {}
 export default class FlipView extends React.Component<FlipViewProps, FlipViewState> {
-	static defaultProps = {
+	static defaultProps: FlipViewProps = {
 		...defaultProps,
 		direction: "horizontal",
 		className: "",

@@ -15,9 +15,9 @@ export interface DataProps {
 	iconNode?: any;
 }
 
-interface ScrollBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ScrollBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface ScrollBarState {
+export interface ScrollBarState {
 	mouseDowning?: boolean;
 }
 

@@ -20,9 +20,10 @@ export interface DataProps {
 	autoClose?: boolean;
 }
 
-interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface ContentDialogState {
+
+export interface ContentDialogState {
 	showDialog?: boolean;
 }
 

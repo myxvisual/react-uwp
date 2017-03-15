@@ -6,9 +6,9 @@ const defaultProps: SplitViewProps = __DEV__ ? require("./devDefaultProps").defa
 
 export interface DataProps {}
 
-interface SplitViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface SplitViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface SplitViewState {}
+export interface SplitViewState {}
 
 export default class SplitView extends React.Component<SplitViewProps, SplitViewState> {
 	static defaultProps: SplitViewProps = {

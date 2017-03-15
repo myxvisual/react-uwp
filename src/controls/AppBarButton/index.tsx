@@ -15,7 +15,7 @@ export interface DataProps {
 
 export interface AppBarButtonButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface AppBarButtonButtonState {}
+export interface AppBarButtonButtonState {}
 
 export default class AppBarButtonButton extends React.Component<AppBarButtonButtonProps, AppBarButtonButtonState> {
 	static defaultProps: AppBarButtonButtonProps = {

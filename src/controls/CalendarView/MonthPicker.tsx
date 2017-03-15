@@ -11,7 +11,8 @@ export interface DataProps {
 
 export interface MonthPickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface MonthPickerState {}
+
+export interface MonthPickerState {}
 
 export default class MonthPicker extends React.Component<MonthPickerProps, MonthPickerState> {
 	static defaultProps: MonthPickerProps = {

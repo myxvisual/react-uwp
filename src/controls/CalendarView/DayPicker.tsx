@@ -13,7 +13,8 @@ export interface DataProps {
 
 export interface DayPickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface DayPickerState {}
+
+export interface DayPickerState {}
 
 export default class DayPicker extends React.Component<DayPickerProps, DayPickerState> {
 	static defaultProps: DayPickerProps = {

@@ -10,9 +10,9 @@ export interface DataProps {
 	activeStyle?: React.CSSProperties;
 }
 
-interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
+export interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 
-interface IconButtonState {}
+export interface IconButtonState {}
 
 export default class IconButton extends React.Component<IconButtonProps, IconButtonState> {
 	static defaultProps: IconButtonProps = {

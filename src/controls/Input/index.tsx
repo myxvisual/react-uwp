@@ -17,8 +17,8 @@ export interface DataProps {
 
 type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>
 
-interface InputProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface InputState {}
+export interface InputProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface InputState {}
 const emptyFunc = () => {};
 export default class Input extends React.Component<InputProps, InputState> {
 	static defaultProps: InputProps = {

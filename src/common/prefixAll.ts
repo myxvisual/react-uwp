@@ -1,4 +1,4 @@
-interface PrefixAll {
+export interface PrefixAll {
 	(): (style: React.CSSProperties) => React.CSSProperties;
 }
 const Prefixer = require("inline-style-prefixer");

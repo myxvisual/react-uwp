@@ -14,7 +14,7 @@ export interface DataProps {
 	itemSize?: number;
 	delay?: number;
 }
-interface ProgressRingProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ProgressRingProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 const getInnerCSS = (progressRing: ProgressRing) => (
 `.react-uwp-progress-ring {

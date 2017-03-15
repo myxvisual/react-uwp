@@ -8,7 +8,7 @@ export interface DataProps {}
 
 export interface PivotProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface PivotState {}
+export interface PivotState {}
 
 export default class Pivot extends React.Component<PivotProps, PivotState> {
 	static defaultProps: PivotProps = {

@@ -13,7 +13,7 @@ export interface DataProps {
 
 export interface TimePickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface TimePickerState {}
+export interface TimePickerState {}
 
 export default class TimePicker extends React.Component<TimePickerProps, TimePickerState> {
 	static defaultProps: TimePickerProps = {

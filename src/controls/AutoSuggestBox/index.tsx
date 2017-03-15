@@ -12,9 +12,10 @@ export interface DataProps {
 	onChangeValue?: (value: string) => void;
 }
 
-interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface AutoSuggestBoxState {
+
+export interface AutoSuggestBoxState {
 	currentRightNode?: any;
 }
 

@@ -10,7 +10,7 @@ export interface DataProps {
 
 export interface SeparatorProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface SeparatorState {}
+export interface SeparatorState {}
 
 export default class Separator extends React.Component<SeparatorProps, SeparatorState> {
 	static defaultProps: SeparatorProps = {

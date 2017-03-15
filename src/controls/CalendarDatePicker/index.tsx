@@ -8,9 +8,10 @@ const defaultProps: CalendarDatePickerProps = __DEV__ ? require("./devDefaultPro
 
 export interface DataProps {}
 
-interface CalendarDatePickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CalendarDatePickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface CalendarDatePickerState {}
+
+export interface CalendarDatePickerState {}
 
 export default class CalendarDatePicker extends React.Component<CalendarDatePickerProps, CalendarDatePickerState> {
 	static defaultProps: CalendarDatePickerProps = {

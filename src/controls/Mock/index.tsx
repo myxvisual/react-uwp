@@ -8,7 +8,7 @@ export interface DataProps {}
 
 export interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface MockState {}
+export interface MockState {}
 
 export default class Mock extends React.Component<MockProps, MockState> {
 	static defaultProps: MockProps = {

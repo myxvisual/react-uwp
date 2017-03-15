@@ -3,7 +3,7 @@ import * as React from "react";
 import { ThemeType } from "../styles/ThemeType";
 import setStyleToElement from "../common/setStyleToElement";
 
-interface DataProps {
+export interface DataProps {
 	style?: React.CSSProperties;
 	hoverStyle?: React.CSSProperties;
 	focusStyle?: React.CSSProperties;
@@ -18,10 +18,11 @@ interface DataProps {
 	unActive?: Function;
 	unVisited?: Function;
 }
-interface Attributes {
+export interface Attributes {
 	[key: string]: any;
 }
-interface ElementStateProps extends DataProps, Attributes {}
+
+export interface ElementStateProps extends DataProps, Attributes {}
 const emptyFunc = () => {};
 export default class ElementState extends React.Component<ElementStateProps, {}> {
 	static defaultProps: ElementStateProps = {

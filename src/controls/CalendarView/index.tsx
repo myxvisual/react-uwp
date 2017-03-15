@@ -14,9 +14,10 @@ export interface DataProps {
 	onChangeDate?: (date?: Date) => void;
 }
 
-interface CalendarViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CalendarViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface CalendarViewState {
+
+export interface CalendarViewState {
 	dateNow?: Date;
 	viewDate?: Date;
 	direction?: "Bottom" | "Top";

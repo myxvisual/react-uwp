@@ -5,14 +5,14 @@ import { DataProps as ReactLazyloadProps } from "react-lazyload";
 import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 
-interface DataProps {
+export interface DataProps {
 	isLazyLoad?: boolean;
 	useDivContainer?: boolean;
 }
 
-interface ImageProps extends DataProps, ReactLazyloadProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ImageProps extends DataProps, ReactLazyloadProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface ImageState {
+export interface ImageState {
 	showEmptyImage?: boolean;
 }
 
@@ -72,7 +72,7 @@ export default class Image extends React.Component<ImageProps, {}> {
 			<div
 				{...attributes as React.HTMLAttributes<HTMLDivElement>}
 				style={{
-					background: `url(${attributes.src}) no-repeat center center / contain`,
+					background: `url(${attributes.src}) no-repeat center center / cover`,
 					...attributes.style,
 				}}
 			/>

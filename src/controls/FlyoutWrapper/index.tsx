@@ -4,8 +4,8 @@ import Flyout from "../Flyout";
 import { ThemeType } from "../../styles/ThemeType";
 
 export interface DataProps {}
-interface FlyoutWrapperProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
-interface FlyoutWrapperState {}
+export interface FlyoutWrapperProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface FlyoutWrapperState {}
 
 export default class FlyoutWrapper extends React.Component<FlyoutWrapperProps, FlyoutWrapperState> {
 	static defaultProps: FlyoutWrapperProps = {	};

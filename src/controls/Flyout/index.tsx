@@ -11,8 +11,8 @@ export interface DataProps {
 	autoClose?: boolean;
 	timeout?: number;
 }
-interface FlyoutProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
-interface FlyoutState {
+export interface FlyoutProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface FlyoutState {
 	showFlyout?: boolean;
 }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactTransitionGroup from "react-addons-transition-group";
 import FadeInOutChild from "./FadeInOutChild";
-interface DataProps {
+export interface DataProps {
 	[key: string]: any;
 }
 export interface FadeInOutProps extends DataProps {
@@ -14,7 +14,7 @@ export interface FadeInOutProps extends DataProps {
 	mode?: "In" | "Out" | "Both";
 	speed?: number;
 }
-interface FadeInOutState {}
+export interface FadeInOutState {}
 
 export default class FadeInOut extends React.Component<FadeInOutProps, FadeInOutState> {
 	static defaultProps: FadeInOutProps = {

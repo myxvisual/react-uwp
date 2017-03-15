@@ -17,9 +17,10 @@ export interface DataProps {
 	flowDirection?: "RightToLeft" | "LeftToRight";
 }
 
-interface CommandBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CommandBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface CommandBarState {
+
+export interface CommandBarState {
 	opened?: boolean;
 }
 

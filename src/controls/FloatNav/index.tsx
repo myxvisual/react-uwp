@@ -4,7 +4,7 @@ import { ThemeType } from "../../styles/ThemeType";
 
 const defaultProps: FloatNavProps = __DEV__ ? require("./devDefaultProps").default : { items: [], };
 
-interface Item {
+export interface Item {
 	showNode?: any;
 	title?: string;
 	href?: string;
@@ -21,9 +21,9 @@ export interface DataProps {
 	floatNavWidth?: number;
 }
 
-interface FloatNavProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface FloatNavProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface FloatNavState {
+export interface FloatNavState {
 	focusItem?: number;
 	hoverItem?: number;
 	hoverIndexArray?: boolean[];

@@ -14,7 +14,7 @@ export interface DataProps {
 
 export interface DatePickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface DatePickerState {}
+export interface DatePickerState {}
 
 export default class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 	static defaultProps: DatePickerProps = {

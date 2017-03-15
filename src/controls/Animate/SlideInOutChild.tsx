@@ -1,6 +1,6 @@
 import * as React from "react";
 
-interface DataProps {
+export interface DataProps {
 	appearAnimate?: boolean;
 	direction?: "Left" | "Right" | "Top" | "Bottom";
 	distance?: string | number;
@@ -9,7 +9,7 @@ interface DataProps {
 	mode?: "In" | "Out" | "Both";
 	speed?: number;
 }
-interface SlideInChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface SlideInChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 export default class SlideInChild extends React.Component<SlideInChildProps, {}> {
 	static defaultProps = {
 		appearAnimate: true,

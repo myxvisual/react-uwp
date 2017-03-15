@@ -8,7 +8,7 @@ export interface DataProps {}
 
 export interface PopupMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface PopupMenuState {}
+export interface PopupMenuState {}
 
 export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 	static defaultProps: PopupMenuProps = {

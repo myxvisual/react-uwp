@@ -19,7 +19,7 @@ export interface DataProps {
 
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface SwipeState {
+export interface SwipeState {
 	stopSwipe?: boolean;
 	focusIndex?: number;
 	childrenLength?: number;

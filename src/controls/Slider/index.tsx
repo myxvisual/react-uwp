@@ -16,7 +16,7 @@ export interface DataProps {
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface SliderState {
+export interface SliderState {
 	currValue?: number;
 	valueRatio?: number;
 }

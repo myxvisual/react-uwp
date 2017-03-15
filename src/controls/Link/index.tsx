@@ -8,7 +8,7 @@ export interface DataProps {}
 
 export interface LinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
-interface LinkState {
+export interface LinkState {
 	hover?: boolean;
 }
 

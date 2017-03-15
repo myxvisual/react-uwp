@@ -8,7 +8,7 @@ export interface DataProps {}
 
 export interface MenuFlyoutProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface MenuFlyoutState {}
+export interface MenuFlyoutState {}
 
 export default class MenuFlyout extends React.Component<MenuFlyoutProps, MenuFlyoutState> {
 	static defaultProps: MenuFlyoutProps = {

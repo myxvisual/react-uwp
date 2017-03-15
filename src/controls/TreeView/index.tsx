@@ -7,7 +7,7 @@ const defaultProps: TreeViewProps = __DEV__ ? require("./devDefaultProps").defau
 	listItems: []
 };
 
-interface List {
+export interface List {
 	titleNode?: string | React.ReactNode;
 	expanded?: boolean;
 	disable?: boolean;
@@ -27,8 +27,8 @@ export interface DataProps {
 	rootStyle?: React.CSSProperties;
 	showFocus?: boolean;
 }
-interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface TreeViewState {
+export interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface TreeViewState {
 	currListItems?: List[];
 	visitedList?: List;
 	showFocus?: boolean;

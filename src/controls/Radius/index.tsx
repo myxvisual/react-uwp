@@ -8,8 +8,8 @@ const defaultProps: RadiusProps = __DEV__ ? require("./devDefaultProps").default
 export interface DataProps {
 	size?: string | number;
 }
-interface RadiusProps extends CheckBoxProps {}
-interface RadiusState extends CheckBoxState {}
+export interface RadiusProps extends CheckBoxProps {}
+export interface RadiusState extends CheckBoxState {}
 
 export default class Radius extends CheckBox {
 	static defaultProps: RadiusProps = {

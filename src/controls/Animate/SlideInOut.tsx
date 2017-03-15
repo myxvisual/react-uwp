@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactTransitionGroup from "react-addons-transition-group";
 import SlideInOutChild from "./SlideInOutChild";
-interface DataProps {
+export interface DataProps {
 	[key: string]: any;
 }
 export interface SlideInOutProps extends DataProps {
@@ -16,7 +16,8 @@ export interface SlideInOutProps extends DataProps {
 	speed?: number;
 	style?: React.CSSProperties;
 }
-interface SlideInOutState {}
+
+export interface SlideInOutState {}
 
 export default class SlideInOut extends React.Component<SlideInOutProps, SlideInOutState> {
 	static defaultProps: SlideInOutProps = {

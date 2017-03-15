@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-interface RenderToBodypRrops {
+export interface RenderToBodypRrops {
 	children?: React.ReactNode;
 }
 export default class RenderToBody extends React.Component<RenderToBodypRrops, any> {

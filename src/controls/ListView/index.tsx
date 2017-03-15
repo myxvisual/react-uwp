@@ -6,7 +6,7 @@ vendors.pop();
 vendors.map(vendor => vendor[0].toUpperCase() + vendor.slice(1));
 
 const defaultProps: ListViewProps = __DEV__ ? require("./devDefaultProps").default : {};
-interface Item {
+export interface Item {
 	itemNode?: any;
 	disable?: boolean;
 	focus?: boolean;
@@ -15,9 +15,9 @@ export interface DataProps {
 	items?: Item[];
 }
 
-interface ListViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ListViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface ListViewState {
+export interface ListViewState {
 	currItems?: Item[];
 }
 

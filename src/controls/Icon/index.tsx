@@ -12,9 +12,9 @@ export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 }
 
-interface IconProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface IconProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 
-interface IconState {}
+export interface IconState {}
 
 export default class Icon extends React.Component<IconProps, IconState> {
 	static defaultProps: IconProps = {

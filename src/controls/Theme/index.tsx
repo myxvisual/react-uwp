@@ -3,11 +3,11 @@ import * as React from "react";
 import darkTheme from "../../styles/darkTheme";
 import { ThemeType } from "../../styles/ThemeType";
 
-interface DataProps {
+export interface DataProps {
 	theme?: ThemeType;
 }
-interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-interface ThemeState {}
+export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ThemeState {}
 export default class Theme extends React.Component<ThemeProps, ThemeState> {
 	static childContextTypes = {
 		theme: React.PropTypes.object,

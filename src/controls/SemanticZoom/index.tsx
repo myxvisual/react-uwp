@@ -9,7 +9,7 @@ export interface DataProps {}
 
 export interface SemanticZoomProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface SemanticZoomState {
+export interface SemanticZoomState {
 	showController?: boolean;
 }
 

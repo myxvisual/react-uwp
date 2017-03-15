@@ -13,7 +13,8 @@ export interface DataProps {
 
 export interface YearPickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface YearPickerState {}
+
+export interface YearPickerState {}
 
 export default class YearPicker extends React.Component<YearPickerProps, YearPickerState> {
 	static defaultProps: YearPickerProps = {

@@ -13,9 +13,9 @@ export interface DataProps {
 	iconHeight?: number;
 }
 
-interface PasswordBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface PasswordBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface PasswordBoxState {
+export interface PasswordBoxState {
 	showPassword?: boolean;
 }
 

@@ -15,9 +15,10 @@ export interface DataProps {
 	onChangeValue?: (value: string) => void;
 }
 
-interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface DropDownMenuState {
+
+export interface DropDownMenuState {
 	showList?: boolean;
 	currentValue?: string | string[];
 	currentValues?: string[];

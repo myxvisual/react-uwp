@@ -9,9 +9,9 @@ export interface DataProps {
 	callback?: Function;
 	padding?: number;
 }
-interface SwitchProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
+export interface SwitchProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
 }
-interface SwitchState {
+export interface SwitchState {
 	isOpen?: boolean;
 }
 

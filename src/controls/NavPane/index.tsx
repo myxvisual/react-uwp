@@ -9,7 +9,7 @@ import SplitViewCommand from "../SplitViewCommand";
 
 const defaultProps: NavPaneProps = __DEV__ ? require("./devDefaultProps").default : {};
 
-interface TNode {
+export interface TNode {
 	default?: any;
 	opened?: any;
 }
@@ -31,9 +31,9 @@ export interface DataProps {
 	focusIndex?: number;
 }
 
-interface NavPaneProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface NavPaneProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface NavPaneState {
+export interface NavPaneState {
 	opened?: boolean;
 	focusNodeIndex?: number;
 	currDisplayMode?: "Overlay" | "Compact" | "Inline";

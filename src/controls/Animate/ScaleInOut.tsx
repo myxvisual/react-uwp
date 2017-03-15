@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactTransitionGroup from "react-addons-transition-group";
 import ScaleInOutChild from "./ScaleInOutChild";
-interface DataProps {
+export interface DataProps {
 	[key: string]: any;
 }
 export interface ScaleInOutProps extends DataProps {
@@ -14,7 +14,8 @@ export interface ScaleInOutProps extends DataProps {
 	mode?: "In" | "Out" | "Both";
 	speed?: number;
 }
-interface ScaleInOutState {}
+
+export interface ScaleInOutState {}
 
 export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleInOutState> {
 	static defaultProps: ScaleInOutProps = {

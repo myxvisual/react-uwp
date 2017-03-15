@@ -16,9 +16,9 @@ export interface DataProps {
 	autoShowItems?: boolean;
 }
 
-interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface MenusProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-interface MenusState {
+export interface MenusState {
 	currShowItems?: boolean;
 	height?: string;
 	width?: string;

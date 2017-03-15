@@ -1,6 +1,6 @@
 import * as React from "react";
 
-interface DataProps {
+export interface DataProps {
 	appearAnimate?: boolean;
 	enterDelay?: number;
 	leaveDelay?: number;
@@ -9,7 +9,7 @@ interface DataProps {
 	mode?: "In" | "Out" | "Both";
 	speed?: number;
 }
-interface ScaleInOutChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ScaleInOutChildProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 export default class ScaleInOutChild extends React.Component<ScaleInOutChildProps, {}> {
 	static defaultProps = {
 		appearAnimate: true,

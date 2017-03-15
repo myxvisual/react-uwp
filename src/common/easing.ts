@@ -54,7 +54,7 @@ export function back(x = c1) {
 	return (t: number) => t ** 2 * ((x + 1) * t - x);
 }
 
-interface Easing {
+export interface Easing {
 	(x: number): number;
 }
 

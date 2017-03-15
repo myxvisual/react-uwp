@@ -13,8 +13,8 @@ export interface DataProps {
 	timeout?: number;
 	contentNode?: any;
 }
-interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
-interface TooltipState {
+export interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface TooltipState {
 	showTooltip?: boolean;
 }
 

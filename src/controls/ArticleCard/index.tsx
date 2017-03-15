@@ -23,9 +23,9 @@ export interface DataProps {
 	size?: number;
 }
 
-interface ArticleCardProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
+export interface ArticleCardProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
-interface ArticleCardState {
+export interface ArticleCardState {
 	isHovered?: boolean;
 	normalColor: string;
 }
