@@ -2,8 +2,6 @@ import * as React from "react";
 
 import { ThemeType } from "../../styles/ThemeType";
 
-const defaultProps: FloatNavProps = __DEV__ ? require("./devDefaultProps").default : { items: [], };
-
 export interface Item {
 	showNode?: any;
 	title?: string;
@@ -31,8 +29,8 @@ export interface FloatNavState {
 
 export default class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
 	static defaultProps: FloatNavProps = {
-		...defaultProps,
 		onFocusIndex: () => {},
+		items: [],
 		width: 40,
 		isFloatRight: true,
 		floatNavWidth: 240,

@@ -70,9 +70,9 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 		const { context: { theme }, props: { style } } = this;
 		return theme.prepareStyles({
 			height: 28,
-			width: "100%",
 			overflow: "hidden",
 			textOverflow: "ellipsis",
+			whiteSpace: "nowrap",
 			padding: "4px 8px",
 			transition: "all .25s 0s ease-in-out",
 			border: `1px solid ${theme.baseLow}`,

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import ElementState from "../ElementState";
+import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 
 const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
@@ -8,6 +9,8 @@ const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default
 export interface DataProps {
 	borderSize?: string;
 	hoverStyle?: React.CSSProperties;
+	icon?: string;
+	iconPosition?: "left" | "right";
 }
 
 export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -30,7 +33,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
 	render() {
 		const {
-			borderSize, style, hoverStyle, children,
+			borderSize, style, hoverStyle, children, icon,
+			iconPosition,
 			...attributes
 		} = this.props;
 		const { theme } = this.context;
@@ -38,13 +42,14 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 		return (
 			<ElementState
 				style={{
-					background: theme.baseLow,
-					color: theme.baseHigh,
-					cursor: "pointer",
+					background: attributes.disabled ? theme.baseMedium : theme.baseLow,
+					cursor: attributes.disabled ? "not-allowed" : "pointer",
+					color: attributes.disabled ? theme.baseMedium : theme.baseHigh,
 					outline: "none",
-					padding: "5px 20px",
+					padding: "4px 16px",
 					border: `${borderSize} solid transparent`,
 					transition: "all ease-in-out .25s",
+					display: "inline-bloc",
 					...theme.prepareStyles(style),
 				}}
 				hoverStyle={{
@@ -54,9 +59,21 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				activeStyle={{ background: theme.baseMediumLow }}
 				{...attributes}
 			>
-				<button>
-					{children}
-				</button>
+				{icon ? (iconPosition === "right" ? (
+						<div>
+							<span>{children}</span>
+							<Icon style={{ padding: "0 4px" }}>{icon}</Icon>
+						</div>
+					) : (
+						<div>
+							<Icon style={{ padding: "0 4px" }}>{icon}</Icon>
+							<span>{children}</span>
+						</div>
+					)) : (
+					<button>
+						{children}
+					</button>
+				)}
 			</ElementState>
 		);
 	}

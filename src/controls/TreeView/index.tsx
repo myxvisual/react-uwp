@@ -119,6 +119,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						}}
 						onClick={disable ? void(0) : (e) => {
 							if (focus && showFocus) return;
+							if (list.onClick) list.onClick(e);
 							this.handelClick(e, list);
 						}}
 					>
