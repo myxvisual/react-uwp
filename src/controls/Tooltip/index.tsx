@@ -146,7 +146,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
 
 		return (
 			<div
-				style={{ position: "relative" }}
+				style={{ position: "relative", display: "inline-block" }}
 				ref="rootElm"
 				onMouseEnter={this.showTooltip}
 				onClick={this.showTooltip}

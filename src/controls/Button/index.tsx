@@ -1,15 +1,15 @@
 import * as React from "react";
 
 import ElementState from "../ElementState";
+import Tooltip from "../Tooltip";
 import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
-
-const defaultProps: ButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
 	borderSize?: string;
 	hoverStyle?: React.CSSProperties;
 	icon?: string;
+	iconStyle?: React.CSSProperties;
 	iconPosition?: "left" | "right";
 	disable?: boolean;
 	tooltip?: React.ReactElement<any> | string;
@@ -19,14 +19,11 @@ export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonE
 
 export interface ButtonState {}
 
-export default class Button extends React.Component<ButtonProps, ButtonState> {
+export class Button extends React.PureComponent<ButtonProps, {}> {
 	static defaultProps: ButtonProps = {
-		...defaultProps,
 		children: "Button",
 		borderSize: "2px"
 	};
-
-	state: ButtonState = {};
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
@@ -40,6 +37,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 			hoverStyle,
 			children,
 			icon,
+			iconStyle,
 			iconPosition,
 			disable,
 			tooltip,
@@ -47,7 +45,13 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 		} = this.props;
 		const { theme } = this.context;
 
-		return (
+		const currIconStyle: React.CSSProperties = {
+			padding: "0 4px",
+			display: "inline",
+			...theme.prepareStyles(iconStyle)
+		};
+
+		const normalRender =  (
 			<ElementState
 				style={{
 					background: attributes.disabled ? theme.baseMedium : theme.baseLow,
@@ -60,23 +64,31 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 					display: "inline-bloc",
 					...theme.prepareStyles(style),
 				}}
-				hoverStyle={{
+				hoverStyle={disable ? void 0 : {
 					border: `2px solid ${theme.baseMediumLow}`,
 					...theme.prepareStyles(hoverStyle),
 				}}
-				activeStyle={{ background: theme.baseMediumLow }}
+				activeStyle={disable ? void 0 : { background: theme.baseMediumLow }}
 				{...attributes}
 			>
 				{icon ? (iconPosition === "right" ? (
-						<div>
-							<span>{children}</span>
-							<Icon style={{ padding: "0 4px" }}>{icon}</Icon>
-						</div>
+						<button>
+							<span style={{ verticalAlign: "middle" }}>
+								{children}
+							</span>
+							<Icon style={currIconStyle}>
+								{icon}
+							</Icon>
+						</button>
 					) : (
-						<div>
-							<Icon style={{ padding: "0 4px" }}>{icon}</Icon>
-							<span>{children}</span>
-						</div>
+						<button>
+							<Icon style={currIconStyle}>
+								{icon}
+							</Icon>
+							<span style={{ verticalAlign: "middle" }}>
+								{children}
+							</span>
+						</button>
 					)) : (
 					<button>
 						{children}
@@ -84,5 +96,13 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 				)}
 			</ElementState>
 		);
+
+		return tooltip ? (
+			<Tooltip contentNode={tooltip}>
+				{normalRender}
+			</Tooltip>
+		) : normalRender;
 	}
 }
+
+export default Button;

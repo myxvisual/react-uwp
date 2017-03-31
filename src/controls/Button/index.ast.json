@@ -1,0 +1,213 @@
+{
+  "fileName": "D:/electron-app-dev/src/react-uwp/src/controls/Button/index.tsx",
+  "name": "\"D:/electron-app-dev/src/react-uwp/src/controls/Button/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "borderSize",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "hoverStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "icon",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "iconStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "iconPosition",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"left\" | \"right\""
+        },
+        {
+          "name": "disable",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "tooltip",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string | ReactElement<any>"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ButtonProps",
+      "documentation": ""
+    },
+    {
+      "name": "ButtonState",
+      "documentation": ""
+    },
+    {
+      "name": "Button",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "documentation": "",
+          "type": "ButtonProps"
+        },
+        {
+          "name": "contextTypes",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: ThemeType; }"
+        },
+        {
+          "name": "refs",
+          "documentation": "",
+          "type": "{ container: HTMLButtonElement; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "type": "React",
+      "extends": [
+        "Button"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "borderSize",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "hoverStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "icon",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "iconStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "iconPosition",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"left\" | \"right\""
+        },
+        {
+          "name": "disable",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "tooltip",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string | ReactElement<any>"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ButtonProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "ButtonState",
+      "documentation": ""
+    },
+    {
+      "name": "Button",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "documentation": "",
+          "type": "ButtonProps"
+        },
+        {
+          "name": "contextTypes",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: ThemeType; }"
+        },
+        {
+          "name": "refs",
+          "documentation": "",
+          "type": "{ container: HTMLButtonElement; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "PureComponent"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/electron-app-dev/src/react-uwp/src/controls/Button/index\""
+}
