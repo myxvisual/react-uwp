@@ -90,7 +90,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 	}
 
 	toggleChecked = (e?: React.SyntheticEvent<HTMLDivElement>) => {
-		this.setState((prevStae, prevProps) => ({ checked: !prevStae.checked }));
+		this.setState((prevState, prevProps) => ({ checked: !prevState.checked }));
 		this.props.onChangeCb(this);
 	}
 

@@ -35,7 +35,7 @@ export default class AppBarButtonButton extends React.Component<AppBarButtonButt
 
 		return (
 			<ElementState
-				{...attributes}
+				{...attributes as any}
 				style={styles.root}
 				hoverStyle={hoverStyle || {
 					background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"],

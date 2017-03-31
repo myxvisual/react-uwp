@@ -4,6 +4,7 @@ import { ThemeType } from "../styles/ThemeType";
 import setStyleToElement from "../common/setStyleToElement";
 
 export interface DataProps {
+	children?: React.ReactNode;
 	style?: React.CSSProperties;
 	hoverStyle?: React.CSSProperties;
 	focusStyle?: React.CSSProperties;
@@ -34,6 +35,11 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		unFocus: emptyFunc,
 		unActive: emptyFunc,
 		unVisited: emptyFunc,
+		onMouseEnter: emptyFunc,
+		onMouseLeave: emptyFunc,
+		onMouseDown: emptyFunc,
+		onMouseUp: emptyFunc,
+		onClick: emptyFunc,
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -44,44 +50,6 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
 	visitedStyle: React.CSSProperties = {};
 
-	componentDidMount() {
-		const { currentDOM } = this;
-		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
-		if (hoverStyle) {
-			currentDOM.addEventListener("mouseenter", this.hover);
-			currentDOM.addEventListener("mouseleave", this.unHover);
-		}
-		if (activeStyle) {
-			currentDOM.addEventListener("mousedown", this.active);
-			currentDOM.addEventListener("mouseup", this.unActive);
-		}
-		if (focusStyle) {
-			currentDOM.addEventListener("focus", this.focus);
-		}
-		if (visitedStyle) {
-			currentDOM.addEventListener("click", this.visited);
-		}
-	}
-
-	componentWillUnmount() {
-		const { currentDOM } = this;
-		const { hoverStyle, focusStyle, activeStyle, visitedStyle } = this.props;
-		if (hoverStyle) {
-			currentDOM.removeEventListener("mouseenter", this.hover);
-			currentDOM.removeEventListener("mouseleave", this.unHover);
-		}
-		if (activeStyle) {
-			currentDOM.removeEventListener("mousedown", this.active);
-			currentDOM.removeEventListener("mouseup", this.unActive);
-		}
-		if (focusStyle) {
-			currentDOM.removeEventListener("focus", this.focus);
-		}
-		if (visitedStyle) {
-			currentDOM.removeEventListener("click", this.visited);
-		}
-	}
-
 	setStyle = (style: React.CSSProperties) => {
 		setStyleToElement(
 			this.currentDOM,
@@ -89,23 +57,51 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 		);
 	}
 
-	hover = () => { this.setStyle(this.props.hoverStyle); this.props.onHover(); };
-	unHover = () => { this.resetStyle(); this.props.unHover(); };
+	hover = () => {
+		this.setStyle(this.props.hoverStyle);
+		this.props.onMouseEnter();
+		this.props.onHover();
+	}
+	unHover = () => {
+		this.resetStyle();
+		this.props.onMouseLeave();
+		this.props.unHover();
+	}
 
-	active = () => { this.setStyle(this.props.activeStyle); this.props.onActive(); };
-	unActive = () => { this.resetStyle(); this.props.unActive(); };
+	active = () => {
+		this.setStyle(this.props.activeStyle);
+		this.props.onMouseDown();
+		this.props.onActive();
+	}
+	unActive = () => {
+		this.resetStyle();
+		this.props.onMouseUp();
+		this.props.unActive();
+	}
 
-	focus = () => { this.setStyle(this.props.focusStyle); this.props.onFocus(); };
-	unFocus = () => { this.resetStyle(); this.props.unFocus(); };
+	focus = () => {
+		this.setStyle(this.props.focusStyle);
+		this.props.onFocus();
+	}
+	unFocus = () => {
+		this.resetStyle();
+		this.props.unFocus();
+	}
 
 	visited = () => {
-		{ this.setStyle(this.props.visitedStyle); this.props.onVisited(); }
+		this.setStyle(this.props.visitedStyle);
+		this.props.onClick();
+		this.props.onVisited();
 		this.visitedStyle = this.props.visitedStyle;
 	}
-	unVisited = () => { this.resetStyle(true); this.props.unVisited(); };
+	unVisited = () => {
+		this.resetStyle(true);
+		this.props.onClick();
+		this.props.unVisited();
+	}
 
 	resetStyle = (resetVisited = false) => {
-		if (resetVisited) this.visitedStyle = void(0);
+		if (resetVisited) this.visitedStyle = void 0;
 		setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle } );
 	}
 
@@ -119,6 +115,11 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			focusStyle,
 			activeStyle,
 			visitedStyle,
+			onMouseEnter,
+			onMouseLeave,
+			onMouseDown,
+			onMouseUp,
+			onClick,
 			onHover,
 			onFocus,
 			onActive,
@@ -127,13 +128,21 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 			unFocus,
 			unActive,
 			unVisited,
+			visited,
 			children,
 			...attributes
 		} = this.props;
+
 		return React.cloneElement(children as any, {
+			...attributes,
 			ref: (currentDOM: any) => this.currentDOM = currentDOM,
-			style: style ? this.context.theme.prepareStyles(style) : void 0,
-			...attributes
+			style: this.context.theme.prepareStyles(style),
+			onMouseEnter: hoverStyle ? this.hover : onMouseEnter,
+			onMouseLeave: hoverStyle ? this.unHover : onMouseLeave,
+			onMouseDown: activeStyle ? this.active : onMouseDown,
+			onMouseUp: activeStyle ? this.unActive : onMouseUp,
+			onClick: visitedStyle ? this.visited : onClick,
+			onFocus: focusStyle ? this.focus : onFocus
 		});
 	}
 }

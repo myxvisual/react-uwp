@@ -11,6 +11,8 @@ export interface DataProps {
 	hoverStyle?: React.CSSProperties;
 	icon?: string;
 	iconPosition?: "left" | "right";
+	disable?: boolean;
+	tooltip?: React.ReactElement<any> | string;
 }
 
 export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -33,8 +35,14 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
 	render() {
 		const {
-			borderSize, style, hoverStyle, children, icon,
+			borderSize,
+			style,
+			hoverStyle,
+			children,
+			icon,
 			iconPosition,
+			disable,
+			tooltip,
 			...attributes
 		} = this.props;
 		const { theme } = this.context;
@@ -43,8 +51,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 			<ElementState
 				style={{
 					background: attributes.disabled ? theme.baseMedium : theme.baseLow,
-					cursor: attributes.disabled ? "not-allowed" : "pointer",
-					color: attributes.disabled ? theme.baseMedium : theme.baseHigh,
+					cursor: disable ? "not-allowed" : "pointer",
+					color: disable ? theme.baseMedium : theme.baseHigh,
 					outline: "none",
 					padding: "4px 16px",
 					border: `${borderSize} solid transparent`,

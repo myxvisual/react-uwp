@@ -25,7 +25,7 @@ const prefixAll = () => {
 
 	const prefixer = new Prefixer({ userAgent });
 	return (style?: React.CSSProperties) => {
-		if (!style) return {};
+		if (!style) return;
 		return prefixer.prefix(style) as React.CSSProperties;
 	};
 };

@@ -37,11 +37,11 @@ const isUnitlessNumber = [
 	"strokeWidth"
 ];
 
-export default function setStyleToElement(elm: HTMLElement, style: React.CSSProperties, setToCSSText = true) {
+export default function setStyleToElement(elm: HTMLElement, style: React.CSSProperties, setToCSSText = false) {
 	let cssText = "";
-	for (const property in style) {
-		const propertyNow = [].map.call(property, (str: string) => str === str.toUpperCase() ? `-${str.toLowerCase()}` : str).join("");
-		if (setToCSSText) {
+	if (setToCSSText) {
+		for (const property in style) {
+			const propertyNow = [].map.call(property, (str: string) => str === str.toUpperCase() ? `-${str.toLowerCase()}` : str).join("");
 			let value: any = style[property];
 			if (typeof value === "number" && !isUnitlessNumber.includes(property)) value = `${value}px`;
 			if (typeof value === "object") {
@@ -50,9 +50,15 @@ export default function setStyleToElement(elm: HTMLElement, style: React.CSSProp
 				} else { throw Error(`${propertyNow}: ${value} is Wrong!`); }
 			}
 			cssText += `${propertyNow}: ${value};`;
-		} else {
-			elm.style[propertyNow] = style[property];
 		}
+		elm.style.cssText = cssText;
+	} else {
+		for (const property in style) {
+			const value: any = style[property];
+			if (typeof value === "number" && !isUnitlessNumber.includes(property)) {
+				style[property] = `${value}px`;
+			}
+		}
+		Object.assign(elm.style, style);
 	}
-	if (setToCSSText) elm.style.cssText = cssText;
 };
