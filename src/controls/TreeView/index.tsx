@@ -220,6 +220,7 @@ function getStyles(treeView: TreeView): {
 			transition: "all .25s 0s ease-in-out",
 		}),
 		titleNode: prepareStyles({
+			color: theme.baseMediumHigh,
 			zIndex: 1,
 			width: "100%",
 			overflow: "hidden",

@@ -4,11 +4,10 @@ import Input from "../Input";
 import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 
-const defaultProps: AutoSuggestBoxProps = __DEV__ ? require("./devDefaultProps").default : {};
-
 export interface DataProps {
-	leftNode?: any;
-	rightNode?: any;
+	/**
+	 * `AutoSuggestBox` onChange callback.
+	 */
 	onChangeValue?: (value: string) => void;
 }
 
@@ -19,15 +18,13 @@ export interface AutoSuggestBoxState {
 	currentRightNode?: any;
 }
 
-export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
+export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
 	static defaultProps: AutoSuggestBoxProps = {
-		...defaultProps,
-		rightNode: (<Icon>&#xE721;</Icon>),
 		onChangeValue: () => {}
 	};
 
 	state: AutoSuggestBoxState = {
-		currentRightNode: this.props.rightNode
+		currentRightNode: <Icon>&#xE721;</Icon>
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -35,13 +32,7 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 
 	refs: { input: Input };
 
-	componentWillReceiveProps(nextProps: AutoSuggestBoxProps) {
-		this.setState({
-			currentRightNode: nextProps.rightNode
-		});
-	}
-
-	handleOnchange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
+	handleChange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
 		let event: React.SyntheticEvent<HTMLInputElement>;
 		event = e;
 		this.props.onChangeValue(event.currentTarget.value);
@@ -68,8 +59,10 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 	setValue = (value: string) => this.refs.input.setValue(value);
 
 	render() {
-		// tslint:disable-next-line:no-unused-variable
-		const { leftNode, rightNode, onChangeValue, ...attributes } = this.props;
+		const {
+			onChangeValue, // tslint:disable-line:no-unused-variable
+			...attributes
+		} = this.props;
 		const { currentRightNode } = this.state;
 		const styles = getStyles(this);
 
@@ -80,9 +73,8 @@ export default class AutoSuggestBox extends React.Component<AutoSuggestBoxProps,
 				style={styles.root}
 				onFocus={this.handleFocus}
 				onBlur={this.handleBlur}
-				leftNode={leftNode}
 				rightNode={currentRightNode}
-				onChange={this.handleOnchange}
+				onChange={this.handleChange}
 			/>
 		);
 	}
@@ -107,3 +99,5 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
 		}),
 	};
 }
+
+export default AutoSuggestBox;

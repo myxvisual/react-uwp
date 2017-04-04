@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { ThemeType } from "../../styles/ThemeType";
-const defaultProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
 	show?: boolean;
@@ -14,10 +13,6 @@ export interface DialogState {
 }
 
 export default class Dialog extends React.Component<DialogProps, DialogState> {
-	static defaultProps = {
-		...defaultProps,
-	};
-
 	state: DialogState = {
 		showDialog: this.props.show
 	};

@@ -6,12 +6,33 @@ import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 
 export interface DataProps {
+	/**
+	 * Control `Button` border size.
+	 */
 	borderSize?: string;
+	/**
+	 * Is onMouseEnter Inline Style will assign to default `hoverStyle`.
+	 */
 	hoverStyle?: React.CSSProperties;
+	/**
+	 * icon use the Iconfont like `\uE00A` or iconName `HeartLegacy`.
+	 */
 	icon?: string;
+	/**
+	 * This will assign to default `iconStyle`.
+	 */
 	iconStyle?: React.CSSProperties;
+	/**
+	 * will change to icon position, default is `left`.
+	 */
 	iconPosition?: "left" | "right";
+	/**
+	 * if `true`, will become `Disabled Button`.
+	 */
 	disable?: boolean;
+	/**
+	 * `tooltip` is any type, you can passe a `React.Element` or `string`.
+	 */
 	tooltip?: React.ReactElement<any> | string;
 }
 
@@ -21,8 +42,9 @@ export interface ButtonState {}
 
 export class Button extends React.PureComponent<ButtonProps, {}> {
 	static defaultProps: ButtonProps = {
+		borderSize: "2px",
 		children: "Button",
-		borderSize: "2px"
+		iconPosition: "left"
 	};
 
 	static contextTypes = { theme: React.PropTypes.object };

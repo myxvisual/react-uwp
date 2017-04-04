@@ -13,10 +13,7 @@ export interface DataProps {
 
 export interface YearPickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-
-export interface YearPickerState {}
-
-export default class YearPicker extends React.Component<YearPickerProps, YearPickerState> {
+export default class YearPicker extends React.Component<YearPickerProps, {}> {
 	static defaultProps: YearPickerProps = {
 		date: new Date(),
 		maxYear: 2117, // MAX Year is 275760
@@ -24,8 +21,6 @@ export default class YearPicker extends React.Component<YearPickerProps, YearPic
 		direction: "Bottom",
 		onChooseYear: () => {},
 	};
-
-	state: YearPickerState = {};
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };

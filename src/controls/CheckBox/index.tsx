@@ -4,8 +4,6 @@ import ElementState from "../ElementState";
 import Icon from "../Icon";
 import { ThemeType } from "../../styles/ThemeType";
 
-const defaultProps: CheckBoxProps = __DEV__ ? require("./devDefaultProps").default : {};
-
 export interface DataProps {
 	isChecked?: true | false | null;
 	isDisable?: boolean;
@@ -21,7 +19,6 @@ export interface CheckBoxState {
 
 export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
 	static defaultProps: CheckBoxProps = {
-		...defaultProps,
 		isChecked: null,
 		size: 24,
 		onClick: () => {},
@@ -141,8 +138,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 							hoverStyle={{}}
 						>
 							&#xE73E;
-							{checked === null
-								?
+							{checked === null ? (
 								<div
 									style={{
 										background: theme.accent,
@@ -154,8 +150,7 @@ export default class CheckBox extends React.Component<CheckBoxProps, CheckBoxSta
 										border: `4px solid ${theme.altHigh}`
 									}}
 								/>
-								: null
-							}
+							) : null}
 						</Icon>
 					}
 				</div>

@@ -1,0 +1,156 @@
+{
+  "fileName": "D:/electron-app-dev/src/react-uwp/src/controls/AutoSuggestBox/index.tsx",
+  "name": "\"D:/electron-app-dev/src/react-uwp/src/controls/AutoSuggestBox/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "AutoSuggestBoxProps",
+      "documentation": ""
+    },
+    {
+      "name": "AutoSuggestBoxState",
+      "documentation": ""
+    },
+    {
+      "name": "AutoSuggestBox",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "AutoSuggestBox"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "leftNode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        },
+        {
+          "name": "rightNode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        },
+        {
+          "name": "onChangeValue",
+          "documentation": "",
+          "isRequired": false,
+          "type": "(value: string) => void"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "AutoSuggestBoxProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "AutoSuggestBoxState",
+      "members": [
+        {
+          "name": "currentRightNode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "AutoSuggestBox",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n\t\trightNode: (<Icon>&#xE721;</Icon>),\n\t\tonChangeValue: () => {}\n\t}",
+          "type": "AutoSuggestBoxProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: React.PropTypes.object }",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n\t\tcurrentRightNode: this.props.rightNode\n\t}",
+          "type": "AutoSuggestBoxState"
+        },
+        {
+          "name": "context",
+          "type": "{ theme: ThemeType; }"
+        },
+        {
+          "name": "refs",
+          "type": "{ input: any; }"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: AutoSuggestBoxProps) => void"
+        },
+        {
+          "name": "handleOnchange",
+          "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\n\t\tlet event: React.SyntheticEvent<HTMLInputElement>;\n\t\tevent = e;\n\t\tthis.props.onChangeValue(event.currentTarget.value);\n\t}",
+          "type": "(e?: any) => void"
+        },
+        {
+          "name": "handleFocus",
+          "initializerText": " () => {\n\t\tthis.setState({\n\t\t\tcurrentRightNode: (<Icon>{\"\\uE10A\"}</Icon>)\n\t\t});\n\t}",
+          "type": "() => void"
+        },
+        {
+          "name": "handleBlur",
+          "initializerText": " () => {\n\t\tthis.setState({\n\t\t\tcurrentRightNode: (\n\t\t\t\t<Icon onClick={() => this.setValue(\"\")}>\n\t\t\t\t\t&#xE721;\n\t\t\t\t</Icon>\n\t\t\t)\n\t\t});\n\t}",
+          "type": "() => void"
+        },
+        {
+          "name": "getValue",
+          "initializerText": " () => this.refs.input.getValue()",
+          "type": "() => any"
+        },
+        {
+          "name": "setValue",
+          "initializerText": " (value: string) => this.refs.input.setValue(value)",
+          "type": "(value: string) => any"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(autoSuggestBox: AutoSuggestBox) => { root?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/electron-app-dev/src/react-uwp/src/controls/AutoSuggestBox/index\""
+}
