@@ -40,6 +40,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
 					outline: "none",
 					userSelect: "none",
 					fontSize: "inherit",
+					cursor: "default",
 					color: theme.baseHigh,
 					...style
 				})}

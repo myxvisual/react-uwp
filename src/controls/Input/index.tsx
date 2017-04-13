@@ -1,10 +1,6 @@
 import * as React from "react";
-import { findDOMNode } from "react-dom";
 
-import ElementState from "../ElementState";
 import { ThemeType } from "../../styles/ThemeType";
-
-const defaultProps: InputProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
 	hoverStyle?: React.CSSProperties;
@@ -15,15 +11,16 @@ export interface DataProps {
 	rightNode?: any;
 }
 
-type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>
+type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>;
 
 export interface InputProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-export interface InputState {}
+export interface InputState {
+	hovered?: boolean;
+	focused?: boolean;
+}
 const emptyFunc = () => {};
 export default class Input extends React.Component<InputProps, InputState> {
 	static defaultProps: InputProps = {
-		...defaultProps,
-		placeholder: "Input Component",
 		inputStyle: {
 			fontSize: "inherit",
 			outline: "none",
@@ -41,17 +38,21 @@ export default class Input extends React.Component<InputProps, InputState> {
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
+	handleHover = (e?: React.FocusEvent<HTMLDivElement>) => {
+		this.setState({ hovered: true });
+	}
+
+	handleUnHover = (e?: React.FocusEvent<HTMLDivElement>) => {
+		this.setState({ hovered: false });
+	}
+
 	handleFocus = (e?: React.FocusEvent<HTMLInputElement>) => {
-		e.currentTarget.style.color = this.context.theme.baseHigh;
-		const rootElm = findDOMNode(this) as HTMLDivElement;
-		rootElm.style.border = `2px solid ${this.context.theme.accent}`;
+		this.setState({ focused: true });
 		this.props.onFocus(e as any);
 	}
 
 	handleBlur = (e?: React.FocusEvent<HTMLInputElement>) => {
-		e.currentTarget.style.color = this.context.theme.baseHigh;
-		const rootElm = findDOMNode(this) as HTMLDivElement;
-		rootElm.style.border = `2px solid ${this.context.theme.baseLow}`;
+		this.setState({ focused: false });
 		this.props.onBlur(e as any);
 	}
 
@@ -59,63 +60,66 @@ export default class Input extends React.Component<InputProps, InputState> {
 
 	getValue = () => this.refs.input.value;
 
-
 	render() {
-		// tslint:disable-next-line:no-unused-variable
-		const { hoverStyle, focusStyle, leftNode, rightNode, style, inputStyle, onChangeValue, ...attributes } = this.props;
+
+		const {
+			hoverStyle, // tslint:disable-line:no-unused-variable
+			focusStyle, // tslint:disable-line:no-unused-variable
+			leftNode,
+			rightNode,
+			style,
+			inputStyle,
+			onChangeValue,
+			children,
+			...attributes
+		} = this.props;
+		const { hovered, focused } = this.state;
 		const haveChild = leftNode || rightNode;
 		const { theme } = this.context;
-		const styles = {
-			style: theme.prepareStyles({
-				height: 32,
-				width: 296,
-				padding: haveChild ? 10 : void 0,
-				fontSize: 15,
-				display: "flex",
-				flexDirection: "row",
-				alignItems: "center",
-				border: `2px solid ${theme.baseLow}`,
-				color: theme.baseMedium,
-				background: theme.altHigh,
-				...style,
-				...inputStyle,
-			}),
-			hoverStyle: {
-				color: theme.baseMediumHigh,
-				border: `2px solid ${theme.baseMedium}`,
-				...theme.prepareStyles(hoverStyle)
-			},
-			focusStyle: {
-				border: `2px solid ${this.context.theme.accent}`
-			}
-		};
 
 		return (
-			<ElementState {...styles}>
-				<div>
-					{leftNode}
-					<input
-						ref="input"
-						{...attributes as any}
-						style={theme.prepareStyles({
-							color: theme.baseMedium,
-							width: "100%",
-							height: "100%",
-							background: "none",
-							border: "none",
-							...inputStyle,
-						})}
-						onChange={(e) => {
-							onChangeValue(e.currentTarget.value);
-							attributes.onChange(e as any);
-						}}
-						onClick={this.handleFocus}
-						onFocus={this.handleFocus}
-						onBlur={this.handleBlur}
-					/>
-					{rightNode}
-				</div>
-			</ElementState>
+			<div
+				onMouseEnter={this.handleHover}
+				onMouseLeave={this.handleUnHover}
+				style={theme.prepareStyles({
+					height: 32,
+					width: 296,
+					padding: haveChild ? "0 10px" : void 0,
+					fontSize: 15,
+					display: "flex",
+					flexDirection: "row",
+					alignItems: "center",
+					color: "#000",
+					background: focused ? "#fff" : theme.altHigh,
+					border: focused ? `2px solid ${this.context.theme.accent}` : hovered ? `2px solid ${theme.baseMedium}` : `2px solid ${theme.baseLow}`,
+					transition: "all .25s",
+					...style,
+				})}
+			>
+				{leftNode}
+				<input
+					ref="input"
+					{...attributes as any}
+					style={theme.prepareStyles({
+						color: focused ? "#000" : theme.baseHigh,
+						width: "100%",
+						height: "100%",
+						background: "none",
+						border: "none",
+						transition: "all .25s",
+						...inputStyle,
+					})}
+					onChange={(e) => {
+						onChangeValue(e.currentTarget.value);
+						attributes.onChange(e as any);
+					}}
+					onClick={this.handleFocus}
+					onFocus={this.handleFocus}
+					onBlur={this.handleBlur}
+				/>
+				{rightNode}
+				{children}
+			</div>
 		);
 	}
 }

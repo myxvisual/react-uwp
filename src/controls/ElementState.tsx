@@ -101,8 +101,10 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 	}
 
 	resetStyle = (resetVisited = false) => {
-		if (resetVisited) this.visitedStyle = void 0;
-		setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle } );
+		if (resetVisited) {
+			this.visitedStyle = void 0;
+		}
+		setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle }, true);
 	}
 
 	getDOM = () => this.currentDOM;

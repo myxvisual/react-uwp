@@ -82,6 +82,8 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
 			height: "100%",
 			padding: "0 10px",
 			maxWidth: isRight ? void 0 : 72,
+			transition: "all .25s",
+			cursor: "default",
 			...style,
 		}),
 		label: {

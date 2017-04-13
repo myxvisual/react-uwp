@@ -7,7 +7,7 @@ vendors.map(vendor => vendor[0].toUpperCase() + vendor.slice(1));
 
 const defaultProps: ListViewProps = __DEV__ ? require("./devDefaultProps").default : {};
 export interface Item {
-	itemNode?: any;
+	itemNode?: React.ReactNode;
 	disable?: boolean;
 	focus?: boolean;
 }
@@ -64,11 +64,9 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 							key={`${index}`}
 							onMouseEnter={disable ? void(0) : (e) => {
 								e.currentTarget.style.background = focusBG;
-								if (itemNode.onMouseEnter) itemNode.onMouseEnter(e);
 							}}
 							onMouseLeave={disable ? void(0) : (e) => {
 								e.currentTarget.style.background = defaultBG;
-								if (itemNode.onMouseLeave) itemNode.onMouseLeave(e);
 							}}
 							onMouseDown={disable ? void(0) : (e) => {
 								item.focus = true;
@@ -78,7 +76,6 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 								}
 								e.currentTarget.style.transform = "scale(0.99)";
 								e.currentTarget.style.background = clickBG;
-								if (itemNode.onMouseLeave) itemNode.onMouseDown(e);
 							}}
 							onMouseUp={disable ? void(0) : (e) => {
 								item.focus = false;
@@ -87,7 +84,6 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 								}
 								e.currentTarget.style.transform = "scale(1)";
 								e.currentTarget.style.background = defaultBG;
-								if (itemNode.onMouseLeave) itemNode.onMouseUp(e);
 							}}
 						>
 							{itemNode}

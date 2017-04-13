@@ -156,7 +156,9 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 						<div
 							style={{
 								height: expanded ? "auto" : 0,
-								overflow: expanded ? void(0) : "hidden",
+								transition: "all .25s",
+								display: expanded ? void 0 : "none",
+								overflow: expanded ? void 0 : "hidden",
 								...styles.parent
 							}}
 						>
