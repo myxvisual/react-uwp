@@ -33,17 +33,26 @@ export default class Input extends React.Component<InputProps, InputState> {
 	};
 
 	state: InputState = {};
-	refs: { input: HTMLInputElement };
+	input: HTMLInputElement;
 
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
+	handleClick = (e?: React.FocusEvent<HTMLDivElement>) => {
+		this.setState({ hovered: false });
+	}
+
 	handleHover = (e?: React.FocusEvent<HTMLDivElement>) => {
 		this.setState({ hovered: true });
+		this.handleBlur = () => {};
 	}
 
 	handleUnHover = (e?: React.FocusEvent<HTMLDivElement>) => {
 		this.setState({ hovered: false });
+		this.handleBlur = (e?: React.FocusEvent<HTMLInputElement>) => {
+			this.setState({ focused: false });
+			this.props.onBlur(e as any);
+		};
 	}
 
 	handleFocus = (e?: React.FocusEvent<HTMLInputElement>) => {
@@ -56,12 +65,11 @@ export default class Input extends React.Component<InputProps, InputState> {
 		this.props.onBlur(e as any);
 	}
 
-	setValue = (value: string) => this.refs.input.value = value;
+	setValue = (value: string) => this.input.value = value;
 
-	getValue = () => this.refs.input.value;
+	getValue = () => this.input.value;
 
 	render() {
-
 		const {
 			hoverStyle, // tslint:disable-line:no-unused-variable
 			focusStyle, // tslint:disable-line:no-unused-variable
@@ -91,14 +99,15 @@ export default class Input extends React.Component<InputProps, InputState> {
 					alignItems: "center",
 					color: "#000",
 					background: focused ? "#fff" : theme.altHigh,
-					border: focused ? `2px solid ${this.context.theme.accent}` : hovered ? `2px solid ${theme.baseMedium}` : `2px solid ${theme.baseLow}`,
+					boxShadow: focused ? `inset 0px 0px 0 2px ${this.context.theme.accent}` : hovered ? `inset 0px 0px 0 2px ${theme.baseMedium}` : `inset 0px 0px 0 2px ${theme.baseLow}`,
 					transition: "all .25s",
 					...style,
 				})}
+				onClick={this.handleClick}
 			>
 				{leftNode}
 				<input
-					ref="input"
+					ref={input => this.input = input}
 					{...attributes as any}
 					style={theme.prepareStyles({
 						color: focused ? "#000" : theme.baseHigh,
@@ -106,6 +115,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 						height: "100%",
 						background: "none",
 						border: "none",
+						outline: "none",
 						transition: "all .25s",
 						...inputStyle,
 					})}
@@ -113,7 +123,6 @@ export default class Input extends React.Component<InputProps, InputState> {
 						onChangeValue(e.currentTarget.value);
 						attributes.onChange(e as any);
 					}}
-					onClick={this.handleFocus}
 					onFocus={this.handleFocus}
 					onBlur={this.handleBlur}
 				/>

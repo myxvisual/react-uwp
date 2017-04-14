@@ -31,22 +31,16 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "leftNode",
-          "documentation": "",
-          "isRequired": false,
-          "type": "any"
-        },
-        {
-          "name": "rightNode",
-          "documentation": "",
-          "isRequired": false,
-          "type": "any"
-        },
-        {
           "name": "onChangeValue",
-          "documentation": "",
+          "documentation": "`AutoSuggestBox` onChange callback.",
           "isRequired": false,
           "type": "(value: string) => void"
+        },
+        {
+          "name": "listSource",
+          "documentation": "Array of strings or nodes used to populate the list.",
+          "isRequired": false,
+          "type": "ReactNode[]"
         }
       ],
       "documentation": ""
@@ -63,13 +57,30 @@
       "name": "AutoSuggestBoxState",
       "members": [
         {
-          "name": "currentRightNode",
+          "name": "currListSource",
           "documentation": "",
           "isRequired": false,
-          "type": "any"
+          "type": "ReactNode[]"
+        },
+        {
+          "name": "typing",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
         }
       ],
       "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "iconStyle",
+      "type": "CSSProperties",
+      "initializerText": " { color: \"#a9a9a9\" }"
+    },
+    {
+      "name": "iconStyle",
+      "documentation": "",
+      "type": "CSSProperties"
     },
     {
       "name": "AutoSuggestBox",
@@ -81,28 +92,33 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n\t\trightNode: (<Icon>&#xE721;</Icon>),\n\t\tonChangeValue: () => {}\n\t}",
+          "initializerText": " {\n\t\tonChangeValue: () => {}\n\t}",
+          "documentation": "",
           "type": "AutoSuggestBoxProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: React.PropTypes.object }",
+          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n\t\tcurrentRightNode: this.props.rightNode\n\t}",
+          "initializerText": " {\n\t\tcurrListSource: this.props.listSource\n\t}",
+          "documentation": "",
           "type": "AutoSuggestBoxState"
         },
         {
           "name": "context",
+          "documentation": "",
           "type": "{ theme: ThemeType; }"
         },
         {
-          "name": "refs",
-          "type": "{ input: any; }"
+          "name": "input",
+          "documentation": "`Input` component.",
+          "type": "any"
         },
         {
           "name": "componentWillReceiveProps",
@@ -110,29 +126,34 @@
           "type": "(nextProps: AutoSuggestBoxProps) => void"
         },
         {
-          "name": "handleOnchange",
-          "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\n\t\tlet event: React.SyntheticEvent<HTMLInputElement>;\n\t\tevent = e;\n\t\tthis.props.onChangeValue(event.currentTarget.value);\n\t}",
+          "name": "handleChange",
+          "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\n\t\tlet event: React.SyntheticEvent<HTMLInputElement>;\n\t\tevent = e;\n\t\tconst { currentTarget: { value } } = event;\n\t\tthis.props.onChangeValue(value);\n\t\tif (value) {\n\t\t\tthis.setState({ typing: true });\n\t\t} else {\n\t\t\tthis.setState({ typing: false });\n\t\t}\n\t}",
+          "documentation": "",
           "type": "(e?: any) => void"
         },
         {
-          "name": "handleFocus",
-          "initializerText": " () => {\n\t\tthis.setState({\n\t\t\tcurrentRightNode: (<Icon>{\"\\uE10A\"}</Icon>)\n\t\t});\n\t}",
-          "type": "() => void"
-        },
-        {
-          "name": "handleBlur",
-          "initializerText": " () => {\n\t\tthis.setState({\n\t\t\tcurrentRightNode: (\n\t\t\t\t<Icon onClick={() => this.setValue(\"\")}>\n\t\t\t\t\t&#xE721;\n\t\t\t\t</Icon>\n\t\t\t)\n\t\t});\n\t}",
-          "type": "() => void"
-        },
-        {
           "name": "getValue",
-          "initializerText": " () => this.refs.input.getValue()",
+          "initializerText": " () => this.input.getValue()",
+          "documentation": "`Get` input value method.",
           "type": "() => any"
         },
         {
           "name": "setValue",
-          "initializerText": " (value: string) => this.refs.input.setValue(value)",
+          "initializerText": " (value: string) => this.input.setValue(value)",
+          "documentation": "`Set` input value method.",
           "type": "(value: string) => any"
+        },
+        {
+          "name": "resetValue",
+          "initializerText": " (e: React.MouseEvent<HTMLInputElement>) => {\n\t\tthis.setValue(\"\");\n\t\tthis.setState({\n\t\t\tcurrListSource: [],\n\t\t\ttyping: false\n\t\t});\n\t\tthis.input.input.focus();\n\t}",
+          "documentation": "`Reset` input value method.",
+          "type": "(e: MouseEvent<HTMLInputElement>) => void"
+        },
+        {
+          "name": "handleChooseItem",
+          "initializerText": " (index: number) => {\n\t\tconst item: any = this.props.listSource[index];\n\t\tthis.setValue(typeof item === \"object\" ? item.props.value : item);\n\t}",
+          "documentation": "",
+          "type": "(index: number) => void"
         },
         {
           "name": "render",
@@ -148,7 +169,7 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(autoSuggestBox: AutoSuggestBox) => { root?: CSSProperties; }"
+      "type": "(autoSuggestBox: AutoSuggestBox) => { root?: CSSProperties; listView?: CSSProperties; }"
     }
   ],
   "documentation": "",

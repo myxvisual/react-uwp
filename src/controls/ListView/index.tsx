@@ -5,7 +5,6 @@ import vendors from "../../common/browser/vendors";
 vendors.pop();
 vendors.map(vendor => vendor[0].toUpperCase() + vendor.slice(1));
 
-const defaultProps: ListViewProps = __DEV__ ? require("./devDefaultProps").default : {};
 export interface Item {
 	itemNode?: React.ReactNode;
 	disable?: boolean;
@@ -13,6 +12,8 @@ export interface Item {
 }
 export interface DataProps {
 	items?: Item[];
+	itemStyle?: React.CSSProperties;
+	onChooseItem?: (itemIndex?: number) => void;
 }
 
 export interface ListViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -23,7 +24,7 @@ export interface ListViewState {
 
 export default class ListView extends React.Component<ListViewProps, ListViewState> {
 	static defaultProps: ListViewProps = {
-		...defaultProps,
+		onChooseItem: () => {}
 	};
 
 	state: ListViewState = {
@@ -33,9 +34,22 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
+	componentWillReceiveProps(nextProps: ListViewProps) {
+		this.updateProps2State(nextProps);
+	}
+
+	updateProps2State = (props: ListViewProps) => {
+		const currItems = props.items;
+		this.setState({ currItems });
+	}
+
 	render() {
-		// tslint:disable-next-line:no-unused-variable
-		const { items, ...attributes } = this.props;
+		const {
+			items, // tslint:disable-line:no-unused-variable
+			itemStyle, // tslint:disable-line:no-unused-variable
+			onChooseItem,
+			...attributes
+		} = this.props;
 		const { theme } = this.context;
 		const { currItems } = this.state;
 		const styles = getStyles(this);
@@ -44,7 +58,7 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 			<div
 				{...attributes}
 				style={{
-					...styles.container,
+					...styles.root,
 					...theme.prepareStyles(attributes.style),
 				}}
 			>
@@ -74,6 +88,7 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 								for (const vendor of vendors) {
 									e.currentTarget.style[`${vendor}Transform` as any] = "scale(0.99)";
 								}
+								onChooseItem(index);
 								e.currentTarget.style.transform = "scale(0.99)";
 								e.currentTarget.style.background = clickBG;
 							}}
@@ -96,27 +111,28 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 }
 
 function getStyles(listView: ListView): {
-	container?: React.CSSProperties;
+	root?: React.CSSProperties;
 	item?: React.CSSProperties;
 } {
-	const { context } = listView;
+	const { context, props: { itemStyle } } = listView;
 	const { theme } = context;
-	// tslint:disable-next-line:no-unused-variable
 	const { prepareStyles } = theme;
 
 	return {
-		container: {
+		root: {
 			width: "100%",
 			fontSize: 14,
 			padding: "8px 0",
 			color: theme.baseMediumHigh,
 			border: `1px solid ${theme.altHigh}`,
 			background: theme.chromeLow,
+			transition: "all .25s",
 		},
 		item: prepareStyles({
 			cursor: "default",
 			padding: 8,
-			transition: "all 0.25s 0s ease-in-out",
+			transition: "all 0.25s",
+			...itemStyle
 		}),
 	};
 }
