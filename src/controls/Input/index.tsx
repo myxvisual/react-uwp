@@ -33,6 +33,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 	};
 
 	state: InputState = {};
+	rootElm: HTMLDivElement;
 	input: HTMLInputElement;
 
 	static contextTypes = { theme: React.PropTypes.object };
@@ -89,6 +90,7 @@ export default class Input extends React.Component<InputProps, InputState> {
 			<div
 				onMouseEnter={this.handleHover}
 				onMouseLeave={this.handleUnHover}
+				ref={rootElm => this.rootElm = rootElm}
 				style={theme.prepareStyles({
 					height: 32,
 					width: 296,

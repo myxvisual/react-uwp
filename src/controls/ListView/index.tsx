@@ -131,6 +131,7 @@ function getStyles(listView: ListView): {
 		item: prepareStyles({
 			cursor: "default",
 			padding: 8,
+			width: "100%",
 			transition: "all 0.25s",
 			...itemStyle
 		}),

@@ -29,7 +29,7 @@ export interface DataProps {
 	/**
 	 * if `true`, will become `Disabled Button`.
 	 */
-	disable?: boolean;
+	disabled?: boolean;
 	/**
 	 * `tooltip` is any type, you can passe a `React.Element` or `string`.
 	 */
@@ -61,7 +61,7 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
 			icon,
 			iconStyle,
 			iconPosition,
-			disable,
+			disabled,
 			tooltip,
 			...attributes
 		} = this.props;
@@ -76,9 +76,9 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
 		const normalRender =  (
 			<ElementState
 				style={{
-					background: attributes.disabled ? theme.baseMedium : theme.baseLow,
-					cursor: disable ? "not-allowed" : "pointer",
-					color: disable ? theme.baseMedium : theme.baseHigh,
+					background: disabled ? theme.baseMedium : theme.baseLow,
+					cursor: disabled ? "not-allowed" : "pointer",
+					color: disabled ? theme.baseMedium : theme.baseHigh,
 					outline: "none",
 					padding: "4px 16px",
 					border: `${borderSize} solid transparent`,
@@ -86,11 +86,11 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
 					display: "inline-bloc",
 					...theme.prepareStyles(style),
 				}}
-				hoverStyle={disable ? void 0 : {
+				hoverStyle={disabled ? void 0 : {
 					border: `2px solid ${theme.baseMediumLow}`,
 					...theme.prepareStyles(hoverStyle),
 				}}
-				activeStyle={disable ? void 0 : { background: theme.baseMediumLow }}
+				activeStyle={disabled ? void 0 : { background: theme.baseMediumLow }}
 				{...attributes}
 			>
 				{icon ? (iconPosition === "right" ? (

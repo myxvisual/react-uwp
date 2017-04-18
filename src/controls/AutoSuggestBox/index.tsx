@@ -14,6 +14,10 @@ export interface DataProps {
 	 * Array of strings or nodes used to populate the list.
 	 */
 	listSource?: React.ReactNode[];
+	/**
+	 * Array of strings or nodes used to populate the list.
+	 */
+	searchAction?: (value?: string) => void;
 }
 
 export interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -21,13 +25,16 @@ export interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTM
 export interface AutoSuggestBoxState {
 	currListSource?: React.ReactNode[];
 	typing?: boolean;
+	showListSource?: boolean;
+	focusListSourceIndex?: number;
 }
 
 const iconStyle: React.CSSProperties = { color: "#a9a9a9" };
 
 export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
 	static defaultProps: AutoSuggestBoxProps = {
-		onChangeValue: () => {}
+		onChangeValue: () => {},
+		searchAction: () => {},
 	};
 
 	state: AutoSuggestBoxState = {
@@ -41,21 +48,77 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 	 * `Input` component.
 	 */
 	input: Input;
+	listView: ListView;
+	inputTimer: any = null;
+	originBodyOnClick: (e?: Event) => void = () => {};
+	originBodyOnKeydown: (e?: Event) => void = () => {};
+
+	componentDidMount() {
+		const { onclick, onkeydown } = document.body;
+		if (onclick) {
+			this.originBodyOnClick = onclick;
+		}
+		if (onkeydown) {
+			this.originBodyOnKeydown = onkeydown;
+		}
+		document.body.onclick = this.checkLayerClick;
+		document.body.onkeydown = this.checkLayerKeydown;
+	}
 
 	componentWillReceiveProps(nextProps: AutoSuggestBoxProps) {
 		this.setState({ currListSource: nextProps.listSource });
 	}
+
+	componentWillUnmount() {
+		document.body.onclick = this.originBodyOnClick;
+		document.body.onkeydown = this.originBodyOnKeydown;
+	}
+
+	checkLayerClick = (e: Event) => {
+		this.originBodyOnClick(e);
+		const { typing } = this.state;
+		if (!this.input.rootElm.contains(e.target as Node)) {
+			this.setState({ showListSource: false });
+		}
+	}
+
+	checkLayerKeydown = (e: KeyboardEvent) => {
+		this.originBodyOnKeydown(e);
+		const { keyCode } = e;
+		const { typing } = this.state;
+		if (this.input.input.matches(":focus") && keyCode === 27) {
+			this.setState({ showListSource: false });
+		}
+	}
+
+	toggleShowListSource = (showListSource?: any) => {
+		if (typeof showListSource === "boolean") {
+			if (showListSource !== this.state.showListSource) {
+				this.setState({ showListSource });
+			}
+		} else {
+			this.setState((prevState, prevProps) => ({
+				showListSource: !prevState.showListSource
+			}));
+		}
+	}
+
+	showListSource = () => this.setState({ showListSource: true });
 
 	handleChange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
 		let event: React.SyntheticEvent<HTMLInputElement>;
 		event = e;
 		const { currentTarget: { value } } = event;
 		this.props.onChangeValue(value);
-		if (value) {
-			this.setState({ typing: true });
-		} else {
-			this.setState({ typing: false });
-		}
+
+		clearTimeout(this.inputTimer);
+		this.inputTimer = setTimeout(() => {
+			if (value) {
+				this.setState({ typing: true, showListSource: true });
+			} else {
+				this.setState({ typing: false, showListSource: false });
+			}
+		}, 150);
 	}
 
 	/**
@@ -71,27 +134,88 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 	/**
 	 * `Reset` input value method.
 	 */
-	resetValue = (e: React.MouseEvent<HTMLInputElement>) => {
-		this.setValue("");
-		this.setState({
-			currListSource: [],
-			typing: false
-		});
-		this.input.input.focus();
+	handleButtonAction = (e: React.MouseEvent<HTMLInputElement>) => {
+		if (this.state.typing) {
+			this.setValue("");
+			this.setState({
+				typing: false,
+				showListSource: false
+			});
+			this.input.input.focus();
+		} else {
+			this.props.searchAction(this.getValue());
+		}
 	}
 
 	handleChooseItem = (index: number) => {
+		const chooseTimer = setTimeout(() => {
+			this.toggleShowListSource(false);
+			clearTimeout(chooseTimer);
+		}, 250);
 		const item: any = this.props.listSource[index];
 		this.setValue(typeof item === "object" ? item.props.value : item);
+	}
+
+	handleInputKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		const { keyCode } = e;
+		let { focusListSourceIndex, currListSource, showListSource } = this.state;
+		const { searchAction } = this.props;
+		let listSourceSize: number;
+		if (currListSource && (listSourceSize = currListSource.length) && showListSource) {
+			switch (keyCode) {
+				case 38: {
+					if (focusListSourceIndex === void 0) {
+						this.setState({ focusListSourceIndex: listSourceSize - 1 });
+					} else {
+						focusListSourceIndex = focusListSourceIndex - 1;
+						if (focusListSourceIndex < 0) focusListSourceIndex = focusListSourceIndex + listSourceSize;
+						this.setState({ focusListSourceIndex: focusListSourceIndex % listSourceSize });
+					}
+					break;
+				}
+				case 40: {
+					if (focusListSourceIndex === void 0) {
+						this.setState({ focusListSourceIndex: 0 });
+					} else {
+						focusListSourceIndex = focusListSourceIndex + 1;
+						if (focusListSourceIndex > listSourceSize) focusListSourceIndex = focusListSourceIndex - listSourceSize;
+						this.setState({ focusListSourceIndex: focusListSourceIndex % listSourceSize });
+					}
+					break;
+				}
+				case 13: {
+					if (focusListSourceIndex === void 0) {
+						searchAction(this.getValue());
+						this.setState({ showListSource: false });
+					} else {
+						this.handleChooseItem(focusListSourceIndex);
+						this.setState({ focusListSourceIndex: void 0 });
+					}
+					break;
+				}
+				default: {
+					break;
+				}
+			}
+		} else {
+			if (keyCode === 13) {
+				searchAction(this.getValue());
+			}
+		}
 	}
 
 	render() {
 		const {
 			onChangeValue, // tslint:disable-line:no-unused-variable
+			searchAction, // tslint:disable-line:no-unused-variable
 			listSource, // tslint:disable-line:no-unused-variable
 			...attributes
 		} = this.props;
-		const { typing, currListSource } = this.state;
+		const {
+			typing,
+			currListSource,
+			focusListSourceIndex
+		} = this.state;
 		const styles = getStyles(this);
 
 		return (
@@ -100,23 +224,25 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 				ref={input => this.input = input}
 				style={styles.root}
 				inputStyle={{ zIndex: 1 }}
-				rightNode={typing ? (
-					<Icon style={iconStyle} onClick={this.resetValue}>
-						{"\uE10A"}
-					</Icon>
-				) : (
-					<Icon style={iconStyle} onClick={this.resetValue}>
-						&#xE721;
+				onClick={this.showListSource}
+				onKeyDown={this.handleInputKeyDown}
+				rightNode={(
+					<Icon style={iconStyle} onClick={this.handleButtonAction}>
+						{typing ? "CancelLegacy" : "Search"}
 					</Icon>
 				)}
 				onChange={this.handleChange}
 			>
 				{currListSource && currListSource.length > 0 && (
 					<ListView
+						ref={listView => this.listView = listView}
 						style={styles.listView}
-						items={currListSource.map(itemNode => ({ itemNode }))}
+						items={currListSource.map((itemNode, index) => ({
+							itemNode,
+							focus: index === focusListSourceIndex
+						}))}
 						itemStyle={{
-							fontSize: 12
+							fontSize: 12,
 						}}
 						onChooseItem={this.handleChooseItem}
 					/>
@@ -130,7 +256,7 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
 	root?: React.CSSProperties;
 	listView?: React.CSSProperties;
 } {
-	const { context, props: { style } } = autoSuggestBox;
+	const { context, props: { style }, state: { showListSource } } = autoSuggestBox;
 	const { theme } = context;
 
 	return {
@@ -150,7 +276,11 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
 			top: "100%",
 			left: 0,
 			zIndex: 2,
-			border: `1px solid ${theme.baseLow}`
+			border: `1px solid ${theme.baseLow}`,
+			transform: `translate3D(0, ${showListSource ? 0 : "-10px"}, 0)`,
+			opacity: showListSource ? 1 : 0,
+			pointerEvents: showListSource ? void 0 : "none",
+			transition: "all .25s",
 		})
 	};
 }
