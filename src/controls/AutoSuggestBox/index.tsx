@@ -18,6 +18,10 @@ export interface DataProps {
 	 * Array of strings or nodes used to populate the list.
 	 */
 	searchAction?: (value?: string) => void;
+	/**
+	 * Inside Icon Size, use `number`.
+	 */
+	iconSize?: number;
 }
 
 export interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -29,12 +33,11 @@ export interface AutoSuggestBoxState {
 	focusListSourceIndex?: number;
 }
 
-const iconStyle: React.CSSProperties = { color: "#a9a9a9" };
-
 export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
 	static defaultProps: AutoSuggestBoxProps = {
 		onChangeValue: () => {},
 		searchAction: () => {},
+		iconSize: 32
 	};
 
 	state: AutoSuggestBoxState = {
@@ -209,6 +212,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 			onChangeValue, // tslint:disable-line:no-unused-variable
 			searchAction, // tslint:disable-line:no-unused-variable
 			listSource, // tslint:disable-line:no-unused-variable
+			iconSize, // tslint:disable-line:no-unused-variable
 			...attributes
 		} = this.props;
 		const {
@@ -223,11 +227,13 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 				{...attributes}
 				ref={input => this.input = input}
 				style={styles.root}
-				inputStyle={{ zIndex: 1 }}
 				onClick={this.showListSource}
 				onKeyDown={this.handleInputKeyDown}
 				rightNode={(
-					<Icon style={iconStyle} onClick={this.handleButtonAction}>
+					<Icon
+						{...styles.iconsStyles}
+						onClick={this.handleButtonAction}
+					>
 						{typing ? "CancelLegacy" : "Search"}
 					</Icon>
 				)}
@@ -255,18 +261,26 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 function getStyles(autoSuggestBox: AutoSuggestBox): {
 	root?: React.CSSProperties;
 	listView?: React.CSSProperties;
+	iconsStyles?: {
+		style?: React.CSSProperties;
+		hoverStyle?: React.CSSProperties;
+	}
 } {
-	const { context, props: { style }, state: { showListSource } } = autoSuggestBox;
+	const { context, props: {
+		style,
+		iconSize
+	}, state: { showListSource } } = autoSuggestBox;
 	const { theme } = context;
 
 	return {
 		root: theme.prepareStyles({
 			display: "flex",
-			flex: "0 0 auto",
+			// flex: "0 0 auto",
 			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "space-between",
 			padding: "6px 10px",
+			paddingRight: `${iconSize}px`,
 			...style,
 			position: "relative"
 		}),
@@ -281,7 +295,23 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
 			opacity: showListSource ? 1 : 0,
 			pointerEvents: showListSource ? void 0 : "none",
 			transition: "all .25s",
-		})
+		}),
+		iconsStyles: {
+			style: {
+				position: "absolute",
+				top: 0,
+				right: 0,
+				cursor: "pointer",
+				height: iconSize,
+				width: iconSize,
+				color: "#a9a9a9"
+			},
+			hoverStyle: {
+				color: theme.accent,
+				// color: "#fff",
+				// background: theme.accent,
+			}
+		}
 	};
 }
 

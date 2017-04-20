@@ -206,7 +206,7 @@ function getStyles(treeView: TreeView): {
 			color: theme.baseMediumHigh,
 			background: theme.altMediumHigh,
 			padding: 20,
-			...prepareStyles(style),
+			...prepareStyles(style)
 		}),
 		title: prepareStyles({
 			whiteSpace: "nowrap",
@@ -216,19 +216,19 @@ function getStyles(treeView: TreeView): {
 			fontSize: 14,
 			display: "flex",
 			height: listItemHeight,
-			flexDirection: `row${isRight ? "" : "-reverse"}`,
+			flexDirection: `row${isRight ? "" : "-reverse"}` as any,
 			alignItems: "center",
 			justifyContent: isRight ? "space-between" : "flex-end",
-			transition: "all .25s 0s ease-in-out",
+			transition: "all .25s 0s ease-in-out"
 		}),
 		titleNode: prepareStyles({
-			color: theme.baseMediumHigh,
+			color: "inherit",
 			zIndex: 1,
 			width: "100%",
 			overflow: "hidden",
 			whiteSpace: "nowrap",
 			textOverflow: "ellipsis",
-			...titleNodeStyle,
+			...titleNodeStyle
 		}),
 		parent: prepareStyles({
 			transition: "all .25s 0s ease-in-out",
@@ -238,7 +238,7 @@ function getStyles(treeView: TreeView): {
 			top: 0,
 			left: "-100%",
 			width: "400%",
-			height: "100%",
+			height: "100%"
 		}
 	};
 }

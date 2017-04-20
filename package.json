@@ -24,13 +24,10 @@
   },
   "homepage": "https://antcores.com/react-uwp/",
   "devDependencies": {
-    "@types/enzyme": "^2.7.1",
-    "@types/jest": "^16.0.3",
     "@types/node": "^6.0.46",
     "@types/react": "^0.14.57",
-    "@types/react-addons-test-utils": "^0.14.16",
     "@types/react-dom": "^0.14.18",
-    "@types/webpack": "^1.12.35",
+    "@types/webpack-env": "^1.13.0",
     "awesome-typescript-loader": "^3.0.0-beta.9",
     "cross-env": "^3.1.3",
     "eslint": "^3.9.1",
@@ -40,11 +37,8 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.6.0",
     "husky": "^0.12.0",
-    "jest": "^18.1.0",
     "npm-run-all": "^3.1.1",
-    "react-addons-test-utils": "^15.4.1",
     "react-hot-loader": "^3.0.0-beta.6",
-    "react-to-typescript-definitions": "^0.19.1",
     "source-map-loader": "^0.1.5",
     "tslint": "^3.15.1",
     "tslint-eslint-rules": "^3.2.0",
@@ -59,7 +53,6 @@
     "keycode": "^2.1.8",
     "react": "^15.4.2",
     "react-dom": "^15.3.2",
-    "react-prefixer": "^2.0.0",
     "warning": "^3.0.0"
   }
 }

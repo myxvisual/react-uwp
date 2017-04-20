@@ -54,14 +54,14 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 	handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
 		Object.assign(this.controllerElm.style, {
 			background: this.context.theme.baseHigh
-		} as CSSProperties);
+		} as React.CSSProperties);
 		this.props.onMouseEnter(e);
 	}
 
 	handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
 		Object.assign(this.controllerElm.style, {
 			background: this.context.theme.accent
-		} as CSSProperties);
+		} as React.CSSProperties);
 		this.props.onMouseLeave(e);
 	}
 
@@ -97,7 +97,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 			webKitTransform: barTransform,
 			msTransform: barTransform,
 			mozTransform: barTransform,
-		} as CSSProperties);
+		} as React.CSSProperties);
 		const width2px: number = Number.parseFloat(this.props.width as any);
 		const transform = `translateX(${valueRatio * width2px - 4}px)`;
 		Object.assign(this.controllerElm.style, {
@@ -105,7 +105,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 			webKitTransform: transform,
 			msTransform: transform,
 			mozTransform: transform,
-		} as CSSProperties);
+		} as React.CSSProperties);
 		this.props.onChangeValue(currValue);
 	}
 

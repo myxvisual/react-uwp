@@ -9,9 +9,9 @@ const defaultProps: CommandBarProps = __DEV__ ? require("./devDefaultProps").def
 
 export interface DataProps {
 	contentStyle?: React.CSSProperties;
-	contentNode?: any;
-	primaryCommands?: any[] | any;
-	secondaryCommands?: any[] | any;
+	contentNode?: React.ReactNode;
+	primaryCommands?: any[];
+	secondaryCommands?: any[];
 	defaultLabelPosition?: "Right" | "Bottom" | "Collapsed";
 	mode?: "Compact" | "Minimal" | "Hidden";
 	flowDirection?: "RightToLeft" | "LeftToRight";
@@ -104,7 +104,7 @@ function getStyles(commandBar: CommandBar): {
 	return {
 		root: prepareStyles({
 			display: "flex",
-			flexDirection: `row${LeftToRight ? "" : "-reverse"}`,
+			flexDirection: `row${LeftToRight ? "" : "-reverse"}` as any,
 			alignItems: "flex-start",
 			justifyContent: "space-between",
 			fontSize: 14,
@@ -113,18 +113,19 @@ function getStyles(commandBar: CommandBar): {
 			height: (opened && !isRight) ? 72 : 48,
 			overflow: "hidden",
 			transition: "all .125s 0s ease-in-out",
-			...style,
+			...style
 		}),
 		content: prepareStyles({
 			height: 48,
 			lineHeight: "48px",
-			...contentStyle,
+			paddingLeft: 10,
+			...contentStyle
 		}),
 		commands: prepareStyles({
 			display: "flex",
 			flexDirection: "row",
 			alignItems: "flex-start",
-			height: "100%",
+			height: "100%"
 		}),
 	};
 }

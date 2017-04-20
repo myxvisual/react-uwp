@@ -62,7 +62,7 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
 					...theme.prepareStyles(attributes.style),
 				}}
 			>
-				{currItems.map((item, index) => {
+				{currItems && currItems.map((item, index) => {
 					const { itemNode, disable, focus } = item;
 					const { isDarkTheme } = theme;
 					const defaultBG = focus ? theme[isDarkTheme ? "accentDarker2" : "accentLighter2"] : theme.chromeLow;

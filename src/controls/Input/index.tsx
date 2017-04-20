@@ -39,16 +39,16 @@ export default class Input extends React.Component<InputProps, InputState> {
 	static contextTypes = { theme: React.PropTypes.object };
 	context: { theme: ThemeType };
 
-	handleClick = (e?: React.FocusEvent<HTMLDivElement>) => {
+	handleClick = (e?: React.MouseEvent<HTMLDivElement>) => {
 		this.setState({ hovered: false });
 	}
 
-	handleHover = (e?: React.FocusEvent<HTMLDivElement>) => {
+	handleHover = (e?: React.MouseEvent<HTMLDivElement>) => {
 		this.setState({ hovered: true });
 		this.handleBlur = () => {};
 	}
 
-	handleUnHover = (e?: React.FocusEvent<HTMLDivElement>) => {
+	handleUnHover = (e?: React.MouseEvent<HTMLDivElement>) => {
 		this.setState({ hovered: false });
 		this.handleBlur = (e?: React.FocusEvent<HTMLInputElement>) => {
 			this.setState({ focused: false });

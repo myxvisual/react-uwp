@@ -125,7 +125,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 								style={theme.prepareStyles({
 									overflow: "hidden",
 									display: "flex",
-									flexDirection: `row${isFloatRight ? "" : "-reverse"}`,
+									flexDirection: isFloatRight ? "row" : "row-reverse",
 									alignItems: "center",
 									justifyContent: isHovered ? "space-between" : "center",
 									boxSizing: "border-box",
@@ -134,7 +134,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 									textDecoration: "none",
 									background: (isFirst || isHovered) ? (theme.accent || color) : theme.altHigh,
 									width: hoverIndexArray[index] ? floatNavWidth : width,
-									height: width,
+									height: width
 								})}
 								key={`${index}`}
 							>

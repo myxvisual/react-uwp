@@ -77,21 +77,21 @@ export default class PasswordBox extends React.Component<PasswordBoxProps, Passw
 				rightNode={showIcon ? (
 					<Icon
 						onClick={() => this.setState({ showPassword: !showPassword })}
-						hoverStyle={{
-							color: theme.baseHigh,
-							background: theme.accent,
-						}}
 						style={{
 							cursor: "pointer",
 							height: iconHeight,
 							width: iconHeight,
 							background: "none",
-							color: theme.baseHigh,
+							color: theme.baseHigh
+						}}
+						hoverStyle={{
+							color: "#fff",
+							background: theme.accent
 						}}
 					>
 						&#xE052;
 					</Icon>
-				) : void(0)}
+				) : void 0}
 				onChange={this.handleOnchange}
 			/>
 		);

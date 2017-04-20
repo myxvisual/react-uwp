@@ -21,10 +21,14 @@ export interface CheckBoxState {
 	checked?: boolean;
 }
 
+const emptyFunc = () => {};
+
 export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
 	static defaultProps: CheckBoxProps = {
 		isChecked: null,
-		onCheck: () => {}
+		onCheck: emptyFunc,
+		onClick: emptyFunc,
+		size: 20
 	};
 
 	state: CheckBoxState = {
@@ -79,7 +83,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
 					<Icon
 						style={styles.icon}
 					>
-						&#xE73E;
+						CheckMarkZeroWidthLegacy
 					</Icon>
 				</div>
 			</ElementState>
@@ -105,8 +109,8 @@ function getStyles(checkBox: CheckBox): {
 		justifyContent: "center",
 		color: theme.altHigh,
 		border: `2px solid ${theme.baseMediumHigh}`,
-		width: size,
-		height: size,
+		width: `${size}px`,
+		height: `${size}px`,
 		background: theme.altMediumHigh,
 		cursor: "default",
 		transition: "all .25s ease-in-out",

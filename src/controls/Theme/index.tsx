@@ -29,7 +29,7 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
 				style={theme.prepareStyles({
 					width: "100%",
 					height: "100%",
-					...attributes.style,
+					...attributes.style
 					})
 				}
 			>
