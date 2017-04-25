@@ -23,56 +23,55 @@ import * as SearchExampleCode from "!raw!./SearchExample";
 import * as SearchExampleDesc from "!raw!./SearchExample.md";
 
 export default class AutoSuggestBox extends React.PureComponent<any, void> {
-	render() {
-		const {
-			location, // tslint:disable-line:no-unused-variable
-			params, // tslint:disable-line:no-unused-variable
-			route, // tslint:disable-line:no-unused-variable
-			router, // tslint:disable-line:no-unused-variable
-			routeParams, // tslint:disable-line:no-unused-variable
-			routes, // tslint:disable-line:no-unused-variable
-			...attributes
-		} = this.props;
+  render() {
+    const {
+      location, // tslint:disable-line:no-unused-variable
+      params, // tslint:disable-line:no-unused-variable
+      route, // tslint:disable-line:no-unused-variable
+      router, // tslint:disable-line:no-unused-variable
+      routeParams, // tslint:disable-line:no-unused-variable
+      routes, // tslint:disable-line:no-unused-variable
+      ...attributes
+    } = this.props;
 
-		return (
-			<ComponentDetail
-				{...attributes}
-				title={`${location.pathname.split("/").slice(-1)[0].split("-").map((str: string) => str[0].toUpperCase() + str.slice(1)).join(" ")}React-UWP App developer | Docs`}
-				readmeText={readmeText}
-				docEntry={docEntry}
-			>
-				<CodeExample
-					title="Simple Examples"
-					code={SimpleExampleCode}
-					description={SimpleExampleDesc}
-				>
-					<SimpleExample />
-				</CodeExample>
-				
-				<CodeExample
-					title="ListSource Examples"
-					code={ListSourceExampleCode}
-					description={ListSourceExampleDesc}
-				>
-					<ListSourceExample />
-				</CodeExample>
-				
-				<CodeExample
-					title="ListSource Complex Examples"
-					code={ListSourceComplexExampleCode}
-					description={ListSourceComplexExampleDesc}
-				>
-					<ListSourceComplexExample />
-				</CodeExample>
-				
-				<CodeExample
-					title="Search Examples"
-					code={SearchExampleCode}
-					description={SearchExampleDesc}
-				>
-					<SearchExample />
-				</CodeExample>
-			</ComponentDetail>
-		);
-	}
+    return (
+      <ComponentDetail
+        {...attributes}
+        readmeText={readmeText}
+        docEntry={docEntry}
+      >
+        <CodeExample
+          title="Simple Examples"
+          code={SimpleExampleCode}
+          description={SimpleExampleDesc}
+        >
+          <SimpleExample />
+        </CodeExample>
+        
+        <CodeExample
+          title="ListSource Examples"
+          code={ListSourceExampleCode}
+          description={ListSourceExampleDesc}
+        >
+          <ListSourceExample />
+        </CodeExample>
+        
+        <CodeExample
+          title="ListSource Complex Examples"
+          code={ListSourceComplexExampleCode}
+          description={ListSourceComplexExampleDesc}
+        >
+          <ListSourceComplexExample />
+        </CodeExample>
+        
+        <CodeExample
+          title="Search Examples"
+          code={SearchExampleCode}
+          description={SearchExampleDesc}
+        >
+          <SearchExample />
+        </CodeExample>
+      </ComponentDetail>
+    );
+  }
 }

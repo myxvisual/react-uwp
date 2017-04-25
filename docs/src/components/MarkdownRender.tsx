@@ -1,6 +1,8 @@
 import * as React from "react";
-import { ThemeType } from "react-uwp/src/styles/ThemeType";
 
+import ThemeType from "react-uwp/src/styles/ThemeType";
+import  * as Prism from "prismjs";
+import "prismjs/components/prism-jsx.min.js";
 import  * as marked from "marked";
 
 export interface DataProps {
@@ -28,13 +30,19 @@ export default class MarkdownRender extends React.PureComponent<MarkdownRenderPr
       smartypants: false,
       highlight(code, lang) {
         try {
-          return require("highlight.js").highlight(lang, code).value;
+          return Prism.highlight(code, Prism.languages[lang]);
         } catch (err) {}
       },
     });
   }
 
   componentDidMount() {
+    if (this.context.theme.isDarkTheme) {
+      require("prismjs/themes/prism-okaidia.css");
+    } else {
+      require("prismjs/themes/prism-coy.css");
+    }
+
     const className = "react-uwp-markdown-style-sheet";
     let styleSheet = document.querySelector(`.${className}`);
     const cssString = getCSSString(this.context.theme);
@@ -52,11 +60,6 @@ export default class MarkdownRender extends React.PureComponent<MarkdownRenderPr
   render() {
     const { text, className, ...attributes } = this.props;
     const { theme } = this.context;
-    if (!theme.isDarkTheme) {
-      require("highlight.js/styles/atelier-cave-dark.css");
-    } else {
-      require("highlight.js/styles/atelier-cave-light.css");
-    }
 
     return (
       <div>
@@ -176,8 +179,9 @@ return (
 }
 
 .react-uwp-markdown pre {
-  background: ${theme.altMedium};
+  background: ${theme.chromeLow};
   border: 1px solid ${theme.baseLow};
+  border-radius: 0 !important;
   padding: 20px;
   margin: 10px 0;
   width: 100%;
@@ -205,7 +209,7 @@ return (
   border-collapse: collapse;
   border: 1px solid ${theme.altHigh};
   padding: 10px;
-  margin: 20px 0 20px;
+  margin: 8px 0 8px;
 }
 
 .react-uwp-markdown table tbody {

@@ -4,48 +4,48 @@ const monthShortList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", 
 const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 export function addDays(d: Date, days: number) {
-	const newDate = cloneDate(d);
-	newDate.setDate(d.getDate() + days);
-	return newDate;
+  const newDate = cloneDate(d);
+  newDate.setDate(d.getDate() + days);
+  return newDate;
 }
 
 export function addMonths(d: Date, months: number) {
-	const newDate = cloneDate(d);
-	newDate.setMonth(d.getMonth() + months);
-	return newDate;
+  const newDate = cloneDate(d);
+  newDate.setMonth(d.getMonth() + months);
+  return newDate;
 }
 
 export function addYears(d: Date, years: number) {
-	const newDate = cloneDate(d);
-	newDate.setFullYear(d.getFullYear() + years);
-	return newDate;
+  const newDate = cloneDate(d);
+  newDate.setFullYear(d.getFullYear() + years);
+  return newDate;
 }
 
 export function cloneDate(d: Date) {
-	return new Date(d.getTime());
+  return new Date(d.getTime());
 }
 
 export function cloneAsDate(d: Date) {
-	const clonedDate = cloneDate(d);
-	clonedDate.setHours(0, 0, 0, 0);
-	return clonedDate;
+  const clonedDate = cloneDate(d);
+  clonedDate.setHours(0, 0, 0, 0);
+  return clonedDate;
 }
 
 export function getFirstDayOfMonth(d: Date) {
-	return new Date(d.getFullYear(), d.getMonth(), 1);
+  return new Date(d.getFullYear(), d.getMonth(), 1);
 }
 
 export function getLastDayOfMonth(d: Date) {
-	return new Date(d.getFullYear(), d.getMonth() + 1, 0);
+  return new Date(d.getFullYear(), d.getMonth() + 1, 0);
 }
 
 export function getLastDayOfPrevMonth(d: Date) {
-	return new Date(d.getFullYear(), d.getMonth(), 0);
+  return new Date(d.getFullYear(), d.getMonth(), 0);
 }
 
 export {
-	dayShortList,
-	dayList,
-	monthShortList,
-	monthList,
+  dayShortList,
+  dayList,
+  monthShortList,
+  monthList,
 };

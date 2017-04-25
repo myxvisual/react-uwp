@@ -41,6 +41,12 @@
           "documentation": "`Callback` function that is fired when the checkbox is checked.",
           "isRequired": false,
           "type": "(checked?: boolean) => void"
+        },
+        {
+          "name": "labelPosition",
+          "documentation": "If use `label`, `labelPosition` to control label position.",
+          "isRequired": false,
+          "type": "\"left\" | \"right\""
         }
       ],
       "documentation": ""
@@ -61,9 +67,26 @@
           "documentation": "",
           "isRequired": false,
           "type": "boolean"
+        },
+        {
+          "name": "hover",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
         }
       ],
       "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
     },
     {
       "name": "CheckBox",
@@ -75,7 +98,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n\t\tisChecked: null,\n\t\tonCheck: () => {}\n\t}",
+          "initializerText": " {\n\t\tisChecked: null,\n\t\tonCheck: emptyFunc,\n\t\tonClick: emptyFunc,\n\t\tsize: 20,\n\t\tlabelPosition: \"right\",\n\t\tlabel: void 0\n\t}",
           "documentation": "",
           "type": "CheckBoxProps"
         },
@@ -100,7 +123,7 @@
         },
         {
           "name": "rootElm",
-          "documentation": "Root `HTMLDivElement`",
+          "documentation": "rootElm `HTMLDivElement`",
           "type": "HTMLDivElement"
         },
         {
@@ -113,6 +136,24 @@
           "initializerText": " (e?: React.SyntheticEvent<HTMLDivElement>) => {\n\t\tthis.setState((prevState, prevProps) => {\n\t\t\tthis.props.onCheck(!prevState.checked);\n\t\t\treturn { checked: !prevState.checked };\n\t\t});\n\t}",
           "documentation": "`Public` Toggle Checked Method.",
           "type": "(e?: SyntheticEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "handleClick",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n\t\tconst { disabled, onClick } = this.props;\n\t\tif (!disabled) this.toggleChecked(e);\n\t\tonClick(e);\n\t}",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "handleMouseEnter",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n\t\tthis.setState({ hover: true });\n\t}",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "handleMouseLeave",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n\t\tthis.setState({ hover: false });\n\t}",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "render",
@@ -128,7 +169,7 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(checkBox: CheckBox) => { root?: CSSProperties; icon?: CSSProperties; }"
+      "type": "(checkBox: CheckBox) => { root?: CSSProperties; iconParent?: CSSProperties; icon?: CSSProperties;..."
     }
   ],
   "documentation": "",

@@ -1,13 +1,13 @@
 import * as React from "react";
 
 import ElementState from "../ElementState";
-import { ThemeType } from "../../styles/ThemeType";
+import ThemeType from "../../styles/ThemeType";
 
 const defaultProps: IconButtonProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
-	hoverStyle?: React.CSSProperties;
-	activeStyle?: React.CSSProperties;
+  hoverStyle?: React.CSSProperties;
+  activeStyle?: React.CSSProperties;
 }
 
 export interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -15,47 +15,47 @@ export interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLBut
 export interface IconButtonState {}
 
 export default class IconButton extends React.Component<IconButtonProps, IconButtonState> {
-	static defaultProps: IconButtonProps = {
-		...defaultProps
-	};
+  static defaultProps: IconButtonProps = {
+    ...defaultProps
+  };
 
-	state: IconButtonState = {};
+  state: IconButtonState = {};
 
-	static contextTypes = { theme: React.PropTypes.object };
-	context: { theme: ThemeType };
+  static contextTypes = { theme: React.PropTypes.object };
+  context: { theme: ThemeType };
 
-	render() {
-		const { style, hoverStyle, activeStyle, children, ...attributes } = this.props;
-		const { theme } = this.context;
+  render() {
+    const { style, hoverStyle, activeStyle, children, ...attributes } = this.props;
+    const { theme } = this.context;
 
-		return (
-			<ElementState
-				{...attributes}
-				style={{
-					flex: "0 0 auto",
-					fontFamily: "Segoe MDL2 Assets",
-					transition: "all .25s 0s ease-in-out",
-					userSelect: "none",
-					background: "none",
-					border: "none",
-					outline: "none",
-					fontSize: 22,
-					cursor: "pointer",
-					color: theme.baseHigh,
-					padding: 4,
-					...style
-				}}
-				hoverStyle={{
-					background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"],
-					...hoverStyle,
-				}}
-				activeStyle={{
-					background: theme.accent,
-					...activeStyle,
-				}}
-			>
-				<button {...attributes}>{children || "\uE73E"}</button>
-			</ElementState>
-		);
-	}
+    return (
+      <ElementState
+        {...attributes}
+        style={{
+          flex: "0 0 auto",
+          fontFamily: "Segoe MDL2 Assets",
+          transition: "all .25s 0s ease-in-out",
+          userSelect: "none",
+          background: "none",
+          border: "none",
+          outline: "none",
+          fontSize: 22,
+          cursor: "pointer",
+          color: theme.baseHigh,
+          padding: 4,
+          ...style
+        }}
+        hoverStyle={{
+          background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"],
+          ...hoverStyle,
+        }}
+        activeStyle={{
+          background: theme.accent,
+          ...activeStyle,
+        }}
+      >
+        <button {...attributes}>{children || "\uE73E"}</button>
+      </ElementState>
+    );
+  }
 }

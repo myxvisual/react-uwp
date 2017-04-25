@@ -23,6 +23,11 @@
     "url": "https://github.com/myxvisual/react-uwp/issues"
   },
   "homepage": "https://antcores.com/react-uwp/",
+  "peerDependencies": {
+    "prop-types": "^15.5.8",
+    "react": ">= 14.0 <= 15.5.4",
+    "react-dom": ">= 14.0 <= 15.5.4"
+  },
   "devDependencies": {
     "@types/node": "^6.0.46",
     "@types/react": "^0.14.57",
@@ -51,8 +56,6 @@
     "core-js": "^2.4.1",
     "inline-style-prefixer": "^2.0.5",
     "keycode": "^2.1.8",
-    "react": "^15.4.2",
-    "react-dom": "^15.3.2",
     "warning": "^3.0.0"
   }
 }

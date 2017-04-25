@@ -84,8 +84,8 @@ Button1.Click += new RoutedEventHandler(Button_Click);
 
 ## Related topics
 
-- 	[Index of controls by function](controls-by-function.md)
-- 	[Windows.UI.Xaml.Controls namespace](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.aspx)
-- 	[Layout](../layout/index.md)
-- 	[Style](../style/index.md)
-- 	[Usability](../usability/index.md)
+-   [Index of controls by function](controls-by-function.md)
+-   [Windows.UI.Xaml.Controls namespace](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.aspx)
+-   [Layout](../layout/index.md)
+-   [Style](../style/index.md)
+-   [Usability](../usability/index.md)

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ThemeType } from "../../styles/ThemeType";
+import ThemeType from "../../styles/ThemeType";
 
 const defaultProps: PopupMenuProps = __DEV__ ? require("./devDefaultProps").default : {};
 
@@ -11,46 +11,46 @@ export interface PopupMenuProps extends DataProps, React.HTMLAttributes<HTMLDivE
 export interface PopupMenuState {}
 
 export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
-	static defaultProps: PopupMenuProps = {
-		...defaultProps,
-	};
+  static defaultProps: PopupMenuProps = {
+    ...defaultProps,
+  };
 
-	state: PopupMenuState = {};
+  state: PopupMenuState = {};
 
-	static contextTypes = { theme: React.PropTypes.object };
-	context: { theme: ThemeType };
+  static contextTypes = { theme: React.PropTypes.object };
+  context: { theme: ThemeType };
 
-	render() {
-		const { ...attributes } = this.props;
-		const { theme } = this.context;
-		const styles = getStyles(this);
+  render() {
+    const { ...attributes } = this.props;
+    const { theme } = this.context;
+    const styles = getStyles(this);
 
-		return (
-			<div
-				{...attributes}
-				style={styles.root}
-			>
-				PopupMenu
-			</div>
-		);
-	}
+    return (
+      <div
+        {...attributes}
+        style={styles.root}
+      >
+        PopupMenu
+      </div>
+    );
+  }
 }
 
 function getStyles(popupMenu: PopupMenu): {
-	root?: React.CSSProperties;
+  root?: React.CSSProperties;
 } {
-	const {
-		context: { theme },
-		props: { style }
-	} = popupMenu;
-	const { prepareStyles } = theme;
+  const {
+    context: { theme },
+    props: { style }
+  } = popupMenu;
+  const { prepareStyles } = theme;
 
-	return {
-		root: prepareStyles({
-			fontSize: 14,
-			color: theme.baseMediumHigh,
-			background: theme.altMediumHigh,
-			...style,
-		}),
-	};
+  return {
+    root: prepareStyles({
+      fontSize: 14,
+      color: theme.baseMediumHigh,
+      background: theme.altMediumHigh,
+      ...style,
+    }),
+  };
 }

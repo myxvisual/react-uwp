@@ -1,16 +1,20 @@
 import * as React from "react";
 import Separator, { SeparatorProps } from "../Separator";
 
-export default function AppBarSeparator(props: SeparatorProps) {
-	return (
-		<Separator
-			direction="column"
-			style={{
-				height: 28,
-				width: 2,
-				margin: "10px 0",
-				...props.style,
-			}}
-		/>
-	);
+export interface AppBarSeparatorProps extends SeparatorProps {}
+
+export default class AppBarSeparator extends React.PureComponent<AppBarSeparatorProps, void> {
+  render() {
+    return (
+      <Separator
+        direction="column"
+        style={{
+          height: 28,
+          width: 2,
+          margin: "10px 0",
+          ...this.props.style
+        }}
+      />
+    );
+  }
 };

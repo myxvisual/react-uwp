@@ -1,45 +1,46 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-export interface RenderToBodypRrops {
-	children?: React.ReactNode;
+export interface RenderToBodyProps {
+  children?: React.ReactElement<any>;
 }
-export default class RenderToBody extends React.Component<RenderToBodypRrops, any> {
-	containerElm?: HTMLDivElement;
 
-	componentDidMount() {
-		this.containerElm = document.createElement("div");
-		document.body.appendChild(this.containerElm);
-		this.renderComponent();
-	}
+export default class RenderToBody extends React.PureComponent<RenderToBodyProps, void> {
+  rootElm?: HTMLDivElement;
 
-	componentDidUpdate() {
-		this.renderComponent();
-	}
+  componentDidMount() {
+    this.rootElm = document.createElement("div");
+    document.body.appendChild(this.rootElm);
+    this.renderComponent();
+  }
 
-	componentWillUnmount() {
-		this.unRenderComponent();
-		document.body.removeChild(this.containerElm);
-		this.containerElm = null;
-	}
+  componentDidUpdate() {
+    this.renderComponent();
+  }
 
-	renderComponent = () => {
-		const { children } = this.props;
-		ReactDOM.unstable_renderSubtreeIntoContainer(
-			this,
-			children as React.ReactElement<any>,
-			this.containerElm
-		);
-	}
+  componentWillUnmount() {
+    this.unRenderComponent();
+    document.body.removeChild(this.rootElm);
+    this.rootElm = null;
+  }
 
-	unRenderComponent = () => {
-		if (!this.containerElm) return;
-		ReactDOM.unmountComponentAtNode(this.containerElm);
-	}
+  renderComponent = () => {
+    const { children } = this.props;
+    ReactDOM.unstable_renderSubtreeIntoContainer(
+      this,
+      children,
+      this.rootElm
+    );
+  }
 
-	getNode = () => this.containerElm
+  unRenderComponent = () => {
+    if (!this.rootElm) return;
+    ReactDOM.unmountComponentAtNode(this.rootElm);
+  }
 
-	render() {
-		return null as any;
-	}
+  getRootElement = () => this.rootElm;
+
+  render() {
+    return null as any;
+  }
 }

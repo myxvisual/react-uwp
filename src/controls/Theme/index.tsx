@@ -1,40 +1,39 @@
 import * as React from "react";
 
 import darkTheme from "../../styles/darkTheme";
-import { ThemeType } from "../../styles/ThemeType";
+import ThemeType from "../../styles/ThemeType";
 
 export interface DataProps {
-	theme?: ThemeType;
+  theme?: ThemeType;
 }
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-export interface ThemeState {}
-export default class Theme extends React.Component<ThemeProps, ThemeState> {
-	static childContextTypes = {
-		theme: React.PropTypes.object,
-	};
 
-	getChildContext() {
-		return {
-			theme: this.props.theme || darkTheme,
-		};
-	}
+export default class Theme extends React.PureComponent<ThemeProps, void> {
+  static childContextTypes = {
+    theme: React.PropTypes.object,
+  };
 
-	render() {
-		// tslint:disable-next-line:no-unused-variable
-		const { children, theme, ...attributes } = this.props;
+  getChildContext() {
+    return {
+      theme: this.props.theme || darkTheme,
+    };
+  }
 
-		return (
-			<div
-				{...attributes}
-				style={theme.prepareStyles({
-					width: "100%",
-					height: "100%",
-					...attributes.style
-					})
-				}
-			>
-				{children}
-			</div>
-		);
-	}
+  render() {
+    const { children, theme, style, ...attributes } = this.props;
+
+    return (
+      <div
+        {...attributes}
+        style={theme.prepareStyles({
+          width: "100%",
+          height: "100%",
+          ...style
+          })
+        }
+      >
+        {children}
+      </div>
+    );
+  }
 }
