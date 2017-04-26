@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import ThemeType from "../../styles/ThemeType";
-const defaultProps: TooltipProps = __DEV__ ? require("./devDefaultProps").default : {};
 
 export interface DataProps {
   verticalPosition?: "top" | "bottom" | "center";
@@ -21,13 +20,11 @@ export interface TooltipState {
 
 export default class Tooltip extends React.Component<TooltipProps, TooltipState> {
   static defaultProps: TooltipProps = {
-    ...defaultProps,
     verticalPosition: "bottom",
     horizontalPosition: "center",
-    content: "Tooltip",
     margin: 4,
     autoClose: false,
-    timeout: 2500,
+    timeout: 2500
   };
 
   state: TooltipState = {
@@ -35,6 +32,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
   };
   refs: { rootElm: HTMLDivElement; tooltipElm: HTMLSpanElement };
   timer: any = null;
+  unShowTimer: any = null;
 
   static contextTypes = { theme: React.PropTypes.object };
   context: { theme: ThemeType };
@@ -44,6 +42,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
   }
 
   showTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
+    clearTimeout(this.unShowTimer);
     const show = () => {
       this.setState({
         showTooltip: true
@@ -62,9 +61,12 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
   }
 
   notShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({
-      showTooltip: false
-    });
+    this.unShowTimer = setTimeout(() => {
+      this.setState({
+        showTooltip: false
+      });
+      clearTimeout(this.unShowTimer);
+    }, 500);
   }
 
   getStyle = (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {
@@ -86,7 +88,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
       pointerEvents: showTooltip ? "all" : "none",
       zIndex: theme.zIndex.tooltip,
       ...style,
-      ...positionStyle,
+      ...positionStyle
     });
   }
 

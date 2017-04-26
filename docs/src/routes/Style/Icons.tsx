@@ -2,55 +2,113 @@ import * as React from "react";
 
 import Icon, { icons } from "react-uwp/src/controls/Icon";
 import AutoSuggestBox from "react-uwp/src/controls/AutoSuggestBox";
+import Tooltip from "react-uwp/src/controls/Tooltip";
 import ThemeType from "react-uwp/src/styles/ThemeType";
 
 const iconNames = Object.keys(icons);
 
-const rootStyle: React.CSSProperties = {
+let rootStyle: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   margin: 8,
   width: 80,
-  height: 80
+  height: 80,
+  padding: "12px 4px 4px"
 };
 const iconStyle: React.CSSProperties = {
   fontSize: 24
 };
 const descStyle: React.CSSProperties = {
+  width: "100%",
   fontSize: 10,
   marginTop: 8,
   wordWrap: "break-word",
   textAlign: "center"
 };
+const inputStyle: React.CSSProperties = {
+  display: "inherit",
+  overflow: "hidden",
+  border: "none",
+  outline: "none",
+  opacity: 0,
+  width: 40,
+  height: 0
+};
 
-export default class Icons extends React.Component<void, void> {
+export interface IconsState {
+  currIconNames?: string[];
+}
+
+export default class Icons extends React.Component<void, IconsState> {
   static contextTypes = { theme: React.PropTypes.object };
   context: { theme: ThemeType };
 
+  state: IconsState = {
+    currIconNames: iconNames
+  };
+  inputTimer: any = null;
+
+  handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    Object.assign(e.currentTarget.style, {
+      background: this.context.theme.listLow
+    } as CSSStyleDeclaration);
+  }
+
+  handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    Object.assign(e.currentTarget.style, {
+      background: this.context.theme.altHigh
+    } as CSSStyleDeclaration);
+  }
+
+  handleCopy = (e: React.MouseEvent<HTMLParagraphElement>) => {
+    const currentFocus: any = document.activeElement;
+    const inputElm: HTMLInputElement = e.currentTarget.children[0].children[0] as any;
+    inputElm.focus();
+    inputElm.setSelectionRange(0, inputElm.value.length);
+    document.execCommand("copy");
+    currentFocus.focus();
+  }
+
+  handleInput = (value: string) => {
+    clearTimeout(this.inputTimer);
+    this.inputTimer = setTimeout(() => {
+      this.setState({
+        currIconNames: iconNames.filter(iconName => (
+          iconName.toLowerCase().includes(value.toLowerCase())
+        ))
+      });
+      window.scrollTo(0, 0);
+    }, 500);
+  }
+
   render() {
-    const { context: { theme } } = this;
+    const { context: { theme }, state: { currIconNames } } = this;
+    rootStyle = theme.prepareStyles(rootStyle);
     return (
-      <div>
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            height: 40
-          }}
-        >
+      <div style={{ width: "100%", background: theme.altHigh }}>
+        <div style={{ width: "calc(100vw - 320px)", height: 120 }}>
           <div
-              style={{
-                position: "fixed",
-                height: 40,
-                width: "inherit"
-              }}
+            style={{
+              position: "fixed",
+              width: "inherit",
+              padding: 10,
+              fontSize: 14,
+              zIndex: theme.zIndex.tooltip + 1,
+              background: theme.altHigh
+            }}
           >
+            <p style={{ lineHeight: 1.8 }}>
+              Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. Used mainly in AppBarButton and AppBarToggleButton. ({currIconNames.length} icon)
+            </p>
             <AutoSuggestBox
               placeholder="Search Icons"
               iconSize={40}
               style={{
                 height: 40,
-                width: "100%",
-                margin: 4
+                width: "100%"
               }}
+              onChangeValue={this.handleInput}
             />
           </div>
         </div>
@@ -58,16 +116,41 @@ export default class Icons extends React.Component<void, void> {
           style={theme.prepareStyles({
             width: "100%",
             display: "flex",
-            alignItems: "center",
+            alignItems: "flex-start",
             justifyContent: "flex-start",
             flexWrap: "wrap"
           })}
         >
-          {iconNames.map((iconName, index) => (
-            <div style={rootStyle} key={`${index}`}>
-              <Icon style={iconStyle}>{iconName}</Icon>
-              <p style={descStyle}>{iconName}</p>
-            </div>
+          {currIconNames.map((iconName, index) => (
+            <Tooltip
+              verticalPosition="top"
+              horizontalPosition="center"
+              onClick={this.handleCopy}
+              contentNode={(
+                <div>
+                  <input
+                    value={iconName}
+                    style={inputStyle}
+                  />
+                  <p>Copy</p>
+                </div>
+              )}
+              style={{
+                cursor: "pointer"
+              }}
+              margin={0}
+              key={`${index}`}
+            >
+              <div
+                style={rootStyle}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+                key={`${index}`}
+              >
+                <Icon style={iconStyle}>{iconName}</Icon>
+                <p style={descStyle}>{iconName}</p>
+              </div>
+            </Tooltip>
           ))}
         </div>
       </div>

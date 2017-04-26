@@ -63,7 +63,7 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
       dropDownMenu: 110,
       listView: 10,
       contentDialog: 15,
-      calendarView: 20,
+      calendarView: 20
     }
   };
 }

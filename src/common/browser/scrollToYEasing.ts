@@ -1,6 +1,6 @@
 // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 
-const requestAnimFrame = (
+const requestAnimationFrame = (
   window.requestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.mozRequestAnimationFrame ||
@@ -43,14 +43,14 @@ const scrollToY = (
     }
   };
 
-  const tick = () => {
+  function tick() {
     currentTime += 1 / 60;
     let flag = 0;
     const p = currentTime / time;
     const t = easingEquations[easing](p);
     if (p < 1) {
       scrollToFunc(scrollY + ((scrollTargetY - scrollY) * t));
-      requestAnimFrame(tick);
+      requestAnimationFrame(tick);
     } else {
       scrollToFunc(scrollTargetY);
       flag = 1;

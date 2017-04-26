@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouterProps } from "react-router";
 
-import scrollToYEasing from "common/browser/scrollToYEasing";
+import scrollToYEasing from "react-uwp/src/common/browser/scrollToYEasing";
 
 import AutoSuggestBox from "react-uwp/src/controls/AutoSuggestBox";
 import TreeView from "react-uwp/src/controls/TreeView";
@@ -52,6 +52,7 @@ export interface Item {
 }
 export interface DataProps {
   path?: string;
+  containerStyle?: React.CSSProperties;
 }
 export interface ReactUWPProps extends DataProps, RouterProps {
   className?: string;
@@ -69,7 +70,9 @@ export interface ReactUWPState {
 const theme = getTheme("Dark");
 
 export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPState> {
-  static defaultProps = { className: "" };
+  static defaultProps = {
+    className: ""
+  };
 
   static contextTypes = { theme: React.PropTypes.object };
   context: { theme: ThemeType };
@@ -78,8 +81,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
     listItems: listItemsData,
     showFocus: true,
     child: 0,
-
-    date: new Date(),
+    date: new Date()
   };
 
   searchTimeout: any = null;
@@ -133,7 +135,8 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
       id,
       style,
       path, // tslint:disable-line:no-unused-variable
-      children
+      children,
+      containerStyle
     } = this.props;
     const { listItems, showFocus } = this.state;
     const { date } = this.state;
@@ -146,10 +149,10 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
         style={theme.prepareStyles({
           display: "flex",
           flexDirection: "row",
-          ...style,
+          ...style
         })}
       >
-        <div style={{ width: 320, }}>
+        <div style={{ width: 320 }}>
           <div
             style={{
               position: "fixed",
@@ -158,7 +161,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
               width: 320,
               padding: "10px 0",
               background: theme.altHigh,
-              height: "100%",
+              height: "100%"
             }}
           >
             <AutoSuggestBox
@@ -178,15 +181,21 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
               iconPadding={2}
               showFocus={showFocus}
               titleNodeStyle={{
-                fontSize: 14,
+                fontSize: 14
               }}
               style={{
-                maxHeight: "100%",
+                maxHeight: "100%"
               }}
             />
           </div>
         </div>
-        <div style={theme.prepareStyles({ width: "calc(100% - 320px)", padding: "0 10px" })}>
+        <div
+          style={theme.prepareStyles({
+            width: "calc(100% - 320px)",
+            padding: "0 10px",
+            ...containerStyle
+          })}
+        >
           {children}
         </div>
         <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>
@@ -195,7 +204,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
               <IconButton
                 hoverStyle={{
                   color: "#fff",
-                  background: theme.accent,
+                  background: theme.accent
                 }}
               >
                 &#xE10F;
@@ -209,7 +218,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                 }}
                 hoverStyle={{
                   color: "#fff",
-                  background: theme.accent,
+                  background: theme.accent
                 }}
                 onClick={() => scrollToYEasing(0)}
               >
