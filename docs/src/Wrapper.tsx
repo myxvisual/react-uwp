@@ -1,16 +1,16 @@
 import * as React from "react";
 import { RouterProps } from "react-router";
 
-import scrollToYEasing from "react-uwp/src/common/browser/scrollToYEasing";
+import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
-import AutoSuggestBox from "react-uwp/src/controls/AutoSuggestBox";
-import TreeView from "react-uwp/src/controls/TreeView";
-import IconButton from "react-uwp/src/controls/IconButton";
-import FloatNav from "react-uwp/src/controls/FloatNav";
-import Theme from "react-uwp/src/controls/Theme";
-import { ThemeType } from "react-uwp/src/styles/ThemeType";
-import getTheme from "react-uwp/src/styles/getTheme";
-import setScrollBarStyle from "react-uwp/src/styles/setScrollBarStyle";
+import AutoSuggestBox from "react-uwp/AutoSuggestBox";
+import TreeView from "react-uwp/TreeView";
+import IconButton from "react-uwp/IconButton";
+import FloatNav from "react-uwp/FloatNav";
+import Theme from "react-uwp/Theme";
+import { ThemeType } from "react-uwp/styles/ThemeType";
+import getTheme from "react-uwp/styles/getTheme";
+import setScrollBarStyle from "react-uwp/styles/setScrollBarStyle";
 
 import listItemsData from "./categories";
 

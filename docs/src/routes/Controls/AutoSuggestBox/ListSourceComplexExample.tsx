@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import AutoSuggestBox from "react-uwp/src/controls/AutoSuggestBox";
-import Icon from "react-uwp/src/controls/Icon";
+import AutoSuggestBox from "react-uwp/AutoSuggestBox";
+import Icon from "react-uwp/Icon";
 
 export interface ListSourceExampleState {
   listSource: string[];

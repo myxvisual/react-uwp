@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Button from "react-uwp/src/controls/Button";
+import Button from "react-uwp/Button";
 
 export default class InlineStyleExample extends React.PureComponent<void, void> {
   render() {

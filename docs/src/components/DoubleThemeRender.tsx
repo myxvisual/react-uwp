@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Theme from "react-uwp/src/controls/Theme";
+import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/src/styles/getTheme";
 
 export interface DoubleThemeRenderProps extends React.HTMLAttributes<HTMLDivElement> {

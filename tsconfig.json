@@ -13,11 +13,10 @@
     "noImplicitAny": true,
     "outDir": "./build",
     "noLib": false,
-    "lib": ["dom", "es5"],
+    "lib": ["dom", "es5", "es2015", "es2016.array.include"],
     "typeRoots": [
-      "../../node_modules/@types"
-    ],
-    "baseUrl": "../"
+      "./node_modules/@types"
+    ]
   },
   "filesGlob": [
     "**/*.ts",
@@ -29,9 +28,11 @@
     "**/*.tsx",
     "__mocks__/**/*.ts",
     "__mocks__/**/*.tsx",
-    "../../typings/**/*.d.ts"
+    "./typings/**/*.d.ts"
   ],
   "exclude": [
-    "../../node_modules"
+    "./docs",
+    "./__mocks__",
+    "./node_modules"
   ]
 }

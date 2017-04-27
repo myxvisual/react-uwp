@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import ComponentDetail from "../../../components/ComponentDetail";
-import * as docEntry from "react-uwp/src/controls/CommandBar/index.doc.json";
+import * as docEntry from "react-uwp/CommandBar/index.doc.json";
 import * as readmeText from "!raw!./README.md";
 
 import CodeExample from "../../../components/CodeExample";

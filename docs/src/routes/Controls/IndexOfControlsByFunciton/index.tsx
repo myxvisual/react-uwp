@@ -4,9 +4,9 @@ import MarkdownRender from "../../../components/MarkdownRender";
 import ComponentDetail from "../../../components/ComponentDetail";
 import ComponentDescription from "./components/ComponentDescription";
 
-import CommandBar from "react-uwp/src/controls/CommandBar";
-import Button from "react-uwp/src/controls/Button";
-import HyperLink from "react-uwp/src/controls/HyperLink";
+import CommandBar from "react-uwp/CommandBar";
+import Button from "react-uwp/Button";
+import HyperLink from "react-uwp/HyperLink";
 
 export default class Mock extends React.PureComponent<any, void> {
   render() {

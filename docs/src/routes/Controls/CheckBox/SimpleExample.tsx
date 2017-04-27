@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import CheckBox from "react-uwp/src/controls/CheckBox";
+import CheckBox from "react-uwp/CheckBox";
 
 const checkBoxStyle: React.CSSProperties = {
   margin: 10

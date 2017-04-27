@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import ThemeType from "react-uwp/src/styles/ThemeType";
-import Icon from "react-uwp/src/controls/Icon";
-import Tooltip from "react-uwp/src/controls/Tooltip";
+import Icon from "react-uwp/Icon";
+import Tooltip from "react-uwp/Tooltip";
 import MarkdownRender from "./MarkdownRender";
 
 import DoubleThemeRender from "./DoubleThemeRender";

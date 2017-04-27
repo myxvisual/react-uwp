@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Button from "react-uwp/src/controls/Button";
+import Button from "react-uwp/Button";
 
 export default class SimpleExample extends React.PureComponent<{}, {}> {
   render() {

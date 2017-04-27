@@ -1,3 +1,41 @@
 {
-  "extends": "../tsconfig"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "allowJs": false,
+    "declaration": true,
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "noLib": false,
+    "lib": ["dom", "es5", "es2015", "es2016.array.include"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "../node_modules/@types"
+    ],
+    "paths": {
+      "react-uwp/*": ["../src/*"]
+    },
+    "baseUrl": "."
+  },
+  "filesGlob": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "include": [
+    "*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "__mocks__/**/*.ts",
+    "__mocks__/**/*.tsx",
+    "./typings/**/*.d.ts"
+  ],
+  "exclude": [
+    "./__mocks__",
+    "./node_modules"
+  ]
 }

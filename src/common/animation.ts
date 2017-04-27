@@ -25,16 +25,16 @@ export default function animation(
     currentTime += 1 / 60;
     const p = currentTime / time;
     const t = easing(p);
-    const nextVlue = originValue + ((changeValue - originValue) * t);
+    const nextValue = originValue + ((changeValue - originValue) * t);
     if (p < 1) {
-      animateFunc(nextVlue);
+      animateFunc(nextValue);
       requestAnimationFrame(tick);
     } else {
       animateFunc(changeValue);
       if (loop) {
         currentTime = 0;
         setTimeout(() => {
-          animateFunc(nextVlue);
+          animateFunc(nextValue);
           requestAnimationFrame(tick);
         }, loopDelay);
       }

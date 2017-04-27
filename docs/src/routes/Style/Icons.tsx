@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import Icon, { icons } from "react-uwp/src/controls/Icon";
-import AutoSuggestBox from "react-uwp/src/controls/AutoSuggestBox";
-import Tooltip from "react-uwp/src/controls/Tooltip";
+import Icon, { icons } from "react-uwp/Icon";
+import AutoSuggestBox from "react-uwp/AutoSuggestBox";
+import Tooltip from "react-uwp/Tooltip";
 import ThemeType from "react-uwp/src/styles/ThemeType";
 
 const iconNames = Object.keys(icons);

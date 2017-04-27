@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import CommandBar from "react-uwp/src/controls/CommandBar";
-import AppBarButton from "react-uwp/src/controls/AppBarButton";
-import AppBarSeparator from "react-uwp/src/controls/AppBarSeparator";
+import CommandBar from "react-uwp/CommandBar";
+import AppBarButton from "react-uwp/AppBarButton";
+import AppBarSeparator from "react-uwp/AppBarSeparator";
 
 const commandBarStyle: React.CSSProperties = {
   margin: 10

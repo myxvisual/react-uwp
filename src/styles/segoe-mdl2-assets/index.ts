@@ -1,5 +1,3 @@
-// import "./segoe-mdl2-assets.scss";
-
 import addCSSRule from "../../common/browser/addCSSRule";
 addCSSRule(
 `@font-face {
@@ -9,5 +7,6 @@ addCSSRule(
     local('Segoe MDL2 Assets'),
     url("${require("./segoe-mdl2-assets.woff2")}") format('woff2'),
     url("${require("./segoe-mdl2-assets.woff")}") format('woff'),
+    url('webfont.svg#SegoeMDL2Assets') format('svg'),
     url("${require("./segoe-mdl2-assets.ttf")}") format('truetype');
 }`);

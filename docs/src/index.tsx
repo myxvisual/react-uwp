@@ -1,9 +1,8 @@
 import * as React from "react";
-import { RouteComponent } from "react-router";
 import Wrapper from "./Wrapper";
 
 export interface RouterCallback {
-  (error: any, component?: RouteComponent): void;
+  (error: any, component?: any): void;
 }
 
 let WrapperWithPath: React.PureComponent<void, void>;

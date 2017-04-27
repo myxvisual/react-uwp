@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import AutoSuggestBox from "react-uwp/src/controls/AutoSuggestBox";
+import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 
 export default class SimpleExample extends React.PureComponent<void, void> {
   render() {

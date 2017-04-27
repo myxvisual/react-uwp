@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import Button from "react-uwp/src/controls/Button";
+import Button from "react-uwp/Button";
 
-export default class ComplexExample extends React.PureComponent<{}, {}> {
+export default class ComplexExample extends React.PureComponent<void, void> {
   render() {
     const defaultBtnStyle: React.CSSProperties = {
       margin: 4
@@ -26,3 +26,5 @@ export default class ComplexExample extends React.PureComponent<{}, {}> {
     );
   }
 }
+
+[""].includes("");

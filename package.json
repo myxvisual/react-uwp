@@ -1,11 +1,14 @@
 {
   "name": "react-uwp",
-  "version": "0.0.3",
+  "version": "0.0.0",
   "description": "UWP Design Ui by React",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig.json"
+    "build": "npm-run-all build:copy build:source",
+    "build:copy": "node ./scripts/copy-build-files.js",
+    "build:source": "tsc --rootDir ./src --outDir ./build",
+    "publish:next-version": ""
   },
   "repository": {
     "type": "git",
@@ -24,16 +27,15 @@
   },
   "homepage": "https://antcores.com/react-uwp/",
   "peerDependencies": {
-    "prop-types": "^15.5.8",
-    "react": ">= 14.0 <= 15.5.4",
-    "react-dom": ">= 14.0 <= 15.5.4"
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
   },
   "devDependencies": {
+    "@types/core-js": "^0.9.41",
     "@types/node": "^6.0.46",
+    "@types/prop-types": "^15.5.1",
     "@types/react": "^0.14.57",
-    "@types/react-dom": "^0.14.18",
-    "@types/webpack-env": "^1.13.0",
-    "awesome-typescript-loader": "^3.0.0-beta.9",
+    "@types/react-dom": "^0.14.23",
     "cross-env": "^3.1.3",
     "eslint": "^3.9.1",
     "eslint-config-airbnb": "^13.0.0",
@@ -41,22 +43,20 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.6.0",
+    "fs-extra": "^2.1.2",
     "husky": "^0.12.0",
     "npm-run-all": "^3.1.1",
-    "react-hot-loader": "^3.0.0-beta.6",
-    "source-map-loader": "^0.1.5",
     "tslint": "^3.15.1",
-    "tslint-eslint-rules": "^3.2.0",
-    "typescript": "^2.1.5",
-    "uglify-js": "^2.7.5",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.13.3"
+    "tslint-eslint-rules": "^3.5.1",
+    "tslint-no-circular-imports": "^0.1.0",
+    "typescript": "^2.2.2",
+    "webpack": "^1.15.0"
   },
   "dependencies": {
-    "core-js": "^2.4.1",
     "inline-style-prefixer": "^2.0.5",
     "keycode": "^2.1.8",
     "prop-types": "^15.5.8",
+    "react-transition-group": "^1.1.2",
     "warning": "^3.0.0"
   }
 }
