@@ -3,7 +3,7 @@ import * as React from "react";
 import Icon, { icons } from "react-uwp/Icon";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import Tooltip from "react-uwp/Tooltip";
-import ThemeType from "react-uwp/src/styles/ThemeType";
+import ThemeType from "react-uwp/styles/ThemeType";
 
 const iconNames = Object.keys(icons);
 

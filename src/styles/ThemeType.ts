@@ -42,7 +42,7 @@ type ThemeType = {
   chromeBlackHigh?: string;
   chromeWhite?: string;
 
-  prepareStyles?: (style: React.CSSProperties) => React.CSSProperties;
+  prepareStyles?: <TAny>(style?: React.CSSProperties | TAny) => TAny | React.CSSProperties;
   isDarkTheme?: boolean;
   updateTheme?: (theme: ThemeType) => void;
   zIndex?: {

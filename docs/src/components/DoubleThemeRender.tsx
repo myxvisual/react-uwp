@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Theme from "react-uwp/Theme";
-import getTheme from "react-uwp/src/styles/getTheme";
+import getTheme from "react-uwp/styles/getTheme";
 
 export interface DoubleThemeRenderProps extends React.HTMLAttributes<HTMLDivElement> {
   direction?: "row" | "column";

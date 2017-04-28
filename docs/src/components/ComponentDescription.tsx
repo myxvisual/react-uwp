@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ThemeType from "react-uwp/src/styles/ThemeType";
+import ThemeType from "react-uwp/styles/ThemeType";
 import MarkdownRender from "./MarkdownRender";
 
 export interface DocEntry {

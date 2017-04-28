@@ -66,7 +66,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     list.visited = true;
     this.setState({
       visitedList: list.children ? this.state.visitedList : list,
-      showFocus: false,
+      showFocus: false
     });
     this.props.onChangeList(this.state.currListItems);
     // const { style } = e.currentTarget;
@@ -94,7 +94,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
       return (
         <div
           style={{
-            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void(0),
+            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void(0)
           }}
           key={`${index}`}
         >
@@ -102,8 +102,8 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
             style={{
               cursor: disable ? "not-allowed" : "default",
               color: disable ? theme.baseLow : void(0),
-              ...styles.title,
-            }}
+              ...styles.title
+            } as any}
             onMouseEnter={e => {
               if (focus && showFocus) return;
               const bgNode = e.currentTarget.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
@@ -120,7 +120,13 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
               this.handelClick(e, list);
             }}
           >
-            <div className="react-uwp-tree-view-title" style={{ paddingLeft: haveChild ? iconPadding : 0, ...styles.titleNode }}>
+            <div
+              className="react-uwp-tree-view-title"
+              style={{
+                paddingLeft: haveChild ? iconPadding : 0,
+                ...styles.titleNode
+                } as any}
+              >
               {titleNode}
             </div>
             <p>{haveChild && (
@@ -131,8 +137,8 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                   width: isRight ? void 0 : 20,
                   fontSize: 14,
                   zIndex: 1,
-                  transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`,
-                })}
+                  transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`
+                } as any)}
               >
                 {"\uE011"}
               </Icon>
@@ -145,7 +151,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                   (haveChild || !visited) ? "none" : fadeAccent
                 ),
                 ...styles.bg
-              })}
+              } as any)}
               className="react-uwp-tree-view-bg"
             />
           </div>
@@ -157,7 +163,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                 display: expanded ? void 0 : "none",
                 overflow: expanded ? void 0 : "hidden",
                 ...styles.parent
-              }}
+              } as any}
             >
               {expanded && children.map((list: List[], index) => renderList(list, index, true))}
             </div>
@@ -176,7 +182,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     const styles = getStyles(this);
 
     return (
-      <div {...attributes} style={styles.root}>
+      <div {...attributes as any} style={styles.root as any}>
         {currListItems ? this.renderTree() : null}
       </div>
     );
@@ -204,7 +210,7 @@ function getStyles(treeView: TreeView): {
       background: theme.altMediumHigh,
       padding: 20,
       ...prepareStyles(style)
-    }),
+    } as any),
     title: prepareStyles({
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
@@ -228,7 +234,7 @@ function getStyles(treeView: TreeView): {
       ...titleNodeStyle
     }),
     parent: prepareStyles({
-      transition: "all .25s 0s ease-in-out",
+      transition: "all .25s 0s ease-in-out"
     }),
     bg: {
       position: "absolute",
@@ -237,5 +243,5 @@ function getStyles(treeView: TreeView): {
       width: "400%",
       height: "100%"
     }
-  };
+  } as any;
 }

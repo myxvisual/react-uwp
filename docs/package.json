@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,15 +12,33 @@
   "license": "ISC",
   "dependencies": {
     "core-js": "^2.4.1",
-    "react-router": "^4.1.1"
+    "marked": "^0.3.6",
+    "prismjs": "^1.6.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "react-title-component": "^1.0.1"
   },
   "devDependencies": {
+    "@types/marked": "0.0.28",
     "@types/react-router": "^4.0.4",
     "@types/webpack-env": "^1.13.0",
     "awesome-typescript-loader": "^3.1.2",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^4.0.0",
+    "file-loader": "^0.11.1",
+    "raw-loader": "^0.5.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "source-map-loader": "^0.1.5",
+    "ts-node": "^3.0.2",
     "webpack": "^2.4.1",
-    "webpack-build-dll-plugin": "^1.3.2"
+    "webpack-build-dll-plugin": "^1.3.2",
+    "webpack-manifest-plugin": "^1.1.0",
+    "webpack-md5-hash": "0.0.5"
   }
 }

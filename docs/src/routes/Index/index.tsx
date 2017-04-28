@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RouterProps } from "react-router";
+import * as ReactRouter from "react-router";
 
 import {
   ArticleCard,
@@ -22,16 +22,16 @@ import {
   TreeView,
   Flyout,
   FlyoutWrapper
-} from "../../../../";
+} from "react-uwp";
 
-import listItemsData from "../../categories";
+import listItemsData from "../categories";
 export interface Item {
   titleNode?: string;
   expanded?: boolean;
   children?: Item[];
 }
 export interface DataProps {}
-export interface ReactUWPProps extends DataProps, RouterProps {
+export interface ReactUWPProps extends DataProps, ReactRouter.RouteProps {
   className?: string;
   id?: string;
   style?: React.CSSProperties;

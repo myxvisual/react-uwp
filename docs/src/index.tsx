@@ -1,101 +1,32 @@
 import * as React from "react";
-import Wrapper from "./Wrapper";
+import * as ReactDOM from "react-dom";
 
-export interface RouterCallback {
-  (error: any, component?: any): void;
-}
+import "./assets/styles/base.scss";
+import App from "./routes";
 
-let WrapperWithPath: React.PureComponent<void, void>;
+const { render } = ReactDOM;
+const rootEl = document.getElementById("app");
 
-const getRoutes = (path = "/") => {
-  const getWrapper = (containerStyle?: React.CSSProperties) => (
-    class extends React.PureComponent<void, void> {
-        render() {
-          const { children } = this.props;
-          return (
-            <Wrapper path={path} containerStyle={containerStyle}>
-              {children}
-            </Wrapper>
-          );
-        }
-      } as any
-  );
-
-  WrapperWithPath = getWrapper();
-
-  return {
-    path,
-    indexRoute: {
-      getComponent(location: Location, cb: RouterCallback) {
-        require.ensure([], (require) => {
-          cb(null, require<any>("./routes/Index").default);
-        }, "app-react-uwp-index");
-      }
-    },
-    childRoutes: [{
-      path: "design",
-      component: WrapperWithPath,
-      childRoutes: [{
-        path: "controls-and-patterns",
-        childRoutes: [{
-          path: "intro",
-          getComponent: (location: Location, cb: RouterCallback) => {
-            require.ensure([], (require) => {
-              cb(null, require<any>("./routes/Controls/Intro").default);
-            }, "app-react-uwp-controls-intro");
-          }
-        }, {
-          path: "index-of-controls-by-function",
-          getComponent: (location: Location, cb: RouterCallback) => {
-            require.ensure([], (require) => {
-              cb(null, require<any>("./routes/Controls/IndexOfControlsByFunciton").default);
-            }, "app-react-uwp-controls-index-of-controls-by-function");
-          }
-        }, {
-          path: "CommandBar",
-          getComponent: (location: Location, cb: RouterCallback) => {
-            require.ensure([], (require) => {
-              cb(null, require<any>("./routes/Controls/CommandBar").default);
-            }, "app-react-uwp-controls-CommandBar");
-          }
-        }, {
-          path: "AutoSuggestBox",
-          getComponent: (location: Location, cb: RouterCallback) => {
-            require.ensure([], (require) => {
-              cb(null, require<any>("./routes/Controls/AutoSuggestBox").default);
-            }, "app-react-uwp-controls-AutoSuggestBox");
-          }
-        }, {
-          path: "Button",
-          getComponent: (location: Location, cb: RouterCallback) => {
-            require.ensure([], (require) => {
-              cb(null, require<any>("./routes/Controls/Button").default);
-            }, "app-react-uwp-controls-Button");
-          }
-        }, {
-          path: "CheckBox",
-          getComponent: (location: Location, cb: RouterCallback) => {
-            require.ensure([], (require) => {
-              cb(null, require<any>("./routes/Controls/CheckBox").default);
-            }, "app-react-uwp-controls-CheckBox");
-          }
-        }]
-      }]
-    }, {
-      path: "design/style",
-      component: getWrapper({ padding: 0 }),
-      childRoutes: [{
-        path: "Icons",
-        getComponent: (location: Location, cb: RouterCallback) => {
-          require.ensure([], (require) => {
-            cb(null, require<any>("./routes/Style/Icons").default);
-          }, "app-react-uwp-style-Icons");
-        }
-      }]
-    }]
-  };
+const renderToDOM = (AppContainer?: typeof React.Component, AppComponent = App) => {
+  if (AppContainer) {
+    render(
+      <AppContainer>
+        <AppComponent />
+      </AppContainer>,
+      rootEl
+    );
+  } else {
+    render(<App />, rootEl);
+  }
 };
-const routes: any = getRoutes();
 
-export { getRoutes, WrapperWithPath };
-export default routes;
+renderToDOM();
+
+if (__DEV__ && module.hot) {
+  const { AppContainer } = require<any>("react-hot-loader");
+
+  module.hot.accept("./routes.tsx", () => {
+    const NextApp = require<any>("./routes/index.tsx").default;
+    renderToDOM(AppContainer, NextApp);
+  });
+}

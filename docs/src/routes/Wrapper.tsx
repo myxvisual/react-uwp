@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RouterProps } from "react-router";
+import * as Router from "react-router";
 
 import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
@@ -54,7 +54,7 @@ export interface DataProps {
   path?: string;
   containerStyle?: React.CSSProperties;
 }
-export interface ReactUWPProps extends DataProps, RouterProps {
+export interface ReactUWPProps extends DataProps, Router.RouteProps {
   className?: string;
   id?: string;
   style?: React.CSSProperties;
@@ -150,7 +150,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
           display: "flex",
           flexDirection: "row",
           ...style
-        })}
+        }) as any}
       >
         <div style={{ width: 320 }}>
           <div

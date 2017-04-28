@@ -18,6 +18,7 @@
       "../node_modules/@types"
     ],
     "paths": {
+      "react-uwp": ["../src"],
       "react-uwp/*": ["../src/*"]
     },
     "baseUrl": "."
@@ -32,7 +33,8 @@
     "**/*.tsx",
     "__mocks__/**/*.ts",
     "__mocks__/**/*.tsx",
-    "./typings/**/*.d.ts"
+    "./typings/**/*.d.ts",
+    "../typings/**/*.d.ts"
   ],
   "exclude": [
     "./__mocks__",
