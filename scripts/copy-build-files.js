@@ -4,7 +4,7 @@ const child_process = require('child_process')
 
 const buildPath = path.resolve(__dirname, '../build')
 
-// empty build path
+// empty build path.
 if (fse.existsSync(buildPath)) {
   fse.emptyDirSync(buildPath, err => {
     if (err) throw err;
@@ -19,7 +19,7 @@ const copyFiles = [
   'LICENSE'
 ]
 
-// copy file to build path
+// copy file to build path.
 for (const copyFile of copyFiles) {
   fse.copy(
     path.resolve(__dirname, '../', copyFile),
@@ -40,7 +40,7 @@ const assetsFiles = [
   'images/cortana.svg'
 ]
 
-// copy assets to build path
+// copy assets to build path.
 for (const assetsFile of assetsFiles) {
   fse.copy(
     path.resolve(__dirname, '../src', assetsFile),
