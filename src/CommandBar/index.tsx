@@ -33,7 +33,7 @@ export interface DataProps {
 export interface CommandBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface CommandBarState {
-  opened?: boolean;
+  currOpened?: boolean;
 }
 
 export class CommandBar extends React.Component<CommandBarProps, CommandBarState> {
@@ -44,7 +44,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
   };
 
   state: CommandBarState = {
-    opened: this.props.opened
+    currOpened: this.props.opened
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -52,16 +52,16 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
 
   componentWillReceiveProps(nextProps: CommandBarProps) {
     const { opened } = nextProps;
-    if (this.state.opened !== opened) {
-      this.setState({ opened });
+    if (this.state.currOpened !== opened) {
+      this.setState({ currOpened: opened });
     }
   }
 
-  toggleOpened = (opened?: any) => {
-    if (typeof opened === "boolean") {
-      if (opened !== this.state.opened) this.setState({ opened });
+  toggleOpened = (currOpened?: any) => {
+    if (typeof currOpened === "boolean") {
+      if (currOpened !== this.state.currOpened) this.setState({ currOpened });
     } else {
-      this.setState((prevState, prevProps) => ({ opened: !prevState.opened }));
+      this.setState((prevState, prevProps) => ({ opened: !prevState.currOpened }));
     }
   }
 
@@ -74,9 +74,10 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
       primaryCommands,
       secondaryCommands,
       flowDirection, // tslint:disable-line:no-unused-variable
+      opened,
       ...attributes
     } = this.props;
-    const { opened } = this.state;
+    const { currOpened } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
@@ -92,7 +93,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
           {React.Children.toArray(primaryCommands).filter((child: any) => (
             child.type === AppBarButton || child.type === AppBarSeparator
           )).map((child: any, index: number) => (
-            React.cloneElement(child, { opened, labelPosition, key: index })
+            React.cloneElement(child, { currOpened, labelPosition, key: index })
           ))}
           {labelPosition === "bottom" && (
             <AppBarButton
@@ -122,7 +123,7 @@ function getStyles(commandBar: CommandBar): {
       contentNode,
       contentStyle
     },
-    state: { opened }
+    state: { currOpened }
   } = commandBar;
   const { prepareStyles } = theme;
   const notChangeHeight = labelPosition !== "bottom";
@@ -136,7 +137,7 @@ function getStyles(commandBar: CommandBar): {
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: theme.altHigh,
-      height: (opened && !notChangeHeight) ? 72 : 48,
+      height: (currOpened && !notChangeHeight) ? 72 : 48,
       overflow: "hidden",
       transition: "all .125s ease-in-out",
       ...style

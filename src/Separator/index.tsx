@@ -18,7 +18,10 @@ export default class Separator extends React.Component<SeparatorProps, Separator
   context: { theme: ThemeType };
 
   render() {
-    const { ...attributes } = this.props;
+    const {
+      direction,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
 

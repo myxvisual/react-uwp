@@ -33,8 +33,17 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { label, labelNode, icon, visited, onMouseEnter, onMouseLeave, isTenFt, ...attributes } = this.props;
+    const {
+      label,
+      labelNode,
+      icon,
+      visited,
+      onMouseEnter,
+      onMouseLeave,
+      isTenFt,
+      iconStyle,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
 

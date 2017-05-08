@@ -170,7 +170,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
                     {"\uE700"}
                   </IconButton>
                 ), {
-                  onClick: (e) => {
+                  onClick: (e: any) => {
                     this.toggleOpened();
                     if (topIcon && topIcon.props.onClick) topIcon.props.onclick(e);
                   }

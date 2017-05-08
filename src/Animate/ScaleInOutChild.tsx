@@ -94,6 +94,7 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
       minScale, // tslint:disable-line:no-unused-variable
       speed,
       style,
+      mode,
       ...attributes
     } = this.props;
 

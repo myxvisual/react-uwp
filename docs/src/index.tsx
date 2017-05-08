@@ -7,7 +7,7 @@ import App from "./routes";
 const { render } = ReactDOM;
 const rootEl = document.getElementById("app");
 
-const renderToDOM = (AppContainer?: typeof React.Component, AppComponent = App) => {
+const renderToDOM = (AppContainer?: any, AppComponent = App) => {
   if (AppContainer) {
     render(
       <AppContainer>

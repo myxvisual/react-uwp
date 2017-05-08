@@ -91,6 +91,7 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
       minValue, // tslint:disable-line:no-unused-variable
       speed,
       style,
+      mode,
       ...attributes
     } = this.props;
 

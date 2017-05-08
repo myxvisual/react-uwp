@@ -30,14 +30,15 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
   };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
-  refs: { swipe?: Swipe; root: HTMLDivElement };
+  rootElm: HTMLDivElement;
+  swipe: Swipe;
 
   swipeForward = () => {
-    this.refs.swipe.swipeForward();
+    this.swipe.swipeForward();
   }
 
   swipeBackWord = () => {
-    this.refs.swipe.swipeBackWord();
+    this.swipe.swipeBackWord();
   }
 
   shouldComponentUpdate(nextProps: FlipViewProps, nextState: FlipViewState) {
@@ -46,7 +47,20 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
 
   render() {
     // tslint:disable-next-line:no-unused-variable
-    const { children, showIcon, initialFocusIndex, canSwipe, autoSwipe, speed, easy, direction, iconStyle, iconHoverStyle, iconSize, ...attributes } = this.props;
+    const {
+      children,
+      showIcon,
+      initialFocusIndex,
+      canSwipe,
+      autoSwipe,
+      speed,
+      easy,
+      direction,
+      iconStyle,
+      iconHoverStyle,
+      iconSize,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
     const count = React.Children.count(children);
     const isHorizontal = direction === "horizontal";
@@ -54,7 +68,7 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
     const styles = getStyles(this);
     return (
       <div
-        ref="root"
+        ref={element => this.rootElm = element}
         style={{
           ...styles.root,
           ...theme.prepareStyles(attributes.style)
@@ -76,8 +90,19 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
           </IconButton>
         )}
         <Swipe
-          ref="swipe"
-          {...this.props}
+          ref={swipe => this.swipe = swipe}
+          {...{
+            children,
+            showIcon,
+            initialFocusIndex,
+            canSwipe,
+            autoSwipe,
+            speed,
+            easy,
+            direction,
+            iconSize,
+            ...attributes
+          }}
           style={attributes.style}
         />
         {count > 1 && showIcon && (
@@ -130,7 +155,7 @@ function getStyles(flipView: FlipView): {
       width: "100%",
       background: theme.chromeLow,
       height: "auto",
-      transition: "all 0.25s 0s cubic-bezier(.8, -.5, .2, 1.4)"
+      transition: "all 0.25s cubic-bezier(.8, -.5, .2, 1.4)"
     }),
     iconLeft: {
       ...baseIconStyle,

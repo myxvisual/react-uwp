@@ -23,7 +23,7 @@ export interface DataProps {
 export interface FloatNavProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface FloatNavState {
-  focusItem?: number;
+  currFocusItem?: number;
   hoverItem?: number;
   hoverIndexArray?: boolean[];
 }
@@ -38,7 +38,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
   };
 
   state: FloatNavState = {
-    focusItem: this.props.focusItem,
+    currFocusItem: this.props.focusItem,
     hoverItem: null,
     hoverIndexArray: [],
   };
@@ -48,7 +48,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
 
   componentWillReceiveProps(nextProps: FloatNavProps) {
     this.setState({
-      focusItem: nextProps.focusItem
+      currFocusItem: nextProps.focusItem
     });
   }
 
@@ -56,16 +56,26 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
     return nextProps !== this.props || nextState !== this.state;
   }
 
-  focusIndex = (focusItem: number) => this.setState({ focusItem });
+  focusIndex = (currFocusItem: number) => this.setState({ currFocusItem });
 
-  getFocusIndex = () => this.state.focusItem;
+  getFocusIndex = () => this.state.currFocusItem;
 
   getItems = () => this.props.items;
 
   render() {
-    const { items, onFocusIndex, topNode, bottomNode, isFloatRight, floatNavWidth, width, ...attributes } = this.props;
+    const {
+      items,
+      onFocusIndex,
+      topNode,
+      bottomNode,
+      isFloatRight,
+      floatNavWidth,
+      width,
+      focusItem,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
-    const { focusItem, hoverItem, hoverIndexArray } = this.state;
+    const { currFocusItem, hoverItem, hoverIndexArray } = this.state;
     const itemStyle = theme.prepareStyles({
       display: "flex",
       flexDirection: "row",
@@ -109,7 +119,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
           ))}
           {items.map((item, index) => {
             const { showNode, color, title } = item;
-            const isFirst = focusItem === index;
+            const isFirst = currFocusItem === index;
             const isHovered = hoverItem === index;
             const padding = Number.parseInt(width.toString()) / 2;
             return (
