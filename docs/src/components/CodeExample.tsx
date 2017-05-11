@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import Icon from "react-uwp/Icon";
@@ -24,7 +25,7 @@ export interface CodeExampleState {
 export default class CodeExample extends React.Component<CodeExampleProps, CodeExampleState> {
   state: CodeExampleState = {};
 
-  static contextTypes = { theme: React.PropTypes.object };
+  static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   toggleShowCode = (showCode?: any) => {

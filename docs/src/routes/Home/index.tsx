@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactRouter from "react-router";
+import * as PropTypes from "prop-types";
 
 import {
   ArticleCard,
@@ -21,7 +22,9 @@ import {
   ThemeType,
   TreeView,
   Flyout,
-  FlyoutWrapper
+  FlyoutWrapper,
+  getTheme,
+  Theme
 } from "react-uwp";
 
 import listItemsData from "../categories";
@@ -47,7 +50,7 @@ export interface ReactUWPState {
 export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPState> {
   static defaultProps = { className: "" };
 
-  static contextTypes = { theme: React.PropTypes.object };
+  static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   state: ReactUWPState = {
@@ -69,20 +72,23 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
   render() {
     const { className, id, style } = this.props;
     const { listItems, showFocus } = this.state;
-    const { theme } = this.context;
+    let { theme } = this.context;
+    theme = theme || getTheme();
     const { date } = this.state;
 
     return (
-      <div
+      <Theme
+        theme={theme}
         className={className}
         id={id}
         style={theme.prepareStyles({
           display: "flex",
           flexDirection: "row",
+          background: theme.chromeLow,
           ...style
         })}
       >
-        <div style={{ width: 320 }}>
+        {/*<div style={{ width: 320 }}>
           <div
             style={{
               position: "fixed",
@@ -119,7 +125,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                       item.expanded = false;
                       if (!item.children) item.focus = false;
                     }
-                    if (item.children) { checkItems(item.children, item.prevIndexArr); };
+                    if (item.children) { checkItems(item.children, item.prevIndexArr); }
                   });
                 };
                 this.searchTimeout = setTimeout(() => {
@@ -142,22 +148,22 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
               }}
             />
           </div>
-        </div>
+        </div>*/}
         <div style={theme.prepareStyles({ width: "calc(100% - 320px)" })}>
           {/*<ScrollBar style={{ width: 200, height: 400 }} />*/}
-          <CommandBar labelPosition="bottom" content="" />
-          <CalendarDatePicker readOnly value={date.toISOString()} />
-          <CalendarView onChangeDate={date => this.setState({ date })} />
+          {/*<CommandBar labelPosition="bottom" content="" />*/}
+          {/*<CalendarDatePicker readOnly value={date.toISOString()} />
+          <CalendarView onChangeDate={date => this.setState({ date })} />*/}
           <ArticleCard />
           <CheckBox isChecked={null} />
           <Radius />
-          <AutoSuggestBox />
+          {/*<AutoSuggestBox />*/}
           <Button>Button</Button>
           <ProgressRing />
           <IconButton>&#xE700;</IconButton>
           <Link />
           <HyperLink />
-          <PasswordBox />
+          {/*<PasswordBox />*/}
           <TreeView style={{ width: 400, height: 400 }} />
           <ListView />
           <SplitView />
@@ -198,9 +204,9 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
               Toggle Flyout Show
             </Button>
           </FlyoutWrapper>
-          <CommandBar style={{ width: "100%" }} />
+          {/*<CommandBar style={{ width: "100%" }} />*/}
         </div>
-      </div>
+      </Theme>
     );
   }
-};
+}

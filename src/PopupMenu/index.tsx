@@ -7,13 +7,9 @@ export interface DataProps {}
 
 export interface PopupMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface PopupMenuState {}
-
-export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
+export default class PopupMenu extends React.PureComponent<PopupMenuProps, void> {
   static defaultProps: PopupMenuProps = {
   };
-
-  state: PopupMenuState = {};
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };

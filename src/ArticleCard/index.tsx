@@ -69,8 +69,16 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
 
   render() {
     const {
+      author,
+      category,
+      authorImage,
+      like,
+      secondaryTitle,
+      time,
+      comments,
       title,
       image,
+      href,
       size, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;

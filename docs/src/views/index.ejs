@@ -38,28 +38,11 @@
     <meta name="msapplication-config" content="/browserconfig.xml">
     <meta name="theme-color" content="#000">
     <!-- end favicon -->
-<% if (!__DEV__) { %>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-PQ82GHW');</script>
-    <!-- End Google Tag Manager -->
-    <meta name="google-site-verification" content="zbw8sUL03RYNZs4em0JZ9gSOU9qCo7K7IanSwQQqfA0">
-    <meta name="msvalidate.01" content="5D51D9945156A48E5493696E40490669">
-    <meta name="baidu-site-verification" content="otCRGwaGpf">
-    <meta property="wb:webmaster" content="7d8816b753dd5e37">
-<% } %>
   </head>
   <body>
     <div id="app"></div>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQ82GHW"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) <--></-->
-    <script type="text/javascript" src="<%= proxy || '' %>static/<%= __DEV__ ? 'js/' : '' %><%- common %>" charset="utf-8"></script>
-    <script type="text/javascript" src="<%= proxy || '' %>static/<%- vendors %>" charset="utf-8"></script>
-    <script type="text/javascript" src="<%= proxy || '' %>static/<%= __DEV__ ? 'js/' : '' %><%- name %>" charset="utf-8"></script>
+    <script type="text/javascript" src="<%= proxy || '' %>/static/js/<%- common %>" charset="utf-8"></script>
+    <script type="text/javascript" src="<%= proxy || '' %>/static/<%- vendor %>" charset="utf-8"></script>
+    <script type="text/javascript" src="<%= proxy || '' %>/static/js/<%- name %>" charset="utf-8"></script>
   </body>
 </html>

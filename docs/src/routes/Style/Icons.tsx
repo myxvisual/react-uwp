@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import Icon, { icons } from "react-uwp/Icon";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
@@ -41,7 +42,7 @@ export interface IconsState {
 }
 
 export default class Icons extends React.Component<void, IconsState> {
-  static contextTypes = { theme: React.PropTypes.object };
+  static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   state: IconsState = {

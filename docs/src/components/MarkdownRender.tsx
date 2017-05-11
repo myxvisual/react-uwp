@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import  * as Prism from "prismjs";
@@ -16,7 +17,7 @@ export default class MarkdownRender extends React.PureComponent<MarkdownRenderPr
     text: ""
   };
 
-  static contextTypes = { theme: React.PropTypes.object };
+  static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   componentWillMount() {

@@ -1,5 +1,6 @@
 import * as React from "react";
 import Wrapper from "./Wrapper";
+import { Router, RouteComponent, browserHistory } from "react-router";
 
 export interface RouterCallback {
   (error: any, component?: any): void;
@@ -14,7 +15,7 @@ const getRoutes = (path = "/") => {
           const { children } = this.props;
           return (
             <Wrapper path={path} containerStyle={containerStyle}>
-              {children}
+              {children as any}
             </Wrapper>
           );
         }
@@ -28,8 +29,8 @@ const getRoutes = (path = "/") => {
     indexRoute: {
       getComponent(location: Location, cb: RouterCallback) {
         require.ensure([], (require) => {
-          cb(null, require<any>("./Index").default);
-        }, "app-react-uwp-index");
+          cb(null, require<any>("./Home").default);
+        }, "app-react-uwp-home");
       }
     },
     childRoutes: [{
@@ -92,10 +93,13 @@ const getRoutes = (path = "/") => {
           }, "app-react-uwp-style-Icons");
         }
       }]
+    }, {
+      path: "test",
+      component: require<any>("./Style/Icons").default
     }]
   };
 };
 const routes: any = getRoutes();
 
 export { getRoutes, WrapperWithPath };
-export default routes;
+export default () => <Router history={browserHistory} routes={routes} />;

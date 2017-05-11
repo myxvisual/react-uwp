@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Router from "react-router";
+import * as PropTypes from "prop-types";
 
 import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
@@ -70,11 +71,7 @@ export interface ReactUWPState {
 const theme = getTheme("Dark");
 
 export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPState> {
-  static defaultProps = {
-    className: ""
-  };
-
-  static contextTypes = { theme: React.PropTypes.object };
+  static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   state: ReactUWPState = {
@@ -119,7 +116,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
           item.expanded = false;
           if (!item.children) item.focus = false;
         }
-        if (item.children) { checkItems(item.children, item.prevIndexArr); };
+        if (item.children) { checkItems(item.children, item.prevIndexArr); }
       });
     };
 
@@ -231,4 +228,5 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
       </Theme>
     );
   }
-};
+}
+

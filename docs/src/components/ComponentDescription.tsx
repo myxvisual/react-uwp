@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import MarkdownRender from "./MarkdownRender";
@@ -28,7 +29,7 @@ export default class ComponentDescription extends React.PureComponent<ComponentD
   static defaultProps: ComponentDescriptionProps = {
   };
 
-  static contextTypes = { theme: React.PropTypes.object };
+  static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   getDefaultExportName = () => {

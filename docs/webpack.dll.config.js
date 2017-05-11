@@ -6,9 +6,9 @@ const ManifestPlugin = require('webpack-manifest-plugin')
 const __DEV__ = process.env.NODE_ENV !== 'production'
 const { outputPath, publicPath } = require('./config')
 
-const excludeVendors = []
-const vendors = __DEV__ ? (
-  Object.keys(JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8')).dependencies).filter(vendor => !excludeVendors.includes(vendor))
+const excludeVendor = []
+const vendor = __DEV__ ? (
+  Object.keys(JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8')).dependencies).filter(vendor => !excludeVendor.includes(vendor))
 ) : [
   'react',
   'react-dom',
@@ -16,9 +16,9 @@ const vendors = __DEV__ ? (
 ]
 const library = `[name]${__DEV__ ? '_dev' : '_prod'}_lib`
 module.exports = {
-  entry: { vendors },
+  entry: { vendor },
   output: {
-    filename: `[name]${__DEV__ ? '.dev' : '.prod'}.[hash:5].dll.js`,
+    filename: `[name]${__DEV__ ? '.dev' : '.prod.[hash:5]'}.dll.js`,
     path: path.resolve(`./${outputPath}/${publicPath}`),
     library
   },

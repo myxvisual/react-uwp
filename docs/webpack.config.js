@@ -33,9 +33,9 @@ module.exports = {
   node:{ process: false },
   resolve: {
     extensions: ['.webpack.js', '.js', '.jsx', '.ts', '.tsx'],
-    modules: ['node_modules', "../node_modules", rootPath, packagesPath],
+    modules: ['../node_modules', 'node_modules', rootPath, packagesPath],
     alias: {
-      "react-uwp": path.resolve(__dirname, "../src")
+      'react-uwp': path.resolve(__dirname, '../src')
     }
   },
   resolveLoader: {
@@ -101,14 +101,13 @@ module.exports = {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    ...(1 ? [
-      new webpack.optimize.CommonsChunkPlugin({
-        names: ['common']
-      }),
-      new webpack.DllReferencePlugin({
-        context: `./${outputPath}`,
-        manifest: require(`./${outputPath}/${publicPath}/vendors-manifest${__DEV__ ? '.dev' : '.prod'}.json`)
-      })] : [])
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['common']
+    }),
+    new webpack.DllReferencePlugin({
+      context: `./${outputPath}`,
+      manifest: require(`./${outputPath}/${publicPath}/vendor-manifest${__DEV__ ? '.dev' : '.prod'}.json`)
+    })
   ].concat(__DEV__ ? [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
