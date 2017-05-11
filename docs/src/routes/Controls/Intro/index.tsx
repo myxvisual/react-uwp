@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import ComponentDetail from "../../../components/ComponentDetail";
-import * as readmeText from "!raw!./README.md";
+const readmeText = require<string>("!raw!./README.md");
 
-export default class Mock extends React.PureComponent<any, void> {
+export default class Mock extends React.Component<any, void> {
   render() {
     const {
       location, // tslint:disable-line:no-unused-variable

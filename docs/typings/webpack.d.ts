@@ -1,7 +1,31 @@
 declare var __DEV__: boolean;
 
-declare module "!raw!*";
-declare module "*.scss";
-declare module "*.sass";
-declare module "*.css";
-declare module "*.json";
+declare module "!raw!*" {
+  const content: any;
+  export default content;
+}
+
+declare module "*.scss" {
+  const content: any;
+  export default content;
+}
+
+declare module "*.sass" {
+  const content: any;
+  export default content;
+}
+
+declare module "*.css" {
+  const content: any;
+  export default content;
+}
+
+declare module "*.json" {
+  const content: any;
+  export default content;
+}
+
+declare module "*.svg" {
+  const content: any;
+  export default content;
+}

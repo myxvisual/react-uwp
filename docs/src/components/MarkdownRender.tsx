@@ -33,7 +33,7 @@ export default class MarkdownRender extends React.PureComponent<MarkdownRenderPr
         try {
           return Prism.highlight(code, Prism.languages[lang]);
         } catch (err) {}
-      },
+      }
     });
   }
 

@@ -22,11 +22,11 @@ const renderToDOM = (AppContainer?: new() => React.Component<any, any>, AppCompo
 
 renderToDOM();
 
-// if (__DEV__ && module.hot) {
-//   const { AppContainer } = require<any>("react-hot-loader");
+if (__DEV__ && module.hot) {
+  const { AppContainer } = require<any>("react-hot-loader");
 
-//   module.hot.accept("./routes/index.tsx", () => {
-//     const NextApp = require<any>("./routes/index.tsx").default;
-//     renderToDOM(AppContainer, NextApp);
-//   });
-// }
+  module.hot.accept("./routes/index.tsx", () => {
+    const NextApp = require<any>("./routes/index.tsx").default;
+    renderToDOM(AppContainer, NextApp);
+  });
+}

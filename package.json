@@ -61,8 +61,7 @@
     "inline-style-prefixer": "^2.0.5",
     "keycode": "^2.1.8",
     "prop-types": "^15.5.8",
-    "react-dom": "^15.5.4",
-    "react-router": "^3.0.5",
+    "react-lazyload": "^2.2.7",
     "react-transition-group": "^1.1.2",
     "warning": "^3.0.0"
   }

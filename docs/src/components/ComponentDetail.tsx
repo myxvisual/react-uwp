@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import Title from "react-title-component";
 import ComponentDescription from "./ComponentDescription";
 import MarkdownRender from "./MarkdownRender";

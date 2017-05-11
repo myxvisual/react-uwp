@@ -8,12 +8,11 @@ const __DEV__ = process.env.NODE_ENV !== 'production'
 const { outputPath, publicPath, hostName, port, entries } = require('./config')
 
 const rootPath = path.resolve('src')
-const packagesPath = path.resolve('packages')
 const hash = __DEV__ ? '' : '.[hash:base64:5]'
 const normalUrlLoader = __DEV__ ? 'file?' : 'url?limit=2048&'
 
 module.exports = {
-  devtool: __DEV__ ? 'cheap-module-eval-source-map' : void 0,
+  // devtool: __DEV__ ? 'cheap-module-eval-source-map' : void 0,
   entry: {
     app: [
       ...(__DEV__ ? [
@@ -30,12 +29,15 @@ module.exports = {
     filename: `js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
     chunkFilename: `js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
   },
-  node:{ process: false },
   resolve: {
     extensions: ['.webpack.js', '.js', '.jsx', '.ts', '.tsx'],
-    modules: ['../node_modules', 'node_modules', rootPath, packagesPath],
+    modules: ['./node_modules'],
     alias: {
-      'react-uwp': path.resolve(__dirname, '../src')
+      'react-uwp': path.resolve(__dirname, '../src'),
+      'marked': path.resolve(__dirname, './node_modules/marked'),
+      'prismjs': path.resolve(__dirname, './node_modules/prismjs'),
+      'react': path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom')
     }
   },
   resolveLoader: {
@@ -50,8 +52,10 @@ module.exports = {
     }, {
       test: /\.tsx?$/,
       use: {
+        // loader: 'ts',
         loader: 'awesome-typescript',
         query: {
+          configFileName: path.resolve(__dirname, "./tsconfig.json"),
           useBabel: true,
           useCache: true,
           useTranspileModule: true,

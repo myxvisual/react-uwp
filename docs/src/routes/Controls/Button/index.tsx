@@ -1,22 +1,24 @@
 import * as React from "react";
 
 import ComponentDetail from "../../../components/ComponentDetail";
-import * as docEntry from "react-uwp/Button/index.doc.json";
-import * as readmeText from "!raw!./README.md";
-
 import CodeExample from "../../../components/CodeExample";
 
+const docEntry = require<any>("react-uwp/Button/index.doc.json");
+// import * as docEntry from "react-uwp/Button/index.doc.json";
+const readmeText = require<string>("!raw!./README.md");
+// import * as readmeText from "!raw!./README.md";
+
 import SimpleExample from "./SimpleExample";
-import * as SimpleExampleCode from "!raw!./SimpleExample";
-import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
+// import SimpleExampleCode from "!raw!./SimpleExample";
+// import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
-import ComplexExample from "./ComplexExample";
-import * as ComplexExampleCode from "!raw!./ComplexExample";
-import * as ComplexExampleDesc from "!raw!./ComplexExample.md";
+// import ComplexExample from "./ComplexExample";
+// import * as ComplexExampleCode from "!raw!./ComplexExample";
+// import * as ComplexExampleDesc from "!raw!./ComplexExample.md";
 
-import InlineStyleExample from "./InlineStyleExample";
-import * as InlineStyleExampleCode from "!raw!./InlineStyleExample";
-import * as InlineStyleExampleDesc from "!raw!./InlineStyleExample.md";
+// import InlineStyleExample from "./InlineStyleExample";
+// import * as InlineStyleExampleCode from "!raw!./InlineStyleExample";
+// import * as InlineStyleExampleDesc from "!raw!./InlineStyleExample.md";
 
 export default class Button extends React.PureComponent<any, void> {
   render() {
@@ -36,7 +38,7 @@ export default class Button extends React.PureComponent<any, void> {
         readmeText={readmeText}
         docEntry={docEntry}
       >
-        <CodeExample
+        {/*<CodeExample
           title="Simple Examples"
           code={SimpleExampleCode}
           description={SimpleExampleDesc}
@@ -58,7 +60,7 @@ export default class Button extends React.PureComponent<any, void> {
           description={InlineStyleExampleDesc}
         >
           <InlineStyleExample />
-        </CodeExample>
+        </CodeExample>*/}
       </ComponentDetail>
     );
   }
