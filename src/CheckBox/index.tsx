@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ElementState from "../ElementState";
 import Icon from "../Icon";
 import ThemeType from "../styles/ThemeType";
 
@@ -24,7 +23,7 @@ export interface CheckBoxProps extends DataProps, React.HTMLAttributes<HTMLDivEl
 
 export interface CheckBoxState {
   checked?: boolean;
-  hover?: boolean;
+  hovered?: boolean;
 }
 
 const emptyFunc = () => {};
@@ -74,11 +73,11 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
   }
 
   handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({ hover: true });
+    this.setState({ hovered: true });
   }
 
   handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({ hover: false });
+    this.setState({ hovered: false });
   }
 
   render() {
@@ -90,20 +89,22 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
       disabled, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
-    const { checked } = this.state;
+    const { checked, hovered } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
     const haveLabel = label !== void 0;
-    const normalCheckbox = (
-      <ElementState
-        {...styles.iconParent}
+    const checkbox = (
+      <div
+        style={hovered ? {
+          ...styles.iconParent.style,
+          ...styles.iconParent.hoverStyle
+        } : styles.iconParent.style}
+        ref={rootElm => this.rootElm = rootElm}
       >
-        <div ref={rootElm => this.rootElm = rootElm}>
-          <Icon style={styles.icon}>
-            CheckMarkZeroWidthLegacy
-          </Icon>
-        </div>
-      </ElementState>
+        <Icon style={styles.icon}>
+          CheckMarkZeroWidthLegacy
+        </Icon>
+      </div>
     );
 
     return (
@@ -119,14 +120,14 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
       >
         {haveLabel ? (
           <div style={styles.root}>
-            {normalCheckbox}
+            {checkbox}
             {label !== void 0 && (
               <span style={styles.label}>
                 {label}
               </span>
             )}
           </div>
-        ) : normalCheckbox}
+        ) : checkbox}
       </div>
     );
   }
@@ -141,12 +142,13 @@ function getStyles(checkBox: CheckBox): {
   const {
     context,
     props: { size, disabled, labelPosition },
-    state: { checked, hover }
+    state: { checked, hovered }
   } = checkBox;
   const { theme } = context;
   const checkedIsNull = checked === null;
 
   const iconParentBaseStyle: React.CSSProperties = theme.prepareStyles({
+    transition: "all .25s",
     userSelect: "none",
     display: "flex",
     alignItems: "center",
@@ -157,8 +159,7 @@ function getStyles(checkBox: CheckBox): {
     height: `${size}px`,
     background: theme.altMediumHigh,
     cursor: "default",
-    overflow: "hidden",
-    transition: "all .25s"
+    overflow: "hidden"
   });
   const iconParentHoverStyle = { border: `2px solid ${theme.baseHigh}` };
   let iconParent: React.CSSProperties;
@@ -169,7 +170,7 @@ function getStyles(checkBox: CheckBox): {
         style:  {
           ...iconParentBaseStyle,
           border: disabled ? `2px solid ${theme.baseLow}` : (
-            hover ? `2px solid ${disabled ? theme.baseLow : theme.baseMediumHigh}` : "none"
+            hovered ? `2px solid ${disabled ? theme.baseLow : theme.baseMediumHigh}` : "none"
           )
         },
         hoverStyle: disabled ? void 0 : iconParentHoverStyle

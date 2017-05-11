@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as ReactDOM from "react-dom";
 import * as PropTypes from "prop-types";
 
 import ThemeType from "./styles/ThemeType";
@@ -46,10 +47,16 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
   static contextTypes = { theme: PropTypes.object };
 
   context: { theme: ThemeType };
-
   currentDOM: HTMLElement;
-
   visitedStyle: React.CSSProperties = {};
+
+  componentDidMount() {
+    this.currentDOM = ReactDOM.findDOMNode(this) as any;
+  }
+
+  componentDidUpdate() {
+    this.currentDOM = ReactDOM.findDOMNode(this) as any;
+  }
 
   setStyle = (style: React.CSSProperties) => {
     setStyleToElement(
@@ -137,7 +144,6 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
     return React.cloneElement(children as any, {
       ...attributes,
-      ref: (currentDOM: any) => this.currentDOM = currentDOM,
       style: this.context.theme.prepareStyles(style),
       onMouseEnter: hoverStyle ? this.hover : onMouseEnter,
       onMouseLeave: hoverStyle ? this.unHover : onMouseLeave,
