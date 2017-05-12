@@ -9,6 +9,7 @@
     "server:dev": "cross-env NODE_ENV=development ts-node server.ts",
     "server:prod": "cross-env NODE_ENV=production ts-node server.ts",
     "build": "npm-run-all build:webpack",
+    "build:ts": "test -d \"./build-ts\" && rm -r \"./build-ts\" || tsc -p ./tsconfig.json --outdir build-ts",
     "build:html-dev": "node ./scripts/buildHTML.js",
     "build:webpack": "cross-env NODE_ENV=production webpack --progress --colors --display-error-details --hide-modules -p",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,7 +29,7 @@
   "devDependencies": {
     "@types/express": "^4.0.35",
     "@types/marked": "0.0.28",
-    "@types/react-router": "^3.0.5",
+    "@types/react-router": "^4.0.9",
     "@types/webpack": "^2.2.15",
     "@types/webpack-env": "^1.13.0",
     "awesome-typescript-loader": "^3.1.2",

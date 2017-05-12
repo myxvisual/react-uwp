@@ -16,7 +16,12 @@
     "lib": ["dom", "es5", "es2015", "es2016.array.include"],
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "paths": {
+      "react-uwp": ["./src"],
+      "react-uwp/*": ["./src/*"]
+    },
+    "baseUrl": "."
   },
   "filesGlob": [
     "**/*.ts",

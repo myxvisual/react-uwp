@@ -9,6 +9,7 @@
 
 # production
 /build
+/docs/build-ts
 
 # misc
 .DS_Store

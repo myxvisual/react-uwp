@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "@types/core-js": "^0.9.41",
-    "@types/koa": "^2.0.39",
     "@types/node": "^6.0.46",
     "@types/prop-types": "^15.5.1",
     "@types/react": "^0.14.57",
@@ -55,7 +54,7 @@
     "tslint": "^5.2.0",
     "tslint-eslint-rules": "^4.0.0",
     "tslint-no-circular-imports": "^0.1.0",
-    "typescript": "^2.2.2"
+    "typescript": "^2.3.2"
   },
   "dependencies": {
     "inline-style-prefixer": "^2.0.5",

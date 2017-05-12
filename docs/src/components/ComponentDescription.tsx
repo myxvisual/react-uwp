@@ -191,6 +191,6 @@ function getStyles(componentDescription: ComponentDescription): {
       fontSize: 22,
       lineHeight: 1.5,
       color: theme.baseHigh
-    },
+    }
   };
 }
