@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/express": "^4.0.35",
     "@types/marked": "0.0.28",
-    "@types/react-router": "^4.0.9",
+    "@types/react-router": "^3.0.5",
     "@types/webpack": "^2.2.15",
     "@types/webpack-env": "^1.13.0",
     "awesome-typescript-loader": "^3.1.2",
