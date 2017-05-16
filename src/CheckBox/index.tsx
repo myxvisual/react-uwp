@@ -135,7 +135,10 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
 
 function getStyles(checkBox: CheckBox): {
   root?: React.CSSProperties;
-  iconParent?: React.CSSProperties;
+  iconParent?: {
+    style?: React.CSSProperties;
+    hoverStyle?: React.CSSProperties;
+  };
   icon?: React.CSSProperties;
   label?: React.CSSProperties;
 } {

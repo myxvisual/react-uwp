@@ -55,7 +55,7 @@
     "tslint": "^5.2.0",
     "tslint-eslint-rules": "^4.0.0",
     "tslint-no-circular-imports": "^0.1.0",
-    "typescript": "^2.3.2"
+    "typescript": "^2.1.6"
   },
   "dependencies": {
     "inline-style-prefixer": "^2.0.5",

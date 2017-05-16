@@ -214,6 +214,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       searchAction, // tslint:disable-line:no-unused-variable
       listSource, // tslint:disable-line:no-unused-variable
       iconSize, // tslint:disable-line:no-unused-variable
+      children, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
     const {
@@ -225,7 +226,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 
     return (
       <Input
-        {...attributes}
+        {...attributes as any}
         ref="input"
         style={styles.root}
         onClick={this.showListSource}

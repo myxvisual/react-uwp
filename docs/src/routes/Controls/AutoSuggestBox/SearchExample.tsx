@@ -8,7 +8,7 @@ export default class SearchExample extends React.PureComponent<void, void> {
       <AutoSuggestBox
         defaultValue="Color"
         style={{ width: "100%" }}
-        searchAction={value => alert(value)}
+        searchAction={(value: string) => alert(value)}
       />
     );
   }

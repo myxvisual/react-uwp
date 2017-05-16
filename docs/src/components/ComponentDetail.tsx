@@ -3,13 +3,12 @@ import Title from "react-title-component";
 import ComponentDescription from "./ComponentDescription";
 import MarkdownRender from "./MarkdownRender";
 
-export interface DataProps {
+export interface ComponentDetailProps {
   title?: string;
   docEntry?: any;
   readmeText?: string;
+  children?: any;
 }
-
-export interface ComponentDetailProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export default class ComponentDetail extends React.PureComponent<ComponentDetailProps, void> {
   static defaultProps: ComponentDetailProps = {
@@ -19,7 +18,7 @@ export default class ComponentDetail extends React.PureComponent<ComponentDetail
   render() {
     const { title, docEntry, readmeText, children, ...attributes } = this.props;
     return (
-      <div {...attributes}>
+      <div>
         <Title render={title} />
         <div style={{ padding: 24 }}>
           <MarkdownRender text={readmeText} />

@@ -17,11 +17,7 @@
       "./node_modules/@types",
       "../node_modules/@types"
     ],
-    "paths": {
-      "react-uwp": ["../src"],
-      "react-uwp/*": ["../src/*"]
-    },
-    "baseUrl": "."
+    "outDir": "./build-ts"
   },
   "filesGlob": [
     "**/*.ts",
@@ -30,13 +26,14 @@
   "include": [
     "./src/**/*.ts",
     "./src/**/*.tsx",
+    "../src/**/*.ts",
+    "../src/**/*.tsx",
     "__mocks__/**/*.ts",
     "__mocks__/**/*.tsx",
     "./typings/**/*.d.ts",
     "../typings/**/*.d.ts"
   ],
   "exclude": [
-    "./typings/modules/react-uwp.d.ts",
     "./__mocks__",
     "./node_modules"
   ]

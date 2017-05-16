@@ -25,13 +25,13 @@ export default class CommandBar extends React.PureComponent<any, void> {
     return (
       <ComponentDetail
         {...attributes}
-        readmeText={readmeText}
+        readmeText={readmeText as any}
         docEntry={docEntry}
       >
         <CodeExample
           title="Simple Examples"
-          code={SimpleExampleCode}
-          description={SimpleExampleDesc}
+          code={SimpleExampleCode as any}
+          description={SimpleExampleDesc as any}
           direction="column"
           useChromeColor
         >

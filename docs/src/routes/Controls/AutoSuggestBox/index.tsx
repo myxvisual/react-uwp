@@ -37,37 +37,37 @@ export default class AutoSuggestBox extends React.PureComponent<any, void> {
     return (
       <ComponentDetail
         {...attributes}
-        readmeText={readmeText}
+        readmeText={readmeText as any}
         docEntry={docEntry}
       >
         <CodeExample
           title="Simple Examples"
-          code={SimpleExampleCode}
-          description={SimpleExampleDesc}
+          code={SimpleExampleCode as any}
+          description={SimpleExampleDesc as any}
         >
           <SimpleExample />
         </CodeExample>
-        
+
         <CodeExample
           title="ListSource Examples"
-          code={ListSourceExampleCode}
-          description={ListSourceExampleDesc}
+          code={ListSourceExampleCode as any}
+          description={ListSourceExampleDesc as any}
         >
           <ListSourceExample />
         </CodeExample>
-        
+
         <CodeExample
           title="ListSource Complex Examples"
-          code={ListSourceComplexExampleCode}
-          description={ListSourceComplexExampleDesc}
+          code={ListSourceComplexExampleCode as any}
+          description={ListSourceComplexExampleDesc as any}
         >
           <ListSourceComplexExample />
         </CodeExample>
-        
+
         <CodeExample
           title="Search Examples"
-          code={SearchExampleCode}
-          description={SearchExampleDesc}
+          code={SearchExampleCode as any}
+          description={SearchExampleDesc as any}
         >
           <SearchExample />
         </CodeExample>

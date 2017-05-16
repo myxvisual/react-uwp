@@ -3,11 +3,8 @@ import * as React from "react";
 import ComponentDetail from "../../../components/ComponentDetail";
 import CodeExample from "../../../components/CodeExample";
 
-const docEntry = require<any>("react-uwp/Button/index.doc.json");
-// import * as docEntry from "react-uwp/Button/index.doc.json";
-const readmeText = require<string>("!raw!./README.md");
-// import * as readmeText from "!raw!./README.md";
-import ast from "./components/ast";
+import * as docEntry from "react-uwp/Button/index.doc.json";
+import * as readmeText from "!raw!./README.md";
 
 import SimpleExample from "./SimpleExample";
 import SimpleExampleCode from "!raw!./SimpleExample.tsx";
@@ -20,7 +17,7 @@ import * as ComplexExampleDesc from "!raw!./ComplexExample.md";
 import InlineStyleExample from "./InlineStyleExample";
 import * as InlineStyleExampleCode from "!raw!./InlineStyleExample.tsx";
 import * as InlineStyleExampleDesc from "!raw!./InlineStyleExample.md";
-console.log(ast, InlineStyleExampleDesc);
+import Test from "./Test";
 
 export default class Button extends React.Component<any, void> {
   render() {
@@ -30,39 +27,38 @@ export default class Button extends React.Component<any, void> {
       route, // tslint:disable-line:no-unused-variable
       router, // tslint:disable-line:no-unused-variable
       routeParams, // tslint:disable-line:no-unused-variable
-      routes, // tslint:disable-line:no-unused-variable
-      ...attributes
+      routes // tslint:disable-line:no-unused-variable
     } = this.props;
 
     return (
       <ComponentDetail
-        {...attributes}
-        readmeText={readmeText}
+        readmeText={readmeText as any}
         docEntry={docEntry}
       >
         <CodeExample
           title="Simple Examples"
-          code={SimpleExampleCode}
-          description={SimpleExampleDesc}
+          code={SimpleExampleCode as any}
+          description={SimpleExampleDesc as any}
         >
           <SimpleExample />
         </CodeExample>
 
         <CodeExample
           title="Complex Style Examples"
-          code={ComplexExampleCode}
-          description={ComplexExampleDesc}
+          code={ComplexExampleCode as any}
+          description={ComplexExampleDesc as any}
         >
           <ComplexExample />
         </CodeExample>
 
         <CodeExample
           title="Inline Style Examples"
-          code={InlineStyleExampleCode}
-          description={InlineStyleExampleDesc}
+          code={InlineStyleExampleCode as any}
+          description={InlineStyleExampleDesc as any}
         >
           <InlineStyleExample />
         </CodeExample>
+        <Test />
       </ComponentDetail>
     );
   }

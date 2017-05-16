@@ -12,14 +12,19 @@ export interface DataProps {
   focusStyle?: React.CSSProperties;
   activeStyle?: React.CSSProperties;
   visitedStyle?: React.CSSProperties;
-  onHover?: Function;
-  onFocus?: Function;
-  onActive?: Function;
-  onVisited?: Function;
-  unHover?: Function;
-  unFocus?: Function;
-  unActive?: Function;
-  unVisited?: Function;
+  onHover?: (e?: any) => void;
+  onFocus?: (e?: any) => void;
+  onActive?: (e?: any) => void;
+  onVisited?: (e?: any) => void;
+  unHover?: (e?: any) => void;
+  unFocus?: (e?: any) => void;
+  unActive?: (e?: any) => void;
+  unVisited?: (e?: any) => void;
+  onMouseEnter?: (e?: any) => void;
+  onMouseLeave?: (e?: any) => void;
+  onMouseDown?: (e?: any) => void;
+  onMouseUp?: (e?: any) => void;
+  onClick?: (e?: any) => void;
 }
 export interface Attributes {
   [key: string]: any;

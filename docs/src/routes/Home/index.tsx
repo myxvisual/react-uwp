@@ -51,7 +51,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
   static defaultProps = { className: "" };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: any };
 
   state: ReactUWPState = {
     listItems: listItemsData,
@@ -62,9 +62,9 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
   };
 
   refs: {
-    flyout1: Flyout;
-    flyout2: Flyout;
-    flyout3: Flyout;
+    flyout1: any;
+    flyout2: any;
+    flyout3: any;
   };
 
   searchTimeout: any = null;

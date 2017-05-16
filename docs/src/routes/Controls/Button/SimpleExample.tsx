@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Button from "react-uwp/Button";
 
-export default class SimpleExample extends React.PureComponent<{}, {}> {
+export default class SimpleExample extends React.PureComponent<{}, void> {
   render() {
     const defaultBtnStyle: React.CSSProperties = {
       margin: 4

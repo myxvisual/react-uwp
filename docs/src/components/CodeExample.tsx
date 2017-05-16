@@ -40,7 +40,6 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
     }
   }
 
-
   render() {
     const {
       title,
@@ -56,7 +55,7 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
     const styles = getStyles(this);
     const { showCode } = this.state;
     const codeText = `\`\`\`jsx
-${code.replace(/react-uwp\/src\//g, "react-uwp/")}
+${code}
 \`\`\``;
 
     return (

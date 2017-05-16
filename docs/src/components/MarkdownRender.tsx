@@ -80,7 +80,7 @@ return (
 `.react-uwp-markdown {
   /** background: ${theme.chromeMedium}; **/
   color: ${theme.baseMediumHigh};
-  font-family: ${theme.fontFamily.split(", ").map(font => `"${font}"`).join(", ")};
+  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
 }
 
 .react-uwp-markdown img {
