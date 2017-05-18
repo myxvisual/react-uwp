@@ -11,6 +11,10 @@ export interface DataProps {
    */
   contentStyle?: React.CSSProperties;
   /**
+   * CommandBar title.
+   */
+  content?: string;
+  /**
    * CommandBar title node, if just string, can use `content`.
    */
   contentNode?: React.ReactNode;
@@ -61,7 +65,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
     if (typeof currOpened === "boolean") {
       if (currOpened !== this.state.currOpened) this.setState({ currOpened });
     } else {
-      this.setState((prevState, prevProps) => ({ opened: !prevState.currOpened }));
+      this.setState((prevState, prevProps) => ({ currOpened: !prevState.currOpened }));
     }
   }
 
@@ -93,7 +97,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
           {React.Children.toArray(primaryCommands).filter((child: any) => (
             child.type === AppBarButton || child.type === AppBarSeparator
           )).map((child: any, index: number) => (
-            React.cloneElement(child, { currOpened, labelPosition, key: index })
+            React.cloneElement(child, { labelPosition, key: index })
           ))}
           {labelPosition === "bottom" && (
             <AppBarButton
@@ -133,7 +137,9 @@ function getStyles(commandBar: CommandBar): {
       display: "flex",
       flexDirection: flowDirection as any,
       alignItems: "flex-start",
-      justifyContent: (content || contentNode) ? "space-between" : "flex-end",
+      justifyContent: (content || contentNode) ? "space-between" : (
+        labelPosition === "collapsed" ? "flex-start" : "flex-end"
+      ),
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: theme.altHigh,

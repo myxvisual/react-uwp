@@ -55,7 +55,7 @@ module.exports = {
         // loader: 'ts',
         loader: 'awesome-typescript',
         query: {
-          configFileName: path.resolve(__dirname, './tsconfig.build.json'),
+          configFileName: path.resolve(__dirname, './tsconfig.json'),
           useBabel: true,
           useCache: true,
           useTranspileModule: true,

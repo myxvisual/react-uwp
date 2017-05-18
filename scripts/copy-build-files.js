@@ -37,7 +37,7 @@ const assetsFiles = [
   'styles/segoe-mdl2-assets/segoe-mdl2-assets.ttf',
   'styles/segoe-mdl2-assets/segoe-mdl2-assets.woff',
   'styles/segoe-mdl2-assets/segoe-mdl2-assets.woff2',
-  'images/cortana.svg'
+  '__assets__'
 ]
 
 // copy assets to build path.
