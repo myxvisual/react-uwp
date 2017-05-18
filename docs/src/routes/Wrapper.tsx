@@ -21,23 +21,29 @@ function setListItemsUrl(path = "/") {
   const setUrl = (listData: any) => {
     if (typeof listData.titleNode !== "string") return;
 
-    if (names.includes(listData.titleNode.toLowerCase())) {
+    const title = listData.titleNode.toLowerCase();
+    if (names.includes(title)) {
       listData.expanded = true;
-      if (names.slice(-1)[0]) listData.focus = true;
+      if (names.slice(-1)[0].toLocaleLowerCase().includes(title)) listData.visited = true;
     }
 
     const parentUrlNow = `${listData.parentUrl}/${listData.titleNode.toLowerCase().replace(/\s/gim, "-")}`;
+    listData.style = {
+      cursor: "pointer",
+      textDecoration: "inherit"
+    } as React.CSSProperties;
+    listData.onClick = () => {
+      // Router.browserHistory.push(parentUrlNow);
+      location.href = parentUrlNow;
+    };
+    listData.hoverStyle = {
+      textDecoration: "underline"
+    } as CSSStyleDeclaration;
     if (listData.children) {
       listData.children.forEach((item: any) => {
         item.parentUrl = parentUrlNow;
         setUrl(item);
       });
-    } else {
-      listData.titleNode = (
-        <a style={{ textDecoration: "none", color: "inherit" }} href={parentUrlNow}>
-          {listData.titleNode}
-        </a>
-      );
     }
   };
   designChild.children.forEach((item: any) => {

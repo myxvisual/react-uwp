@@ -6,6 +6,7 @@ import ComponentDescription from "./components/ComponentDescription";
 
 import CommandBar from "react-uwp/CommandBar";
 import Button from "react-uwp/Button";
+import AppBarButton from "react-uwp/AppBarButton";
 import HyperLink from "react-uwp/HyperLink";
 
 export default class Mock extends React.PureComponent<any, void> {
@@ -42,7 +43,14 @@ A specialized app bar that handles the resizing of app bar button elements.`
           themeStyle={{ height: 140 }}
           isChromeMode
         >
-          <CommandBar />
+          <CommandBar
+            primaryCommands={[
+              <AppBarButton icon="Share" label="Share" />,
+              <AppBarButton icon="Edit" label="Edit" />,
+              <AppBarButton icon="Delete" label="Delete" />,
+              <AppBarButton icon="Save" label="Save" />
+            ]}
+          />
         </ComponentDescription>
 
         <MarkdownRender text="## Buttons" />
@@ -54,6 +62,7 @@ A control that responds to user input and raises a **Click** event.`
         >
           <Button>Button</Button>
         </ComponentDescription>
+
         <ComponentDescription
           description={
 `### Hyperlink

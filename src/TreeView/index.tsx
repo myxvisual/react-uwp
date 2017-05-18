@@ -4,13 +4,13 @@ import * as PropTypes from "prop-types";
 import Icon from "../Icon";
 import ThemeType from "../styles/ThemeType";
 
-export interface List {
+export interface List extends React.HTMLAttributes<HTMLDivElement> {
   titleNode?: string | React.ReactNode;
   expanded?: boolean;
   disable?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   focus?: boolean;
   visited?: boolean;
+  hoverStyle?: CSSStyleDeclaration;
   children?: List[];
 }
 export interface DataProps {
@@ -26,6 +26,7 @@ export interface DataProps {
 }
 export interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 export interface TreeViewState {
+  init?: boolean;
   currListItems?: List[];
   visitedList?: List;
   showFocus?: boolean;
@@ -43,6 +44,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
   };
 
   state: TreeViewState = {
+    init: true,
     currListItems: this.props.listItems,
     visitedList: null,
     showFocus: this.props.showFocus
@@ -65,6 +67,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     }
     list.visited = true;
     this.setState({
+      init: false,
       visitedList: list.children ? this.state.visitedList : list,
       showFocus: false
     });
@@ -80,7 +83,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
   }
 
   renderTree = (): React.ReactNode => {
-    const { currListItems, showFocus } = this.state;
+    const { init, currListItems, showFocus } = this.state;
     const { theme } = this.context;
     const { prepareStyles } = theme;
     const { iconDirection } = this.props;
@@ -88,49 +91,56 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     const styles = getStyles(this);
     const { childPadding, iconPadding } = this.props;
     const renderList = ((list: List, index: number, isChild?: boolean): React.ReactNode => {
-      const { titleNode, expanded, disable, visited, focus, children } = list;
+      const { titleNode, expanded, disable, visited, focus, children, hoverStyle, ...attributes } = list;
       const haveChild = Array.isArray(children) && children.length !== 0;
       const fadeAccent = theme[theme.themeName === "Dark" ? "accentDarker1" : "accentLighter1"];
+      const isVisited = ((visited && !haveChild) || (visited && haveChild && init));
       return (
         <div
           style={{
-            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void(0)
+            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void 0
           }}
           key={`${index}`}
         >
           <div
             style={{
-              cursor: disable ? "not-allowed" : "default",
-              color: disable ? theme.baseLow : void(0),
+              cursor: disable ? "not-allowed" : void 0,
+              color: disable ? theme.baseLow : void 0,
               ...styles.title
             } as any}
             onMouseEnter={e => {
-              if (focus && showFocus) return;
               const bgNode = e.currentTarget.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
-              bgNode.style.background = (haveChild || !visited) ? theme.baseLow : theme.accent;
+              const titleNode = e.currentTarget.querySelector(".react-uwp-tree-view-title") as HTMLDivElement;
+              Object.assign(bgNode.style, {
+                background: isVisited ? theme.accent : theme.baseLow
+              } as CSSStyleDeclaration);
+              Object.assign(titleNode.style, hoverStyle as any);
             }}
             onMouseLeave={e => {
-              if (focus && showFocus) return;
               const bgNode = e.currentTarget.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
-              bgNode.style.background = (haveChild || !visited) ? "none" : fadeAccent;
-            }}
-            onClick={disable ? void(0) : (e) => {
-              if (focus && showFocus) return;
-              if (list.onClick) list.onClick(e);
-              this.handelClick(e, list);
+              const titleNode = e.currentTarget.querySelector(".react-uwp-tree-view-title") as HTMLDivElement;
+              Object.assign(bgNode.style, {
+                background: isVisited ? fadeAccent : "none"
+              } as CSSStyleDeclaration);
+              Object.assign(titleNode.style, attributes.style as any);
             }}
           >
             <div
+              {...attributes}
               className="react-uwp-tree-view-title"
               style={{
                 paddingLeft: haveChild ? iconPadding : 0,
-                ...styles.titleNode
+                ...styles.titleNode,
+                ...attributes.style
                 } as any}
               >
               {titleNode}
             </div>
-            <p>{haveChild && (
+            {haveChild && (
               <Icon
+                onClick={disable ? void(0) : (e) => {
+                  this.handelClick(e as any, list);
+                }}
                 style={prepareStyles({
                   cursor: disable ? "not-allowed" : "pointer",
                   color: disable ? theme.baseLow : void 0,
@@ -142,15 +152,17 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
               >
                 {"\uE011"}
               </Icon>
-            )}</p>
+            )}
             <div
+              {...attributes}
               style={prepareStyles({
                 transition: "all 0.25s",
                 zIndex: 0,
-                background: (focus && showFocus && !haveChild) ? theme.accent : (
-                  (haveChild || !visited) ? "none" : fadeAccent
+                background: (focus && showFocus) ? theme.accent : (
+                  isVisited ? fadeAccent : "none"
                 ),
-                ...styles.bg
+                ...styles.bg,
+                ...attributes.style
               } as any)}
               className="react-uwp-tree-view-bg"
             />

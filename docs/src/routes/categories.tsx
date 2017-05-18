@@ -394,9 +394,9 @@ export default [{
       }]
     }]
   }, {
-    "titleNode": <a style={{ color: "inherit", textDecoration: "none" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Microsoft Design Language</a>
+    "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Microsoft Design Language</a>
   }, {
-    "titleNode": <a style={{ color: "inherit", textDecoration: "none" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Downloads</a>
+    "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Downloads</a>
   }]
 }, {
   "titleNode": "Develop Windows apps",
