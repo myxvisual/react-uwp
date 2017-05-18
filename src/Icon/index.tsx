@@ -67,7 +67,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
           outline: "none",
           userSelect: "none",
           fontSize: "inherit",
-          cursor: "default",
+          cursor: "inherit",
           color: theme.baseHigh,
           ...(hovered ? hoverStyle : {}),
           ...style

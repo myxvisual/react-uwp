@@ -209,8 +209,9 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                   color: "#fff",
                   background: theme.accent
                 }}
+                onClick={() => location.href = "/"}
               >
-                &#xE10F;
+                Home
               </IconButton>
             }
             bottomNode={
@@ -225,7 +226,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                 }}
                 onClick={() => scrollToYEasing(0)}
               >
-                &#xE010;
+                ScrollChevronUpLegacy
                 </IconButton>
             }
             floatNavWidth={200}

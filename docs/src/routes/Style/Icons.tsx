@@ -124,7 +124,7 @@ export default class Icons extends React.Component<void, IconsState> {
         >
           {currIconNames.map((iconName, index) => (
             <Tooltip
-              verticalPosition="top"
+              verticalPosition="bottom"
               horizontalPosition="center"
               onClick={this.handleCopy}
               contentNode={(
@@ -139,7 +139,7 @@ export default class Icons extends React.Component<void, IconsState> {
               style={{
                 cursor: "pointer"
               }}
-              margin={0}
+              margin={-6}
               key={`${index}`}
             >
               <div

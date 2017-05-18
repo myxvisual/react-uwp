@@ -34,6 +34,7 @@ export default [{
   }]
 }, {
   "titleNode": "Design & UI",
+  "style": { cursor: "default" },
   "expanded": true,
   "children": [{
     "titleNode": "Layout",

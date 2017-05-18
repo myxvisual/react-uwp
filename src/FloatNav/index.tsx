@@ -34,13 +34,13 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
     items: [],
     width: 40,
     isFloatRight: true,
-    floatNavWidth: 240,
+    floatNavWidth: 240
   };
 
   state: FloatNavState = {
     currFocusItem: this.props.focusItem,
     hoverItem: null,
-    hoverIndexArray: [],
+    hoverIndexArray: []
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -83,7 +83,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
       justifyContent: "center",
       background: theme.altHigh,
       transition: "all .25s 0s cubic-bezier(.04, .89, .44, 1.07)",
-      fontSize: 12,
+      fontSize: 12
     });
 
     return (
@@ -102,7 +102,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: isFloatRight ? "flex-end" : "flex-start",
+            alignItems: isFloatRight ? "flex-end" : "flex-start"
           })}
         >
           {React.Children.map(topNode, (child: React.ReactElement<any>, index) => (
@@ -111,10 +111,10 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
               style={theme.prepareStyles({
                 ...itemStyle,
                 width,
-                height: width,
+                height: width
               })}
             >
-              {React.cloneElement(child, { style: { ...child.props.style, width, height: width, } })}
+              {React.cloneElement(child, { style: { ...child.props.style, width, height: width } })}
             </div>
           ))}
           {items.map((item, index) => {
@@ -126,11 +126,11 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
               <a
                 onMouseEnter={(e) => {
                   hoverIndexArray[index] = true;
-                  this.setState({ hoverItem: index, hoverIndexArray, });
+                  this.setState({ hoverItem: index, hoverIndexArray });
                 }}
                 onMouseLeave={() => {
                   hoverIndexArray[index] = false;
-                  this.setState({ hoverItem: void(0), hoverIndexArray, });
+                  this.setState({ hoverItem: void(0), hoverIndexArray });
                 }}
                 onClick={() => { onFocusIndex(index); }}
                 style={theme.prepareStyles({
@@ -162,10 +162,10 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
                       width,
                       height: padding,
                       background: `url(${showNode}) no-repeat center center / contain`,
-                      filter: isHovered ? "brightness(100)" : void 0,
+                      filter: isHovered ? "brightness(100)" : void 0
                     })}
                   />
-                  : React.cloneElement(showNode, { style: { ...showNode.props.style, width, height: width, } })
+                  : React.cloneElement(showNode, { style: { ...showNode.props.style, width, height: width } })
                 }
               </a>
             );
@@ -176,10 +176,10 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
               style={theme.prepareStyles({
                 ...itemStyle,
                 width,
-                height: width,
+                height: width
               })}
             >
-              {React.cloneElement(child, { style: { ...child.props.style, width, height: width, } })}
+              {React.cloneElement(child, { style: { ...child.props.style, width, height: width } })}
             </div>
           ))}
         </div>

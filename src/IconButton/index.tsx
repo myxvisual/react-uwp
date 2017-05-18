@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import ElementState from "../ElementState";
 import ThemeType from "../styles/ThemeType";
+import Icon from "../Icon";
 
 export interface DataProps {
   hoverStyle?: React.CSSProperties;
@@ -38,14 +39,16 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
         }}
         hoverStyle={{
           background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"],
-          ...hoverStyle,
+          ...hoverStyle
         }}
         activeStyle={{
           background: theme.accent,
-          ...activeStyle,
+          ...activeStyle
         }}
       >
-        <button {...attributes}>{children || "\uE73E"}</button>
+        <button {...attributes}>
+          <Icon>{children}</Icon>
+        </button>
       </ElementState>
     );
   }
