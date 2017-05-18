@@ -45,7 +45,7 @@ A specialized app bar that handles the resizing of app bar button elements.`
         >
           <CommandBar
             primaryCommands={[
-              <AppBarButton icon="Share" label="Share" />,
+              <AppBarButton icon={"\uE72D"} label="Share" />,
               <AppBarButton icon="Edit" label="Edit" />,
               <AppBarButton icon="Delete" label="Delete" />,
               <AppBarButton icon="Save" label="Save" />

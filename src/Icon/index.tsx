@@ -61,7 +61,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
           justifyContent: "center",
           flex: "0 0 auto",
           verticalAlign: "middle",
-          fontFamily: "Segoe MDL2 Assets",
+          fontFamily: theme.iconFontFamily,
           transition: "all .25s",
           border: "none",
           outline: "none",
