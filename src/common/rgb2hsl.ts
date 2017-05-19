@@ -30,4 +30,4 @@ export default function (r = 255, g = 255, b = 255, resultIsArray = false) {
     `${(s * 100 + 0.5) | 0}%`,
     `${(l * 100 + 0.5) | 0}%`
   ].join(", ")})`;
-};
+}

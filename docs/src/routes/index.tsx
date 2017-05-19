@@ -80,6 +80,13 @@ const getRoutes = (path = "/") => {
               cb(null, require<any>("./Controls/CheckBox").default);
             }, "app-react-uwp-controls-CheckBox");
           }
+        }, {
+          path: "ColorPicker",
+          getComponent: (location: Location, cb: RouterCallback) => {
+            require.ensure([], (require) => {
+              cb(null, require<any>("./Controls/ColorPicker").default);
+            }, "app-react-uwp-controls-ColorPicker");
+          }
         }]
       }]
     }, {
@@ -94,8 +101,8 @@ const getRoutes = (path = "/") => {
         }
       }]
     }, {
-      path: "test",
-      component: require<any>("./Style/Icons").default
+      path: "*",
+      component: () => <div>Not Found</div>
     }]
   };
 };

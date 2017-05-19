@@ -5,6 +5,7 @@ export { default as Button } from "./Button";
 export { default as CalendarDatePicker } from "./CalendarDatePicker";
 export { default as CalendarView } from "./CalendarView";
 export { default as CheckBox } from "./CheckBox";
+export { default as ColorPicker } from "./ColorPicker";
 export { default as CommandBar } from "./CommandBar";
 export { default as AppBarButton } from "./AppBarButton";
 export { default as ContentDialog } from "./ContentDialog";

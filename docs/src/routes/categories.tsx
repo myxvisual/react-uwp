@@ -118,6 +118,8 @@ export default [{
     }, {
       "titleNode": "CheckBox"
     }, {
+      "titleNode": "ColorPicker"
+    }, {
       "titleNode": "Date and time",
       "children": [{
         "titleNode": "Calendar date picker"
