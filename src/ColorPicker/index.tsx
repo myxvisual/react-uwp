@@ -2,21 +2,23 @@ import * as React from "react";
 
 export interface DataProps {
   title?: string;
+  size?: number;
 }
 export interface ColorPickerProps extends DataProps, React.HTMLAttributes<HTMLCanvasElement> {}
 
 export class ColorPicker extends React.Component<ColorPickerProps, void> {
   static defaultProps: ColorPickerProps = {
-    width: 200,
-    height: 200
+    width: 400,
+    height: 400
   };
   canvas?: HTMLCanvasElement;
   ctx?: CanvasRenderingContext2D;
 
   componentDidMount() {
-    const _xPosition = 100;
-    const _yPosition = 100;
-    const _r = 50;
+    const _xPosition = 200;
+    const _yPosition = 200;
+    const _r = 100;
+
     const _pi_2 = Math.PI * 2;
     const _c = _r * _pi_2;
 
@@ -24,6 +26,12 @@ export class ColorPicker extends React.Component<ColorPickerProps, void> {
     const { ctx } = this;
     this.setCanvas2devicePixelRatio();
 
+    // use save when using clip Path
+    // ctx.save();
+    // ctx.arc(_xPosition, _yPosition, _r, 0, _pi_2, true);
+    // ctx.clip();
+
+    // Generate conical gradient
     ctx.beginPath();
     ctx.moveTo(_xPosition, _yPosition);
     ctx.arc(_xPosition, _yPosition, _r, -_pi_2 / 360, 0, true);
@@ -34,11 +42,24 @@ export class ColorPicker extends React.Component<ColorPickerProps, void> {
     for (let i = 0; i < 360; i++) {
       ctx.beginPath();
       ctx.moveTo(_xPosition, _yPosition);
-      ctx.arc(_xPosition, _yPosition, _r, 0, _pi_2 * i / 360, true);
+      ctx.arc(_xPosition, _yPosition, _r + 1, 0, _pi_2 * i / 360, true);
       ctx.closePath();
       ctx.fillStyle = `hsl(${i}, 100%, 50%)`;
       ctx.fill();
     }
+
+    // Generate radial gradient
+    ctx.beginPath();
+    const radialGradient = ctx.createRadialGradient(_xPosition, _yPosition, _r, _xPosition, _yPosition, 0);
+    radialGradient.addColorStop(1, "rgba(255, 255, 255, 1)");
+    radialGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+    ctx.arc(_xPosition, _yPosition, _r, 0, _pi_2, true);
+    ctx.closePath();
+    ctx.fillStyle = radialGradient;
+    ctx.fill();
+
+    // reset clip to default
+    // ctx.restore();
   }
 
   setCanvas2devicePixelRatio = () => {
