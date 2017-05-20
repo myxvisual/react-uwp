@@ -1,6 +1,7 @@
 import * as React from "react";
-import Wrapper from "./Wrapper";
 import { Router, RouteComponent, browserHistory } from "react-router";
+
+import Wrapper from "./Wrapper";
 
 export interface RouterCallback {
   (error: any, component?: any): void;

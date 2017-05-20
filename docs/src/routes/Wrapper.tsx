@@ -4,6 +4,8 @@ import * as PropTypes from "prop-types";
 
 import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
+import Header from "../components/Header";
+
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import TreeView from "react-uwp/TreeView";
 import IconButton from "react-uwp/IconButton";
@@ -187,107 +189,113 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
         id={id}
         style={theme.prepareStyles({
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           maxWidth: renderMaxWidth,
           margin: "0 auto",
           ...style
         }) as any}
       >
-        <div
-          style={{
-            width: 320,
-            position: "relative",
-            display: notPhoneTablet ? void 0 : "none"
-          }}
-        >
+        <Header maxWidth={renderMaxWidth} />
+        <div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
           <div
             style={{
-              position: "fixed",
-              top: 0,
               width: 320,
-              padding: "10px 0",
-              height: "100%"
+              position: "relative",
+              display: notPhoneTablet ? void 0 : "none"
             }}
           >
-            <AutoSuggestBox
-              background="none"
+            <div
               style={{
-                height: 42,
-                fontSize: 20,
-                width: "100%"
+                position: "fixed",
+                top: 0,
+                width: 320,
+                padding: "10px 0",
+                height: "100%"
               }}
-              iconSize={42}
-              placeholder="Search Docs..."
-              onChangeValue={this.handleChangeValue}
-            />
-            <TreeView
-              listItems={listItems as any}
-              listItemHeight={40}
-              childPadding={20}
-              iconPadding={2}
-              showFocus={showFocus}
-              titleNodeStyle={{
-                fontSize: 14
-              }}
-              style={{
-                maxHeight: "100%"
-              }}
+            >
+              <AutoSuggestBox
+                background="none"
+                style={{
+                  height: 42,
+                  fontSize: 20,
+                  width: "100%"
+                }}
+                iconSize={42}
+                placeholder="Search Docs..."
+                onChangeValue={this.handleChangeValue}
+              />
+              <TreeView
+                listItems={listItems as any}
+                listItemHeight={40}
+                childPadding={20}
+                iconPadding={2}
+                showFocus={showFocus}
+                titleNodeStyle={{
+                  fontSize: 14
+                }}
+                style={{
+                  maxHeight: "100%"
+                }}
+              />
+            </div>
+          </div>
+          <Icon
+            style={{
+              display: notPhoneTablet ? "none" : "flex",
+              position: "fixed",
+              top: 12,
+              left: 12,
+              width: 48,
+              height: 48,
+              fontSize: 24,
+              cursor: "pointer"
+            }}
+            hoverStyle={{
+              background: theme.baseLow
+            }}
+          >
+            GlobalNavButton
+          </Icon>
+          <div
+            style={theme.prepareStyles({
+              width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
+              padding: "0 10px",
+              ...containerStyle
+            })}
+          >
+            {children}
+          </div>
+          <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>
+            <FloatNav
+              topNode={
+                <IconButton
+                  hoverStyle={{
+                    color: "#fff",
+                    background: theme.accent
+                  }}
+                  onClick={() => location.href = "/"}
+                >
+                  Home
+                </IconButton>
+              }
+              bottomNode={
+                <IconButton
+                  style={{
+                    background: theme.accent,
+                    color: "#fff"
+                  }}
+                  hoverStyle={{
+                    color: "#fff",
+                    background: theme.accent
+                  }}
+                  onClick={() => scrollToYEasing(0)}
+                >
+                  ScrollChevronUpLegacy
+                  </IconButton>
+              }
+              floatNavWidth={200}
             />
           </div>
-        </div>
-        <Icon
-          style={{
-            display: notPhoneTablet ? "none" : "flex",
-            width: 48,
-            height: 48,
-            fontSize: 24,
-            cursor: "pointer"
-          }}
-          hoverStyle={{
-            background: theme.baseLow
-          }}
-        >
-          GlobalNavButton
-        </Icon>
-        <div
-          style={theme.prepareStyles({
-            width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
-            padding: "0 10px",
-            ...containerStyle
-          })}
-        >
-          {children}
-        </div>
-        <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>
-          <FloatNav
-            topNode={
-              <IconButton
-                hoverStyle={{
-                  color: "#fff",
-                  background: theme.accent
-                }}
-                onClick={() => location.href = "/"}
-              >
-                Home
-              </IconButton>
-            }
-            bottomNode={
-              <IconButton
-                style={{
-                  background: theme.accent,
-                  color: "#fff"
-                }}
-                hoverStyle={{
-                  color: "#fff",
-                  background: theme.accent
-                }}
-                onClick={() => scrollToYEasing(0)}
-              >
-                ScrollChevronUpLegacy
-                </IconButton>
-            }
-            floatNavWidth={200}
-          />
         </div>
       </Theme>
     );
