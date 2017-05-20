@@ -4,17 +4,19 @@ export interface DataProps {
   fill?: string;
 }
 
-export interface ReactIconProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ReactIconProps extends DataProps, React.HTMLAttributes<SVGElement> {}
 
 export default class ReactIcon extends React.PureComponent<ReactIconProps, void> {
   static defaultProps: ReactIconProps = {
-    fill: "#0078D7"
+    fill: "#0078D7",
+    width: 40,
+    height: 40
   };
 
   render() {
     const { fill, ...attributes } = this.props;
     return (
-      <svg viewBox="0 0 40 40">
+      <svg viewBox="0 0 40 40" {...attributes}>
       <g>
         <g>
           <path

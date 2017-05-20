@@ -13,8 +13,8 @@ export interface Item {
 export interface DataProps {
   focusItem?: number;
   onFocusIndex?: (index: number) => void;
-  topNode?: React.ReactElement<any>;
-  bottomNode?: React.ReactElement<any>;
+  topNode?: React.ReactElement<any> | React.ReactElement<any>[];
+  bottomNode?: React.ReactElement<any> | React.ReactElement<any>[];
   isFloatRight?: boolean;
   items?: Item[];
   floatNavWidth?: number;

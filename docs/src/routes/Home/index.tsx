@@ -27,7 +27,6 @@ import {
   Theme
 } from "react-uwp";
 
-import listItemsData from "../categories";
 export interface Item {
   titleNode?: string;
   expanded?: boolean;
@@ -54,7 +53,6 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
   context: { theme: any };
 
   state: ReactUWPState = {
-    listItems: listItemsData,
     showFocus: true,
     child: 0,
 

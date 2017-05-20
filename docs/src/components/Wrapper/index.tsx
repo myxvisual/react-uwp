@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 
 import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
-import Header from "../components/Header";
+import Header from "../Header";
 
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import TreeView from "react-uwp/TreeView";
@@ -80,6 +80,7 @@ export interface ReactUWPState {
 }
 
 const theme = getTheme("Dark");
+const HEADER_HEIGHT = 60;
 
 export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPState> {
   static contextTypes = { theme: PropTypes.object };
@@ -195,7 +196,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
           ...style
         }) as any}
       >
-        <Header maxWidth={renderMaxWidth} />
+        <Header headerHeight={HEADER_HEIGHT} maxWidth={renderMaxWidth} />
         <div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
           <div
             style={{
@@ -207,10 +208,10 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
             <div
               style={{
                 position: "fixed",
-                top: 0,
+                top: HEADER_HEIGHT,
                 width: 320,
                 padding: "10px 0",
-                height: "100%"
+                height: `calc(100vh - ${HEADER_HEIGHT}px - 42px - 20px)`
               }}
             >
               <AutoSuggestBox
@@ -226,7 +227,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
               />
               <TreeView
                 listItems={listItems as any}
-                listItemHeight={40}
+                listItemHeight={32}
                 childPadding={20}
                 iconPadding={2}
                 showFocus={showFocus}
@@ -278,7 +279,31 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                   Home
                 </IconButton>
               }
-              bottomNode={
+              bottomNode={[
+                <IconButton
+                  style={{
+                    color: "#fff"
+                  }}
+                  hoverStyle={{
+                    color: "#fff",
+                    background: theme.accent
+                  }}
+                  onClick={() => scrollToYEasing(0)}
+                >
+                  Brightness
+                </IconButton>,
+                <IconButton
+                  style={{
+                    color: "#fff"
+                  }}
+                  hoverStyle={{
+                    color: "#fff",
+                    background: theme.accent
+                  }}
+                  onClick={() => scrollToYEasing(0)}
+                >
+                  QuietHours
+                </IconButton>,
                 <IconButton
                   style={{
                     background: theme.accent,
@@ -291,8 +316,8 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                   onClick={() => scrollToYEasing(0)}
                 >
                   ScrollChevronUpLegacy
-                  </IconButton>
-              }
+                </IconButton>,
+              ]}
               floatNavWidth={200}
             />
           </div>
