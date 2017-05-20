@@ -58,7 +58,7 @@ export default class Icons extends React.Component<void, IconsState> {
 
   handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     Object.assign(e.currentTarget.style, {
-      background: this.context.theme.altHigh
+      background: "none"
     } as CSSStyleDeclaration);
   }
 
@@ -87,30 +87,38 @@ export default class Icons extends React.Component<void, IconsState> {
     const { context: { theme }, state: { currIconNames } } = this;
     rootStyle = theme.prepareStyles(rootStyle);
     return (
-      <div style={{ width: "100%", background: theme.altHigh }}>
-        <div style={{ width: "calc(100vw - 320px)", height: 120 }}>
+      <div style={{ width: "100%" }}>
+        <div style={{ position: "relative", width: "100%", height: 100 }}>
           <div
             style={{
               position: "fixed",
-              width: "inherit",
+              height: 100,
+              width: "100%",
+              zIndex: theme.zIndex.tooltip + 1,
+              background: theme.chromeLow
+            }}
+          />
+          <div
+            style={{
+              position: "fixed",
               padding: 10,
               fontSize: 14,
               zIndex: theme.zIndex.tooltip + 1,
-              background: theme.altHigh
+              background: theme.chromeLow
             }}
           >
-            <p style={{ lineHeight: 1.8 }}>
-              Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. Used mainly in AppBarButton and AppBarToggleButton. ({currIconNames.length} icon)
-            </p>
             <AutoSuggestBox
               placeholder="Search Icons"
               iconSize={40}
+              background="none"
               style={{
-                height: 40,
-                width: "100%"
+                height: 40
               }}
               onChangeValue={this.handleInput}
             />
+            <p style={{ lineHeight: 1.8 }}>
+              Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. Used mainly in AppBarButton and AppBarToggleButton. ({currIconNames.length} icon)
+            </p>
           </div>
         </div>
         <div

@@ -7,6 +7,7 @@ import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import TreeView from "react-uwp/TreeView";
 import IconButton from "react-uwp/IconButton";
+import Icon from "react-uwp/Icon";
 import FloatNav from "react-uwp/FloatNav";
 import Theme from "react-uwp/Theme";
 import { ThemeType } from "react-uwp/styles/ThemeType";
@@ -192,44 +193,62 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
           ...style
         }) as any}
       >
-        {notPhoneTablet && (
-          <div style={{ width: 320, position: "relative" }}>
-            <div
+        <div
+          style={{
+            width: 320,
+            position: "relative",
+            display: notPhoneTablet ? void 0 : "none"
+          }}
+        >
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              width: 320,
+              padding: "10px 0",
+              height: "100%"
+            }}
+          >
+            <AutoSuggestBox
+              background="none"
               style={{
-                position: "fixed",
-                top: 0,
-                width: 320,
-                padding: "10px 0",
-                height: "100%"
+                height: 42,
+                fontSize: 20,
+                width: "100%"
               }}
-            >
-              <AutoSuggestBox
-                background="none"
-                style={{
-                  height: 42,
-                  fontSize: 20,
-                  width: "100%"
-                }}
-                iconSize={42}
-                placeholder="Search Docs..."
-                onChangeValue={this.handleChangeValue}
-              />
-              <TreeView
-                listItems={listItems as any}
-                listItemHeight={40}
-                childPadding={20}
-                iconPadding={2}
-                showFocus={showFocus}
-                titleNodeStyle={{
-                  fontSize: 14
-                }}
-                style={{
-                  maxHeight: "100%"
-                }}
-              />
-            </div>
+              iconSize={42}
+              placeholder="Search Docs..."
+              onChangeValue={this.handleChangeValue}
+            />
+            <TreeView
+              listItems={listItems as any}
+              listItemHeight={40}
+              childPadding={20}
+              iconPadding={2}
+              showFocus={showFocus}
+              titleNodeStyle={{
+                fontSize: 14
+              }}
+              style={{
+                maxHeight: "100%"
+              }}
+            />
           </div>
-        )}
+        </div>
+        <Icon
+          style={{
+            display: notPhoneTablet ? "none" : "flex",
+            width: 48,
+            height: 48,
+            fontSize: 24,
+            cursor: "pointer"
+          }}
+          hoverStyle={{
+            background: theme.baseLow
+          }}
+        >
+          GlobalNavButton
+        </Icon>
         <div
           style={theme.prepareStyles({
             width: notPhoneTablet ? "calc(100% - 320px)" : "100%",

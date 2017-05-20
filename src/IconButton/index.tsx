@@ -24,14 +24,16 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
       <ElementState
         {...attributes}
         style={{
-          flex: "0 0 auto",
+          display: "inline-block",
           fontFamily: "Segoe MDL2 Assets",
           transition: "all .25s 0s ease-in-out",
           userSelect: "none",
           background: "none",
           border: "none",
           outline: "none",
-          fontSize: 22,
+          fontSize: 24,
+          width: 48,
+          height: 48,
           cursor: "pointer",
           color: theme.baseHigh,
           padding: 4,
@@ -46,7 +48,7 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
           ...activeStyle
         }}
       >
-        <button {...attributes}>
+        <button>
           <Icon>{children}</Icon>
         </button>
       </ElementState>
