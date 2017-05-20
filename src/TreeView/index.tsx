@@ -23,6 +23,7 @@ export interface DataProps {
   onChangeList?: (listItems: List[]) => void;
   rootStyle?: React.CSSProperties;
   showFocus?: boolean;
+  background?: string;
 }
 export interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 export interface TreeViewState {
@@ -40,7 +41,8 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     iconPadding: 10,
     iconDirection: "left",
     onChangeList: () => {},
-    rootStyle: { width: 400 }
+    rootStyle: { width: 400 },
+    background: "none"
   };
 
   state: TreeViewState = {
@@ -188,13 +190,24 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { listItems, iconDirection, listItemHeight, onChangeList, rootStyle, titleNodeStyle, childPadding, iconPadding, showFocus, ...attributes } = this.props;
+    const {
+      listItems,
+      iconDirection,
+      listItemHeight,
+      onChangeList,
+      rootStyle,
+      titleNodeStyle,
+      childPadding,
+      iconPadding,
+      showFocus,
+      background,
+      ...attributes
+    } = this.props;
     const { currListItems } = this.state;
     const styles = getStyles(this);
 
     return (
-      <div {...attributes as any} style={styles.root as any}>
+      <div {...attributes} style={styles.root}>
         {currListItems ? this.renderTree() : null}
       </div>
     );
@@ -209,7 +222,7 @@ function getStyles(treeView: TreeView): {
   icon?: React.CSSProperties;
   bg?: React.CSSProperties;
 } {
-  const { context, props: { iconDirection, listItemHeight, style, titleNodeStyle } } = treeView;
+  const { context, props: { iconDirection, listItemHeight, style, titleNodeStyle, background } } = treeView;
   const isRight = iconDirection === "right";
   const { theme } = context;
   const { prepareStyles } = theme;
@@ -219,7 +232,7 @@ function getStyles(treeView: TreeView): {
       overflowX: "hidden",
       overflowY: "auto",
       color: theme.baseMediumHigh,
-      background: theme.altMediumHigh,
+      background: background,
       padding: 20,
       ...prepareStyles(style)
     } as any),

@@ -122,18 +122,22 @@ export default class ComponentDescription extends React.PureComponent<ComponentD
     };
   }
 
-  members2MarkdownText = (members: DocEntry[], getInitializerText = false) => {
+  members2MarkdownText = (members: DocEntry[], getProps = false) => {
     const { theme } = this.context;
     const planeText = members.map(({ name, type, isRequired, initializerText, documentation }) => ([
       name,
       `<p style="color: ${theme.accent};">${type.replace(/\|/g, " or ")}</p>`,
-      `<p style="color: ${theme.baseHigh};">${initializerText && getInitializerText ? initializerText : ""}</p>`,
-      `<p style="color: ${theme.baseMedium};">${Boolean(isRequired)}</p>`,
+      ...(getProps ? [`<p style="color: ${theme.baseHigh};">${initializerText}</p>`] : []),
+      ...(getProps ? [`<p style="color: ${theme.baseMedium};">${Boolean(isRequired)}</p>`] : []),
       `<p style="color: ${theme.baseMedium};">${documentation || ""}</p>`
     ].join(" | "))).join("\n");
-    return `
+    return getProps ? `
 Name | Type | default | Required | Description
 --- | --- | --- | --- | ---
+${planeText}
+` : `
+Name | Type | Description
+--- | --- | ---
 ${planeText}
 `;
   }

@@ -49,7 +49,7 @@ const getRoutes = (path = "/") => {
           path: "index-of-controls-by-function",
           getComponent: (location: Location, cb: RouterCallback) => {
             require.ensure([], (require) => {
-              cb(null, require<any>("./Controls/IndexOfControlsByFunciton").default);
+              cb(null, require<any>("./Controls/IndexOfControlsByFunction").default);
             }, "app-react-uwp-controls-index-of-controls-by-function");
           }
         }, {

@@ -10,6 +10,7 @@ export interface DataProps {
   onChangeValue?: (value: string) => void;
   leftNode?: any;
   rightNode?: any;
+  background?: string;
 }
 
 type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>;
@@ -25,12 +26,12 @@ export default class Input extends React.Component<InputProps, InputState> {
     inputStyle: {
       fontSize: "inherit",
       outline: "none",
-      transition: "all .25s 0s ease-in-out",
+      transition: "all .25s"
     },
     onFocus: emptyFunc,
     onBlur: emptyFunc,
     onChange: emptyFunc,
-    onChangeValue: emptyFunc,
+    onChangeValue: emptyFunc
   };
 
   state: InputState = {};
@@ -81,11 +82,13 @@ export default class Input extends React.Component<InputProps, InputState> {
       inputStyle,
       onChangeValue,
       children,
+      background,
       ...attributes
     } = this.props;
     const { hovered, focused } = this.state;
     const haveChild = leftNode || rightNode;
     const { theme } = this.context;
+    const currBackground = (background === void 0 ? theme.altHigh : background);
 
     return (
       <div
@@ -101,10 +104,10 @@ export default class Input extends React.Component<InputProps, InputState> {
           flexDirection: "row",
           alignItems: "center",
           color: "#000",
-          background: focused ? "#fff" : theme.altHigh,
+          background: focused ? "#fff" : currBackground,
           boxShadow: focused ? `inset 0px 0px 0 2px ${this.context.theme.accent}` : hovered ? `inset 0px 0px 0 2px ${theme.baseMedium}` : `inset 0px 0px 0 2px ${theme.baseLow}`,
           transition: "all .25s",
-          ...style,
+          ...style
         })}
         onClick={this.handleClick}
       >
@@ -113,14 +116,14 @@ export default class Input extends React.Component<InputProps, InputState> {
           ref={input => this.input = input}
           {...attributes as any}
           style={theme.prepareStyles({
-            color: focused ? "#000" : theme.baseHigh,
+            color: focused ? "#000" : currBackground,
             width: "100%",
             height: "100%",
             background: "none",
             border: "none",
             outline: "none",
             transition: "all .25s",
-            ...inputStyle,
+            ...inputStyle
           })}
           onChange={(e) => {
             onChangeValue(e.currentTarget.value);

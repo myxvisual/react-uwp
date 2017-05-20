@@ -132,6 +132,7 @@ function getStyles(codeExample: CodeExample): {
     code: prepareStyles({
       maxHeight: showCode ? 400 : 0,
       overflow: "auto",
+      width: "100%",
       transition: "max-height .25s 0s",
       padding: "0px 4px",
       ...style

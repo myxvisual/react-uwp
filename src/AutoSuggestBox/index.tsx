@@ -23,6 +23,10 @@ export interface DataProps {
    * Inside Icon Size, use `number`.
    */
   iconSize?: number;
+  /**
+   * Control component `background` style.
+   */
+  background?: string;
 }
 
 export interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -226,7 +230,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 
     return (
       <Input
-        {...attributes as any}
+        {...attributes}
         ref="input"
         style={styles.root}
         onClick={this.showListSource}

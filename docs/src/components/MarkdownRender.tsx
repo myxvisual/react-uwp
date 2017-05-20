@@ -210,7 +210,7 @@ return (
   border-collapse: collapse;
   border: 1px solid ${theme.altHigh};
   padding: 10px;
-  margin: 8px 0 8px;
+  / ** word-break: break-all; **/
 }
 
 .react-uwp-markdown table tbody {

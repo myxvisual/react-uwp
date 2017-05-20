@@ -72,6 +72,8 @@ export interface ReactUWPState {
 
   child?: number;
   date?: Date;
+  renderMaxWidth?: number | string;
+  screenType?: "phone" | "tablet" | "laptop" | "pc";
 }
 
 const theme = getTheme("Dark");
@@ -91,6 +93,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
 
   componentWillMount() {
     setListItemsUrl(this.props.path);
+    this.resize();
   }
 
   componentDidMount() {
@@ -99,6 +102,37 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
       color: theme.baseHigh
     });
     setScrollBarStyle();
+    window.addEventListener("resize", this.resize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resize);
+  }
+
+  resize = (e?: Event) => {
+    const { innerWidth } = window;
+    if (innerWidth < 960) {
+      const screenType = "phone";
+      this.updateRenderMaxWidth("100%", screenType);
+    } else if (innerWidth >= 960 && innerWidth < 1366) {
+      const screenType = "tablet";
+      this.updateRenderMaxWidth(960, screenType);
+    } else if (innerWidth >= 1366 && innerWidth < 1920) {
+      const screenType = "laptop";
+      this.updateRenderMaxWidth(1280, screenType);
+    } else {
+      const screenType = "pc";
+      this.updateRenderMaxWidth(1600, screenType);
+    }
+  }
+
+  updateRenderMaxWidth = (renderMaxWidth: string | number, screenType: "phone" | "tablet" | "laptop" | "pc") => {
+    if (this.state.renderMaxWidth !== renderMaxWidth) {
+      this.setState({
+        renderMaxWidth,
+        screenType
+      });
+    }
   }
 
   handleChangeValue = (value: string) => {
@@ -141,8 +175,9 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
       children,
       containerStyle
     } = this.props;
-    const { listItems, showFocus } = this.state;
+    const { listItems, showFocus, renderMaxWidth, screenType } = this.state;
     const { date } = this.state;
+    const notPhoneTablet = screenType !== "phone" && screenType !== "tablet";
 
     return (
       <Theme
@@ -152,49 +187,52 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
         style={theme.prepareStyles({
           display: "flex",
           flexDirection: "row",
+          maxWidth: renderMaxWidth,
+          margin: "0 auto",
           ...style
         }) as any}
       >
-        <div style={{ width: 320 }}>
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: 320,
-              padding: "10px 0",
-              background: theme.altHigh,
-              height: "100%"
-            }}
-          >
-            <AutoSuggestBox
+        {notPhoneTablet && (
+          <div style={{ width: 320, position: "relative" }}>
+            <div
               style={{
-                height: 42,
-                fontSize: 20,
-                width: "100%"
+                position: "fixed",
+                top: 0,
+                width: 320,
+                padding: "10px 0",
+                height: "100%"
               }}
-              iconSize={42}
-              placeholder="Search Docs..."
-              onChangeValue={this.handleChangeValue}
-            />
-            <TreeView
-              listItems={listItems as any}
-              listItemHeight={40}
-              childPadding={20}
-              iconPadding={2}
-              showFocus={showFocus}
-              titleNodeStyle={{
-                fontSize: 14
-              }}
-              style={{
-                maxHeight: "100%"
-              }}
-            />
+            >
+              <AutoSuggestBox
+                background="none"
+                style={{
+                  height: 42,
+                  fontSize: 20,
+                  width: "100%"
+                }}
+                iconSize={42}
+                placeholder="Search Docs..."
+                onChangeValue={this.handleChangeValue}
+              />
+              <TreeView
+                listItems={listItems as any}
+                listItemHeight={40}
+                childPadding={20}
+                iconPadding={2}
+                showFocus={showFocus}
+                titleNodeStyle={{
+                  fontSize: 14
+                }}
+                style={{
+                  maxHeight: "100%"
+                }}
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div
           style={theme.prepareStyles({
-            width: "calc(100% - 320px)",
+            width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
             padding: "0 10px",
             ...containerStyle
           })}
