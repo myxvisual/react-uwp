@@ -80,19 +80,19 @@ export default class Icons extends React.Component<void, IconsState> {
         ))
       });
       window.scrollTo(0, 0);
-    }, 500);
+    }, 250);
   }
 
   render() {
     const { context: { theme }, state: { currIconNames } } = this;
     rootStyle = theme.prepareStyles(rootStyle);
     return (
-      <div style={{ width: "100%" }}>
-        <div style={{ position: "relative", width: "100%", height: 100 }}>
+      <div style={{ width: "100%", fontSize: 14 }}>
+        <div style={{ position: "relative", width: "100%", height: 60 }}>
           <div
             style={{
               position: "fixed",
-              height: 100,
+              height: 60,
               width: "100%",
               zIndex: theme.zIndex.tooltip + 1,
               background: theme.chromeLow
@@ -102,7 +102,6 @@ export default class Icons extends React.Component<void, IconsState> {
             style={{
               position: "fixed",
               padding: 10,
-              fontSize: 14,
               zIndex: theme.zIndex.tooltip + 1,
               background: theme.chromeLow
             }}
@@ -112,15 +111,16 @@ export default class Icons extends React.Component<void, IconsState> {
               iconSize={40}
               background="none"
               style={{
+                width: 320,
                 height: 40
               }}
               onChangeValue={this.handleInput}
             />
-            <p style={{ lineHeight: 1.8 }}>
-              Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. Used mainly in AppBarButton and AppBarToggleButton. ({currIconNames.length} icon)
-            </p>
           </div>
         </div>
+        <p style={{ lineHeight: 1.8 }}>
+          Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. Used mainly in AppBarButton and AppBarToggleButton. ({currIconNames.length} icon)
+        </p>
         <div
           style={theme.prepareStyles({
             width: "100%",
