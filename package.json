@@ -4,7 +4,7 @@
   "description": "UWP Design Ui by React",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm-run-all build:copy build:source",
     "build:copy": "node ./scripts/copy-build-files.js",
     "build:source": "tsc --rootDir ./src --outDir ./build",
