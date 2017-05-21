@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import ComponentDetail from "../../../components/ComponentDetail";
 import * as docEntry from "react-uwp/CommandBar/index.doc.json";
@@ -10,7 +11,9 @@ import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
 import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
-export default class CommandBar extends React.PureComponent<any, void> {
+export default class CommandBar extends React.Component<any, void> {
+  static contextTypes = { theme: PropTypes.object };
+
   render() {
     const {
       location, // tslint:disable-line:no-unused-variable

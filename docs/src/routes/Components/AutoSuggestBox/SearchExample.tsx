@@ -2,7 +2,7 @@ import * as React from "react";
 
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 
-export default class SearchExample extends React.PureComponent<void, void> {
+export default class SearchExample extends React.Component<void, void> {
   render() {
     return (
       <AutoSuggestBox

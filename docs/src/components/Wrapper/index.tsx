@@ -6,15 +6,14 @@ import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import getTheme from "react-uwp/styles/getTheme";
 
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import TreeView from "react-uwp/TreeView";
 import IconButton from "react-uwp/IconButton";
 import Icon from "react-uwp/Icon";
 import FloatNav from "react-uwp/FloatNav";
-import Theme from "react-uwp/Theme";
 import { ThemeType } from "react-uwp/styles/ThemeType";
-import getTheme from "react-uwp/styles/getTheme";
 import setScrollBarStyle from "react-uwp/styles/setScrollBarStyle";
 
 import listItemsData from "./categories";
@@ -41,7 +40,7 @@ function setListItemsUrl(path = "/") {
     const title = listData.titleNode.toLowerCase().replace(/\s/gim, "-");
     if (names.includes(title)) {
       listData.expanded = true;
-      if (names.slice(-1)[0].includes(title)) listData.visited = true;
+      if (names.slice(-1)[0] === title) listData.visited = true;
     }
 
     const parentUrlNow = `${listData.parentUrl}/${listData.titleNode.toLowerCase().replace(/\s/gim, "-")}`;
@@ -90,7 +89,6 @@ export interface ReactUWPState {
   screenType?: "phone" | "tablet" | "laptop" | "pc";
 }
 
-const theme = getTheme("Dark");
 const HEADER_HEIGHT = 60;
 const FOOTER_HEIGHT = 320;
 
@@ -113,10 +111,6 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
   }
 
   componentDidMount() {
-    Object.assign(document.body.style, {
-      background: theme.chromeLow,
-      color: theme.baseHigh
-    });
     setScrollBarStyle();
     window.addEventListener("resize", this.resize);
   }
@@ -192,17 +186,18 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
       containerStyle
     } = this.props;
     const { listItems, showFocus, renderContentWidth, screenType } = this.state;
+    const { theme } = this.context;
     const { date } = this.state;
     const notPhoneTablet = screenType !== "phone" && screenType !== "tablet";
 
     return (
-      <Theme
+      <div
         className={className}
-        theme={theme}
         id={id}
         style={theme.prepareStyles({
           display: "flex",
           flexDirection: "column",
+          background: theme.chromeLow,
           ...style
         }) as any}
       >
@@ -298,25 +293,12 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                 style={{
                   color: "#fff"
                 }}
-                hoverStyle={{
-                  color: "#fff",
-                  background: theme.accent
+                hoverStyle={{}}
+                onClick={() => {
+                  theme.saveTheme(getTheme(theme.isDarkTheme ? "Light" : "Dark", theme.accent));
                 }}
-                onClick={() => scrollToYEasing(0)}
               >
-                Brightness
-              </IconButton>,
-              <IconButton
-                style={{
-                  color: "#fff"
-                }}
-                hoverStyle={{
-                  color: "#fff",
-                  background: theme.accent
-                }}
-                onClick={() => scrollToYEasing(0)}
-              >
-                QuietHours
+                {theme.isDarkTheme ? "Brightness" : "QuietHours"}
               </IconButton>,
               <IconButton
                 style={{
@@ -335,7 +317,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
             floatNavWidth={200}
           />
         </div>
-      </Theme>
+      </div>
     );
   }
 }

@@ -10,7 +10,7 @@ export interface DoubleThemeRenderProps extends React.HTMLAttributes<HTMLDivElem
   useChromeColor?: boolean;
 }
 
-export default class DoubleThemeRender extends React.PureComponent<DoubleThemeRenderProps, void> {
+export default class DoubleThemeRender extends React.Component<DoubleThemeRenderProps, void> {
   render() {
     const { children, direction, themeStyle, useBorder, useChromeColor, ...attributes } = this.props;
     const darkTheme = getTheme("Dark");
@@ -48,7 +48,7 @@ export default class DoubleThemeRender extends React.PureComponent<DoubleThemeRe
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              ...currThemeStyle,
+              ...currThemeStyle
             })
           })}
         >

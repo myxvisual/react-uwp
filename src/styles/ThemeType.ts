@@ -45,6 +45,7 @@ type ThemeType = {
   prepareStyles?: <TAny>(style?: React.CSSProperties | TAny) => TAny | React.CSSProperties;
   isDarkTheme?: boolean;
   updateTheme?: (theme: ThemeType) => void;
+  saveTheme?: (theme: ThemeType) => void;
   zIndex?: {
     tooltip?: number;
     flyout?: number;
@@ -53,5 +54,5 @@ type ThemeType = {
   };
 };
 
-export { ThemeType }
+export { ThemeType };
 export default ThemeType;

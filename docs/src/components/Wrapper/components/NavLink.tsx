@@ -77,7 +77,7 @@ function getStyles(navLink: NavLink): {
       lineHeight: `${headerHeight}px`,
       fontSize: 15,
       color: theme.baseMediumHigh,
-      background: hovered ? theme.accentDarker1 : "none",
+      background: hovered ? theme.baseLow : "none",
       textDecoration: hovered ? "underline" : "none",
       padding: "0 26px",
       cursor: "pointer",

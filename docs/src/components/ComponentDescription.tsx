@@ -127,7 +127,7 @@ export default class ComponentDescription extends React.PureComponent<ComponentD
     const planeText = members.map(({ name, type, isRequired, initializerText, documentation }) => ([
       name,
       `<p style="color: ${theme.accent};">${type.replace(/\|/g, " or ")}</p>`,
-      ...(getProps ? [`<p style="color: ${theme.baseHigh};">${initializerText}</p>`] : []),
+      ...(getProps ? [`<p style="color: ${theme.baseHigh};">${initializerText || ""}</p>`] : []),
       ...(getProps ? [`<p style="color: ${theme.baseMedium};">${Boolean(isRequired)}</p>`] : []),
       `<p style="color: ${theme.baseMedium};">${documentation || ""}</p>`
     ].join(" | "))).join("\n");
@@ -156,7 +156,7 @@ ${planeText}
         {...attributes}
         style={styles.root}
       >
-        <h5 style={styles.head}>Props</h5>
+        <p style={styles.head}>Props</p>
         <MarkdownRender text={this.members2MarkdownText(dataProps, true)} />
         <p
           style={{
@@ -167,7 +167,7 @@ ${planeText}
         >
           Other Props is HTMLAttributes will are applied to the root element.
         </p>
-        <h5 style={styles.head}>Members</h5>
+        <p style={styles.head}>Members</p>
         <MarkdownRender text={this.members2MarkdownText(componentMembers)} />
       </div>
     );
@@ -191,6 +191,7 @@ function getStyles(componentDescription: ComponentDescription): {
       ...style
     }),
     head: {
+      fontWeight: 500,
       margin: "16px 0",
       fontSize: 22,
       lineHeight: 1.5,

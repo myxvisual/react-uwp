@@ -65,7 +65,7 @@ ${code}
       >
         <div style={{ width: "100%", border: `1px solid ${theme.accent}` }}>
           <div onClick={this.toggleShowCode} style={styles.title}>
-            <h5>{title}</h5>
+            <p style={{ fontSize: 15 }}>{title}</p>
             <Tooltip
               style={{ width: 150 }}
               content={showCode ? "Hide Source Code" : "Show Source Code"}
@@ -123,7 +123,7 @@ function getStyles(codeExample: CodeExample): {
       justifyContent: "space-between",
       width: "100%",
       fontSize: 18,
-      color: theme.baseHigh,
+      color: "#fff",
       background: theme.accent,
       cursor: "pointer",
       padding: "12px 8px",
@@ -148,6 +148,7 @@ function getStyles(codeExample: CodeExample): {
     }),
     icon: prepareStyles({
       transform: `rotateZ(${showCode ? "-180deg" : "0deg"})`,
+      color: "inherit",
       cursor: "pointer",
       transition: "all .25s"
     })

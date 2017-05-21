@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Router, RouteComponent, browserHistory } from "react-router";
 
+import Theme from "react-uwp/Theme";
 import Wrapper from "../components/Wrapper";
 
 export interface RouterCallback {
@@ -15,9 +16,11 @@ const getRoutes = (path = "/") => {
       render() {
         const { children } = this.props;
         return (
-          <Wrapper path={path} containerStyle={containerStyle}>
-            {children as any}
-          </Wrapper>
+          <Theme autoSaveTheme>
+            <Wrapper path={path} containerStyle={containerStyle}>
+              {children as any}
+            </Wrapper>
+          </Theme>
         );
       }
     } as any

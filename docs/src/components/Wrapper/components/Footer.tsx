@@ -45,7 +45,7 @@ export default class Footer extends React.Component<FooterProps, void> {
                 href: "https://developer.microsoft.com/en-us/windows"
               }, {
                 children: "MSDN Forums",
-                href: "/"
+                href: "https://msdn.microsoft.com/en-us/default.aspx"
               }, {
                 children: "Fluent Design System",
                 href: "http://fluent.microsoft.com/"
@@ -112,6 +112,7 @@ function getStyles(footer: Footer): {
       verticalAlign: "top"
     },
     openSource: {
+      fontSize: 12,
       color: theme.baseHigh,
       alignSelf: "flex-end",
       margin: 40

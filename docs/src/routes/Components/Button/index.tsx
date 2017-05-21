@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import ComponentDetail from "../../../components/ComponentDetail";
 import CodeExample from "../../../components/CodeExample";
@@ -17,9 +18,10 @@ import * as ComplexExampleDesc from "!raw!./ComplexExample.md";
 import InlineStyleExample from "./InlineStyleExample";
 import * as InlineStyleExampleCode from "!raw!./InlineStyleExample.tsx";
 import * as InlineStyleExampleDesc from "!raw!./InlineStyleExample.md";
-import Test from "./Test";
 
 export default class Button extends React.Component<any, void> {
+  static contextTypes = { theme: PropTypes.object };
+
   render() {
     const {
       location, // tslint:disable-line:no-unused-variable
@@ -58,7 +60,6 @@ export default class Button extends React.Component<any, void> {
         >
           <InlineStyleExample />
         </CodeExample>
-        <Test />
       </ComponentDetail>
     );
   }

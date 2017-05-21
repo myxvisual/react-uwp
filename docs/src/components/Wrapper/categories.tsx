@@ -125,7 +125,7 @@ export default [{
   }, {
     "titleNode": "Progress"
   }, {
-    "titleNode": "Radio button"
+    "titleNode": "RadioButton"
   }, {
     "titleNode": "Scrolling and panning controls"
   }, {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import MarkdownRender from "../../../components/MarkdownRender";
 import ComponentDetail from "../../../components/ComponentDetail";
@@ -9,7 +10,9 @@ import Button from "react-uwp/Button";
 import AppBarButton from "react-uwp/AppBarButton";
 import HyperLink from "react-uwp/HyperLink";
 
-export default class IndexOfComponentsByFunction extends React.PureComponent<any, void> {
+export default class IndexOfComponentsByFunction extends React.Component<any, void> {
+  static contextTypes = { theme: PropTypes.object };
+
   render() {
     const {
       location, // tslint:disable-line:no-unused-variable

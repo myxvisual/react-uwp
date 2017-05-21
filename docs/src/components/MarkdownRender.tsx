@@ -12,7 +12,7 @@ export interface DataProps {
 
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class MarkdownRender extends React.PureComponent<MarkdownRenderProps, void> {
+export default class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
   static defaultProps = {
     text: ""
   };
@@ -38,6 +38,14 @@ export default class MarkdownRender extends React.PureComponent<MarkdownRenderPr
   }
 
   componentDidMount() {
+    this.updateThemeStyle();
+  }
+
+  componentDidUpdate() {
+    this.updateThemeStyle();
+  }
+
+  updateThemeStyle = () => {
     if (this.context.theme.isDarkTheme) {
       require("prismjs/themes/prism-okaidia.css");
     } else {
@@ -47,7 +55,6 @@ export default class MarkdownRender extends React.PureComponent<MarkdownRenderPr
     const className = "react-uwp-markdown-style-sheet";
     let styleSheet = document.querySelector(`.${className}`);
     const cssString = getCSSString(this.context.theme);
-
     if (!styleSheet) {
       styleSheet = document.createElement("style");
       styleSheet.className = className;
@@ -101,6 +108,7 @@ return (
 
 .react-uwp-markdown a, .react-uwp-markdown h1, .react-uwp-markdown h2, .react-uwp-markdown h3, .react-uwp-markdown h4, .react-uwp-markdown h5, .react-uwp-markdown h6 {
   line-height: 1.8;
+  font-weight: normal;
   color: ${theme.baseHigh};
 }
 
@@ -183,7 +191,7 @@ return (
   background: ${theme.chromeLow};
   border: 1px solid ${theme.baseLow};
   border-radius: 0 !important;
-  padding: 20px;
+  padding: 12px;
   margin: 10px 0;
   width: 100%;
   word-wrap: break-word;
@@ -229,7 +237,7 @@ return (
   vertical-align: middle;
   border-collapse: collapse;
   padding: 12px;
-  color: ${theme.baseHigh};
+  color: #fff;
   background: ${theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"]};
   border: 1px solid ${theme.altHigh};
 }
@@ -248,6 +256,10 @@ return (
 
 .react-uwp-markdown ul {
   margin: 10px 20px;
+}
+code[class*="language-"], pre[class*="language-"] {
+  text-shadow: none;
+  box-shadow: none;
 }
 `
 ); }

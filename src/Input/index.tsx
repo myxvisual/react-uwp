@@ -116,7 +116,7 @@ export default class Input extends React.Component<InputProps, InputState> {
           ref={input => this.input = input}
           {...attributes as any}
           style={theme.prepareStyles({
-            color: focused ? "#000" : currBackground,
+            color: focused ? "#000" : theme.baseMediumHigh,
             width: "100%",
             height: "100%",
             background: "none",
