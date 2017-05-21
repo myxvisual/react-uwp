@@ -57,7 +57,7 @@ module.exports = {
         query: {
           configFileName: path.resolve(__dirname, './tsconfig.json'),
           useBabel: true,
-          useCache: true,
+          useCache: __DEV__,
           useTranspileModule: true,
           forkChecker: true,
           cacheDirectory: __DEV__ ? `${outputPath}/awesomeTypescriptCacheProd` : void 0

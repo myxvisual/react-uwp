@@ -10,6 +10,7 @@ docs/awesomeTypescriptCacheProd
 
 # production
 /build
+/docs/build
 /docs/build-ts
 
 # misc
