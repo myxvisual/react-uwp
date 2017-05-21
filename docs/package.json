@@ -8,7 +8,7 @@
     "server:dev": "cross-env NODE_ENV=development ts-node server.ts",
     "server:prod": "cross-env NODE_ENV=production ts-node server.ts",
     "build": "npm-run-all build:webpack",
-    "check:build-ts": "test -d \"./build-ts\" && rm -r \"./build-ts\" || exit 0",
+    "check:build": "test -d \"./build\" && rm -r \"./build\" || exit 0",
     "build:ts": "npm run check:build-ts && tsc -p ./tsconfig.build.json",
     "build:html-dev": "node ./scripts/buildHTML.js",
     "build:webpack": "cross-env NODE_ENV=production webpack --progress --colors --display-error-details --hide-modules -p",
