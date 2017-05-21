@@ -49,3 +49,5 @@ function buildDocs() {
     execSyncWithLog('git push -f')
   }
 }
+
+buildDocs()
