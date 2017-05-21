@@ -11,6 +11,7 @@ if (args.length < 3) {
 }
 
 const version = args[2]
+const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
 
 function execSyncWithLog(command) {
@@ -28,7 +29,7 @@ function buildDocs() {
   execSyncWithLog('git checkout gh-pages')
   execSyncWithLog('git reset --hard HEAD~1')
 
-  if (version === 'HEAD') {
+  if (versionIsHEAD) {
     execSyncWithLog('git checkout --detach master')
   } else {
     execSyncWithLog(`git checkout tags/${version}`)
@@ -36,19 +37,21 @@ function buildDocs() {
 
   execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
-  
   execSyncWithLog('git checkout gh-pages')
   execSyncWithLog(`mv ../build ../../${version}`)
 
-  if (version === 'HEAD') {
+  const versionNumber = versionIsHEAD ? (
+    JSON.parse(fs.writeFileSync('../package.json', 'utf8')).version
+  ) : version
+  execSyncWithLog(`ln -sfh ./${versionNumber} ../release`)
+
+  if (versionIsHEAD) {
     execSyncWithLog('git commit --amend --no-edit')
   } else {
     execSyncWithLog(`git add .. && git commit -m '${version}'`)
   }
 
-  if (useForcePush) {
-    execSyncWithLog('git push -f')
-  }
+  execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
 buildDocs()
