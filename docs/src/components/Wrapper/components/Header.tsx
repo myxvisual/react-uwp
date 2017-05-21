@@ -45,11 +45,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </a>
             <div style={{ marginLeft: 20, height: "100%" }}>
-              <NavLink headerHeight={headerHeight} href="/">Get Started</NavLink>
-              <NavLink headerHeight={headerHeight} href="/">Documentation</NavLink>
-              <NavLink headerHeight={headerHeight} href="/">Design</NavLink>
-              <NavLink headerHeight={headerHeight} href="/">Resources</NavLink>
-              <NavLink headerHeight={headerHeight} href="/">Examples</NavLink>
+              <NavLink headerHeight={headerHeight} href="/get-started">Get Started</NavLink>
+              <NavLink headerHeight={headerHeight} href="/components">Documentation</NavLink>
+              <NavLink headerHeight={headerHeight} href="/resources">Resources</NavLink>
+              <NavLink headerHeight={headerHeight} href="/examples">Examples</NavLink>
             </div>
           </div>
         </div>

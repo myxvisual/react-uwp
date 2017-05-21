@@ -23,7 +23,7 @@ function setListItemsUrl(path = "/") {
   const listItem: any = listItemsData;
   const isRootPath = path === "/";
   const parentUrl = isRootPath ? "" : `/${path}`;
-  const names = location.pathname.replace(/\s/gim, "-").split("/");
+  const names = location.pathname.split("/").map(path => path.toLowerCase());
   if (!isRootPath) {
     names.splice(names.indexOf(parentUrl), 1);
   }
@@ -38,10 +38,10 @@ function setListItemsUrl(path = "/") {
     }
     if (typeof listData.titleNode !== "string") return;
 
-    const title = listData.titleNode.toLowerCase();
+    const title = listData.titleNode.toLowerCase().replace(/\s/gim, "-");
     if (names.includes(title)) {
       listData.expanded = true;
-      if (names.slice(-1)[0].toLocaleLowerCase().includes(title)) listData.visited = true;
+      if (names.slice(-1)[0].includes(title)) listData.visited = true;
     }
 
     const parentUrlNow = `${listData.parentUrl}/${listData.titleNode.toLowerCase().replace(/\s/gim, "-")}`;
