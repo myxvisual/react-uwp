@@ -6,7 +6,7 @@ import NavLink from "./NavLink";
 import ReactIcon from "../../ReactIcon";
 
 export interface DataProps {
-  maxWidth?: number | string;
+  renderContentWidth?: number | string;
   headerHeight?: number;
 }
 
@@ -26,7 +26,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
   render() {
     const {
-      maxWidth,
+      renderContentWidth,
       headerHeight,
       ...attributes
     } = this.props;
@@ -65,7 +65,7 @@ function getStyles(header: Header): {
 } {
   const {
     context: { theme },
-    props: { style, maxWidth, headerHeight }
+    props: { style, renderContentWidth, headerHeight }
   } = header;
   const { prepareStyles } = theme;
 
@@ -83,13 +83,13 @@ function getStyles(header: Header): {
       justifyContent: "center",
       left: 0,
       top: 0,
-      zIndex: 1,
+      zIndex: 20,
       ...style
     }),
     content: prepareStyles({
       display: "flex",
       flexDirection: "row",
-      width: maxWidth,
+      width: renderContentWidth,
       height: "100%"
     }),
     logo: prepareStyles({
@@ -97,6 +97,7 @@ function getStyles(header: Header): {
       flex: "0 0 auto",
       flexDirection: "row",
       alignItems: "center",
+      marginLeft: 12,
       color: theme.accent,
       fontSize: 15,
       height: headerHeight,

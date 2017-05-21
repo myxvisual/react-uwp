@@ -89,12 +89,11 @@ const getRoutes = (path = "/") => {
       }]
     }, {
       path: "styles",
-      component: getWrapper({ padding: 0 }),
       childRoutes: [{
         path: "Icons",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
-            cb(null, require<any>("./Style/Icons").default);
+            cb(null, require<any>("./Styles/Icons").default);
           }, "app-react-uwp-style-Icons");
         }
       }]

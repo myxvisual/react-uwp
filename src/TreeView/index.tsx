@@ -88,7 +88,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     const { init, currListItems, showFocus } = this.state;
     const { theme } = this.context;
     const { prepareStyles } = theme;
-    const { iconDirection } = this.props;
+    const { iconDirection, listItemHeight } = this.props;
     const isRight = iconDirection === "right";
     const styles = getStyles(this);
     const { childPadding, iconPadding } = this.props;
@@ -147,6 +147,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                   cursor: disable ? "not-allowed" : "pointer",
                   color: disable ? theme.baseLow : void 0,
                   width: isRight ? void 0 : 20,
+                  height: listItemHeight,
                   fontSize: 14,
                   zIndex: 1,
                   transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`

@@ -86,12 +86,13 @@ export interface ReactUWPState {
 
   child?: number;
   date?: Date;
-  renderMaxWidth?: number | string;
+  renderContentWidth?: number | string;
   screenType?: "phone" | "tablet" | "laptop" | "pc";
 }
 
 const theme = getTheme("Dark");
 const HEADER_HEIGHT = 60;
+const FOOTER_HEIGHT = 320;
 
 export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPState> {
   static contextTypes = { theme: PropTypes.object };
@@ -128,23 +129,23 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
     const { innerWidth } = window;
     if (innerWidth < 960) {
       const screenType = "phone";
-      this.updateRenderMaxWidth("100%", screenType);
+      this.updateRenderContentWidth("100%", screenType);
     } else if (innerWidth >= 960 && innerWidth < 1366) {
       const screenType = "tablet";
-      this.updateRenderMaxWidth(960, screenType);
+      this.updateRenderContentWidth(960, screenType);
     } else if (innerWidth >= 1366 && innerWidth < 1920) {
       const screenType = "laptop";
-      this.updateRenderMaxWidth(1280, screenType);
+      this.updateRenderContentWidth(1280, screenType);
     } else {
       const screenType = "pc";
-      this.updateRenderMaxWidth(1600, screenType);
+      this.updateRenderContentWidth(1600, screenType);
     }
   }
 
-  updateRenderMaxWidth = (renderMaxWidth: string | number, screenType: "phone" | "tablet" | "laptop" | "pc") => {
-    if (this.state.renderMaxWidth !== renderMaxWidth) {
+  updateRenderContentWidth = (renderContentWidth: string | number, screenType: "phone" | "tablet" | "laptop" | "pc") => {
+    if (this.state.renderContentWidth !== renderContentWidth) {
       this.setState({
-        renderMaxWidth,
+        renderContentWidth,
         screenType
       });
     }
@@ -190,7 +191,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
       children,
       containerStyle
     } = this.props;
-    const { listItems, showFocus, renderMaxWidth, screenType } = this.state;
+    const { listItems, showFocus, renderContentWidth, screenType } = this.state;
     const { date } = this.state;
     const notPhoneTablet = screenType !== "phone" && screenType !== "tablet";
 
@@ -202,56 +203,52 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
         style={theme.prepareStyles({
           display: "flex",
           flexDirection: "column",
-          maxWidth: renderMaxWidth,
-          margin: "0 auto",
           ...style
         }) as any}
       >
-        <Header headerHeight={HEADER_HEIGHT} maxWidth={renderMaxWidth} />
+        <Header headerHeight={HEADER_HEIGHT} renderContentWidth={renderContentWidth} />
 
 
-        <div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
+        <div
+          style={theme.prepareStyles({
+            display: "flex",
+            flexDirection: "row",
+            width: renderContentWidth,
+            minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT - 20}px)`,
+            margin: "0 auto"
+          })}
+        >
           <div
             style={{
               width: 320,
-              position: "relative",
+              padding: "10px 0",
               display: notPhoneTablet ? void 0 : "none"
             }}
           >
-            <div
+            <AutoSuggestBox
+              background="none"
               style={{
-                position: "fixed",
-                top: HEADER_HEIGHT,
-                width: 320,
-                padding: "10px 0",
-                height: `calc(100vh - ${HEADER_HEIGHT}px - 42px - 20px)`
+                height: 42,
+                fontSize: 20,
+                width: "100%"
               }}
-            >
-              <AutoSuggestBox
-                background="none"
-                style={{
-                  height: 42,
-                  fontSize: 20,
-                  width: "100%"
-                }}
-                iconSize={42}
-                placeholder="Search Docs..."
-                onChangeValue={this.handleChangeValue}
-              />
-              <TreeView
-                listItems={listItems as any}
-                listItemHeight={32}
-                childPadding={20}
-                iconPadding={2}
-                showFocus={showFocus}
-                titleNodeStyle={{
-                  fontSize: 14
-                }}
-                style={{
-                  maxHeight: "100%"
-                }}
-              />
-            </div>
+              iconSize={42}
+              placeholder="Search Docs..."
+              onChangeValue={this.handleChangeValue}
+            />
+            <TreeView
+              listItems={listItems as any}
+              listItemHeight={32}
+              childPadding={20}
+              iconPadding={2}
+              showFocus={showFocus}
+              titleNodeStyle={{
+                fontSize: 14
+              }}
+              style={{
+                maxHeight: "100%"
+              }}
+            />
           </div>
           <Icon
             style={{
@@ -279,64 +276,64 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
           >
             {children}
           </div>
+        </div>
 
 
-          <Footer />
-          <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>
-            <FloatNav
-              topNode={
-                <IconButton
-                  hoverStyle={{
-                    color: "#fff",
-                    background: theme.accent
-                  }}
-                  onClick={() => location.href = "/"}
-                >
-                  Home
-                </IconButton>
-              }
-              bottomNode={[
-                <IconButton
-                  style={{
-                    color: "#fff"
-                  }}
-                  hoverStyle={{
-                    color: "#fff",
-                    background: theme.accent
-                  }}
-                  onClick={() => scrollToYEasing(0)}
-                >
-                  Brightness
-                </IconButton>,
-                <IconButton
-                  style={{
-                    color: "#fff"
-                  }}
-                  hoverStyle={{
-                    color: "#fff",
-                    background: theme.accent
-                  }}
-                  onClick={() => scrollToYEasing(0)}
-                >
-                  QuietHours
-                </IconButton>,
-                <IconButton
-                  style={{
-                    background: theme.accent,
-                    color: "#fff"
-                  }}
-                  hoverStyle={{
-                    color: "#fff",
-                    background: theme.accent
-                  }}
-                  onClick={() => scrollToYEasing(0)}
-                >
-                  ScrollChevronUpLegacy
-                </IconButton>
-              ]}
-              floatNavWidth={200}
-            />
-          </div>
+        <Footer footerHeight={FOOTER_HEIGHT} renderContentWidth={renderContentWidth} />
+        <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>
+          <FloatNav
+            topNode={
+              <IconButton
+                hoverStyle={{
+                  color: "#fff",
+                  background: theme.accent
+                }}
+                onClick={() => location.href = "/"}
+              >
+                Home
+              </IconButton>
+            }
+            bottomNode={[
+              <IconButton
+                style={{
+                  color: "#fff"
+                }}
+                hoverStyle={{
+                  color: "#fff",
+                  background: theme.accent
+                }}
+                onClick={() => scrollToYEasing(0)}
+              >
+                Brightness
+              </IconButton>,
+              <IconButton
+                style={{
+                  color: "#fff"
+                }}
+                hoverStyle={{
+                  color: "#fff",
+                  background: theme.accent
+                }}
+                onClick={() => scrollToYEasing(0)}
+              >
+                QuietHours
+              </IconButton>,
+              <IconButton
+                style={{
+                  background: theme.accent,
+                  color: "#fff"
+                }}
+                hoverStyle={{
+                  color: "#fff",
+                  background: theme.accent
+                }}
+                onClick={() => scrollToYEasing(0)}
+              >
+                ScrollChevronUpLegacy
+              </IconButton>
+            ]}
+            floatNavWidth={200}
+          />
         </div>
       </Theme>
     );

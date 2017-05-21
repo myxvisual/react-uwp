@@ -23,7 +23,6 @@ export default class IndexOfComponentsByFunction extends React.PureComponent<any
 
     return (
       <div {...attributes}>
-        <ComponentDetail />
         <MarkdownRender
           text={
 `# Controls by function

@@ -47,8 +47,6 @@ export default [{
   }, {
     "titleNode": "Motion"
   }, {
-    "titleNode": "Sound"
-  }, {
     "titleNode": "Typography",
     "children": [{
       "titleNode": "Fonts"
@@ -56,22 +54,19 @@ export default [{
       "titleNode": "Segoe MDL2 icons"
     }]
   }, {
-    "titleNode": "Styling controls",
+    "titleNode": "Styling Components",
     "children": [{
-      "titleNode": "XAML Control templates"
+      "titleNode": "Use InlineStyle replace the default style"
     }, {
-      "titleNode": "ResourceDictionary and XAML resource references"
-    }, {
-      "titleNode": "XAML theme resources"
+      "titleNode": "Custom theme"
     }]
   }]
 }, {
   "titleNode": "Components",
-  "expanded": true,
   "children": [{
     "titleNode": "Intro"
   }, {
-    "titleNode": "Index of controls by function"
+    "titleNode": "Index of components by function"
   }, {
     "titleNode": "CommandBar"
   }, {
@@ -83,15 +78,15 @@ export default [{
   }, {
     "titleNode": "ColorPicker"
   }, {
-    "titleNode": "Date and time",
+    "titleNode": "Date Pickers",
     "children": [{
-      "titleNode": "Calendar date picker"
+      "titleNode": "CalendarDatePicker"
     }, {
-      "titleNode": "Calendar view"
+      "titleNode": "CalendarView"
     }, {
-      "titleNode": "Date picker"
+      "titleNode": "DatePicker"
     }, {
-      "titleNode": "Time picker"
+      "titleNode": "TimePicker"
     }]
   }, {
     "titleNode": "Dialogs and flyouts"
@@ -102,10 +97,8 @@ export default [{
   }, {
     "titleNode": "Hyperlinks"
   }, {
-    "titleNode": "Images and image brushes"
-  }, {
-    "titleNode": "Inking controls"
-  }, {
+    "titleNode": "Image"
+  },  {
     "titleNode": "Lists",
     "children": [{
       "titleNode": "List view and grid view"
@@ -128,7 +121,7 @@ export default [{
   }, {
     "titleNode": "Menus and context menus"
   }, {
-    "titleNode": "Nav pane"
+    "titleNode": "NavPane"
   }, {
     "titleNode": "Progress"
   }, {
@@ -138,11 +131,11 @@ export default [{
   }, {
     "titleNode": "Search"
   }, {
-    "titleNode": "Semantic zoom"
+    "titleNode": "SemanticZoom"
   }, {
     "titleNode": "Slider"
   }, {
-    "titleNode": "Split view"
+    "titleNode": "SplitView"
   }, {
     "titleNode": "Tabs and pivot"
   }, {
@@ -150,15 +143,15 @@ export default [{
     "children": [{
       "titleNode": "Labels"
     }, {
-      "titleNode": "Password box"
+      "titleNode": "PasswordBox"
     }, {
-      "titleNode": "Rich edit box"
+      "titleNode": "RichEditBox"
     }, {
       "titleNode": "Rich text block"
     }, {
       "titleNode": "Text block"
     }, {
-      "titleNode": "Text box"
+      "titleNode": "TextBox"
     }]
   }, {
     "titleNode": "Tiles, badges, and notifications",
@@ -197,11 +190,13 @@ export default [{
     "titleNode": "Toggle"
   }, {
     "titleNode": "Tooltip"
-  }, {
-    "titleNode": "Web view"
   }]
 }, {
-  "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Microsoft Design Language</a>
+  "titleNode": "Resources"
 }, {
-  "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Downloads</a>
+  "titleNode": "Examples"
+}, {
+  "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="http://fluent.microsoft.com/" target="_blank">Fluent Design System</a>
+}, {
+  "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Design Toolkits</a>
 }];
