@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export default [{
-  "titleNode": "Get started with React-UWP"
+  "titleNode": "Get Started"
 }, {
   "titleNode": "Styles",
   "children": [{

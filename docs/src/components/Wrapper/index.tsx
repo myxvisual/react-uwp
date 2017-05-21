@@ -4,7 +4,8 @@ import * as PropTypes from "prop-types";
 
 import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
-import Header from "../Header";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import TreeView from "react-uwp/TreeView";
@@ -207,6 +208,8 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
         }) as any}
       >
         <Header headerHeight={HEADER_HEIGHT} maxWidth={renderMaxWidth} />
+
+
         <div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
           <div
             style={{
@@ -276,6 +279,9 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
           >
             {children}
           </div>
+
+
+          <Footer />
           <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>
             <FloatNav
               topNode={

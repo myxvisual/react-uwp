@@ -2,8 +2,8 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ThemeType from "react-uwp/styles/ThemeType";
-import Link from "./components/Link";
-import ReactIcon from "../ReactIcon";
+import NavLink from "./NavLink";
+import ReactIcon from "../../ReactIcon";
 
 export interface DataProps {
   maxWidth?: number | string;
@@ -34,7 +34,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     const styles = getStyles(this);
 
     return (
-      <div style={{ width: "100%", height: headerHeight }}>
+      <header style={{ width: "100%", height: headerHeight }}>
         <div
           {...attributes}
           style={styles.root}
@@ -45,15 +45,15 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </a>
             <div style={{ marginLeft: 20, height: "100%" }}>
-              <Link headerHeight={headerHeight} href="/">Get Started</Link>
-              <Link headerHeight={headerHeight} href="/">Documentation</Link>
-              <Link headerHeight={headerHeight} href="/">Design</Link>
-              <Link headerHeight={headerHeight} href="/">Resources</Link>
-              <Link headerHeight={headerHeight} href="/">Examples</Link>
+              <NavLink headerHeight={headerHeight} href="/">Get Started</NavLink>
+              <NavLink headerHeight={headerHeight} href="/">Documentation</NavLink>
+              <NavLink headerHeight={headerHeight} href="/">Design</NavLink>
+              <NavLink headerHeight={headerHeight} href="/">Resources</NavLink>
+              <NavLink headerHeight={headerHeight} href="/">Examples</NavLink>
             </div>
           </div>
         </div>
-      </div>
+      </header>
     );
   }
 }

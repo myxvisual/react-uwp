@@ -7,20 +7,20 @@ export interface DataProps {
   headerHeight?: number;
 }
 
-export interface LinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
+export interface NavLinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
-export interface LinkState {
+export interface NavLinkState {
   hovered?: boolean;
 }
 
 const emptyFunc = () => {};
-export default class Link extends React.Component<LinkProps, LinkState> {
-  static defaultProps: LinkProps = {
+export default class NavLink extends React.Component<NavLinkProps, NavLinkState> {
+  static defaultProps: NavLinkProps = {
     onMouseEnter: emptyFunc,
     onMouseLeave: emptyFunc
   };
 
-  state: LinkState = {};
+  state: NavLinkState = {};
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
@@ -61,14 +61,14 @@ export default class Link extends React.Component<LinkProps, LinkState> {
   }
 }
 
-function getStyles(link: Link): {
+function getStyles(navLink: NavLink): {
   root?: React.CSSProperties;
 } {
   const {
     context: { theme },
     props: { style, headerHeight },
     state: { hovered }
-  } = link;
+  } = navLink;
   const { prepareStyles } = theme;
 
   return {
