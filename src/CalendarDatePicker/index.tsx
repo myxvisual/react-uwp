@@ -9,7 +9,7 @@ export interface DataProps {}
 
 export interface CalendarDatePickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class CalendarDatePicker extends React.PureComponent<CalendarDatePickerProps, void> {
+export class CalendarDatePicker extends React.Component<CalendarDatePickerProps, void> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };

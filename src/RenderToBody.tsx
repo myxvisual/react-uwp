@@ -5,7 +5,7 @@ export interface RenderToBodyProps {
   children?: React.ReactElement<any>;
 }
 
-export default class RenderToBody extends React.PureComponent<RenderToBodyProps, void> {
+export default class RenderToBody extends React.Component<RenderToBodyProps, void> {
   rootElm?: HTMLDivElement;
 
   componentDidMount() {

@@ -35,7 +35,7 @@ const getRoutes = (path = "/") => {
       getComponent(location: Location, cb: RouterCallback) {
         require.ensure([], (require) => {
           cb(null, require<any>("./Home").default);
-        }, "app-react-uwp-home");
+        }, "react-uwp-home");
       }
     },
     childRoutes: [{
@@ -45,49 +45,49 @@ const getRoutes = (path = "/") => {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/Intro").default);
-          }, "app-react-uwp-components-Intro");
+          }, "react-uwp-components-Intro");
         }
       }, {
         path: "index-of-components-by-function",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/IndexOfComponentsByFunction").default);
-          }, "app-react-uwp-components-IndexOfComponentsByFunction");
+          }, "react-uwp-components-IndexOfComponentsByFunction");
         }
       }, {
         path: "CommandBar",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/CommandBar").default);
-          }, "app-react-uwp-components-CommandBar");
+          }, "react-uwp-components-CommandBar");
         }
       }, {
         path: "AutoSuggestBox",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/AutoSuggestBox").default);
-          }, "app-react-uwp-components-AutoSuggestBox");
+          }, "react-uwp-components-AutoSuggestBox");
         }
       }, {
         path: "Button",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/Button").default);
-          }, "app-react-uwp-components-Button");
+          }, "react-uwp-components-Button");
         }
       }, {
         path: "CheckBox",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/CheckBox").default);
-          }, "app-react-uwp-components-CheckBox");
+          }, "react-uwp-components-CheckBox");
         }
       }, {
         path: "ColorPicker",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/ColorPicker").default);
-          }, "app-react-uwp-components-ColorPicker");
+          }, "react-uwp-components-ColorPicker");
         }
       }]
     }, {
@@ -97,12 +97,16 @@ const getRoutes = (path = "/") => {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Styles/Icons").default);
-          }, "app-react-uwp-style-Icons");
+          }, "react-uwp-style-Icons");
         }
       }]
     }, {
       path: "*",
-      component: () => <div>Not Found</div>
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          cb(null, require<any>("./NotFound").default);
+        }, "react-uwp-style-NotFound");
+      }
     }]
   };
 };

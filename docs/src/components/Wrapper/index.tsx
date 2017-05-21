@@ -197,6 +197,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
         style={theme.prepareStyles({
           display: "flex",
           flexDirection: "column",
+          color: theme.baseMediumHigh,
           background: theme.chromeLow,
           ...style
         }) as any}
@@ -223,11 +224,11 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
             <AutoSuggestBox
               background="none"
               style={{
-                height: 42,
-                fontSize: 20,
+                height: 32,
+                fontSize: 16,
                 width: "100%"
               }}
-              iconSize={42}
+              iconSize={32}
               placeholder="Search Docs..."
               onChangeValue={this.handleChangeValue}
             />

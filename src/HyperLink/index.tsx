@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link, { LinkProps } from "../Link";
 
-export class HyperLink extends React.PureComponent<LinkProps, void> {
+export class HyperLink extends React.Component<LinkProps, void> {
   render() {
     return (
       <Link

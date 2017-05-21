@@ -18,7 +18,7 @@ export interface ImageState {
   showEmptyImage?: boolean;
 }
 
-class Placeholder extends React.PureComponent<React.HTMLAttributes<HTMLImageElement>, void> {
+class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 

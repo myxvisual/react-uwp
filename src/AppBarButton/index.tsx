@@ -13,7 +13,7 @@ export interface DataProps {
 
 export interface AppBarButtonButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class AppBarButtonButton extends React.PureComponent<AppBarButtonButtonProps, void> {
+export default class AppBarButtonButton extends React.Component<AppBarButtonButtonProps, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 

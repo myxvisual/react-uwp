@@ -234,7 +234,7 @@ function getStyles(treeView: TreeView): {
       overflowY: "auto",
       color: theme.baseMediumHigh,
       background: background,
-      padding: 20,
+      padding: "0 20px",
       ...prepareStyles(style)
     } as any),
     title: prepareStyles({

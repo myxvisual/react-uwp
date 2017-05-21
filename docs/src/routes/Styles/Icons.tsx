@@ -108,11 +108,9 @@ export default class Icons extends React.Component<void, IconsState> {
           >
             <AutoSuggestBox
               placeholder="Search Icons"
-              iconSize={40}
               background="none"
               style={{
-                width: 320,
-                height: 40
+                width: 320
               }}
               onChangeValue={this.handleInput}
             />

@@ -4,7 +4,7 @@ import Separator, { SeparatorProps } from "../Separator";
 
 export interface AppBarSeparatorProps extends SeparatorProps {}
 
-export default class AppBarSeparator extends React.PureComponent<AppBarSeparatorProps, void> {
+export default class AppBarSeparator extends React.Component<AppBarSeparatorProps, void> {
   render() {
     return (
       <Separator
