@@ -38,6 +38,7 @@ function buildDocs() {
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   
   execSyncWithLog('git checkout gh-pages')
+  execSyncWithLog(`mv build ../${version}`)
 
   if (version === 'HEAD') {
     execSyncWithLog('git commit --amend --no-edit')

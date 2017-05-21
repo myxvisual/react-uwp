@@ -46,7 +46,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.jsx?$/,
-      loader: `babel?cacheDirectory=${outputPath}/babelCache${__DEV__ ? 'Dev' : 'Prod'}`,
+      loader: `babel${__DEV__ ? `?cacheDirectory=${outputPath}/babelCacheDev` : ''}`,
       include: [rootPath],
       exclude: [/(node_modules|bower_components)/]
     }, {
@@ -60,7 +60,7 @@ module.exports = {
           useCache: true,
           useTranspileModule: true,
           forkChecker: true,
-          cacheDirectory: `${outputPath}/awesomeTypescriptCache${__DEV__ ? 'Dev' : 'Prod'}`
+          cacheDirectory: __DEV__ ? `${outputPath}/awesomeTypescriptCacheProd` : void 0
         }
       }
     }, {

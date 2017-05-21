@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /docs/node_modules
+docs/awesomeTypescriptCacheProd
 
 # testing
 /coverage
