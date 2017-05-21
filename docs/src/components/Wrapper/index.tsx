@@ -19,9 +19,22 @@ import setScrollBarStyle from "react-uwp/styles/setScrollBarStyle";
 import listItemsData from "./categories";
 
 function setListItemsUrl(path = "/") {
-  const designChild: any = listItemsData[1];
-  const names = location.pathname.replace("/../../design/", "").replace(/\-/gim, " ").split("/");
+  const listItem: any = listItemsData;
+  const isRootPath = path === "/";
+  const parentUrl = isRootPath ? "" : `/${path}`;
+  const names = location.pathname.replace(/\s/gim, "-").split("/");
+  if (!isRootPath) {
+    names.splice(names.indexOf(parentUrl), 1);
+  }
+
   const setUrl = (listData: any) => {
+    if (Array.isArray(listData)) {
+      for (const listDataItem of listData) {
+        listDataItem.parentUrl = parentUrl;
+        setUrl(listDataItem);
+      }
+      return;
+    }
     if (typeof listData.titleNode !== "string") return;
 
     const title = listData.titleNode.toLowerCase();
@@ -49,10 +62,7 @@ function setListItemsUrl(path = "/") {
       });
     }
   };
-  designChild.children.forEach((item: any) => {
-    item.parentUrl = `${path === "/" ? "/" : `/${path}/`}design`;
-    setUrl(item);
-  });
+  setUrl(listItem);
 }
 
 export interface Item {
@@ -316,7 +326,7 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
                   onClick={() => scrollToYEasing(0)}
                 >
                   ScrollChevronUpLegacy
-                </IconButton>,
+                </IconButton>
               ]}
               floatNavWidth={200}
             />
