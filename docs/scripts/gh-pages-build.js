@@ -35,7 +35,7 @@ function buildDocs() {
   }
 
   execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
-  execSyncWithLog('cd ../ && npm install && cd docs && npm run build')
+  execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   
   execSyncWithLog('git checkout gh-pages')
 
