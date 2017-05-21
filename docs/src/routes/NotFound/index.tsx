@@ -31,7 +31,7 @@ export default class NotFound extends React.Component<NotFoundProps, NotFoundSta
           <h5>Oops!</h5>
           <h4>We can't seem to find the page you're looking for.</h4>
           <span>Error code: 404</span>
-          <span>Here are some website roadmap.</span>
+          <span>Here are some helpful links instead.</span>
         </div>
         <div>Oops~~</div>
       </div>
