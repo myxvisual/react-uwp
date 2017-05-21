@@ -97,7 +97,7 @@ module.exports = {
       dllConfigPath: './webpack.dll.config.js'
     }),
     new WebpackMd5Hash(),
-    new ManifestPlugin(),
+    new ManifestPlugin({ fileName: 'webpack-manifest.json' }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       __DEV__,

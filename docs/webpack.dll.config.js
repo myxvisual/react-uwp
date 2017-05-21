@@ -23,7 +23,7 @@ module.exports = {
     library
   },
   plugins: [
-    new ManifestPlugin({ fileName: 'dll-manifest.json' }),
+    new ManifestPlugin({ fileName: 'webpack-dll-manifest.json' }),
     new webpack.DllPlugin({
       path: path.resolve(`./${outputPath}/${publicPath}/[name]-manifest${__DEV__ ? '.dev' : '.prod'}.json`),
       name: library,

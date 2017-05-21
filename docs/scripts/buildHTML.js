@@ -41,7 +41,7 @@ function buildHTML() {
         name: __DEV__ ? `${name}.js` : manifest[`${name}.js`],
         proxy: __DEV__ ? `http://${hostName}:${port}` : '',
         common: __DEV__ ? 'common.js' : manifest['common.js'],
-        vendor: __DEV__ ? 'vendor.dev.dll.js' : vendorsManifest['vendor.js']
+        vendor: __DEV__ ? 'vendor.dev.dll.js' : vendorManifest['vendor.js']
       }
     )
   )

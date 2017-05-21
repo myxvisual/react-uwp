@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all build:html-dev server:dev",
+    "start": "npm-run-all build-html:dev server:dev",
+    "preprod": "npm-run-all build server:prod",
     "server:dev": "cross-env NODE_ENV=development ts-node server.ts",
     "server:prod": "cross-env NODE_ENV=production ts-node server.ts",
-    "build": "npm-run-all build:webpack",
+    "build": "npm-run-all build:webpack build-html:prod",
     "check:build": "test -d \"./build\" && rm -r \"./build\" || exit 0",
     "build:ts": "npm run check:build-ts && tsc -p ./tsconfig.build.json",
-    "build:html-dev": "node ./scripts/buildHTML.js",
+    "build-html:dev": "cross-env NODE_ENV=development node ./scripts/buildHTML.js",
+    "build-html:prod": "cross-env NODE_ENV=production node ./scripts/buildHTML.js",
     "build:webpack": "cross-env NODE_ENV=production webpack --progress --colors --display-error-details --hide-modules -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
