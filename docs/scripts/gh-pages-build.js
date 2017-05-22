@@ -4,7 +4,7 @@ const fse = require('fs-extra')
 const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
-const versionsFile = path.resolve(__dirname, '../public/versions.json')
+const versionsFile = path.resolve(__dirname, './versions.json')
 
 const args = process.argv
 if (args.length < 3) {
@@ -71,7 +71,7 @@ function buildDocs() {
   if (versionIsHEAD) {
     fs.writeFileSync(
       path.resolve(__dirname, '../../index.html'),
-      fs.readFileSync('../build/index.html', 'utf8').replace(/static\//gim, './HEAD/static/'),
+      fs.readFileSync('../build/index.html', 'utf8').replace(/\.\/static\//gim, './HEAD/static/'),
       'utf8'
     )
     fse.copySync(
@@ -82,6 +82,10 @@ function buildDocs() {
   fse.moveSync(
     path.resolve(__dirname, '../build'),
     path.resolve(__dirname, `../../${versionNumber}`)
+  )
+  fse.copySync(
+    path.resolve(__dirname, '../public'),
+    path.resolve(__dirname, '../../')
   )
 
   if (versionIsHEAD) {
