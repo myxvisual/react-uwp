@@ -38,9 +38,9 @@ function buildHTML() {
       fs.readFileSync(joinDirname('../src/views/index.ejs'), 'utf8'),
       {
         __DEV__,
-        name: __DEV__ ? `/${publicPath}/${name}.js` : `/${publicPath}/${manifest[`${name}.js`]}`,
+        name: __DEV__ ? `/${publicPath}/js/${name}.js` : `/${publicPath}/${manifest[`${name}.js`]}`,
         proxy: __DEV__ ? `http://${hostName}:${port}` : '',
-        common: __DEV__ ? `/${publicPath}/common.js` : `/${publicPath}/${manifest['common.js']}`,
+        common: __DEV__ ? `/${publicPath}/js/common.js` : `/${publicPath}/${manifest['common.js']}`,
         vendor: __DEV__ ? `/${publicPath}/vendor.dev.dll.js` : `/${publicPath}/${vendorManifest['vendor.js']}`
       }
     )
