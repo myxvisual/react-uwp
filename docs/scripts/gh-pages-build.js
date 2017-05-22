@@ -16,7 +16,7 @@ let versions
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
 const versionNumber = versionIsHEAD ? (
-  JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')).version
+  `v${JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')).version}`
 ) : version
 
 function execSyncWithLog(command) {
