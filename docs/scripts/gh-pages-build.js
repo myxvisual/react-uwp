@@ -1,5 +1,4 @@
 const fs = require('fs')
-const path = require('path')
 const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
@@ -16,7 +15,7 @@ let versions
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
 const versionNumber = versionIsHEAD ? (
-  JSON.parse(fs.writeFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')).version
+  JSON.parse(fs.readFileSync('../../package.json', 'utf8')).version
 ) : version
 
 function execSyncWithLog(command) {
