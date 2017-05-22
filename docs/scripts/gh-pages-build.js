@@ -37,7 +37,7 @@ function execSyncWithLog(command) {
 }
 
 function saveVersionsFile() {
-  if (!version.includes(versionNumber)) {
+  if (!versions.includes(versionNumber)) {
     versions.push(versionNumber)
     versions.sort()
     fs.writeFileSync(versionsFile, JSON.stringify(versions, null, 2), 'utf8')
