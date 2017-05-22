@@ -25,7 +25,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(`${outputPath}/${publicPath}`),
-    publicPath: __DEV__ ? `http://${hostName}:${port}/${publicPath}/` : `${publicPath}/`,
+    publicPath: __DEV__ ? `http://${hostName}:${port}/${publicPath}/` : `./${publicPath}/`,
     filename: `js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
     chunkFilename: `js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
   },
