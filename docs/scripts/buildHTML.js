@@ -25,7 +25,7 @@ if (fs.existsSync(buildPath)) {
 
 function buildHTML() {
   const manifest = __DEV__ ? null : JSON.parse(
-    fs.readFileSync(joinDirname('../', `./${outputPath}/${publicPath}/webpack-manifest.json`), 'utf8')
+    fs.readFileSync(joinDirname('../', `./${outputPath}/webpack-manifest.json`), 'utf8')
   )
   const vendorManifest = __DEV__ ? null : JSON.parse(
     fs.readFileSync(joinDirname('../', `./${outputPath}/${publicPath}/webpack-dll-manifest.json`), 'utf8')
