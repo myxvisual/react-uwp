@@ -81,11 +81,6 @@ function buildDocs() {
       replaceHTML,
       'utf8'
     )
-    fs.writeFileSync(
-      path.resolve(__dirname, '../build/index.html'),
-      replaceHTML,
-      'utf8'
-    )
     fse.copySync(
       path.resolve(__dirname, '../build'),
       path.resolve(__dirname, '../../HEAD')
@@ -95,12 +90,6 @@ function buildDocs() {
   fse.moveSync(
     path.resolve(__dirname, '../build'),
     path.resolve(__dirname, `../../${versionNumber}`)
-  )
-  const replaceHTML = fs.readFileSync(`../../${versionNumber}/index.html`, 'utf8').replace(/\/static\//gim, `/${versionNumber}/static/`)
-  fs.writeFileSync(
-    `../../${versionNumber}/index.html`,
-    replaceHTML,
-    'utf8'
   )
 
   if (versionIsHEAD) {
@@ -118,3 +107,32 @@ function buildDocs() {
 
 saveVersionsFile()
 buildDocs()
+
+
+function replaceWebpackPublicPath(versionNumb) {
+  const versionHTMLFile = `../../${versionNumb}/index.html`
+  const replaceHTML = fs.readFileSync(versionHTMLFile, 'utf8').replace(/\/static\//gim, `/${versionNumb}/static/`)
+  fs.writeFileSync(
+    versionHTMLFile,
+    replaceHTML,
+    'utf8'
+  )
+
+  const webpackManifestFile = path.join(
+    __dirname,
+    `../../${versionNumb}`,
+    'webpack-manifest.json'
+  )
+  const commonJSName = JSON.parse(fs.readFileSync(webpackManifestFile, 'utf8'))['common.js']
+  const commonJSFile = path.join(
+    __dirname,
+    `../../${versionNumb}`,
+    commonJSName
+  )
+  const replaceJS = fs.readFileSync(versionHTMLFile, 'utf8').replace(/\/static\//gim, `/${versionNumb}/static/`)
+  fs.writeFileSync(
+    commonJSFile,
+    replaceJS,
+    'utf8'
+  )
+}
