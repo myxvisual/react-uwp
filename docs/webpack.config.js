@@ -12,7 +12,7 @@ const hash = __DEV__ ? '' : '.[hash:base64:5]'
 const normalUrlLoader = __DEV__ ? 'file?' : 'url?limit=2048&'
 
 module.exports = {
-  // devtool: __DEV__ ? 'cheap-module-eval-source-map' : void 0,
+  devtool: __DEV__ ? 'cheap-module-eval-source-map' : void 0,
   entry: {
     app: [
       ...(__DEV__ ? [

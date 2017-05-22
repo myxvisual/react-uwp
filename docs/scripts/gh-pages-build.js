@@ -66,6 +66,15 @@ function buildDocs() {
   execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   execSyncWithLog('git checkout gh-pages')
+
+  if (versionIsHEAD) {
+    fs.writeFileSync(
+      path.resolve(__dirname, '../../index.html'),
+      fs.readFileSync('../build/index.html', 'utf8').replace('static/', './HEAD/static/'),
+      'utf8'
+    )
+    execSyncWithLog('mv ../build ../../HEAD')
+  }
   execSyncWithLog(`mv ../build ../../${versionNumber}`)
 
   if (versionIsHEAD) {
@@ -73,9 +82,9 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
+  // execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
 
-  execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
+  // execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
 saveVersionsFile()
