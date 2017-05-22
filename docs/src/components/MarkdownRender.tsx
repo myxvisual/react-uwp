@@ -123,7 +123,7 @@ return (
 }
 
 .react-uwp-markdown a {
-  font-size: 18px;
+  font-size: 15px;
   color: ${theme.accent};
   font-weight: 500;
 }
@@ -157,7 +157,7 @@ return (
   margin: 4px 0;
   border: 0;
   width: 100%;
-  border-top: 3px solid ${theme.accent};
+  border-top: 2px solid ${theme.accent};
 }
 
 .react-uwp-markdown ol > li {
@@ -200,6 +200,7 @@ return (
 
 .react-uwp-markdown pre > code {
   font-family: "${theme.fontFamily}";
+  font-size: 13px;
 }
 
 .react-uwp-markdown p > code, .react-uwp-markdown li > code  {

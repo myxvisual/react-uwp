@@ -16,6 +16,7 @@ export interface Item {
   children?: Item[];
 }
 
+let prevItemFocused: any = {};
 function setListItemsUrl(path = "/") {
   const listItem: any = listItemsData;
   const isRootPath = path === "/";
@@ -35,7 +36,13 @@ function setListItemsUrl(path = "/") {
     const title = listData.titleNode.toLowerCase().replace(/\s/gim, "-");
     if (names.includes(title)) {
       listData.expanded = true;
-      if (names.slice(-1)[0] === title) listData.visited = true;
+      if (names.slice(-1)[0] === title) {
+        listData.visited = true;
+        if (prevItemFocused !== listData) {
+          prevItemFocused.visited = false;
+          prevItemFocused = listData;
+        }
+      }
     }
 
     const parentUrlNow = `${listData.parentUrl}/${listData.titleNode.toLowerCase().replace(/\s/gim, "-")}`;
@@ -90,10 +97,6 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
-  componentWillMount() {
-    setListItemsUrl(this.props.path);
-  }
-
   handleChangeValue = (value: string) => {
     const { listItems } = this.state;
     clearTimeout(this.searchTimeout);
@@ -136,6 +139,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
   }
 
   render() {
+    setListItemsUrl(this.props.path);
     const { children, ...attributes } = this.props;
     const { listItems, showFocus, renderContentWidth, screenType } = this.state;
     const { theme } = this.context;
