@@ -3,7 +3,7 @@ npm-debug.log
 build
 
 src
-docs
+docs/
 coverage
 .DS_Store
 docs
