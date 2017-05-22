@@ -11,6 +11,7 @@ const rootPath = path.resolve('src')
 const hash = __DEV__ ? '' : '.[hash:base64:5]'
 const normalUrlLoader = __DEV__ ? 'file?' : 'url?limit=2048&'
 
+const addRelativePath = __DEV__ ? '' : './static/'
 module.exports = {
   devtool: __DEV__ ? 'cheap-module-eval-source-map' : void 0,
   entry: {
@@ -25,9 +26,9 @@ module.exports = {
   },
   output: {
     path: path.resolve(`${outputPath}/${publicPath}`),
-    publicPath: __DEV__ ? `http://${hostName}:${port}/` : void 0,
-    filename: `${publicPath}/js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
-    chunkFilename: `${publicPath}/js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
+    publicPath: __DEV__ ? `http://${hostName}:${port}/${publicPath}` : addRelativePath,
+    filename: `${addRelativePath}js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
+    chunkFilename: `${addRelativePath}js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
   },
   resolve: {
     extensions: ['.webpack.js', '.js', '.jsx', '.ts', '.tsx'],
@@ -60,7 +61,7 @@ module.exports = {
           useCache: __DEV__,
           useTranspileModule: true,
           forkChecker: true,
-          cacheDirectory: __DEV__ ? `${outputPath}/awesomeTypescriptCacheProd` : void 0
+          cacheDirectory: __DEV__ ? `${outputPath}/awesomeTypescriptCacheDev` : void 0
         }
       }
     }, {
@@ -83,13 +84,13 @@ module.exports = {
       loader: 'json'
     }, {
       test: /\.(jpe?g|png|gif)$/i,
-      loader: `${normalUrlLoader}name=${publicPath}/images/[name]${hash}.[ext]`
+      loader: `${normalUrlLoader}name=${addRelativePath}images/[name]${hash}.[ext]`
     }, {
       test: /\.svg$/,
-      loader: `${normalUrlLoader}name=${publicPath}/images/[name]${hash}.[ext]`
+      loader: `${normalUrlLoader}name=${addRelativePath}images/[name]${hash}.[ext]`
     }, {
       test: /\.(woff(2)?|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: `${normalUrlLoader}name=${publicPath}/fonts/[name]${hash}.[ext]`
+      loader: `${normalUrlLoader}name=${addRelativePath}fonts/[name]${hash}.[ext]`
     }]
   },
   plugins: [
@@ -103,6 +104,9 @@ module.exports = {
       __DEV__,
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      },
+      '__ReactUWP__': {
+        version: process.env.REACT_UWP_VERSION
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({

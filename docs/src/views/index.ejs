@@ -41,8 +41,8 @@
   </head>
   <body>
     <div id="app"></div>
-    <script type="text/javascript" src="<%= proxy || '' %>static/<%- common %>" charset="utf-8"></script>
-    <script type="text/javascript" src="<%= proxy || '' %>static/<%- vendor %>" charset="utf-8"></script>
-    <script type="text/javascript" src="<%= proxy || '' %>static/<%- name %>" charset="utf-8"></script>
+    <script type="text/javascript" src="<%= proxy || '' %><%= __DEV__ ? '/static/js/' : './static/' %><%- common %>" charset="utf-8"></script>
+    <script type="text/javascript" src="<%= proxy || '' %><%= __DEV__ ? '/static/' : './static/' %><%- vendor %>" charset="utf-8"></script>
+    <script type="text/javascript" src="<%= proxy || '' %><%= __DEV__ ? '/static/js/' : './static/' %><%- name %>" charset="utf-8"></script>
   </body>
 </html>

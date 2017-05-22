@@ -110,7 +110,15 @@ const getRoutes = (path = "/") => {
     }]
   };
 };
-const routes: any = getRoutes();
+
+const paths = location.pathname.split("/");
+const versionPattern = /v\d{1,2}.\d{1,2}.\d{1,2}-?\w*\.?\d{0,2}/;
+let version: string;
+const rootPath = paths[1];
+if (versionPattern.test(rootPath)) {
+  version = rootPath;
+}
+const routes: any = getRoutes(version);
 
 export { getRoutes, WrapperWithPath };
 export default () => <Router history={browserHistory} routes={routes} />;

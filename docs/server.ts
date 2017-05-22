@@ -30,7 +30,6 @@ const app = express();
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 if (__DEV__) {
   app.use(morgan("dev"));
 

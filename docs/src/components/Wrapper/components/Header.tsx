@@ -8,18 +8,15 @@ import ReactIcon from "../../ReactIcon";
 export interface DataProps {
   renderContentWidth?: number | string;
   headerHeight?: number;
+  docVersion?: string;
 }
 
 export interface HeaderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface HeaderState {}
-
-export default class Header extends React.Component<HeaderProps, HeaderState> {
+export default class Header extends React.Component<HeaderProps, void> {
   static defaultProps: HeaderProps = {
     headerHeight: 60
   };
-
-  state: HeaderState = {};
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
@@ -28,6 +25,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     const {
       renderContentWidth,
       headerHeight,
+      docVersion,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -45,10 +43,18 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </a>
             <div style={{ marginLeft: 20, height: "100%" }}>
-              <NavLink headerHeight={headerHeight} href="/get-started">Get Started</NavLink>
-              <NavLink headerHeight={headerHeight} href="/components">Documentation</NavLink>
-              <NavLink headerHeight={headerHeight} href="/resources">Resources</NavLink>
-              <NavLink headerHeight={headerHeight} href="/examples">Examples</NavLink>
+              <NavLink headerHeight={headerHeight} href={`${docVersion}/get-started`}>
+                Get Started
+              </NavLink>
+              <NavLink headerHeight={headerHeight} href={`${docVersion}/components`}>
+                Documentation
+              </NavLink>
+              <NavLink headerHeight={headerHeight} href={`${docVersion}/resources`}>
+                Resources
+              </NavLink>
+              <NavLink headerHeight={headerHeight} href={`${docVersion}/examples`}>
+                Examples
+              </NavLink>
             </div>
           </div>
         </div>

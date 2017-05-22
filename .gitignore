@@ -1,9 +1,10 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/docs/node_modules
-docs/awesomeTypescriptCacheProd
+node_modules
+docs/node_modules
+docs/awesomeTypescriptCacheProd/
+docs/log/
 
 # testing
 /coverage

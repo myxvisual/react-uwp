@@ -18,14 +18,20 @@ import setScrollBarStyle from "react-uwp/styles/setScrollBarStyle";
 
 import listItemsData from "./categories";
 
+const paths = location.pathname.split("/");
+const versionPattern = /v\d{1,2}.\d{1,2}.\d{1,2}-?\w*\.?\d{0,2}/;
+let docVersion = "";
+const rootPath = paths[1];
+const isDocVersionPath = versionPattern.test(rootPath);
+if (isDocVersionPath) {
+  docVersion = `/${rootPath}`;
+}
+
 function setListItemsUrl(path = "/") {
   const listItem: any = listItemsData;
   const isRootPath = path === "/";
   const parentUrl = isRootPath ? "" : `/${path}`;
   const names = location.pathname.split("/").map(path => path.toLowerCase());
-  if (!isRootPath) {
-    names.splice(names.indexOf(parentUrl), 1);
-  }
 
   const setUrl = (listData: any) => {
     if (Array.isArray(listData)) {
@@ -202,7 +208,11 @@ export default class ReactUWP extends React.Component<ReactUWPProps, ReactUWPSta
           ...style
         }) as any}
       >
-        <Header headerHeight={HEADER_HEIGHT} renderContentWidth={renderContentWidth} />
+        <Header
+          docVersion={docVersion}
+          headerHeight={HEADER_HEIGHT}
+          renderContentWidth={renderContentWidth}
+        />
 
 
         <div
