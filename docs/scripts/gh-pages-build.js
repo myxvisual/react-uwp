@@ -2,7 +2,7 @@ const fs = require('fs')
 const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
-const versionsFile = './src/assets/versions.json'
+const versionsFile = '../public/versions.json'
 
 const args = process.argv
 if (args.length < 3) {
@@ -11,8 +11,12 @@ if (args.length < 3) {
 }
 
 const version = args[2]
+let versions
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
+const versionNumber = versionIsHEAD ? (
+  JSON.parse(fs.writeFileSync('../package.json', 'utf8')).version
+) : version
 
 function execSyncWithLog(command) {
   console.log(command)
@@ -22,6 +26,30 @@ function execSyncWithLog(command) {
     console.error(error.output[1])
     process.exit(error.status)
  }
+}
+
+function saveVersionsFile() {
+  versions = JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
+  if (!version.includes(versionNumber)) {
+    versions.push(versionNumber)
+    versions.sort()
+    fs.writeFileSync(versionsFile, JSON.stringify(versions, null, 2), 'utf8')
+    execSyncWithLog(`git add ${versionsFile} && git commit -m "add ${versionNumber} to versions file"`)
+  }
+}
+
+function savePublicVersionsFile() {
+  const publicVersionsFile = '../../versions.json'
+  if (fs.existsSync(publicVersionsFile)) {
+    const publicVersions = JSON.parse(fs.writeFileSync('../../versions.json', 'utf8'))
+    if (!publicVersions.includes(versionNumber)) {
+      publicVersions.push(versionNumber)
+      publicVersions.sort()
+    }
+    fs.writeFileSync(publicVersionsFile, JSON.stringify(publicVersions, null, 2), 'utf8')
+  } else {
+    fs.writeFileSync(publicVersionsFile, JSON.stringify(versions, null, 2), 'utf8')
+  }
 }
 
 function buildDocs() {
@@ -40,18 +68,19 @@ function buildDocs() {
   execSyncWithLog('git checkout gh-pages')
   execSyncWithLog(`mv ../build ../../${version}`)
 
-  const versionNumber = versionIsHEAD ? (
-    JSON.parse(fs.writeFileSync('../package.json', 'utf8')).version
-  ) : version
-  execSyncWithLog(`ln -sfh ./${versionNumber} ../release`)
+  if (versionIsHEAD) {
+    execSyncWithLog(`ln -sfh ./${versionNumber} ../release`)
+  }
+  savePublicVersionsFile()
 
   if (versionIsHEAD) {
     execSyncWithLog('git commit --amend --no-edit')
   } else {
-    execSyncWithLog(`git add .. && git commit -m '${version}'`)
+    execSyncWithLog(`git add ../../ && git commit -m '${version}'`)
   }
 
   execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
+saveVersionsFile()
 buildDocs()
