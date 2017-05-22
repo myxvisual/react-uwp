@@ -5,6 +5,7 @@ const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
 const versionsFile = path.resolve(__dirname, './versions.json')
+const { outputPath, publicPath } = require('../config')
 
 const args = process.argv
 if (args.length < 3) {
@@ -74,9 +75,15 @@ function buildDocs() {
   execSyncWithLog('git checkout gh-pages')
 
   if (versionIsHEAD) {
+    const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
     fs.writeFileSync(
       path.resolve(__dirname, '../../index.html'),
-      fs.readFileSync('../build/index.html', 'utf8').replace(/\.\/static\//gim, './HEAD/static/'),
+      replaceHTML,
+      'utf8'
+    )
+    fs.writeFileSync(
+      path.resolve(__dirname, '../build/index.html'),
+      replaceHTML,
       'utf8'
     )
     fse.copySync(
@@ -84,9 +91,16 @@ function buildDocs() {
       path.resolve(__dirname, '../../HEAD')
     )
   }
+
   fse.moveSync(
     path.resolve(__dirname, '../build'),
     path.resolve(__dirname, `../../${versionNumber}`)
+  )
+  const replaceHTML = fs.readFileSync(`../../${versionNumber}/index.html`, 'utf8').replace(/\/static\//gim, `/${versionNumber}/static/`)
+  fs.writeFileSync(
+    `../../${versionNumber}/index.html`,
+    replaceHTML,
+    'utf8'
   )
 
   if (versionIsHEAD) {

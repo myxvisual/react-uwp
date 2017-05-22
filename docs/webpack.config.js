@@ -11,7 +11,6 @@ const rootPath = path.resolve('src')
 const hash = __DEV__ ? '' : '.[hash:base64:5]'
 const normalUrlLoader = __DEV__ ? 'file?' : 'url?limit=2048&'
 
-const addRelativePath = __DEV__ ? '/static/' : './static/'
 module.exports = {
   devtool: __DEV__ ? 'cheap-module-eval-source-map' : void 0,
   entry: {
@@ -25,10 +24,10 @@ module.exports = {
     ]
   },
   output: {
-    path: path.resolve(`${outputPath}`),
-    publicPath: __DEV__ ? `http://${hostName}:${port}/${publicPath}` : void 0,
-    filename: `${addRelativePath}js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
-    chunkFilename: `${addRelativePath}js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
+    path: path.resolve(`${outputPath}/${publicPath}/`),
+    publicPath: __DEV__ ? `http://${hostName}:${port}/${publicPath}` : `/${publicPath}/`,
+    filename: `js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
+    chunkFilename: `js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
   },
   resolve: {
     extensions: ['.webpack.js', '.js', '.jsx', '.ts', '.tsx'],
@@ -84,13 +83,13 @@ module.exports = {
       loader: 'json'
     }, {
       test: /\.(jpe?g|png|gif)$/i,
-      loader: `${normalUrlLoader}name=${addRelativePath}images/[name]${hash}.[ext]`
+      loader: `${normalUrlLoader}name=images/[name]${hash}.[ext]`
     }, {
       test: /\.svg$/,
-      loader: `${normalUrlLoader}name=${addRelativePath}images/[name]${hash}.[ext]`
+      loader: `${normalUrlLoader}name=images/[name]${hash}.[ext]`
     }, {
       test: /\.(woff(2)?|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: `${normalUrlLoader}name=${addRelativePath}fonts/[name]${hash}.[ext]`
+      loader: `${normalUrlLoader}name=fonts/[name]${hash}.[ext]`
     }]
   },
   plugins: [
