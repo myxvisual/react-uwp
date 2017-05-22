@@ -70,10 +70,10 @@ function buildDocs() {
   if (versionIsHEAD) {
     fs.writeFileSync(
       path.resolve(__dirname, '../../index.html'),
-      fs.readFileSync('../build/index.html', 'utf8').replace('static/', './HEAD/static/'),
+      fs.readFileSync('../build/index.html', 'utf8').replace(/static\//gim, './HEAD/static/'),
       'utf8'
     )
-    execSyncWithLog('mv ../build ../../HEAD')
+    execSyncWithLog('cp -R t ../build/. ../../HEAD/')
   }
   execSyncWithLog(`mv ../build ../../${versionNumber}`)
 
