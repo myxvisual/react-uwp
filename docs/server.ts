@@ -19,7 +19,7 @@ let { outputPath, publicPath, hostName, port }: {
   hostName: string;
   port: number;
 } = require<any>(joinDirname("./config"));
-if (!__DEV__) port += 1;
+// if (!__DEV__) port += 1;
 const entries: {
   route: string;
   name: string;
