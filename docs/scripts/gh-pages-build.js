@@ -12,7 +12,7 @@ if (args.length < 3) {
 }
 
 const version = args[2]
-let versions
+const versions = JSON.parse(fs.readFileSync(path.resolve(__dirname, versionsFile), 'utf8'))
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
 const versionNumber = versionIsHEAD ? (
@@ -30,7 +30,6 @@ function execSyncWithLog(command) {
 }
 
 function saveVersionsFile() {
-  versions = JSON.parse(fs.readFileSync(path.resolve(__dirname, versionsFile), 'utf8'))
   if (!version.includes(versionNumber)) {
     versions.push(versionNumber)
     versions.sort()
