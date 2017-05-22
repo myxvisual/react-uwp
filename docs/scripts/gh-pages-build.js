@@ -3,7 +3,7 @@ const path = require('path')
 const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
-const versionsFile = '../public/versions.json'
+const versionsFile = path.resolve(__dirname, '../public/versions.json')
 
 const args = process.argv
 if (args.length < 3) {
