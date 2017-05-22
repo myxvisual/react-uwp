@@ -21,11 +21,6 @@ const versionNumber = versionIsHEAD ? (
   `v${JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')).version}`
 ) : version
 
-fse.copySync(
-  path.resolve(__dirname, '../public'),
-  path.resolve(__dirname, '../../')
-)
-
 function execSyncWithLog(command) {
   console.log(command)
   try {
@@ -35,6 +30,12 @@ function execSyncWithLog(command) {
     process.exit(error.status)
  }
 }
+
+fse.copySync(
+  path.resolve(__dirname, '../public'),
+  path.resolve(__dirname, '../../')
+)
+execSyncWithLog('git stash')
 
 function saveVersionsFile() {
   if (!versions.includes(versionNumber)) {
@@ -100,14 +101,12 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
+  execSyncWithLog('git stash pop')
+
   // execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
 
   // execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
-
-saveVersionsFile()
-buildDocs()
-
 
 function replaceWebpackPublicPath(versionNumb) {
   const versionHTMLFile = `../../${versionNumb}/index.html`
@@ -136,3 +135,6 @@ function replaceWebpackPublicPath(versionNumb) {
     'utf8'
   )
 }
+
+saveVersionsFile()
+buildDocs()
