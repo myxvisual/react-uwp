@@ -67,10 +67,10 @@ function buildDocs() {
   execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   execSyncWithLog('git checkout gh-pages')
-  execSyncWithLog(`mv ../build ../../${version}`)
+  execSyncWithLog(`mv ../build ../../${versionNumber}`)
 
   if (versionIsHEAD) {
-    execSyncWithLog(`ln -sfh ./${versionNumber} ../release`)
+    execSyncWithLog(`echo "./${versionNumber}" > ../../release`)
   }
   savePublicVersionsFile()
 
