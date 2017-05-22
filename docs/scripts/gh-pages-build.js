@@ -20,6 +20,11 @@ const versionNumber = versionIsHEAD ? (
   `v${JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')).version}`
 ) : version
 
+fse.copySync(
+  path.resolve(__dirname, '../public'),
+  path.resolve(__dirname, '../../')
+)
+
 function execSyncWithLog(command) {
   console.log(command)
   try {
@@ -82,10 +87,6 @@ function buildDocs() {
   fse.moveSync(
     path.resolve(__dirname, '../build'),
     path.resolve(__dirname, `../../${versionNumber}`)
-  )
-  fse.copySync(
-    path.resolve(__dirname, '../public'),
-    path.resolve(__dirname, '../../')
   )
 
   if (versionIsHEAD) {
