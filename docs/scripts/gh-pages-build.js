@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const fse = require('fs-extra')
 const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
@@ -73,12 +74,21 @@ function buildDocs() {
       fs.readFileSync('../build/index.html', 'utf8').replace(/static\//gim, './HEAD/static/'),
       'utf8'
     )
-    execSyncWithLog('cp -R t ../build/. ../../HEAD/')
+    fse.copySync(
+      path.resolve(__dirname, '../build'),
+      path.resolve(__dirname, '../../HEAD')
+    )
   }
-  execSyncWithLog(`mv ../build ../../${versionNumber}`)
+  fse.copySync(
+    path.resolve(__dirname, '../build'),
+    path.resolve(__dirname, `../../${versionNumber}`)
+  )
 
   if (versionIsHEAD) {
-    execSyncWithLog(`echo ./${versionNumber} > ../../release`)
+    fs.writeFileSync(
+      path.resolve(__dirname, '../../release'),
+      `./${versionNumber}`
+    )
   }
   savePublicVersionsFile()
 
