@@ -3,42 +3,60 @@ import { Router, RouteComponent, browserHistory } from "react-router";
 
 import Theme from "react-uwp/Theme";
 import Wrapper from "../components/Wrapper";
+import WrapperWithCategories from "../components/WrapperWithCategories";
 
 export interface RouterCallback {
   (error: any, component?: any): void;
 }
 
-let WrapperWithPath: React.PureComponent<void, void>;
+let WrapperWithPath:  new() => React.Component<any, any>;
+class WrapperWithTheme extends React.Component<void, void> {
+  render() {
+    const { children } = this.props;
+    return (
+      <Theme autoSaveTheme>
+        <Wrapper>
+          {children as any}
+        </Wrapper>
+      </Theme>
+    );
+  }
+}
 
-const getRoutes = (path = "/") => {
-  const getWrapper = (containerStyle?: React.CSSProperties) => (
-    class extends React.PureComponent<void, void> {
+function getRoutes(path = "/") {
+
+  const getWrapper = () => (
+    class extends React.Component<void, void> {
       render() {
         const { children } = this.props;
         return (
           <Theme autoSaveTheme>
-            <Wrapper path={path} containerStyle={containerStyle}>
+            <WrapperWithCategories path={path}>
               {children as any}
-            </Wrapper>
+            </WrapperWithCategories>
           </Theme>
         );
       }
-    } as any
+    }
   );
-
   WrapperWithPath = getWrapper();
 
   return {
     path,
-    component: WrapperWithPath,
     indexRoute: {
       getComponent(location: Location, cb: RouterCallback) {
         require.ensure([], (require) => {
-          cb(null, require<any>("./Home").default);
+          const Child = require<any>("./Home").default;
+          cb(null, () => (
+            <WrapperWithTheme>
+              <Child />
+            </WrapperWithTheme>
+          ));
         }, "react-uwp-home");
       }
     },
     childRoutes: [{
+      component: WrapperWithPath,
       path: "components",
       childRoutes: [{
         path: "intro",
@@ -92,6 +110,7 @@ const getRoutes = (path = "/") => {
       }]
     }, {
       path: "styles",
+      component: WrapperWithPath,
       childRoutes: [{
         path: "Icons",
         getComponent: (location: Location, cb: RouterCallback) => {
@@ -104,12 +123,17 @@ const getRoutes = (path = "/") => {
       path: "*",
       getComponent: (location: Location, cb: RouterCallback) => {
         require.ensure([], (require) => {
-          cb(null, require<any>("./NotFound").default);
+          const Child = require<any>("./NotFound").default;
+          cb(null, () => (
+            <WrapperWithTheme>
+              <Child />
+            </WrapperWithTheme>
+          ));
         }, "react-uwp-style-NotFound");
       }
     }]
   };
-};
+}
 
 const paths = location.pathname.split("/");
 const versionPattern = /v\d{1,2}.\d{1,2}.\d{1,2}-?\w*\.?\d{0,2}/;

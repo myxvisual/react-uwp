@@ -38,7 +38,7 @@ export default class Header extends React.Component<HeaderProps, void> {
           style={styles.root}
         >
           <div style={styles.content}>
-            <a style={styles.logo} href={`${docVersion}`}>
+            <a style={styles.logo} href={`${docVersion}/`}>
               <ReactIcon fill={theme.accent} />
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </a>
