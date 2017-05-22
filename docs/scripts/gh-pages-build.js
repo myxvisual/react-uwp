@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
@@ -15,7 +16,7 @@ let versions
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
 const versionNumber = versionIsHEAD ? (
-  JSON.parse(fs.readFileSync('../../package.json', 'utf8')).version
+  JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')).version
 ) : version
 
 function execSyncWithLog(command) {
@@ -29,7 +30,7 @@ function execSyncWithLog(command) {
 }
 
 function saveVersionsFile() {
-  versions = JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
+  versions = JSON.parse(fs.readFileSync(path.resolve(__dirname, versionsFile), 'utf8'))
   if (!version.includes(versionNumber)) {
     versions.push(versionNumber)
     versions.sort()
@@ -39,9 +40,9 @@ function saveVersionsFile() {
 }
 
 function savePublicVersionsFile() {
-  const publicVersionsFile = '../../versions.json'
+  const publicVersionsFile = path.resolve(__dirname, '../../versions.json')
   if (fs.existsSync(publicVersionsFile)) {
-    const publicVersions = JSON.parse(fs.writeFileSync('../../versions.json', 'utf8'))
+    const publicVersions = JSON.parse(fs.writeFileSync(publicVersionsFile, 'utf8'))
     if (!publicVersions.includes(versionNumber)) {
       publicVersions.push(versionNumber)
       publicVersions.sort()
