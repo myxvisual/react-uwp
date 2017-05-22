@@ -26,9 +26,9 @@ module.exports = {
   },
   output: {
     path: path.resolve(`${outputPath}/${publicPath}`),
-    publicPath: __DEV__ ? `http://${hostName}:${port}/${publicPath}` : addRelativePath,
-    filename: `js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
-    chunkFilename: `js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
+    publicPath: __DEV__ ? `http://${hostName}:${port}/${publicPath}` : void 0,
+    filename: `${addRelativePath}js/[name]${__DEV__ ? '' : '.[hash:5]'}.js`,
+    chunkFilename: `${addRelativePath}js/[name]${__DEV__ ? '' : '.[chunkhash:5]'}.js`
   },
   resolve: {
     extensions: ['.webpack.js', '.js', '.jsx', '.ts', '.tsx'],
