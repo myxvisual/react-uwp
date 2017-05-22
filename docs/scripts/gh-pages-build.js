@@ -56,7 +56,7 @@ function savePublicVersionsFile() {
 function buildDocs() {
   process.chdir(__dirname)
   execSyncWithLog('git checkout gh-pages')
-  execSyncWithLog('git reset --hard HEAD~1')
+  execSyncWithLog('git reset --hard HEAD')
 
   if (versionIsHEAD) {
     execSyncWithLog('git checkout master')
