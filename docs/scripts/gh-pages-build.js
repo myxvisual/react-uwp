@@ -77,20 +77,28 @@ function buildDocs() {
   if (versionIsHEAD) {
     const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
     fs.writeFileSync(
-      path.resolve(__dirname, '../../index.html'),
+      '../../index.html',
       replaceHTML,
       'utf8'
-    )
+      )
+    const buildDocsFolder = '../../HEAD'
+    if (fs.existsSync(buildDocsFolder)) {
+      fse.emptyDirSync(buildDocsFolder)
+    }
     fse.copySync(
-      path.resolve(__dirname, '../build'),
-      path.resolve(__dirname, '../../HEAD')
+      '../build',
+      buildDocsFolder
     )
     replaceWebpackPublicPath('HEAD')
   }
 
+  const buildDocsFolder = `../../${versionNumber}`
+  if (fs.existsSync(buildDocsFolder)) {
+    fse.emptyDirSync(buildDocsFolder)
+  }
   fse.moveSync(
-    path.resolve(__dirname, '../build'),
-    path.resolve(__dirname, `../../${versionNumber}`)
+    '../build',
+    buildDocsFolder
   )
   replaceWebpackPublicPath(versionNumber)
 
@@ -102,9 +110,8 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
-
-  execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
+  // execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
+  // execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
 function replaceWebpackPublicPath(versionNumb) {
