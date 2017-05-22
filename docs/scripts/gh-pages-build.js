@@ -102,9 +102,9 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  // execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
+  execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
 
-  // execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
+  execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
 function replaceWebpackPublicPath(versionNumb) {
@@ -118,16 +118,17 @@ function replaceWebpackPublicPath(versionNumb) {
 
   const webpackManifestFile = path.join(
     __dirname,
-    `../../${versionNumb}`,
+    `../../${versionNumb}/${publicPath}`,
     'webpack-manifest.json'
   )
   const commonJSName = JSON.parse(fs.readFileSync(webpackManifestFile, 'utf8'))['common.js']
   const commonJSFile = path.join(
     __dirname,
     `../../${versionNumb}`,
+    publicPath,
     commonJSName
   )
-  const replaceJS = fs.readFileSync(versionHTMLFile, 'utf8').replace(/\/static\//gim, `/${versionNumb}/static/`)
+  const replaceJS = fs.readFileSync(commonJSFile, 'utf8').replace(/\/static\//gim, `/${versionNumb}/static/`)
   fs.writeFileSync(
     commonJSFile,
     replaceJS,
