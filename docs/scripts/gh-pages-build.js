@@ -41,7 +41,7 @@ function saveVersionsFile() {
 function savePublicVersionsFile() {
   const publicVersionsFile = path.resolve(__dirname, '../../versions.json')
   if (fs.existsSync(publicVersionsFile)) {
-    const publicVersions = JSON.parse(fs.writeFileSync(publicVersionsFile, 'utf8'))
+    const publicVersions = JSON.parse(fs.readFileSync(publicVersionsFile, 'utf8'))
     if (!publicVersions.includes(versionNumber)) {
       publicVersions.push(versionNumber)
       publicVersions.sort()
