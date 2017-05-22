@@ -69,15 +69,11 @@ function buildDocs() {
   execSyncWithLog(`mv ../build ../../${versionNumber}`)
 
   if (versionIsHEAD) {
-    execSyncWithLog(`echo "./${versionNumber}" > ../../release`)
+    execSyncWithLog(`echo ./${versionNumber} > ../../release`)
   }
   savePublicVersionsFile()
 
-  if (versionIsHEAD) {
-    execSyncWithLog('git commit --amend --no-edit')
-  } else {
-    execSyncWithLog(`git add ../../ && git commit -m '${version}'`)
-  }
+  execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
 
   execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
