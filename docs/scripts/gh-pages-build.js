@@ -59,7 +59,7 @@ function buildDocs() {
   execSyncWithLog('git reset --hard HEAD~1')
 
   if (versionIsHEAD) {
-    execSyncWithLog('git checkout --detach master')
+    execSyncWithLog('git checkout master')
   } else {
     execSyncWithLog(`git checkout tags/${version}`)
   }
@@ -79,7 +79,7 @@ function buildDocs() {
       path.resolve(__dirname, '../../HEAD')
     )
   }
-  fse.copySync(
+  fse.moveSync(
     path.resolve(__dirname, '../build'),
     path.resolve(__dirname, `../../${versionNumber}`)
   )
