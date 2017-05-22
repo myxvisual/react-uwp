@@ -35,7 +35,6 @@ fse.copySync(
   path.resolve(__dirname, '../public'),
   path.resolve(__dirname, '../../')
 )
-execSyncWithLog('git stash')
 
 function saveVersionsFile() {
   if (!versions.includes(versionNumber)) {
@@ -86,12 +85,14 @@ function buildDocs() {
       path.resolve(__dirname, '../build'),
       path.resolve(__dirname, '../../HEAD')
     )
+    replaceWebpackPublicPath('HEAD')
   }
 
   fse.moveSync(
     path.resolve(__dirname, '../build'),
     path.resolve(__dirname, `../../${versionNumber}`)
   )
+  replaceWebpackPublicPath(versionNumber)
 
   if (versionIsHEAD) {
     fs.writeFileSync(
@@ -100,8 +101,6 @@ function buildDocs() {
     )
   }
   savePublicVersionsFile()
-
-  execSyncWithLog('git stash pop')
 
   // execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
 
