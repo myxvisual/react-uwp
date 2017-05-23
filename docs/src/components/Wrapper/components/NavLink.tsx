@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { Link, LinkProps } from "react-router";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 
@@ -7,7 +8,7 @@ export interface DataProps {
   headerHeight?: number;
 }
 
-export interface NavLinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
+export interface NavLinkProps extends DataProps, LinkProps {}
 
 export interface NavLinkState {
   hovered?: boolean;
@@ -17,7 +18,8 @@ const emptyFunc = () => {};
 export default class NavLink extends React.Component<NavLinkProps, NavLinkState> {
   static defaultProps: NavLinkProps = {
     onMouseEnter: emptyFunc,
-    onMouseLeave: emptyFunc
+    onMouseLeave: emptyFunc,
+    to: "/"
   };
 
   state: NavLinkState = {};
@@ -49,14 +51,14 @@ export default class NavLink extends React.Component<NavLinkProps, NavLinkState>
     const styles = getStyles(this);
 
     return (
-      <a
-        {...attributes}
+      <Link
+        {...attributes as LinkProps}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         style={styles.root}
       >
         {children}
-      </a>
+      </Link>
     );
   }
 }

@@ -30,7 +30,7 @@ export interface WrapperState {
 }
 
 const HEADER_HEIGHT = 60;
-const FOOTER_HEIGHT = 320;
+const FOOTER_HEIGHT = 260;
 const emptyFunc = () => {};
 
 export default class Wrapper extends React.Component<WrapperProps, WrapperState> {

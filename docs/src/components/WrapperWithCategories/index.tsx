@@ -81,7 +81,7 @@ export interface WrapperWithCategoriesState {
 }
 
 const HEADER_HEIGHT = 60;
-const FOOTER_HEIGHT = 320;
+const FOOTER_HEIGHT = 260;
 
 export default class WrapperWithCategories extends React.Component<WrapperWithCategoriesProps, WrapperWithCategoriesState> {
   static defaultProps: WrapperWithCategoriesProps = {

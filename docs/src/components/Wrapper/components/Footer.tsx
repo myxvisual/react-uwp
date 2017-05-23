@@ -13,7 +13,7 @@ export interface FooterProps extends DataProps, React.HTMLAttributes<HTMLDivElem
 
 export default class Footer extends React.Component<FooterProps, void> {
   static defaultProps: FooterProps = {
-    footerHeight: 320
+    footerHeight: 280
   };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
@@ -99,7 +99,7 @@ function getStyles(footer: Footer): {
     content: prepareStyles({
       width: renderContentWidth,
       margin: "0 auto",
-      padding: "12px 0",
+      padding: "10px 0",
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
@@ -108,7 +108,7 @@ function getStyles(footer: Footer): {
     }),
     links: {
       display: "inline-block",
-      margin: 40,
+      margin: 20,
       verticalAlign: "top"
     },
     openSource: {

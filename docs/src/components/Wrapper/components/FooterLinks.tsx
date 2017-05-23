@@ -66,14 +66,14 @@ function getStyles(footerLinks: FooterLinks): {
       ...style
     }),
     title: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: "lighter",
       color: theme.baseHigh
     },
     link: {
       display: "block",
       fontSize: 12,
-      margin: "16px 0",
+      margin: "12px 0",
       fontWeight: "lighter",
       color: theme.baseMediumHigh,
       textDecoration: "none"

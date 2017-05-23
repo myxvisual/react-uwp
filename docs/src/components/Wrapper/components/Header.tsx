@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { Link } from "react-router";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import NavLink from "./NavLink";
@@ -38,21 +39,21 @@ export default class Header extends React.Component<HeaderProps, void> {
           style={styles.root}
         >
           <div style={styles.content}>
-            <a style={styles.logo} href={`${docVersion}/`}>
+            <Link style={styles.logo} to={`${docVersion}/`}>
               <ReactIcon fill={theme.accent} />
               <p style={{ marginLeft: 2 }}>React UWP</p>
-            </a>
+            </Link>
             <div style={{ marginLeft: 20, height: "100%" }}>
-              <NavLink headerHeight={headerHeight} href={`${docVersion}/get-started`}>
+              <NavLink headerHeight={headerHeight} to={`${docVersion}/get-started`}>
                 Get Started
               </NavLink>
-              <NavLink headerHeight={headerHeight} href={`${docVersion}/components`}>
+              <NavLink headerHeight={headerHeight} to={`${docVersion}/components`}>
                 Documentation
               </NavLink>
-              <NavLink headerHeight={headerHeight} href={`${docVersion}/resources`}>
+              <NavLink headerHeight={headerHeight} to={`${docVersion}/resources`}>
                 Resources
               </NavLink>
-              <NavLink headerHeight={headerHeight} href={`${docVersion}/examples`}>
+              <NavLink headerHeight={headerHeight} to={`${docVersion}/examples`}>
                 Examples
               </NavLink>
             </div>
