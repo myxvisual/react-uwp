@@ -4,8 +4,10 @@
   "description": "UWP Design Ui by React",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd docs && npm start",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "build": "npm-run-all build:copy build:source",
+    "build:docs": "cd docs && npm run build:docs",
     "build:copy": "node ./scripts/copy-build-files.js",
     "build:source": "tsc --rootDir ./src --outDir ./build",
     "publish:next-version": ""
