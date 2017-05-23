@@ -27,9 +27,9 @@ const emptyFunc = () => {};
 
 export default class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
   static defaultProps: DropDownMenuProps = {
-    itemWidth: 400,
+    itemWidth: 132,
     padding: 4,
-    itemHeight: 50,
+    itemHeight: 28,
     onChangeValue: emptyFunc,
     containerAttributes: {
       onMouseEnter: emptyFunc,
@@ -38,13 +38,14 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
     itemAttributes: {
       onMouseEnter: emptyFunc,
       onMouseLeave: emptyFunc
-    },
+    }
   };
 
   state: DropDownMenuState = {
-    currentValue: this.props.defaultValue || this.props.values[0],
+    currentValue: this.props.defaultValue || Array.isArray(this.props.values) && this.props.values[0],
     currentValues: (() => {
       let { values, defaultValue } = this.props;
+      if (!Array.isArray(values)) return [];
       values = [...values];
       defaultValue = (defaultValue || values[0]) as string;
       values.unshift(...values.splice(values.indexOf(defaultValue), 1));
@@ -56,6 +57,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
   context: { theme: ThemeType };
 
   componentWillReceiveProps(nextProps: DropDownMenuProps) {
+    if (!Array.isArray(nextProps.values)) return;
     this.setState({
       currentValue: nextProps.defaultValue || nextProps.values[0],
       currentValues: (() => {
@@ -110,7 +112,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
             zIndex: showList ? theme.zIndex.dropDownMenu : 1,
             padding: showList ? "8px 0" : 0,
             transition: "all .25s 0s ease-in-out",
-            border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`,
+            border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`
           })}
           onMouseEnter={!showList ? (e) => {
             e.currentTarget.style.border = `2px solid ${theme.baseHigh}`;
@@ -133,7 +135,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
                   padding: "0 8px",
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  justifyContent: "space-between"
                 })}
                 onClick={this.toggleShowList}
                 onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {

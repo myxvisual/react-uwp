@@ -9,8 +9,7 @@ export interface ReactIconProps extends DataProps, React.HTMLAttributes<SVGEleme
 export default class ReactIcon extends React.PureComponent<ReactIconProps, void> {
   static defaultProps: ReactIconProps = {
     fill: "#0078D7",
-    width: 40,
-    height: 40
+    width: 40
   };
 
   render() {

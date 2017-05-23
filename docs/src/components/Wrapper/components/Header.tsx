@@ -47,7 +47,7 @@ export default class Header extends React.Component<HeaderProps, void> {
               <NavLink headerHeight={headerHeight} to={`${docVersion}/get-started`}>
                 Get Started
               </NavLink>
-              <NavLink headerHeight={headerHeight} to={`${docVersion}/components`}>
+              <NavLink headerHeight={headerHeight} to={`${docVersion}/components/index-of-components-by-function`}>
                 Documentation
               </NavLink>
               <NavLink headerHeight={headerHeight} to={`${docVersion}/resources`}>

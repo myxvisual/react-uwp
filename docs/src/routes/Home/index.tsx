@@ -7,6 +7,9 @@ import ThemeType from "react-uwp/styles/ThemeType";
 import { WrapperState } from "../../components/Wrapper";
 import FlipViewItem from "./components/FlipViewItem";
 import Categories from "./components/Categories";
+import Banner from "./components/Banner";
+import CustomTheme from "./components/CustomTheme";
+import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
 
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
@@ -69,7 +72,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <Categories
           style={{
             height: "auto",
-            padding: "10px 0",
+            padding: "64px 0",
+            margin: "0 auto",
+            width: renderContentWidth
+          }}
+        />
+        <Banner renderContentWidth={renderContentWidth} />
+        <CustomTheme renderContentWidth={renderContentWidth} />
+        <IndexOfComponentsByFunction
+          style={{
             margin: "0 auto",
             width: renderContentWidth
           }}

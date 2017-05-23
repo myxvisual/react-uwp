@@ -80,7 +80,7 @@ function getStyles(mainTitleCenter: MainTitleCenter): {
     },
     description: {
       color: theme.baseMediumHigh,
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: "lighter"
     },
     link: {
