@@ -4,8 +4,9 @@ import * as PropTypes from "prop-types";
 
 import FlipView, { FlipViewProps } from "react-uwp/FlipView";
 import ThemeType from "react-uwp/styles/ThemeType";
-import FlipViewItem from "./components/FlipViewItem";
 import { WrapperState } from "../../components/Wrapper";
+import FlipViewItem from "./components/FlipViewItem";
+import Categories from "./components/Categories";
 
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
@@ -32,37 +33,47 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     const { theme } = this.context;
 
     return (
-      <div style={theme.prepareStyles({ width: "100%", background: theme.altMediumHigh })}>
-        <FlipView
+      <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", background: theme.altMediumHigh }}>
+          <FlipView
+            style={{
+              height: FLIP_HEIGHT,
+              background: "none",
+              margin: "0 auto",
+              width: renderContentWidth
+            }}
+          >
+            <FlipViewItem
+              title="Reveal"
+              description="A new lighting effect brings focus to interactive elements."
+              linkInfo="ENHANCE YOUR APP WITH REVEAL"
+              link="/reveal"
+              image={require("../../assets/images/reveal.png")}
+            />
+            <FlipViewItem
+              title="Acrylic material"
+              description="Our first material brings depth to your designs. "
+              linkInfo="ADD ACRYLIC TO YOUR APP"
+              link="/components"
+              image={require("../../assets/images/acrylic.png")}
+            />
+            <FlipViewItem
+              title="Design Toolkits"
+              description="Templates and tools for designing UWP apps."
+              linkInfo="GET THE TOOLKITS"
+              link="/toolkits"
+              image={require("../../assets/images/toolkits.png")}
+            />
+          </FlipView>
+        </div>
+        <Categories
           style={{
-            height: FLIP_HEIGHT,
-            background: "none",
+            height: "auto",
+            padding: "10px 0",
             margin: "0 auto",
             width: renderContentWidth
           }}
-        >
-          <FlipViewItem
-            title="Reveal"
-            description="A new lighting effect brings focus to interactive elements."
-            linkInfo="ENHANCE YOUR APP WITH REVEAL"
-            link="/reveal"
-            image={require("../../assets/images/reveal.png")}
-          />
-          <FlipViewItem
-            title="Acrylic material"
-            description="Our first material brings depth to your designs. "
-            linkInfo="ADD ACRYLIC TO YOUR APP"
-            link="/components"
-            image={require("../../assets/images/acrylic.png")}
-          />
-          <FlipViewItem
-            title="Design Toolkits"
-            description="Templates and tools for designing UWP apps."
-            linkInfo="GET THE TOOLKITS"
-            link="/toolkits"
-            image={require("../../assets/images/toolkits.png")}
-          />
-        </FlipView>
+        />
       </div>
     );
   }
