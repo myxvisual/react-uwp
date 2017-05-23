@@ -74,6 +74,10 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
       }));
     }
   }
+  handleSwipeToIndex = (index: number) => {
+    this.setState({ focusSwipeIndex: index });
+    this.swipe.swipeToIndex(index);
+  }
 
   render() {
     const {
@@ -158,7 +162,13 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
           <div style={styles.control}>
             <div style={styles.controlContent}>
               {Array(count).fill(0).map((numb, index) => (
-                <Icon key={`${index}`} style={styles.icon}>
+                <Icon
+                  style={styles.icon}
+                  onClick={() => {
+                    this.handleSwipeToIndex(index);
+                  }}
+                  key={`${index}`}
+                >
                   {focusSwipeIndex === index ? "FullCircleMask" : "CircleRing"}
                 </Icon>
               ))}

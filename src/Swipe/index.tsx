@@ -86,6 +86,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   }
 
   updateState = (props: SwipeProps) => {
+    clearTimeout(this.timeoutId);
     const childrenLength = React.Children.count(props.children);
     const isSingleChildren = childrenLength === 1;
     this.setState({
@@ -118,8 +119,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
   getFocusIndex = () => this.state.focusIndex;
 
-  setSwipe = (focusIndex: number) => {
+  swipeToIndex = (focusIndex: number) => {
+    clearTimeout(this.timeoutId);
+    focusIndex = focusIndex + 1;
     this.setState({
+      haveAnimate: true,
       focusIndex: this.setRightFocusIndex(focusIndex),
       stopSwipe: true
     });
@@ -406,7 +410,7 @@ function getStyles(swipe: Swipe): {
       position: "relative",
       height: isHorizontal ? "100%" : `${childrenLength * 100}%`,
       width: isHorizontal ? `${childrenLength * 100}%` : "100%",
-      WebkitTransform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
+      transform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
       left: (isHorizontal && !isSingleChildren) ? `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%` : void 0,
       top: isHorizontal ? void 0 : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
       transition: haveAnimate ? transition : void 0
