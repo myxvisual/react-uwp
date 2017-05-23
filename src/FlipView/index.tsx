@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import IconButton from "../IconButton";
+import Icon from "../Icon";
 import Swipe from "../Swipe";
 import ThemeType from "../styles/ThemeType";
 
@@ -17,18 +18,30 @@ export interface DataProps {
   iconStyle?: React.CSSProperties;
   iconHoverStyle?: React.CSSProperties;
   showIcon?: boolean;
+  showControl?: boolean;
+  supportPC?: boolean;
 }
 export interface FlipViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface FlipViewState {}
+export interface FlipViewState {
+  focusSwipeIndex?: number;
+  currCanAutoSwipe?: boolean;
+}
 export default class FlipView extends React.Component<FlipViewProps, FlipViewState> {
   static defaultProps: FlipViewProps = {
     direction: "horizontal",
-    className: "",
+    autoSwipe: true,
     iconSize: 24,
-    showIcon: true
+    showIcon: true,
+    showControl: true,
+    supportPC: false,
+    canSwipe: true
   };
   static contextTypes = { theme: PropTypes.object };
+  state: FlipViewState = {
+    focusSwipeIndex: 0,
+    currCanAutoSwipe: this.props.autoSwipe
+  };
   context: { theme: ThemeType };
   rootElm: HTMLDivElement;
   swipe: Swipe;
@@ -45,8 +58,24 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
     return nextProps !== this.props || nextState !== this.state;
   }
 
+  handleChangeSwipe = (focusSwipeIndex: number) => {
+    const count = React.Children.count(this.props.children);
+    this.setState({ focusSwipeIndex: focusSwipeIndex % count });
+  }
+
+  toggleCanAutoSwipe = (currCanAutoSwipe?: any) => {
+    if (typeof currCanAutoSwipe === "boolean") {
+      if (currCanAutoSwipe !== this.state.currCanAutoSwipe) {
+        this.setState({ currCanAutoSwipe });
+      }
+    } else {
+      this.setState((prevState, prevProps) => ({
+        currCanAutoSwipe: !prevState.currCanAutoSwipe
+      }));
+    }
+  }
+
   render() {
-    // tslint:disable-next-line:no-unused-variable
     const {
       children,
       showIcon,
@@ -59,9 +88,12 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
       iconStyle,
       iconHoverStyle,
       iconSize,
+      supportPC,
+      showControl,
       ...attributes
     } = this.props;
     const { theme } = this.context;
+    const { focusSwipeIndex, currCanAutoSwipe } = this.state;
     const count = React.Children.count(children);
     const isHorizontal = direction === "horizontal";
 
@@ -91,16 +123,18 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
         )}
         <Swipe
           ref={swipe => this.swipe = swipe}
+          onChangeSwipe={this.handleChangeSwipe}
           {...{
             children,
             showIcon,
             initialFocusIndex,
             canSwipe,
-            autoSwipe,
+            autoSwipe: currCanAutoSwipe,
             speed,
             easy,
             direction,
             iconSize,
+            supportPC,
             ...attributes
           }}
           style={attributes.style}
@@ -120,6 +154,20 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
             {isHorizontal ? "\uE013" : "\uE011"}
           </IconButton>
         )}
+        {count > 1 && showControl && (
+          <div style={styles.control}>
+            <div style={styles.controlContent}>
+              {Array(count).fill(0).map((numb, index) => (
+                <Icon key={`${index}`} style={styles.icon}>
+                  {focusSwipeIndex === index ? "FullCircleMask" : "CircleRing"}
+                </Icon>
+              ))}
+            <IconButton style={{ marginLeft: 2 }} size={32} onClick={this.toggleCanAutoSwipe}>
+              {currCanAutoSwipe ? "Pause" : "Play"}
+            </IconButton>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -129,6 +177,9 @@ function getStyles(flipView: FlipView): {
   root?: React.CSSProperties;
   iconLeft?: React.CSSProperties;
   iconRight?: React.CSSProperties;
+  control?: React.CSSProperties;
+  controlContent?: React.CSSProperties;
+  icon?: React.CSSProperties;
 } {
   const { iconSize, direction } = flipView.props;
   const { theme } = flipView.context;
@@ -166,6 +217,27 @@ function getStyles(flipView: FlipView): {
       ...baseIconStyle,
       bottom: isHorizontal ? `calc(50% - ${iconSize}px)` : 0,
       right: isHorizontal ? 0 : `calc(50% - ${iconSize}px)`
+    },
+    control: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      width: "100%",
+      position: "absolute",
+      bottom: 4,
+      left: 0,
+      pointerEvents: "none"
+    },
+    controlContent: prepareStyles({
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      pointerEvents: "all"
+    }),
+    icon: {
+      fontSize: 6,
+      margin: 2,
+      cursor: "pointer"
     }
   };
 }

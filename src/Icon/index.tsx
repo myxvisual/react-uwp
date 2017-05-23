@@ -56,14 +56,15 @@ export default class Icon extends React.Component<IconProps, IconState> {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         style={theme.prepareStyles({
-          display: "inline-block",
-          verticalAlign: "middle",
           textAlign: "center",
           fontFamily: theme.iconFontFamily,
           transition: "all .25s",
           border: "none",
           outline: "none",
           userSelect: "none",
+          lineHeight: style ? (
+            typeof style.height === "number" ? `${style.height}px` : style.height
+          ) : void 0,
           fontSize: "inherit",
           cursor: "inherit",
           color: "inherit",

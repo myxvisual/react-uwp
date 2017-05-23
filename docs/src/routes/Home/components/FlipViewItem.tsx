@@ -14,7 +14,7 @@ export interface DataProps {
   flipHeight?: string | number;
 }
 
-export interface FlipViewItemProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface FlipViewItemProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
 export default class FlipViewItem extends React.Component<FlipViewItemProps, void> {
   static defaultProps: FlipViewItemProps = {
@@ -38,24 +38,23 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps, voi
     const styles = getStyles(this);
 
     return (
-      <div
-        {...attributes}
+      <Link
+        {...attributes as any}
         style={styles.root}
+        to={link}
       >
         <div>
           <p style={styles.title}>{title}</p>
           <p style={styles.description}>{description}</p>
-          <Link to={link}>
-            <button style={styles.button}>
-              {linkInfo}
-              <Icon style={styles.icon}>
-                ScrollChevronRightLegacy
-              </Icon>
-            </button>
-          </Link>
+          <button style={styles.button}>
+            {linkInfo}
+            <Icon style={styles.icon}>
+              ScrollChevronRightLegacy
+            </Icon>
+          </button>
         </div>
-        <img src={image} />
-      </div>
+        <img src={image} style={{ maxHeight: "75%" }} />
+      </Link>
     );
   }
 }
@@ -75,29 +74,33 @@ function getStyles(flipViewItem: FlipViewItem): {
 
   return {
     root: prepareStyles({
-      width: "100%",
-      padding: "0 40px",
+      WebkitUserDrag: "none",
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
+      width: "100%",
+      padding: "0 40px",
+      color: theme.baseHigh,
       height: flipHeight,
       fontWeight: "lighter",
+      textDecoration: "none",
       ...style
     }),
     title: {
       fontSize: 42,
-      lineHeight: 1.5
+      lineHeight: 1.8
     },
     description: {
+      margin: "10px 0",
       fontSize: 20,
       lineHeight: 1.5
     },
     button: {
       background: theme.baseHigh,
       color: theme.altHigh,
-      height: 36,
-      padding: "0 20px",
+      height: 32,
+      padding: "0 40px",
       border: "none",
       outline: "none",
       cursor: "pointer"

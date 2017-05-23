@@ -14,6 +14,8 @@ export interface DataProps {
   iconSize?: number;
   showIcon?: boolean;
   animate?: "slide" | "opacity";
+  supportPC?: boolean;
+  onChangeSwipe?: (index?: number) => void;
 }
 
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -27,19 +29,21 @@ export interface SwipeState {
   haveAnimate?: boolean;
   swiping?: boolean;
 }
-
+const emptyFunc = () => {};
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   static defaultProps: SwipeProps = {
     direction: "horizontal",
-    autoSwipe: false,
+    autoSwipe: true,
     className: "",
     animate: "slide",
-    transitionTimingFunction: "cubic-bezier(0.5, 0, 0.5, 1)",
+    transitionTimingFunction: "ease-in-out",
     initialFocusIndex: 0,
     canSwipe: true,
-    speed: 1000,
-    delay: 5000,
-    easy: 0.85
+    speed: 2000,
+    delay: 6000,
+    easy: 0.85,
+    supportPC: false,
+    onChangeSwipe: emptyFunc
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -114,17 +118,18 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
   getFocusIndex = () => this.state.focusIndex;
 
-  focusIndex = (focusIndex: number) => {
+  setSwipe = (focusIndex: number) => {
     this.setState({
       focusIndex: this.setRightFocusIndex(focusIndex),
-      stopSwipe: false
+      stopSwipe: true
     });
   }
 
   swipeForward = () => {
-    if (this.state.swiping) return;
+    const { focusIndex, swiping, isSingleChildren } = this.state;
+    if (swiping || !this.props.autoSwipe) return;
+    if (!isSingleChildren) this.props.onChangeSwipe(focusIndex);
     this.state.swiping = true;
-    const { focusIndex } = this.state;
     const isLast = focusIndex === this.getItemsLength() - 2;
 
     if (isLast) {
@@ -152,9 +157,10 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   }
 
   swipeBackWord = () => {
-    if (this.state.swiping) return;
+    const { focusIndex, swiping, isSingleChildren } = this.state;
+    if (swiping || !this.props.autoSwipe) return;
+    if (!isSingleChildren) this.props.onChangeSwipe(focusIndex);
     this.state.swiping = true;
-    const { focusIndex } = this.state;
     const isFirst = focusIndex === 1;
 
     if (isFirst) {
@@ -200,6 +206,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     const { isHorizontal } = this.state;
     this.setState({ stopSwipe: true });
     const isToucheEvent = this.checkIsToucheEvent(e);
+    if (!isToucheEvent && !this.props.supportPC) return;
     if (isToucheEvent) {
       window.addEventListener("touchmove", this.mouseOrTouchMoveHandler);
       window.addEventListener("touchend", this.mouseOrTouchUpHandler);
@@ -314,6 +321,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       style,
       transitionTimingFunction,
       iconSize,
+      supportPC,
+      onChangeSwipe,
       ...attributes
     } = this.props;
     const {
@@ -400,8 +409,7 @@ function getStyles(swipe: Swipe): {
       WebkitTransform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
       left: (isHorizontal && !isSingleChildren) ? `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%` : void 0,
       top: isHorizontal ? void 0 : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
-      transition: haveAnimate ? transition : void 0,
-      WebkitTransition: haveAnimate ? transition : void 0
+      transition: haveAnimate ? transition : void 0
     }),
     item: prepareStyles({
       position: "relative",

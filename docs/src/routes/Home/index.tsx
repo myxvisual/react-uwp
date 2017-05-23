@@ -46,6 +46,14 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             description="A new lighting effect brings focus to interactive elements."
             linkInfo="ENHANCE YOUR APP WITH REVEAL"
             link="/reveal"
+            image={require("../../assets/images/reveal.png")}
+          />
+          <FlipViewItem
+            title="Acrylic material"
+            description="Our first material brings depth to your designs. "
+            linkInfo="ADD ACRYLIC TO YOUR APP"
+            link="/components"
+            image={require("../../assets/images/acrylic.png")}
           />
           <FlipViewItem
             title="Design Toolkits"
