@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "module": "constantjs",
+    "module": "commonjs",
     "target": "es5",
     "sourceMap": true,
     "moduleResolution": "node",
