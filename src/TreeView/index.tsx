@@ -146,8 +146,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                 style={prepareStyles({
                   cursor: disable ? "not-allowed" : "pointer",
                   color: disable ? theme.baseLow : void 0,
-                  width: isRight ? void 0 : 20,
-                  height: listItemHeight,
+                  width: isRight ? void 0 : 32,
                   fontSize: 14,
                   zIndex: 1,
                   transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`

@@ -114,8 +114,7 @@ function getStyles(footer: Footer): {
     openSource: {
       fontSize: 12,
       color: theme.baseHigh,
-      alignSelf: "flex-end",
-      margin: 40
+      alignSelf: "flex-end"
     }
   };
 }

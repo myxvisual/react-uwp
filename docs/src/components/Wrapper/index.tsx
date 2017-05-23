@@ -90,7 +90,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
       path, // tslint:disable-line:no-unused-variable
       children
     } = this.props;
-    const { renderContentWidth } = this.state;
+    const { renderContentWidth, screenType } = this.state;
     const { theme } = this.context;
 
     return (
@@ -117,7 +117,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
             minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`
           }}
         >
-          {children}
+          {React.cloneElement(children as any, { renderContentWidth, screenType })}
         </div>
         <Footer footerHeight={FOOTER_HEIGHT} renderContentWidth={renderContentWidth} />
         <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>

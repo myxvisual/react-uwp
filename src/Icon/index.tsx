@@ -56,11 +56,9 @@ export default class Icon extends React.Component<IconProps, IconState> {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         style={theme.prepareStyles({
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flex: "0 0 auto",
+          display: "inline-block",
           verticalAlign: "middle",
+          textAlign: "center",
           fontFamily: theme.iconFontFamily,
           transition: "all .25s",
           border: "none",
@@ -68,7 +66,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
           userSelect: "none",
           fontSize: "inherit",
           cursor: "inherit",
-          color: theme.baseHigh,
+          color: "inherit",
           ...(hovered ? hoverStyle : {}),
           ...style
         })}

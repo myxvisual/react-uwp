@@ -25,7 +25,7 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
   static defaultProps: FlipViewProps = {
     direction: "horizontal",
     className: "",
-    iconSize: 32,
+    iconSize: 24,
     showIcon: true
   };
   static contextTypes = { theme: PropTypes.object };
@@ -137,7 +137,7 @@ function getStyles(flipView: FlipView): {
 
   const baseIconStyle: React.CSSProperties = {
     position: "absolute",
-    background: theme.altMedium,
+    background: theme.baseLow,
     zIndex: 20,
     fontSize: iconSize / 2,
     width: iconSize * (isHorizontal ? 1 : 2),
@@ -155,7 +155,7 @@ function getStyles(flipView: FlipView): {
       width: "100%",
       background: theme.chromeLow,
       height: "auto",
-      transition: "all 0.25s cubic-bezier(.8, -.5, .2, 1.4)"
+      minHeight: baseIconStyle.height
     }),
     iconLeft: {
       ...baseIconStyle,
