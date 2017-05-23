@@ -99,10 +99,10 @@ function getStyles(flipViewItem: FlipViewItem): {
       padding: "0 20px",
       border: "none",
       outline: "none",
-      cursor: "pointer",
+      cursor: "pointer"
     },
     icon: {
       marginLeft: 10
-    },
+    }
   };
 }

@@ -36,6 +36,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <FlipView
           style={{
             height: FLIP_HEIGHT,
+            background: "black",
             margin: "0 auto",
             width: renderContentWidth
           }}

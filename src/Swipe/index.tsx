@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   initialFocusIndex?: number;
@@ -42,6 +43,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
+  context: { theme: ThemeType };
 
   isSingleChildren = React.Children.count(this.props.children) === 1;
 
@@ -64,6 +66,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   private startClientY: number;
   private endClientX: number;
   private endClientY: number;
+  originBodyStyle = { ...document.body.style };
 
   componentDidMount() {
     this.containerDOM = this.refs.container;
@@ -192,6 +195,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   checkIsToucheEvent = (e: React.SyntheticEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => "changedTouches" in e;
 
   mouseOrTouchDownHandler = (e: any) => {
+    this.endClientX = void 0;
+    this.endClientY = void 0;
     const { isHorizontal } = this.state;
     this.setState({ stopSwipe: true });
     const isToucheEvent = this.checkIsToucheEvent(e);
@@ -219,9 +224,13 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     this.refs.content.style.webkitTransition = "all 0.06125s 0s linear";
   }
 
-  mouseOrTouchMoveHandler: {
-    (e: any): void;
-  } = (e) => {
+  mouseOrTouchMoveHandler = (e: any) => {
+    Object.assign(document.body.style, {
+      userSelect: "none",
+      msUserSelect: "none",
+      webkitUserSelect: "none",
+      cursor: "default"
+    } as any);
     const isToucheEvent = this.checkIsToucheEvent(e);
     const { childrenLength, focusIndex, isHorizontal } = this.state;
     if (isToucheEvent) {
@@ -241,8 +250,16 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   }
 
   mouseOrTouchUpHandler = (e: any) => {
+    Object.assign(document.body.style, {
+      userSelect: void 0,
+      msUserSelect: void 0,
+      webkitUserSelect: void 0,
+      cursor: void 0,
+      ...this.originBodyStyle
+    } as any);
+    const { childrenLength, isHorizontal } = this.state;
+    const { transitionTimingFunction, speed } = this.props;
     const isToucheEvent = this.checkIsToucheEvent(e);
-    const { childrenLength } = this.state;
     if (isToucheEvent) {
       window.removeEventListener("touchmove", this.mouseOrTouchMoveHandler);
       window.removeEventListener("touchend", this.mouseOrTouchUpHandler);
@@ -250,13 +267,19 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       window.removeEventListener("mousemove", this.mouseOrTouchMoveHandler);
       window.removeEventListener("mouseup", this.mouseOrTouchUpHandler);
     }
-    const { transitionTimingFunction, speed } = this.props;
+
+    if ((isHorizontal && this.endClientX === void 0) || (
+      !isHorizontal && this.endClientY === void 0
+    )) {
+      return;
+    }
     const transition = `all ${speed}ms 0s ${transitionTimingFunction}`;
     this.refs.content.style.webkitTransition = transition;
     this.state.stopSwipe = false;
     let { easy } = this.props;
     if (easy < 0) easy = 0;
     if (easy > 1) easy = 1;
+
     const movePosition = this.endClientX - this.startClientX;
     const isNext = movePosition < 0;
     let focusIndex = this.state.focusIndex + movePosition / this.refs.container.getBoundingClientRect().width;
@@ -265,7 +288,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     if (focusIndex === this.state.focusIndex) {
       this.refs.content.style.webkitTransform = `translateX(${this.refs.container.getBoundingClientRect().width * (-focusIndex / childrenLength) - this.startClientX + this.endClientX}px)`;
     } else {
-      if (isNext) { this.swipeForward(); } else { this.swipeBackWord(); }
+      if (isNext) {
+        this.swipeForward();
+      } else {
+        this.swipeBackWord();
+      }
     }
     if (this.props.autoSwipe && !this.state.isSingleChildren && 0) {
       this.setNextSlider();
@@ -273,9 +300,28 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { children, initialFocusIndex, showIcon, animate, canSwipe, autoSwipe, speed, delay, easy, direction, style, transitionTimingFunction, iconSize, ...attributes } = this.props;
-    const { focusIndex, stopSwipe, childrenLength, isSingleChildren } = this.state;
+    const {
+      children,
+      initialFocusIndex,
+      showIcon,
+      animate,
+      canSwipe,
+      autoSwipe,
+      speed,
+      delay,
+      easy,
+      direction,
+      style,
+      transitionTimingFunction,
+      iconSize,
+      ...attributes
+    } = this.props;
+    const {
+      focusIndex,
+      stopSwipe,
+      childrenLength,
+      isSingleChildren
+    } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
     const childrenArray = React.Children.toArray(children);
@@ -289,17 +335,14 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       <div
         {...attributes}
         ref="container"
-        style={{
-          ...styles.container,
-          ...theme.prepareStyles(style)
-        }}
+        style={styles.root}
       >
         <div
           onMouseDown={
-            canSwipe ? this.mouseOrTouchDownHandler : void 0
+            canSwipe && !isSingleChildren ? this.mouseOrTouchDownHandler : void 0
           }
           onTouchStart={
-            canSwipe ? this.mouseOrTouchDownHandler : void 0
+            canSwipe && !isSingleChildren ? this.mouseOrTouchDownHandler : void 0
           }
           ref="content"
           style={styles.content}
@@ -316,16 +359,23 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 }
 
 function getStyles(swipe: Swipe): {
-  container?: React.CSSProperties;
+  root?: React.CSSProperties;
   content?: React.CSSProperties;
   item?: React.CSSProperties;
 } {
-  const { transitionTimingFunction, speed } = swipe.props;
+  const { transitionTimingFunction, speed, style } = swipe.props;
   const transition = `transform ${speed}ms 0s ${transitionTimingFunction}`;
-  const { focusIndex, childrenLength, isHorizontal, isSingleChildren, haveAnimate } = swipe.state;
+  const {
+    focusIndex,
+    childrenLength,
+    isHorizontal,
+    isSingleChildren,
+    haveAnimate
+  } = swipe.state;
+  const { theme: { prepareStyles } } = swipe.context;
 
   return {
-    container: {
+    root: prepareStyles({
       display: "flex",
       flexDirection: isHorizontal ? "row" : "column",
       alignItems: "center",
@@ -334,10 +384,10 @@ function getStyles(swipe: Swipe): {
       width: "100%",
       height: "auto",
       overflow: "hidden",
-      flex: "0 0 auto"
-    },
-    content: {
-      overflow: "hidden",
+      flex: "0 0 auto",
+      ...style
+    }),
+    content: prepareStyles({
       flex: "0 0 auto",
       display: "flex",
       flexDirection: isHorizontal ? "row" : "column",
@@ -352,8 +402,8 @@ function getStyles(swipe: Swipe): {
       top: isHorizontal ? void 0 : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
       transition: haveAnimate ? transition : void 0,
       WebkitTransition: haveAnimate ? transition : void 0
-    },
-    item: {
+    }),
+    item: prepareStyles({
       position: "relative",
       overflow: "hidden",
       width: isHorizontal ? `${100 / childrenLength}%` : "100%",
@@ -366,6 +416,6 @@ function getStyles(swipe: Swipe): {
       userSelect: "none",
       userDrag: "none",
       WebkitUserDrag: "none"
-    }
+    })
   };
 }
