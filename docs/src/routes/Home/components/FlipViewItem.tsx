@@ -54,6 +54,7 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps, voi
             </button>
           </Link>
         </div>
+        <img src={image} />
       </div>
     );
   }
@@ -79,7 +80,7 @@ function getStyles(flipViewItem: FlipViewItem): {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "flex-start",
+      justifyContent: "space-between",
       height: flipHeight,
       fontWeight: "lighter",
       ...style

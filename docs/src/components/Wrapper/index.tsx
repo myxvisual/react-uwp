@@ -135,10 +135,10 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
             }
             bottomNode={[
               <IconButton
-                style={{
-                  color: "#fff"
+                hoverStyle={{
+                  color: "#fff",
+                  background: theme.accent
                 }}
-                hoverStyle={{}}
                 onClick={() => {
                   theme.saveTheme(getTheme(theme.isDarkTheme ? "Light" : "Dark", theme.accent));
                 }}
@@ -146,11 +146,8 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
                 {theme.isDarkTheme ? "Brightness" : "QuietHours"}
               </IconButton>,
               <IconButton
+                hoverStyle={{}}
                 style={{
-                  background: theme.accent,
-                  color: "#fff"
-                }}
-                hoverStyle={{
                   color: "#fff",
                   background: theme.accent
                 }}

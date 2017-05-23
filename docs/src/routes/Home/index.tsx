@@ -36,7 +36,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <FlipView
           style={{
             height: FLIP_HEIGHT,
-            background: "black",
+            background: "none",
             margin: "0 auto",
             width: renderContentWidth
           }}
@@ -52,6 +52,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             description="Templates and tools for designing UWP apps."
             linkInfo="GET THE TOOLKITS"
             link="/toolkits"
+            image={require("../../assets/images/toolkits.png")}
           />
         </FlipView>
       </div>
