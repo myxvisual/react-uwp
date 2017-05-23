@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import MainTitleCenter from "./MainTitleCenter";
+import IconComponents from "components/Icons/IconComponents";
 
 export interface DataProps {}
 

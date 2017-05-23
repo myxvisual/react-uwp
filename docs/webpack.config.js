@@ -31,7 +31,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.webpack.js', '.js', '.jsx', '.ts', '.tsx'],
-    modules: ['./node_modules'],
+    modules: ['./node_modules', './src'],
     alias: {
       'react-uwp': path.resolve(__dirname, '../src'),
       'marked': path.resolve(__dirname, './node_modules/marked'),

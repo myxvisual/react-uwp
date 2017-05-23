@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "constantjs",
     "target": "es5",
     "sourceMap": true,
     "moduleResolution": "node",
@@ -19,7 +19,15 @@
     ],
     "paths": {
       "react-uwp": ["../src"],
-      "react-uwp/*": ["../src/*"]
+      "react-uwp/*": ["../src/*"],
+      "components": ["./src/components"],
+      "components/*": ["./src/components/*"],
+      "assets": ["./src/assets"],
+      "assets/*": ["./src/assets/*"],
+      "common": ["./src/common"],
+      "common/*": ["./src/common/*"],
+      "constant": ["./src/constant"],
+      "constant/*": ["./src/constant/*"]
     },
     "baseUrl": "."
   },
