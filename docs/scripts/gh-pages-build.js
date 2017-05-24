@@ -72,7 +72,7 @@ function buildDocs() {
   }
 
   fse.emptyDirSync('../build')
-  fse.moveSync('../public', '../build/public', { overwrite: true })
+  fse.copySync('../public', '../build/public', { overwrite: true })
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   execSyncWithLog('git checkout gh-pages')
   fse.moveSync('../build/public', '../../', { overwrite: true })
