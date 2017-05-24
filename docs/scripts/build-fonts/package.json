@@ -1,0 +1,19 @@
+{
+  "name": "build-fonts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-ttf2eot": "^1.1.1",
+    "gulp-ttf2woff": "^1.1.0",
+    "ttf2woff2": "^2.0.3"
+  }
+}
