@@ -68,49 +68,49 @@ function buildDocs() {
   }
 
   fse.emptyDirSync('../build')
-  fse.copySync('../public', '../build/public')
+  fse.moveSync('../public', '../build/public', { overwrite: true })
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
-  // execSyncWithLog('git checkout gh-pages')
-  // fse.moveSync('../build/public', '../../')
+  execSyncWithLog('git checkout gh-pages')
+  fse.moveSync('../build/public', '../../')
 
-  // if (versionIsHEAD) {
-  //   const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
-  //   fs.writeFileSync(
-  //     '../../index.html',
-  //     replaceHTML,
-  //     'utf8'
-  //     )
-  //   const buildDocsFolder = '../../HEAD'
-  //   if (fs.existsSync(buildDocsFolder)) {
-  //     fse.emptyDirSync(buildDocsFolder)
-  //   }
-  //   fse.copySync(
-  //     '../build',
-  //     buildDocsFolder
-  //   )
-  //   replaceWebpackPublicPath('HEAD')
-  // }
+  if (versionIsHEAD) {
+    const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
+    fs.writeFileSync(
+      '../../index.html',
+      replaceHTML,
+      'utf8'
+      )
+    const buildDocsFolder = '../../HEAD'
+    if (fs.existsSync(buildDocsFolder)) {
+      fse.emptyDirSync(buildDocsFolder)
+    }
+    fse.copySync(
+      '../build',
+      buildDocsFolder
+    )
+    replaceWebpackPublicPath('HEAD')
+  }
 
-  // const buildDocsFolder = `../../${versionNumber}`
-  // if (fs.existsSync(buildDocsFolder)) {
-  //   fse.emptyDirSync(buildDocsFolder)
-  // }
-  // fse.moveSync(
-  //   '../build',
-  //   buildDocsFolder
-  // )
-  // replaceWebpackPublicPath(versionNumber)
+  const buildDocsFolder = `../../${versionNumber}`
+  if (fs.existsSync(buildDocsFolder)) {
+    fse.emptyDirSync(buildDocsFolder)
+  }
+  fse.moveSync(
+    '../build',
+    buildDocsFolder
+  )
+  replaceWebpackPublicPath(versionNumber)
 
-  // if (versionIsHEAD) {
-  //   fs.writeFileSync(
-  //    '../../release',
-  //     `./${versionNumber}`
-  //   )
-  // }
-  // savePublicVersionsFile()
+  if (versionIsHEAD) {
+    fs.writeFileSync(
+     '../../release',
+      `./${versionNumber}`
+    )
+  }
+  savePublicVersionsFile()
 
-  // execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
-  // execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
+  execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
+  execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
 function replaceWebpackPublicPath(versionNumb) {
