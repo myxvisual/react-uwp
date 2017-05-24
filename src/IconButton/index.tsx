@@ -41,6 +41,7 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
           cursor: "pointer",
           color: theme.baseHigh,
           padding: 4,
+          flexShrink: 0,
           ...style
         }}
         hoverStyle={{

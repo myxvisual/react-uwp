@@ -4,11 +4,12 @@ import { Link } from "react-router";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
+import IconButton from "react-uwp/IconButton";
 import NavLink from "./NavLink";
+import { WrapperState } from "../";
 import ReactIcon from "../../ReactIcon";
 
-export interface DataProps {
-  renderContentWidth?: number | string;
+export interface DataProps extends WrapperState {
   headerHeight?: number;
   docVersion?: string;
 }
@@ -28,10 +29,12 @@ export default class Header extends React.Component<HeaderProps, void> {
       renderContentWidth,
       headerHeight,
       docVersion,
+      screenType,
       ...attributes
     } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const isPhoneScreen = screenType === "phone";
 
     return (
       <header style={{ width: "100%", height: headerHeight }}>
@@ -40,12 +43,15 @@ export default class Header extends React.Component<HeaderProps, void> {
           style={styles.root}
         >
           <div style={styles.content}>
+            {isPhoneScreen && (
+              <IconButton>GlobalNavButton</IconButton>
+            )}
             <Link style={styles.logo} to={`${docVersion}/`}>
               <ReactIcon fill={theme.accent} />
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </Link>
             <div style={styles.navContent}>
-              {renderContentWidth >= 765 && (
+              {!isPhoneScreen && (
                 <div style={styles.links}>
                   <NavLink headerHeight={headerHeight} to={`${docVersion}/get-started`}>
                     Get Started
@@ -61,7 +67,11 @@ export default class Header extends React.Component<HeaderProps, void> {
                   </NavLink>
                 </div>
               )}
-              <AutoSuggestBox placeholder="Search Feature is building..." />
+              {isPhoneScreen ? (
+                <IconButton>Search</IconButton>
+              ) : (
+                <AutoSuggestBox placeholder="Search Feature is building..." />
+              )}
             </div>
           </div>
         </div>
@@ -79,9 +89,10 @@ function getStyles(header: Header): {
 } {
   const {
     context: { theme },
-    props: { style, renderContentWidth, headerHeight }
+    props: { style, renderContentWidth, screenType, headerHeight }
   } = header;
   const { prepareStyles } = theme;
+  const isPhoneScreen = screenType === "phone";
 
   return {
     root: prepareStyles({
@@ -103,6 +114,7 @@ function getStyles(header: Header): {
     content: prepareStyles({
       display: "flex",
       flexDirection: "row",
+      justifyContent: isPhoneScreen ? "space-between" : void 0,
       width: renderContentWidth,
       height: "100%",
       overflow: "auto",
@@ -120,11 +132,11 @@ function getStyles(header: Header): {
       textDecoration: "none"
     }),
     navContent: prepareStyles({
-      width: "100%",
+      width: isPhoneScreen ? void 0 : "100%",
       marginLeft: 20,
       height: "100%",
       display: "flex",
-      flexDirection: renderContentWidth >= 765 ? "row" : "row-reverse",
+      flexDirection: isPhoneScreen ? "row" : "row-reverse",
       alignItems: "center",
       justifyContent: "space-between"
     }),

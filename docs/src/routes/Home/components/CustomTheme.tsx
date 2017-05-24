@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import ThemeType from "react-uwp/styles/ThemeType";
 import getTheme from "react-uwp/styles/getTheme";
 import Icon from "react-uwp/Icon";
-import DropdownMenu from "react-uwp/DropdownMenu";
+import DropDownMenu from "react-uwp/DropDownMenu";
 import ColorPicker from "react-uwp/ColorPicker";
 
 export interface DataProps {
@@ -46,7 +46,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
               <p style={{ fontSize: 18, lineHeight: 1.6 }}>
                 Choose Theme
               </p>
-              <DropdownMenu
+              <DropDownMenu
                 values={[
                   "Dark",
                   "Light"

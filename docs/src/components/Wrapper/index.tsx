@@ -108,6 +108,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
         }) as any}
       >
         <Header
+          screenType={screenType}
           docVersion={getDocVersion()}
           headerHeight={HEADER_HEIGHT}
           renderContentWidth={renderContentWidth}
