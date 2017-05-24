@@ -12,10 +12,12 @@ const { outputPath, publicPath } = require('../config')
 const args = process.argv
 let version
 if (args.length < 3) {
-  version = args[2]
+  version = 'Head'
 } else if (!/v\d{1,2}.\d{1,2}.\d{1,2}-?\w*\.?\d{0,2}/.test(args[2])) {
   console.log(usage)
   process.exit()
+} else {
+  version = args[2]
 }
 
 const versions = JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
