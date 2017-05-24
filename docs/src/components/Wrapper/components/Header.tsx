@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 import { Link } from "react-router";
 
 import ThemeType from "react-uwp/styles/ThemeType";
+import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import NavLink from "./NavLink";
 import ReactIcon from "../../ReactIcon";
 
@@ -43,19 +44,24 @@ export default class Header extends React.Component<HeaderProps, void> {
               <ReactIcon fill={theme.accent} />
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </Link>
-            <div style={{ marginLeft: 20, height: "100%" }}>
-              <NavLink headerHeight={headerHeight} to={`${docVersion}/get-started`}>
-                Get Started
-              </NavLink>
-              <NavLink headerHeight={headerHeight} to={`${docVersion}/components`}>
-                Documentation
-              </NavLink>
-              <NavLink headerHeight={headerHeight} to={`${docVersion}/resources`}>
-                Resources
-              </NavLink>
-              <NavLink headerHeight={headerHeight} to={`${docVersion}/examples`}>
-                Examples
-              </NavLink>
+            <div style={styles.navContent}>
+              {renderContentWidth >= 765 && (
+                <div style={styles.links}>
+                  <NavLink headerHeight={headerHeight} to={`${docVersion}/get-started`}>
+                    Get Started
+                  </NavLink>
+                  <NavLink headerHeight={headerHeight} to={`${docVersion}/components`}>
+                    Documentation
+                  </NavLink>
+                  <NavLink headerHeight={headerHeight} to={`${docVersion}/resources`}>
+                    Resources
+                  </NavLink>
+                  <NavLink headerHeight={headerHeight} to={`${docVersion}/examples`}>
+                    Examples
+                  </NavLink>
+                </div>
+              )}
+              <AutoSuggestBox placeholder="Search Feature is building..." />
             </div>
           </div>
         </div>
@@ -68,6 +74,8 @@ function getStyles(header: Header): {
   root?: React.CSSProperties;
   content?: React.CSSProperties;
   logo?: React.CSSProperties;
+  navContent?: React.CSSProperties;
+  links?: React.CSSProperties;
 } {
   const {
     context: { theme },
@@ -110,6 +118,19 @@ function getStyles(header: Header): {
       fontSize: 15,
       height: headerHeight,
       textDecoration: "none"
+    }),
+    navContent: prepareStyles({
+      width: "100%",
+      marginLeft: 20,
+      height: "100%",
+      display: "flex",
+      flexDirection: renderContentWidth >= 765 ? "row" : "row-reverse",
+      alignItems: "center",
+      justifyContent: "space-between"
+    }),
+    links: prepareStyles({
+      height: "100%",
+      overflow: "hidden"
     })
   };
 }

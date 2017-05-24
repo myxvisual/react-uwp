@@ -280,11 +280,7 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
 
   return {
     root: theme.prepareStyles({
-      display: "flex",
-      // flex: "0 0 auto",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
+      display: "inline-block",
       padding: "6px 10px",
       paddingRight: `${iconSize}px`,
       ...style,
