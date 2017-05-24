@@ -3,6 +3,8 @@ const path = require('path')
 const fse = require('fs-extra')
 const { execSync } = require('child_process')
 
+process.chdir(__dirname)
+
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
 const versionsFile = './versions.json'
 const { outputPath, publicPath } = require('../config')
@@ -55,7 +57,6 @@ function savePublicVersionsFile() {
 }
 
 function buildDocs() {
-  process.chdir(__dirname)
   execSyncWithLog('git checkout gh-pages')
   execSyncWithLog('git reset --hard')
   execSyncWithLog('git pull')
@@ -66,9 +67,9 @@ function buildDocs() {
     execSyncWithLog(`git checkout tags/${version}`)
   }
 
-  // execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
-  // fse.copySync('../public', '../build/public')
-  // execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
+  execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
+  fse.copySync('../public', '../build/public')
+  execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   // execSyncWithLog('git checkout gh-pages')
   // fse.moveSync('../build/public', '../../')
 
