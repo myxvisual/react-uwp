@@ -67,7 +67,7 @@ function buildDocs() {
     execSyncWithLog(`git checkout tags/${version}`)
   }
 
-  execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
+  fse.emptyDirSync('../build')
   fse.copySync('../public', '../build/public')
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   // execSyncWithLog('git checkout gh-pages')
