@@ -57,7 +57,8 @@ function savePublicVersionsFile() {
 function buildDocs() {
   process.chdir(__dirname)
   execSyncWithLog('git checkout gh-pages')
-  execSyncWithLog('git reset --hard HEAD')
+  execSyncWithLog('git reset --hard')
+  execSyncWithLog('git pull')
 
   if (versionIsHEAD) {
     execSyncWithLog('git checkout master')
@@ -65,47 +66,47 @@ function buildDocs() {
     execSyncWithLog(`git checkout tags/${version}`)
   }
 
-  execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
-  fse.copySync('../public', '../build/public')
-  execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
-  execSyncWithLog('git checkout gh-pages')
-  fse.moveSync('../build/public', '../../')
+  // execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
+  // fse.copySync('../public', '../build/public')
+  // execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
+  // execSyncWithLog('git checkout gh-pages')
+  // fse.moveSync('../build/public', '../../')
 
-  if (versionIsHEAD) {
-    const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
-    fs.writeFileSync(
-      '../../index.html',
-      replaceHTML,
-      'utf8'
-      )
-    const buildDocsFolder = '../../HEAD'
-    if (fs.existsSync(buildDocsFolder)) {
-      fse.emptyDirSync(buildDocsFolder)
-    }
-    fse.copySync(
-      '../build',
-      buildDocsFolder
-    )
-    replaceWebpackPublicPath('HEAD')
-  }
+  // if (versionIsHEAD) {
+  //   const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
+  //   fs.writeFileSync(
+  //     '../../index.html',
+  //     replaceHTML,
+  //     'utf8'
+  //     )
+  //   const buildDocsFolder = '../../HEAD'
+  //   if (fs.existsSync(buildDocsFolder)) {
+  //     fse.emptyDirSync(buildDocsFolder)
+  //   }
+  //   fse.copySync(
+  //     '../build',
+  //     buildDocsFolder
+  //   )
+  //   replaceWebpackPublicPath('HEAD')
+  // }
 
-  const buildDocsFolder = `../../${versionNumber}`
-  if (fs.existsSync(buildDocsFolder)) {
-    fse.emptyDirSync(buildDocsFolder)
-  }
-  fse.moveSync(
-    '../build',
-    buildDocsFolder
-  )
-  replaceWebpackPublicPath(versionNumber)
+  // const buildDocsFolder = `../../${versionNumber}`
+  // if (fs.existsSync(buildDocsFolder)) {
+  //   fse.emptyDirSync(buildDocsFolder)
+  // }
+  // fse.moveSync(
+  //   '../build',
+  //   buildDocsFolder
+  // )
+  // replaceWebpackPublicPath(versionNumber)
 
-  if (versionIsHEAD) {
-    fs.writeFileSync(
-     '../../release',
-      `./${versionNumber}`
-    )
-  }
-  savePublicVersionsFile()
+  // if (versionIsHEAD) {
+  //   fs.writeFileSync(
+  //    '../../release',
+  //     `./${versionNumber}`
+  //   )
+  // }
+  // savePublicVersionsFile()
 
   // execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
   // execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
