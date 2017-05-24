@@ -1,6 +1,6 @@
 {
-  "app.js": "js/app.da142.js",
-  "common.js": "js/common.da142.js",
+  "app.js": "js/app.97e44.js",
+  "common.js": "js/common.97e44.js",
   "images\\acrylic.png": "images/acrylic.2UkDO.png",
   "images\\reveal.png": "images/reveal.32wHd.png",
   "images\\toolkits.png": "images/toolkits.2HHmR.png",
@@ -13,5 +13,5 @@
   "react-uwp-home.js": "js/react-uwp-home.149e5.js",
   "react-uwp-style-Icons.js": "js/react-uwp-style-Icons.4c41a.js",
   "react-uwp-style-NotFound.js": "js/react-uwp-style-NotFound.b4b79.js",
-  "react-uwp-style-get-started.js": "js/react-uwp-style-get-started.4051f.js"
+  "react-uwp-style-get-started.js": "js/react-uwp-style-get-started.9416b.js"
 }
