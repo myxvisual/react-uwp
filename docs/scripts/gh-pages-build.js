@@ -12,7 +12,7 @@ const { outputPath, publicPath } = require('../config')
 const args = process.argv
 let version
 if (args.length < 3) {
-  version = 'Head'
+  version = 'HEAD'
 } else if (/v\d{1,2}.\d{1,2}.\d{1,2}-?\w*\.?\d{0,2}/.test(args[2])) {
   version = args[2]
 } else {
