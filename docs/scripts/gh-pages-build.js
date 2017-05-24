@@ -71,7 +71,7 @@ function buildDocs() {
   fse.moveSync('../public', '../build/public', { overwrite: true })
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   execSyncWithLog('git checkout gh-pages')
-  fse.moveSync('../build/public', '../../')
+  fse.moveSync('../build/public', '../../', { overwrite: true })
 
   if (versionIsHEAD) {
     const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
@@ -109,7 +109,7 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  execSyncWithLog(`git add ../../ && git commit -m 'Update ${version}' Docs`)
+  execSyncWithLog(`git add -A && git commit -m 'Update ${version}' Docs`)
   execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
