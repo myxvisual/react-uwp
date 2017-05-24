@@ -12,8 +12,8 @@
     "removeComments": true,
     "noImplicitAny": true,
     "noLib": false,
-    "outDir": "./build",
     "lib": ["dom", "es5", "es2015", "es2016.array.include"],
+    "declarationDir": "./build/typings",
     "typeRoots": [
       "./node_modules/@types",
       "../node_modules/@types"
