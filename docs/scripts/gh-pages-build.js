@@ -114,8 +114,10 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  execSync(`git rm -r docs && git add -A && git commit -m 'Update ${version}' Docs`)
-  execSync(`git push${useForcePush ? ' -f' : ''}`)
+  setTimeout(() => {
+    execSync(`git add -A && git commit -m 'Update ${version}' Docs`)
+    execSync(`git push${useForcePush ? ' -f' : ''}`)
+  }, 1000)
 }
 
 function replaceWebpackPublicPath(versionNumb) {
