@@ -3,7 +3,7 @@
 const linkElm = document.createElement("link");
 Object.assign(linkElm, {
   rel: "stylesheet",
-  href: "https://www.react-uwp.com/static/css/segoe-mdl2-assets.css"
+  href: "https://www.react-uwp.com/HEAD/static/css/segoe-mdl2-assets.css"
 });
 document.head.appendChild(linkElm);
 

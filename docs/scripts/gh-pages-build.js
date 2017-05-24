@@ -114,7 +114,7 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  execSync(`git add -A && git commit -m 'Update ${version}' Docs`)
+  execSync(`git rm -r docs && git add -A && git commit -m 'Update ${version}' Docs`)
   execSync(`git push${useForcePush ? ' -f' : ''}`)
 }
 

@@ -16,10 +16,10 @@ The quickest way to get up and running is by using the `Theme` to inject the the
 
 **./App.js**
 ```jsx
-import * as React from "react"';
-import * as ReactDOM from "react-dom"';
-import Theme as UWPThemeProvider from 'react-uwp/Theme';
-import MyAwesomeReactComponents from './MyAwesomeReactComponents';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import Theme as UWPThemeProvider from "react-uwp/Theme";
+import MyAwesomeReactComponents from "./MyAwesomeReactComponents";
 
 class App extends React.Component<void, void> {
   render() {
@@ -33,14 +33,14 @@ class App extends React.Component<void, void> {
 
 ReactDOM.render(
   <App />,
-  document.getElementById('app')
+  document.getElementById("app")
 );
 ```
 
 **./MyAwesomeReactComponents.js**
 ```jsx
-import * as React from "react"';
-import Button from 'material-ui/Button';
+import * as React from "react";
+import Button from "material-ui/Button";
 
 export default class MyAwesomeReactComponent extends React.Component<void, void> {
   render() {
@@ -52,12 +52,12 @@ export default class MyAwesomeReactComponent extends React.Component<void, void>
 ```
 `Notice:` that in the above example, we used:
 ```jsx
-import Button from 'react-uwp/Button';
+import Button from "react-uwp/Button";
 ```
 
 instead of
 ```jsx
-import { Button } from 'material-ui';
+import { Button } from "react-uwp";
 ```
 
 This will make your build process faster and your build output smaller.
