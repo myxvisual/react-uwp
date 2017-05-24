@@ -72,10 +72,11 @@ function buildDocs() {
   }
 
   fse.emptyDirSync('../build')
-  fse.copySync('../public', '../build/public', { overwrite: true })
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
+  fse.copySync('../public', '../build', { overwrite: true })
   execSyncWithLog('git checkout gh-pages')
-  fse.moveSync('../build/public', '../../', { overwrite: true })
+  fse.copySync('../build/README.md', '../../README.md', { overwrite: true })
+  fse.copySync('../build/404.html', '../../404.html', { overwrite: true })
 
   if (versionIsHEAD) {
     const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
@@ -113,8 +114,8 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  execSyncWithLog(`git add -A && git commit -m 'Update ${version}' Docs`)
-  execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
+  execSync(`git add -A && git commit -m 'Update ${version}' Docs`)
+  execSync(`git push${useForcePush ? ' -f' : ''}`)
 }
 
 function replaceWebpackPublicPath(versionNumb) {
