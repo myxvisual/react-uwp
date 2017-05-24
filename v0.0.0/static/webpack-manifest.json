@@ -1,6 +1,6 @@
 {
-  "app.js": "js/app.78728.js",
-  "common.js": "js/common.78728.js",
+  "app.js": "js/app.d2b7c.js",
+  "common.js": "js/common.d2b7c.js",
   "fonts\\segoe-mdl2-assets.eot": "fonts/segoe-mdl2-assets.23Abh.eot",
   "fonts\\segoe-mdl2-assets.ttf": "fonts/segoe-mdl2-assets.13X8s.ttf",
   "fonts\\segoe-mdl2-assets.woff": "fonts/segoe-mdl2-assets.2gY-H.woff",
@@ -8,14 +8,14 @@
   "images\\acrylic.png": "images/acrylic.2UkDO.png",
   "images\\reveal.png": "images/reveal.32wHd.png",
   "images\\toolkits.png": "images/toolkits.2HHmR.png",
-  "react-uwp-components-AutoSuggestBox.js": "js/react-uwp-components-AutoSuggestBox.79959.js",
-  "react-uwp-components-Button.js": "js/react-uwp-components-Button.625b1.js",
-  "react-uwp-components-CheckBox.js": "js/react-uwp-components-CheckBox.e873a.js",
-  "react-uwp-components-ColorPicker.js": "js/react-uwp-components-ColorPicker.5cc5f.js",
-  "react-uwp-components-CommandBar.js": "js/react-uwp-components-CommandBar.3695f.js",
-  "react-uwp-components-IndexOfComponentsByFunction.js": "js/react-uwp-components-IndexOfComponentsByFunction.a4f3c.js",
-  "react-uwp-components-Intro.js": "js/react-uwp-components-Intro.8ae25.js",
-  "react-uwp-home.js": "js/react-uwp-home.9e65c.js",
-  "react-uwp-style-Icons.js": "js/react-uwp-style-Icons.e0b0e.js",
-  "react-uwp-style-NotFound.js": "js/react-uwp-style-NotFound.7cc4a.js"
+  "react-uwp-components-AutoSuggestBox.js": "js/react-uwp-components-AutoSuggestBox.99cc6.js",
+  "react-uwp-components-Button.js": "js/react-uwp-components-Button.24ebd.js",
+  "react-uwp-components-CheckBox.js": "js/react-uwp-components-CheckBox.9e590.js",
+  "react-uwp-components-ColorPicker.js": "js/react-uwp-components-ColorPicker.67089.js",
+  "react-uwp-components-CommandBar.js": "js/react-uwp-components-CommandBar.832de.js",
+  "react-uwp-components-IndexOfComponentsByFunction.js": "js/react-uwp-components-IndexOfComponentsByFunction.2e9f6.js",
+  "react-uwp-home.js": "js/react-uwp-home.46ff9.js",
+  "react-uwp-style-Icons.js": "js/react-uwp-style-Icons.4c41a.js",
+  "react-uwp-style-NotFound.js": "js/react-uwp-style-NotFound.b4b79.js",
+  "react-uwp-style-get-started.js": "js/react-uwp-style-get-started.227a2.js"
 }
