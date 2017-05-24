@@ -114,6 +114,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
           style={{
             margin: "0 auto",
             width: "100%",
+            position: "relative",
             minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`
           }}
         >
