@@ -31,7 +31,19 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
       smartypants: false,
       highlight(code, lang) {
         try {
-          require("prismjs/components/prism-" + lang + ".min.js");
+          switch (lang) {
+            case "jsx": {
+              require("prismjs/components/prism-jsx.min.js");
+              break;
+            }
+            case "bash": {
+              require("prismjs/components/prism-bash.min.js");
+              break;
+            }
+            default: {
+              break;
+            }
+          }
           return Prism.highlight(code, Prism.languages[lang]);
         } catch (err) {}
       }
