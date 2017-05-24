@@ -56,10 +56,10 @@ module.exports = {
         loader: 'awesome-typescript',
         query: {
           configFileName: path.resolve(__dirname, './tsconfig.json'),
-          useBabel: true,
+          useBabel: __DEV__,
           useCache: __DEV__,
-          useTranspileModule: true,
-          forkChecker: true,
+          useTranspileModule: __DEV__,
+          forkChecker: __DEV__,
           cacheDirectory: __DEV__ ? `${outputPath}/awesomeTypescriptCacheDev` : void 0
         }
       }

@@ -4,7 +4,7 @@ const fse = require('fs-extra')
 const { execSync } = require('child_process')
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
-const versionsFile = path.resolve(__dirname, './versions.json')
+const versionsFile = './versions.json'
 const { outputPath, publicPath } = require('../config')
 
 const args = process.argv
@@ -14,11 +14,11 @@ if (args.length < 3) {
 }
 
 const version = args[2]
-const versions = JSON.parse(fs.readFileSync(path.resolve(__dirname, versionsFile), 'utf8'))
+const versions = JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
 const versionNumber = versionIsHEAD ? (
-  `v${JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')).version}`
+  `v${JSON.parse(fs.readFileSync('../../package.json', 'utf8')).version}`
 ) : version
 
 function execSyncWithLog(command) {
@@ -31,11 +31,6 @@ function execSyncWithLog(command) {
  }
 }
 
-fse.copySync(
-  path.resolve(__dirname, '../public'),
-  path.resolve(__dirname, '../../')
-)
-
 function saveVersionsFile() {
   if (!versions.includes(versionNumber)) {
     versions.push(versionNumber)
@@ -46,7 +41,7 @@ function saveVersionsFile() {
 }
 
 function savePublicVersionsFile() {
-  const publicVersionsFile = path.resolve(__dirname, '../../versions.json')
+  const publicVersionsFile = '../../versions.json'
   if (fs.existsSync(publicVersionsFile)) {
     const publicVersions = JSON.parse(fs.readFileSync(publicVersionsFile, 'utf8'))
     if (!publicVersions.includes(versionNumber)) {
@@ -71,8 +66,10 @@ function buildDocs() {
   }
 
   execSyncWithLog('test -d \"./build\" && rm -r \"./build\" || exit 0')
+  fse.copySync('../public', '../build/public')
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   execSyncWithLog('git checkout gh-pages')
+  fse.moveSync('../build/public', '../../')
 
   if (versionIsHEAD) {
     const replaceHTML = fs.readFileSync('../build/index.html', 'utf8').replace(/\/static\//gim, '/HEAD/static/')
@@ -104,7 +101,7 @@ function buildDocs() {
 
   if (versionIsHEAD) {
     fs.writeFileSync(
-      path.resolve(__dirname, '../../release'),
+     '../../release',
       `./${versionNumber}`
     )
   }
