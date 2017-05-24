@@ -5,10 +5,14 @@ import MarkdownRender from "../../../components/MarkdownRender";
 import ComponentDetail from "../../../components/ComponentDetail";
 import ComponentDescription from "./components/ComponentDescription";
 
-import CommandBar from "react-uwp/CommandBar";
-import Button from "react-uwp/Button";
-import AppBarButton from "react-uwp/AppBarButton";
-import HyperLink from "react-uwp/HyperLink";
+import {
+  CommandBar,
+  AppBarButton,
+  Button,
+  CheckBox,
+  Radius,
+  HyperLink
+} from "react-uwp";
 
 export default class IndexOfComponentsByFunction extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
@@ -38,7 +42,7 @@ Here's a list by function of the common controls you can use in your app.`
         <MarkdownRender text="## Commands" />
         <ComponentDescription
           description={
-`### Command bar
+`### CommandBar
 A specialized app bar that handles the resizing of app bar button elements.`
           }
           direction="column"
@@ -72,6 +76,8 @@ A UWP Design Link.`
           }
         >
           <HyperLink>HyperLink</HyperLink>
+          <CheckBox />
+          <Radius />
         </ComponentDescription>
       </div>
     );

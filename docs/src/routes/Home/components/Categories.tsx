@@ -33,6 +33,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
         style={styles.root}
       >
         <MainTitleCenter
+          style={{ padding: 20 }}
           title="Design and UI for UWP Web Apps"
           description={<p>
             React-UWP came about from our love of React and Microsoft's UWP Design.

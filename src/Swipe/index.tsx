@@ -39,8 +39,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     transitionTimingFunction: "ease-in-out",
     initialFocusIndex: 0,
     canSwipe: true,
-    speed: 2000,
-    delay: 6000,
+    speed: 1500,
+    delay: 5000,
     easy: 0.85,
     supportPC: false,
     onChangeSwipe: emptyFunc

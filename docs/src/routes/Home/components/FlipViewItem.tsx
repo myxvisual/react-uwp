@@ -4,8 +4,9 @@ import { Link } from "react-router";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import Icon from "react-uwp/Icon";
+import { WrapperState } from "components/Wrapper";
 
-export interface DataProps {
+export interface DataProps extends WrapperState {
   title?: string;
   description?: string;
   linkInfo?: string;
@@ -32,6 +33,9 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps, voi
       link,
       image,
       flipHeight,
+      renderContentHeight,
+      renderContentWidth,
+      screenType,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -43,7 +47,7 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps, voi
         style={styles.root}
         to={link}
       >
-        <div>
+        <div style={styles.desc}>
           <p style={styles.title}>{title}</p>
           <p style={styles.description}>{description}</p>
           <button style={styles.button}>
@@ -53,7 +57,7 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps, voi
             </Icon>
           </button>
         </div>
-        <img src={image} style={{ maxHeight: "75%" }} />
+        <img src={image} style={styles.image} />
       </Link>
     );
   }
@@ -61,20 +65,24 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps, voi
 
 function getStyles(flipViewItem: FlipViewItem): {
   root?: React.CSSProperties;
+  desc?: React.CSSProperties;
   title?: React.CSSProperties;
   description?: React.CSSProperties;
   button?: React.CSSProperties;
   icon?: React.CSSProperties;
+  image?: React.CSSProperties;
 } {
   const {
     context: { theme },
-    props: { style, flipHeight }
+    props: { style, image, flipHeight, screenType }
   } = flipViewItem;
   const { prepareStyles } = theme;
+    const isPhoneScreen = screenType === "phone";
 
   return {
     root: prepareStyles({
       WebkitUserDrag: "none",
+      position: "relative",
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -87,6 +95,12 @@ function getStyles(flipViewItem: FlipViewItem): {
       textDecoration: "none",
       ...style
     }),
+    desc: isPhoneScreen ? prepareStyles({
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      textAlign: "center"
+    } as React.CSSProperties) : void 0,
     title: {
       fontSize: 42,
       lineHeight: 1.8
@@ -99,14 +113,25 @@ function getStyles(flipViewItem: FlipViewItem): {
     button: {
       background: theme.baseHigh,
       color: theme.altHigh,
-      height: 32,
-      padding: "0 40px",
+      padding: "6px 40px",
       border: "none",
       outline: "none",
       cursor: "pointer"
     },
     icon: {
       marginLeft: 10
-    }
+    },
+    image: prepareStyles({
+      maxHeight: isPhoneScreen ? "100%" : "75%",
+      ...(isPhoneScreen ? {
+        height: "100%",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        zIndex: -1,
+        filter: "blur(2px)",
+        opacity: .5
+      } as React.CSSProperties : {})
+    })
   };
 }

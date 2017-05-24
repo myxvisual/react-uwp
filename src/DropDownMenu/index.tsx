@@ -97,7 +97,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
     const isDarkTheme = theme.themeName === "Dark";
 
     return (
-      <div {...attributes} style={theme.prepareStyles({ position: "relative", zIndex: showList ? theme.zIndex.dropDownMenu : 1, width: itemWidth, height: itemHeight, ...attributes.style })}>
+      <div {...attributes} style={theme.prepareStyles({ position: "relative", zIndex: showList ? theme.zIndex.dropDownMenu : 1, width: itemWidth, height: itemHeight + padding, ...attributes.style })}>
         <div
           ref="container"
           style={theme.prepareStyles({

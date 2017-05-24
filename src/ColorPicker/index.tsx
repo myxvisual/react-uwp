@@ -8,16 +8,20 @@ export interface ColorPickerProps extends DataProps, React.HTMLAttributes<HTMLCa
 
 export class ColorPicker extends React.Component<ColorPickerProps, void> {
   static defaultProps: ColorPickerProps = {
-    width: 400,
-    height: 400
+    size: 200
   };
   canvas?: HTMLCanvasElement;
   ctx?: CanvasRenderingContext2D;
 
   componentDidMount() {
-    const _xPosition = 200;
-    const _yPosition = 200;
-    const _r = 100;
+    const { size } = this.props;
+    Object.assign(this.canvas, {
+      width: size,
+      height: size
+    });
+    const _xPosition = size / 2;
+    const _yPosition = _xPosition;
+    const _r = _xPosition - 2;
 
     const _pi_2 = Math.PI * 2;
     const _c = _r * _pi_2;
@@ -84,7 +88,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, void> {
   }
 
   render() {
-    const { ...attributes } = this.props;
+    const { size, ...attributes } = this.props;
     return (
       <canvas
         ref={canvas => this.canvas = canvas}

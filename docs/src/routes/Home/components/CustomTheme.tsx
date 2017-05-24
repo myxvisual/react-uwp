@@ -58,7 +58,9 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
               />
             </div>
           </div>
-          <ColorPicker />
+          <div style={{ padding: "20px 0" }}>
+            <ColorPicker />
+          </div>
         </div>
       </div>
     );
@@ -77,7 +79,8 @@ function getStyles(customTheme: CustomTheme): {
 
   return {
     root: prepareStyles({
-      height: 400,
+      minHeight: 400,
+      padding: 20,
       backgroundImage: `linear-gradient(90deg, transparent, ${theme.altMediumHigh})`,
       ...style
     }),

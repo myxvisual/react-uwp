@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 
 import FlipView, { FlipViewProps } from "react-uwp/FlipView";
 import ThemeType from "react-uwp/styles/ThemeType";
-import { WrapperState } from "../../components/Wrapper";
+import { WrapperState } from "components/Wrapper";
 import FlipViewItem from "./components/FlipViewItem";
 import Categories from "./components/Categories";
 import Banner from "./components/Banner";
@@ -19,7 +19,6 @@ export interface HomeProps extends DataProps, ReactRouter.RouteProps {
 }
 export interface HomeState {}
 
-const FLIP_HEIGHT = 500;
 export default class Home extends React.Component<HomeProps, HomeState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
@@ -34,6 +33,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
       screenType
     } = this.props;
     const { theme } = this.context;
+    const FLIP_HEIGHT = screenType === "phone" ? 240 : 500;
 
     return (
       <div style={{ width: "100%" }}>
@@ -47,13 +47,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             }}
           >
             <FlipViewItem
+              screenType={screenType}
               title="Reveal"
               description="A new lighting effect brings focus to interactive elements."
-              linkInfo="ENHANCE YOUR APP WITH REVEAL"
+              linkInfo="ENHANCE APP WITH REVEAL"
               link="/reveal"
               image={require("../../assets/images/reveal.png")}
             />
             <FlipViewItem
+              screenType={screenType}
               title="Acrylic material"
               description="Our first material brings depth to your designs. "
               linkInfo="ADD ACRYLIC TO YOUR APP"
@@ -61,6 +63,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               image={require("../../assets/images/acrylic.png")}
             />
             <FlipViewItem
+              screenType={screenType}
               title="Design Toolkits"
               description="Templates and tools for designing UWP apps."
               linkInfo="GET THE TOOLKITS"
@@ -72,7 +75,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <Categories
           style={{
             height: "auto",
-            padding: "64px 0",
+            padding: "20px 0",
             margin: "0 auto",
             width: renderContentWidth
           }}
@@ -81,6 +84,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <CustomTheme renderContentWidth={renderContentWidth} />
         <IndexOfComponentsByFunction
           style={{
+            padding: 20,
             margin: "0 auto",
             width: renderContentWidth
           }}
