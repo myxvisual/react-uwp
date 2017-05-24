@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactTransitionGroup from "react-transition-group/CSSTransitionGroup";
+import * as ReactTransitionGroup from "react-addons-transition-group";
 
 import ScaleInOutChild from "./ScaleInOutChild";
 

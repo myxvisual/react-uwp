@@ -294,7 +294,8 @@ function getStyles(calendarView: CalendarView): {
     }),
     titleIcon: {
       fontSize: 16,
-      paddingLeft: 8
+      paddingLeft: 8,
+      cursor: "pointer"
     },
     body: prepareStyles({
       width: 296,
