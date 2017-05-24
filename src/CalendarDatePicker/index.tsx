@@ -27,7 +27,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
           {...attributes}
           style={{ padding: "0 10px" }}
           placeholder="mm/dd/yyyy"
-          rightNode={<Icon>Calendar</Icon>}
+          rightNode={<Icon style={{ color: theme.baseMediumHigh }}>Calendar</Icon>}
         />
       </div>
     );
