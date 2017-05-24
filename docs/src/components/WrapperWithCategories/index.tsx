@@ -47,7 +47,6 @@ function setListItemsUrl(path = "/") {
 
     const parentUrlNow = `${listData.parentUrl}/${listData.titleNode.toLowerCase().replace(/\s/gim, "-")}`;
     listData.style = {
-      cursor: "pointer",
       textDecoration: "inherit"
     } as React.CSSProperties;
     listData.onClick = () => {

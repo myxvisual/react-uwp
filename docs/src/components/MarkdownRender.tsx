@@ -31,6 +31,7 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
       smartypants: false,
       highlight(code, lang) {
         try {
+          require("prismjs/components/prism-" + lang + ".min.js");
           return Prism.highlight(code, Prism.languages[lang]);
         } catch (err) {}
       }
@@ -46,15 +47,16 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
   }
 
   updateThemeStyle = () => {
+    let markdownStyleString: any;
     if (this.context.theme.isDarkTheme) {
-      require("prismjs/themes/prism-okaidia.css");
+      markdownStyleString = require("!raw!prismjs/themes/prism-okaidia.css");
     } else {
-      require("prismjs/themes/prism-coy.css");
+      markdownStyleString = require("!raw!prismjs/themes/prism-coy.css");
     }
 
     const className = "react-uwp-markdown-style-sheet";
     let styleSheet = document.querySelector(`.${className}`);
-    const cssString = getCSSString(this.context.theme);
+    const cssString = getCSSString(this.context.theme) + "\n" + markdownStyleString;
     if (!styleSheet) {
       styleSheet = document.createElement("style");
       styleSheet.className = className;
@@ -190,6 +192,7 @@ return (
 .react-uwp-markdown pre {
   background: ${theme.chromeLow};
   border: 1px solid ${theme.baseLow};
+  border-left: 6px solid ${theme.accent} !important;
   border-radius: 0 !important;
   padding: 12px;
   margin: 10px 0;
@@ -198,7 +201,7 @@ return (
   white-space: pre-wrap;
 }
 
-.react-uwp-markdown pre > code {
+.react-uwp-markdown code {
   font-family: "${theme.fontFamily}";
   font-size: 13px;
 }
@@ -259,8 +262,13 @@ return (
   margin: 10px 20px;
 }
 code[class*="language-"], pre[class*="language-"] {
-  text-shadow: none;
-  box-shadow: none;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  ${theme.isDarkTheme ? (
+    "background: none !important;"
+  ) : (
+    ""
+  )}
 }
 `
 ); }

@@ -5,6 +5,7 @@ export default [{
 }, {
   "titleNode": "Styles",
   "children": [{
+    disable: true,
     "titleNode": "Color"
   }, {
     "titleNode": "Icons"
@@ -64,10 +65,6 @@ export default [{
 }, {
   "titleNode": "Components",
   "children": [{
-    "titleNode": "Intro"
-  }, {
-    "titleNode": "Index of components by function"
-  }, {
     "titleNode": "CommandBar"
   }, {
     "titleNode": "AutoSuggestBox"

@@ -112,6 +112,7 @@ function getStyles(footer: Footer): {
       verticalAlign: "top"
     },
     openSource: {
+      margin: 20,
       fontSize: 12,
       color: theme.baseHigh,
       alignSelf: "flex-end"

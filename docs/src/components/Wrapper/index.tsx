@@ -25,6 +25,7 @@ export interface WrapperProps extends DataProps, Router.RouteProps {
 }
 
 export interface WrapperState {
+  renderContentHeight?: number | string;
   renderContentWidth?: number | string;
   screenType?: "phone" | "tablet" | "laptop" | "pc";
 }
@@ -92,6 +93,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
     } = this.props;
     const { renderContentWidth, screenType } = this.state;
     const { theme } = this.context;
+    const renderContentHeight = `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`;
 
     return (
       <div
@@ -115,10 +117,10 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
             margin: "0 auto",
             width: "100%",
             position: "relative",
-            minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`
+            minHeight: renderContentHeight
           }}
         >
-          {React.cloneElement(children as any, { renderContentWidth, screenType })}
+          {React.cloneElement(children as any, { renderContentWidth, screenType, renderContentHeight })}
         </div>
         <Footer footerHeight={FOOTER_HEIGHT} renderContentWidth={renderContentWidth} />
         <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>

@@ -47,7 +47,7 @@ export default class Header extends React.Component<HeaderProps, void> {
               <NavLink headerHeight={headerHeight} to={`${docVersion}/get-started`}>
                 Get Started
               </NavLink>
-              <NavLink headerHeight={headerHeight} to={`${docVersion}/components/index-of-components-by-function`}>
+              <NavLink headerHeight={headerHeight} to={`${docVersion}/components`}>
                 Documentation
               </NavLink>
               <NavLink headerHeight={headerHeight} to={`${docVersion}/resources`}>
@@ -96,7 +96,9 @@ function getStyles(header: Header): {
       display: "flex",
       flexDirection: "row",
       width: renderContentWidth,
-      height: "100%"
+      height: "100%",
+      overflow: "auto",
+      flexWrap: "no-wrap"
     }),
     logo: prepareStyles({
       display: "flex",

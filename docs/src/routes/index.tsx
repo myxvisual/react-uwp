@@ -58,21 +58,14 @@ function getRoutes(path = "/") {
     childRoutes: [{
       component: WrapperWithPath,
       path: "components",
-      childRoutes: [{
-        path: "intro",
-        getComponent: (location: Location, cb: RouterCallback) => {
-          require.ensure([], (require) => {
-            cb(null, require<any>("./Components/Intro").default);
-          }, "react-uwp-components-Intro");
-        }
-      }, {
-        path: "index-of-components-by-function",
+      indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/IndexOfComponentsByFunction").default);
           }, "react-uwp-components-IndexOfComponentsByFunction");
         }
-      }, {
+      },
+      childRoutes: [{
         path: "CommandBar",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
@@ -119,6 +112,18 @@ function getRoutes(path = "/") {
           }, "react-uwp-style-Icons");
         }
       }]
+    }, {
+      path: "get-started",
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          const Child = require<any>("./GetStarted").default;
+          cb(null, () => (
+            <WrapperWithPath>
+              <Child />
+            </WrapperWithPath>
+          ));
+        }, "react-uwp-style-get-started");
+      }
     }, {
       path: "*",
       getComponent: (location: Location, cb: RouterCallback) => {

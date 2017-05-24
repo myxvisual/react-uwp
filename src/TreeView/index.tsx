@@ -32,7 +32,7 @@ export interface TreeViewState {
   visitedList?: List;
   showFocus?: boolean;
 }
-
+const emptyFunc = () => {};
 export default class TreeView extends React.Component<TreeViewProps, TreeViewState> {
   static defaultProps: TreeViewProps = {
     listItems: [],
@@ -106,11 +106,10 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
         >
           <div
             style={{
-              cursor: disable ? "not-allowed" : void 0,
               color: disable ? theme.baseLow : void 0,
               ...styles.title
             } as any}
-            onMouseEnter={e => {
+            onMouseEnter={disable ? void 0 : e => {
               const bgNode = e.currentTarget.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
               const titleNode = e.currentTarget.querySelector(".react-uwp-tree-view-title") as HTMLDivElement;
               Object.assign(bgNode.style, {
@@ -118,7 +117,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
               } as CSSStyleDeclaration);
               Object.assign(titleNode.style, hoverStyle as any);
             }}
-            onMouseLeave={e => {
+            onMouseLeave={disable ? void 0 : e => {
               const bgNode = e.currentTarget.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
               const titleNode = e.currentTarget.querySelector(".react-uwp-tree-view-title") as HTMLDivElement;
               Object.assign(bgNode.style, {
@@ -129,8 +128,10 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
           >
             <div
               {...attributes}
+              onClick={disable && attributes ? emptyFunc : attributes.onClick}
               className="react-uwp-tree-view-title"
               style={{
+                cursor: disable ? "not-allowed" : "pointer",
                 paddingLeft: haveChild ? iconPadding : 0,
                 ...styles.titleNode,
                 ...attributes.style
@@ -157,7 +158,9 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
             )}
             <div
               {...attributes}
+              onClick={disable && attributes ? emptyFunc : attributes.onClick}
               style={prepareStyles({
+                cursor: disable ? "not-allowed" : "pointer",
                 transition: "all 0.25s",
                 zIndex: 0,
                 background: (focus && showFocus) ? theme.accent : (

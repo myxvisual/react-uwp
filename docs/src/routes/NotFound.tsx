@@ -7,6 +7,7 @@ import Icon from "react-uwp/Icon";
 export interface DataProps {
   screenType?: string;
   renderContentWidth?: number | string;
+  renderContentHeight?: number | string;
 }
 
 export interface NotFoundProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -24,21 +25,20 @@ export default class NotFound extends React.Component<NotFoundProps, NotFoundSta
   render() {
     const {
       screenType,
-      renderContentWidth
+      renderContentWidth,
+      renderContentHeight
     } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
 
     return (
       <div style={styles.root}>
-        <div style={styles.content}>
-          <Icon style={styles.icon}>
-            MapDirections
-          </Icon>
-          <div style={styles.desc}>
-            <h5 style={styles.descTitle}>ERROR CODE: 404</h5>
-            <p style={styles.descSubtitle}>We can't seem to find the page you're looking for.</p>
-          </div>
+        <Icon style={styles.icon}>
+          MapDirections
+        </Icon>
+        <div style={styles.desc}>
+          <h5 style={styles.descTitle}>ERROR CODE: 404</h5>
+          <p style={styles.descSubtitle}>We can't seem to find the page you're looking for.</p>
         </div>
       </div>
     );
@@ -47,7 +47,6 @@ export default class NotFound extends React.Component<NotFoundProps, NotFoundSta
 
 function getStyles(notFound: NotFound): {
   root?: React.CSSProperties;
-  content?: React.CSSProperties;
   icon?: React.CSSProperties;
   desc?: React.CSSProperties;
   descTitle?: React.CSSProperties;
@@ -55,7 +54,7 @@ function getStyles(notFound: NotFound): {
 } {
   const {
     context: { theme },
-    props: { style, renderContentWidth }
+    props: { style, renderContentWidth, renderContentHeight }
   } = notFound;
   const { prepareStyles } = theme;
 
@@ -63,42 +62,36 @@ function getStyles(notFound: NotFound): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseMediumHigh,
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      ...style
-    }),
-    content: prepareStyles({
+      padding: 40,
       width: renderContentWidth,
-      height: "100%",
+      minHeight: renderContentHeight,
       margin: "0 auto",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      ...style
     }),
     icon: {
-      fontSize: 480,
+      fontSize: 280,
       color: theme.accent
     },
     desc: {
-      marginTop: 64,
+      marginTop: 40,
       borderLeft: `12px solid ${theme.accent}`,
       padding: "0 10px",
       fontWeight: "lighter",
       color: theme.accent
     },
     descTitle: {
-      fontSize: 48,
+      fontSize: 36,
       lineHeight: 1,
       fontWeight: "lighter"
     },
     descSubtitle: {
       fontWeight: "lighter",
       lineHeight: 1.6,
-      fontSize: 18
+      fontSize: 16
     }
   };
 }
