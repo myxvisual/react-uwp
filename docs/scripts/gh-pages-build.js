@@ -10,12 +10,14 @@ const versionsFile = './versions.json'
 const { outputPath, publicPath } = require('../config')
 
 const args = process.argv
+let version
 if (args.length < 3) {
-  console.log(usage, '\n')
+  version = args[2]
+} else if (!/v\d{1,2}.\d{1,2}.\d{1,2}-?\w*\.?\d{0,2}/.test(args[2])) {
+  console.log(usage)
   process.exit()
 }
 
-const version = args[2]
 const versions = JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
