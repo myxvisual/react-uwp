@@ -1,12 +1,11 @@
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
 
-  &:after, &:before {
+*:after, *:before {
     box-sizing: border-box;
-  }
 }
 
 html {
@@ -15,7 +14,7 @@ html {
 }
 
 body {
-  font-family: "Microsoft YaHei", "Open Sans", sans-serif, "Hiragino Sans GB", Arial, "Lantinghei SC", "5FAE8F6F96C59ED1", "STHeiti", "WenQuanYi Micro Hei", SimSun;
+  font-family: "Segoe UI", "Microsoft YaHei", "Open Sans", sans-serif, "Hiragino Sans GB", Arial, "Lantinghei SC", "5FAE8F6F96C59ED1", "STHeiti", "WenQuanYi Micro Hei", SimSun;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;

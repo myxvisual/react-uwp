@@ -12,7 +12,7 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
 
   return {
     themeName,
-    fontFamily: "Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
+    fontFamily: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
     iconFontFamily: "Segoe MDL2 Assets",
 
     accent,

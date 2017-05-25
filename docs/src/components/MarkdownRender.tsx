@@ -215,7 +215,7 @@ return (
 }
 
 .react-uwp-markdown code {
-  font-family: "${theme.fontFamily}";
+  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
   font-size: 13px;
 }
 
