@@ -33,13 +33,17 @@ type ThemeType = {
   chromeMediumLow?: string;
   chromeMedium?: string;
   chromeHigh?: string;
+
   chromeAltLow?: string;
+
   chromeDisabledLow?: string;
   chromeDisabledHigh?: string;
+
   chromeBlackLow?: string;
   chromeBlackMediumLow?: string;
   chromeBlackMedium?: string;
   chromeBlackHigh?: string;
+
   chromeWhite?: string;
 
   prepareStyles?: <TAny>(style?: React.CSSProperties | TAny) => TAny | React.CSSProperties;
