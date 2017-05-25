@@ -47,7 +47,7 @@ const accentColorValues = [
   "800",
   "900"
 ];
-const accentColorValuesPlus = [
+const accentColorPluValues = [
   "A100",
   "A200",
   "A400",
@@ -190,8 +190,59 @@ export default class Colors extends React.Component<ColorsProps, ColorsState> {
                     <span style={{ float: "right" }}>{color}</span>
                   </li>;
                 })}
+                {(accentColors as any)[`${accentColorName}A100`] && (
+                  <div style={{ paddingTop: 2 }}>
+                    {accentColorPluValues.map((value, index) => {
+                      const color = (accentColors as any)[`${accentColorName}${value}`];
+                      return <li
+                        key={`${index}`}
+                        style={{
+                          background: color as any,
+                          textTransform: "uppercase",
+                          color: index < 3 ? "#000" : "#fff",
+                          ...styles.colorItem
+                        }}
+                      >
+                        <span>{value}</span>
+                        <span style={{ float: "right" }}>{color}</span>
+                      </li>;
+                    })}
+                  </div>
+                )}
               </ul>
             ))}
+            <ul style={styles.colorContainer}>
+              <li
+                style={{
+                  width: 140,
+                  padding: 10,
+                  listStyleType: "none",
+                  background: "#000",
+                  textTransform: "uppercase",
+                  color: "#fff",
+                  lineHeight: "50px",
+                  height: 70
+                }}
+              >
+                <span>black</span>
+                <span style={{ float: "right" }}>#000000</span>
+              </li>
+              <li
+                style={{
+                  width: 140,
+                  padding: 10,
+                  listStyleType: "none",
+                  background: "#fff",
+                  textTransform: "uppercase",
+                  color: "#000",
+                  lineHeight: "50px",
+                  height: 70
+                }}
+              >
+                <span>black</span>
+                <span style={{ float: "right" }}>#ffffff</span>
+              </li>
+            </ul>
           </div>
         ) : (
           <div style={{ padding: 10 }}>
@@ -237,10 +288,22 @@ see the spec [Color palette](https://material.io/guidelines/style/color.html#col
 
 usage:
 \`\`\`jsx
+import Theme from "react-uwp/Theme";
+import getTheme from "react-uwp/styles/getTheme";
 import * as accentColors from "react-uwp/styles/accentColors";
 import { red500 } from "react-uwp/styles/accentColors";
 
 accentColors.red500 === "#f44336" /// true
+
+export default class ThemeWrapper extends React.component<void, void> {
+  render() {
+    return (
+      <Theme theme={getTheme("Dark", accentColors.red500)}>
+        <YourComponent />
+      </Theme>
+    )
+  }
+}
 
 \`\`\`
 ` : `This a System Color palette.

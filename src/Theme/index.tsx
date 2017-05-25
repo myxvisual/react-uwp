@@ -49,7 +49,7 @@ body {
 }
 
 .${themeClassName} *:after, *:before {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .${themeClassName} {
