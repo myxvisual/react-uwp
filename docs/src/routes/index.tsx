@@ -105,6 +105,13 @@ function getRoutes(path = "/") {
     }, {
       path: "styles",
       component: WrapperWithPath,
+      indexRoute: {
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Icons").default);
+          }, "react-uwp-style-Icons");
+        }
+      },
       childRoutes: [{
         path: "Icons",
         getComponent: (location: Location, cb: RouterCallback) => {
