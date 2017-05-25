@@ -4,40 +4,6 @@ export default [{
   "titleNode": "Get Started"
 }, {
   "titleNode": "Layout",
-  "children": [{
-    "titleNode": "Intro to app UI design"
-  }, {
-    "titleNode": "Navigation basics",
-    "children": [{
-      "titleNode": "History and backwards navigation"
-    }, {
-      "titleNode": "Navigate between two pages"
-    }, {
-      "titleNode": "Show multiple views"
-    }]
-  }, {
-    "titleNode": "Command basics",
-    "children": [{
-      "titleNode": "Active canvas"
-    }]
-  }, {
-    "titleNode": "Content basics"
-  }, {
-    "titleNode": "Screen sizes and breakpoints"
-  }, {
-    "titleNode": "Define page layouts with XAML"
-  }, {
-    "titleNode": "Layout panels",
-    "children": [{
-      "titleNode": "Custom panels"
-    }, {
-      "titleNode": "Custom panel example: BoxPanel"
-    }]
-  }, {
-    "titleNode": "Alignment, margins, and padding"
-  }, {
-    "titleNode": "Creating app layouts with Grid and StackPanel"
-  }]
   }, {
   "titleNode": "Styles",
   "children": [{
@@ -45,7 +11,7 @@ export default [{
   }, {
     "titleNode": "Icons"
   }, {
-    "titleNode": "Motion"
+    "titleNode": "Animation"
   }, {
     "titleNode": "Typography",
     "children": [{
@@ -138,13 +104,11 @@ export default [{
     "titleNode": "Tooltip"
   }, {
     "titleNode": "NavFloat"
+  }, {
+    "titleNode": "MarkdownRender"
   }]
 }, {
   "titleNode": "Resources"
 }, {
   "titleNode": "Examples"
-}, {
-  "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="http://fluent.microsoft.com/" target="_blank">Fluent Design System</a>
-}, {
-  "titleNode": <a style={{ color: "inherit", textDecoration: "underline" }} href="https://docs.microsoft.com/en-us/windows/uwp/design-downloads/" target="_blank">Design Toolkits</a>
 }];

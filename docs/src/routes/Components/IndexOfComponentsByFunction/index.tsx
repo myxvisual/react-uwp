@@ -31,7 +31,7 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
       <div {...attributes}>
         <MarkdownRender
           text={
-`# Controls by function
+`# Components
 ---
 The UI framework for Windows provides an extensive library of controls that support UI development. Some of these controls have a visual representation; others function as the containers for other controls or content, such as images and media.
 Here's a list by function of the common controls you can use in your app.`
