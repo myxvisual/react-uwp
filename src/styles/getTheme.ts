@@ -1,6 +1,6 @@
 import ThemeType from "./ThemeType";
 import { fade, darken, lighten } from "../common/colorManipulator";
-import "./segoe-mdl2-assets";
+import "./fonts/segoe-mdl2-assets";
 import prefixAll from "../common/prefixAll";
 import "./setScrollBarStyle";
 

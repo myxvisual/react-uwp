@@ -136,7 +136,6 @@ function getStyles(header: Header): {
       marginLeft: 20,
       height: "100%",
       display: "flex",
-      flexDirection: isPhoneScreen ? "row" : "row-reverse",
       alignItems: "center",
       justifyContent: "space-between"
     }),

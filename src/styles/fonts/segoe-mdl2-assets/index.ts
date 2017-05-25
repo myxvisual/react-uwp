@@ -12,10 +12,10 @@ document.head.appendChild(linkElm);
 //   font-family: "Segoe MDL2 Assets";
 //   src:
 //     local("Segoe MDL2 Assets"),
-//     url("${require("./segoe-mdl2-assets.eot")}"),
-//     url("${require("./segoe-mdl2-assets.woff2")}") format("woff2"),
-//     url("${require("./segoe-mdl2-assets.woff")}") format("woff"),
-//     url("${require("./segoe-mdl2-assets.svg#SegoeMDL2Assets")}") format("svg"),
-//     url("${require("./segoe-mdl2-assets.ttf")}") format("truetype");
+//     url("${require("./segmdl2.eot")}"),
+//     url("${require("./segmdl2.woff2")}") format("woff2"),
+//     url("${require("./segmdl2.woff")}") format("woff"),
+//     url("${require("./segmdl2.svg#SegoeMDL2Assets")}") format("svg"),
+//     url("${require("./segmdl2.ttf")}") format("truetype");
 // }
 // `);
