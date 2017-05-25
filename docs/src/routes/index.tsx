@@ -108,8 +108,8 @@ function getRoutes(path = "/") {
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
-            cb(null, require<any>("./Styles/Icons").default);
-          }, "react-uwp-style-Icons");
+            cb(null, require<any>("./Styles/Colors").default);
+          }, "react-uwp-style-Colors");
         }
       },
       childRoutes: [{
