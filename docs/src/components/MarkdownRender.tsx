@@ -184,7 +184,7 @@ return (
 }
 
 .react-uwp-markdown blockquote {
-  border-left: 6px solid ${theme.accent};
+  border-left: 4px solid ${theme.accent};
   padding-left: 15px;
   margin: 20px 0px 35px;
 }
@@ -204,7 +204,7 @@ return (
 .react-uwp-markdown pre {
   font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
   background: ${theme.chromeLow};
-  border: 1px solid ${theme.baseLow};
+  border: 1px solid ${theme.listLow};
   border-left: 4px solid ${theme.accent} !important;
   border-radius: 0 !important;
   padding: 12px;
@@ -224,7 +224,7 @@ return (
   font-family: ${theme.fontFamily};
   color: ${theme.accent};
   padding: 2px 4px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .react-uwp-markdown table {

@@ -135,7 +135,8 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   render() {
-    const { autoSaveTheme, children, theme, style, className, ...attributes } = this.props;
+    const { autoSaveTheme, children, style, className, ...attributes } = this.props;
+    const { theme } = this.state;
 
     return (
       <div
@@ -143,7 +144,9 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
         className={className ? `${themeClassName} ${className}` : themeClassName}
         style={darkTheme.prepareStyles({
           fontSize: 14,
-          fontFamily: darkTheme.fontFamily,
+          fontFamily: theme.fontFamily,
+          color: theme.baseHigh,
+          background: theme.altHigh,
           width: "100%",
           height: "100%",
           ...style

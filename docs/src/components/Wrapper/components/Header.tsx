@@ -70,7 +70,10 @@ export default class Header extends React.Component<HeaderProps, void> {
               {isPhoneScreen ? (
                 <IconButton>Search</IconButton>
               ) : (
-                <AutoSuggestBox placeholder="Search Feature is building..." />
+                <AutoSuggestBox
+                  background="none"
+                  placeholder="Search Feature is building..."
+                />
               )}
             </div>
           </div>
@@ -98,7 +101,8 @@ function getStyles(header: Header): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseHigh,
-      background: theme.altHigh,
+      background: theme.isDarkTheme ? "hsla(0, 0%, 6%, 0.95)" : "hsla(0, 0%, 94%, 0.95)",
+      boxShadow: theme.isDarkTheme ? void 0 : `0 2px 8px ${theme.listLow}`,
       width: "100%",
       height: headerHeight,
       position: "fixed",
@@ -140,6 +144,7 @@ function getStyles(header: Header): {
       justifyContent: "space-between"
     }),
     links: prepareStyles({
+      color: "inherit",
       height: "100%",
       overflow: "hidden"
     })

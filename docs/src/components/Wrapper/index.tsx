@@ -100,8 +100,8 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
         style={theme.prepareStyles({
           display: "flex",
           flexDirection: "column",
-          color: theme.baseMediumHigh,
-          background: theme.chromeLow,
+          color: theme.baseHigh,
+          background: theme.altHigh,
           ...style
         }) as any}
       >

@@ -28,7 +28,7 @@ export default class IconLayout extends React.Component<IconLayoutProps, void> {
       >
         <rect fill={theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"]} x="23.43" width="145.13" height="85.42" />
         <rect fill={theme.accent} y="42.33" width="89.2" height="60.47" />
-        <rect fill={theme.altHigh} x="79.37" y="61.23" width="36.28" height="55.18" />
+        <rect fill={theme.chromeLow} x="79.37" y="61.23" width="36.28" height="55.18" />
       </svg>
     );
   }

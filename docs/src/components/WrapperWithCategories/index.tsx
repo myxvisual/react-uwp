@@ -160,6 +160,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
             style={{
               width: 320,
               padding: "10px 0",
+              background: theme.listLow,
               display: notPhoneTablet ? void 0 : "none"
             }}
           >

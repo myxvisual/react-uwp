@@ -79,12 +79,11 @@ function getStyles(customTheme: CustomTheme): {
 
   return {
     root: prepareStyles({
-      minHeight: 400,
-      padding: 20,
-      backgroundImage: `linear-gradient(90deg, transparent, ${theme.altMediumHigh})`,
+      backgroundImage: `linear-gradient(90deg, ${theme.listLow}, transparent)`,
       ...style
     }),
     content: prepareStyles({
+      padding: 20,
       width: renderContentWidth,
       margin: "0 auto",
       display: "flex",

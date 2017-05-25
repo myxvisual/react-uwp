@@ -95,7 +95,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     const renderList = ((list: List, index: number, isChild?: boolean): React.ReactNode => {
       const { titleNode, expanded, disable, visited, focus, children, hoverStyle, ...attributes } = list;
       const haveChild = Array.isArray(children) && children.length !== 0;
-      const fadeAccent = theme[theme.themeName === "Dark" ? "accentDarker1" : "accentLighter1"];
+      const fadeAccent = theme.listAccentLow;
       const isVisited = ((visited && !haveChild) || (visited && haveChild && init));
       return (
         <div

@@ -138,12 +138,9 @@ function getStyles(codeExample: CodeExample): {
       ...style
     }),
     desc: prepareStyles({
-      background: theme.chromeMedium,
       boxSizing: "border-box",
-      border: `1px solid ${theme.baseLow}`,
-      borderLeft: `4px solid ${theme.accent}`,
       margin: "8px 0",
-      padding: "4px 8px",
+      padding: "4px 0",
       ...style
     }),
     icon: prepareStyles({

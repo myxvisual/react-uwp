@@ -92,7 +92,8 @@ function getStyles(footer: Footer): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseHigh,
-      background: theme.altHigh,
+      background: theme.isDarkTheme ? "hsla(0, 0%, 6%, 0.95)" : "hsla(0, 0%, 94%, 0.95)",
+      boxShadow: theme.isDarkTheme ? void 0 : `0 -2px 8px ${theme.listLow}`,
       minHeight: footerHeight,
       ...style
     }),
@@ -114,7 +115,7 @@ function getStyles(footer: Footer): {
     openSource: {
       margin: 20,
       fontSize: 12,
-      color: theme.baseHigh,
+      color: "inherit",
       alignSelf: "flex-end"
     }
   };

@@ -30,7 +30,7 @@ export default class ComponentDescription extends React.Component<ComponentDescr
       <div {...attributes}>
         <MarkdownRender text={description} />
         <DoubleThemeRender
-          useBorder={isChromeMode}
+          useBorder={!isChromeMode}
           useChromeColor={isChromeMode}
           direction={direction}
           style={{

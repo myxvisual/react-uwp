@@ -95,15 +95,14 @@ export default class Icons extends React.Component<void, IconsState> {
               height: 60,
               width: "100%",
               zIndex: theme.zIndex.tooltip + 1,
-              background: theme.chromeLow
+              background: theme.isDarkTheme ? "hsla(0, 0%, 6%, 0.95)" : "hsla(0, 0%, 94%, 0.95)"
             }}
           />
           <div
             style={{
               position: "fixed",
               padding: 10,
-              zIndex: theme.zIndex.tooltip + 1,
-              background: theme.chromeLow
+              zIndex: theme.zIndex.tooltip + 1
             }}
           >
             <AutoSuggestBox

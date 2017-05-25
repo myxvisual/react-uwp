@@ -33,7 +33,7 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
         style={prepareStyles({
           display: "flex",
           flexDirection: isColumn ? "column" : "row",
-          border: useBorder ? `2px solid ${darkTheme.accent}` : void 0,
+          border: useBorder ? `1px solid ${darkTheme.accent}` : void 0,
           ...attributes.style
         })}
       >

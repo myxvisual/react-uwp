@@ -37,7 +37,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
     return (
       <div style={{ width: "100%" }}>
-        <div style={{ width: "100%", background: theme.altMediumHigh }}>
+        <div style={{ width: "100%", background: theme.listLow }}>
           <FlipView
             style={{
               height: FLIP_HEIGHT,

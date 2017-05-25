@@ -40,6 +40,7 @@ export interface AutoSuggestBoxState {
 
 export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
   static defaultProps: AutoSuggestBoxProps = {
+    background: "none",
     onChangeValue: () => {},
     searchAction: () => {},
     iconSize: 32

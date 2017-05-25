@@ -30,7 +30,7 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
         style={{
           display: "inline-block",
           fontFamily: "Segoe MDL2 Assets",
-          transition: "all .25s 0s ease-in-out",
+          transition: "background .25s 0s ease-in-out",
           userSelect: "none",
           background: "none",
           border: "none",
@@ -50,6 +50,7 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
         }}
         activeStyle={{
           background: theme.accent,
+          color: "#fff",
           ...activeStyle
         }}
       >

@@ -61,21 +61,20 @@ function getStyles(footerLinks: FooterLinks): {
   return {
     root: prepareStyles({
       fontSize: 14,
-      color: theme.baseMediumHigh,
-      background: theme.altMediumHigh,
+      color: "inherit",
       ...style
     }),
     title: {
       fontSize: 20,
       fontWeight: "lighter",
-      color: theme.baseHigh
+      color: "inherit"
     },
     link: {
       display: "block",
       fontSize: 12,
       margin: "12px 0",
       fontWeight: "lighter",
-      color: theme.baseMediumHigh,
+      color: "inherit",
       textDecoration: "none"
     }
   };

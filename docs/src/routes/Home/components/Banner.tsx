@@ -54,7 +54,7 @@ function getStyles(banner: Banner): {
   return {
     root: prepareStyles({
       color: "#fff",
-      background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"],
+      background: theme.listAccentHigh,
       ...style
     }),
     content: {

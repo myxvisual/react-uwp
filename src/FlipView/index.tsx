@@ -118,7 +118,7 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
               ...theme.prepareStyles(iconStyle)
             }}
             hoverStyle={{
-              background: theme.accent,
+              background: theme.baseLow,
               ...theme.prepareStyles(iconHoverStyle)
             }}
           >
@@ -151,7 +151,7 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
               ...theme.prepareStyles(iconStyle)
             }}
             hoverStyle={{
-              background: theme.accent,
+              background: theme.baseLow,
               ...theme.prepareStyles(iconHoverStyle)
             }}
           >
@@ -198,7 +198,7 @@ function getStyles(flipView: FlipView): {
 
   const baseIconStyle: React.CSSProperties = {
     position: "absolute",
-    background: theme.baseLow,
+    background: theme.listLow,
     zIndex: 20,
     fontSize: iconSize / 2,
     width: iconSize * (isHorizontal ? 1 : 2),
