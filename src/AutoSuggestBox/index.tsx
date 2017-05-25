@@ -58,19 +58,10 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   refs: { input: Input };
   listView: ListView;
   inputTimer: any = null;
-  originBodyOnClick: (e?: Event) => void = () => {};
-  originBodyOnKeydown: (e?: Event) => void = () => {};
 
   componentDidMount() {
-    const { onclick, onkeydown } = document.body;
-    if (onclick) {
-      this.originBodyOnClick = onclick;
-    }
-    if (onkeydown) {
-      this.originBodyOnKeydown = onkeydown;
-    }
-    document.body.onclick = this.checkLayerClick;
-    document.body.onkeydown = this.checkLayerKeydown;
+    document.addEventListener("click", this.checkLayerClick);
+    document.addEventListener("keydown", this.checkLayerKeydown);
   }
 
   componentWillReceiveProps(nextProps: AutoSuggestBoxProps) {
@@ -78,12 +69,11 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   }
 
   componentWillUnmount() {
-    document.body.onclick = this.originBodyOnClick;
-    document.body.onkeydown = this.originBodyOnKeydown;
+    document.removeEventListener("click", this.checkLayerClick);
+    document.removeEventListener("keydown", this.checkLayerKeydown);
   }
 
   checkLayerClick = (e: Event) => {
-    this.originBodyOnClick(e);
     const { typing } = this.state;
     if (!this.refs.input.rootElm.contains(e.target as Node)) {
       this.setState({ showListSource: false });
@@ -91,7 +81,6 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   }
 
   checkLayerKeydown = (e: KeyboardEvent) => {
-    this.originBodyOnKeydown(e);
     const { keyCode } = e;
     const { typing } = this.state;
     if (this.refs.input.input.matches(":focus") && keyCode === 27) {

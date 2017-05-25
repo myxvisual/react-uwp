@@ -57,11 +57,12 @@ function getRoutes(path = "/") {
     },
     childRoutes: [{
       component: WrapperWithPath,
-      path: "components",
+      path: "Components",
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
-            cb(null, require<any>("./Components/IndexOfComponentsByFunction").default);
+            const HomeComponent = require<any>("./Components/IndexOfComponentsByFunction").default;
+            cb(null, () => <HomeComponent style={{ padding: 20 }} />);
           }, "react-uwp-components-IndexOfComponentsByFunction");
         }
       },
