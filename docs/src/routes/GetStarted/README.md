@@ -19,13 +19,13 @@ The quickest way to get up and running is by using the `Theme` to inject the the
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import Theme as UWPThemeProvider from "react-uwp/Theme";
-import MyAwesomeReactComponents from "./MyAwesomeReactComponents";
+import MyComponent from "./MyComponent";
 
 class App extends React.Component<void, void> {
   render() {
     return (
       <UWPThemeProvider>
-        <MyAwesomeReactComponents />
+        <MyComponent />
       </UWPThemeProvider>
     )
   }
@@ -37,12 +37,12 @@ ReactDOM.render(
 );
 ```
 
-**./MyAwesomeReactComponents.js**
+**./MyComponent.js**
 ```jsx
 import * as React from "react";
 import Button from "material-ui/Button";
 
-export default class MyAwesomeReactComponent extends React.Component<void, void> {
+export default class MyComponent extends React.Component<void, void> {
   render() {
     return (
       <Button tooltip="Mini Tooltip" />

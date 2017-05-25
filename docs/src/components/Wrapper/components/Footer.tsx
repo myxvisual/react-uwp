@@ -56,7 +56,7 @@ export default class Footer extends React.Component<FooterProps, void> {
             />
             <FooterLinks
               style={styles.links}
-              title="Flow React-UWP"
+              title="Follow React-UWP"
               links={[{
                 children: "Github",
                 href: "https://github.com/myxvisual/react-uwp"
