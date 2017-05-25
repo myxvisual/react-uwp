@@ -202,9 +202,10 @@ return (
 }
 
 .react-uwp-markdown pre {
+  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
   background: ${theme.chromeLow};
   border: 1px solid ${theme.baseLow};
-  border-left: 6px solid ${theme.accent} !important;
+  border-left: 4px solid ${theme.accent} !important;
   border-radius: 0 !important;
   padding: 12px;
   margin: 10px 0;
