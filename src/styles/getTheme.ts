@@ -2,7 +2,6 @@ import ThemeType from "./ThemeType";
 import { fade, darken, lighten } from "../common/colorManipulator";
 import "./fonts/segoe-mdl2-assets";
 import prefixAll from "../common/prefixAll";
-import "./setScrollBarStyle";
 
 export { ThemeType };
 export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7"): ThemeType {

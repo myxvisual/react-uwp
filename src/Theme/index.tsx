@@ -18,10 +18,30 @@ export interface ThemeState {
 
 const customLocalStorageName = "__react-uwp__";
 const themeClassName = "react-uwp-theme";
-const baseCSSString = `.${themeClassName} * {
+const getBaseCSSString = (theme: ThemeType) => `.${themeClassName} * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  -webkit-appearance: none
+}
+
+*::-webkit-scrollbar-track {
+  background-color: ${theme.chromeLow};
+}
+
+*::-webkit-scrollbar:vertical {
+  width: 6px;
+}
+
+*::-webkit-scrollbar:horizontal {
+  height: 6px
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: ${theme.baseMediumLow};
 }
 
 body {
@@ -55,11 +75,11 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
   updateBaseCSS = () => {
     let styleSheet = document.querySelector(`.${themeClassName}-style-sheet`);
     if (styleSheet) {
-      styleSheet.innerHTML = baseCSSString;
+      styleSheet.innerHTML = getBaseCSSString(this.state.theme);
     } else {
       styleSheet = document.createElement("style");
       styleSheet.className = themeClassName;
-      styleSheet.innerHTML = baseCSSString;
+      styleSheet.innerHTML = getBaseCSSString(this.state.theme);
       document.head.appendChild(styleSheet);
     }
   }

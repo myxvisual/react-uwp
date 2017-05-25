@@ -24,3 +24,23 @@ input, textarea {
   box-shadow: none;
   border-radius: none;
 }
+
+* {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+*::-webkit-scrollbar {
+  -webkit-appearance: none
+}
+
+*::-webkit-scrollbar:vertical {
+  width: 6px;
+}
+
+*::-webkit-scrollbar:horizontal {
+  height: 6px
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(95, 95, 95, 0.5);
+}

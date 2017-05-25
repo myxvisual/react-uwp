@@ -127,7 +127,9 @@ export default class Colors extends React.Component<ColorsProps, ColorsState> {
 
   render() {
     const {
-      ...attributes
+      className,
+      id,
+      style
     } = this.props;
     const { showColorName } = this.state;
     const { theme } = this.context;
@@ -138,7 +140,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsState> {
 
     return (
       <div
-        {...attributes}
+        {...{ className, id, style }}
         style={styles.root}
       >
         <DropDownMenu

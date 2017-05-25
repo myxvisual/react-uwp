@@ -8,7 +8,7 @@ export default function addCSSRule(styleSheetStr: string | string[], styleSheet 
       } else {
         styleSheet.insertRule(styleSheetStr, 0);
       }
-    } catch (e) {};
+    } catch (e) {}
   };
   if (!styleSheet) {
     const { head, createElement } = document;

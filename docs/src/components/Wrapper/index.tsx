@@ -12,7 +12,6 @@ import getDocVersion from "../../common/getDocVersion";
 import IconButton from "react-uwp/IconButton";
 import FloatNav from "react-uwp/FloatNav";
 import { ThemeType } from "react-uwp/styles/ThemeType";
-import setScrollBarStyle from "react-uwp/styles/setScrollBarStyle";
 
 export interface DataProps {
   onChangeRenderContentWidth?: (renderContentWidth?: string | number, screenType?: "phone" | "tablet" | "laptop" | "pc") => void;
@@ -48,7 +47,6 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
   }
 
   componentDidMount() {
-    setScrollBarStyle();
     window.addEventListener("resize", this.resize);
   }
 
