@@ -1,17 +1,18 @@
 {
-  "app.js": "js/app.97e44.js",
-  "common.js": "js/common.97e44.js",
+  "app.js": "js/app.73597.js",
+  "common.js": "js/common.73597.js",
   "images\\acrylic.png": "images/acrylic.2UkDO.png",
   "images\\reveal.png": "images/reveal.32wHd.png",
   "images\\toolkits.png": "images/toolkits.2HHmR.png",
-  "react-uwp-components-AutoSuggestBox.js": "js/react-uwp-components-AutoSuggestBox.241e7.js",
-  "react-uwp-components-Button.js": "js/react-uwp-components-Button.875f9.js",
-  "react-uwp-components-CheckBox.js": "js/react-uwp-components-CheckBox.aaa98.js",
+  "react-uwp-components-AutoSuggestBox.js": "js/react-uwp-components-AutoSuggestBox.b0f8b.js",
+  "react-uwp-components-Button.js": "js/react-uwp-components-Button.4749f.js",
+  "react-uwp-components-CheckBox.js": "js/react-uwp-components-CheckBox.e40d1.js",
   "react-uwp-components-ColorPicker.js": "js/react-uwp-components-ColorPicker.67089.js",
-  "react-uwp-components-CommandBar.js": "js/react-uwp-components-CommandBar.71a0d.js",
-  "react-uwp-components-IndexOfComponentsByFunction.js": "js/react-uwp-components-IndexOfComponentsByFunction.9b205.js",
-  "react-uwp-home.js": "js/react-uwp-home.149e5.js",
+  "react-uwp-components-CommandBar.js": "js/react-uwp-components-CommandBar.0f393.js",
+  "react-uwp-components-IndexOfComponentsByFunction.js": "js/react-uwp-components-IndexOfComponentsByFunction.3f9da.js",
+  "react-uwp-home.js": "js/react-uwp-home.3ef54.js",
+  "react-uwp-style-Colors.js": "js/react-uwp-style-Colors.21a66.js",
   "react-uwp-style-Icons.js": "js/react-uwp-style-Icons.4c41a.js",
   "react-uwp-style-NotFound.js": "js/react-uwp-style-NotFound.b4b79.js",
-  "react-uwp-style-get-started.js": "js/react-uwp-style-get-started.9416b.js"
+  "react-uwp-style-get-started.js": "js/react-uwp-style-get-started.88e8a.js"
 }

@@ -2,9 +2,9 @@
   font-family: "Segoe MDL2 Assets";
   src:
     local("Segoe MDL2 Assets"),
-    url("./segoe-mdl2-assets.eot"),
-    url("./segoe-mdl2-assets.woff2") format("woff2"),
-    url("./segoe-mdl2-assets.woff") format("woff"),
-    url("./segoe-mdl2-assets.svg#SegoeMDL2Assets") format("svg"),
-    url("./segoe-mdl2-assets.ttf") format("truetype");
+    url("./segmdl2.eot"),
+    url("./segmdl2.woff2") format("woff2"),
+    url("./segmdl2.woff") format("woff"),
+    url("./segmdl2.svg#SegoeMDL2Assets") format("svg"),
+    url("./segmdl2.ttf") format("truetype");
 }
