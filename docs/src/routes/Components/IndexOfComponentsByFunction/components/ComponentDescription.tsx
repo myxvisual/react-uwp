@@ -1,4 +1,7 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
+import ThemeType from "react-uwp/styles/ThemeType";
 
 import MarkdownRender from "../../../../components/MarkdownRender";
 import DoubleThemeRender from "../../../../components/DoubleThemeRender";
@@ -16,6 +19,8 @@ export default class ComponentDescription extends React.Component<ComponentDescr
   static defaultProps: ComponentDescriptionProps = {
     style: { margin: "10px 0" }
   };
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ThemeType };
 
   render() {
     const {

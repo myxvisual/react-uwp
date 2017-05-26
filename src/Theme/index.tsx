@@ -90,16 +90,21 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
-  componentWillMount() {
-    // this.updateBaseCSS();
-  }
-
   componentDidMount() {
     this.updateBaseCSS();
   }
 
-  componentDidUpdate() {
-    // this.updateBaseCSS();
+  componentWillReceiveProps(nextProps: ThemeProps) {
+    if (nextProps && nextProps.theme) {
+      if (
+        nextProps.theme.accent !== this.state.currTheme.accent ||
+        nextProps.theme.themeName !== this.state.currTheme.themeName
+      ) {
+        this.setState({
+          currTheme: nextProps.theme
+        });
+      }
+    }
   }
 
   saveTheme = (currTheme?: ThemeType) => {

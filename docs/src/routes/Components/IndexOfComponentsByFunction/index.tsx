@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import ThemeType from "react-uwp/styles/ThemeType";
+
 import MarkdownRender from "../../../components/MarkdownRender";
 import ComponentDetail from "../../../components/ComponentDetail";
 import ComponentDescription from "./components/ComponentDescription";
@@ -8,13 +10,16 @@ import ComponentDescription from "./components/ComponentDescription";
 import CommandBar from "react-uwp/CommandBar";
 import Button from "react-uwp/Button";
 import AppBarButton from "react-uwp/AppBarButton";
+import Switch from "react-uwp/Switch";
 import CheckBox from "react-uwp/CheckBox";
 import Radius from "react-uwp/Radius";
 import HyperLink from "react-uwp/HyperLink";
+import Link from "react-uwp/Link";
 import CalendarView from "react-uwp/CalendarView";
 
 export default class IndexOfComponentsByFunction extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
+  context: { theme: ThemeType };
 
   render() {
     const {
@@ -26,6 +31,9 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
       routes, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
+    const buttonsStyle: React.CSSProperties ={
+      margin: "0 10px"
+    };
 
     return (
       <div {...attributes}>
@@ -74,7 +82,9 @@ A control that responds to user input and raises a **Click** event.`
 A UWP Design Link.`
           }
         >
-          <HyperLink>HyperLink</HyperLink>
+          <CheckBox style={buttonsStyle} label="CheckBox Button" />
+          <Radius label="Radius Button" />
+          <Switch style={buttonsStyle} />
         </ComponentDescription>
         <CalendarView />
       </div>

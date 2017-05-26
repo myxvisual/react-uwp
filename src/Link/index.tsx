@@ -15,11 +15,13 @@ export default class Link extends React.Component<LinkProps, LinkState> {
     onMouseLeave: () => {}
   };
 
-  state: LinkState = {};
-
   static contextTypes = { theme: PropTypes.object };
-
   context: { theme: ThemeType };
+
+  state: LinkState = {};
+  shouldComponentUpdate(nextProps: LinkProps, nextState: LinkState, nextContext: any) {
+    return nextProps !== this.props || nextState !== this.state || nextContext.theme !== this.context;
+  }
 
   mouseEnterHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
     this.setState({ hover: true });
@@ -43,8 +45,8 @@ export default class Link extends React.Component<LinkProps, LinkState> {
         onMouseEnter={this.mouseEnterHandler}
         onMouseLeave={this.mouseLeaveHandler}
         style={{
-          ...styles.container,
-          ...theme.prepareStyles(attributes.style),
+          ...styles.root,
+          ...theme.prepareStyles(attributes.style)
         }}
       />
     );
@@ -52,7 +54,7 @@ export default class Link extends React.Component<LinkProps, LinkState> {
 }
 
 function getStyles(link: Link): {
-  container?: React.CSSProperties;
+  root?: React.CSSProperties;
 } {
   const { context, state: { hover } } = link;
   const { theme } = context;
@@ -60,13 +62,13 @@ function getStyles(link: Link): {
   const { prepareStyles } = theme;
 
   return {
-    container: theme.prepareStyles({
+    root: theme.prepareStyles({
       fontSize: 14,
       color: hover ? theme.baseMedium : theme.accent,
       cursor: "pointer",
       textDecoration: "none",
       transition: "all .25s 0s ease-in-out",
-      background: "none",
-    }),
+      background: "none"
+    })
   };
 }

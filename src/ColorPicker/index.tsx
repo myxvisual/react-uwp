@@ -147,7 +147,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     const y = clientReact.top - e.clientY + colorPickerBoardSize;
     const r = Math.sqrt(x * x + y * y);
     let h = Math.asin(y / r) / Math.PI * 180;
-    if (x > 0 && y > 0) h = -h;
+    if (x > 0 && y > 0) h = 360 - h;
     if (x > 0 && y < 0) h = -h;
     if (x < 0 && y < 0) h = 180 + h;
     if (x < 0 && y > 0) h = 180 + h;
@@ -202,6 +202,9 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     const {
       size,
       defaultColor,
+      onChangeColor,
+      onChangedColor,
+      onChangedColorEndTime,
       ...attributes
     } = this.props;
     const { h, s, v } = this.state;
