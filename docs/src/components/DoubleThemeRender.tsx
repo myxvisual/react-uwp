@@ -1,5 +1,7 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
+import ThemeType from "react-uwp/styles/ThemeType";
 import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/styles/getTheme";
 
@@ -11,11 +13,14 @@ export interface DoubleThemeRenderProps extends React.HTMLAttributes<HTMLDivElem
 }
 
 export default class DoubleThemeRender extends React.Component<DoubleThemeRenderProps, void> {
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ThemeType };
+
   render() {
     const { children, direction, themeStyle, useBorder, useChromeColor, ...attributes } = this.props;
-    const darkTheme = getTheme("Dark");
+    const darkTheme = getTheme("Dark", this.context.theme.accent);
     const { prepareStyles } = darkTheme;
-    const lightTheme = getTheme("Light");
+    const lightTheme = getTheme("Light", this.context.theme.accent);
     const isColumn = direction === "column";
     const currThemeStyle: React.CSSProperties = prepareStyles({
       width: "50%",

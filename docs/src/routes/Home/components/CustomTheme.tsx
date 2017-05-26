@@ -59,7 +59,12 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
             </div>
           </div>
           <div style={{ padding: "20px 0" }}>
-            <ColorPicker />
+            <ColorPicker
+              defaultColor={theme.accent}
+              onChangedColor={color => {
+                  theme.saveTheme(getTheme(theme.themeName, color));
+              }}
+            />
           </div>
         </div>
       </div>

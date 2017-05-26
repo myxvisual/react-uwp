@@ -120,10 +120,12 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     ctx.scale(devicePixelRatio, devicePixelRatio);
   }
 
-  handleColorBarChange = (value: number) => {
-    this.setState({
-      v: value
-    });
+  handleColorBarChange = (v: number) => {
+    const { h, s } = this.state;
+    const { onChangeColor, onChangedColor } = this.props;
+    const colorHexString = tinycolor({ h, s, v }).toHexString();
+    onChangeColor(colorHexString);
+    this.setState({ v }, () => onChangedColor(colorHexString));
   }
 
   handleChooseColor = (e: React.MouseEvent<HTMLCanvasElement>, isClickEvent = true) => {
@@ -153,7 +155,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     if (s > 1) s = 1;
 
     const colorHexString = tinycolor({ h, s, v }).toHexString();
-    if (isClickEvent) {
+    if (isClickEvent && e.type === "click") {
       onChangeColor(colorHexString);
       onChangedColor(colorHexString);
       this.setState({ h, s });
@@ -184,6 +186,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   }
 
   handleMouseUp = (e: any) => {
+    clearTimeout(this.moveColorTimer);
     Object.assign(document.body.style, {
       userSelect: void 0,
       msUserSelect: void 0,
@@ -194,7 +197,6 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     window.removeEventListener("mousemove", this.handleMouseMove);
     window.removeEventListener("mouseup", this.handleMouseUp);
   }
-
 
   render() {
     const {
