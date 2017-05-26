@@ -205,6 +205,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   checkIsToucheEvent = (e: React.SyntheticEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => "changedTouches" in e;
 
   mouseOrTouchDownHandler = (e: any) => {
+    Object.assign(document.body.style, {
+      userSelect: "none",
+      msUserSelect: "none",
+      webkitUserSelect: "none"
+    });
     this.endClientX = void 0;
     this.endClientY = void 0;
     const { isHorizontal } = this.state;
@@ -237,11 +242,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
   mouseOrTouchMoveHandler = (e: any) => {
     Object.assign(document.body.style, {
-      userSelect: "none",
-      msUserSelect: "none",
-      webkitUserSelect: "none",
-      cursor: "default"
-    } as any);
+      userSelect: void 0,
+      msUserSelect: void 0,
+      webkitUserSelect: void 0,
+      ...this.originBodyStyle
+    });
     const isToucheEvent = this.checkIsToucheEvent(e);
     const { childrenLength, focusIndex, isHorizontal } = this.state;
     if (isToucheEvent) {
@@ -267,7 +272,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       webkitUserSelect: void 0,
       cursor: void 0,
       ...this.originBodyStyle
-    } as any);
+    });
     const { childrenLength, isHorizontal } = this.state;
     const { transitionTimingFunction, speed } = this.props;
     const isToucheEvent = this.checkIsToucheEvent(e);

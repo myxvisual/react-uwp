@@ -18,6 +18,8 @@ export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElem
 export interface SliderState {
   currValue?: number;
   valueRatio?: number;
+  hovered?: boolean;
+  dragging?: boolean;
 }
 
 const emptyFunc = () => {};
@@ -37,6 +39,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     onMouseDown: emptyFunc,
     onMouseUp: emptyFunc
   };
+  originBodyStyle = { ...document.body.style };
 
   state: SliderState = {
     currValue: this.props.initValue,
@@ -50,16 +53,12 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
   context: { theme: ThemeType };
 
   handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    Object.assign(this.controllerElm.style, {
-      background: this.context.theme.baseHigh
-    } as React.CSSProperties);
+    this.setState({ hovered: true });
     this.props.onMouseEnter(e);
   }
 
   handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    Object.assign(this.controllerElm.style, {
-      background: this.context.theme.accent
-    } as React.CSSProperties);
+    this.setState({ hovered: false });
     this.props.onMouseLeave(e);
   }
 
@@ -69,17 +68,36 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   handelMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    document.body.addEventListener("mousemove", this.setValueByEvent);
+    Object.assign(document.body.style, {
+      userSelect: "none",
+      msUserSelect: "none",
+      webkitUserSelect: "none",
+      cursor: "default"
+    });
+    window.addEventListener("mousemove", this.setValueByEvent);
+    window.addEventListener("mouseup", this.handelMouseUp);
     this.props.onMouseDown(e);
     this.setValueByEvent(e);
   }
 
-  handelMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
-    document.body.removeEventListener("mousemove", this.setValueByEvent);
+  handelMouseUp = (e: any) => {
+    Object.assign(document.body.style, {
+      userSelect: void 0,
+      msUserSelect: void 0,
+      webkitUserSelect: void 0,
+      cursor: void 0,
+      ...this.originBodyStyle
+    });
+    this.setState({ dragging: false });
+    window.removeEventListener("mousemove", this.setValueByEvent);
+    window.removeEventListener("mouseup", this.handelMouseUp);
     this.props.onMouseUp(e);
   }
 
-  setValueByEvent = (e: any) => {
+  setValueByEvent = (e: any, type?: any) => {
+    if (e.type === "mousemove" && !this.state.dragging) {
+      this.setState({ dragging: true });
+    }
     const { maxValue, minValue } = this.props;
     const { left, width } = this.rootElm.getBoundingClientRect();
     const mouseLeft = e.clientX;
@@ -150,15 +168,14 @@ function getStyles(slider: Slider): {
   const {
     context: { theme },
     props: { style, width, height, barHeight, controllerWidth },
-    state: { currValue, valueRatio }
+    state: { currValue, valueRatio, dragging, hovered }
   } = slider;
   const { prepareStyles } = theme;
   const width2px: number = Number.parseFloat(width as any);
   const height2px: number = Number.parseFloat(height as any);
   const barHeight2px: number = Number.parseFloat(barHeight as any);
   const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
-  const transition = "all .25s 0s linear";
-
+  const transition = dragging ? void 0 : "all .25s 0s linear";
   return {
     root: prepareStyles({
       width,
@@ -188,7 +205,7 @@ function getStyles(slider: Slider): {
     },
     controller: {
       position: "absolute",
-      background: theme.accent,
+      background: (dragging || hovered) ? theme.baseHigh : theme.accent,
       borderRadius: controllerWidth2px / 2,
       left: 0,
       top: 0,
@@ -198,4 +215,4 @@ function getStyles(slider: Slider): {
       transition
     }
   };
-};
+}

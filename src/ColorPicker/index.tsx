@@ -1,20 +1,27 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
+import ThemeType from "../styles/ThemeType";
+import Slider from "../Slider";
 
 export interface DataProps {
   title?: string;
   size?: number;
 }
-export interface ColorPickerProps extends DataProps, React.HTMLAttributes<HTMLCanvasElement> {}
+export interface ColorPickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export class ColorPicker extends React.Component<ColorPickerProps, void> {
   static defaultProps: ColorPickerProps = {
-    size: 200
+    size: 336
   };
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ThemeType };
   canvas?: HTMLCanvasElement;
   ctx?: CanvasRenderingContext2D;
 
   componentDidMount() {
-    const { size } = this.props;
+    let { size } = this.props;
+    size = size * 0.8125;
     Object.assign(this.canvas, {
       width: size,
       height: size
@@ -89,15 +96,64 @@ export class ColorPicker extends React.Component<ColorPickerProps, void> {
 
   render() {
     const { size, ...attributes } = this.props;
+    const styles = getStyles(this);
     return (
-      <canvas
-        ref={canvas => this.canvas = canvas}
-        {...attributes}
-      >
-        Your Browser not support canvas.
-      </canvas>
+      <div style={styles.root} {...attributes}>
+        <div style={styles.board}>
+          <canvas style={styles.mainBoard} ref={canvas => this.canvas = canvas}>
+            Your Browser not support canvas.
+          </canvas>
+          <div style={styles.selectColor}/>
+        </div>
+        <div style={styles.selectBar} />
+        <Slider width={size} />
+      </div>
     );
   }
 }
+
+function getStyles(colorPicker: ColorPicker): {
+  root?: React.CSSProperties;
+  board?: React.CSSProperties;
+  mainBoard?: React.CSSProperties;
+  selectBar?: React.CSSProperties;
+  selectColor?: React.CSSProperties;
+} {
+  const {
+    context: { theme },
+    props: { style, size }
+  } = colorPicker;
+  const { prepareStyles } = theme;
+
+  return {
+    root: prepareStyles({
+      width: size,
+      flexDirection: "column",
+      ...style
+    }),
+    board: prepareStyles({
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between"
+    }),
+    mainBoard: {
+      margin: 0
+    },
+    selectBar: {
+      marginTop: size * 0.1,
+      width: size,
+      height: size * 0.025,
+      backgroundImage: `linear-gradient(90deg, #000, #fff)`
+    },
+    selectColor: {
+      height: size * 0.8125,
+      width: size * 0.125,
+      background: "yellowgreen"
+    }
+  };
+}
+
+
 
 export default ColorPicker;
