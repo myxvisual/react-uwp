@@ -73,7 +73,7 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
       styleSheet = document.createElement("style");
       styleSheet.className = className;
       styleSheet.innerHTML = cssString;
-      document.body.appendChild(styleSheet);
+      document.head.appendChild(styleSheet);
     } else {
       styleSheet.innerHTML = cssString;
     }

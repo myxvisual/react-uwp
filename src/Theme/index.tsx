@@ -13,10 +13,10 @@ export interface DataProps {
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface ThemeState {
-  theme?: ThemeType;
+  currTheme?: ThemeType;
 }
 
-const customLocalStorageName = "__react-uwp__";
+const customLocalStorageName = "__REACT_UWP__";
 const themeClassName = "react-uwp-theme";
 const getBaseCSSString = (theme: ThemeType) => `.${themeClassName} * {
   margin: 0;
@@ -72,16 +72,26 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
     theme: PropTypes.object
   };
 
-  updateBaseCSS = () => {
-    let styleSheet = document.querySelector(`.${themeClassName}-style-sheet`);
-    if (styleSheet) {
-      styleSheet.innerHTML = getBaseCSSString(this.state.theme);
+  updateBaseCSS = (init = false) => {
+    const styleSheetClassName = `.${themeClassName}-style-sheet`;
+    let styleSheet = document.querySelector(styleSheetClassName);
+    const CSSString = getBaseCSSString(this.state.currTheme);
+    if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};
+    if (styleSheet || window.__REACT_UWP__.baseCSSRequired) {
+      if (styleSheet) {
+        styleSheet.innerHTML = CSSString;
+      } else return;
     } else {
       styleSheet = document.createElement("style");
-      styleSheet.className = themeClassName;
-      styleSheet.innerHTML = getBaseCSSString(this.state.theme);
+      styleSheet.className = styleSheetClassName;
+      styleSheet.innerHTML = CSSString;
       document.head.appendChild(styleSheet);
+      window.__REACT_UWP__.baseCSSRequired = true;
     }
+  }
+
+  componentWillMount() {
+    // this.updateBaseCSS();
   }
 
   componentDidMount() {
@@ -89,17 +99,17 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentDidUpdate() {
-    this.updateBaseCSS();
+    // this.updateBaseCSS();
   }
 
-  saveTheme = (theme?: ThemeType) => {
-    theme.saveTheme = this.saveTheme;
+  saveTheme = (currTheme?: ThemeType) => {
+    currTheme.saveTheme = this.saveTheme;
     localStorage.setItem(customLocalStorageName, JSON.stringify({
-      themeName: theme.themeName,
-      accent: theme.accent
+      themeName: currTheme.themeName,
+      accent: currTheme.accent
     }));
     this.setState({
-      theme
+      currTheme
     });
   }
 
@@ -127,16 +137,23 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   state: ThemeState = {
-    theme: this.getDefaultTheme()
+    currTheme: this.getDefaultTheme()
   };
 
   getChildContext() {
-    return { theme: this.state.theme };
+    return { theme: this.state.currTheme };
   }
 
   render() {
-    const { autoSaveTheme, children, style, className, ...attributes } = this.props;
-    const { theme } = this.state;
+    const {
+      autoSaveTheme,
+      children,
+      style,
+      className,
+      theme,
+      ...attributes
+    } = this.props;
+    const { currTheme } = this.state;
 
     return (
       <div
@@ -144,9 +161,9 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
         className={className ? `${themeClassName} ${className}` : themeClassName}
         style={darkTheme.prepareStyles({
           fontSize: 14,
-          fontFamily: theme.fontFamily,
-          color: theme.baseHigh,
-          background: theme.altHigh,
+          fontFamily: currTheme.fontFamily,
+          color: currTheme.baseHigh,
+          background: currTheme.altHigh,
           width: "100%",
           height: "100%",
           ...style
