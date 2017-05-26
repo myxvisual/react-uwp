@@ -10,7 +10,10 @@ export interface DataProps {
   onChangeValue?: (value?: number) => void;
   onChangeValueRatio?: (valueRatio?: number) => void;
   barHeight?: number;
+  barBackground?: string;
+  barBackgroundImage?: string;
   controllerWidth?: number;
+  useSimpleController?: boolean;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -51,7 +54,6 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
-
   handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     this.setState({ hovered: true });
     this.props.onMouseEnter(e);
@@ -98,7 +100,8 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     if (e.type === "mousemove" && !this.state.dragging) {
       this.setState({ dragging: true });
     }
-    const { maxValue, minValue } = this.props;
+    const { maxValue, minValue, barBackground, barBackgroundImage } = this.props;
+    const useCustomBackground = barBackground || barBackgroundImage;
     const { left, width } = this.rootElm.getBoundingClientRect();
     const mouseLeft = e.clientX;
     const controllerWidth = this.controllerElm.getBoundingClientRect().width;
@@ -107,13 +110,17 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     const currValue = minValue + (maxValue - minValue) * valueRatio;
     this.state.currValue = currValue;
     this.state.valueRatio = valueRatio;
-    const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;
-    Object.assign(this.barElm.style, {
-      transform: barTransform,
-      webKitTransform: barTransform,
-      msTransform: barTransform,
-      mozTransform: barTransform
-    } as React.CSSProperties);
+
+    if (!useCustomBackground) {
+      const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;
+      Object.assign(this.barElm.style, {
+        transform: barTransform,
+        webKitTransform: barTransform,
+        msTransform: barTransform,
+        mozTransform: barTransform
+      } as React.CSSProperties);
+    }
+
     const width2px: number = Number.parseFloat(this.props.width as any);
     const transform = `translateX(${valueRatio * width2px - 4}px)`;
     Object.assign(this.controllerElm.style, {
@@ -134,6 +141,9 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       onChangeValueRatio, // tslint:disable-line:no-unused-variable
       barHeight, // tslint:disable-line:no-unused-variable
       controllerWidth, // tslint:disable-line:no-unused-variable
+      barBackground, // tslint:disable-line:no-unused-variable
+      barBackgroundImage, // tslint:disable-line:no-unused-variable
+      useSimpleController, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
     const { currValue } = this.state;
@@ -167,8 +177,22 @@ function getStyles(slider: Slider): {
 } {
   const {
     context: { theme },
-    props: { style, width, height, barHeight, controllerWidth },
-    state: { currValue, valueRatio, dragging, hovered }
+    props: {
+      style,
+      width,
+      height,
+      barHeight,
+      controllerWidth,
+      barBackground,
+      barBackgroundImage,
+      useSimpleController
+    },
+    state: {
+      currValue,
+      valueRatio,
+      dragging,
+      hovered
+    }
   } = slider;
   const { prepareStyles } = theme;
   const width2px: number = Number.parseFloat(width as any);
@@ -176,6 +200,7 @@ function getStyles(slider: Slider): {
   const barHeight2px: number = Number.parseFloat(barHeight as any);
   const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
   const transition = dragging ? void 0 : "all .25s 0s linear";
+  const useCustomBackground = barBackground || barBackgroundImage;
   return {
     root: prepareStyles({
       width,
@@ -194,10 +219,11 @@ function getStyles(slider: Slider): {
       top: `calc(50% - ${barHeight2px / 2}px)`
     },
     bar: {
-      background: theme.accent,
+      background: barBackground,
+      backgroundImage: barBackgroundImage,
       position: "absolute",
       width: "100%",
-      transform: `translateX(${(valueRatio - 1) * 100}%)`,
+      transform: useCustomBackground ? void 0 : `translateX(${(valueRatio - 1) * 100}%)`,
       height: "100%",
       left: 0,
       top: 0,
@@ -205,7 +231,7 @@ function getStyles(slider: Slider): {
     },
     controller: {
       position: "absolute",
-      background: (dragging || hovered) ? theme.baseHigh : theme.accent,
+      background: (useSimpleController || dragging || hovered) ? theme.baseHigh : theme.accent,
       borderRadius: controllerWidth2px / 2,
       left: 0,
       top: 0,
