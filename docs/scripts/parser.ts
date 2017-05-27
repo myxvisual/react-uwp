@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import * as path from "path";
 import * as fs from "fs";
+process.chdir(__dirname);
 
 export interface DocEntry {
   fileName?: string;
@@ -17,6 +18,8 @@ export interface DocEntry {
   extends?: DocEntry[] | string[];
   initializerText?: string;
 }
+
+process.chdir(__dirname);
 
 export class Parser {
   constructor(options?: ts.CompilerOptions) {
@@ -370,6 +373,6 @@ const result = parser.parseHot(
   path.resolve(__dirname, "../../src/CommandBar/index.tsx"),
   (result: DocEntry) => fs.writeFileSync(result.fileName.replace(/\.tsx?/, ".doc.json"), JSON.stringify(result, null, 2))
 );
-// const result = parser.parse(path.resolve(__dirname, "./Column.tsx"));
 
+// const result = parser.parse(path.resolve(__dirname, "./Column.tsx"));
 // console.log(JSON.stringify(result, null, 2));

@@ -74,7 +74,7 @@
         },
         {
           "name": "flowDirection",
-          "documentation": "",
+          "documentation": "`primaryCommands` layout.",
           "isRequired": false,
           "type": "\"row-reverse\" | \"row\""
         }
@@ -111,7 +111,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    content: void 0,\r\n    flowDirection: \"row\",\r\n    labelPosition: \"bottom\"\r\n  }",
+          "initializerText": " {\n    content: void 0,\n    flowDirection: \"row\",\n    labelPosition: \"bottom\"\n  }",
           "documentation": "",
           "type": "CommandBarProps"
         },
@@ -125,7 +125,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\r\n    currOpened: this.props.opened\r\n  }",
+          "initializerText": " {\n    currOpened: this.props.opened\n  }",
           "documentation": "",
           "type": "CommandBarState"
         },
@@ -141,7 +141,7 @@
         },
         {
           "name": "toggleOpened",
-          "initializerText": " (currOpened?: any) => {\r\n    if (typeof currOpened === \"boolean\") {\r\n      if (currOpened !== this.state.currOpened) this.setState({ currOpened });\r\n    } else {\r\n      this.setState((prevState, prevProps) => ({ currOpened: !prevState.currOpened }));\r\n    }\r\n  }",
+          "initializerText": " (currOpened?: any) => {\n    if (typeof currOpened === \"boolean\") {\n      if (currOpened !== this.state.currOpened) this.setState({ currOpened });\n    } else {\n      this.setState((prevState, prevProps) => ({ currOpened: !prevState.currOpened }));\n    }\n  }",
           "documentation": "",
           "type": "(currOpened?: any) => void"
         },

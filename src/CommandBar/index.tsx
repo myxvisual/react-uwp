@@ -31,6 +31,9 @@ export interface DataProps {
    * if using `labelPosition` "bottom", this will control default open status.
    */
   opened?: boolean;
+  /**
+   * `primaryCommands` layout.
+   */
   flowDirection?: "row-reverse" | "row";
 }
 

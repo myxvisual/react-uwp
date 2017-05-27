@@ -14,12 +14,14 @@ export default class IconGithub extends React.Component<IconGithubProps, void> {
 
   render() {
     const {
+      fill,
       ...attributes
     } = this.props;
     const { theme } = this.context;
 
     return (
       <svg
+        fill={fill}
         {...attributes}
         viewBox="0 0 438.549 438.549"
       >

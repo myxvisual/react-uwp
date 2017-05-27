@@ -115,6 +115,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
         onMouseLeave={this.handleMouseLeave}
         style={theme.prepareStyles({
           display: "inline-block",
+          verticalAlign: "middle",
           ...attributes.style
         })}
       >

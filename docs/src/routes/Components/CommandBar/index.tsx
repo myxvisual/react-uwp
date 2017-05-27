@@ -21,13 +21,11 @@ export default class CommandBar extends React.Component<any, void> {
       route, // tslint:disable-line:no-unused-variable
       router, // tslint:disable-line:no-unused-variable
       routeParams, // tslint:disable-line:no-unused-variable
-      routes, // tslint:disable-line:no-unused-variable
-      ...attributes
+      routes // tslint:disable-line:no-unused-variable
     } = this.props;
 
     return (
       <ComponentDetail
-        {...attributes}
         readmeText={readmeText as any}
         docEntry={docEntry}
       >

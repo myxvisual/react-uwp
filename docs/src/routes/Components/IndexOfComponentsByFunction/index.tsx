@@ -3,9 +3,7 @@ import * as PropTypes from "prop-types";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 
-import MarkdownRender from "../../../components/MarkdownRender";
-import ComponentDetail from "../../../components/ComponentDetail";
-import ComponentDescription from "./components/ComponentDescription";
+import MarkdownRender from "components/MarkdownRender";
 
 import CommandBar from "react-uwp/CommandBar";
 import Button from "react-uwp/Button";
@@ -31,7 +29,7 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
       routes, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
-    const buttonsStyle: React.CSSProperties ={
+    const buttonsStyle: React.CSSProperties = {
       margin: "0 10px"
     };
 
@@ -47,15 +45,6 @@ Here's a list by function of the common controls you can use in your app.`
         />
 
         <MarkdownRender text="## Commands" />
-        <ComponentDescription
-          description={
-`### CommandBar
-A specialized app bar that handles the resizing of app bar button elements.`
-          }
-          direction="column"
-          themeStyle={{ height: 140 }}
-          isChromeMode
-        >
           <CommandBar
             primaryCommands={[
               <AppBarButton icon={"\uE72D"} label="Share" />,
@@ -64,28 +53,12 @@ A specialized app bar that handles the resizing of app bar button elements.`
               <AppBarButton icon="Save" label="Save" />
             ]}
           />
-        </ComponentDescription>
-
-        <MarkdownRender text="## Buttons" />
-        <ComponentDescription
-          description={
-`### Button
-A control that responds to user input and raises a **Click** event.`
-          }
-        >
-          <Button>Button</Button>
-        </ComponentDescription>
-
-        <ComponentDescription
-          description={
-`### Hyperlink
-A UWP Design Link.`
-          }
-        >
-          <CheckBox style={buttonsStyle} label="CheckBox Button" />
-          <Radius label="Radius Button" />
-          <Switch style={buttonsStyle} />
-        </ComponentDescription>
+          <div>
+            <Button>Button</Button>
+            <CheckBox style={buttonsStyle} label="CheckBox Button" />
+            <Radius label="Radius Button" />
+            <Switch style={buttonsStyle} />
+          </div>
         <CalendarView />
       </div>
     );

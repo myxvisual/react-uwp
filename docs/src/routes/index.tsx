@@ -140,6 +140,18 @@ function getRoutes(path = "/") {
         }, "react-uwp-style-get-started");
       }
     }, {
+      path: "Resources",
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          const Child = require<any>("./Resources").default;
+          cb(null, () => (
+            <WrapperWithPath>
+              <Child />
+            </WrapperWithPath>
+          ));
+        }, "react-uwp-style-Resources");
+      }
+    }, {
       path: "*",
       getComponent: (location: Location, cb: RouterCallback) => {
         require.ensure([], (require) => {
