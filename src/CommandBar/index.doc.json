@@ -1,6 +1,6 @@
 {
-  "fileName": "D:/electron-app-dev/src/react-uwp/src/controls/CommandBar/index.tsx",
-  "name": "\"D:/electron-app-dev/src/react-uwp/src/controls/CommandBar/index\"",
+  "fileName": "D:/react-uwp/src/CommandBar/index.tsx",
+  "name": "\"D:/react-uwp/src/CommandBar/index\"",
   "exports": [
     {
       "name": "DataProps",
@@ -35,6 +35,12 @@
           "documentation": "Root Container Style.",
           "isRequired": false,
           "type": "CSSProperties"
+        },
+        {
+          "name": "content",
+          "documentation": "CommandBar title.",
+          "isRequired": false,
+          "type": "string"
         },
         {
           "name": "contentNode",
@@ -87,7 +93,7 @@
       "name": "CommandBarState",
       "members": [
         {
-          "name": "opened",
+          "name": "currOpened",
           "documentation": "",
           "isRequired": false,
           "type": "boolean"
@@ -101,17 +107,17 @@
         {
           "name": "prototype",
           "documentation": "",
-          "type": "prototype"
+          "type": "any"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    content: void 0,\n    flowDirection: \"row\",\n    labelPosition: \"bottom\"\n  }",
+          "initializerText": " {\r\n    content: void 0,\r\n    flowDirection: \"row\",\r\n    labelPosition: \"bottom\"\r\n  }",
           "documentation": "",
           "type": "CommandBarProps"
         },
         {
           "name": "contextTypes",
-          "initializerText": " { theme: React.PropTypes.object }",
+          "initializerText": " { theme: PropTypes.object }",
           "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
@@ -119,7 +125,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    opened: this.props.opened\n  }",
+          "initializerText": " {\r\n    currOpened: this.props.opened\r\n  }",
           "documentation": "",
           "type": "CommandBarState"
         },
@@ -135,9 +141,9 @@
         },
         {
           "name": "toggleOpened",
-          "initializerText": " (opened?: any) => {\n    if (typeof opened === \"boolean\") {\n      if (opened !== this.state.opened) this.setState({ opened });\n    } else {\n      this.setState((prevState, prevProps) => ({ opened: !prevState.opened }));\n    }\n  }",
+          "initializerText": " (currOpened?: any) => {\r\n    if (typeof currOpened === \"boolean\") {\r\n      if (currOpened !== this.state.currOpened) this.setState({ currOpened });\r\n    } else {\r\n      this.setState((prevState, prevProps) => ({ currOpened: !prevState.currOpened }));\r\n    }\r\n  }",
           "documentation": "",
-          "type": "(opened?: any) => void"
+          "type": "(currOpened?: any) => void"
         },
         {
           "name": "render",
@@ -157,5 +163,5 @@
     }
   ],
   "documentation": "",
-  "type": "typeof \"D:/electron-app-dev/src/react-uwp/src/controls/CommandBar/index\""
+  "type": "typeof \"D:/react-uwp/src/CommandBar/index\""
 }
