@@ -75,12 +75,12 @@ function getStyles(dialog: Dialog): {
       pointerEvents: "all",
       ...style,
       visibility: showDialog ? "visible" : "hidden",
-      opacity: showDialog ? 1 : 0,
+      opacity: showDialog ? 1 : 0
     }),
     content: prepareStyles({
       transition: "all .25s 0s ease-in-out",
       transform: `scale(${showDialog ? 1 : 0})`,
-      ...contentAttributes.style,
+      ...contentAttributes.style
     })
   };
 }

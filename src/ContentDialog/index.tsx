@@ -64,8 +64,20 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { statusBarTitle, title, primaryButtonText, secondaryButtonText, show, showCloseButton, content, contentNode, primaryButtonAction, secondaryButtonAction, autoClose, ...attributes } = this.props;
+    const {
+      statusBarTitle,
+      title,
+      primaryButtonText,
+      secondaryButtonText,
+      show,
+      showCloseButton,
+      content,
+      contentNode,
+      primaryButtonAction,
+      secondaryButtonAction,
+      autoClose,
+      ...attributes
+    } = this.props;
     const { showDialog } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
@@ -74,10 +86,7 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
       <RenderToBody ref="renderToBody">
         <div
           {...attributes}
-          style={{
-            ...styles.mask,
-            ...theme.prepareStyles(attributes.style)
-          }}
+          style={styles.mask}
         >
           <div
             style={styles.container}
@@ -126,7 +135,7 @@ function getStyles(contentDialog: ContentDialog): {
   buttonGroup?: React.CSSProperties;
   button?: React.CSSProperties;
 } {
-  const { context } = contentDialog;
+  const { context, props: { style } } = contentDialog;
   const { showDialog } = contentDialog.state;
   const { theme } = context;
   const { prepareStyles } = theme;
@@ -148,7 +157,8 @@ function getStyles(contentDialog: ContentDialog): {
       justifyContent: "center",
       color: theme.baseHigh,
       background: theme.altMediumHigh,
-      transition: `all .25s ${showDialog ? 0 : 0.25}s ease-in-out`
+      transition: `all .25s ${showDialog ? 0 : 0.25}s ease-in-out`,
+      ...style
     }),
     iconButton: {
       fontSize: 10,
