@@ -40,7 +40,7 @@ export default [{
   }, {
     "titleNode": "ColorPicker"
   }, {
-    "titleNode": "Date Pickers",
+    "titleNode": "DatePickers",
     "children": [{
       "titleNode": "CalendarDatePicker"
     }, {

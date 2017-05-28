@@ -208,7 +208,8 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
           </Icon>
           <div
             style={theme.prepareStyles({
-              width: notPhoneTablet ? "calc(100% - 320px)" : "100%"
+              width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
+              minHeight: "100%"
             })}
           >
             {children}

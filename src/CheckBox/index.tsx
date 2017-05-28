@@ -95,7 +95,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
     const haveLabel = label !== void 0;
     const checkbox = (
       <div
-        style={hovered ? {
+        style={hovered ? {  
           ...styles.iconParent.style,
           ...styles.iconParent.hoverStyle
         } : styles.iconParent.style}
