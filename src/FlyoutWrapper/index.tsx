@@ -15,7 +15,6 @@ export default class FlyoutWrapper extends React.Component<FlyoutWrapperProps, F
   context: { theme: ThemeType };
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
     const { style, children, ...attributes } = this.props;
     const { theme } = this.context;
     const flyouts: Flyout[] = [];

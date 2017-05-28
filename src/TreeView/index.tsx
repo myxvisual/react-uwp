@@ -62,6 +62,14 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     });
   }
 
+  componentDidUpdate = () => {
+    if (this.componentDidUpdateEndMethod) {
+      this.componentDidUpdateEndMethod();
+      this.componentDidUpdateEndMethod = void 0;
+    }
+  }
+  componentDidUpdateEndMethod: () => void;
+
   handelClick = (e: React.MouseEvent<HTMLDivElement>, list: List) => {
     list.expanded = !list.expanded;
     if (this.state.visitedList && !list.children) {
@@ -100,7 +108,8 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
       return (
         <div
           style={{
-            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void 0
+            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void 0,
+            overflow: "hidden"
           }}
           key={`${index}`}
         >
@@ -149,10 +158,10 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                   color: disable ? theme.baseLow : void 0,
                   width: isRight ? void 0 : 14,
                   marginRight: 1,
-                  fontSize: 14,
+                  fontSize: listItemHeight / 2,
                   zIndex: 1,
                   transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`
-                } as any)}
+                })}
               >
                 {"\uE011"}
               </Icon>
@@ -175,13 +184,13 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
           </div>
           {haveChild && (
             <div
-              style={{
-                height: expanded ? "auto" : 0,
-                transition: "all .25s",
-                display: expanded ? void 0 : "none",
-                overflow: expanded ? void 0 : "hidden",
-                ...styles.parent
-              } as any}
+              style={theme.prepareStyles({
+                height: "auto",
+                overflow: "hidden",
+                transform: `scaleY(${expanded ? 1 : 0})`,
+                transformOrigin: "top",
+                transition: "all .125s"
+              })}
             >
               {expanded && children.map((list: List[], index) => renderList(list, index, true))}
             </div>
@@ -222,7 +231,6 @@ function getStyles(treeView: TreeView): {
   root?: React.CSSProperties;
   title?: React.CSSProperties;
   titleNode?: React.CSSProperties;
-  parent?: React.CSSProperties;
   icon?: React.CSSProperties;
   bg?: React.CSSProperties;
 } {
@@ -261,9 +269,6 @@ function getStyles(treeView: TreeView): {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       ...titleNodeStyle
-    }),
-    parent: prepareStyles({
-      transition: "all .25s 0s ease-in-out"
     }),
     bg: {
       position: "absolute",

@@ -35,6 +35,7 @@ export default class CommandBar extends React.Component<any, void> {
           description={SimpleExampleDesc as any}
           direction="column"
           useChromeColor
+          doubleThemeStyle={{ padding: "40px 0" }}
         >
           <SimpleExample />
         </CodeExample>

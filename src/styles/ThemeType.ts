@@ -51,12 +51,15 @@ type ThemeType = {
   updateTheme?: (theme: ThemeType) => void;
   saveTheme?: (theme: ThemeType) => void;
   zIndex?: {
-    tooltip?: number;
+    listView?: number;
+    calendarView?: number;
     flyout?: number;
+    tooltip?: number;
     dropDownMenu?: number;
+    commandBar?: number;
+    contentDialog?: number;
     [key: string]: number;
   };
 };
-
 export { ThemeType };
 export default ThemeType;

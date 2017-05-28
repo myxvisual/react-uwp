@@ -50,13 +50,13 @@
         },
         {
           "name": "primaryCommands",
-          "documentation": "`Commands`, if item `type` is not `AppBarButton` or `AppBarButton`, will not render that item.",
+          "documentation": "`PrimaryCommands`, if item `type` is not `AppBarButton` or `AppBarButton`, will not render.",
           "isRequired": false,
           "type": "ReactElement<any>[]"
         },
         {
           "name": "secondaryCommands",
-          "documentation": "",
+          "documentation": "`SecondaryCommands`, if item `type` is not `AppBarButton` or `AppBarButton`, will not render.",
           "isRequired": false,
           "type": "ReactElement<any>[]"
         },
@@ -67,7 +67,7 @@
           "type": "\"right\" | \"bottom\" | \"collapsed\""
         },
         {
-          "name": "opened",
+          "name": "expanded",
           "documentation": "if using `labelPosition` \"bottom\", this will control default open status.",
           "isRequired": false,
           "type": "boolean"
@@ -77,6 +77,12 @@
           "documentation": "`primaryCommands` layout.",
           "isRequired": false,
           "type": "\"row-reverse\" | \"row\""
+        },
+        {
+          "name": "isMinimal",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
         }
       ],
       "documentation": ""
@@ -93,7 +99,7 @@
       "name": "CommandBarState",
       "members": [
         {
-          "name": "currOpened",
+          "name": "currExpanded",
           "documentation": "",
           "isRequired": false,
           "type": "boolean"
@@ -111,7 +117,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    content: void 0,\n    flowDirection: \"row\",\n    labelPosition: \"bottom\"\n  }",
+          "initializerText": " {\n    labelPosition: \"bottom\"\n  }",
           "documentation": "",
           "type": "CommandBarProps"
         },
@@ -125,7 +131,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    currOpened: this.props.opened\n  }",
+          "initializerText": " {\n    currExpanded: this.props.expanded\n  }",
           "documentation": "",
           "type": "CommandBarState"
         },
@@ -141,9 +147,9 @@
         },
         {
           "name": "toggleOpened",
-          "initializerText": " (currOpened?: any) => {\n    if (typeof currOpened === \"boolean\") {\n      if (currOpened !== this.state.currOpened) this.setState({ currOpened });\n    } else {\n      this.setState((prevState, prevProps) => ({ currOpened: !prevState.currOpened }));\n    }\n  }",
+          "initializerText": " (currExpanded?: any) => {\n    if (typeof currExpanded === \"boolean\") {\n      if (currExpanded !== this.state.currExpanded) this.setState({ currExpanded });\n    } else {\n      this.setState((prevState, prevProps) => ({ currExpanded: !prevState.currExpanded }));\n    }\n  }",
           "documentation": "",
-          "type": "(currOpened?: any) => void"
+          "type": "(currExpanded?: any) => void"
         },
         {
           "name": "render",
@@ -159,7 +165,7 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(commandBar: CommandBar) => { root?: CSSProperties; content?: CSSProperties; commands?: CSSProper..."
+      "type": "(commandBar: CommandBar) => { wrapper?: CSSProperties; root?: CSSProperties; content?: CSSPropert..."
     }
   ],
   "documentation": "",

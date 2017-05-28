@@ -5,7 +5,7 @@ import AppBarButton from "react-uwp/AppBarButton";
 import AppBarSeparator from "react-uwp/AppBarSeparator";
 
 const commandBarStyle: React.CSSProperties = {
-  margin: "20px 0"
+  margin: "60px 0"
 };
 export default class SimpleExample extends React.Component<void, void> {
   render() {
@@ -54,6 +54,17 @@ export default class SimpleExample extends React.Component<void, void> {
           style={commandBarStyle}
         />
         <CommandBar
+          isMinimal
+          primaryCommands={[
+            <AppBarButton icon="Shuffle" label="Shuffle" />,
+            <AppBarButton icon="RepeatAll" label="Repeat" />,
+            <AppBarSeparator />,
+            <AppBarButton icon="Back" label="Back" />,
+            <AppBarButton icon="Stop" label="Stop" />,
+            <AppBarButton icon="Play" label="Play" />,
+            <AppBarButton icon="Forward" label="Forward" />,
+            <div>Will not render this item.</div>
+          ]}
           style={{ display: "block", ...commandBarStyle }}
         />
       </div>

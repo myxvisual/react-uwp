@@ -19,9 +19,12 @@ export interface DataProps {
    */
   contentNode?: React.ReactNode;
   /**
-   * `Commands`, if item `type` is not `AppBarButton` or `AppBarButton`, will not render that item.
+   * `PrimaryCommands`, if item `type` is not `AppBarButton` or `AppBarButton`, will not render.
    */
   primaryCommands?: React.ReactElement<any>[];
+  /**
+   * `SecondaryCommands`, if item `type` is not `AppBarButton` or `AppBarButton`, will not render.
+   */
   secondaryCommands?: React.ReactElement<any>[];
   /**
    * control `AppBarButton` label position.
@@ -30,51 +33,49 @@ export interface DataProps {
   /**
    * if using `labelPosition` "bottom", this will control default open status.
    */
-  opened?: boolean;
+  expanded?: boolean;
   /**
    * `primaryCommands` layout.
    */
   flowDirection?: "row-reverse" | "row";
+  isMinimal?: boolean;
 }
 
 export interface CommandBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface CommandBarState {
-  currOpened?: boolean;
+  currExpanded?: boolean;
 }
 
 export class CommandBar extends React.Component<CommandBarProps, CommandBarState> {
   static defaultProps: CommandBarProps = {
-    content: void 0,
-    flowDirection: "row",
     labelPosition: "bottom"
   };
 
   state: CommandBarState = {
-    currOpened: this.props.opened
+    currExpanded: this.props.expanded
   };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   componentWillReceiveProps(nextProps: CommandBarProps) {
-    const { opened } = nextProps;
-    if (this.state.currOpened !== opened) {
-      this.setState({ currOpened: opened });
+    const { expanded } = nextProps;
+    if (this.state.currExpanded !== expanded) {
+      this.setState({ currExpanded: expanded });
     }
   }
 
-  toggleOpened = (currOpened?: any) => {
-    if (typeof currOpened === "boolean") {
-      if (currOpened !== this.state.currOpened) this.setState({ currOpened });
+  toggleOpened = (currExpanded?: any) => {
+    if (typeof currExpanded === "boolean") {
+      if (currExpanded !== this.state.currExpanded) this.setState({ currExpanded });
     } else {
-      this.setState((prevState, prevProps) => ({ currOpened: !prevState.currOpened }));
+      this.setState((prevState, prevProps) => ({ currExpanded: !prevState.currExpanded }));
     }
   }
 
   render() {
     const {
-      style,
       content,
       contentStyle, // tslint:disable-line:no-unused-variable
       contentNode,
@@ -82,31 +83,32 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
       primaryCommands,
       secondaryCommands,
       flowDirection, // tslint:disable-line:no-unused-variable
-      opened,
+      expanded,
+      isMinimal,
       ...attributes
     } = this.props;
-    const { currOpened } = this.state;
+    const { currExpanded } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const defaultHeight = isMinimal ? 24 : 48;
+    const expandedHeight = 72;
 
     return (
-      <div style={theme.prepareStyles({ height: 48, display: "inline-block", ...style })}>
-        <div
-          {...attributes}
-          style={styles.root}
-        >
+      <div style={styles.wrapper}>
+        <div {...attributes} style={styles.root}>
           {(content !== void 0 || contentNode !== void 0) && (
             <div style={styles.content}>{content || contentNode}</div>
           )}
           <div style={styles.commands}>
-            {React.Children.toArray(primaryCommands).filter((child: any) => (
+            {(isMinimal && !currExpanded) || React.Children.toArray(primaryCommands).filter((child: any) => (
               child.type === AppBarButton || child.type === AppBarSeparator
             )).map((child: any, index: number) => (
               React.cloneElement(child, { labelPosition, key: index })
             ))}
             <AppBarButton
-              labelPosition={labelPosition}
-              style={{ maxWidth: 48 }}
+              labelPosition="bottom"
+              style={styles.moreLegacy}
+              iconStyle={{ maxWidth: defaultHeight, height: defaultHeight }}
               icon="MoreLegacy"
               onClick={this.toggleOpened}
             />
@@ -118,43 +120,55 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
 }
 
 function getStyles(commandBar: CommandBar): {
+  wrapper?: React.CSSProperties;
   root?: React.CSSProperties;
   content?: React.CSSProperties;
   commands?: React.CSSProperties;
+  moreLegacy?: React.CSSProperties;
 } {
   const {
     context: { theme },
     props: {
+      style,
       flowDirection,
       labelPosition,
       content,
       contentNode,
       contentStyle,
-      primaryCommands
+      primaryCommands,
+      isMinimal
     },
-    state: { currOpened }
+    state: { currExpanded }
   } = commandBar;
   const { prepareStyles } = theme;
   const notChangeHeight = labelPosition !== "bottom";
+  const haveContent = content || contentNode;
+  const defaultHeight = isMinimal ? 24 : 48;
+  const expandedHeight = 72;
+  const changedHeight = (currExpanded && !notChangeHeight && primaryCommands) ? expandedHeight : defaultHeight;
 
   return {
+    wrapper: theme.prepareStyles({
+      height: defaultHeight,
+      display: "block",
+      zIndex: currExpanded ? theme.zIndex.commandBar : void 0,
+      ...style
+    }),
     root: prepareStyles({
       display: "flex",
-      flexDirection: flowDirection as any,
+      flexDirection: flowDirection || (haveContent ? "row" : "row-reverse"),
       alignItems: "flex-start",
-      justifyContent: (content || contentNode) ? "space-between" : (
-        labelPosition === "collapsed" ? "flex-start" : "flex-end"
-      ),
+      justifyContent: haveContent ? "space-between" : "flex-start",
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: theme.altHigh,
-      height: (currOpened && !notChangeHeight && primaryCommands) ? 72 : 48,
+      height: changedHeight,
       overflow: "hidden",
       transition: "all .125s ease-in-out"
     }),
     content: prepareStyles({
-      height: 48,
-      lineHeight: "48px",
+      height: defaultHeight,
+      lineHeight: `${defaultHeight}px`,
       paddingLeft: 10,
       ...contentStyle
     }),
@@ -163,7 +177,10 @@ function getStyles(commandBar: CommandBar): {
       flexDirection: "row",
       alignItems: "flex-start",
       height: "100%"
-    })
+    }),
+    moreLegacy: {
+      height: expandedHeight
+    }
   };
 }
 

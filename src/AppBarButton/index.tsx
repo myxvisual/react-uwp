@@ -7,6 +7,7 @@ import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   icon?: string;
+  iconStyle?: React.CSSProperties;
   hoverStyle?: React.CSSProperties;
   labelPosition?: "right" | "bottom" | "collapsed";
 }
@@ -20,6 +21,7 @@ export default class AppBarButtonButton extends React.Component<AppBarButtonButt
   render() {
     const {
       icon,
+      iconStyle,
       hoverStyle,
       label,
       labelPosition,
@@ -54,7 +56,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
   icon?: React.CSSProperties;
   label?: React.CSSProperties;
 } {
-  const { context, props: { labelPosition, style } } = AppBarButtonButton;
+  const { context, props: { labelPosition, style, iconStyle } } = AppBarButtonButton;
   const { theme } = context;
   const { prepareStyles } = theme;
   const flexDirection: any = {
@@ -76,7 +78,6 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
       height: "100%",
       padding: "0 10px",
       maxWidth: isRight ? void 0 : 72,
-      transition: "all .25s",
       cursor: "default",
       ...style
     }),
@@ -93,7 +94,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
       width: 48,
       height: 48,
       fontSize: 18,
-      ...style
+      ...iconStyle
     })
   };
 }
