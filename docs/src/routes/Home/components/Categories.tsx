@@ -69,7 +69,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
             style={CATEGORY_STYLE}
             title="Design Toolkits"
             description="Jumpstart your project with design templates and tools."
-            link="design-toolkits"
+            link="/resources"
             icon={<IconToolkits width={ICON_WIDTH} />}
           />
         </div>

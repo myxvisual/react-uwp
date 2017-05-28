@@ -51,7 +51,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               title="Reveal"
               description="A new lighting effect brings focus to interactive elements."
               linkInfo="ENHANCE APP WITH REVEAL"
-              link="/reveal"
+              link="/styles"
               image={require("../../assets/images/reveal.png")}
             />
             <FlipViewItem
@@ -67,7 +67,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               title="Design Toolkits"
               description="Templates and tools for designing UWP apps."
               linkInfo="GET THE TOOLKITS"
-              link="/toolkits"
+              link="/resources"
               image={require("../../assets/images/toolkits.png")}
             />
           </FlipView>
