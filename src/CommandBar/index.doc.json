@@ -74,15 +74,21 @@
         },
         {
           "name": "flowDirection",
-          "documentation": "`primaryCommands` layout.",
+          "documentation": "`CommandBar` layout.",
           "isRequired": false,
           "type": "\"row-reverse\" | \"row\""
         },
         {
           "name": "isMinimal",
-          "documentation": "",
+          "documentation": "set CommandBar to `minimal` size.",
           "isRequired": false,
           "type": "boolean"
+        },
+        {
+          "name": "verticalPosition",
+          "documentation": "default is `top`, set `bottom` if your `CommandBar` in your app's bottom.",
+          "isRequired": false,
+          "type": "\"bottom\" | \"top\""
         }
       ],
       "documentation": ""
@@ -117,7 +123,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    labelPosition: \"bottom\"\n  }",
+          "initializerText": " {\n    labelPosition: \"bottom\",\n    verticalPosition: \"top\"\n  }",
           "documentation": "",
           "type": "CommandBarProps"
         },

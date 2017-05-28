@@ -36,10 +36,17 @@ export interface DataProps {
    */
   expanded?: boolean;
   /**
-   * `primaryCommands` layout.
+   * `CommandBar` layout.
    */
   flowDirection?: "row-reverse" | "row";
+  /**
+   * set CommandBar to `minimal` size.
+   */
   isMinimal?: boolean;
+  /**
+   * default is `top`, set `bottom` if your `CommandBar` in your app's bottom.
+   */
+  verticalPosition?: "top" | "bottom";
 }
 
 export interface CommandBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -50,7 +57,8 @@ export interface CommandBarState {
 
 export class CommandBar extends React.Component<CommandBarProps, CommandBarState> {
   static defaultProps: CommandBarProps = {
-    labelPosition: "bottom"
+    labelPosition: "bottom",
+    verticalPosition: "top"
   };
 
   state: CommandBarState = {
@@ -156,11 +164,13 @@ function getStyles(commandBar: CommandBar): {
       contentNode,
       contentStyle,
       primaryCommands,
-      isMinimal
+      isMinimal,
+      verticalPosition
     },
     state: { currExpanded }
   } = commandBar;
   const { prepareStyles } = theme;
+  const inBottom = verticalPosition !== "top";
   const notChangeHeight = labelPosition !== "bottom";
   const haveContent = content || contentNode;
   const transition = "all .125s ease-in-out";
@@ -175,7 +185,7 @@ function getStyles(commandBar: CommandBar): {
   }
   return {
     wrapper: theme.prepareStyles({
-      height: defaultHeight,
+      height: inBottom ? "auto" : defaultHeight,
       display: "block",
       zIndex: currExpanded ? theme.zIndex.commandBar : void 0,
       ...style
@@ -214,7 +224,8 @@ function getStyles(commandBar: CommandBar): {
       position: "absolute",
       right: isReverse ? void 0 : 0,
       left: isReverse ? 0 : void 0,
-      top: changedHeight,
+      top: inBottom ? void 0 : changedHeight,
+      bottom: inBottom ? changedHeight : void 0,
       transform: `translate3D(0, ${currExpanded ? 0 : -8}px, 0)`,
       opacity: currExpanded ? 1 : 0,
       pointerEvents: currExpanded ? "all" : "none"
