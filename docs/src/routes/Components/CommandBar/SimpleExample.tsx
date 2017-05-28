@@ -5,7 +5,7 @@ import AppBarButton from "react-uwp/AppBarButton";
 import AppBarSeparator from "react-uwp/AppBarSeparator";
 
 const commandBarStyle: React.CSSProperties = {
-  margin: 10
+  margin: "20px 0"
 };
 export default class SimpleExample extends React.Component<void, void> {
   render() {
@@ -52,6 +52,9 @@ export default class SimpleExample extends React.Component<void, void> {
             <div>Will not render this item.</div>
           ]}
           style={commandBarStyle}
+        />
+        <CommandBar
+          style={{ display: "block", ...commandBarStyle }}
         />
       </div>
     );

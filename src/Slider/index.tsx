@@ -219,7 +219,7 @@ function getStyles(slider: Slider): {
       top: `calc(50% - ${barHeight2px / 2}px)`
     },
     bar: {
-      background: barBackground,
+      background: useCustomBackground ? barBackground : theme.listAccentLow,
       backgroundImage: barBackgroundImage,
       position: "absolute",
       width: "100%",

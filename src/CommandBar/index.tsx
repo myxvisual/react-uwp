@@ -74,6 +74,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
 
   render() {
     const {
+      style,
       content,
       contentStyle, // tslint:disable-line:no-unused-variable
       contentNode,
@@ -89,26 +90,27 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
     const styles = getStyles(this);
 
     return (
-      <div
-        {...attributes}
-        style={styles.root}
-      >
-        {(content !== void 0 || contentNode !== void 0) && (
-          <div style={styles.content}>{content || contentNode}</div>
-        )}
-        <div style={styles.commands}>
-          {React.Children.toArray(primaryCommands).filter((child: any) => (
-            child.type === AppBarButton || child.type === AppBarSeparator
-          )).map((child: any, index: number) => (
-            React.cloneElement(child, { labelPosition, key: index })
-          ))}
-          {labelPosition === "bottom" && (
+      <div style={theme.prepareStyles({ height: 48, display: "inline-block", ...style })}>
+        <div
+          {...attributes}
+          style={styles.root}
+        >
+          {(content !== void 0 || contentNode !== void 0) && (
+            <div style={styles.content}>{content || contentNode}</div>
+          )}
+          <div style={styles.commands}>
+            {React.Children.toArray(primaryCommands).filter((child: any) => (
+              child.type === AppBarButton || child.type === AppBarSeparator
+            )).map((child: any, index: number) => (
+              React.cloneElement(child, { labelPosition, key: index })
+            ))}
             <AppBarButton
               labelPosition={labelPosition}
+              style={{ maxWidth: 48 }}
               icon="MoreLegacy"
               onClick={this.toggleOpened}
             />
-          )}
+          </div>
         </div>
       </div>
     );
@@ -123,12 +125,12 @@ function getStyles(commandBar: CommandBar): {
   const {
     context: { theme },
     props: {
-      style,
       flowDirection,
       labelPosition,
       content,
       contentNode,
-      contentStyle
+      contentStyle,
+      primaryCommands
     },
     state: { currOpened }
   } = commandBar;
@@ -146,10 +148,9 @@ function getStyles(commandBar: CommandBar): {
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: theme.altHigh,
-      height: (currOpened && !notChangeHeight) ? 72 : 48,
+      height: (currOpened && !notChangeHeight && primaryCommands) ? 72 : 48,
       overflow: "hidden",
-      transition: "all .125s ease-in-out",
-      ...style
+      transition: "all .125s ease-in-out"
     }),
     content: prepareStyles({
       height: 48,

@@ -4,105 +4,113 @@ import * as PropTypes from "prop-types";
 import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
-  open?: boolean;
-  callback?: Function;
+  isSwitched?: boolean;
+  onSwitch?: (isOpen?: boolean) => void;
   padding?: number;
+  label?: string;
 }
 export interface SwitchProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
 }
 export interface SwitchState {
-  isOpen?: boolean;
+  currSwitched?: boolean;
 }
 
+const emptyFunc = () => {};
 export default class Switch extends React.Component<SwitchProps, SwitchState> {
   static defaultProps: SwitchProps = {
     width: 42,
     height: 18,
     padding: 6,
-    callback: () => {},
-    onClick: () => {}
+    onSwitch: emptyFunc
   };
 
   state: SwitchState = {
-    isOpen: this.props.open
+    currSwitched: this.props.isSwitched
   };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ThemeType };
 
   componentWillReceiveProps(nextProps: SwitchProps) {
-    this.setState({ isOpen: nextProps.open });
+    this.setState({ currSwitched: nextProps.isSwitched });
   }
 
-  toggleSwitch = (isOpen?: boolean) => {
-    if (typeof isOpen !== "boolean") {
-      isOpen = !this.state.isOpen;
+  toggleSwitch = (currSwitched?: any) => {
+    if (typeof currSwitched === "boolean") {
+      if (currSwitched !== this.state.currSwitched) {
+        this.setState({ currSwitched });
+        this.props.onSwitch(currSwitched);
+      }
+    } else {
+      this.setState((prevState, prevProps) => {
+        const currSwitched = !prevState.currSwitched;
+        this.props.onSwitch(currSwitched);
+        return { currSwitched };
+      });
     }
-    const { callback } = this.props;
-    this.setState({ isOpen });
-    callback(isOpen);
   }
-
-  getState = () => this.state.isOpen;
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { style, open, callback, padding, ...attributes } = this.props;
-    const { isOpen } = this.state;
+    const { style, isSwitched, onSwitch, padding, label, ...attributes } = this.props;
+    const { currSwitched } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
     return (
-      <div
-        style={theme.prepareStyles({
-          ...styles.container,
-          ...style
-        })}
-        {...attributes}
-        onClick={(e) => { this.toggleSwitch(); attributes.onClick(e); }}
-      >
+      <div {...attributes} style={theme.prepareStyles({ display: "inline-block", verticalAlign: "middle", ...style })}>
         <div
-          style={theme.prepareStyles({
-            ...styles.button,
-            ...styles.button
-          })}
-        />
+          style={styles.root}
+          onClick={this.toggleSwitch}
+        >
+          <div
+            style={theme.prepareStyles({
+              ...styles.button,
+              ...styles.button
+            })}
+          />
+        </div>
+        {label && (
+          <span style={{ marginLeft: 8, verticalAlign: "middle" }}>
+            {label}
+          </span>
+        )}
       </div>
     );
   }
 }
 
 function getStyles(context: Switch): {
-  container: React.CSSProperties;
+  root: React.CSSProperties;
   button: React.CSSProperties;
 } {
   const { width, height, padding } = context.props;
   const { theme } = context.context;
-  const { isOpen } = context.state;
+  const { currSwitched } = context.state;
   const itemSize = Number(height) / 1.5;
   return {
-    container: {
+    root: theme.prepareStyles({
       position: "relative",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
+      display: "inline-block",
+      verticalAlign: "middle",
       boxSizing: "content-box",
       width,
       height,
-      background: isOpen ? theme.accent : theme.altHigh,
-      border: `2px solid ${isOpen ? theme.accent : theme.baseMediumHigh}`,
+      background: currSwitched ? theme.accent : theme.altHigh,
+      border: `2px solid ${currSwitched ? theme.accent : theme.baseMediumHigh}`,
       borderRadius: height,
       transition: "all .25s 0s ease-in-out"
-    },
+    }),
     button: {
-      transform: `translateX(${isOpen ? Number(width) - Number(height) + padding : padding}px)`,
+      transform: `translateX(${currSwitched ? Number(width) - Number(height) + padding : padding}px)`,
       flex: "0 0 auto",
       position: "absolute",
       left: 0,
+      top: 0,
+      bottom: 0,
+      margin: "auto",
       width: itemSize,
       height: itemSize,
       borderRadius: itemSize,
-      background: isOpen ? "#fff" : theme.baseMediumHigh,
+      background: currSwitched ? "#fff" : theme.baseMediumHigh,
       transition: "all .25s 0s ease-in-out"
     }
   };

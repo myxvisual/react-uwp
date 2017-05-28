@@ -26,7 +26,7 @@ export { default as Menus } from "./Menus";
 export { default as NavPane } from "./NavPane";
 export { default as PasswordBox } from "./PasswordBox";
 export { default as ProgressRing } from "./ProgressRing";
-export { default as Radius } from "./Radius";
+export { default as RadiusButton } from "./RadiusButton";
 export { default as RenderToBody } from "./RenderToBody";
 export { default as SplitView } from "./SplitView";
 export { default as ScrollBar } from "./ScrollBar";

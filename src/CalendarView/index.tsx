@@ -11,9 +11,9 @@ import ThemeType from "../styles/ThemeType";
 import YearPicker from "./YearPicker";
 
 export interface DataProps {
-  mode?: "Large" | "Small";
   pickerMode?: "Year" | "Month" | "Day";
   onChangeDate?: (date?: Date) => void;
+  selectSingleDay?: boolean;
 }
 
 export interface CalendarViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -26,11 +26,12 @@ export interface CalendarViewState {
   currPickerMode?: "Year" | "Month" | "Day";
 }
 
+const emptyFunc = () => {};
 export default class CalendarView extends React.Component<CalendarViewProps, CalendarViewState> {
   static defaultProps: CalendarViewProps = {
     pickerMode: "Day",
-    mode: "Small",
-    onChangeDate: () => {}
+    onChangeDate: emptyFunc,
+    selectSingleDay: true
   };
 
   state: CalendarViewState = {
@@ -105,11 +106,16 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
   }
 
   chooseDay = (date: Date) => {
-    let { chooseISODates } = this.state;
+    let { chooseISODates, viewDate } = this.state;
+    const { selectSingleDay } = this.props;
     const dateISOString = date.toISOString();
     const index = chooseISODates.indexOf(dateISOString);
-    index > -1 ? chooseISODates.splice(index, 1) : (chooseISODates = [...chooseISODates, dateISOString]);
-    this.setState({ chooseISODates });
+    index > -1 ? chooseISODates.splice(index, 1) : (chooseISODates = selectSingleDay ? [dateISOString] : [...chooseISODates, dateISOString]);
+    if (viewDate.getMonth() === date.getMonth()) {
+      this.setState({ chooseISODates });
+    } else {
+      this.setState({ chooseISODates, viewDate: date });
+    }
     this.props.onChangeDate(date);
   }
 
@@ -178,8 +184,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { pickerMode, mode, onChangeDate, ...attributes } = this.props;
+    const { pickerMode, onChangeDate, selectSingleDay, ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
     const { dateNow, viewDate, direction, chooseISODates, currPickerMode } = this.state;
@@ -274,9 +279,9 @@ function getStyles(calendarView: CalendarView): {
 
   return {
     root: prepareStyles({
+      display: "inline-block",
       fontSize: 14,
       color: theme.baseHigh,
-      background: theme.altMediumHigh,
       width: 296,
       // height: 334,
       border: `2px solid ${theme.baseLow}`,

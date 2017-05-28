@@ -13,24 +13,21 @@ export interface DataProps {
   label?: string;
 }
 
-export interface RadiusProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
-export interface RadiusState {
+export interface RadiusButtonProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface RadiusButtonState {
   currChecked?: boolean;
   hovered?: boolean;
   mouseDowned?: boolean;
 }
 
 const emptyFunc = () => {};
-export default class Radius extends React.Component<RadiusProps, RadiusState> {
-  static defaultProps: RadiusProps = {
-    style: {
-      display: "inline-block", verticalAlign: "middle"
-    },
+export default class RadiusButton extends React.Component<RadiusButtonProps, RadiusButtonState> {
+  static defaultProps: RadiusButtonProps = {
     size: 24,
     onCheck: emptyFunc
   };
 
-  state: RadiusState = {
+  state: RadiusButtonState = {
     currChecked: this.props.isChecked
   };
 
@@ -38,7 +35,7 @@ export default class Radius extends React.Component<RadiusProps, RadiusState> {
   context: { theme: ThemeType };
   rootElm: HTMLSpanElement;
 
-  componentWillReceiveProps(nextProps: RadiusProps) {
+  componentWillReceiveProps(nextProps: RadiusButtonProps) {
     this.setState({
       currChecked: this.props.isChecked
     });
@@ -86,7 +83,7 @@ export default class Radius extends React.Component<RadiusProps, RadiusState> {
       <div
         ref={(rootElm => this.rootElm = rootElm)}
         {...attributes}
-        style={theme.prepareStyles(style)}
+        style={theme.prepareStyles({ display: "inline-block", verticalAlign: "middle", ...style})}
       >
         <div
           onClick={disabled ? void 0 : this.handleClick}

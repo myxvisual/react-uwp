@@ -11,10 +11,10 @@ import Button from "react-uwp/Button";
 import AppBarButton from "react-uwp/AppBarButton";
 import Switch from "react-uwp/Switch";
 import CheckBox from "react-uwp/CheckBox";
-import Radius from "react-uwp/Radius";
+import RadiusButton from "react-uwp/RadiusButton";
 import HyperLink from "react-uwp/HyperLink";
-import Link from "react-uwp/Link";
 import CalendarView from "react-uwp/CalendarView";
+import Slider from "react-uwp/Slider";
 
 export default class IndexOfComponentsByFunction extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
@@ -30,8 +30,8 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
       routes, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
-    const buttonsStyle: React.CSSProperties = {
-      margin: "0 10px"
+    const baseStyle: React.CSSProperties = {
+      margin: 10
     };
 
     return (
@@ -43,9 +43,7 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
 The UI framework for Windows provides an extensive library of controls that support UI development. Some of these controls have a visual representation; others function as the containers for other controls or content, such as images and media.`
           }
         />
-
-        <MarkdownRender text="## Commands" />
-        <ComponentDescription isChromeMode>
+        <ComponentDescription isChromeMode themeStyle={{ padding: 40 }}>
           <CommandBar
             primaryCommands={[
               <AppBarButton icon={"\uE72D"} label="Share" />,
@@ -55,13 +53,22 @@ The UI framework for Windows provides an extensive library of controls that supp
             ]}
           />
         </ComponentDescription>
-        <div>
-          <Button>Button</Button>
-          <CheckBox style={buttonsStyle} label="CheckBox Button" />
-          <Radius label="Radius Button" />
-          <Switch style={buttonsStyle} />
-        </div>
-        <CalendarView />
+
+        <ComponentDescription direction="row" themeStyle={{ padding: 0 }}>
+          <div style={this.context.theme.prepareStyles({ width: "100%", padding: 20, display: "flex", flexDirection: "column" })}>
+            <div>
+              <Button style={baseStyle}>Button</Button>
+              <CheckBox style={baseStyle} label="CheckBox Button" />
+              <RadiusButton style={baseStyle} label="RadiusButton" />
+              <Switch style={baseStyle} />
+              <HyperLink style={baseStyle}>HyperLink</HyperLink>
+              <Slider />
+            </div>
+            <div>
+              <CalendarView style={baseStyle} />
+            </div>
+          </div>
+        </ComponentDescription>
       </div>
     );
   }
