@@ -11,6 +11,8 @@ export interface Item {
   itemNode?: React.ReactNode;
   disable?: boolean;
   focus?: boolean;
+  style?: React.CSSProperties;
+  onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
 }
 export interface DataProps {
   items?: Item[];
@@ -24,9 +26,10 @@ export interface ListViewState {
   currItems?: Item[];
 }
 
+const emptyFunc = () => {};
 export default class ListView extends React.Component<ListViewProps, ListViewState> {
   static defaultProps: ListViewProps = {
-    onChooseItem: () => {}
+    onChooseItem: emptyFunc
   };
 
   state: ListViewState = {
@@ -65,19 +68,21 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
         }}
       >
         {currItems && currItems.map((item, index) => {
-          const { itemNode, disable, focus } = item;
+          const { itemNode, disable, focus, style, onClick } = item;
           const { isDarkTheme } = theme;
-          const defaultBG = focus ? theme[isDarkTheme ? "accentDarker2" : "accentLighter2"] : theme.chromeLow;
-          const focusBG = focus ? theme[isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.chromeMedium;
+          const defaultBG = focus ? theme.listAccentLow : theme.chromeLow;
+          const focusBG = focus ? theme.listAccentMedium : theme.chromeMedium;
           const clickBG = focus ? theme.accent : theme.chromeHigh;
           return (
             <div
-              style={{
+              style={theme.prepareStyles({
                 background: defaultBG,
                 color: disable ? theme.baseLow : theme.baseHigh,
-                ...styles.item
-              }}
+                ...styles.item,
+                ...style
+              })}
               key={`${index}`}
+              onClick={onClick}
               onMouseEnter={disable ? void(0) : (e) => {
                 e.currentTarget.style.background = focusBG;
               }}
@@ -122,7 +127,6 @@ function getStyles(listView: ListView): {
 
   return {
     root: {
-      width: "100%",
       fontSize: 14,
       padding: "8px 0",
       color: theme.baseMediumHigh,
@@ -130,12 +134,12 @@ function getStyles(listView: ListView): {
       background: theme.chromeLow,
       transition: "all .25s"
     },
-    item: prepareStyles({
+    item: {
       cursor: "default",
       padding: 8,
       width: "100%",
       transition: "all 0.25s",
       ...itemStyle
-    })
+    }
   };
 }

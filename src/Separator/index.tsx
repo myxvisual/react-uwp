@@ -44,6 +44,7 @@ function getStyles(separator: Separator): {
 
   return {
     root: prepareStyles({
+      display: "inline-block",
       width: isColumn ? 1 : "100%",
       height: isColumn ? "100%" : 1,
       background: theme.baseLow,

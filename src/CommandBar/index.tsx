@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import AppBarButton from "../AppBarButton";
 import AppBarSeparator from "../AppBarSeparator";
 import ThemeType from "../styles/ThemeType";
+import ListView from "../ListView";
 
 export interface DataProps {
   /**
@@ -66,7 +67,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
     }
   }
 
-  toggleOpened = (currExpanded?: any) => {
+  toggleExpanded = (currExpanded?: any) => {
     if (typeof currExpanded === "boolean") {
       if (currExpanded !== this.state.currExpanded) this.setState({ currExpanded });
     } else {
@@ -103,15 +104,33 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
             {(isMinimal && !currExpanded) || React.Children.toArray(primaryCommands).filter((child: any) => (
               child.type === AppBarButton || child.type === AppBarSeparator
             )).map((child: any, index: number) => (
-              React.cloneElement(child, { labelPosition, key: index })
+              React.cloneElement(child, {
+                labelPosition,
+                key: index,
+                style: child.type === AppBarSeparator ? {
+                  height: 24
+                } : void 0
+              })
             ))}
             <AppBarButton
               labelPosition="bottom"
               style={styles.moreLegacy}
               iconStyle={{ maxWidth: defaultHeight, height: defaultHeight }}
               icon="MoreLegacy"
-              onClick={this.toggleOpened}
+              onClick={this.toggleExpanded}
             />
+            {secondaryCommands && (
+              <ListView
+                style={styles.secondaryCommands}
+                items={secondaryCommands.map(itemNode => {
+                  if (itemNode.type === AppBarSeparator) {
+                    itemNode = React.cloneElement(itemNode, { direction: "row" });
+                    return { itemNode, disable: true, style: { padding: "0 8px" } };
+                  }
+                  return { itemNode, onClick: this.toggleExpanded };
+                })}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -125,6 +144,7 @@ function getStyles(commandBar: CommandBar): {
   content?: React.CSSProperties;
   commands?: React.CSSProperties;
   moreLegacy?: React.CSSProperties;
+  secondaryCommands?: React.CSSProperties;
 } {
   const {
     context: { theme },
@@ -143,10 +163,16 @@ function getStyles(commandBar: CommandBar): {
   const { prepareStyles } = theme;
   const notChangeHeight = labelPosition !== "bottom";
   const haveContent = content || contentNode;
+  const transition = "all .125s ease-in-out";
+  const isReverse = flowDirection === "row-reverse";
   const defaultHeight = isMinimal ? 24 : 48;
   const expandedHeight = 72;
-  const changedHeight = (currExpanded && !notChangeHeight && primaryCommands) ? expandedHeight : defaultHeight;
-
+  let changedHeight: number;
+  if (isMinimal) {
+    changedHeight = currExpanded ? (notChangeHeight ? 48 : 72) : defaultHeight;
+  } else {
+    changedHeight = (currExpanded && !notChangeHeight && primaryCommands) ? expandedHeight : defaultHeight;
+  }
   return {
     wrapper: theme.prepareStyles({
       height: defaultHeight,
@@ -155,6 +181,7 @@ function getStyles(commandBar: CommandBar): {
       ...style
     }),
     root: prepareStyles({
+      position: "relative",
       display: "flex",
       flexDirection: flowDirection || (haveContent ? "row" : "row-reverse"),
       alignItems: "flex-start",
@@ -163,23 +190,34 @@ function getStyles(commandBar: CommandBar): {
       color: theme.baseMediumHigh,
       background: theme.altHigh,
       height: changedHeight,
-      overflow: "hidden",
-      transition: "all .125s ease-in-out"
+      transition
     }),
     content: prepareStyles({
       height: defaultHeight,
       lineHeight: `${defaultHeight}px`,
       paddingLeft: 10,
+      paddingRight: 10,
       ...contentStyle
     }),
     commands: prepareStyles({
       display: "flex",
-      flexDirection: "row",
+      flexDirection: flowDirection,
       alignItems: "flex-start",
       height: "100%"
     }),
-    moreLegacy: {
-      height: expandedHeight
+    moreLegacy: theme.prepareStyles({
+      height: changedHeight,
+      transition
+    }),
+    secondaryCommands: {
+      zIndex: theme.zIndex.commandBar,
+      position: "absolute",
+      right: isReverse ? void 0 : 0,
+      left: isReverse ? 0 : void 0,
+      top: changedHeight,
+      transform: `translate3D(0, ${currExpanded ? 0 : -8}px, 0)`,
+      opacity: currExpanded ? 1 : 0,
+      pointerEvents: currExpanded ? "all" : "none"
     }
   };
 }

@@ -146,7 +146,7 @@
           "type": "(nextProps: CommandBarProps) => void"
         },
         {
-          "name": "toggleOpened",
+          "name": "toggleExpanded",
           "initializerText": " (currExpanded?: any) => {\n    if (typeof currExpanded === \"boolean\") {\n      if (currExpanded !== this.state.currExpanded) this.setState({ currExpanded });\n    } else {\n      this.setState((prevState, prevProps) => ({ currExpanded: !prevState.currExpanded }));\n    }\n  }",
           "documentation": "",
           "type": "(currExpanded?: any) => void"

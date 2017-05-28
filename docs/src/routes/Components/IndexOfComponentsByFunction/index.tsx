@@ -6,6 +6,7 @@ import ThemeType from "react-uwp/styles/ThemeType";
 import MarkdownRender from "components/MarkdownRender";
 import ComponentDescription from "./components/ComponentDescription";
 
+import AppBarSeparator from "react-uwp/AppBarSeparator";
 import CommandBar from "react-uwp/CommandBar";
 import Button from "react-uwp/Button";
 import AppBarButton from "react-uwp/AppBarButton";
@@ -50,6 +51,16 @@ The UI framework for Windows provides an extensive library of controls that supp
               <AppBarButton icon="Edit" label="Edit" />,
               <AppBarButton icon="Delete" label="Delete" />,
               <AppBarButton icon="Save" label="Save" />
+            ]}
+            secondaryCommands={[
+              <p>Open with</p>,
+              <p>Print</p>,
+              <p>Set as</p>,
+              <p>View actual size</p>,
+              <AppBarSeparator />,
+              <p>File info</p>,
+              <AppBarSeparator />,
+              <p>Send feedback</p>
             ]}
           />
         </ComponentDescription>
