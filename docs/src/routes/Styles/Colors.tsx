@@ -354,7 +354,6 @@ function getStyles(colors: Colors): {
   return {
     root: prepareStyles({
       padding: 20,
-      background: theme.altMediumHigh,
       minHeight: "100%",
       fontSize: 13,
       fontWeight: "lighter",

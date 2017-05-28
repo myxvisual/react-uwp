@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import * as tinycolor from "tinycolor2";
+import getStripedBackground from "react-uwp/styles/getStripedBackground";
 import ThemeType from "react-uwp/styles/ThemeType";
 import Icon from "react-uwp/Icon";
 
@@ -60,10 +62,11 @@ function getStyles(notFound: NotFound): {
 
   return {
     root: prepareStyles({
+      ...getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
       fontSize: 14,
       color: theme.baseMediumHigh,
       padding: 40,
-      width: renderContentWidth,
+      width: "100%",
       minHeight: renderContentHeight,
       margin: "0 auto",
       display: "flex",

@@ -137,7 +137,7 @@ function getRoutes(path = "/") {
               <Child />
             </WrapperWithPath>
           ));
-        }, "react-uwp-style-get-started");
+        }, "react-uwp-get-started");
       }
     }, {
       path: "Resources",
@@ -149,7 +149,19 @@ function getRoutes(path = "/") {
               <Child />
             </WrapperWithPath>
           ));
-        }, "react-uwp-style-Resources");
+        }, "react-uwp-Resources");
+      }
+    }, {
+      path: "Examples",
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          const Child = require<any>("./Examples").default;
+          cb(null, () => (
+            <WrapperWithPath>
+              <Child />
+            </WrapperWithPath>
+          ));
+        }, "react-uwp-Examples");
       }
     }, {
       path: "*",

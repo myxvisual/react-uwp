@@ -2,6 +2,8 @@ import * as React from "react";
 import * as Router from "react-router";
 import * as PropTypes from "prop-types";
 
+import * as tinycolor from "tinycolor2";
+import getStripedBackground from "react-uwp/styles/getStripedBackground";
 import Wrapper from "../Wrapper";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import TreeView from "react-uwp/TreeView";
@@ -209,6 +211,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
           <div
             style={theme.prepareStyles({
               width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
+              ...getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
               minHeight: "100%"
             })}
           >
