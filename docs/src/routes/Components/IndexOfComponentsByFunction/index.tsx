@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import ThemeType from "react-uwp/styles/ThemeType";
 
 import MarkdownRender from "components/MarkdownRender";
+import ComponentDescription from "./components/ComponentDescription";
 
 import CommandBar from "react-uwp/CommandBar";
 import Button from "react-uwp/Button";
@@ -39,12 +40,12 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
           text={
 `# Components
 ---
-The UI framework for Windows provides an extensive library of controls that support UI development. Some of these controls have a visual representation; others function as the containers for other controls or content, such as images and media.
-Here's a list by function of the common controls you can use in your app.`
+The UI framework for Windows provides an extensive library of controls that support UI development. Some of these controls have a visual representation; others function as the containers for other controls or content, such as images and media.`
           }
         />
 
         <MarkdownRender text="## Commands" />
+        <ComponentDescription isChromeMode>
           <CommandBar
             primaryCommands={[
               <AppBarButton icon={"\uE72D"} label="Share" />,
@@ -53,12 +54,13 @@ Here's a list by function of the common controls you can use in your app.`
               <AppBarButton icon="Save" label="Save" />
             ]}
           />
-          <div>
-            <Button>Button</Button>
-            <CheckBox style={buttonsStyle} label="CheckBox Button" />
-            <Radius label="Radius Button" />
-            <Switch style={buttonsStyle} />
-          </div>
+        </ComponentDescription>
+        <div>
+          <Button>Button</Button>
+          <CheckBox style={buttonsStyle} label="CheckBox Button" />
+          <Radius label="Radius Button" />
+          <Switch style={buttonsStyle} />
+        </div>
         <CalendarView />
       </div>
     );
