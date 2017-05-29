@@ -31,7 +31,7 @@ export { default as RenderToBody } from "./RenderToBody";
 export { default as SplitView } from "./SplitView";
 export { default as ScrollBar } from "./ScrollBar";
 export { default as Swipe } from "./Swipe";
-export { default as Switch } from "./Switch";
+export { default as Toggle } from "./Toggle";
 export { default as Theme } from "./Theme";
 export { default as Tooltip } from "./Tooltip";
 export { default as TreeView } from "./TreeView";

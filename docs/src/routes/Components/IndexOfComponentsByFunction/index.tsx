@@ -10,7 +10,7 @@ import AppBarSeparator from "react-uwp/AppBarSeparator";
 import CommandBar from "react-uwp/CommandBar";
 import Button from "react-uwp/Button";
 import AppBarButton from "react-uwp/AppBarButton";
-import Switch from "react-uwp/Switch";
+import Toggle from "react-uwp/Toggle";
 import CheckBox from "react-uwp/CheckBox";
 import RadiusButton from "react-uwp/RadiusButton";
 import HyperLink from "react-uwp/HyperLink";
@@ -71,7 +71,7 @@ The UI framework for Windows provides an extensive library of controls that supp
               <Button style={baseStyle}>Button</Button>
               <CheckBox style={baseStyle} label="CheckBox Button" />
               <RadiusButton style={baseStyle} label="RadiusButton" />
-              <Switch style={baseStyle} />
+              <Toggle style={baseStyle} />
               <HyperLink style={baseStyle}>HyperLink</HyperLink>
               <Slider />
             </div>

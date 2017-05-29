@@ -196,7 +196,6 @@ return (
 
 .react-uwp-markdown .language-math pre {
   margin: 6px 0 6px;
-  background: ${theme.chromeLow};
   padding: 10px;
   width: 100%;
 }

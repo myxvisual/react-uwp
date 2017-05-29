@@ -51,7 +51,7 @@ export default [{
       "titleNode": "TimePicker"
     }]
   }, {
-    "titleNode": "Dialog"
+    "titleNode": "ContentDialog"
   }, {
     "titleNode": "Flyout"
   }, {
