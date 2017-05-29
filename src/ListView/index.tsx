@@ -9,7 +9,7 @@ vendors.map(vendor => vendor[0].toUpperCase() + vendor.slice(1));
 
 export interface Item {
   itemNode?: React.ReactNode;
-  disable?: boolean;
+  disabled?: boolean;
   focus?: boolean;
   style?: React.CSSProperties;
   onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;

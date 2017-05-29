@@ -61,7 +61,7 @@
           "type": "\"left\" | \"right\""
         },
         {
-          "name": "disable",
+          "name": "disabled",
           "documentation": "if `true`, will become `Disabled Button`.",
           "isRequired": false,
           "type": "boolean"

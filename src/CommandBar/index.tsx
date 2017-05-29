@@ -133,7 +133,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
                 items={secondaryCommands.map(itemNode => {
                   if (itemNode.type === AppBarSeparator) {
                     itemNode = React.cloneElement(itemNode, { direction: "row" });
-                    return { itemNode, disable: true, style: { padding: "0 8px" } };
+                    return { itemNode, disabled: true, style: { padding: "0 8px" } };
                   }
                   return { itemNode, onClick: this.toggleExpanded };
                 })}

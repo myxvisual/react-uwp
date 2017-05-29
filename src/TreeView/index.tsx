@@ -7,7 +7,7 @@ import ThemeType from "../styles/ThemeType";
 export interface List extends React.HTMLAttributes<HTMLDivElement> {
   titleNode?: string | React.ReactNode;
   expanded?: boolean;
-  disable?: boolean;
+  disabled?: boolean;
   focus?: boolean;
   visited?: boolean;
   hoverStyle?: CSSStyleDeclaration;
