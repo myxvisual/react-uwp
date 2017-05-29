@@ -186,9 +186,10 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
               style={theme.prepareStyles({
                 height: "auto",
                 overflow: expanded ? void 0 : "hidden",
-                transform: `scaleY(${expanded ? 1 : 0})`,
+                opacity: expanded ? 1 : 0,
+                transform: `translateY(${expanded ? 0 : -listItemHeight }px)`,
                 transformOrigin: "top",
-                transition: "all .125s"
+                transition: "all .125s ease-in-out"
               })}
             >
               {expanded && children.map((list: List[], index) => renderList(list, index, true))}
