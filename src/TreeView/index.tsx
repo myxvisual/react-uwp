@@ -108,8 +108,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
       return (
         <div
           style={{
-            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void 0,
-            overflow: "hidden"
+            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void 0
           }}
           key={`${index}`}
         >
@@ -186,7 +185,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
             <div
               style={theme.prepareStyles({
                 height: "auto",
-                overflow: "hidden",
+                overflow: expanded ? void 0 : "hidden",
                 transform: `scaleY(${expanded ? 1 : 0})`,
                 transformOrigin: "top",
                 transition: "all .125s"
