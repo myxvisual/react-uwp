@@ -139,7 +139,7 @@ return (
 .react-uwp-markdown a {
   font-size: 15px;
   color: ${theme.accent};
-  font-weight: 500;
+  font-weight: lighter;
 }
 
 .react-uwp-markdown h1 {
@@ -214,17 +214,18 @@ return (
   white-space: pre-wrap;
 }
 
-.react-uwp-markdown code {
-  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
-  font-size: 13px;
+.react-uwp-markdown pre {
+  font-size: 14;
 }
 
-.react-uwp-markdown p > code, .react-uwp-markdown li > code  {
+
+.react-uwp-markdown code {
+  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
+  font-size: inherit;
   background: ${theme.chromeLow};
-  font-family: ${theme.fontFamily};
   color: ${theme.accent};
   padding: 2px 4px;
-  font-weight: 500;
+  font-weight: inherit;
 }
 
 .react-uwp-markdown table {

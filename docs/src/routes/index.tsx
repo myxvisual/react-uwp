@@ -163,6 +163,18 @@ function getRoutes(path = "/") {
           ));
         }, "react-uwp-Examples");
       }
+    },  {
+      path: "Layout",
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          const Child = require<any>("./Layout").default;
+          cb(null, () => (
+            <WrapperWithPath>
+              <Child />
+            </WrapperWithPath>
+          ));
+        }, "react-uwp-Layout");
+      }
     }, {
       path: "*",
       getComponent: (location: Location, cb: RouterCallback) => {
