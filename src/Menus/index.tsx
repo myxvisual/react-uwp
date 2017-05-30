@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 
 import { fade } from "../common/colorManipulator";
 import ElementState from "../ElementState";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   direction?: "top" | "right" | "bottom" | "left";

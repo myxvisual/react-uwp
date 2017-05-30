@@ -4,7 +4,6 @@ import * as PropTypes from "prop-types";
 import Button from "../Button";
 import IconButton from "../IconButton";
 import RenderToBody from "../RenderToBody";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   statusBarTitle?: string;

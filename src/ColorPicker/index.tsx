@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "../styles/ThemeType";
 import Slider from "../Slider";
 import * as tinycolor from "tinycolor2";
 

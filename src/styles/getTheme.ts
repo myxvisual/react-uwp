@@ -1,10 +1,8 @@
-import ThemeType from "./ThemeType";
 import { fade, darken, lighten } from "../common/colorManipulator";
 import "./fonts/segoe-mdl2-assets";
 import prefixAll from "../common/prefixAll";
 
-export { ThemeType };
-export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7"): ThemeType {
+export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7"): ReactUWP.ThemeType {
   const isDark = themeName === "Dark";
   const baseHigh = isDark ? "#fff" : "#000";
   const altHigh = isDark ? "#000" : "#fff";

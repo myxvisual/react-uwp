@@ -11,7 +11,6 @@ import getRootPath from "../../common/getRootPath";
 
 import IconButton from "react-uwp/IconButton";
 import FloatNav from "react-uwp/FloatNav";
-import { ThemeType } from "react-uwp/styles/ThemeType";
 
 export interface DataProps {
   onChangeRenderContentWidth?: (renderContentWidth?: string | number, screenType?: "phone" | "tablet" | "laptop" | "pc") => void;

@@ -1,3 +1,3 @@
-import getTheme, { ThemeType } from "./getTheme";
-export { ThemeType };
+import getTheme from "./getTheme";
+
 export default getTheme("Light");

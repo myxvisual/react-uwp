@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "../styles/ThemeType";
 import Link, { LinkProps } from "../Link";
 
 export class HyperLink extends React.Component<LinkProps, void> {

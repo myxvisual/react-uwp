@@ -40,7 +40,6 @@ export { default as addCSSRule } from "./common/browser/addCSSRule";
 export { default as darkTheme } from "./styles/darkTheme";
 export { default as getTheme } from "./styles/getTheme";
 export { default as lightTheme } from "./styles/lightTheme";
-export { ThemeType } from "./styles/ThemeType";
 export { accentColors };
 import * as accentColors from "./styles/accentColors";
 

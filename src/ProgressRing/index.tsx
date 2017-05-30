@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "../styles/ThemeType";
 import vendors from "../common/browser/vendors";
 const vendorPrefixes: string[] = vendors.map(str => str ? `-${str}-` : str);
 

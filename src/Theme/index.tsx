@@ -3,22 +3,21 @@ import * as PropTypes from "prop-types";
 
 import darkTheme from "../styles/darkTheme";
 import getTheme from "../styles/getTheme";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
-  theme?: ThemeType;
+  theme?: ReactUWP.ThemeType;
   autoSaveTheme?: boolean;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface ThemeState {
-  currTheme?: ThemeType;
+  currTheme?: ReactUWP.ThemeType;
 }
 
 const customLocalStorageName = "__REACT_UWP__";
 const themeClassName = "react-uwp-theme";
-const getBaseCSSString = (theme: ThemeType) => `.${themeClassName} * {
+const getBaseCSSString = (theme: ReactUWP.ThemeType) => `.${themeClassName} * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -107,7 +106,7 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
-  saveTheme = (currTheme?: ThemeType) => {
+  saveTheme = (currTheme?: ReactUWP.ThemeType) => {
     currTheme.saveTheme = this.saveTheme;
     localStorage.setItem(customLocalStorageName, JSON.stringify({
       themeName: currTheme.themeName,
@@ -119,7 +118,7 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   getDefaultTheme = () => {
-    let theme: ThemeType;
+    let theme: ReactUWP.ThemeType;
 
     if (this.props.autoSaveTheme) {
       const storageString = localStorage.getItem(customLocalStorageName);

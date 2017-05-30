@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 
 import ElementState from "../ElementState";
 import Icon from "../Icon";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   icon?: string;

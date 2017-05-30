@@ -4,8 +4,6 @@ import * as PropTypes from "prop-types";
 import IconButton from "../IconButton";
 import Icon from "../Icon";
 import Swipe from "../Swipe";
-import ThemeType from "../styles/ThemeType";
-
 
 export interface DataProps {
   initialFocusIndex?: number;

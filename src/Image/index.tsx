@@ -5,7 +5,6 @@ import ReactLazyLoad from "react-lazyload";
 import { DataProps as ReactLazyloadProps } from "react-lazyload";
 
 import Icon from "../Icon";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   isLazyLoad?: boolean;

@@ -2,7 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import DropDownMenu from "../DropDownMenu";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   onChangeDate?: (date: Date) => void;

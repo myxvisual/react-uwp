@@ -2,7 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Flyout from "../Flyout";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {}
 export interface FlyoutWrapperProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}

@@ -4,7 +4,6 @@ import * as PropTypes from "prop-types";
 import shallowEqual from "../common/shallowEqual";
 
 import SlideInOut from "../Animate/SlideInOut";
-import ThemeType from "../styles/ThemeType";
 import IconButton from "../IconButton";
 import SplitViewCommand from "../SplitViewCommand";
 

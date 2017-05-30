@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 
 import AppBarButton from "../AppBarButton";
 import AppBarSeparator from "../AppBarSeparator";
-import ThemeType from "../styles/ThemeType";
 import ListView from "../ListView";
 
 export interface DataProps {

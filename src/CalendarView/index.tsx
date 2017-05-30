@@ -7,7 +7,6 @@ import FadeInOut from "../Animate/FadeInOut";
 import Icon from "../Icon";
 import MonthPicker from "./MonthPicker";
 import ScaleInOut from "../Animate/ScaleInOut";
-import ThemeType from "../styles/ThemeType";
 import YearPicker from "./YearPicker";
 
 export interface DataProps {

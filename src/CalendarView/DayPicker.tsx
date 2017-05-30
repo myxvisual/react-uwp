@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 
 import  * as dateUtils from "../common/date.utils";
 import SlideInOut from "../Animate/SlideInOut";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   date?: Date;

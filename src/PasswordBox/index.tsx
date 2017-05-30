@@ -3,8 +3,6 @@ import * as PropTypes from "prop-types";
 
 import Input from "../Input";
 import Icon from "../Icon";
-import ThemeType from "../styles/ThemeType";
-
 
 export interface DataProps {
   showIcon?: boolean;

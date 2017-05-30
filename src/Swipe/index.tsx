@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   initialFocusIndex?: number;

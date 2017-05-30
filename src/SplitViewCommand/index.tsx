@@ -2,7 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
-import ThemeType from "../styles/ThemeType";
 
 export interface DataProps {
   labelNode?: any;

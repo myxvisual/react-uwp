@@ -120,6 +120,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-style-Icons");
         }
       }, {
+        path: "Animate",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Animate").default);
+          }, "react-uwp-Styles-Animate");
+        }
+      }, {
         path: "Colors",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

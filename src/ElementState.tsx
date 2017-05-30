@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "./styles/ThemeType";
 import setStyleToElement from "./common/setStyleToElement";
 
 export interface DataProps {

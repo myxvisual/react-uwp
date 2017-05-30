@@ -2,7 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ElementState from "../ElementState";
-import ThemeType from "../styles/ThemeType";
 import Icon from "../Icon";
 
 export interface DataProps {

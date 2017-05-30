@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
 import Image from "../Image";
-import ThemeType from "../styles/ThemeType";
 import shallowEqual from "../common/shallowEqual";
 import { fade } from "../common/colorManipulator";
 

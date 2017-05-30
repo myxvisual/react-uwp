@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "../styles/ThemeType";
-
 export interface DataProps {
   hoverStyle?: React.CSSProperties;
   focusStyle?: React.CSSProperties;
