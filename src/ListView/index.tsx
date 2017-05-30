@@ -68,7 +68,7 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
         }}
       >
         {currItems && currItems.map((item, index) => {
-          const { itemNode, disable, focus, style, onClick } = item;
+          const { itemNode, disabled, focus, style, onClick } = item;
           const { isDarkTheme } = theme;
           const defaultBG = focus ? theme.listAccentLow : theme.chromeLow;
           const focusBG = focus ? theme.listAccentMedium : theme.chromeMedium;
@@ -77,19 +77,19 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
             <div
               style={theme.prepareStyles({
                 background: defaultBG,
-                color: disable ? theme.baseLow : theme.baseHigh,
+                color: disabled ? theme.baseLow : theme.baseHigh,
                 ...styles.item,
                 ...style
               })}
               key={`${index}`}
               onClick={onClick}
-              onMouseEnter={disable ? void(0) : (e) => {
+              onMouseEnter={disabled ? void(0) : (e) => {
                 e.currentTarget.style.background = focusBG;
               }}
-              onMouseLeave={disable ? void(0) : (e) => {
+              onMouseLeave={disabled ? void(0) : (e) => {
                 e.currentTarget.style.background = defaultBG;
               }}
-              onMouseDown={disable ? void(0) : (e) => {
+              onMouseDown={disabled ? void(0) : (e) => {
                 item.focus = true;
                 this.setState({ currItems });
                 for (const vendor of vendors) {
@@ -99,7 +99,7 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
                 e.currentTarget.style.transform = "scale(0.99)";
                 e.currentTarget.style.background = clickBG;
               }}
-              onMouseUp={disable ? void(0) : (e) => {
+              onMouseUp={disabled ? void(0) : (e) => {
                 item.focus = false;
                 for (const vendor of vendors) {
                   e.currentTarget.style[`${vendor}Transform` as any] = "scale(1)";
