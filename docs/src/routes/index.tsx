@@ -63,7 +63,7 @@ function getRoutes(path = "/") {
           require.ensure([], (require) => {
             const HomeComponent = require<any>("./Components/IndexOfComponentsByFunction").default;
             cb(null, () => <HomeComponent style={{ padding: 20 }} />);
-          }, "react-uwp-components-IndexOfComponentsByFunction");
+          }, "react-uwp-Components-IndexOfComponentsByFunction");
         }
       },
       childRoutes: [{
@@ -71,45 +71,45 @@ function getRoutes(path = "/") {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/CommandBar").default);
-          }, "react-uwp-components-CommandBar");
+          }, "react-uwp-Components-CommandBar");
         }
       }, {
         path: "AutoSuggestBox",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/AutoSuggestBox").default);
-          }, "react-uwp-components-AutoSuggestBox");
+          }, "react-uwp-Components-AutoSuggestBox");
         }
       }, {
         path: "Button",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/Button").default);
-          }, "react-uwp-components-Button");
+          }, "react-uwp-Components-Button");
         }
       }, {
         path: "CheckBox",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/CheckBox").default);
-          }, "react-uwp-components-CheckBox");
+          }, "react-uwp-Components-CheckBox");
         }
       }, {
         path: "ColorPicker",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/ColorPicker").default);
-          }, "react-uwp-components-ColorPicker");
+          }, "react-uwp-Components-ColorPicker");
         }
       }]
     }, {
-      path: "styles",
+      path: "Styles",
       component: WrapperWithPath,
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Styles/Colors").default);
-          }, "react-uwp-style-Colors");
+          }, "react-uwp-Styles-Colors");
         }
       },
       childRoutes: [{
@@ -124,7 +124,7 @@ function getRoutes(path = "/") {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Styles/Colors").default);
-          }, "react-uwp-style-Colors");
+          }, "react-uwp-Styles-Colors");
         }
       }]
     }, {
@@ -185,7 +185,7 @@ function getRoutes(path = "/") {
               <Child />
             </WrapperWithTheme>
           ));
-        }, "react-uwp-style-NotFound");
+        }, "react-uwp-NotFound");
       }
     }]
   };
