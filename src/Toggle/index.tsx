@@ -88,6 +88,7 @@ function getStyles(context: Toggle): {
   const itemSize = Number(height) / 1.5;
   return {
     root: theme.prepareStyles({
+      userSelect: "none",
       position: "relative",
       display: "inline-block",
       verticalAlign: "middle",
