@@ -40,7 +40,7 @@ ReactDOM.render(
 **./MyComponent.js**
 ```jsx
 import * as React from "react";
-import Button from "material-ui/Button";
+import Button from "react-uwp/Button";
 
 export default class MyComponent extends React.Component<void, void> {
   render() {
