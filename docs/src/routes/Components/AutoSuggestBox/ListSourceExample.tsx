@@ -13,7 +13,7 @@ const autoSuggestBoxStyle: React.CSSProperties = {
   margin: "20px 0"
 };
 
-export default class ListSourceExample extends React.Component<void, ListSourceExampleState> {
+export default class ListSourceExample extends React.Component<{}, ListSourceExampleState> {
   state: ListSourceExampleState = {
     listSource: []
   };

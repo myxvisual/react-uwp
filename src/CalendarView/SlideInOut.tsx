@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactTransitionGroup from "react-addons-transition-group";
+import { TransitionGroup as ReactTransitionGroup } from "react-transition-group";
 
 import SlideInOutChild from "./SlideInOutChild";
 

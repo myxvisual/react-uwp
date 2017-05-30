@@ -5,7 +5,7 @@ import CheckBox from "react-uwp/CheckBox";
 const checkBoxStyle: React.CSSProperties = {
   margin: 10
 };
-export default class SimpleExample extends React.Component<void, void> {
+export default class SimpleExample extends React.Component<{}, void> {
   render() {
     return (
       <div>

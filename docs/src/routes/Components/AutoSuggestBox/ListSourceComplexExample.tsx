@@ -21,7 +21,7 @@ const colors = ["Blue", "Red", "Green", "Grey", "Black", "Yellow", "Purple", "Br
   </div>
 ));
 
-export default class ListSourceComplexExample extends React.Component<void, ListSourceExampleState> {
+export default class ListSourceComplexExample extends React.Component<{}, ListSourceExampleState> {
   state: ListSourceExampleState = {
     listSource: colors.slice(0, 5) as any
   };

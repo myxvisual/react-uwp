@@ -10,7 +10,7 @@ export interface RouterCallback {
 }
 
 let WrapperWithPath:  new() => React.Component<any, any>;
-class WrapperWithTheme extends React.Component<void, void> {
+class WrapperWithTheme extends React.Component<{}, void> {
   render() {
     const { children } = this.props;
     return (
