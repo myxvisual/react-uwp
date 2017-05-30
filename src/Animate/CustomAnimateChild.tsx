@@ -6,7 +6,6 @@ import { DataProps } from "./CustomAnimate";
 export default class CustomAnimateChild extends React.Component<DataProps, void> {
   enterTimer: any;
   leaveTimer: any;
-  leaveCallback = () => {};
   displayStyleTimer: any;
   rootElm: HTMLSpanElement;
 
@@ -30,45 +29,40 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
   componentWillEnter(callback: () => void) {
     const { mode, speed, enterDelay } = this.props;
     clearTimeout(this.leaveTimer);
-    if (mode !== "out") {
-      const isInOut = mode === "in-out";
-      const { style } = this.rootElm;
-      const { display } = style;
-      style.display = "none";
-      this.initializeAnimation();
-      this.displayStyleTimer = setTimeout(() => {
-        style.display = display;
-      }, speed / 2 + enterDelay);
+    const { style } = this.rootElm;
+    const { display } = style;
+    style.display = "none";
+    this.displayStyleTimer = setTimeout(() => {
+      style.display = display;
+    }, (mode === "in" ? 0 : speed) + enterDelay);
+
+    if (mode === "out") {
       this.enterTimer = setTimeout(() => {
-        style.display = display;
         this.animate();
         callback();
-      }, speed + enterDelay);
-    } else {
-      callback();
+      }, speed);
+      return;
     }
-  }
 
-  componentDidEnter() {
-    if (this.props.mode !== "out") this.animate();
+    this.initializeAnimation();
+
+    this.enterTimer = setTimeout(() => {
+      style.display = display;
+      this.animate();
+      callback();
+    }, mode === "in" ? 40 + enterDelay : speed + 40 + enterDelay);
   }
 
   componentWillLeave(callback: () => void) {
     if (this.props.mode !== "in") {
       this.initializeAnimation();
-      this.leaveCallback = callback;
       this.leaveTimer = setTimeout(() => {
         this.rootElm.style.display = "none";
-        this.leaveCallback();
+        callback();
       }, this.props.speed + this.props.leaveDelay);
     } else {
+      this.rootElm.style.display = "none";
       callback();
-    }
-  }
-
-  componentDidLeave() {
-    if (this.props.mode !== "in") {
-      this.initializeAnimation();
     }
   }
 
