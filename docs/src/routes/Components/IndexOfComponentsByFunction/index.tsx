@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
-
 import MarkdownRender from "components/MarkdownRender";
 import ComponentDescription from "./components/ComponentDescription";
 
@@ -19,7 +17,7 @@ import Slider from "react-uwp/Slider";
 
 export default class IndexOfComponentsByFunction extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

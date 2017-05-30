@@ -24,7 +24,7 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, isNow: boolean) => {
     const { theme } = this.context;

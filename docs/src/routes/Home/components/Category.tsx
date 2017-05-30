@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import { Link } from 'react-router'
-
-import ThemeType from "react-uwp/styles/ThemeType";
+import { Link } from "react-router";
 
 export interface DataProps {
   title?: string;
@@ -17,7 +15,7 @@ export default class Category extends React.Component<CategoryProps, void> {
   static defaultProps: CategoryProps = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

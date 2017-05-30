@@ -20,7 +20,7 @@ export interface ImageState {
 
 class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { ...attributes } = this.props;
@@ -53,7 +53,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   state: ImageState = {
     showEmptyImage: false

@@ -2,7 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { Link } from "react-router";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import Icon from "react-uwp/Icon";
 import { WrapperState } from "components/Wrapper";
 
@@ -23,7 +22,7 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps, voi
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

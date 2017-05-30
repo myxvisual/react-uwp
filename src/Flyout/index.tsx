@@ -34,7 +34,7 @@ class Flyout extends React.Component<FlyoutProps, FlyoutState> {
   refs: { flyoutElm: HTMLDivElement };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   toggleShowFlyout = (showFlyout?: boolean) => {
     if (typeof showFlyout === "boolean") {

@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
-
 export interface DataProps {
   leftTopStart?: boolean;
   dotSize?: number;
@@ -26,7 +24,7 @@ export default class AnimateTitle extends React.Component<AnimateTitleProps, Ani
   state: AnimateTitleState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     this.setState({ hovered: true });

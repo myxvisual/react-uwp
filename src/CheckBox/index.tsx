@@ -43,7 +43,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   /**
    * rootElm `HTMLDivElement`

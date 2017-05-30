@@ -12,7 +12,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, void> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { ...attributes } = this.props;

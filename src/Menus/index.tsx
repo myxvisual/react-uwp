@@ -32,7 +32,7 @@ export default class Menus extends React.Component<MenusProps, MenusState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   state: MenusState = { currShowItems: this.props.showItems };
 

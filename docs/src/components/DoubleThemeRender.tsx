@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/styles/getTheme";
 
@@ -14,7 +13,7 @@ export interface DoubleThemeRenderProps extends React.HTMLAttributes<HTMLDivElem
 
 export default class DoubleThemeRender extends React.Component<DoubleThemeRenderProps, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { children, direction, themeStyle, useBorder, useChromeColor, ...attributes } = this.props;

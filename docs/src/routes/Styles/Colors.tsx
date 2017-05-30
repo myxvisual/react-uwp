@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import DropDownMenu from "react-uwp/DropDownMenu";
 import MarkdownRender from "components/MarkdownRender";
 import * as accentColors from "react-uwp/styles/accentColors";
@@ -53,7 +52,7 @@ const accentColorPluValues = [
   "A400",
   "A700"
 ];
-const getColorInfos = (theme: ThemeType) => {
+const getColorInfos = (theme: ReactUWP.ThemeType) => {
   const baseColor = theme.isDarkTheme ? "White" : "Black";
   const altColor = !theme.isDarkTheme ? "White" : "Black";
   return {
@@ -118,7 +117,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
   handleChangeColor = (value: string) => {
     this.setState({
       showColorName: value as any
@@ -312,11 +311,10 @@ export default class ThemeWrapper extends React.component<void, void> {
   \`\`\`jsx
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import ThemeType from "react-uwp/styles/ThemeType";
 
 export default class ThemeChild extends React.component<void, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     return (

@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import MarkdownRender from "./MarkdownRender";
 
 export interface DocEntry {
@@ -30,7 +29,7 @@ export default class ComponentDescription extends React.Component<ComponentDescr
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   getDefaultExportName = () => {
     const { docEntry } = this.props;

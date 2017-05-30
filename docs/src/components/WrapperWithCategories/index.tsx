@@ -8,7 +8,6 @@ import Wrapper from "../Wrapper";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import TreeView from "react-uwp/TreeView";
 import Icon from "react-uwp/Icon";
-import ThemeType from "react-uwp/styles/ThemeType";
 
 import listItemsData from "./categories";
 
@@ -96,7 +95,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
   searchTimeout: any = null;
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   handleChangeValue = (value: string) => {
     const { listItems } = this.state;

@@ -28,7 +28,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
     hovered: false
   };
 
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
   static contextTypes = { theme: PropTypes.object };
 
   handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {

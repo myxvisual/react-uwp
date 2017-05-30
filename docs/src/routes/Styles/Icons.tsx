@@ -4,7 +4,6 @@ import * as PropTypes from "prop-types";
 import Icon, { icons } from "react-uwp/Icon";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import Tooltip from "react-uwp/Tooltip";
-import ThemeType from "react-uwp/styles/ThemeType";
 
 const iconNames = Object.keys(icons);
 
@@ -43,7 +42,7 @@ export interface IconsState {
 
 export default class Icons extends React.Component<void, IconsState> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   state: IconsState = {
     currIconNames: iconNames

@@ -38,7 +38,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
     onChangeRenderContentWidth: emptyFunc
   };
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   state: WrapperState = {};
 

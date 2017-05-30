@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 
 import * as tinycolor from "tinycolor2";
 import getStripedBackground from "react-uwp/styles/getStripedBackground";
-import ThemeType from "react-uwp/styles/ThemeType";
 import Icon from "react-uwp/Icon";
 
 export interface DataProps {
@@ -22,7 +21,7 @@ export default class NotFound extends React.Component<NotFoundProps, NotFoundSta
   state: NotFoundState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

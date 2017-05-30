@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import MarkdownRender from "components/MarkdownRender";
 import * as readMeText from "!raw!./README.md";
 
@@ -17,7 +16,7 @@ export default class GetStarted extends React.Component<GetStartedProps, GetStar
   state: GetStartedState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

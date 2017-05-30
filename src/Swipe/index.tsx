@@ -47,7 +47,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   isSingleChildren = React.Children.count(this.props.children) === 1;
 

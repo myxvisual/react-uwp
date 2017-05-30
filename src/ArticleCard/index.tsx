@@ -35,7 +35,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   getNormalColor = (context: { theme: ThemeType }) => (
     Math.random() < 0.875 ?

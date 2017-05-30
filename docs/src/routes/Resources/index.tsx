@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import * as tinycolor from "tinycolor2";
 import getStripedBackground from "react-uwp/styles/getStripedBackground";
 import { WrapperState } from "components/Wrapper";
@@ -15,7 +14,7 @@ export default class Resources extends React.Component<ResourcesProps, void> {
   static defaultProps: ResourcesProps = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

@@ -16,7 +16,7 @@ export interface AppBarButtonButtonProps extends DataProps, React.HTMLAttributes
 
 export default class AppBarButtonButton extends React.Component<AppBarButtonButtonProps, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

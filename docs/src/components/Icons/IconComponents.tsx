@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
-
 export interface DataProps {}
 
 export interface IconComponentsProps extends DataProps, React.HTMLAttributes<SVGElement> {}
@@ -13,7 +11,7 @@ export default class IconComponents extends React.Component<IconComponentsProps,
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

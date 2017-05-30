@@ -39,7 +39,7 @@ export default class Input extends React.Component<InputProps, InputState> {
   input: HTMLInputElement;
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   handleClick = (e?: React.MouseEvent<HTMLDivElement>) => {
     this.setState({ hovered: false });

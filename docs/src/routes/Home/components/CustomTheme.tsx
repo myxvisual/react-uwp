@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import getTheme from "react-uwp/styles/getTheme";
 import Icon from "react-uwp/Icon";
 import DropDownMenu from "react-uwp/DropDownMenu";
@@ -21,7 +20,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
   state: CustomThemeState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

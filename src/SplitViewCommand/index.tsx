@@ -26,7 +26,7 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
   displayName: "SplitViewCommand";
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   shouldComponentUpdate(nextProps: SplitViewCommandProps, nextState: SplitViewCommandState) {
     return nextProps !== this.props || nextState !== this.state;

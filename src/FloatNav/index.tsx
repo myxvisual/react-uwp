@@ -44,7 +44,7 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: FloatNavProps) {
     this.setState({

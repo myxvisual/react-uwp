@@ -70,7 +70,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
   SplitViewCommands: SplitViewCommand[] = [];
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentDidMount() {
     this.autoResize();

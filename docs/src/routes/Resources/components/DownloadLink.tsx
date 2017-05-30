@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import Icon from "react-uwp/Icon";
 
 export interface DataProps {
@@ -15,7 +14,7 @@ export default class DownloadLink extends React.Component<DownloadLinkProps, voi
   static defaultProps: DownloadLinkProps = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

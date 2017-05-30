@@ -12,7 +12,7 @@ export default class FlyoutWrapper extends React.Component<FlyoutWrapperProps, F
   static defaultProps: FlyoutWrapperProps = {  };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { style, children, ...attributes } = this.props;

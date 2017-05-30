@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import  * as Prism from "prismjs";
 import "prismjs/components/prism-jsx.min.js";
 import  * as marked from "marked";
@@ -18,7 +17,7 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillMount() {
     marked.setOptions({
@@ -96,7 +95,7 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
 }
 
 
-function getCSSString(theme: ThemeType) {
+function getCSSString(theme: ReactUWP.ThemeType) {
 return (
 `.react-uwp-markdown {
   /** background: ${theme.chromeMedium}; **/

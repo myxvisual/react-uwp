@@ -49,7 +49,7 @@ export class Button extends React.Component<ButtonProps, {}> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   refs: { container: HTMLButtonElement };
 

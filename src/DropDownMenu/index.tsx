@@ -54,7 +54,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: DropDownMenuProps) {
     if (!Array.isArray(nextProps.values)) return;

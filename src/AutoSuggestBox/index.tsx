@@ -51,7 +51,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   /**
    * `Input` component.

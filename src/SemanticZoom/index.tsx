@@ -18,7 +18,7 @@ export default class SemanticZoom extends React.Component<SemanticZoomProps, Sem
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   toggleShowController = (showController?: boolean) => {
     if (typeof showController === "boolean" && showController !== this.state.showController) {

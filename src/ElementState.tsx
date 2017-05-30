@@ -51,7 +51,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
   static contextTypes = { theme: PropTypes.object };
 
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
   currentDOM: HTMLElement;
   visitedStyle: React.CSSProperties = {};
 

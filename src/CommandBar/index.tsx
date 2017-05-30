@@ -66,7 +66,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: CommandBarProps) {
     const { expanded } = nextProps;

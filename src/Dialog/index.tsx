@@ -19,7 +19,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: DialogProps) {
     const { show } = nextProps;

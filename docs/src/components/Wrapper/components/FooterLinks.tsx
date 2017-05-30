@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
-
 export interface DataProps {
   title?: string;
   links?: React.HTMLAttributes<HTMLAnchorElement>[];
@@ -13,7 +11,7 @@ export interface FooterLinksProps extends DataProps, React.HTMLAttributes<HTMLDi
 export default class FooterLinks extends React.Component<FooterLinksProps, void> {
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

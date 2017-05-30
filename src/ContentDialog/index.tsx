@@ -41,7 +41,7 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
   refs: { renderToBody: RenderToBody };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   getShowStatus = () => this.state.showDialog;
 

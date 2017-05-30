@@ -9,7 +9,7 @@ export interface MenuFlyoutProps extends DataProps, React.HTMLAttributes<HTMLDiv
 
 export default class MenuFlyout extends React.Component<MenuFlyoutProps, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { ...attributes } = this.props;

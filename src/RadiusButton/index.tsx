@@ -32,7 +32,7 @@ export default class RadiusButton extends React.Component<RadiusButtonProps, Rad
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
   rootElm: HTMLSpanElement;
 
   componentWillReceiveProps(nextProps: RadiusButtonProps) {

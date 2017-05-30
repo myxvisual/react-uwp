@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
-
 export interface DataProps {}
 
 export interface ExamplesProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -11,7 +9,7 @@ export default class Examples extends React.Component<ExamplesProps, void> {
   static defaultProps: ExamplesProps = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

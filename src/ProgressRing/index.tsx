@@ -56,7 +56,7 @@ export default class ProgressRing extends React.Component<ProgressRingProps, voi
     delay: 150
   };
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

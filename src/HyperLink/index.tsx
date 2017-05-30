@@ -6,7 +6,7 @@ import Link, { LinkProps } from "../Link";
 
 export class HyperLink extends React.Component<LinkProps, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     return (

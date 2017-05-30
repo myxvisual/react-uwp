@@ -33,7 +33,7 @@ export default class PasswordBox extends React.Component<PasswordBoxProps, Passw
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   refs: { input: Input };
 

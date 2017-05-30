@@ -42,7 +42,7 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
     focusSwipeIndex: 0,
     currCanAutoSwipe: this.props.autoSwipe
   };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
   rootElm: HTMLDivElement;
   swipe: Swipe;
 

@@ -53,7 +53,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nexProps: TreeViewProps) {
     this.setState({

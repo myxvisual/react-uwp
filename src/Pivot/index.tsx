@@ -13,7 +13,7 @@ export default class Pivot extends React.Component<PivotProps, PivotState> {
   state: PivotState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { ...attributes } = this.props;

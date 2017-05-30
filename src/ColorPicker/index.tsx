@@ -33,7 +33,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   state: ColorPickerState = tinycolor(this.props.defaultColor).toHsv();
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
   canvas?: HTMLCanvasElement;
   ctx?: CanvasRenderingContext2D;
   moveColorTimer: any = null;

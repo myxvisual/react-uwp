@@ -16,7 +16,7 @@ export default class Link extends React.Component<LinkProps, LinkState> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   state: LinkState = {};
   shouldComponentUpdate(nextProps: LinkProps, nextState: LinkState, nextContext: any) {

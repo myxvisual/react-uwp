@@ -27,7 +27,7 @@ export default class DatePicker extends React.Component<DatePickerProps, DatePic
   dropDownMenus: DropDownMenu[] = [];
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   handelChangeDate = (date: string) => {
     this.props.onChangeDate(this.getDate());

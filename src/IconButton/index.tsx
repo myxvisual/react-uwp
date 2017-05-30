@@ -18,7 +18,7 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
     size: 48
   };
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { style, hoverStyle, activeStyle, children, size, ...attributes } = this.props;

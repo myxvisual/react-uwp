@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
-
 import MainTitleCenter from "./MainTitleCenter";
 import Category from "./Category";
 import IconComponents from "components/Icons/IconComponents";
@@ -20,7 +18,7 @@ const CATEGORY_STYLE: React.CSSProperties = {
 };
 export default class Categories extends React.Component<CategoriesProps, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { ...attributes } = this.props;

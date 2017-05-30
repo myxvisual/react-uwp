@@ -53,7 +53,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
   barElm: HTMLDivElement;
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
   handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     this.setState({ hovered: true });
     this.props.onMouseEnter(e);

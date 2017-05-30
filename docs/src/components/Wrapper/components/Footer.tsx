@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import FooterLinks from "./FooterLinks";
 
 export interface DataProps {
@@ -16,7 +15,7 @@ export default class Footer extends React.Component<FooterProps, void> {
     footerHeight: 280
   };
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

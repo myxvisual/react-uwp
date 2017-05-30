@@ -2,7 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { Link } from "react-router";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import IconButton from "react-uwp/IconButton";
 import NavLink from "./NavLink";
@@ -22,7 +21,7 @@ export default class Header extends React.Component<HeaderProps, void> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

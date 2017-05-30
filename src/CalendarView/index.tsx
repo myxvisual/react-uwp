@@ -43,7 +43,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   nextAction = () => {
     const { viewDate, currPickerMode } = this.state;

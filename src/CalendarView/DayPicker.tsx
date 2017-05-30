@@ -23,7 +23,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, date: Date, isCurrMonth: boolean, isNow: boolean) => {
     if (isNow) return;

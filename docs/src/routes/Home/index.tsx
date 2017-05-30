@@ -3,7 +3,6 @@ import * as ReactRouter from "react-router";
 import * as PropTypes from "prop-types";
 
 import FlipView, { FlipViewProps } from "react-uwp/FlipView";
-import ThemeType from "react-uwp/styles/ThemeType";
 import { WrapperState } from "components/Wrapper";
 import FlipViewItem from "./components/FlipViewItem";
 import Categories from "./components/Categories";
@@ -23,7 +22,7 @@ export interface HomeState {}
 
 export default class Home extends React.Component<HomeProps, HomeState> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   state: HomeState = {
     showFocus: true

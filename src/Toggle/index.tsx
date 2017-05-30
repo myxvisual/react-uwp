@@ -28,7 +28,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     currChecked: this.props.checked
   };
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: ToggleProps) {
     this.setState({ currChecked: nextProps.checked });

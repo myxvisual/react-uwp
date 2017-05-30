@@ -36,7 +36,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
   unShowTimer: any = null;
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillUnmount() {
     clearTimeout(this.timer);

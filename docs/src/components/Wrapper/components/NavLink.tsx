@@ -2,8 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { Link, LinkProps } from "react-router";
 
-import ThemeType from "react-uwp/styles/ThemeType";
-
 export interface DataProps {
   headerHeight?: number;
 }
@@ -25,7 +23,7 @@ export default class NavLink extends React.Component<NavLinkProps, NavLinkState>
   state: NavLinkState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!this.state.hovered) {

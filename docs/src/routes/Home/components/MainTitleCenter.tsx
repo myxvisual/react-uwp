@@ -2,7 +2,6 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { Link } from "react-router";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import HyperLink from "react-uwp/HyperLink";
 import ElementState from "react-uwp/ElementState";
 import Icon from "react-uwp/Icon";
@@ -20,7 +19,7 @@ export default class MainTitleCenter extends React.PureComponent<MainTitleCenter
   static defaultProps: MainTitleCenterProps = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

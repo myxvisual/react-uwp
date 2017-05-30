@@ -15,7 +15,7 @@ export default class Separator extends React.Component<SeparatorProps, Separator
   state: SeparatorState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

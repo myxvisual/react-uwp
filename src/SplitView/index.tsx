@@ -13,7 +13,7 @@ export default class SplitView extends React.Component<SplitViewProps, SplitView
   state: SplitViewState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { ...attributes } = this.props;

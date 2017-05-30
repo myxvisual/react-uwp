@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ThemeType from "react-uwp/styles/ThemeType";
 import Icon from "react-uwp/Icon";
 import Tooltip from "react-uwp/Tooltip";
 import MarkdownRender from "./MarkdownRender";
@@ -26,7 +25,7 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
   state: CodeExampleState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   toggleShowCode = (showCode?: any) => {
     if (typeof showCode === "boolean") {

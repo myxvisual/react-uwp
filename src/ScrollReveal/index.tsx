@@ -15,7 +15,7 @@ export default class ScrollReveal extends React.Component<ScrollRevealProps, Scr
   state: ScrollRevealState = {};
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { ...attributes } = this.props;

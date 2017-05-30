@@ -37,7 +37,7 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
   };
 
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ThemeType };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: ListViewProps) {
     this.updateProps2State(nextProps);
