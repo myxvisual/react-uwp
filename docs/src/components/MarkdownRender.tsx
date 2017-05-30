@@ -170,7 +170,7 @@ return (
   margin: 4px 0;
   border: 0;
   width: 100%;
-  border-top: 2px solid ${theme.accent};
+  border-top: 2px solid ${theme.listAccentMedium};
 }
 
 .react-uwp-markdown ol > li {
@@ -183,7 +183,7 @@ return (
 }
 
 .react-uwp-markdown blockquote {
-  border-left: 4px solid ${theme.accent};
+  border-left: 2px solid ${theme.listAccentLow};
   padding-left: 15px;
   margin: 20px 0px 35px;
 }
@@ -203,7 +203,7 @@ return (
   font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
   background: ${theme.chromeLow};
   border: 1px solid ${theme.listLow};
-  border-left: 4px solid ${theme.accent} !important;
+  border-left: 2px solid ${theme.listAccentLow} !important;
   border-radius: 0 !important;
   padding: 12px;
   margin: 10px 0;
