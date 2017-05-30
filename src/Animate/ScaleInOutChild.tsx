@@ -21,24 +21,36 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
     speed: 500
   };
 
-  enterTimer: number;
-  leaveTimer: number;
+  enterTimer: any;
+  leaveTimer: any;
   rootElm: HTMLDivElement;
 
   componentWillAppear = this.props.appearAnimate ? (callback: () => void) => {
     if (this.props.mode !== "out") {
       this.initializeAnimation(callback);
-    } else { callback(); };
+    } else { callback(); }
   } : void 0;
 
   componentDidAppear = this.props.appearAnimate ? () => {
-    if (this.props.mode !== "out") this.animate();
+    if (this.props.mode !== "out") {
+      this.enterTimer = setTimeout(() => {
+        this.animate();
+      }, this.props.enterDelay);
+    }
   } : void 0;
 
   componentWillEnter(callback: () => void) {
     if (this.props.mode !== "out") {
-      this.initializeAnimation(callback);
-    } else { callback(); }
+      const display = this.rootElm.style.display;
+      this.rootElm.style.display = "none";
+
+      this.enterTimer = setTimeout(() => {
+        this.rootElm.style.display = display;
+        this.initializeAnimation(callback);
+      }, this.props.speed * 2 + this.props.enterDelay);
+    } else {
+      callback();
+    }
   }
 
   componentDidEnter() {
@@ -49,7 +61,6 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
     if (this.props.mode !== "in") {
       this.initializeAnimation(callback, true);
     } else {
-      this.rootElm.style.display = "none";
       callback();
     }
   }

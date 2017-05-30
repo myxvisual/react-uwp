@@ -4,6 +4,7 @@ import { Link } from "react-router";
 
 import ThemeType from "react-uwp/styles/ThemeType";
 import HyperLink from "react-uwp/HyperLink";
+import ElementState from "react-uwp/ElementState";
 import Icon from "react-uwp/Icon";
 
 export interface DataProps {
@@ -39,14 +40,16 @@ export default class MainTitleCenter extends React.PureComponent<MainTitleCenter
       >
         <h5 style={styles.title}>{title}</h5>
         <p style={styles.description}>{description}</p>
-        <Link to={link} style={styles.link}>
-          <HyperLink>
-            {linkInfo}
-          </HyperLink>
-          <Icon style={{ marginLeft: 4 }}>
-            ScrollChevronRightLegacy
-          </Icon>
-        </Link>
+        <ElementState style={styles.link} hoverStyle={{ color: theme.baseMediumHigh }}>
+          <Link to={link}>
+            <span>
+              {linkInfo}
+            </span>
+            <Icon style={theme.prepareStyles({ marginLeft: 4, transition: styles.link.transition })}>
+              ScrollChevronRightLegacy
+            </Icon>
+          </Link>
+        </ElementState>
       </div>
     );
   }
@@ -83,11 +86,15 @@ function getStyles(mainTitleCenter: MainTitleCenter): {
       fontSize: 13,
       fontWeight: "lighter"
     },
-    link: {
+    link: theme.prepareStyles({
+      transition: "all .25s ease-in-out",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
       textDecoration: "none",
       color: theme.accent,
       fontSize: 12,
       marginTop: 12
-    }
+    })
   };
 }

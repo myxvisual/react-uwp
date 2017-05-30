@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ThemeType from "react-uwp/styles/ThemeType";
+import FadeInOut from "react-uwp/Animate/FadeInOut";
 import ReactIcon from "components/ReactIcon";
 
 export interface DataProps {
@@ -35,6 +36,9 @@ export default class Banner extends React.Component<BannerProps, void> {
             Built with React <br />
             React-UWP’s robust, up-to-date components are built with React
           </p>
+          <FadeInOut enterDelay={1000}>
+            <p>ASD</p>
+          </FadeInOut>
         </div>
       </div>
     );

@@ -25,6 +25,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
 
   render() {
     const {
+      renderContentWidth,
       ...attributes
     } = this.props;
     const { theme } = this.context;

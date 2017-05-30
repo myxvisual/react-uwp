@@ -197,8 +197,8 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
       >
         <div style={styles.title}>
           <FadeInOut
-            appearAnimate={true}
-            speed={200}
+            appearAnimate={false}
+            speed={100}
             direction={direction}
             style={{
               overflow: "hidden"
@@ -211,9 +211,14 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
                 justifyContent: "flex-start"
               })
             }}
-            key={`${currPickerMode} ${viewDate.toISOString().slice(0, 10)}`}
           >
-            <p style={{ cursor: "pointer" }} onClick={this.togglePickerMode}>{title}</p>
+            <p
+              style={{ cursor: "pointer" }}
+              onClick={this.togglePickerMode}
+              key={`${currPickerMode} ${viewDate.toISOString().slice(0, 10)}`}
+            >
+              {title}
+            </p>
           </FadeInOut>
           <div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
             <Icon

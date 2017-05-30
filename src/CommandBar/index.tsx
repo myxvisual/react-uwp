@@ -94,6 +94,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
       flowDirection, // tslint:disable-line:no-unused-variable
       expanded,
       isMinimal,
+      verticalPosition,
       ...attributes
     } = this.props;
     const { currExpanded } = this.state;

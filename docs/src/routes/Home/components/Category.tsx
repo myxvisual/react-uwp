@@ -41,7 +41,7 @@ export default class Category extends React.Component<CategoryProps, void> {
         </div>
         <div>
           <h5 style={styles.title}>{title}</h5>
-          <p>{description}</p>
+          <span>{description}</span>
         </div>
       </Link>
     );

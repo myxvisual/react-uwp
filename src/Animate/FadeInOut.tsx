@@ -50,7 +50,6 @@ export default class FadeInOut extends React.Component<FadeInOutProps, FadeInOut
       <ReactTransitionGroup
         {...others as any}
         style={styles.root}
-        component="div"
       >
         {React.Children.map(children, (child: any, index) => (
           <FadeInOutChild
@@ -81,8 +80,6 @@ function getStyles(fadeInOut: FadeInOut): {
 
   return {
     root: {
-      width: "100%",
-      height: "100%",
       overflow: "inherit",
       ...style
     }

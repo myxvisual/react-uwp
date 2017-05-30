@@ -21,27 +21,36 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
     speed: 500
   };
 
-  enterTimer: number;
-  leaveTimer: number;
-  rootElm: HTMLDivElement;
+  enterTimer: any;
+  leaveTimer: any;
+  rootElm: HTMLSpanElement;
 
   componentWillAppear = this.props.appearAnimate ? (callback: () => void) => {
     if (this.props.mode !== "out") {
       this.initializeAnimation(callback);
-    } else { callback(); };
+    } else { callback(); }
   } : void 0;
 
   componentDidAppear = this.props.appearAnimate ? () => {
-    if (this.props.mode !== "out") this.animate();
+    if (this.props.mode !== "out") {
+      this.enterTimer = setTimeout(() => {
+        this.animate();
+      }, this.props.enterDelay);
+    }
   } : void 0;
 
   componentWillEnter(callback: () => void) {
     if (this.props.mode !== "out") {
-      Object.assign(this.rootElm.parentElement.style, {
-        overflow: "hidden"
-      } as CSSStyleDeclaration);
-      this.initializeAnimation(callback);
-    } else { callback(); }
+      const display = this.rootElm.style.display;
+      this.rootElm.style.display = "none";
+
+      this.enterTimer = setTimeout(() => {
+        this.rootElm.style.display = display;
+        this.initializeAnimation(callback);
+      }, this.props.speed * 2 + this.props.enterDelay);
+    } else {
+      callback();
+    }
   }
 
   componentDidEnter() {
@@ -52,7 +61,6 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
     if (this.props.mode !== "in") {
       this.initializeAnimation(callback, true);
     } else {
-      this.rootElm.style.display = "none";
       callback();
     }
   }
@@ -65,20 +73,23 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
   animate = (callback = () => {}) => {
     const { speed, maxValue, enterDelay } = this.props;
     const { style } = this.rootElm;
-    style.opacity = `${maxValue}`;
-    Object.assign(this.rootElm.parentElement.style, {
-      overflow: "inherit"
+
+    Object.assign(this.rootElm.style, {
+      opacity: `${maxValue}`
     } as CSSStyleDeclaration);
 
-    this.enterTimer = setTimeout(callback, speed + enterDelay) as any;
+    this.enterTimer = setTimeout(callback, speed + enterDelay);
   }
 
   initializeAnimation = (callback = () => {}, revers = false) => {
     const { minValue, speed, leaveDelay } = this.props;
     const { style } = this.rootElm;
-    style.opacity = `${minValue}`;
 
-    this.leaveTimer = setTimeout(callback, speed / 2 + leaveDelay) as any;
+    Object.assign(this.rootElm.style, {
+      opacity: `${minValue}`
+    } as CSSStyleDeclaration);
+
+    this.leaveTimer = setTimeout(callback, speed / 2 + leaveDelay);
   }
 
   render() {
@@ -95,19 +106,23 @@ export default class FadeInOutChild extends React.Component<FadeInOutChildProps,
       ...attributes
     } = this.props;
 
-    return (
-      <div
+    return typeof children !== "object" ? (
+      <span
         {...attributes}
         ref={rootElm => this.rootElm = rootElm}
         style={{
-          width: "100%",
-          height: "100%",
           transition: `all ${speed}ms ease-in-out`,
           ...style
         }}
       >
         {children}
-      </div>
-    );
+      </span>
+    ) : React.cloneElement(children as any, {
+      style: {
+        transition: `all ${speed}ms ease-in-out`,
+        ...(children as any).props.style
+      },
+      ref: (rootElm: any) => this.rootElm = rootElm
+    });
   }
 }
