@@ -12,6 +12,8 @@ export interface DataProps {
   barBackgroundImage?: string;
   controllerWidth?: number;
   useSimpleController?: boolean;
+  showValueInfo?: boolean;
+  numberToFixed?: number;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -35,10 +37,8 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     height: 24,
     barHeight: 2,
     controllerWidth: 8,
-    onMouseEnter: emptyFunc,
-    onMouseLeave: emptyFunc,
-    onMouseDown: emptyFunc,
-    onMouseUp: emptyFunc
+    showValueInfo: false,
+    numberToFixed: 0
   };
   originBodyStyle = { ...document.body.style };
 
@@ -54,16 +54,13 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
   context: { theme: ReactUWP.ThemeType };
   handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     this.setState({ hovered: true });
-    this.props.onMouseEnter(e);
   }
 
   handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     this.setState({ hovered: false });
-    this.props.onMouseLeave(e);
   }
 
   handelOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.props.onClick(e);
     this.setValueByEvent(e);
   }
 
@@ -76,7 +73,6 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     });
     window.addEventListener("mousemove", this.setValueByEvent);
     window.addEventListener("mouseup", this.handelMouseUp);
-    this.props.onMouseDown(e);
     this.setValueByEvent(e);
   }
 
@@ -91,7 +87,6 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     this.setState({ dragging: false });
     window.removeEventListener("mousemove", this.setValueByEvent);
     window.removeEventListener("mouseup", this.handelMouseUp);
-    this.props.onMouseUp(e);
   }
 
   setValueByEvent = (e: any, type?: any) => {
@@ -142,6 +137,8 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       barBackground, // tslint:disable-line:no-unused-variable
       barBackgroundImage, // tslint:disable-line:no-unused-variable
       useSimpleController, // tslint:disable-line:no-unused-variable
+      showValueInfo, // tslint:disable-line:no-unused-variable
+      numberToFixed, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
     const { currValue } = this.state;
@@ -149,29 +146,35 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     const styles = getStyles(this);
 
     return (
-      <div
-        {...attributes}
-        ref={elm => this.rootElm = elm}
-        style={styles.root}
-        onMouseEnter={this.handelMouseEnter}
-        onMouseLeave={this.handelMouseLeave}
-        onMouseDown={this.handelMouseDown}
-        onMouseUp={this.handelMouseUp}
-      >
-        <div style={styles.barContainer}>
-          <div style={styles.bar} ref={elm => this.barElm = elm} />
+      <div {...attributes} style={styles.wrapper}>
+        <div
+          ref={elm => this.rootElm = elm}
+          style={styles.root}
+          onMouseEnter={this.handelMouseEnter}
+          onMouseLeave={this.handelMouseLeave}
+          onMouseDown={this.handelMouseDown}
+          onMouseUp={this.handelMouseUp}
+        >
+          <div style={styles.barContainer}>
+            <div style={styles.bar} ref={elm => this.barElm = elm} />
+          </div>
+          <div style={styles.controller} ref={elm => this.controllerElm = elm} />
         </div>
-        <div style={styles.controller} ref={elm => this.controllerElm = elm} />
+        {showValueInfo && (
+          <span style={styles.label}>{currValue.toFixed(numberToFixed)}</span>
+        )}
       </div>
     );
   }
 }
 
 function getStyles(slider: Slider): {
+  wrapper?: React.CSSProperties;
   root?: React.CSSProperties;
   barContainer?: React.CSSProperties;
   bar?: React.CSSProperties;
   controller?: React.CSSProperties;
+  label?: React.CSSProperties;
 } {
   const {
     context: { theme },
@@ -200,12 +203,18 @@ function getStyles(slider: Slider): {
   const transition = dragging ? void 0 : "all .25s 0s linear";
   const useCustomBackground = barBackground || barBackgroundImage;
   return {
+    wrapper: prepareStyles({
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      ...style
+    }),
     root: prepareStyles({
       width,
       height: height2px,
       cursor: "default",
-      ...style,
-      position: "relative"
+      position: "relative",
+      display: "inline-block"
     }),
     barContainer: {
       background: theme.baseLow,
@@ -237,6 +246,13 @@ function getStyles(slider: Slider): {
       height: height2px,
       transform: `translateX(${valueRatio * width2px - 4}px)`,
       transition
+    },
+    label: {
+      display: "inline-block",
+      marginLeft: 12,
+      fontSize: height2px / 1.5,
+      lineHeight: `${height2px / 1.5}px`,
+      color: theme.baseMediumHigh
     }
   };
 }
