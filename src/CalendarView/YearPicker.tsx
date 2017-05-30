@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import SlideInOut from "../Animate/SlideInOut";
+import SlideInOut from "./SlideInOut";
 
 export interface DataProps {
   date?: Date;

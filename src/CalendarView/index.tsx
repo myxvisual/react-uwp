@@ -3,11 +3,12 @@ import * as PropTypes from "prop-types";
 
 import  * as dateUtils from "../common/date.utils";
 import DayPicker from "./DayPicker";
-import FadeInOut from "../Animate/FadeInOut";
 import Icon from "../Icon";
 import MonthPicker from "./MonthPicker";
-import ScaleInOut from "../Animate/ScaleInOut";
 import YearPicker from "./YearPicker";
+
+import FadeInOut from "./FadeInOut";
+import ScaleInOut from "./ScaleInOut";
 
 export interface DataProps {
   pickerMode?: "Year" | "Month" | "Day";

@@ -1,87 +1,18 @@
 import * as React from "react";
-import * as ReactTransitionGroup from "react-addons-transition-group";
 
-import FadeInOutChild from "./FadeInOutChild";
+import CustomAnimate, { DataProps as CustomAnimateProps } from "./CustomAnimate";
 
-export interface DataProps {
-  [key: string]: any;
-}
+export interface DataProps extends CustomAnimateProps {}
 
-export interface FadeInOutProps extends DataProps {
-  appearAnimate?: boolean;
-  childAttributes?: React.HTMLAttributes<HTMLDivElement>;
-  enterDelay?: number;
-  leaveDelay?: number;
-  maxValue?: number;
-  minValue?: number;
-  mode?: "in" | "out" | "both";
-  speed?: number;
-}
-
-export default class FadeInOut extends React.Component<FadeInOutProps, void> {
-  static defaultProps: FadeInOutProps = {
-    appearAnimate: true,
-    children: <div>FadeInOut</div>,
-    enterDelay: 0,
-    leaveDelay: 0,
-    maxValue: 1,
-    minValue: 0,
-    mode: "both",
-    speed: 500
+export class FadeInOut extends React.Component<DataProps, void> {
+  static defaultProps: DataProps = {
+    style: { opacity: 0 },
+    animatedStyle: { opacity: 1 }
   };
 
   render() {
-    const {
-      appearAnimate, // tslint:disable-line:no-unused-variable
-      childAttributes,
-      children,
-      enterDelay,
-      leaveDelay,
-      maxValue,
-      minValue,
-      mode,
-      speed,
-      style, // tslint:disable-line:no-unused-variable
-      ...others
-    } = this.props;
-    const styles = getStyles(this);
-
-    return (
-      <ReactTransitionGroup
-        {...others as any}
-        style={styles.root}
-      >
-        {React.Children.map(children, (child: any, index) => (
-          <FadeInOutChild
-            key={child.key}
-            minValue={minValue}
-            maxValue={maxValue}
-            enterDelay={enterDelay}
-            leaveDelay={leaveDelay}
-            mode={mode}
-            speed={speed}
-            appearAnimate={appearAnimate}
-            {...childAttributes}
-          >
-            {child}
-          </FadeInOutChild>
-        ))}
-      </ReactTransitionGroup>
-    );
+    return <CustomAnimate {...this.props} />;
   }
 }
 
-function getStyles(FadeInOut: FadeInOut): {
-  root?: React.CSSProperties;
-} {
-  const {
-    props: { style }
-  } = FadeInOut;
-
-  return {
-    root: {
-      overflow: "hidden",
-      ...style
-    }
-  };
-}
+export default FadeInOut;

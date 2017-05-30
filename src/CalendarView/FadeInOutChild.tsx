@@ -49,8 +49,8 @@ export default class FadeInOut extends React.Component<FadeInOutProps, void> {
       this.displayStyleTimer = setTimeout(() => {
         this.rootElm.style.display = display;
         this.initializeAnimation();
-      }, this.props.speed + this.props.enterDelay);
-      this.enterTimer = setTimeout(callback, this.props.speed * 2 + this.props.enterDelay);
+      }, this.props.speed / 2 + this.props.enterDelay);
+      this.enterTimer = setTimeout(callback, this.props.speed + this.props.enterDelay);
     } else {
       callback();
     }
@@ -74,8 +74,6 @@ export default class FadeInOut extends React.Component<FadeInOutProps, void> {
   componentDidLeave() {
     if (this.props.mode !== "in") {
       this.initializeAnimation();
-      this.leaveTimer = setTimeout(() => {
-      }, this.props.speed + this.props.leaveDelay);
     }
   }
 

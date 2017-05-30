@@ -1,33 +1,12 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface DataProps {
-  appearAnimate?: boolean;
-  childAttributes?: React.HTMLAttributes<HTMLDivElement>;
-  enterDelay?: number;
-  leaveDelay?: number;
-  maxValue?: number;
-  minValue?: number;
-  mode?: "in" | "out" | "both";
-  speed?: number;
-}
+import { DataProps } from "./CustomAnimate";
 
-export interface CustomAnimateChildProps extends DataProps {
-  [key: string]: any;
-}
-
-
-export default class CustomAnimateChild extends React.Component<CustomAnimateChildProps, void> {
-  static defaultProps = {
-    appearAnimate: true,
-    enterDelay: 0,
-    leaveDelay: 0,
-    mode: "both",
-    speed: 500
-  };
-
+export default class CustomAnimateChild extends React.Component<DataProps, void> {
   enterTimer: any;
   leaveTimer: any;
+  leaveCallback = () => {};
   displayStyleTimer: any;
   rootElm: HTMLSpanElement;
 
@@ -49,14 +28,22 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
   } : void 0;
 
   componentWillEnter(callback: () => void) {
-    if (this.props.mode !== "out") {
-      const display = this.rootElm.style.display;
-      this.rootElm.style.display = "none";
+    const { mode, speed, enterDelay } = this.props;
+    clearTimeout(this.leaveTimer);
+    if (mode !== "out") {
+      const isInOut = mode === "in-out";
+      const { style } = this.rootElm;
+      const { display } = style;
+      style.display = "none";
+      this.initializeAnimation();
       this.displayStyleTimer = setTimeout(() => {
-        this.rootElm.style.display = display;
-        this.initializeAnimation();
-      }, this.props.speed + this.props.enterDelay);
-      this.enterTimer = setTimeout(callback, this.props.speed * 2 + this.props.enterDelay);
+        style.display = display;
+      }, speed / 2 + enterDelay);
+      this.enterTimer = setTimeout(() => {
+        style.display = display;
+        this.animate();
+        callback();
+      }, speed + enterDelay);
     } else {
       callback();
     }
@@ -69,8 +56,10 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
   componentWillLeave(callback: () => void) {
     if (this.props.mode !== "in") {
       this.initializeAnimation();
+      this.leaveCallback = callback;
       this.leaveTimer = setTimeout(() => {
-        callback();
+        this.rootElm.style.display = "none";
+        this.leaveCallback();
       }, this.props.speed + this.props.leaveDelay);
     } else {
       callback();
@@ -80,8 +69,6 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
   componentDidLeave() {
     if (this.props.mode !== "in") {
       this.initializeAnimation();
-      this.leaveTimer = setTimeout(() => {
-      }, this.props.speed + this.props.leaveDelay);
     }
   }
 
@@ -92,16 +79,26 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
   }
 
   animate = (callback = () => {}) => {
-    const { speed, maxValue, enterDelay, animateStyle } = this.props;
+    const { speed, enterDelay, animatedStyle, animate } = this.props;
+    const isControlledAnimate = typeof animate === "boolean";
+    if (isControlledAnimate) {
+      callback();
+      return;
+    }
     const { style } = this.rootElm;
 
-    Object.assign(this.rootElm.style, this.context.theme.prepareStyles(animateStyle));
+    Object.assign(this.rootElm.style, this.context.theme.prepareStyles(animatedStyle));
 
     this.enterTimer = setTimeout(callback, speed + enterDelay);
   }
 
   initializeAnimation = (callback = () => {}, revers = false) => {
-    const { minValue, speed, leaveDelay, style } = this.props;
+    const { speed, leaveDelay, style, animate } = this.props;
+    const isControlledAnimate = typeof animate === "boolean";
+    if (isControlledAnimate) {
+      callback();
+      return;
+    }
 
     Object.assign(this.rootElm.style, this.context.theme.prepareStyles(style));
     callback();
@@ -116,26 +113,28 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
       mode,
       speed,
       style,
-      animateStyle,
+      animatedStyle,
+      animate,
+      transitionTimingFunction,
       ...attributes
     } = this.props;
+    const isControlledAnimate = typeof animate === "boolean";
+    const currStyle = {
+      transition: `all ${speed}ms${transitionTimingFunction ? ` ${transitionTimingFunction}` : ""}`,
+      ...(children as any).props.style,
+      ...(isControlledAnimate ? this.props[animate ? "animatedStyle" : "style"] : void 0)
+    };
 
     return typeof children !== "object" ? (
       <span
         {...attributes}
         ref={rootElm => this.rootElm = rootElm}
-        style={{
-          transition: `all ${speed}ms ease-in-out`,
-          ...style
-        }}
+        style={currStyle}
       >
         {children}
       </span>
     ) : React.cloneElement(children as any, {
-      style: this.context.theme.prepareStyles({
-        transition: `all ${speed}ms ease-in-out`,
-        ...(children as any).props.style
-      }),
+      style: this.context.theme.prepareStyles(currStyle),
       ref: (rootElm: any) => this.rootElm = rootElm
     });
   }
