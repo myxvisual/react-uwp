@@ -6,6 +6,7 @@ import FadeInOutChild from "./FadeInOutChild";
 export interface DataProps {
   [key: string]: any;
 }
+
 export interface FadeInOutProps extends DataProps {
   appearAnimate?: boolean;
   childAttributes?: React.HTMLAttributes<HTMLDivElement>;
@@ -16,9 +17,8 @@ export interface FadeInOutProps extends DataProps {
   mode?: "in" | "out" | "both";
   speed?: number;
 }
-export interface FadeInOutState {}
 
-export default class FadeInOut extends React.Component<FadeInOutProps, FadeInOutState> {
+export default class FadeInOut extends React.Component<FadeInOutProps, void> {
   static defaultProps: FadeInOutProps = {
     appearAnimate: true,
     children: <div>FadeInOut</div>,
@@ -71,16 +71,16 @@ export default class FadeInOut extends React.Component<FadeInOutProps, FadeInOut
   }
 }
 
-function getStyles(fadeInOut: FadeInOut): {
+function getStyles(FadeInOut: FadeInOut): {
   root?: React.CSSProperties;
 } {
   const {
     props: { style }
-  } = fadeInOut;
+  } = FadeInOut;
 
   return {
     root: {
-      overflow: "inherit",
+      overflow: "hidden",
       ...style
     }
   };

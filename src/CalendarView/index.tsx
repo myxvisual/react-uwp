@@ -198,10 +198,11 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
         <div style={styles.title}>
           <FadeInOut
             appearAnimate={false}
-            speed={100}
+            speed={250}
             direction={direction}
             style={{
-              overflow: "hidden"
+              overflow: "hidden",
+              height: 24
             }}
             childAttributes={{
               style: theme.prepareStyles({
@@ -215,7 +216,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
             <p
               style={{ cursor: "pointer" }}
               onClick={this.togglePickerMode}
-              key={`${currPickerMode} ${viewDate.toISOString().slice(0, 10)}`}
+              key={title}
             >
               {title}
             </p>
@@ -241,7 +242,8 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
           appearAnimate={false}
           style={styles.body}
           mode="both"
-          speed={350}
+          minScale={0.4}
+          speed={250}
         >
           {currPickerMode === "Day" ? (
             <DayPicker

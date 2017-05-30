@@ -1,7 +1,9 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 
 export interface DataProps {
   appearAnimate?: boolean;
+  childAttributes?: React.HTMLAttributes<HTMLDivElement>;
   enterDelay?: number;
   leaveDelay?: number;
   maxValue?: number;
@@ -10,15 +12,16 @@ export interface DataProps {
   speed?: number;
 }
 
-export interface FadeInOutProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CustomAnimateChildProps extends DataProps {
+  [key: string]: any;
+}
 
-export default class FadeInOut extends React.Component<FadeInOutProps, void> {
+
+export default class CustomAnimateChild extends React.Component<CustomAnimateChildProps, void> {
   static defaultProps = {
     appearAnimate: true,
     enterDelay: 0,
     leaveDelay: 0,
-    maxValue: 1,
-    minValue: 0,
     mode: "both",
     speed: 500
   };
@@ -27,6 +30,9 @@ export default class FadeInOut extends React.Component<FadeInOutProps, void> {
   leaveTimer: any;
   displayStyleTimer: any;
   rootElm: HTMLSpanElement;
+
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ReactUWP.ThemeType };
 
   componentWillAppear = this.props.appearAnimate ? (callback: () => void) => {
     if (this.props.mode !== "out") {
@@ -86,36 +92,31 @@ export default class FadeInOut extends React.Component<FadeInOutProps, void> {
   }
 
   animate = (callback = () => {}) => {
-    const { speed, maxValue, enterDelay } = this.props;
+    const { speed, maxValue, enterDelay, animateStyle } = this.props;
     const { style } = this.rootElm;
 
-    Object.assign(this.rootElm.style, {
-      opacity: `${maxValue}`
-    } as CSSStyleDeclaration);
+    Object.assign(this.rootElm.style, animateStyle);
 
     this.enterTimer = setTimeout(callback, speed + enterDelay);
   }
 
   initializeAnimation = (callback = () => {}, revers = false) => {
-    const { minValue, speed, leaveDelay } = this.props;
+    const { minValue, speed, leaveDelay, style } = this.props;
 
-    Object.assign(this.rootElm.style, {
-      opacity: `${minValue}`
-    } as CSSStyleDeclaration);
+    Object.assign(this.rootElm.style, style);
     callback();
   }
 
   render() {
     const {
-      appearAnimate, // tslint:disable-line:no-unused-variable
+      appearAnimate,
       children,
-      enterDelay, // tslint:disable-line:no-unused-variable
-      leaveDelay, // tslint:disable-line:no-unused-variable
-      maxValue, // tslint:disable-line:no-unused-variable
-      minValue, // tslint:disable-line:no-unused-variable
+      enterDelay,
+      leaveDelay,
+      mode,
       speed,
       style,
-      mode,
+      animateStyle,
       ...attributes
     } = this.props;
 

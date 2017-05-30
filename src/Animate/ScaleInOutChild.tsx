@@ -18,7 +18,7 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
     maxScale: 1,
     minScale: 0,
     mode: "Both",
-    speed: 500
+    speed: 250
   };
 
   enterTimer: any;
@@ -47,7 +47,7 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
       this.enterTimer = setTimeout(() => {
         this.rootElm.style.display = display;
         this.initializeAnimation(callback);
-      }, this.props.speed * 2 + this.props.enterDelay);
+      }, this.props.speed + this.props.enterDelay);
     } else {
       callback();
     }
@@ -92,7 +92,7 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
       opacity: "0"
     } as CSSStyleDeclaration);
 
-    this.leaveTimer = setTimeout(callback, speed / 2 + leaveDelay) as any;
+    this.leaveTimer = setTimeout(callback, speed + leaveDelay) as any;
   }
 
   render() {

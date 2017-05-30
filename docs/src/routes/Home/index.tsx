@@ -10,6 +10,8 @@ import Categories from "./components/Categories";
 import Banner from "./components/Banner";
 import CustomTheme from "./components/CustomTheme";
 import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
+import FadeInOut from "react-uwp/Animate/FadeInOut";
+import CustomAnimate from "react-uwp/Animate/CustomAnimate";
 
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
@@ -37,6 +39,14 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
     return (
       <div style={{ width: "100%" }}>
+        <FadeInOut enterDelay={2000}>
+          <p style={{ fontSize: 200 }}>TEXT1</p>
+          <p style={{ fontSize: 200 }}>TEXT2</p>
+        </FadeInOut>
+        <CustomAnimate enterDelay={2000} speed={2000} animateStyle={{ color: theme.accent }}>
+          <p style={{ fontSize: 200 }}>TEXT1</p>
+          <p style={{ fontSize: 200 }}>TEXT2</p>
+        </CustomAnimate>
         <div style={{ width: "100%", background: theme.listLow }}>
           <FlipView
             style={{
