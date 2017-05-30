@@ -179,9 +179,9 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                 height: "auto",
                 overflow: expanded ? void 0 : "hidden",
                 opacity: expanded ? 1 : 0,
-                transform: `translateY(${expanded ? 0 : -listItemHeight }px)`,
+                transform: `translateY(${expanded ? 0 : -10 }px)`,
                 transformOrigin: "top",
-                transition: "all .125s ease-in-out"
+                transition: "all .25s"
               })}
             >
               {expanded && children.map((list: List[], index) => renderList(list, index, true))}
