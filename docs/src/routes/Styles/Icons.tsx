@@ -93,8 +93,7 @@ export default class Icons extends React.Component<void, IconsState> {
               position: "fixed",
               height: 60,
               width: "100%",
-              zIndex: theme.zIndex.tooltip + 1,
-              background: theme.isDarkTheme ? "hsla(0, 0%, 6%, 0.95)" : "hsla(0, 0%, 94%, 0.95)"
+              zIndex: theme.zIndex.tooltip + 1
             }}
           />
           <div
@@ -106,7 +105,7 @@ export default class Icons extends React.Component<void, IconsState> {
           >
             <AutoSuggestBox
               placeholder="Search Icons"
-              background="none"
+              background={theme.altHigh}
               style={{
                 width: 320
               }}
@@ -114,8 +113,8 @@ export default class Icons extends React.Component<void, IconsState> {
             />
           </div>
         </div>
-        <p style={{ lineHeight: 1.8 }}>
-          Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. Used mainly in AppBarButton and AppBarToggleButton. ({currIconNames.length} icon)
+        <p style={{ lineHeight: 1.8, padding: 10 }}>
+          Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. ({currIconNames.length} icon)
         </p>
         <div
           style={theme.prepareStyles({
