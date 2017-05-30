@@ -14,6 +14,7 @@ export interface DataProps {
   useSimpleController?: boolean;
   showValueInfo?: boolean;
   numberToFixed?: number;
+  unit?: string;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -38,7 +39,8 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     barHeight: 2,
     controllerWidth: 8,
     showValueInfo: false,
-    numberToFixed: 0
+    numberToFixed: 0,
+    unit: ""
   };
   originBodyStyle = { ...document.body.style };
 
@@ -139,6 +141,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       useSimpleController, // tslint:disable-line:no-unused-variable
       showValueInfo, // tslint:disable-line:no-unused-variable
       numberToFixed, // tslint:disable-line:no-unused-variable
+      unit, // tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
     const { currValue } = this.state;
@@ -161,7 +164,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
           <div style={styles.controller} ref={elm => this.controllerElm = elm} />
         </div>
         {showValueInfo && (
-          <span style={styles.label}>{currValue.toFixed(numberToFixed)}</span>
+          <span style={styles.label}>{`${currValue.toFixed(numberToFixed)}${unit}`}</span>
         )}
       </div>
     );

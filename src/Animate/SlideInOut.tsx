@@ -2,16 +2,28 @@ import * as React from "react";
 
 import CustomAnimate, { DataProps as CustomAnimateProps } from "./CustomAnimate";
 
-export interface DataProps extends CustomAnimateProps {}
+export interface DataProps extends CustomAnimateProps {
+  position?: string;
+  direction?: "top" | "bottom" | "left" | "right";
+}
 
 export class ScaleInOut extends React.Component<DataProps, void> {
   static defaultProps: DataProps = {
-    style: { transform: "scale(0)" },
-    animatedStyle: { transform: "scale(1)" }
+    position: "100%",
+    direction: "bottom"
   };
 
   render() {
-    return <CustomAnimate {...this.props} />;
+    const { position, direction, ...others } = this.props;
+    return <CustomAnimate
+      style={{
+        transform: `translate3D(0, ${position}, 0)`
+      }}
+      animatedStyle={{
+        transform: `translate3D(0, 0, 0)`
+      }}
+      {...others}
+    />;
   }
 }
 

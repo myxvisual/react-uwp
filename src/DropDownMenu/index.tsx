@@ -96,7 +96,17 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
     const isDarkTheme = theme.themeName === "Dark";
 
     return (
-      <div {...attributes} style={theme.prepareStyles({ position: "relative", zIndex: showList ? theme.zIndex.dropDownMenu : 1, width: itemWidth, height: itemHeight + padding, ...attributes.style })}>
+      <div
+        {...attributes}
+        style={theme.prepareStyles({
+          position: "relative",
+          display: "inline-block",
+          zIndex: showList ? theme.zIndex.dropDownMenu : 1,
+          width: itemWidth,
+          height: itemHeight + padding,
+          ...attributes.style
+        })}
+      >
         <div
           ref="container"
           style={theme.prepareStyles({
@@ -147,7 +157,21 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
                 }}
                 key={`${index}`}
               >
-                <p style={{ cursor: "default" }}>{value}</p>
+                <p
+                  style={{
+                    textAlign: "left",
+                    cursor: "default",
+                    height: "100%",
+                    width: "100%",
+                    overflow: "hidden",
+                    wordWrap: "normal",
+                    whiteSpace: "nowrap",
+                    lineHeight: "28px",
+                    textOverflow: "ellipsis"
+                  }}
+                >
+                  {value}
+                </p>
                 {!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>&#xE011;</Icon> : null}
               </div>
             );

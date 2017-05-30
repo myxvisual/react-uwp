@@ -1,15 +1,17 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-
+import { Link } from "react-router";
 
 import Toggle from "react-uwp/Toggle";
 import DropDownMenu from "react-uwp/DropDownMenu";
 import Button from "react-uwp/Button";
 import Slider from "react-uwp/Slider";
+import Icon from "react-uwp/Icon";
 
 import CustomAnimate from "react-uwp/Animate/CustomAnimate";
 import FadeInOut from "react-uwp/Animate/FadeInOut";
 import ScaleInOut from "react-uwp/Animate/ScaleInOut";
+import SlideInOut from "react-uwp/Animate/SlideInOut";
 
 export interface DataProps {}
 
@@ -70,6 +72,14 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
     this.setState({ transitionTimingFunction });
   }
 
+  increaseNumb = (e?: any) => {
+    this.setState((preState, preProps) => ({ numb: preState.numb + 1 }));
+  }
+
+  decreaseNumb = (e?: any) => {
+    this.setState((preState, preProps) => ({ numb: preState.numb - 1 }));
+  }
+
   render() {
     const {
       ...attributes
@@ -87,6 +97,10 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
         AnimateWrapper = ScaleInOut;
         break;
       }
+      case "Slide": {
+        AnimateWrapper = SlideInOut;
+        break;
+      }
       default: {
         break;
       }
@@ -97,52 +111,68 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
         {...attributes}
         style={styles.root}
       >
-        <AnimateWrapper
-          speed={speed}
-          key={`${animateName} ${speed}`}
-          transitionTimingFunction={transitionTimingFunction}
-        >
-          <div style={{ display: "inline-block", fontSize: 160, fontWeight: "lighter" }}>
-            Animate
+        <div style={styles.animate}>
+          <AnimateWrapper
+            speed={speed}
+            key={`${animateName} ${speed} ${transitionTimingFunction}`}
+            wrapperStyle={{ display: "block", width: "100%", marginBottom: 40 }}
+            transitionTimingFunction={transitionTimingFunction}
+          >
+            <div style={styles.animateTitle}>
+              Animate
+            </div>
+          </AnimateWrapper>
+          <div>
+            <DropDownMenu
+              style={styles.animateControls}
+              defaultValue={animateName}
+              values={animateNames}
+              onChangeValue={this.handleChooseAnimateMethod}
+            />
+            <DropDownMenu
+              style={styles.animateControls}
+              defaultValue={transitionTimingFunction}
+              values={transitionTimingFunctions}
+              onChangeValue={this.handleChooseTransitionTimingFunction}
+            />
           </div>
-        </AnimateWrapper>
-        <DropDownMenu
-          defaultValue={animateName}
-          values={animateNames}
-          onChangeValue={this.handleChooseAnimateMethod}
-        />
-        <DropDownMenu
-          itemWidth={280}
-          defaultValue={transitionTimingFunction}
-          values={transitionTimingFunctions}
-          onChangeValue={this.handleChooseTransitionTimingFunction}
-        />
-        <p>Speed:</p>
-        <Slider
-          showValueInfo
-          minValue={150}
-          initValue={speed}
-          maxValue={4000}
-          onChangeValue={this.handleChooseAnimateSpeed}
-        />
-        <div>
+          <Slider
+            style={styles.animateControls}
+            showValueInfo
+            unit="ms"
+            minValue={150}
+            initValue={speed}
+            maxValue={2000}
+            onChangeValue={this.handleChooseAnimateSpeed}
+          />
+        </div>
+        <div style={styles.count}>
           <AnimateWrapper
             speed={speed}
             mode="in-out"
-            wrapperStyle={{ display: "inline-block", width: 200, height: 200 }}
+            wrapperStyle={{ display: "block", height: 100, overflow: "hidden" }}
             transitionTimingFunction={transitionTimingFunction}
           >
-            <div style={{ display: "block", width: 200, overflow: "hidden", fontSize: 140, fontWeight: "lighter" }} key={`${numb}`}>
+            <div style={styles.countNumb} key={`${numb} ${speed} ${transitionTimingFunction}`}>
               {numb}
             </div>
           </AnimateWrapper>
+          <div style={styles.countControls}>
+            <Button onClick={this.increaseNumb}>
+              +
+            </Button>
+            <Button onClick={this.decreaseNumb}>
+              -
+            </Button>
+          </div>
         </div>
-        <Button onClick={() => { this.setState((preState, preProps) => ({ numb: preState.numb + 1 })); } }>
-          +
-        </Button>
-        <Button onClick={() => { this.setState((preState, preProps) => ({ numb: preState.numb - 1 })); } }>
-          -
-        </Button>
+        <p style={{ fontSize: 36, fontWeight: "lighter" }}>
+          Based On The Powerful ReactTransitionGroup.
+        </p>
+        <p>React UWP Animate  is very easy to use.</p>
+        <Link to="/components" style={{ color: theme.listAccentMedium, marginTop: 24, fontSize: 18 }}>
+          --- More Animate components ---
+        </Link>
       </div>
     );
   }
@@ -150,6 +180,12 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
 
 function getStyles(animate: Animate): {
   root?: React.CSSProperties;
+  animate?: React.CSSProperties;
+  animateTitle?: React.CSSProperties;
+  animateControls?: React.CSSProperties;
+  count?: React.CSSProperties;
+  countNumb?: React.CSSProperties;
+  countControls?: React.CSSProperties;
 } {
   const {
     context: { theme },
@@ -159,7 +195,54 @@ function getStyles(animate: Animate): {
 
   return {
     root: prepareStyles({
+      padding: 20,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      fontWeight: "lighter",
+      textAlign: "center",
       ...style
+    }),
+    animate: prepareStyles({
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      width: "100%"
+    }),
+    animateTitle: {
+      padding: "60px 0",
+      display: "block",
+      textAlign: "center",
+      width: "100%",
+      fontSize: 80,
+      textTransform: "uppercase",
+      color: "#fff",
+      fontWeight: "lighter",
+      background: `${theme.altMediumHigh} url(${require("./images/Tactile-13-1024x683.jpeg")}) no-repeat center center / cover`
+    },
+    animateControls: {
+      margin: 4
+    },
+    count: {
+      margin: "40px 0"
+    },
+    countNumb: {
+      display: "block",
+      color: "#fff",
+      background: theme.accent,
+      width: 240,
+      margin: "0 auto",
+      height: 100,
+      textAlign: "center",
+      lineHeight: 1,
+      fontSize: 100,
+      fontWeight: "lighter"
+    },
+    countControls: prepareStyles({
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      margin: "20px 0"
     })
   };
 }
