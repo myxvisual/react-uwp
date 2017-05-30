@@ -3,7 +3,7 @@ import * as React from "react";
 export default [{
   "titleNode": "Get Started"
 }, {
-  "titleNode": "Layout",
+  "titleNode": "Layout"
   }, {
   "titleNode": "Styles",
   "children": [{
@@ -89,7 +89,7 @@ export default [{
   }, {
     "titleNode": "Tabs"
   }, {
-    "titleNode": "PasswordBox",
+    "titleNode": "PasswordBox"
   }, {
     "titleNode": "Tiles"
   }, {
@@ -98,7 +98,7 @@ export default [{
     "titleNode": "Notification"
   }, {
     "titleNode": "Toggle"
-  },{
+  }, {
     "titleNode": "TreeView"
   }, {
     "titleNode": "Tooltip"

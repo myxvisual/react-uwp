@@ -7,7 +7,7 @@ import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import getTheme from "react-uwp/styles/getTheme";
-import getDocVersion from "../../common/getDocVersion";
+import getRootPath from "../../common/getRootPath";
 
 import IconButton from "react-uwp/IconButton";
 import FloatNav from "react-uwp/FloatNav";
@@ -107,7 +107,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
       >
         <Header
           screenType={screenType}
-          docVersion={getDocVersion()}
+          docVersion={getRootPath()}
           headerHeight={HEADER_HEIGHT}
           renderContentWidth={renderContentWidth}
         />
