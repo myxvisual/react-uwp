@@ -95,7 +95,7 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
     const { speed, maxValue, enterDelay, animateStyle } = this.props;
     const { style } = this.rootElm;
 
-    Object.assign(this.rootElm.style, animateStyle);
+    Object.assign(this.rootElm.style, this.context.theme.prepareStyles(animateStyle));
 
     this.enterTimer = setTimeout(callback, speed + enterDelay);
   }
@@ -103,7 +103,7 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
   initializeAnimation = (callback = () => {}, revers = false) => {
     const { minValue, speed, leaveDelay, style } = this.props;
 
-    Object.assign(this.rootElm.style, style);
+    Object.assign(this.rootElm.style, this.context.theme.prepareStyles(style));
     callback();
   }
 
@@ -132,10 +132,10 @@ export default class CustomAnimateChild extends React.Component<CustomAnimateChi
         {children}
       </span>
     ) : React.cloneElement(children as any, {
-      style: {
+      style: this.context.theme.prepareStyles({
         transition: `all ${speed}ms ease-in-out`,
         ...(children as any).props.style
-      },
+      }),
       ref: (rootElm: any) => this.rootElm = rootElm
     });
   }
