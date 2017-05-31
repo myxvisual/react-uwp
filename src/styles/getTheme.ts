@@ -55,6 +55,62 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
 
     isDarkTheme: isDark,
     prepareStyles: prefixAll(),
+
+    typography: {
+      header: {
+        fontWeight: "lighter",
+        fontSize: 46,
+        lineHeight: "56px"
+      },
+      subHeader: {
+        fontWeight: "lighter",
+        fontSize: 34,
+        lineHeight: "40px"
+      },
+
+      title: {
+        fontWeight: "lighter",
+        fontSize: 24,
+        lineHeight: "28px"
+      },
+      subTitle: {
+        fontWeight: "normal",
+        fontSize: 20,
+        lineHeight: "24px"
+      },
+      subTitleAlt: {
+        fontWeight: "normal",
+        fontSize: 18,
+        lineHeight: "20px"
+      },
+
+      base: {
+        fontWeight: 300,
+        fontSize: 15,
+        lineHeight: "20px"
+      },
+      baseAlt: {
+        fontWeight: "bold",
+        fontSize: 15,
+        lineHeight: "20px"
+      },
+      Body: {
+        fontWeight: 200,
+        fontSize: 15,
+        lineHeight: "20px"
+      },
+
+      captionAlt: {
+        fontWeight: "lighter",
+        fontSize: 13,
+        lineHeight: "16px"
+      },
+      caption: {
+        fontWeight: "lighter",
+        fontSize: 12,
+        lineHeight: "14px"
+      }
+    },
     zIndex: {
       listView: 10,
       calendarView: 20,

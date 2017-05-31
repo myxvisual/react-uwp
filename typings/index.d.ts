@@ -3,6 +3,7 @@ interface Window {
     baseCSSRequired?: boolean;
     version?: string;
     docRootPath?: string;
+    scrollRevealDomNodes?: HTMLElement[];
   }
 }
 
@@ -59,6 +60,21 @@ declare namespace ReactUWP {
     isDarkTheme?: boolean;
     updateTheme?: (theme: ThemeType) => void;
     saveTheme?: (theme: ThemeType) => void;
+    typography?: {
+      header?: React.CSSProperties;
+      subHeader?: React.CSSProperties;
+
+      title?: React.CSSProperties;
+      subTitle?: React.CSSProperties;
+      subTitleAlt?: React.CSSProperties;
+
+      base?: React.CSSProperties;
+      baseAlt?: React.CSSProperties;
+      Body?: React.CSSProperties;
+
+      captionAlt?: React.CSSProperties;
+      caption?: React.CSSProperties;
+    };
     zIndex?: {
       listView?: number;
       calendarView?: number;
