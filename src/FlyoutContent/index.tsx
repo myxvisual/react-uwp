@@ -49,7 +49,6 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     showFlyoutContent: this.props.show
   };
   rootElm: HTMLDivElement;
-  enterTimer: any = null;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -73,14 +72,9 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
       this.rootElm.parentElement.removeEventListener("mouseenter", this.showFlyoutContent);
       this.rootElm.parentElement.removeEventListener("mouseleave", this.hideFlyoutContent);
     }
-    clearTimeout(this.enterTimer);
   }
 
-  showFlyoutContent = () => {
-    this.enterTimer = setTimeout(() => {
-      this.toggleShowFlyoutContent(true);
-    }, this.props.enterDelay);
-  }
+  showFlyoutContent = () => this.toggleShowFlyoutContent(true);
 
   hideFlyoutContent = () => this.toggleShowFlyoutContent(false);
 
@@ -98,12 +92,13 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
 
   getStyle = (showFlyoutContent = this.state.showFlyoutContent, positionStyle = {}): React.CSSProperties => {
     const { context: { theme }, props: { style } } = this;
+    const enterDelay = showFlyoutContent ? this.props.enterDelay : 0;
     return theme.prepareStyles({
       width: 280,
 
       boxSizing: "content-box",
       padding: 8,
-      border: `1px solid ${theme.baseLow}`,
+      border: `1px solid ${showFlyoutContent ? theme.listAccentLow : theme.baseLow}`,
       color: theme.baseMediumHigh,
       background: theme.chromeLow,
       pointerEvents: showFlyoutContent ? "all" : "none",
@@ -111,7 +106,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
       transform: `translateY(${showFlyoutContent ? "0px" : "10px"})`,
       position: "absolute",
       zIndex: theme.zIndex.FlyoutContent,
-      transition: "transform .25s ease-in-out, opacity .25s ease-in-out, border .25s ease-in-out",
+      transition: `transform .25s ${ enterDelay}ms ease-in-out, opacity .25s ${enterDelay}ms ease-in-out, border ${enterDelay}ms .25s ease-in-out`,
       ...positionStyle,
       ...style
     });
@@ -177,15 +172,9 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     return positionStyle;
   }
 
-  handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderColor = this.context.theme.listAccentLow;
-    this.props.onMouseEnter(e);
-  }
+  handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => this.showFlyoutContent();
 
-  handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderColor = this.context.theme.baseLow;
-    this.props.onMouseLeave(e);
-  }
+  handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => this.hideFlyoutContent();
 
   render() {
     const {
