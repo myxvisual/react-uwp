@@ -5,11 +5,26 @@ import Slider from "../Slider";
 import * as tinycolor from "tinycolor2";
 
 export interface DataProps {
+  /**
+   * init ColorPicker Default color.
+   */
   defaultColor?: string;
+  /**
+   * init ColorPicker Default size. passed number covert to `px`.
+   */
   size?: number;
+  /**
+   * onChange ColorPicker color event `callback`.
+   */
   onChangeColor?: (color?: string) => void;
+  /**
+   * onChanged color event `callback`.
+   */
   onChangedColor?: (color?: string) => void;
-  onChangedColorEndTime?: number;
+  /**
+   * setTimeout to onChanged color event `callback`. default is 0.
+   */
+  onChangedColorTimeout?: number;
 }
 export interface ColorPickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
@@ -26,7 +41,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     defaultColor: "hsv(210, 100%, 100%)",
     onChangeColor: emptyFunc,
     onChangedColor: emptyFunc,
-    onChangedColorEndTime: 250
+    onChangedColorTimeout: 250
   };
 
   state: ColorPickerState = tinycolor(this.props.defaultColor).toHsv();
@@ -138,7 +153,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
         cursor: "default"
       });
     }
-    const { size, onChangeColor, onChangedColor, onChangedColorEndTime } = this.props;
+    const { size, onChangeColor, onChangedColor, onChangedColorTimeout } = this.props;
     const { v } = this.state;
     const clientReact = this.canvas.getBoundingClientRect();
     const colorPickerBoardSize = size * 0.8125 / 2;
@@ -176,7 +191,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
       this.moveColorTimer = setTimeout(() => {
         onChangedColor(colorHexString);
         this.setState({ h, s });
-      }, onChangedColorEndTime);
+      }, onChangedColorTimeout);
     }
   }
 
@@ -203,7 +218,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
       defaultColor,
       onChangeColor,
       onChangedColor,
-      onChangedColorEndTime,
+      onChangedColorTimeout,
       ...attributes
     } = this.props;
     const { h, s, v } = this.state;

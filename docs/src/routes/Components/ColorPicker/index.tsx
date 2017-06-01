@@ -1,11 +1,18 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ColorPicker from "react-uwp/ColorPicker";
+import ComponentDetail from "components/ComponentDetail";
+import * as docEntry from "react-uwp/ColorPicker/index.doc.json";
+import * as readmeText from "!raw!./README.md";
 
-export default class ColorPickerExample extends React.Component<any, void> {
+import CodeExample from "components/CodeExample";
+
+import SimpleExample from "./SimpleExample";
+import * as SimpleExampleCode from "!raw!./SimpleExample";
+import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
+
+export default class ColorPicker extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {
@@ -15,11 +22,23 @@ export default class ColorPickerExample extends React.Component<any, void> {
       router, // tslint:disable-line:no-unused-variable
       routeParams, // tslint:disable-line:no-unused-variable
       routes, // tslint:disable-line:no-unused-variable
-      ...attributes
+      ...attributes // tslint:disable-line:no-unused-variable
     } = this.props;
 
     return (
-      <ColorPicker defaultColor={this.context.theme.accent} />
+      <ComponentDetail
+        readmeText={readmeText as any}
+        docEntry={docEntry}
+      >
+        <CodeExample
+          title="Simple Examples"
+          code={SimpleExampleCode as any}
+          description={SimpleExampleDesc as any}
+          doubleThemeStyle={{ padding: "40px 0" }}
+        >
+          <SimpleExample />
+        </CodeExample>
+      </ComponentDetail>
     );
   }
 }

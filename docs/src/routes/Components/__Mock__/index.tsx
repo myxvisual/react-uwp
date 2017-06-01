@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ComponentDetail from "components/ComponentDetail";
-import * as docEntry from "react-uwp/Button/index.doc.json";
+import * as docEntry from "react-uwp/Mock/index.doc.json";
 import * as readmeText from "!raw!./README.md";
 
 import CodeExample from "components/CodeExample";

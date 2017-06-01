@@ -371,7 +371,12 @@ export class Parser {
 
 const parser = new Parser();
 
+
+const buildComponentName =
+  "ColorPicker";
+  // "ContentDialog";
+
 const result = parser.parseHot(
-  path.resolve(__dirname, "../../src/CommandBar/index.tsx"),
+  path.resolve(__dirname, `../../src/${buildComponentName}/index.tsx`),
   (result: DocEntry) => fs.writeFileSync(result.fileName.replace(/\.tsx?/, ".doc.json"), JSON.stringify(result, null, 2))
 );

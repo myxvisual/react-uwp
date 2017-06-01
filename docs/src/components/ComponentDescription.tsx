@@ -46,11 +46,9 @@ export default class ComponentDescription extends React.Component<ComponentDescr
   }
 
   initializerTextParser = (initializerText?: string) => {
-    const text = initializerText.split(",").map(str => {
-      return str.replace(/\:\s*(.*)$/gmi, (match, p1) => {
-        return `: \'${p1}\'`;
-      });
-    }).join(",");
+    const text = initializerText.replace(/\:\s*(.*),\n?\r?$/gmi, (match, p1) => {
+      return `: \'${p1}\',`;
+    });
     let data: any = null;
     try {
       data = eval(`(function() { return ${text} })()`);
@@ -93,8 +91,6 @@ export default class ComponentDescription extends React.Component<ComponentDescr
           let haveHTMLAttributes = true;
 
           for (let docEntry of dataProps) {
-            if (key === "onChangeValue") {
-            }
             if (key === docEntry.name) {
               docEntry.initializerText = data[key];
               haveHTMLAttributes = false;
