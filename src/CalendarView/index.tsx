@@ -12,11 +12,20 @@ import ScaleInOut from "./ScaleInOut";
 
 export interface DataProps {
   /**
-   * Init CalendarView show mode.
+   * CalendarView defaultDate.
    */
   defaultDate?: Date;
+  /**
+   * init show mode.
+   */
   pickerMode?: "year" | "month" | "day";
+  /**
+   * onChange date callback.
+   */
   onChangeDate?: (date?: Date) => void;
+  /**
+   * if true, just select one highLight date item.
+   */
   selectSingleDay?: boolean;
 }
 

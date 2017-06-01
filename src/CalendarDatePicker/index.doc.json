@@ -116,7 +116,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    defaultDate: new Date(),\n    placeholder: \"mm/dd/yyyy\",\n    width: 296,\n    height: 32\n  }",
+          "initializerText": " {\n    defaultDate: new Date(),\n    placeholder: \"mm/dd/yyyy\",\n    width: 296,\n    height: 32,\n    onClick: emptyFunc,\n    onChangeDate: emptyFunc\n  }",
           "documentation": "",
           "type": "CalendarDatePickerProps"
         },
@@ -141,13 +141,13 @@
         },
         {
           "name": "toggleShowCalendarView",
-          "initializerText": " (showCalendarView?: any) => {\n    if (typeof showCalendarView === \"boolean\") {\n      if (showCalendarView !== this.state.showCalendarView) {\n        this.setState({ showCalendarView });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        showCalendarView: !prevState.showCalendarView\n      }));\n    }\n  }",
+          "initializerText": " (showCalendarView?: any) => {\n    this.props.onClick(showCalendarView);\n    if (typeof showCalendarView === \"boolean\") {\n      if (showCalendarView !== this.state.showCalendarView) {\n        this.setState({ showCalendarView });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        showCalendarView: !prevState.showCalendarView\n      }));\n    }\n  }",
           "documentation": "",
           "type": "(showCalendarView?: any) => void"
         },
         {
           "name": "handleChangeDate",
-          "initializerText": " (date: Date) => {\n    this.state.currDate = date;\n    this.state.isInit = false;\n    if (this.props.onChangeDate) this.props.onChangeDate(date);\n\n    this.toggleShowCalendarView();\n  }",
+          "initializerText": " (date: Date) => {\n    this.state.currDate = date;\n    this.state.isInit = false;\n    this.props.onChangeDate(date);\n\n    this.toggleShowCalendarView();\n  }",
           "documentation": "",
           "type": "(date: Date) => void"
         },

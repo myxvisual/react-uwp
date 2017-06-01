@@ -8,10 +8,6 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    return (
-      <div>
-        <CalendarDatePicker />
-      </div>
-    );
+    return <CalendarDatePicker />;
   }
 }

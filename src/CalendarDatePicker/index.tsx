@@ -43,7 +43,9 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
     defaultDate: new Date(),
     placeholder: "mm/dd/yyyy",
     width: 296,
-    height: 32
+    height: 32,
+    onClick: emptyFunc,
+    onChangeDate: emptyFunc
   };
 
   state: CalendarDatePickerState = {
@@ -55,6 +57,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
   context: { theme: ReactUWP.ThemeType };
 
   toggleShowCalendarView = (showCalendarView?: any) => {
+    this.props.onClick(showCalendarView);
     if (typeof showCalendarView === "boolean") {
       if (showCalendarView !== this.state.showCalendarView) {
         this.setState({ showCalendarView });
@@ -69,7 +72,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
   handleChangeDate = (date: Date) => {
     this.state.currDate = date;
     this.state.isInit = false;
-    if (this.props.onChangeDate) this.props.onChangeDate(date);
+    this.props.onChangeDate(date);
 
     this.toggleShowCalendarView();
   }
@@ -97,6 +100,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
     return (
       <div
         style={styles.root}
+        onClick={this.toggleShowCalendarView}
       >
         <Input
           {...attributes}
@@ -104,7 +108,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
           placeholder={isInit ? placeholder : mmddyy }
           disabled
           rightNode={
-            <Icon style={styles.icon} onClick={this.toggleShowCalendarView}>
+            <Icon style={styles.icon}>
               Calendar
             </Icon>
           }
@@ -158,9 +162,9 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
       position: "absolute",
       top: height,
       left: 0,
-      transform: `translate3D(0, -${(
-        showCalendarView ? 0 : (
-          typeof height === "number" ? `${height}px` : height
+      transform: `translate3D(0, ${(
+        showCalendarView ? "4px" : (
+          typeof height === "number" ? `-${height}px` : `-${height}`
         )
       )}, 0)`,
       opacity: showCalendarView ? 1 : 0,

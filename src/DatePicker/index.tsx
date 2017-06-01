@@ -38,7 +38,7 @@ export default class DatePicker extends React.Component<DatePickerProps, DatePic
       (this.dropDownMenus[1].getValue() as any - 1),
       this.dropDownMenus[2].getValue() as any
     )
-  );
+  )
 
   render() {
     const {

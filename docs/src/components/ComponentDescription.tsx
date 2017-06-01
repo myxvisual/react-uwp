@@ -46,7 +46,10 @@ export default class ComponentDescription extends React.Component<ComponentDescr
   }
 
   initializerTextParser = (initializerText?: string) => {
-    const text = initializerText.replace(/\:\s*(.*),\n?\r?$/gmi, (match, p1) => {
+    const text = initializerText.replace(/\:\s*(.*)\,?\n?\r?$/gmi, (match, p1) => {
+      if (p1[p1.length - 1] === ",") {
+        p1 = p1.slice(0, p1.length - 1);
+      }
       return `: \'${p1}\',`;
     });
     let data: any = null;

@@ -31,20 +31,26 @@
       "name": "DataProps",
       "members": [
         {
+          "name": "defaultDate",
+          "documentation": "CalendarView defaultDate.",
+          "isRequired": false,
+          "type": "Date"
+        },
+        {
           "name": "pickerMode",
-          "documentation": "Init CalendarView show mode.",
+          "documentation": "init show mode.",
           "isRequired": false,
           "type": "\"year\" | \"month\" | \"day\""
         },
         {
           "name": "onChangeDate",
-          "documentation": "",
+          "documentation": "onChange date callback.",
           "isRequired": false,
           "type": "(date?: Date) => void"
         },
         {
           "name": "selectSingleDay",
-          "documentation": "",
+          "documentation": "if true, just select one highLight date item.",
           "isRequired": false,
           "type": "boolean"
         }
@@ -62,12 +68,6 @@
     {
       "name": "CalendarViewState",
       "members": [
-        {
-          "name": "dateNow",
-          "documentation": "",
-          "isRequired": false,
-          "type": "Date"
-        },
         {
           "name": "viewDate",
           "documentation": "",
@@ -116,7 +116,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    pickerMode: \"day\",\n    onChangeDate: emptyFunc,\n    selectSingleDay: true\n  }",
+          "initializerText": " {\n    defaultDate: new Date(),\n    pickerMode: \"day\",\n    onChangeDate: emptyFunc,\n    selectSingleDay: true\n  }",
           "documentation": "",
           "type": "CalendarViewProps"
         },
@@ -130,7 +130,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    dateNow: new Date(),\n    viewDate: new Date(),\n    direction: \"bottom\",\n    chooseISODates: [],\n    currPickerMode: this.props.pickerMode\n  }",
+          "initializerText": " {\n    viewDate: new Date(),\n    direction: \"bottom\",\n    chooseISODates: [],\n    currPickerMode: this.props.pickerMode\n  }",
           "documentation": "",
           "type": "CalendarViewState"
         },
