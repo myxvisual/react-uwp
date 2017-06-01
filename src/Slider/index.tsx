@@ -222,6 +222,7 @@ function getStyles(slider: Slider): {
       height: height2px,
       cursor: "default",
       position: "relative",
+      overflow: "hidden",
       display: "inline-block"
     }),
     barContainer: {
@@ -249,7 +250,7 @@ function getStyles(slider: Slider): {
       width: "100%",
       left: 0,
       top: 0,
-      transform: `translateX(${valueRatio * 100}%)`,
+      transform: `translateX(${valueRatio * 100}%)`
     }),
     controller: prepareStyles({
       display: "inline-block",

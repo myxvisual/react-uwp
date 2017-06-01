@@ -27,7 +27,7 @@ export default class Control extends React.Component<ControlProps, void> {
         {...attributes}
         style={styles.root}
       >
-        <div style={{ position: "relative", height: 48, padding: "0 8px" }}>
+        <div style={styles.sliderContainer}>
           <Slider
             style={{ width: "100%" }}
             controllerWidth={16}
@@ -70,6 +70,7 @@ export default class Control extends React.Component<ControlProps, void> {
 
 function getStyles(mock: Control): {
   root?: React.CSSProperties;
+  sliderContainer?: React.CSSProperties;
   controlsGroup2?: React.CSSProperties;
 } {
   const {
@@ -90,6 +91,12 @@ function getStyles(mock: Control): {
       backgroundImage: `linear-gradient(transparent, ${theme.altMedium})`,
       ...style
     }),
+    sliderContainer: {
+      overflow: "hidden",
+      position: "relative",
+      height: 48,
+      padding: "0 8px"
+    },
     controlsGroup2: prepareStyles({
       display: "flex",
       flexDirection: "row",
