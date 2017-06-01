@@ -9,16 +9,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <div
-        style={this.context.theme.prepareStyles({
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end"
-          })
-        }
-      >
-        <ColorPicker size={100} defaultColor="yellowgreen" />
-        <ColorPicker size={200} defaultColor="blue" />
+      <div>
         <ColorPicker defaultColor="red" />
       </div>
     );

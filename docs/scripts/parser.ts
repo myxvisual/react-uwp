@@ -372,9 +372,7 @@ export class Parser {
 const parser = new Parser();
 
 
-const buildComponentName =
-  "ColorPicker";
-  // "ContentDialog";
+const buildComponentName = process.argv[2] || "Button";
 
 const result = parser.parseHot(
   path.resolve(__dirname, `../../src/${buildComponentName}/index.tsx`),

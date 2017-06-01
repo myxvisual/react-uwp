@@ -89,6 +89,7 @@ export default class ComponentDescription extends React.Component<ComponentDescr
 
         for (const key in data) {
           let haveHTMLAttributes = true;
+          if (!dataProps) break;
 
           for (let docEntry of dataProps) {
             if (key === docEntry.name) {
@@ -118,6 +119,8 @@ export default class ComponentDescription extends React.Component<ComponentDescr
   }
 
   members2MarkdownText = (members: DocEntry[], getProps = false) => {
+    if (!members) return "";
+
     const { theme } = this.context;
     const planeText = members.map(({ name, type, isRequired, initializerText, documentation }) => ([
       name,

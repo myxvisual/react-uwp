@@ -11,7 +11,11 @@ import FadeInOut from "./FadeInOut";
 import ScaleInOut from "./ScaleInOut";
 
 export interface DataProps {
-  pickerMode?: "Year" | "Month" | "Day";
+  /**
+   * Init CalendarView show mode.
+   */
+  defaultDate?: Date;
+  pickerMode?: "year" | "month" | "day";
   onChangeDate?: (date?: Date) => void;
   selectSingleDay?: boolean;
 }
@@ -19,23 +23,22 @@ export interface DataProps {
 export interface CalendarViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface CalendarViewState {
-  dateNow?: Date;
   viewDate?: Date;
   direction?: "bottom" | "top";
   chooseISODates?: string[];
-  currPickerMode?: "Year" | "Month" | "Day";
+  currPickerMode?: "year" | "month" | "day";
 }
 
 const emptyFunc = () => {};
-export default class CalendarView extends React.Component<CalendarViewProps, CalendarViewState> {
+export class CalendarView extends React.Component<CalendarViewProps, CalendarViewState> {
   static defaultProps: CalendarViewProps = {
-    pickerMode: "Day",
+    defaultDate: new Date(),
+    pickerMode: "day",
     onChangeDate: emptyFunc,
     selectSingleDay: true
   };
 
   state: CalendarViewState = {
-    dateNow: new Date(),
     viewDate: new Date(),
     direction: "bottom",
     chooseISODates: [],
@@ -48,21 +51,21 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
   nextAction = () => {
     const { viewDate, currPickerMode } = this.state;
     switch (currPickerMode) {
-      case "Day": {
+      case "day": {
         this.setState({
           viewDate: dateUtils.addMonths(viewDate, 1),
           direction: "bottom"
         });
         break;
       }
-      case "Month": {
+      case "month": {
         this.setState({
           viewDate: dateUtils.addYears(viewDate, 1),
           direction: "bottom"
         });
         break;
       }
-      case "Year": {
+      case "year": {
         this.setState({
           viewDate: dateUtils.addYears(viewDate, 10),
           direction: "bottom"
@@ -78,21 +81,21 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
   prevAction = () => {
     const { viewDate, currPickerMode } = this.state;
     switch (currPickerMode) {
-      case "Day": {
+      case "day": {
         this.setState({
           viewDate: dateUtils.addMonths(viewDate, -1),
           direction: "top"
         });
         break;
       }
-      case "Month": {
+      case "month": {
         this.setState({
           viewDate: dateUtils.addYears(viewDate, -1),
           direction: "top"
         });
         break;
       }
-      case "Year": {
+      case "year": {
         this.setState({
           viewDate: dateUtils.addYears(viewDate, -10),
           direction: "top"
@@ -105,7 +108,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
     }
   }
 
-  chooseDay = (date: Date) => {
+  handleChooseDay = (date: Date) => {
     let { chooseISODates, viewDate } = this.state;
     const { selectSingleDay } = this.props;
     const dateISOString = date.toISOString();
@@ -124,7 +127,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
     const newDate = new Date(viewDate.getFullYear(), month, viewDate.getDate());
     this.setState({
       viewDate: new Date(viewDate.getFullYear(), month, viewDate.getDate()),
-      currPickerMode: "Day"
+      currPickerMode: "day"
     });
     this.props.onChangeDate(newDate);
   }
@@ -134,7 +137,7 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
     const newDate = new Date(year, viewDate.getMonth(), viewDate.getDate());
     this.setState({
       viewDate: newDate,
-      currPickerMode: "Month"
+      currPickerMode: "month"
     });
     this.props.onChangeDate(newDate);
   }
@@ -142,14 +145,14 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
   getTitle = () => {
     const { viewDate, currPickerMode } = this.state;
     switch (currPickerMode) {
-      case "Day": {
+      case "day": {
         return `${dateUtils.monthList[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
       }
-      case "Month": {
+      case "month": {
         const year = viewDate.getFullYear();
         return `${year} Year`;
       }
-      case "Year": {
+      case "year": {
         const year = viewDate.getFullYear();
         const minYearOfTen = Math.floor(year / 10) * 10;
         const maxYearOfTen = Math.ceil(year / 10) * 10;
@@ -166,15 +169,15 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
       this.setState({ currPickerMode: e as any });
     }
     switch (this.state.currPickerMode) {
-      case "Day": {
-        this.setState({ currPickerMode: "Month" });
+      case "day": {
+        this.setState({ currPickerMode: "month" });
         break;
       }
-      case "Month": {
-        this.setState({ currPickerMode: "Year" });
+      case "month": {
+        this.setState({ currPickerMode: "year" });
         break;
       }
-      case "Year": {
+      case "year": {
         break;
       }
       default: {
@@ -184,10 +187,10 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
   }
 
   render() {
-    const { pickerMode, onChangeDate, selectSingleDay, ...attributes } = this.props;
+    const { defaultDate, pickerMode, onChangeDate, selectSingleDay, ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
-    const { dateNow, viewDate, direction, chooseISODates, currPickerMode } = this.state;
+    const {  viewDate, direction, chooseISODates, currPickerMode } = this.state;
     const title = this.getTitle();
 
     return (
@@ -245,15 +248,15 @@ export default class CalendarView extends React.Component<CalendarViewProps, Cal
           minScale={0.4}
           speed={250}
         >
-          {currPickerMode === "Day" ? (
+          {currPickerMode === "day" ? (
             <DayPicker
               date={viewDate}
               direction={direction}
-              chooseDay={(date) => this.chooseDay(date)}
+              onChooseDay={this.handleChooseDay}
               chooseISODates={chooseISODates}
               key={currPickerMode}
             />
-          ) : (currPickerMode === "Month" ? (
+          ) : (currPickerMode === "month" ? (
             <MonthPicker
               date={viewDate}
               direction={direction}
@@ -290,7 +293,7 @@ function getStyles(calendarView: CalendarView): {
       fontSize: 14,
       color: theme.baseHigh,
       width: 296,
-      // height: 334,
+      background: theme.altHigh,
       border: `2px solid ${theme.baseLow}`,
       ...style
     }),
@@ -315,3 +318,5 @@ function getStyles(calendarView: CalendarView): {
     })
   };
 }
+
+export default CalendarView;

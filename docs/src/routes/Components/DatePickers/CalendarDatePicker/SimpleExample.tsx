@@ -1,13 +1,17 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import AutoSuggestBox from "react-uwp/AutoSuggestBox";
+import CalendarDatePicker from "react-uwp/CalendarDatePicker";
 
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    return <AutoSuggestBox />;
+    return (
+      <div>
+        <CalendarDatePicker />
+      </div>
+    );
   }
 }

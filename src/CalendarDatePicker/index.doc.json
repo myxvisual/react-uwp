@@ -1,0 +1,173 @@
+{
+  "fileName": "D:/react-uwp/src/CalendarDatePicker/index.tsx",
+  "name": "\"D:/react-uwp/src/CalendarDatePicker/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "CalendarDatePickerProps",
+      "documentation": ""
+    },
+    {
+      "name": "CalendarDatePickerState",
+      "documentation": ""
+    },
+    {
+      "name": "CalendarDatePicker",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "CalendarDatePicker"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "placeholder",
+          "documentation": "The HTMLAttributes `placeholder`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "defaultDate",
+          "documentation": "The Default Date.",
+          "isRequired": false,
+          "type": "Date"
+        },
+        {
+          "name": "width",
+          "documentation": "The Component style `width`.",
+          "isRequired": false,
+          "type": "string | number"
+        },
+        {
+          "name": "height",
+          "documentation": "The Component style `height`.",
+          "isRequired": false,
+          "type": "string | number"
+        },
+        {
+          "name": "onChangeDate",
+          "documentation": "onChange date `callback`.",
+          "isRequired": false,
+          "type": "(date?: Date) => void"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "CalendarDatePickerProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "CalendarDatePickerState",
+      "members": [
+        {
+          "name": "currDate",
+          "documentation": "",
+          "isRequired": false,
+          "type": "Date"
+        },
+        {
+          "name": "isInit",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "showCalendarView",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "CalendarDatePicker",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    defaultDate: new Date(),\n    placeholder: \"mm/dd/yyyy\",\n    width: 296,\n    height: 32\n  }",
+          "documentation": "",
+          "type": "CalendarDatePickerProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    currDate: this.props.defaultDate,\n    isInit: true\n  }",
+          "documentation": "",
+          "type": "CalendarDatePickerState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "toggleShowCalendarView",
+          "initializerText": " (showCalendarView?: any) => {\n    if (typeof showCalendarView === \"boolean\") {\n      if (showCalendarView !== this.state.showCalendarView) {\n        this.setState({ showCalendarView });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        showCalendarView: !prevState.showCalendarView\n      }));\n    }\n  }",
+          "documentation": "",
+          "type": "(showCalendarView?: any) => void"
+        },
+        {
+          "name": "handleChangeDate",
+          "initializerText": " (date: Date) => {\n    this.state.currDate = date;\n    this.state.isInit = false;\n    if (this.props.onChangeDate) this.props.onChangeDate(date);\n\n    this.toggleShowCalendarView();\n  }",
+          "documentation": "",
+          "type": "(date: Date) => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(calendarDatePicker: CalendarDatePicker) => { root?: CSSProperties; input?: CSSProperties; icon?:..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/CalendarDatePicker/index\""
+}

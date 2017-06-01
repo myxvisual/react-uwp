@@ -6,7 +6,7 @@ import SlideInOut from "./SlideInOut";
 
 export interface DataProps {
   date?: Date;
-  chooseDay?: (date: Date) => void;
+  onChooseDay?: (date: Date) => void;
   direction?: "bottom" | "top";
   chooseISODates?: string[];
 }
@@ -16,7 +16,7 @@ export interface DayPickerProps extends DataProps, React.HTMLAttributes<HTMLDivE
 export default class DayPicker extends React.Component<DayPickerProps, {}> {
   static defaultProps: DayPickerProps = {
     date: new Date(),
-    chooseDay: () => {},
+    onChooseDay: () => {},
     chooseISODates: [],
     direction: "bottom"
   };
@@ -77,7 +77,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
   }
 
   render() {
-    const { date, chooseDay, direction, chooseISODates, ...attributes } = this.props;
+    const { date, onChooseDay, direction, chooseISODates, ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
     const days = this.getDaysArray();
@@ -114,7 +114,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
                   color: isCurrMonth ? theme.baseHigh : theme.baseLow,
                   background: (isNow || isChoose) ? theme.accent : (isCurrMonth ? theme.altHigh : theme.chromeLow)
                 }}
-                onClick={() => chooseDay(date)}
+                onClick={() => onChooseDay(date)}
                 key={`${index}`}
               >
                 {day}

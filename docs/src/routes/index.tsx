@@ -101,6 +101,30 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/ColorPicker").default);
           }, "react-uwp-Components-ColorPicker");
         }
+      }, {
+        path: "DatePickers",
+        indexRoute: {
+          getComponent: (location: Location, cb: RouterCallback) => {
+            require.ensure([], (require) => {
+              cb(null, require<any>("./Components/DatePickers/CalendarView").default);
+            }, "react-uwp-Components-DatePickers-CalendarView");
+          }
+        },
+        childRoutes: [{
+          path: "CalendarDatePicker",
+          getComponent: (location: Location, cb: RouterCallback) => {
+            require.ensure([], (require) => {
+              cb(null, require<any>("./Components/DatePickers/CalendarDatePicker").default);
+            }, "react-uwp-Components-DatePickers-CalendarDatePicker");
+          }
+        }, {
+          path: "CalendarView",
+          getComponent: (location: Location, cb: RouterCallback) => {
+            require.ensure([], (require) => {
+              cb(null, require<any>("./Components/DatePickers/CalendarView").default);
+            }, "react-uwp-Components-DatePickers-CalendarView");
+          }
+        }]
       }]
     }, {
       path: "Styles",

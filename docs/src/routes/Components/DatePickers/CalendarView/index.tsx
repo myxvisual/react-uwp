@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ComponentDetail from "components/ComponentDetail";
-import * as docEntry from "react-uwp/Mock/index.doc.json";
+import * as docEntry from "react-uwp/CalendarView/index.doc.json";
 import * as readmeText from "!raw!./README.md";
 
 import CodeExample from "components/CodeExample";
@@ -11,7 +11,7 @@ import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
 import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
-export default class Mock extends React.Component<any, void> {
+export default class CalendarView extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {

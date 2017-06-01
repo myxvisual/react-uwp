@@ -37,11 +37,12 @@ export interface AutoSuggestBoxState {
   focusListSourceIndex?: number;
 }
 
+const emptyFunc = () => {};
 export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSuggestBoxState> {
   static defaultProps: AutoSuggestBoxProps = {
     background: "none",
-    onChangeValue: () => {},
-    searchAction: () => {},
+    onChangeValue: emptyFunc,
+    searchAction: emptyFunc,
     iconSize: 32
   };
 
