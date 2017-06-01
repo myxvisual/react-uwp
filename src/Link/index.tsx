@@ -1,16 +1,20 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface LinkProps extends React.HTMLAttributes<HTMLAnchorElement> {}
+export interface DataProps {
+  href?: string;
+}
+export interface LinkProps extends React.HTMLAttributes<HTMLAnchorElement>, DataProps {}
 
 export interface LinkState {
   hover?: boolean;
 }
 
+const emptyFunc = () => {};
 export default class Link extends React.Component<LinkProps, LinkState> {
   static defaultProps: LinkProps = {
-    onMouseEnter: () => {},
-    onMouseLeave: () => {}
+    onMouseEnter: emptyFunc,
+    onMouseLeave: emptyFunc
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -32,7 +36,6 @@ export default class Link extends React.Component<LinkProps, LinkState> {
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
     const { onMouseEnter, onMouseLeave, ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);

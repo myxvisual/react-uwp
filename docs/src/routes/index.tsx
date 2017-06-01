@@ -56,6 +56,62 @@ function getRoutes(path = "/") {
       }
     },
     childRoutes: [{
+      path: "get-started",
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          const Child = require<any>("./GetStarted").default;
+          cb(null, () => (
+            <WrapperWithPath>
+              <Child />
+            </WrapperWithPath>
+          ));
+        }, "react-uwp-get-started");
+      }
+    }, {
+      path: "Layout",
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          const Child = require<any>("./Layout").default;
+          cb(null, () => (
+            <WrapperWithPath>
+              <Child />
+            </WrapperWithPath>
+          ));
+        }, "react-uwp-Layout");
+      }
+    }, {
+      path: "Styles",
+      component: WrapperWithPath,
+      indexRoute: {
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Colors").default);
+          }, "react-uwp-Styles-Colors");
+        }
+      },
+      childRoutes: [{
+        path: "Icons",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Icons").default);
+          }, "react-uwp-style-Icons");
+        }
+      }, {
+        path: "Animate",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Animate").default);
+          }, "react-uwp-Styles-Animate");
+        }
+      }, {
+        path: "Colors",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Colors").default);
+          }, "react-uwp-Styles-Colors");
+        }
+      }]
+    }, {
       component: WrapperWithPath,
       path: "Components",
       indexRoute: {
@@ -146,51 +202,14 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/FlipView").default);
           }, "react-uwp-Components-FlipView");
         }
-      }]
-    }, {
-      path: "Styles",
-      component: WrapperWithPath,
-      indexRoute: {
-        getComponent: (location: Location, cb: RouterCallback) => {
-          require.ensure([], (require) => {
-            cb(null, require<any>("./Styles/Colors").default);
-          }, "react-uwp-Styles-Colors");
-        }
-      },
-      childRoutes: [{
-        path: "Icons",
-        getComponent: (location: Location, cb: RouterCallback) => {
-          require.ensure([], (require) => {
-            cb(null, require<any>("./Styles/Icons").default);
-          }, "react-uwp-style-Icons");
-        }
       }, {
-        path: "Animate",
+        path: "HyperLink",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
-            cb(null, require<any>("./Styles/Animate").default);
-          }, "react-uwp-Styles-Animate");
-        }
-      }, {
-        path: "Colors",
-        getComponent: (location: Location, cb: RouterCallback) => {
-          require.ensure([], (require) => {
-            cb(null, require<any>("./Styles/Colors").default);
-          }, "react-uwp-Styles-Colors");
+            cb(null, require<any>("./Components/HyperLink").default);
+          }, "react-uwp-Components-HyperLink");
         }
       }]
-    }, {
-      path: "get-started",
-      getComponent: (location: Location, cb: RouterCallback) => {
-        require.ensure([], (require) => {
-          const Child = require<any>("./GetStarted").default;
-          cb(null, () => (
-            <WrapperWithPath>
-              <Child />
-            </WrapperWithPath>
-          ));
-        }, "react-uwp-get-started");
-      }
     }, {
       path: "Resources",
       getComponent: (location: Location, cb: RouterCallback) => {
@@ -214,18 +233,6 @@ function getRoutes(path = "/") {
             </WrapperWithPath>
           ));
         }, "react-uwp-Examples");
-      }
-    },  {
-      path: "Layout",
-      getComponent: (location: Location, cb: RouterCallback) => {
-        require.ensure([], (require) => {
-          const Child = require<any>("./Layout").default;
-          cb(null, () => (
-            <WrapperWithPath>
-              <Child />
-            </WrapperWithPath>
-          ));
-        }, "react-uwp-Layout");
       }
     }, {
       path: "*",
