@@ -130,7 +130,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
             {secondaryCommands && (
               <ListView
                 style={styles.secondaryCommands}
-                items={secondaryCommands.map(itemNode => {
+                listSource={secondaryCommands.map(itemNode => {
                   if (itemNode.type === AppBarSeparator) {
                     itemNode = React.cloneElement(itemNode, { direction: "row" });
                     return { itemNode, disabled: true, style: { padding: "0 8px" } };

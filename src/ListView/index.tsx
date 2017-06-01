@@ -14,8 +14,8 @@ export interface Item {
   onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
 }
 export interface DataProps {
-  items?: Item[];
-  itemStyle?: React.CSSProperties;
+  listSource?: Item[];
+  listItemStyle?: React.CSSProperties;
   onChooseItem?: (itemIndex?: number) => void;
 }
 
@@ -32,7 +32,7 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
   };
 
   state: ListViewState = {
-    currItems: this.props.items
+    currItems: this.props.listSource
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -43,14 +43,14 @@ export default class ListView extends React.Component<ListViewProps, ListViewSta
   }
 
   updateProps2State = (props: ListViewProps) => {
-    const currItems = props.items;
+    const currItems = props.listSource;
     this.setState({ currItems });
   }
 
   render() {
     const {
-      items, // tslint:disable-line:no-unused-variable
-      itemStyle, // tslint:disable-line:no-unused-variable
+      listSource, // tslint:disable-line:no-unused-variable
+      listItemStyle, // tslint:disable-line:no-unused-variable
       onChooseItem,
       ...attributes
     } = this.props;
@@ -120,7 +120,7 @@ function getStyles(listView: ListView): {
   root?: React.CSSProperties;
   item?: React.CSSProperties;
 } {
-  const { context, props: { itemStyle } } = listView;
+  const { context, props: { listItemStyle } } = listView;
   const { theme } = context;
   const { prepareStyles } = theme;
 
@@ -138,7 +138,7 @@ function getStyles(listView: ListView): {
       padding: 8,
       width: "100%",
       transition: "all 0.25s",
-      ...itemStyle
+      ...listItemStyle
     }
   };
 }

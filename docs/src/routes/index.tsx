@@ -209,6 +209,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/HyperLink").default);
           }, "react-uwp-Components-HyperLink");
         }
+      }, {
+        path: "Image",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Image").default);
+          }, "react-uwp-Components-Image");
+        }
       }]
     }, {
       path: "Resources",

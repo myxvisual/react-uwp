@@ -239,11 +239,11 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
           <ListView
             ref={listView => this.listView = listView}
             style={styles.listView}
-            items={currListSource.map((itemNode, index) => ({
+            listSource={currListSource.map((itemNode, index) => ({
               itemNode,
               focus: index === focusListSourceIndex
             }))}
-            itemStyle={{
+            listItemStyle={{
               fontSize: 12
             }}
             onChooseItem={this.handleChooseItem}

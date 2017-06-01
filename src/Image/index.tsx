@@ -2,16 +2,49 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ReactLazyLoad from "react-lazyload";
-import { DataProps as ReactLazyloadProps } from "react-lazyload";
 
 import Icon from "../Icon";
 
 export interface DataProps {
-  isLazyLoad?: boolean;
+  /**
+   * Toggle LazyLoad mode open, powerful base on [react-lazyload](https://github.com/jasonslyvia/react-lazyload).
+   */
+  useLazyLoad?: boolean;
+  /**
+   * Use Div backgroundImage.
+   */
   useDivContainer?: boolean;
+  /**
+   * Once the lazy loaded component is loaded, do not detect scroll/resize event anymore. Useful for images or simple components.
+   */
+  once?: boolean;
+  /**
+   * Say if you want to preload a component even if it's 100px below the viewport (user have to scroll 100px more to see this component), you can set `offset` props to `100`. On the other hand, if you want to delay loading a component even if it's top edge has already appeared at viewport, set `offset` to negative number.
+   */
+  offset?: number | number[];
+  /**
+   * Listen and react to scroll event.
+   */
+  scroll?: boolean;
+  /**
+   * Respond to `resize` event, set it to `true` if you do need LazyLoad listen resize event.
+   */
+  resize?: boolean;
+  /**
+   * If lazy loading components inside a overflow container, set this to `true`. Also make sure a `position` property other than `static` has been set to your overflow container.
+   */
+  overflow?: boolean;
+  /**
+   * By default, LazyLoad will have all event handlers debounced in 300ms for better performance. You can disable this by setting `debounce` to `false`, or change debounce time by setting a number value.
+   */
+  debounce?: boolean | number;
+  /**
+   * If you prefer `throttle` rather than `debounce`, you can set this props to `true` or provide a specific number.
+   */
+  throttle?: boolean | number;
 }
 
-export interface ImageProps extends DataProps, ReactLazyloadProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ImageProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface ImageState {
   showEmptyImage?: boolean;
@@ -29,7 +62,9 @@ class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>
         <Icon
           style={{
             color: theme.baseMedium,
-            fontSize: 80
+            fontSize: 80,
+            verticalAlign: "middle",
+            display: "block"
           }}
           hoverStyle={{}}
         >
@@ -40,11 +75,11 @@ class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>
   }
 }
 
-export default class Image extends React.Component<ImageProps, ImageState> {
+export class Image extends React.Component<ImageProps, ImageState> {
   static defaultProps: ImageProps = {
-    isLazyLoad: true,
+    useLazyLoad: false,
     useDivContainer: false,
-    once: false,
+    once: true,
     offset: 0,
     scroll: true,
     overflow: false,
@@ -62,7 +97,8 @@ export default class Image extends React.Component<ImageProps, ImageState> {
 
   render() {
     const {
-      isLazyLoad, useDivContainer,
+      useLazyLoad,
+      useDivContainer,
       once, scroll, offset, overflow, resize, debounce, throttle,
       ...attributes
     } = this.props;
@@ -81,10 +117,10 @@ export default class Image extends React.Component<ImageProps, ImageState> {
     );
 
     if (!attributes.src || this.state.showEmptyImage) {
-      return isLazyLoad ? placeholder : null;
+      return useLazyLoad ? placeholder : null;
     }
 
-    if (isLazyLoad) {
+    if (useLazyLoad) {
       return (
         <ReactLazyLoad
           {...{
@@ -107,3 +143,6 @@ export default class Image extends React.Component<ImageProps, ImageState> {
     return <ImageOrDiv />;
   }
 }
+
+
+export default Image;
