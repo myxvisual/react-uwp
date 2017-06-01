@@ -1,0 +1,73 @@
+{
+  "fileName": "D:/react-uwp/src/Flyout/index.tsx",
+  "name": "\"D:/react-uwp/src/Flyout/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "FlyoutProps",
+      "documentation": ""
+    },
+    {
+      "name": "Flyout",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "Flyout"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "FlyoutProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "Flyout",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Flyout/index\""
+}

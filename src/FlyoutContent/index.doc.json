@@ -1,0 +1,220 @@
+{
+  "fileName": "D:/react-uwp/src/FlyoutContent/index.tsx",
+  "name": "\"D:/react-uwp/src/FlyoutContent/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "FlyoutContentProps",
+      "documentation": ""
+    },
+    {
+      "name": "FlyoutContentState",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "FlyoutContent"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "verticalPosition",
+          "documentation": "The FlyoutContent `verticalPosition`.",
+          "isRequired": false,
+          "type": "\"top\" | \"bottom\" | \"center\""
+        },
+        {
+          "name": "horizontalPosition",
+          "documentation": "The FlyoutContent `horizontalPosition`.",
+          "isRequired": false,
+          "type": "\"center\" | \"left\" | \"right\""
+        },
+        {
+          "name": "show",
+          "documentation": "The default show FlyoutContent.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "margin",
+          "documentation": "FlyoutContent margin `rootElm` position.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "isControlled",
+          "documentation": "Default is `false`, is `true` the Flyout component only show in `props.show === true`.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "enterDelay",
+          "documentation": "In `props.isControlled === false`, this will control `FlyoutContent` fade in timer.",
+          "isRequired": false,
+          "type": "number"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "FlyoutContentProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "FlyoutContentState",
+      "members": [
+        {
+          "name": "showFlyoutContent",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "FlyoutContent",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    verticalPosition: \"top\",\n    horizontalPosition: \"center\",\n    margin: 4,\n    isControlled: false,\n    enterDelay: 0,\n    onMouseLeave: emptyFunc,\n    onMouseEnter: emptyFunc\n  }",
+          "documentation": "",
+          "type": "FlyoutContentProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    showFlyoutContent: this.props.show\n  }",
+          "documentation": "",
+          "type": "FlyoutContentState"
+        },
+        {
+          "name": "rootElm",
+          "documentation": "",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "enterTimer",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: FlyoutContentProps) => void"
+        },
+        {
+          "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "showFlyoutContent",
+          "initializerText": " () => {\n    this.enterTimer = setTimeout(() => {\n      this.toggleShowFlyoutContent(true);\n    }, this.props.enterDelay);\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "hideFlyoutContent",
+          "initializerText": " () => this.toggleShowFlyoutContent(false)",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "toggleShowFlyoutContent",
+          "initializerText": " (showFlyoutContent?: boolean) => {\n    if (typeof showFlyoutContent === \"boolean\") {\n      if (showFlyoutContent !== this.state.showFlyoutContent) {\n        this.setState({ showFlyoutContent });\n      }\n    } else {\n      this.setState({\n        showFlyoutContent: !this.state.showFlyoutContent\n      });\n    }\n  }",
+          "documentation": "",
+          "type": "(showFlyoutContent?: boolean) => void"
+        },
+        {
+          "name": "getStyle",
+          "initializerText": " (showFlyoutContent = this.state.showFlyoutContent, positionStyle = {}): React.CSSProperties => {\n    const { context: { theme }, props: { style } } = this;\n    return theme.prepareStyles({\n      width: 280,\n\n      boxSizing: \"content-box\",\n      padding: 8,\n      border: `1px solid ${theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: theme.chromeLow,\n      pointerEvents: showFlyoutContent ? \"all\" : \"none\",\n      opacity: showFlyoutContent ? 1 : 0,\n      transform: `translateY(${showFlyoutContent ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      zIndex: theme.zIndex.FlyoutContent,\n      transition: \"transform .25s ease-in-out, opacity .25s ease-in-out, border .25s ease-in-out\",\n      ...positionStyle,\n      ...style\n    });\n  }",
+          "documentation": "",
+          "type": "(showFlyoutContent?: boolean, positionStyle?: {}) => CSSProperties"
+        },
+        {
+          "name": "getFlyoutContentStyle",
+          "initializerText": " (): React.CSSProperties => {\n    const { rootElm } = this;\n    const { showFlyoutContent } = this.state;\n    if (!rootElm) return this.getStyle();\n    return this.getStyle(showFlyoutContent, this.getPositionStyle());\n  }",
+          "documentation": "",
+          "type": "() => CSSProperties"
+        },
+        {
+          "name": "getPositionStyle",
+          "initializerText": " (unit = \"\") => {\n    const { rootElm } = this;\n    let parentElement: any = rootElm.parentElement;\n    const { verticalPosition, horizontalPosition, margin } = this.props;\n    const { showFlyoutContent } = this.state;\n    const { width, height } = parentElement.getBoundingClientRect();\n    const containerWidth = rootElm.getBoundingClientRect().width;\n    const containerHeight = rootElm.getBoundingClientRect().height;\n    const positionStyle: React.CSSProperties = {};\n    if (width !== void(0) && height !== void(0)) {\n      switch (horizontalPosition) {\n        case \"left\": {\n          positionStyle.right = unit ? `0${unit}` : 0;\n          break;\n        }\n        case \"center\": {\n          const left = (width - containerWidth) / 2;\n          positionStyle.left = unit ? `${left}${unit}` : left;\n          break;\n        }\n        case \"right\": {\n          positionStyle.left = unit ? `0${unit}` : 0;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n      switch (verticalPosition) {\n        case \"top\": {\n          const top = -containerHeight - margin;\n          positionStyle.top = unit ? `${top}${unit}` : top;\n          break;\n        }\n        case \"center\": {\n          const top = (height - containerHeight) / 2;\n          positionStyle.top = unit ? `${top}${unit}` : top;\n          break;\n        }\n        case \"bottom\": {\n          const top = height + margin;\n          positionStyle.top = unit ? `${top}${unit}` : top;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    }\n    return positionStyle;\n  }",
+          "documentation": "",
+          "type": "(unit?: string) => CSSProperties"
+        },
+        {
+          "name": "handelMouseEnter",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.borderColor = this.context.theme.listAccentLow;\n    this.props.onMouseEnter(e);\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "handelMouseLeave",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.borderColor = this.context.theme.baseLow;\n    this.props.onMouseLeave(e);\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/FlyoutContent/index\""
+}

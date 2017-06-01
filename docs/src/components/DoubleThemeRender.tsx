@@ -9,6 +9,7 @@ export interface DoubleThemeRenderProps extends React.HTMLAttributes<HTMLDivElem
   themeStyle?: React.CSSProperties;
   useBorder?: boolean;
   useChromeColor?: boolean;
+  useSingleTheme?: boolean;
 }
 
 export default class DoubleThemeRender extends React.Component<DoubleThemeRenderProps, void> {
@@ -16,7 +17,7 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { children, direction, themeStyle, useBorder, useChromeColor, ...attributes } = this.props;
+    const { children, direction, themeStyle, useBorder, useChromeColor, useSingleTheme, ...attributes } = this.props;
     const darkTheme = getTheme("Dark", this.context.theme.accent);
     const { prepareStyles } = darkTheme;
     const lightTheme = getTheme("Light", this.context.theme.accent);
@@ -31,7 +32,9 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
       ...themeStyle
     });
 
-    return (
+    return  useSingleTheme ? (
+        children as any
+      ) : (
       <div
         {...attributes}
         style={prepareStyles({

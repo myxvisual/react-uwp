@@ -8,6 +8,7 @@ import MarkdownRender from "./MarkdownRender";
 import DoubleThemeRender from "./DoubleThemeRender";
 
 export interface DataProps {
+  useSingleTheme?: boolean;
   code?: string;
   description?: string;
   doubleThemeStyle?: React.CSSProperties;
@@ -48,6 +49,7 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
       doubleThemeStyle,
       useChromeColor,
       direction,
+      useSingleTheme,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -83,6 +85,7 @@ ${code}
               ...doubleThemeStyle,
               width: direction === "column" ? "100%" : "50%"
             }}
+            useSingleTheme={useSingleTheme}
             direction={direction}
           >
             {children}

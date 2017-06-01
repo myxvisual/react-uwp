@@ -132,6 +132,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/ContentDialog").default);
           }, "react-uwp-Components-ContentDialog");
         }
+      }, {
+        path: "Flyout",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Flyout").default);
+          }, "react-uwp-Components-Flyout");
+        }
       }]
     }, {
       path: "Styles",

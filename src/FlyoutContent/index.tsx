@@ -1,38 +1,88 @@
 import * as React from "react";
+import { findDOMNode } from "react-dom";
 import * as PropTypes from "prop-types";
 
 export interface DataProps {
+  /**
+   * The FlyoutContent `verticalPosition`.
+   */
   verticalPosition?: "top" | "bottom" | "center";
+  /**
+   * The FlyoutContent `horizontalPosition`.
+   */
   horizontalPosition?: "left" | "right" | "center";
+  /**
+   * The default show FlyoutContent.
+   */
   show?: boolean;
+  /**
+   * FlyoutContent margin `rootElm` position.
+   */
   margin?: number;
-  autoClose?: boolean;
-  timeout?: number;
+  /**
+   * Default is `false`, is `true` the Flyout component only show in `props.show === true`.
+   */
+  isControlled?: boolean;
+  /**
+   * In `props.isControlled === false`, this will control `FlyoutContent` fade in timer.
+   */
+  enterDelay?: number;
 }
 export interface FlyoutContentProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 export interface FlyoutContentState {
   showFlyoutContent?: boolean;
 }
 
+const emptyFunc = () => {};
 class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentState> {
   static defaultProps: FlyoutContentProps = {
     verticalPosition: "top",
     horizontalPosition: "center",
-    children: "FlyoutContent",
     margin: 4,
-    autoClose: false,
-    timeout: 2500,
-    onMouseLeave: () => {},
-    onMouseEnter: () => {}
+    isControlled: false,
+    enterDelay: 0,
+    onMouseLeave: emptyFunc,
+    onMouseEnter: emptyFunc
   };
 
   state: FlyoutContentState = {
     showFlyoutContent: this.props.show
   };
-  refs: { FlyoutContentElm: HTMLDivElement };
+  rootElm: HTMLDivElement;
+  enterTimer: any = null;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+
+  componentWillReceiveProps(nextProps: FlyoutContentProps) {
+    if (this.state.showFlyoutContent !== nextProps.show) {
+      this.setState({ showFlyoutContent: nextProps.show });
+    }
+  }
+
+  componentDidMount() {
+    Object.assign(this.rootElm.style, this.getPositionStyle("px"));
+    if (!this.props.isControlled) {
+      this.rootElm.parentElement.addEventListener("mouseenter", this.showFlyoutContent);
+      this.rootElm.parentElement.addEventListener("mouseleave", this.hideFlyoutContent);
+    }
+  }
+
+  componentWillUnmount() {
+    if (!this.props.isControlled) {
+      this.rootElm.parentElement.removeEventListener("mouseenter", this.showFlyoutContent);
+      this.rootElm.parentElement.removeEventListener("mouseleave", this.hideFlyoutContent);
+    }
+    clearTimeout(this.enterTimer);
+  }
+
+  showFlyoutContent = () => {
+    this.enterTimer = setTimeout(() => {
+      this.toggleShowFlyoutContent(true);
+    }, this.props.enterDelay);
+  }
+
+  hideFlyoutContent = () => this.toggleShowFlyoutContent(false);
 
   toggleShowFlyoutContent = (showFlyoutContent?: boolean) => {
     if (typeof showFlyoutContent === "boolean") {
@@ -46,51 +96,57 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     }
   }
 
-  getStyle = (showFlyoutContent = false, positionStyle = {}): React.CSSProperties => {
+  getStyle = (showFlyoutContent = this.state.showFlyoutContent, positionStyle = {}): React.CSSProperties => {
     const { context: { theme }, props: { style } } = this;
     return theme.prepareStyles({
       width: 280,
-      height: 60,
 
-      padding: "4px 8px",
+      boxSizing: "content-box",
+      padding: 8,
       border: `1px solid ${theme.baseLow}`,
       color: theme.baseMediumHigh,
-      background: theme.chromeMedium,
-      transition: "all .25s 0s ease-in-out",
+      background: theme.chromeLow,
       pointerEvents: showFlyoutContent ? "all" : "none",
       opacity: showFlyoutContent ? 1 : 0,
       transform: `translateY(${showFlyoutContent ? "0px" : "10px"})`,
       position: "absolute",
       zIndex: theme.zIndex.FlyoutContent,
+      transition: "transform .25s ease-in-out, opacity .25s ease-in-out, border .25s ease-in-out",
       ...positionStyle,
       ...style
     });
   }
 
   getFlyoutContentStyle = (): React.CSSProperties => {
-    const { FlyoutContentElm } = this.refs;
-    if (!FlyoutContentElm) return this.getStyle();
-    let parentNode: any = FlyoutContentElm.parentNode;
-
-    const { theme } = this.context;
-    const { verticalPosition, horizontalPosition, margin } = this.props;
-    const { width, height } = parentNode.getBoundingClientRect();
-    const containerWidth = FlyoutContentElm.getBoundingClientRect().width;
-    const containerHeight = FlyoutContentElm.getBoundingClientRect().height;
+    const { rootElm } = this;
     const { showFlyoutContent } = this.state;
+    if (!rootElm) return this.getStyle();
+    return this.getStyle(showFlyoutContent, this.getPositionStyle());
+  }
+
+
+  getPositionStyle = (unit = "") => {
+    const { rootElm } = this;
+    let parentElement: any = rootElm.parentElement;
+    const { verticalPosition, horizontalPosition, margin } = this.props;
+    const { showFlyoutContent } = this.state;
+    const { width, height } = parentElement.getBoundingClientRect();
+    const containerWidth = rootElm.getBoundingClientRect().width;
+    const containerHeight = rootElm.getBoundingClientRect().height;
     const positionStyle: React.CSSProperties = {};
     if (width !== void(0) && height !== void(0)) {
       switch (horizontalPosition) {
         case "left": {
-          positionStyle.right = 0;
+          positionStyle.right = unit ? `0${unit}` : 0;
           break;
         }
         case "center": {
-          positionStyle.left = (width - containerWidth) / 2;
+          const left = (width - containerWidth) / 2;
+          positionStyle.left = unit ? `${left}${unit}` : left;
           break;
         }
         case "right": {
-          positionStyle.left = 0;
+          positionStyle.left = unit ? `0${unit}` : 0;
           break;
         }
         default: {
@@ -99,15 +155,18 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
       }
       switch (verticalPosition) {
         case "top": {
-          positionStyle.top = -containerHeight - margin;
+          const top = -containerHeight - margin;
+          positionStyle.top = unit ? `${top}${unit}` : top;
           break;
         }
         case "center": {
-          positionStyle.top = (height - containerHeight) / 2;
+          const top = (height - containerHeight) / 2;
+          positionStyle.top = unit ? `${top}${unit}` : top;
           break;
         }
         case "bottom": {
-          positionStyle.top = height + margin;
+          const top = height + margin;
+          positionStyle.top = unit ? `${top}${unit}` : top;
           break;
         }
         default: {
@@ -115,11 +174,11 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
         }
       }
     }
-    return this.getStyle(showFlyoutContent, positionStyle);
+    return positionStyle;
   }
 
   handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderColor = this.context.theme.accent;
+    e.currentTarget.style.borderColor = this.context.theme.listAccentLow;
     this.props.onMouseEnter(e);
   }
 
@@ -131,8 +190,8 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
   render() {
     const {
       verticalPosition,
-      timeout,
-      autoClose,
+      enterDelay,
+      isControlled,
       margin,
       horizontalPosition,
       show,
@@ -146,7 +205,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
         {...attributes}
         onMouseEnter={this.handelMouseEnter}
         onMouseLeave={this.handelMouseLeave}
-        ref="FlyoutContentElm"
+        ref={rootElm => this.rootElm = rootElm}
         style={this.getFlyoutContentStyle()}
       >
         {children}
