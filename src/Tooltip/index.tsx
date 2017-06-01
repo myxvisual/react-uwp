@@ -19,11 +19,11 @@ export interface TooltipState {
 
 export default class Tooltip extends React.Component<TooltipProps, TooltipState> {
   static defaultProps: TooltipProps = {
-    verticalPosition: "bottom",
+    verticalPosition: "top",
     horizontalPosition: "center",
     margin: 4,
     autoClose: false,
-    timeout: 2500
+    timeout: 0
   };
 
   state: TooltipState = {

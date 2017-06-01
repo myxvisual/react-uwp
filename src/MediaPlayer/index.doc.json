@@ -1,0 +1,236 @@
+{
+  "fileName": "D:/react-uwp/src/MediaPlayer/index.tsx",
+  "name": "\"D:/react-uwp/src/MediaPlayer/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "MediaPlayerProps",
+      "documentation": ""
+    },
+    {
+      "name": "MediaPlayerState",
+      "documentation": ""
+    },
+    {
+      "name": "MediaPlayer",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "MediaPlayer"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "documentation": "",
+      "name": "ReactPlayer",
+      "type": "any",
+      "initializerText": " RPlayer as any"
+    },
+    {
+      "name": "ReactPlayer",
+      "documentation": "",
+      "type": "any"
+    },
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "url",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "playing",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "loop",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "controls",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "volume",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "playbackRate",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "progressFrequency",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "soundcloudConfig",
+          "documentation": "",
+          "isRequired": false,
+          "type": "{ clientId: string; showArtwork: boolean; }"
+        },
+        {
+          "name": "youtubeConfig",
+          "documentation": "",
+          "isRequired": false,
+          "type": "{ playerVars: Object; preload: boolean; }"
+        },
+        {
+          "name": "vimeoConfig",
+          "documentation": "",
+          "isRequired": false,
+          "type": "{ iframeParams: Object; preload: boolean; }"
+        },
+        {
+          "name": "fileConfig",
+          "documentation": "",
+          "isRequired": false,
+          "type": "{ attributes: Object; }"
+        },
+        {
+          "name": "onReady",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onStart",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onPlay",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onPause",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onBuffer",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onEnded",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onError",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onDuration",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        },
+        {
+          "name": "onProgress",
+          "documentation": "",
+          "isRequired": false,
+          "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "MediaPlayerProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "MediaPlayerState",
+      "documentation": ""
+    },
+    {
+      "name": "MediaPlayer",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {}",
+          "documentation": "",
+          "type": "MediaPlayerProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {}",
+          "documentation": "",
+          "type": "MediaPlayerState"
+        },
+        {
+          "name": "reactPlayer",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(mock: MediaPlayer) => { root?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/MediaPlayer/index\""
+}

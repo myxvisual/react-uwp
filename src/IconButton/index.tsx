@@ -8,6 +8,7 @@ export interface DataProps {
   hoverStyle?: React.CSSProperties;
   activeStyle?: React.CSSProperties;
   size?: number;
+  disabled?: boolean;
 }
 
 export interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -20,7 +21,15 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { style, hoverStyle, activeStyle, children, size, ...attributes } = this.props;
+    const {
+      style,
+      hoverStyle,
+      activeStyle,
+      children,
+      size,
+      disabled,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
 
     return (
@@ -43,12 +52,11 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
           flexShrink: 0,
           ...style
         }}
-        hoverStyle={hoverStyle || {
-          background: theme.listAccentMedium
+        hoverStyle={disabled ? void 0 : hoverStyle || {
+          background: theme.listLow
         }}
-        activeStyle={activeStyle || {
-          background: theme.accent,
-          color: "#fff"
+        activeStyle={disabled ? void 0 : activeStyle || {
+          background: theme.baseLow
         }}
       >
         <button>

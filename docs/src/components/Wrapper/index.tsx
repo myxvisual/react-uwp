@@ -92,6 +92,10 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
     const { theme } = this.context;
     const renderContentHeight = `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`;
 
+    const iconButtonStyle: React.CSSProperties = {
+      color: "#fff",
+      background: theme.accent
+    };
     return (
       <div
         className={className}
@@ -125,10 +129,8 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
           <FloatNav
             topNode={
               <IconButton
-                hoverStyle={{
-                  color: "#fff",
-                  background: theme.accent
-                }}
+                hoverStyle={iconButtonStyle}
+                activeStyle={iconButtonStyle}
                 onClick={() => location.href = "/"}
               >
                 Home
@@ -136,10 +138,8 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
             }
             bottomNode={[
               <IconButton
-                hoverStyle={{
-                  color: "#fff",
-                  background: theme.accent
-                }}
+                hoverStyle={iconButtonStyle}
+                activeStyle={iconButtonStyle}
                 onClick={() => {
                   theme.saveTheme(getTheme(theme.isDarkTheme ? "Light" : "Dark", theme.accent));
                 }}
@@ -147,11 +147,9 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
                 {theme.isDarkTheme ? "Brightness" : "QuietHours"}
               </IconButton>,
               <IconButton
-                hoverStyle={{}}
-                style={{
-                  color: "#fff",
-                  background: theme.accent
-                }}
+                style={iconButtonStyle}
+                hoverStyle={iconButtonStyle}
+                activeStyle={iconButtonStyle}
                 onClick={() => scrollToYEasing(0)}
               >
                 ScrollChevronUpLegacy

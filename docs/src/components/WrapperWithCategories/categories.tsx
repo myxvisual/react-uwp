@@ -76,8 +76,7 @@ export default [{
     "titleNode": "PullRefresh",
     disabled: true
   }, {
-    "titleNode": "MediaPlayer",
-    disabled: true
+    "titleNode": "MediaPlayer"
   }, {
     "titleNode": "Menus",
     disabled: true

@@ -225,7 +225,6 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
               ))}
             <IconButton
               style={{ marginLeft: 2 }}
-              hoverStyle={{ background: theme.baseLow }}
               size={32}
               onClick={this.toggleCanAutoSwipe}
             >

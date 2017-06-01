@@ -10,6 +10,7 @@ export interface DataProps {
   barHeight?: number;
   barBackground?: string;
   barBackgroundImage?: string;
+  customControllerStyle?: React.CSSProperties;
   controllerWidth?: number;
   useSimpleController?: boolean;
   showValueInfo?: boolean;
@@ -34,7 +35,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     initValue: 50,
     onChangeValue: emptyFunc,
     onChangeValueRatio: emptyFunc,
-    width: 400,
+    width: "100%",
     height: 24,
     barHeight: 2,
     controllerWidth: 8,
@@ -49,6 +50,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     valueRatio: this.props.initValue / (this.props.maxValue - this.props.minValue)
   };
   rootElm: HTMLDivElement;
+  controllerWrapperElm: HTMLDivElement;
   controllerElm: HTMLDivElement;
   barElm: HTMLDivElement;
 
@@ -116,9 +118,8 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       } as React.CSSProperties);
     }
 
-    const width2px: number = Number.parseFloat(this.props.width as any);
-    const transform = `translateX(${valueRatio * width2px - 4}px)`;
-    Object.assign(this.controllerElm.style, {
+    const transform = `translateX(${valueRatio * 100}%)`;
+    Object.assign(this.controllerWrapperElm.style, {
       transform,
       webKitTransform: transform,
       msTransform: transform,
@@ -142,6 +143,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       showValueInfo, // tslint:disable-line:no-unused-variable
       numberToFixed, // tslint:disable-line:no-unused-variable
       unit, // tslint:disable-line:no-unused-variable
+      customControllerStyle, //  tslint:disable-line:no-unused-variable
       ...attributes
     } = this.props;
     const { currValue } = this.state;
@@ -161,7 +163,9 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
           <div style={styles.barContainer}>
             <div style={styles.bar} ref={elm => this.barElm = elm} />
           </div>
-          <div style={styles.controller} ref={elm => this.controllerElm = elm} />
+          <div style={styles.controllerWrapper} ref={controllerWrapperElm => this.controllerWrapperElm = controllerWrapperElm}>
+            <div style={styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
+          </div>
         </div>
         {showValueInfo && (
           <span style={styles.label}>{`${currValue.toFixed(numberToFixed)}${unit}`}</span>
@@ -176,6 +180,7 @@ function getStyles(slider: Slider): {
   root?: React.CSSProperties;
   barContainer?: React.CSSProperties;
   bar?: React.CSSProperties;
+  controllerWrapper?: React.CSSProperties;
   controller?: React.CSSProperties;
   label?: React.CSSProperties;
 } {
@@ -183,13 +188,13 @@ function getStyles(slider: Slider): {
     context: { theme },
     props: {
       style,
-      width,
       height,
       barHeight,
       controllerWidth,
       barBackground,
       barBackgroundImage,
-      useSimpleController
+      useSimpleController,
+      customControllerStyle
     },
     state: {
       currValue,
@@ -199,12 +204,12 @@ function getStyles(slider: Slider): {
     }
   } = slider;
   const { prepareStyles } = theme;
-  const width2px: number = Number.parseFloat(width as any);
   const height2px: number = Number.parseFloat(height as any);
   const barHeight2px: number = Number.parseFloat(barHeight as any);
   const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
   const transition = dragging ? void 0 : "all .25s 0s linear";
   const useCustomBackground = barBackground || barBackgroundImage;
+
   return {
     wrapper: prepareStyles({
       display: "flex",
@@ -213,7 +218,7 @@ function getStyles(slider: Slider): {
       ...style
     }),
     root: prepareStyles({
-      width,
+      width: "100%",
       height: height2px,
       cursor: "default",
       position: "relative",
@@ -228,7 +233,7 @@ function getStyles(slider: Slider): {
       left: 0,
       top: `calc(50% - ${barHeight2px / 2}px)`
     },
-    bar: {
+    bar: prepareStyles({
       background: useCustomBackground ? barBackground : theme.listAccentLow,
       backgroundImage: barBackgroundImage,
       position: "absolute",
@@ -238,18 +243,24 @@ function getStyles(slider: Slider): {
       left: 0,
       top: 0,
       transition
-    },
-    controller: {
+    }),
+    controllerWrapper: prepareStyles({
       position: "absolute",
-      background: (useSimpleController || dragging || hovered) ? theme.baseHigh : theme.accent,
-      borderRadius: controllerWidth2px / 2,
+      width: "100%",
       left: 0,
       top: 0,
+      transform: `translateX(${valueRatio * 100}%)`,
+    }),
+    controller: prepareStyles({
+      display: "inline-block",
+      background: (useSimpleController || dragging || hovered) ? theme.baseHigh : theme.accent,
+      borderRadius: controllerWidth2px / 2,
       width: controllerWidth2px,
       height: height2px,
-      transform: `translateX(${valueRatio * width2px - 4}px)`,
-      transition
-    },
+      transform: `translateX(-${controllerWidth2px / 2}px)`,
+      transition,
+      ...customControllerStyle
+    }),
     label: {
       display: "inline-block",
       marginLeft: 12,
