@@ -139,6 +139,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/Flyout").default);
           }, "react-uwp-Components-Flyout");
         }
+      }, {
+        path: "FlipView",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/FlipView").default);
+          }, "react-uwp-Components-FlipView");
+        }
       }]
     }, {
       path: "Styles",

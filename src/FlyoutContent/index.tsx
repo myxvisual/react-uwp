@@ -98,7 +98,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
 
       boxSizing: "content-box",
       padding: 8,
-      border: `1px solid ${showFlyoutContent ? theme.listAccentLow : theme.baseLow}`,
+      border: `1px solid ${theme.baseLow}`,
       color: theme.baseMediumHigh,
       background: theme.chromeLow,
       pointerEvents: showFlyoutContent ? "all" : "none",
@@ -172,9 +172,15 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     return positionStyle;
   }
 
-  handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => this.showFlyoutContent();
+  handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.border = `1px solid ${this.context.theme.listAccentLow}`;
+    this.showFlyoutContent();
+  }
 
-  handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => this.hideFlyoutContent();
+  handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;
+    this.hideFlyoutContent();
+  }
 
   render() {
     const {

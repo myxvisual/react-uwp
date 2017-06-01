@@ -3,24 +3,24 @@ import * as PropTypes from "prop-types";
 
 export interface DataProps {
   initialFocusIndex?: number;
-  canSwipe?: boolean;
+  stopSwipe?: boolean;
   autoSwipe?: boolean;
   speed?: number;
   easy?: number;
   delay?: number;
   direction?: "vertical" | "horizontal";
   transitionTimingFunction?: string;
-  iconSize?: number;
+  navigationIconSize?: number;
   showIcon?: boolean;
   animate?: "slide" | "opacity";
-  supportPC?: boolean;
+  supportPcDrag?: boolean;
   onChangeSwipe?: (index?: number) => void;
 }
 
 export interface SwipeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface SwipeState {
-  stopSwipe?: boolean;
+  currStopSwipe?: boolean;
   focusIndex?: number;
   childrenLength?: number;
   isHorizontal?: boolean;
@@ -37,11 +37,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     animate: "slide",
     transitionTimingFunction: "ease-in-out",
     initialFocusIndex: 0,
-    canSwipe: true,
+    stopSwipe: false,
     speed: 1500,
     delay: 5000,
     easy: 0.85,
-    supportPC: false,
+    supportPcDrag: false,
     onChangeSwipe: emptyFunc
   };
 
@@ -53,7 +53,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   state: SwipeState = {
     isSingleChildren: this.isSingleChildren,
     focusIndex: this.isSingleChildren ? this.props.initialFocusIndex : this.props.initialFocusIndex + 1,
-    stopSwipe: false,
+    currStopSwipe: this.props.stopSwipe,
     childrenLength: 0,
     haveAnimate: false,
     swiping: false
@@ -92,7 +92,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       isHorizontal: props.direction === "horizontal",
       childrenLength,
       isSingleChildren,
-      stopSwipe: !props.autoSwipe
+      currStopSwipe: !props.autoSwipe
     });
     if (props.autoSwipe && !isSingleChildren) {
       this.timeoutId = setTimeout(() => {
@@ -108,9 +108,9 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     funStartTime?: number;
   } = () => {
     const { delay } = this.props;
-    if (this.state.stopSwipe || (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay)) return;
+    if (this.state.currStopSwipe || (this.setNextSlider.funStartTime && Date.now() - this.setNextSlider.funStartTime < delay)) return;
     this.timeoutId = setTimeout(() => {
-      if (!this.state.stopSwipe) this.swipeForward();
+      if (!this.state.currStopSwipe) this.swipeForward();
       this.setNextSlider();
     }, delay);
     this.setNextSlider.funStartTime = Date.now();
@@ -124,7 +124,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     this.setState({
       haveAnimate: true,
       focusIndex: this.setRightFocusIndex(focusIndex),
-      stopSwipe: true
+      currStopSwipe: true
     });
   }
 
@@ -212,9 +212,9 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     this.endClientX = void 0;
     this.endClientY = void 0;
     const { isHorizontal } = this.state;
-    this.setState({ stopSwipe: true });
+    this.setState({ currStopSwipe: true });
     const isToucheEvent = this.checkIsToucheEvent(e);
-    if (!isToucheEvent && !this.props.supportPC) return;
+    if (!isToucheEvent && !this.props.supportPcDrag) return;
     if (isToucheEvent) {
       window.addEventListener("touchmove", this.mouseOrTouchMoveHandler);
       window.addEventListener("touchend", this.mouseOrTouchUpHandler);
@@ -290,7 +290,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
     }
     const transition = `all ${speed}ms 0s ${transitionTimingFunction}`;
     this.refs.content.style.webkitTransition = transition;
-    this.state.stopSwipe = false;
+    this.state.currStopSwipe = false;
     let { easy } = this.props;
     if (easy < 0) easy = 0;
     if (easy > 1) easy = 1;
@@ -320,7 +320,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       initialFocusIndex,
       showIcon,
       animate,
-      canSwipe,
+      stopSwipe,
       autoSwipe,
       speed,
       delay,
@@ -328,14 +328,14 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       direction,
       style,
       transitionTimingFunction,
-      iconSize,
-      supportPC,
+      navigationIconSize,
+      supportPcDrag,
       onChangeSwipe,
       ...attributes
     } = this.props;
     const {
       focusIndex,
-      stopSwipe,
+      currStopSwipe,
       childrenLength,
       isSingleChildren
     } = this.state;
@@ -356,10 +356,10 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       >
         <div
           onMouseDown={
-            canSwipe && !isSingleChildren ? this.mouseOrTouchDownHandler : void 0
+            stopSwipe && !isSingleChildren ? this.mouseOrTouchDownHandler : void 0
           }
           onTouchStart={
-            canSwipe && !isSingleChildren ? this.mouseOrTouchDownHandler : void 0
+            stopSwipe && !isSingleChildren ? this.mouseOrTouchDownHandler : void 0
           }
           ref="content"
           style={styles.content}

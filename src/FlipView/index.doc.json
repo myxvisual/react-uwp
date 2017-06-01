@@ -1,0 +1,243 @@
+{
+  "fileName": "D:/react-uwp/src/FlipView/index.tsx",
+  "name": "\"D:/react-uwp/src/FlipView/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "FlipViewProps",
+      "documentation": ""
+    },
+    {
+      "name": "FlipViewState",
+      "documentation": ""
+    },
+    {
+      "name": "FlipView",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "FlipView"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "initialFocusIndex",
+          "documentation": "default init Show item `children[initialFocusIndex]`.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "stopSwipe",
+          "documentation": "Control FlipView can Swipe or not.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "autoSwipe",
+          "documentation": "Control FlipView auto swipe.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "speed",
+          "documentation": "FlipView auto swipe speed.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "easy",
+          "documentation": "FlipView is phone mod swipe to next easier `0 < easy < 1`.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "direction",
+          "documentation": "FlipView layout.",
+          "isRequired": false,
+          "type": "\"vertical\" | \"horizontal\""
+        },
+        {
+          "name": "showNavigation",
+          "documentation": "Control show FlipView navigation.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "controlledNavigation",
+          "documentation": "if `true`, remove `MouseEvent` control show navigation.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "showControl",
+          "documentation": "Control show FlipView control.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "supportPcDrag",
+          "documentation": "FlipView can drag in PC mode (in the experiment).",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "navigationIconSize",
+          "documentation": "navigation `iconSize`.",
+          "isRequired": false,
+          "type": "number"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "FlipViewProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "FlipViewState",
+      "members": [
+        {
+          "name": "focusSwipeIndex",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "currCanAutoSwipe",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "currShowNavigation",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "FlipView",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    direction: \"horizontal\",\n    autoSwipe: true,\n    navigationIconSize: 24,\n    showNavigation: true,\n    controlledNavigation: true,\n    showControl: true,\n    supportPcDrag: false,\n    stopSwipe: false\n  }",
+          "documentation": "",
+          "type": "FlipViewProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    focusSwipeIndex: 0,\n    currCanAutoSwipe: this.props.autoSwipe,\n    currShowNavigation: this.props.showNavigation\n  }",
+          "documentation": "",
+          "type": "FlipViewState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "rootElm",
+          "documentation": "",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "swipe",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "swipeForward",
+          "initializerText": " () => {\n    this.swipe.swipeForward();\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "swipeBackWord",
+          "initializerText": " () => {\n    this.swipe.swipeBackWord();\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "shouldComponentUpdate",
+          "documentation": "",
+          "type": "(nextProps: FlipViewProps, nextState: FlipViewState) => boolean"
+        },
+        {
+          "name": "handleChangeSwipe",
+          "initializerText": " (focusSwipeIndex: number) => {\n    const count = React.Children.count(this.props.children);\n    this.setState({ focusSwipeIndex: focusSwipeIndex % count });\n  }",
+          "documentation": "",
+          "type": "(focusSwipeIndex: number) => void"
+        },
+        {
+          "name": "toggleCanAutoSwipe",
+          "initializerText": " (currCanAutoSwipe?: any) => {\n    if (typeof currCanAutoSwipe === \"boolean\") {\n      if (currCanAutoSwipe !== this.state.currCanAutoSwipe) {\n        this.setState({ currCanAutoSwipe });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        currCanAutoSwipe: !prevState.currCanAutoSwipe\n      }));\n    }\n  }",
+          "documentation": "",
+          "type": "(currCanAutoSwipe?: any) => void"
+        },
+        {
+          "name": "handleSwipeToIndex",
+          "initializerText": " (index: number) => {\n    this.setState({ focusSwipeIndex: index });\n    this.swipe.swipeToIndex(index);\n  }",
+          "documentation": "",
+          "type": "(index: number) => void"
+        },
+        {
+          "name": "handleMouseEnter",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    if (!this.state.currShowNavigation) {\n      this.setState({\n        currShowNavigation: true\n      });\n    }\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "handleMouseLeave",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    if (this.state.currShowNavigation) {\n      this.setState({\n        currShowNavigation: false\n      });\n    }\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(flipView: FlipView) => { root?: CSSProperties; iconLeft?: CSSProperties; iconRight?: CSSProperti..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/FlipView/index\""
+}

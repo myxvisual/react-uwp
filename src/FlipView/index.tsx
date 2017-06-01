@@ -6,39 +6,75 @@ import Icon from "../Icon";
 import Swipe from "../Swipe";
 
 export interface DataProps {
+  /**
+   * default init Show item `children[initialFocusIndex]`.
+   */
   initialFocusIndex?: number;
-  canSwipe?: boolean;
+  /**
+   * Control FlipView can Swipe or not.
+   */
+  stopSwipe?: boolean;
+  /**
+   * Control FlipView auto swipe.
+   */
   autoSwipe?: boolean;
+  /**
+   * FlipView auto swipe speed.
+   */
   speed?: number;
+  /**
+   * FlipView is phone mod swipe to next easier `0 < easy < 1`.
+   */
   easy?: number;
+  /**
+   * FlipView layout.
+   */
   direction?: "vertical" | "horizontal";
-  iconSize?: number;
-  iconStyle?: React.CSSProperties;
-  iconHoverStyle?: React.CSSProperties;
-  showIcon?: boolean;
+  /**
+   * Control show FlipView navigation.
+   */
+  showNavigation?: boolean;
+  /**
+   * if `true`, remove `MouseEvent` control show navigation.
+   */
+  controlledNavigation?: boolean;
+  /**
+   * Control show FlipView control.
+   */
   showControl?: boolean;
-  supportPC?: boolean;
+  /**
+   * FlipView can drag in PC mode (in the experiment).
+   */
+  supportPcDrag?: boolean;
+  /**
+   * navigation `iconSize`.
+   */
+  navigationIconSize?: number;
 }
 export interface FlipViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface FlipViewState {
   focusSwipeIndex?: number;
   currCanAutoSwipe?: boolean;
+  currShowNavigation?: boolean;
 }
-export default class FlipView extends React.Component<FlipViewProps, FlipViewState> {
+
+export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
   static defaultProps: FlipViewProps = {
     direction: "horizontal",
     autoSwipe: true,
-    iconSize: 24,
-    showIcon: true,
+    navigationIconSize: 24,
+    showNavigation: true,
+    controlledNavigation: true,
     showControl: true,
-    supportPC: false,
-    canSwipe: true
+    supportPcDrag: false,
+    stopSwipe: false
   };
   static contextTypes = { theme: PropTypes.object };
   state: FlipViewState = {
     focusSwipeIndex: 0,
-    currCanAutoSwipe: this.props.autoSwipe
+    currCanAutoSwipe: this.props.autoSwipe,
+    currShowNavigation: this.props.showNavigation
   };
   context: { theme: ReactUWP.ThemeType };
   rootElm: HTMLDivElement;
@@ -77,27 +113,43 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
     this.swipe.swipeToIndex(index);
   }
 
+  handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!this.state.currShowNavigation) {
+      this.setState({
+        currShowNavigation: true
+      });
+    }
+  }
+
+  handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (this.state.currShowNavigation) {
+      this.setState({
+        currShowNavigation: false
+      });
+    }
+  }
+
   render() {
     const {
       children,
-      showIcon,
+      showNavigation,
       initialFocusIndex,
-      canSwipe,
+      stopSwipe,
       autoSwipe,
       speed,
       easy,
       direction,
-      iconStyle,
-      iconHoverStyle,
-      iconSize,
-      supportPC,
+      navigationIconSize,
+      supportPcDrag,
       showControl,
+      controlledNavigation,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const { focusSwipeIndex, currCanAutoSwipe } = this.state;
+    const { focusSwipeIndex, currCanAutoSwipe, currShowNavigation } = this.state;
     const count = React.Children.count(children);
     const isHorizontal = direction === "horizontal";
+    const _showNavigation = controlledNavigation ? showNavigation : currShowNavigation;
 
     const styles = getStyles(this);
     return (
@@ -107,20 +159,22 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
           ...styles.root,
           ...theme.prepareStyles(attributes.style)
         }}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
-        {count > 1 && showIcon && (
+        {count > 1 && _showNavigation && (
           <IconButton
             onClick={this.swipeBackWord}
-            style={{
-              ...styles.iconLeft,
-              ...theme.prepareStyles(iconStyle)
-            }}
+            style={styles.iconLeft}
             hoverStyle={{
-              background: theme.baseLow,
-              ...theme.prepareStyles(iconHoverStyle)
+              background: theme.baseLow
+            }}
+            activeStyle={{
+              background: theme.accent,
+              color: "#fff"
             }}
           >
-            {isHorizontal ? "\uE012" : "\uE010"}
+            {isHorizontal ? "ChevronLeft3Legacy" : "ScrollChevronUpLegacy"}
           </IconButton>
         )}
         <Swipe
@@ -128,32 +182,31 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
           onChangeSwipe={this.handleChangeSwipe}
           {...{
             children,
-            showIcon,
             initialFocusIndex,
-            canSwipe,
+            stopSwipe,
             autoSwipe: currCanAutoSwipe,
             speed,
             easy,
             direction,
-            iconSize,
-            supportPC,
+            navigationIconSize,
+            supportPcDrag,
             ...attributes
           }}
           style={attributes.style}
         />
-        {count > 1 && showIcon && (
+        {count > 1 && _showNavigation && (
           <IconButton
             onClick={this.swipeForward}
-            style={{
-              ...styles.iconRight,
-              ...theme.prepareStyles(iconStyle)
-            }}
+            style={styles.iconRight}
             hoverStyle={{
-              background: theme.baseLow,
-              ...theme.prepareStyles(iconHoverStyle)
+              background: theme.baseLow
+            }}
+            activeStyle={{
+              background: theme.accent,
+              color: "#fff"
             }}
           >
-            {isHorizontal ? "\uE013" : "\uE011"}
+            {isHorizontal ? "ChevronRight3Legacy" : "ScrollChevronDownLegacy"}
           </IconButton>
         )}
         {count > 1 && showControl && (
@@ -170,7 +223,12 @@ export default class FlipView extends React.Component<FlipViewProps, FlipViewSta
                   {focusSwipeIndex === index ? "FullCircleMask" : "CircleRing"}
                 </Icon>
               ))}
-            <IconButton style={{ marginLeft: 2 }} size={32} onClick={this.toggleCanAutoSwipe}>
+            <IconButton
+              style={{ marginLeft: 2 }}
+              hoverStyle={{ background: theme.baseLow }}
+              size={32}
+              onClick={this.toggleCanAutoSwipe}
+            >
               {currCanAutoSwipe ? "Pause" : "Play"}
             </IconButton>
             </div>
@@ -189,7 +247,7 @@ function getStyles(flipView: FlipView): {
   controlContent?: React.CSSProperties;
   icon?: React.CSSProperties;
 } {
-  const { iconSize, direction } = flipView.props;
+  const { navigationIconSize, direction } = flipView.props;
   const { theme } = flipView.context;
   const { prepareStyles } = theme;
   const isHorizontal = direction === "horizontal";
@@ -198,9 +256,9 @@ function getStyles(flipView: FlipView): {
     position: "absolute",
     background: theme.listLow,
     zIndex: 20,
-    fontSize: iconSize / 2,
-    width: iconSize * (isHorizontal ? 1 : 2),
-    height: iconSize * (isHorizontal ? 2 : 1)
+    fontSize: navigationIconSize / 2,
+    width: navigationIconSize * (isHorizontal ? 1 : 2),
+    height: navigationIconSize * (isHorizontal ? 2 : 1)
   };
 
   return {
@@ -218,27 +276,34 @@ function getStyles(flipView: FlipView): {
     }),
     iconLeft: {
       ...baseIconStyle,
-      top: isHorizontal ? `calc(50% - ${iconSize}px)` : 0,
-      left: isHorizontal ? 0 : `calc(50% - ${iconSize}px)`
+      top: isHorizontal ? `calc(50% - ${navigationIconSize}px)` : 0,
+      left: isHorizontal ? 0 : `calc(50% - ${navigationIconSize}px)`
     },
     iconRight: {
       ...baseIconStyle,
-      bottom: isHorizontal ? `calc(50% - ${iconSize}px)` : 0,
-      right: isHorizontal ? 0 : `calc(50% - ${iconSize}px)`
+      bottom: isHorizontal ? `calc(50% - ${navigationIconSize}px)` : 0,
+      right: isHorizontal ? 0 : `calc(50% - ${navigationIconSize}px)`
     },
     control: {
       display: "flex",
-      flexDirection: "row",
       justifyContent: "center",
-      width: "100%",
       position: "absolute",
-      bottom: 4,
-      left: 0,
-      pointerEvents: "none"
+      pointerEvents: "none",
+      ...(isHorizontal ? {
+        flexDirection: "row",
+        width: "100%",
+        bottom: 4,
+        left: 0
+      } : {
+        flexDirection: "column",
+        height: "100%",
+        top: 0,
+        right: 4
+      })
     },
     controlContent: prepareStyles({
       display: "flex",
-      flexDirection: "row",
+      flexDirection: isHorizontal ? "row" : "column",
       alignItems: "center",
       pointerEvents: "all"
     }),
@@ -249,3 +314,5 @@ function getStyles(flipView: FlipView): {
     }
   };
 }
+
+export default FlipView;

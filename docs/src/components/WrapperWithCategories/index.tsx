@@ -214,7 +214,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
               minHeight: "100%"
             })}
           >
-            {children}
+            {React.cloneElement(children as any, { renderContentWidth, screenType })}
           </div>
         </div>
       </Wrapper>
