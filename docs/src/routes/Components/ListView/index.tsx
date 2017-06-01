@@ -37,6 +37,7 @@ export default class ListView extends React.Component<any, void> {
           code={SimpleExampleCode as any}
           description={SimpleExampleDesc as any}
           doubleThemeStyle={{ padding: 20 }}
+          useSingleTheme
         >
           <SimpleExample />
         </CodeExample>

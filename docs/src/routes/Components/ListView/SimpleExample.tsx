@@ -33,6 +33,20 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    return <ListView listSource={listSource} style={{ width: 320 }} />;
+    return (
+      <div style={{ margin: "10px auto" }}>
+        <ListView
+          listSource={listSource}
+          style={{ width: 300, margin: "10px auto" }}
+        />
+        <ListView
+          listSource={Array(12).fill(0).map((numb, index) => ({
+            itemNode: <Icon key={`${index}`}>RatingStarFillZeroWidthLegacy</Icon>
+          }))}
+          style={{ width: 150, margin: "10px auto" }}
+          listItemStyle={{ height: 40 }}
+        />
+      </div>
+    );
   }
 }

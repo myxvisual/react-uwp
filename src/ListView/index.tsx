@@ -79,7 +79,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
           const { itemNode, disabled, focus, style, onClick } = item;
           const { isDarkTheme } = theme;
           const defaultBG = focus ? theme.listAccentLow : theme.chromeLow;
-          const focusBG = focus ? theme.listAccentMedium : theme.chromeMedium;
+          const focusBG = focus ? theme.listAccentHigh : theme.chromeMedium;
           const clickBG = focus ? theme.accent : theme.chromeHigh;
           return (
             <div
@@ -135,6 +135,8 @@ function getStyles(listView: ListView): {
 
   return {
     root: {
+      display: "flex",
+      flexDirection: "column",
       fontSize: 14,
       padding: "8px 0",
       color: theme.baseMediumHigh,
