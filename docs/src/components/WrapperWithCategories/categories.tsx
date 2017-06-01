@@ -14,6 +14,7 @@ export default [{
     "titleNode": "Animate"
   }, {
     "titleNode": "Typography",
+    disabled: true,
     "children": [{
       "titleNode": "Fonts"
     }, {
@@ -21,6 +22,7 @@ export default [{
     }]
   }, {
     "titleNode": "Styling Components",
+    disabled: true,
     "children": [{
       "titleNode": "Use InlineStyle replace the default style"
     }, {
@@ -46,9 +48,11 @@ export default [{
     }, {
       "titleNode": "CalendarView"
     }, {
-      "titleNode": "DatePicker"
+      "titleNode": "DatePicker",
+      disabled: true
     }, {
-      "titleNode": "TimePicker"
+      "titleNode": "TimePicker",
+      disabled: true
     }]
   }, {
     "titleNode": "ContentDialog"
@@ -57,7 +61,8 @@ export default [{
   }, {
     "titleNode": "FlipView"
   }, {
-    "titleNode": "Hub"
+    "titleNode": "Hub",
+    disabled: true
   }, {
     "titleNode": "HyperLink"
   }, {
@@ -65,37 +70,47 @@ export default [{
   }, {
     "titleNode": "ListView"
   }, {
-    "titleNode": "GirdView"
+    "titleNode": "GirdView",
+    disabled: true
   }, {
-    "titleNode": "PullRefresh"
+    "titleNode": "PullRefresh",
+    disabled: true
   }, {
-    "titleNode": "MediaPlayer"
+    "titleNode": "MediaPlayer",
+    disabled: true
   }, {
-    "titleNode": "Menus"
+    "titleNode": "Menus",
+    disabled: true
   }, {
     "titleNode": "NavPane"
   }, {
-    "titleNode": "Progress"
+    "titleNode": "ProgressBar"
   }, {
     "titleNode": "RadioButton"
   }, {
-    "titleNode": "ScrollBar"
+    "titleNode": "ScrollBar",
+    disabled: true
   }, {
-    "titleNode": "SemanticZoom"
+    "titleNode": "SemanticZoom",
+    disabled: true
   }, {
     "titleNode": "Slider"
   }, {
     "titleNode": "SplitView"
   }, {
-    "titleNode": "Tabs"
+    "titleNode": "Tabs",
+    disabled: true
   }, {
     "titleNode": "PasswordBox"
   }, {
-    "titleNode": "Tiles"
+    "titleNode": "Tiles",
+    disabled: true
   }, {
-    "titleNode": "Toast"
+    "titleNode": "Toast",
+    disabled: true
   }, {
-    "titleNode": "Notification"
+    "titleNode": "Notification",
+    disabled: true
   }, {
     "titleNode": "Toggle"
   }, {
