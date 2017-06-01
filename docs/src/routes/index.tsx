@@ -216,6 +216,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/Image").default);
           }, "react-uwp-Components-Image");
         }
+      }, {
+        path: "ListView",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/ListView").default);
+          }, "react-uwp-Components-ListView");
+        }
       }]
     }, {
       path: "Resources",

@@ -1,0 +1,188 @@
+{
+  "fileName": "D:/react-uwp/src/ListView/index.tsx",
+  "name": "\"D:/react-uwp/src/ListView/index\"",
+  "exports": [
+    {
+      "name": "Item",
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "ListViewProps",
+      "documentation": ""
+    },
+    {
+      "name": "ListViewState",
+      "documentation": ""
+    },
+    {
+      "name": "ListView",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "ListView"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "Item",
+      "members": [
+        {
+          "name": "itemNode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "ReactNode"
+        },
+        {
+          "name": "disabled",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "focus",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "style",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "onClick",
+          "documentation": "",
+          "isRequired": false,
+          "type": "(e?: MouseEvent<HTMLDivElement>) => void"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "listSource",
+          "documentation": "ListSource Data.",
+          "isRequired": false,
+          "type": "Item[]"
+        },
+        {
+          "name": "listItemStyle",
+          "documentation": "`listItemStyle` will applied to all listItem.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "onChooseItem",
+          "documentation": "onChoose ListItem `callback`.",
+          "isRequired": false,
+          "type": "(itemIndex?: number) => void"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ListViewProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "ListViewState",
+      "members": [
+        {
+          "name": "currItems",
+          "documentation": "",
+          "isRequired": false,
+          "type": "Item[]"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "ListView",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    onChooseItem: emptyFunc\n  }",
+          "documentation": "",
+          "type": "ListViewProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    currItems: this.props.listSource\n  }",
+          "documentation": "",
+          "type": "ListViewState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: ListViewProps) => void"
+        },
+        {
+          "name": "updateProps2State",
+          "initializerText": " (props: ListViewProps) => {\n    const currItems = props.listSource;\n    this.setState({ currItems });\n  }",
+          "documentation": "",
+          "type": "(props: ListViewProps) => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(listView: ListView) => { root?: CSSProperties; item?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/ListView/index\""
+}

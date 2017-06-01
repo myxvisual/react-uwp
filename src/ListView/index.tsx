@@ -14,8 +14,17 @@ export interface Item {
   onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
 }
 export interface DataProps {
+  /**
+   * ListSource Data.
+   */
   listSource?: Item[];
+  /**
+   * `listItemStyle` will applied to all listItem.
+   */
   listItemStyle?: React.CSSProperties;
+  /**
+   * onChoose ListItem `callback`.
+   */
   onChooseItem?: (itemIndex?: number) => void;
 }
 
@@ -26,7 +35,7 @@ export interface ListViewState {
 }
 
 const emptyFunc = () => {};
-export default class ListView extends React.Component<ListViewProps, ListViewState> {
+export class ListView extends React.Component<ListViewProps, ListViewState> {
   static defaultProps: ListViewProps = {
     onChooseItem: emptyFunc
   };
@@ -142,3 +151,5 @@ function getStyles(listView: ListView): {
     }
   };
 }
+
+export default ListView;
