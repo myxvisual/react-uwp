@@ -1,0 +1,180 @@
+{
+  "fileName": "D:/react-uwp/src/ContentDialog/index.tsx",
+  "name": "\"D:/react-uwp/src/ContentDialog/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "ContentDialogProps",
+      "documentation": ""
+    },
+    {
+      "name": "ContentDialog",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "ContentDialog"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "statusBarTitle",
+          "documentation": "If set `statusBarTitle` to string, will render `StatusBar`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "showCloseButton",
+          "documentation": "default is `false`, is set close button show.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "title",
+          "documentation": "ContentDialog `title`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "content",
+          "documentation": "ContentDialog `content`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "contentNode",
+          "documentation": "ContentDialog `content Node`.",
+          "isRequired": false,
+          "type": "ReactNode"
+        },
+        {
+          "name": "primaryButtonText",
+          "documentation": "primaryButton `text`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "secondaryButtonText",
+          "documentation": "secondaryButton `text`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "defaultShow",
+          "documentation": "controlled `ContentDialog` show.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "closeButtonAction",
+          "documentation": "closeButton `click callback`.",
+          "isRequired": false,
+          "type": "(e: MouseEvent<HTMLButtonElement>) => void"
+        },
+        {
+          "name": "primaryButtonAction",
+          "documentation": "primaryButton `click callback`.",
+          "isRequired": false,
+          "type": "(e: MouseEvent<HTMLButtonElement>) => void"
+        },
+        {
+          "name": "secondaryButtonAction",
+          "documentation": "secondaryButton `click callback`.",
+          "isRequired": false,
+          "type": "(e: MouseEvent<HTMLButtonElement>) => void"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ContentDialogProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "ContentDialog",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    primaryButtonText: \"Delete\",\n    secondaryButtonText: \"Cancel\",\n    closeButtonAction: emptyFunc,\n    primaryButtonAction: emptyFunc,\n    secondaryButtonAction: emptyFunc\n  }",
+          "documentation": "",
+          "type": "ContentDialogProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "refs",
+          "documentation": "",
+          "type": "{ renderToBody: any; }"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "containerMouseEnterHandle",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.border = `1px solid ${this.context.theme.accent}`;\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "containerMouseLeaveHandle",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(contentDialog: ContentDialog) => { mask?: CSSProperties; container?: CSSProperties; statusBarTit..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/ContentDialog/index\""
+}

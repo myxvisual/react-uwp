@@ -6,53 +6,68 @@ import IconButton from "../IconButton";
 import RenderToBody from "../RenderToBody";
 
 export interface DataProps {
+  /**
+   * If set `statusBarTitle` to string, will render `StatusBar`.
+   */
   statusBarTitle?: string;
-  title?: string;
-  primaryButtonText?: string;
-  secondaryButtonText?: string;
-  primaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  secondaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /**
+   * default is `false`, is set close button show.
+   */
   showCloseButton?: boolean;
-  show?: boolean;
-  contentNode?: any;
-  autoClose?: boolean;
+  /**
+   * ContentDialog `title`.
+   */
+  title?: string;
+  /**
+   * ContentDialog `content`.
+   */
+  content?: string;
+  /**
+   * ContentDialog `content Node`.
+   */
+  contentNode?: React.ReactNode;
+  /**
+   * primaryButton `text`.
+   */
+  primaryButtonText?: string;
+  /**
+   * secondaryButton `text`.
+   */
+  secondaryButtonText?: string;
+  /**
+   * controlled `ContentDialog` show.
+   */
+  defaultShow?: boolean;
+  /**
+   * closeButton `click callback`.
+   */
+  closeButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /**
+   * primaryButton `click callback`.
+   */
+  primaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /**
+   * secondaryButton `click callback`.
+   */
+  secondaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface ContentDialogState {
-  showDialog?: boolean;
-}
+const emptyFunc = () => {};
 
-export default class ContentDialog extends React.Component<ContentDialogProps, ContentDialogState> {
+export class ContentDialog extends React.Component<ContentDialogProps, void> {
   static defaultProps: ContentDialogProps = {
-    statusBarTitle: "ContentDialog",
-    title: "Delete file permanently?",
-    content: "If you delete this file, you won't be able to recover it. Do you want to delete it?",
     primaryButtonText: "Delete",
     secondaryButtonText: "Cancel",
-    primaryButtonAction: () => {},
-    secondaryButtonAction: () => {},
-    showCloseButton: true
+    closeButtonAction: emptyFunc,
+    primaryButtonAction: emptyFunc,
+    secondaryButtonAction: emptyFunc
   };
-
-  state: ContentDialogState = { showDialog: this.props.show };
   refs: { renderToBody: RenderToBody };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
-
-  getShowStatus = () => this.state.showDialog;
-
-  toggleShow = (showDialog?: boolean) => {
-    if (typeof showDialog === "boolean") {
-      if (showDialog !== this.state.showDialog) this.setState({ showDialog });
-    } else {
-      this.setState({
-        showDialog: !this.state.showDialog
-      });
-    }
-  }
 
   containerMouseEnterHandle = (e: React.MouseEvent<HTMLDivElement>) => {
     e.currentTarget.style.border = `1px solid ${this.context.theme.accent}`;
@@ -68,16 +83,15 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
       title,
       primaryButtonText,
       secondaryButtonText,
-      show,
+      defaultShow,
       showCloseButton,
       content,
       contentNode,
       primaryButtonAction,
       secondaryButtonAction,
-      autoClose,
+      closeButtonAction,
       ...attributes
     } = this.props;
-    const { showDialog } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
@@ -92,29 +106,36 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
             onMouseEnter={this.containerMouseEnterHandle}
             onMouseLeave={this.containerMouseLeaveHandle}
           >
-            <div style={styles.statusBarTitle}>
-              <p style={{ fontSize: 12, marginLeft: 8 }}>{statusBarTitle}</p>
+            {statusBarTitle && <div style={styles.statusBarTitle}>
+              <p style={{ fontSize: 12, lineHeight: "28x" }}>
+                {statusBarTitle}
+              </p>
               {showCloseButton
                 ?
                 <IconButton
-                  onClick={() => { this.toggleShow(false); }}
+                  onClick={closeButtonAction}
                   style={styles.iconButton}
                   hoverStyle={{ background: "#d00f2a", color: "#fff" }}
+                  activeStyle={{ background: "#d00f2a", color: "#fff" }}
                 >
                   {"\uE894"}
                 </IconButton>
                 : null
               }
+            </div>}
+            <div style={{ padding: 16, minHeight: 160 }}>
+              {title ? <h5 style={styles.title}>{title}</h5> : null}
+              {content && <p style={{ margin: 0 }}>{content}</p>}
             </div>
+            {contentNode}
             <div style={styles.content}>
-              <div style={{ width: "100%" }}>
-                {title ? <h5 style={styles.title}>{title}</h5> : null}
-                <p>{content}</p>
-                {contentNode}
-              </div>
               <div style={styles.buttonGroup}>
-                <Button onClick={autoClose ? e => { this.toggleShow(false); primaryButtonAction(e); } : primaryButtonAction} style={styles.button}>{primaryButtonText}</Button>
-                <Button onClick={autoClose ? e => { this.toggleShow(false); secondaryButtonAction(e); } : secondaryButtonAction} style={styles.button}>{secondaryButtonText}</Button>
+                <Button onClick={primaryButtonAction} style={styles.button}>
+                  {primaryButtonText}
+                </Button>
+                <Button onClick={secondaryButtonAction} style={styles.button}>
+                  {secondaryButtonText}
+                </Button>
               </div>
             </div>
           </div>
@@ -127,23 +148,25 @@ export default class ContentDialog extends React.Component<ContentDialogProps, C
 function getStyles(contentDialog: ContentDialog): {
   mask?: React.CSSProperties;
   container?: React.CSSProperties;
-  content?: React.CSSProperties;
   statusBarTitle?: React.CSSProperties;
   iconButton?: React.CSSProperties;
   title?: React.CSSProperties;
+  content?: React.CSSProperties;
   buttonGroup?: React.CSSProperties;
   button?: React.CSSProperties;
 } {
-  const { context, props: { style } } = contentDialog;
-  const { showDialog } = contentDialog.state;
+  const { context, props: { style, defaultShow } } = contentDialog;
   const { theme } = context;
   const { prepareStyles } = theme;
 
   return {
     mask: prepareStyles({
+      lineHeight: 1.6,
+      margin: 0,
+      padding: 0,
       zIndex: 2000,
-      opacity: showDialog ? 1 : 0,
-      pointerEvents: showDialog ? "all" : "none",
+      opacity: defaultShow ? 1 : 0,
+      pointerEvents: defaultShow ? "all" : "none",
       position: "fixed",
       top: 0,
       left: 0,
@@ -156,14 +179,9 @@ function getStyles(contentDialog: ContentDialog): {
       justifyContent: "center",
       color: theme.baseHigh,
       background: theme.altMediumHigh,
-      transition: `all .25s ${showDialog ? 0 : 0.25}s ease-in-out`,
+      transition: `all .25s ${defaultShow ? 0 : 0.25}s ease-in-out`,
       ...style
     }),
-    iconButton: {
-      fontSize: 10,
-      width: 40,
-      height: 26
-    },
     container: prepareStyles({
       background: theme.altHigh,
       border: `1px solid ${theme.baseLow}`,
@@ -171,30 +189,43 @@ function getStyles(contentDialog: ContentDialog): {
       width: "80%",
       maxWidth: 720,
       cursor: "default",
-      height: 240,
-      transform: `scale(${showDialog ? 1 : 0})`,
-      opacity: showDialog ? 1 : 0,
-      transition: `all .25s ${showDialog ? 0.25 : 0}s ease-in-out`
+      transform: `scale(${defaultShow ? 1 : 0})`,
+      opacity: defaultShow ? 1 : 0,
+      transition: `all .25s ${defaultShow ? 0.25 : 0}s ease-in-out`
+    }),
+    statusBarTitle: prepareStyles({
+      color: "#fff",
+      background: theme.accent,
+      height: 28,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingLeft: 18
+    }),
+    iconButton: prepareStyles({
+      color: "#fff",
+      display: "flex",
+      alignSelf: "flex-start",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 10,
+      width: 40,
+      height: 28
     }),
     content: prepareStyles({
+      boxSizing: "border-box",
       width: "100%",
-      height: "calc(100% - 26px)",
       padding: 16,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "space-between"
     }),
-    statusBarTitle: prepareStyles({
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between"
-    }),
     title: {
+      fontWeight: 500,
       fontSize: 18,
-      lineHeight: 1,
-      marginBottom: 16
+      margin: 0
     },
     buttonGroup: prepareStyles({
       width: "100%",
@@ -208,3 +239,5 @@ function getStyles(contentDialog: ContentDialog): {
     }
   };
 }
+
+export default ContentDialog;

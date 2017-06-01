@@ -125,6 +125,13 @@ function getRoutes(path = "/") {
             }, "react-uwp-Components-DatePickers-CalendarView");
           }
         }]
+      }, {
+        path: "ContentDialog",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/ContentDialog").default);
+          }, "react-uwp-Components-ContentDialog");
+        }
       }]
     }, {
       path: "Styles",

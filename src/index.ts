@@ -15,7 +15,7 @@ export { default as Slider } from "./Slider";
 export { default as FlipView, FlipViewProps, FlipViewState } from "./FlipView";
 export { default as FloatNav } from "./FloatNav";
 export { default as Flyout } from "./Flyout";
-export { default as FlyoutWrapper } from "./FlyoutWrapper";
+export { default as FlyoutContent } from "./FlyoutContent";
 export { default as HyperLink } from "./HyperLink";
 export { default as Icon } from "./Icon";
 export { default as IconButton } from "./IconButton";

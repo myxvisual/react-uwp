@@ -43,14 +43,12 @@ export default class IconButton extends React.Component<IconButtonProps, void> {
           flexShrink: 0,
           ...style
         }}
-        hoverStyle={{
-          background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"],
-          ...hoverStyle
+        hoverStyle={hoverStyle || {
+          background: theme.listAccentMedium
         }}
-        activeStyle={{
+        activeStyle={activeStyle || {
           background: theme.accent,
-          color: "#fff",
-          ...activeStyle
+          color: "#fff"
         }}
       >
         <button>
