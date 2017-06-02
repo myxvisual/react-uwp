@@ -8,6 +8,6 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    return <MediaPlayer />;
+    return <MediaPlayer url="https://www.youtube.com/watch?v=vcBGj4R7Fo0" />;
   }
 }

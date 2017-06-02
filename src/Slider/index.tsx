@@ -31,8 +31,8 @@ const emptyFunc = () => {};
 export default class Slider extends React.Component<SliderProps, SliderState> {
   static defaultProps: SliderProps = {
     minValue: 0,
-    maxValue: 100,
-    initValue: 50,
+    maxValue: 1,
+    initValue: 0,
     onChangeValue: emptyFunc,
     onChangeValueRatio: emptyFunc,
     width: "100%",
@@ -53,6 +53,12 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
   controllerWrapperElm: HTMLDivElement;
   controllerElm: HTMLDivElement;
   barElm: HTMLDivElement;
+
+  componentWillReceiveProps(nextProps: SliderProps) {
+    if (this.state.currValue !== nextProps.initValue) {
+      this.setState({ currValue: nextProps.initValue });
+    }
+  }
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -187,6 +193,7 @@ function getStyles(slider: Slider): {
   const {
     context: { theme },
     props: {
+      maxValue,
       style,
       height,
       barHeight,
@@ -198,7 +205,6 @@ function getStyles(slider: Slider): {
     },
     state: {
       currValue,
-      valueRatio,
       dragging,
       hovered
     }
@@ -209,6 +215,7 @@ function getStyles(slider: Slider): {
   const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
   const transition = dragging ? void 0 : "all .25s 0s linear";
   const useCustomBackground = barBackground || barBackgroundImage;
+  const valueRatio = currValue / maxValue;
 
   return {
     wrapper: prepareStyles({

@@ -11,7 +11,7 @@ import ListView from "../ListView";
 
 export interface DataProps {
   playing?: boolean;
-  played?: boolean;
+  played?: number;
   volume?: number;
   playbackRate?: number;
   duration?: number;
@@ -22,6 +22,7 @@ export interface DataProps {
   skipForwardAction?: (forwardRate?: number) => void;
   onChangePlaybackRate?: (playbackRate?: number) => void;
   onChangeVolume?: (volume?: number) => void;
+  onChangeSeek?: (seek?: number) => void;
 }
 
 export interface ControlProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -38,7 +39,8 @@ export default class Control extends React.Component<ControlProps, ControlState>
     skipBackAction: emptyFunc,
     skipForwardAction: emptyFunc,
     onChangePlaybackRate: emptyFunc,
-    onChangeVolume: emptyFunc
+    onChangeVolume: emptyFunc,
+    onChangeSeek: emptyFunc
   };
 
   state: ControlState = {
@@ -73,8 +75,19 @@ export default class Control extends React.Component<ControlProps, ControlState>
     }
   }
 
+  second2HHMMSS = (second: number) => {
+    let s: any = (second % 60).toFixed(0);
+    let m: any = parseInt(`${second / 60}`);
+    m %= 60;
+    let h: any = parseInt(`${second / 3600}`);
+    if (s < 10) s = `0${s}`;
+    if (m < 10) m = `0${m}`;
+    if (h < 10) h = `0${h}`;
+    return `${h}:${m}:${s}`;
+  }
+
   render() {
-    const {
+    let {
       playing,
       played,
       volume,
@@ -87,9 +100,13 @@ export default class Control extends React.Component<ControlProps, ControlState>
       skipForwardAction,
       onChangePlaybackRate,
       onChangeVolume,
+      onChangeSeek,
       ...attributes
     } = this.props;
     const { showPlaybackChoose, showVolumeSlider } = this.state;
+    played = played || 0;
+    duration = duration || 0;
+    const playedValue = played * duration;
 
     const { theme } = this.context;
     const styles = getStyles(this);
@@ -102,15 +119,21 @@ export default class Control extends React.Component<ControlProps, ControlState>
         <div style={styles.sliderContainer}>
           <Slider
             style={{ width: "100%" }}
+            initValue={played || 0}
+            minValue={0}
+            maxValue={1}
             controllerWidth={16}
             customControllerStyle={{
               width: 16,
               height: 16,
               marginTop: 4
             }}
+            onChangeValue={(value) => {
+              onChangeSeek(Number(value.toFixed(1)));
+            }}
           />
-          <span>00:00:00</span>
-          <span style={{ float: "right" }}>00:00:00</span>
+          <span>{this.second2HHMMSS(playedValue)}</span>
+          <span style={{ float: "right" }}>{this.second2HHMMSS(duration)}</span>
         </div>
         <div style={styles.controlsGroup2}>
           <div>
@@ -125,7 +148,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
                 verticalPosition="top"
                 horizontalPosition="right"
               >
-                <Slider />
+                <Slider onChangeValue={onChangeVolume} initValue={volume} />
               </FlyoutContent>
             </Flyout>
             <Tooltip content="Subtitles">
@@ -133,17 +156,17 @@ export default class Control extends React.Component<ControlProps, ControlState>
             </Tooltip>
           </div>
           <div>
-            <Tooltip content="SkipBack 10">
+            <Tooltip content="Skip Back">
               <IconButton>SkipBack10</IconButton>
             </Tooltip>
-            <IconButton>Play</IconButton>
-            <Tooltip content="SkipForward 30">
+            <IconButton onClick={playOrPauseAction}>{playing ? "Pause" : "Play"}</IconButton>
+            <Tooltip content="Skip Forward">
               <IconButton>SkipForward30</IconButton>
             </Tooltip>
           </div>
           <div>
             <Tooltip content="Full Screen">
-              <IconButton>FullScreen</IconButton>
+              <IconButton onClick={fullScreenAction}>FullScreen</IconButton>
             </Tooltip>
             <Flyout>
               <IconButton onClick={this.toggleShowPlaybackChoose}>
@@ -242,13 +265,14 @@ function getStyles(mock: Control): {
       fontSize: 14,
       color: theme.baseHigh,
       backgroundImage: `linear-gradient(transparent, ${theme.altMedium})`,
+      transition: "all .75s ease-in-out",
       ...style
     }),
     sliderContainer: {
       overflow: "hidden",
       position: "relative",
       height: 48,
-      padding: "0 8px"
+      padding: "0 16px"
     },
     controlsGroup2: prepareStyles({
       display: "flex",
