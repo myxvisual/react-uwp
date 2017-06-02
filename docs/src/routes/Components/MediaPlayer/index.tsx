@@ -22,6 +22,7 @@ export default class MediaPlayer extends React.Component<any, void> {
       router, // tslint:disable-line:no-unused-variable
       routeParams, // tslint:disable-line:no-unused-variable
       routes, // tslint:disable-line:no-unused-variable
+      screenType,
       ...attributes // tslint:disable-line:no-unused-variable
     } = this.props;
 
@@ -37,7 +38,7 @@ export default class MediaPlayer extends React.Component<any, void> {
           doubleThemeStyle={{ padding: 20 }}
           useSingleTheme
         >
-          <SimpleExample />
+          <SimpleExample screenType={screenType} />
         </CodeExample>
       </ComponentDetail>
     );

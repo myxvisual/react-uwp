@@ -157,11 +157,11 @@ export default class Control extends React.Component<ControlProps, ControlState>
           </div>
           <div>
             <Tooltip content="Skip Back">
-              <IconButton>SkipBack10</IconButton>
+              <IconButton onClick={skipBackAction as any}>SkipBack10</IconButton>
             </Tooltip>
             <IconButton onClick={playOrPauseAction}>{playing ? "Pause" : "Play"}</IconButton>
             <Tooltip content="Skip Forward">
-              <IconButton>SkipForward30</IconButton>
+              <IconButton onClick={skipForwardAction as any}>SkipForward30</IconButton>
             </Tooltip>
           </div>
           <div>

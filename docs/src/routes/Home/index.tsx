@@ -9,6 +9,7 @@ import Categories from "./components/Categories";
 import Banner from "./components/Banner";
 import CustomTheme from "./components/CustomTheme";
 import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
+import MediaPlayer from "react-uwp/MediaPlayer";
 
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
@@ -81,6 +82,12 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         />
         <Banner renderContentWidth={renderContentWidth} />
         <CustomTheme renderContentWidth={renderContentWidth} />
+        <MediaPlayer
+          style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
+          url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
+          width={renderContentWidth as any}
+          height={(renderContentWidth as any) / 2}
+        />
         <IndexOfComponentsByFunction
           style={{
             padding: 20,

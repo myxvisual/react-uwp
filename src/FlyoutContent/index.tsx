@@ -49,6 +49,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     showFlyoutContent: this.props.show
   };
   rootElm: HTMLDivElement;
+  autoHideTimer: any = null;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -63,15 +64,22 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     Object.assign(this.rootElm.style, this.getPositionStyle("px"));
     if (!this.props.isControlled) {
       this.rootElm.parentElement.addEventListener("mouseenter", this.showFlyoutContent);
-      this.rootElm.parentElement.addEventListener("mouseleave", this.hideFlyoutContent);
+      this.rootElm.parentElement.addEventListener("mouseleave", this.delayHide);
     }
   }
 
   componentWillUnmount() {
+    clearTimeout(this.autoHideTimer);
     if (!this.props.isControlled) {
       this.rootElm.parentElement.removeEventListener("mouseenter", this.showFlyoutContent);
-      this.rootElm.parentElement.removeEventListener("mouseleave", this.hideFlyoutContent);
+      this.rootElm.parentElement.removeEventListener("mouseleave", this.delayHide);
     }
+  }
+
+  delayHide = () => {
+    this.autoHideTimer = setTimeout(() => {
+      this.hideFlyoutContent();
+    }, 2000);
   }
 
   showFlyoutContent = () => this.toggleShowFlyoutContent(true);
@@ -173,6 +181,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
   }
 
   handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    clearTimeout(this.autoHideTimer);
     e.currentTarget.style.border = `1px solid ${this.context.theme.listAccentLow}`;
     if (!this.props.isControlled) this.showFlyoutContent();
     this.props.onMouseEnter(e);
@@ -180,7 +189,11 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
 
   handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;
-    if (!this.props.isControlled) this.hideFlyoutContent();
+    if (!this.props.isControlled) {
+      this.autoHideTimer = setTimeout(() => {
+        this.hideFlyoutContent();
+      }, 2000);
+    }
     this.props.onMouseLeave(e);
   }
 
