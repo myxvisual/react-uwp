@@ -179,21 +179,11 @@ export default class Control extends React.Component<ControlProps, ControlState>
                 verticalPosition="top"
                 horizontalPosition="left"
               >
-                <Flyout>
-                  <div style={{ padding: 8, width: 120 }}>
-                    <span>
-                      Playback Rate
-                    </span>
-                    <Icon>
-                      ScrollChevronRightLegacy
-                    </Icon>
-                  </div>
-                  <FlyoutContent
-                    margin={0}
-                    style={{ width: 60,  padding: 0 }}
-                    verticalPosition="top"
-                    horizontalPosition="left"
-                  >
+                <Tooltip
+                  style={{ height: "auto", padding: 0, border: "none"}}
+                  margin={0}
+                  horizontalPosition="left"
+                  contentNode={
                     <ListView
                       listSource={[{
                         itemNode: "2x",
@@ -233,8 +223,23 @@ export default class Control extends React.Component<ControlProps, ControlState>
                         }
                       }]}
                     />
+                }>
+                  <div style={{ padding: 8, width: 120 }}>
+                    <span>
+                      Playback Rate
+                    </span>
+                    <Icon>
+                      ScrollChevronRightLegacy
+                    </Icon>
+                  </div>
+                  <FlyoutContent
+                    margin={0}
+                    style={{ width: 60,  padding: 0 }}
+                    verticalPosition="top"
+                    horizontalPosition="left"
+                  >
                   </FlyoutContent>
-                </Flyout>
+                </Tooltip>
               </FlyoutContent>
             </Flyout>
           </div>

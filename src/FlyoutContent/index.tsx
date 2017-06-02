@@ -64,7 +64,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     Object.assign(this.rootElm.style, this.getPositionStyle("px"));
     if (!this.props.isControlled) {
       this.rootElm.parentElement.addEventListener("mouseenter", this.showFlyoutContent);
-      this.rootElm.parentElement.addEventListener("mouseleave", this.delayHide);
+      this.rootElm.parentElement.addEventListener("mouseleave", this.hideFlyoutContent);
     }
   }
 
@@ -72,14 +72,8 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     clearTimeout(this.autoHideTimer);
     if (!this.props.isControlled) {
       this.rootElm.parentElement.removeEventListener("mouseenter", this.showFlyoutContent);
-      this.rootElm.parentElement.removeEventListener("mouseleave", this.delayHide);
+      this.rootElm.parentElement.removeEventListener("mouseleave", this.hideFlyoutContent);
     }
-  }
-
-  delayHide = () => {
-    this.autoHideTimer = setTimeout(() => {
-      this.hideFlyoutContent();
-    }, 2000);
   }
 
   showFlyoutContent = () => this.toggleShowFlyoutContent(true);
