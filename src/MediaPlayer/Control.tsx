@@ -1,24 +1,96 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import Icon from "../Icon";
 import IconButton from "../IconButton";
 import Slider from "../Slider";
 import Tooltip from "../Tooltip";
+import Flyout from "../Flyout";
+import FlyoutContent from "../FlyoutContent";
+import ListView from "../ListView";
 
 export interface DataProps {
   playing?: boolean;
+  played?: boolean;
+  volume?: number;
+  playbackRate?: number;
+  duration?: number;
+
+  playOrPauseAction?: () => void;
+  fullScreenAction?: () => void;
+  skipBackAction?: (backRate?: number) => void;
+  skipForwardAction?: (forwardRate?: number) => void;
+  onChangePlaybackRate?: (playbackRate?: number) => void;
+  onChangeVolume?: (volume?: number) => void;
 }
 
 export interface ControlProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ControlState {
+  showVolumeSlider?: boolean;
+  showPlaybackChoose?: boolean;
+}
 
-export default class Control extends React.Component<ControlProps, void> {
-  static defaultProps: ControlProps = {};
+const emptyFunc = () => {};
+export default class Control extends React.Component<ControlProps, ControlState> {
+  static defaultProps: ControlProps = {
+    playOrPauseAction: emptyFunc,
+    fullScreenAction: emptyFunc,
+    skipBackAction: emptyFunc,
+    skipForwardAction: emptyFunc,
+    onChangePlaybackRate: emptyFunc,
+    onChangeVolume: emptyFunc
+  };
+
+  state: ControlState = {
+    showVolumeSlider: false,
+    showPlaybackChoose: false
+  };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
+  toggleShowPlaybackChoose = (showPlaybackChoose?: any) => {
+    if (typeof showPlaybackChoose === "boolean") {
+      if (showPlaybackChoose !== this.state.showPlaybackChoose) {
+        this.setState({ showPlaybackChoose });
+      }
+    } else {
+      this.setState((prevState, prevProps) => ({
+        showPlaybackChoose: !prevState.showPlaybackChoose
+      }));
+    }
+  }
+
+  toggleShowVolumeSlider = (showVolumeSlider?: any) => {
+    if (typeof showVolumeSlider === "boolean") {
+      if (showVolumeSlider !== this.state.showVolumeSlider) {
+        this.setState({ showVolumeSlider });
+      }
+    } else {
+      this.setState((prevState, prevProps) => ({
+        showVolumeSlider: !prevState.showVolumeSlider
+      }));
+    }
+  }
+
   render() {
-    const { ...attributes } = this.props;
+    const {
+      playing,
+      played,
+      volume,
+      playbackRate,
+      duration,
+
+      playOrPauseAction,
+      fullScreenAction,
+      skipBackAction,
+      skipForwardAction,
+      onChangePlaybackRate,
+      onChangeVolume,
+      ...attributes
+    } = this.props;
+    const { showPlaybackChoose, showVolumeSlider } = this.state;
+
     const { theme } = this.context;
     const styles = getStyles(this);
 
@@ -42,7 +114,20 @@ export default class Control extends React.Component<ControlProps, void> {
         </div>
         <div style={styles.controlsGroup2}>
           <div>
-            <IconButton>Volume</IconButton>
+            <Flyout>
+              <IconButton onClick={this.toggleShowVolumeSlider}>
+                Volume
+              </IconButton>
+              <FlyoutContent
+                style={{ width: 298 }}
+                isControlled
+                show={showVolumeSlider}
+                verticalPosition="top"
+                horizontalPosition="right"
+              >
+                <Slider />
+              </FlyoutContent>
+            </Flyout>
             <Tooltip content="Subtitles">
               <IconButton>Subtitles</IconButton>
             </Tooltip>
@@ -60,7 +145,75 @@ export default class Control extends React.Component<ControlProps, void> {
             <Tooltip content="Full Screen">
               <IconButton>FullScreen</IconButton>
             </Tooltip>
-            <IconButton>MoreLegacy</IconButton>
+            <Flyout>
+              <IconButton onClick={this.toggleShowPlaybackChoose}>
+                MoreLegacy
+              </IconButton>
+              <FlyoutContent
+                style={{ width: 120, cursor: "pointer", padding: 0 }}
+                isControlled
+                show={showPlaybackChoose}
+                verticalPosition="top"
+                horizontalPosition="left"
+              >
+                <Flyout>
+                  <div style={{ padding: 8, width: 120 }}>
+                    <span>
+                      Playback Rate
+                    </span>
+                    <Icon>
+                      ScrollChevronRightLegacy
+                    </Icon>
+                  </div>
+                  <FlyoutContent
+                    margin={0}
+                    style={{ width: 60,  padding: 0 }}
+                    verticalPosition="top"
+                    horizontalPosition="left"
+                  >
+                    <ListView
+                      listSource={[{
+                        itemNode: "2x",
+                        onClick: () => {
+                          onChangePlaybackRate(2);
+                          this.toggleShowPlaybackChoose(false);
+                        }
+                      }, {
+                        itemNode: "1.5x",
+                        onClick: () => {
+                          onChangePlaybackRate(1.5);
+                          this.toggleShowPlaybackChoose(false);
+                        }
+                      }, {
+                        itemNode: "1.25x",
+                        onClick: () => {
+                          onChangePlaybackRate(1.25);
+                          this.toggleShowPlaybackChoose(false);
+                        }
+                      }, {
+                        itemNode: "Normal",
+                        onClick: () => {
+                          onChangePlaybackRate(1);
+                          this.toggleShowPlaybackChoose(false);
+                        }
+                      }, {
+                        itemNode: "0.75x",
+                        onClick: () => {
+                          onChangePlaybackRate(0.75);
+                          this.toggleShowPlaybackChoose(false);
+                        }
+                      }, {
+                        itemNode: "0.5x",
+                        onClick: () => {
+                          onChangePlaybackRate(0.5);
+                          this.toggleShowPlaybackChoose(false);
+                        }
+                      }]}
+                    />
+                  </FlyoutContent>
+                </Flyout>
+              </FlyoutContent>
+            </Flyout>
           </div>
         </div>
       </div>

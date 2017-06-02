@@ -27,6 +27,7 @@ export class Flyout extends React.Component<FlyoutProps, void> {
       <div
         {...attributes}
         style={theme.prepareStyles({
+          display: "inline-block",
           ...style,
           position: "relative"
         })}

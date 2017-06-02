@@ -222,7 +222,6 @@ function getStyles(slider: Slider): {
       height: height2px,
       cursor: "default",
       position: "relative",
-      overflow: "hidden",
       display: "inline-block"
     }),
     barContainer: {

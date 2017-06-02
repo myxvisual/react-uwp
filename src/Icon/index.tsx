@@ -56,6 +56,7 @@ export default class Icon extends React.Component<IconProps, IconState> {
         onMouseLeave={this.handleMouseLeave}
         style={theme.prepareStyles({
           textAlign: "center",
+          verticalAlign: "middle",
           fontFamily: theme.iconFontFamily,
           transition: "all .25s",
           border: "none",

@@ -91,7 +91,7 @@ function getStyles(mock: MediaPlayer): {
       fontSize: 14,
       color: theme.baseHigh,
       background: theme.altHigh,
-      ...style 
+      ...style
     })
   };
 }
