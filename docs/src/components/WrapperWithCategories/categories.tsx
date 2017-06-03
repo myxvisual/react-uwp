@@ -34,9 +34,17 @@ export default [{
   "children": [{
     "titleNode": "CommandBar"
   }, {
+    "titleNode": "AppBarButton"
+  }, {
     "titleNode": "AutoSuggestBox"
   }, {
     "titleNode": "Button"
+  }, {
+    "titleNode": "Icon"
+  }, {
+    "titleNode": "IconButton"
+  }, {
+    "titleNode": "Separator"
   }, {
     "titleNode": "CheckBox"
   }, {
