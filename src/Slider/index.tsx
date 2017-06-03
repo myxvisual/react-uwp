@@ -35,7 +35,6 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     initValue: 0,
     onChangeValue: emptyFunc,
     onChangeValueRatio: emptyFunc,
-    width: "100%",
     height: 24,
     barHeight: 2,
     controllerWidth: 8,
@@ -222,6 +221,7 @@ function getStyles(slider: Slider): {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      width: 320,
       ...style
     }),
     root: prepareStyles({

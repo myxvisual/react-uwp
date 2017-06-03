@@ -97,6 +97,8 @@ export default [{
   }, {
     "titleNode": "SplitView"
   }, {
+    "titleNode": "SplitViewCommand"
+  }, {
     "titleNode": "Tabs",
     disabled: true
   }, {
