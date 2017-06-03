@@ -126,7 +126,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       } as React.CSSProperties);
     }
 
-    const transform = `translateX(${valueRatio * 100}%)`;
+    const transform = `translateX(${(valueRatio - (this.props.showValueInfo ? 0.5 : 0)) * 100}%)`;
     Object.assign(this.controllerWrapperElm.style, {
       transform,
       webKitTransform: transform,
@@ -152,32 +152,40 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       numberToFixed, // tslint:disable-line:no-unused-variable
       unit, // tslint:disable-line:no-unused-variable
       customControllerStyle, //  tslint:disable-line:no-unused-variable
+      transition,
       ...attributes
     } = this.props;
     const { currValue } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
+    const normalRender = (
+      <div
+        ref={elm => this.rootElm = elm}
+        style={styles.root}
+        onMouseEnter={this.handelMouseEnter}
+        onMouseLeave={this.handelMouseLeave}
+        onClick={this.setValueByEvent}
+        onMouseDown={this.handelMouseDown}
+        onMouseUp={this.handelMouseUp}
+      >
+        <div style={styles.barContainer}>
+          <div style={styles.bar} ref={elm => this.barElm = elm} />
+        </div>
+        <div style={styles.controllerWrapper} ref={controllerWrapperElm => this.controllerWrapperElm = controllerWrapperElm}>
+          <div style={styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
+        </div>
+      </div>
+    )
+
     return (
       <div {...attributes} style={styles.wrapper}>
-        <div
-          ref={elm => this.rootElm = elm}
-          style={styles.root}
-          onMouseEnter={this.handelMouseEnter}
-          onMouseLeave={this.handelMouseLeave}
-          onMouseDown={this.handelMouseDown}
-          onMouseUp={this.handelMouseUp}
-        >
-          <div style={styles.barContainer}>
-            <div style={styles.bar} ref={elm => this.barElm = elm} />
+        {showValueInfo ? (
+          <div style={theme.prepareStyles({ display: "flex", flexDirection: "row", alignItems: "center" })}>
+            {normalRender}
+            <span style={styles.label}>{`${currValue.toFixed(numberToFixed)}${unit}`}</span>
           </div>
-          <div style={styles.controllerWrapper} ref={controllerWrapperElm => this.controllerWrapperElm = controllerWrapperElm}>
-            <div style={styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
-          </div>
-        </div>
-        {showValueInfo && (
-          <span style={styles.label}>{`${currValue.toFixed(numberToFixed)}${unit}`}</span>
-        )}
+        ) : normalRender}
       </div>
     );
   }
@@ -204,7 +212,8 @@ function getStyles(slider: Slider): {
       barBackground,
       barBackgroundImage,
       useSimpleController,
-      customControllerStyle
+      customControllerStyle,
+      showValueInfo
     },
     state: {
       currValue,
@@ -222,21 +231,21 @@ function getStyles(slider: Slider): {
 
   return {
     wrapper: prepareStyles({
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
+      display: "inline-block",
       ...style
     }),
     root: prepareStyles({
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
       width: "100%",
       height: height2px,
       cursor: "default",
-      position: "relative",
-      display: "inline-block"
+      position: "relative"
     }),
     barContainer: {
       background: theme.baseLow,
-      position: "relative",
+      position: "absolute",
       width: "100%",
       overflow: "hidden",
       height: barHeight,
@@ -255,12 +264,14 @@ function getStyles(slider: Slider): {
       top: 0
     }),
     controllerWrapper: prepareStyles({
-      transition: currTransition,
       position: "absolute",
-      width: "100%",
       left: 0,
       top: 0,
-      transform: `translate3D(${valueRatio * 100}%, 0, 0)`
+      width: "100%",
+      height: 0,
+      transform: `translateX(${(valueRatio - (showValueInfo ? 0.5 : 0)) * 100}%)`,
+      pointerEvents: "none",
+      transition: currTransition
     }),
     controller: prepareStyles({
       transition: currTransition,

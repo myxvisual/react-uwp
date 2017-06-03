@@ -128,7 +128,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
               height: 16,
               marginTop: 4
             }}
-            transition="all 2s"
+            transition="all .25s"
             onChangeValue={(value) => {
               onChangeSeek(Number(value.toFixed(1)));
             }}
