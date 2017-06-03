@@ -271,7 +271,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
         <Slider
           maxValue={1}
           onChangeValue={this.handleColorBarChange}
-          style={{ marginTop: size * 0.0125 }}
+          style={{ marginTop: size * 0.0125, width: "100%" }}
           initValue={v}
           width={size}
           barHeight={size * 0.025}

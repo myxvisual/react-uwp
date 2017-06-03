@@ -10,6 +10,7 @@ import Banner from "./components/Banner";
 import CustomTheme from "./components/CustomTheme";
 import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
 import MediaPlayer from "react-uwp/MediaPlayer";
+import NavigationViewExample from "../Components/NavigationView/SimpleExample";
 
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
@@ -85,8 +86,18 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <MediaPlayer
           style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
           url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
-          width={renderContentWidth as any}
+          width={renderContentWidth as any - 40}
           height={(renderContentWidth as any) / 2}
+        />
+        <NavigationViewExample
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+            alignItems: "center"
+          }}
         />
         <IndexOfComponentsByFunction
           style={{

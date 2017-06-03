@@ -22,10 +22,10 @@ export { default as Link } from "./Link";
 export { default as ListView } from "./ListView";
 export { default as MediaPlayer } from "./MediaPlayer";
 export { default as Menus } from "./Menus";
-export { default as NavPane } from "./NavPane";
+export { default as NavigationView } from "./NavigationView";
 export { default as PasswordBox } from "./PasswordBox";
 export { default as ProgressRing } from "./ProgressRing";
-export { default as RadiusButton } from "./RadiusButton";
+export { default as RadioButton } from "./RadioButton";
 export { default as RenderToBody } from "./RenderToBody";
 export { default as ScrollBar } from "./ScrollBar";
 export { default as Slider } from "./Slider";
@@ -45,9 +45,6 @@ export { accentColors };
 import * as accentColors from "./styles/accentColors";
 
 export * from "./Animate";
-
-import * as colorManipulator from "./common/colorManipulator";
-export { colorManipulator };
 
 import * as tinycolor from "tinycolor2";
 export { tinycolor };

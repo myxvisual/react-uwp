@@ -48,7 +48,6 @@ ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
 
 export default class ProgressRing extends React.Component<ProgressRingProps, void> {
   static defaultProps: ProgressRingProps = {
-    className: "",
     itemLength: 6,
     speed: 2500,
     size: 100,
@@ -59,10 +58,14 @@ export default class ProgressRing extends React.Component<ProgressRingProps, voi
 
   render() {
     const {
-      itemLength, itemStyle, size,
-      // tslint:disable-next-line:no-unused-variable
-      itemSize, delay, speed,
-      style, ...attributes
+      itemLength,
+      itemStyle,
+      size,
+      itemSize,
+      delay,
+      speed,
+      style,
+      ...attributes
     } = this.props;
     const currentItemSize = itemSize || size / 10;
     const { theme } = this.context;

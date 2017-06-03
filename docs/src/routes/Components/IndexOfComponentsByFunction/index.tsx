@@ -10,7 +10,7 @@ import Button from "react-uwp/Button";
 import AppBarButton from "react-uwp/AppBarButton";
 import Toggle from "react-uwp/Toggle";
 import CheckBox from "react-uwp/CheckBox";
-import RadiusButton from "react-uwp/RadiusButton";
+import RadioButton from "react-uwp/RadioButton";
 import HyperLink from "react-uwp/HyperLink";
 import CalendarView from "react-uwp/CalendarView";
 import Slider from "react-uwp/Slider";
@@ -68,7 +68,7 @@ The UI framework for Windows provides an extensive library of controls that supp
             <div>
               <Button style={baseStyle}>Button</Button>
               <CheckBox style={baseStyle} label="CheckBox Button" />
-              <RadiusButton style={baseStyle} label="RadiusButton" />
+              <RadioButton style={baseStyle} label="RadioButton" />
               <Toggle style={baseStyle} />
               <HyperLink style={baseStyle}>HyperLink</HyperLink>
               <Slider />

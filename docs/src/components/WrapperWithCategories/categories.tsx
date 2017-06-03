@@ -89,7 +89,7 @@ export default [{
     "titleNode": "Menus",
     disabled: true
   }, {
-    "titleNode": "NavPane"
+    "titleNode": "NavigationView"
   }, {
     "titleNode": "ProgressBar"
   }, {

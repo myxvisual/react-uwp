@@ -69,7 +69,8 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
         </Icon>
         <div
           style={{
-            color: isTenFt ? void(0) : (visited ? theme.accent : theme.baseHigh)
+            color: isTenFt ? void(0) : (visited ? theme.accent : theme.baseHigh),
+            cursor: "default"
           }}
         >
           {label || labelNode}
@@ -92,7 +93,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseMediumHigh,
-      background: isTenFt ? (visited ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : "none") : "none",
+      background: isTenFt ? (visited ? theme.listAccentLow : "none") : "none",
       width: "100%",
       display: "flex",
       flexDirection: "row",
@@ -110,6 +111,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
       position: "absolute"
     },
     icon: prepareStyles({
+      cursor: "default",
       flex: "0 0 auto",
       width: 48,
       height: 48,

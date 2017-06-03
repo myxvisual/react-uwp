@@ -1,16 +1,19 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface DataProps {}
+export interface DataProps {
+  valueRatio?: number;
+  isIndeterminate?: boolean;
+}
 
-export interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ProgressBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface MockState {}
+export interface ProgressBarState {}
 
-export class Mock extends React.Component<MockProps, MockState> {
-  static defaultProps: MockProps = {};
+export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarState> {
+  static defaultProps: ProgressBarProps = {};
 
-  state: MockState = {};
+  state: ProgressBarState = {};
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -25,19 +28,19 @@ export class Mock extends React.Component<MockProps, MockState> {
         {...attributes}
         style={styles.root}
       >
-        Mock
+        ProgressBar
       </div>
     );
   }
 }
 
-function getStyles(mock: Mock): {
+function getStyles(progressBar: ProgressBar): {
   root?: React.CSSProperties;
 } {
   const {
     context: { theme },
     props: { style }
-  } = mock;
+  } = progressBar;
   const { prepareStyles } = theme;
 
   return {
@@ -50,4 +53,4 @@ function getStyles(mock: Mock): {
   };
 }
 
-export default Mock;
+export default ProgressBar;

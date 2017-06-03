@@ -1,0 +1,112 @@
+{
+  "fileName": "D:/react-uwp/src/ProgressBar/index.tsx",
+  "name": "\"D:/react-uwp/src/ProgressBar/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "ProgressBarProps",
+      "documentation": ""
+    },
+    {
+      "name": "ProgressBarState",
+      "documentation": ""
+    },
+    {
+      "name": "ProgressBar",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "ProgressBar"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "valueRatio",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "isIndeterminate",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ProgressBarProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "ProgressBarState",
+      "documentation": ""
+    },
+    {
+      "name": "ProgressBar",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {}",
+          "documentation": "",
+          "type": "ProgressBarProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {}",
+          "documentation": "",
+          "type": "ProgressBarState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(progressBar: ProgressBar) => { root?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/ProgressBar/index\""
+}

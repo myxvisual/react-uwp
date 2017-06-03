@@ -16,6 +16,7 @@ export interface DataProps {
   showValueInfo?: boolean;
   numberToFixed?: number;
   unit?: string;
+  transition?: string;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -40,7 +41,8 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     controllerWidth: 8,
     showValueInfo: false,
     numberToFixed: 0,
-    unit: ""
+    unit: "",
+    transition: "all 0.25s"
   };
   originBodyStyle = { ...document.body.style };
 
@@ -123,7 +125,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       } as React.CSSProperties);
     }
 
-    const transform = `translateX(${valueRatio * 100}%)`;
+    const transform = `translateX(${(valueRatio - (this.props.showValueInfo ? 0.5 : 0)) * 100}%)`;
     Object.assign(this.controllerWrapperElm.style, {
       transform,
       webKitTransform: transform,
@@ -149,32 +151,40 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       numberToFixed, // tslint:disable-line:no-unused-variable
       unit, // tslint:disable-line:no-unused-variable
       customControllerStyle, //  tslint:disable-line:no-unused-variable
+      transition,
       ...attributes
     } = this.props;
     const { currValue } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
+    const normalRender = (
+      <div
+        ref={elm => this.rootElm = elm}
+        style={styles.root}
+        onMouseEnter={this.handelMouseEnter}
+        onMouseLeave={this.handelMouseLeave}
+        onClick={this.setValueByEvent}
+        onMouseDown={this.handelMouseDown}
+        onMouseUp={this.handelMouseUp}
+      >
+        <div style={styles.barContainer}>
+          <div style={styles.bar} ref={elm => this.barElm = elm} />
+        </div>
+        <div style={styles.controllerWrapper} ref={controllerWrapperElm => this.controllerWrapperElm = controllerWrapperElm}>
+          <div style={styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
+        </div>
+      </div>
+    )
+
     return (
       <div {...attributes} style={styles.wrapper}>
-        <div
-          ref={elm => this.rootElm = elm}
-          style={styles.root}
-          onMouseEnter={this.handelMouseEnter}
-          onMouseLeave={this.handelMouseLeave}
-          onMouseDown={this.handelMouseDown}
-          onMouseUp={this.handelMouseUp}
-        >
-          <div style={styles.barContainer}>
-            <div style={styles.bar} ref={elm => this.barElm = elm} />
+        {showValueInfo ? (
+          <div style={theme.prepareStyles({ display: "flex", flexDirection: "row", alignItems: "center" })}>
+            {normalRender}
+            <span style={styles.label}>{`${currValue.toFixed(numberToFixed)}${unit}`}</span>
           </div>
-          <div style={styles.controllerWrapper} ref={controllerWrapperElm => this.controllerWrapperElm = controllerWrapperElm}>
-            <div style={styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
-          </div>
-        </div>
-        {showValueInfo && (
-          <span style={styles.label}>{`${currValue.toFixed(numberToFixed)}${unit}`}</span>
-        )}
+        ) : normalRender}
       </div>
     );
   }
@@ -192,6 +202,7 @@ function getStyles(slider: Slider): {
   const {
     context: { theme },
     props: {
+      transition,
       maxValue,
       style,
       height,
@@ -200,7 +211,8 @@ function getStyles(slider: Slider): {
       barBackground,
       barBackgroundImage,
       useSimpleController,
-      customControllerStyle
+      customControllerStyle,
+      showValueInfo
     },
     state: {
       currValue,
@@ -212,28 +224,28 @@ function getStyles(slider: Slider): {
   const height2px: number = Number.parseFloat(height as any);
   const barHeight2px: number = Number.parseFloat(barHeight as any);
   const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
-  const transition = dragging ? void 0 : "all .25s 0s linear";
+  const currTransition = dragging ? void 0 : (transition || void 0);
   const useCustomBackground = barBackground || barBackgroundImage;
   const valueRatio = currValue / maxValue;
 
   return {
     wrapper: prepareStyles({
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
       width: 320,
+      display: "inline-block",
       ...style
     }),
     root: prepareStyles({
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
       width: "100%",
       height: height2px,
       cursor: "default",
-      position: "relative",
-      display: "inline-block"
+      position: "relative"
     }),
     barContainer: {
       background: theme.baseLow,
-      position: "relative",
+      position: "absolute",
       width: "100%",
       overflow: "hidden",
       height: barHeight,
@@ -241,6 +253,7 @@ function getStyles(slider: Slider): {
       top: `calc(50% - ${barHeight2px / 2}px)`
     },
     bar: prepareStyles({
+      transition: currTransition,
       background: useCustomBackground ? barBackground : theme.listAccentLow,
       backgroundImage: barBackgroundImage,
       position: "absolute",
@@ -248,24 +261,26 @@ function getStyles(slider: Slider): {
       transform: useCustomBackground ? void 0 : `translateX(${(valueRatio - 1) * 100}%)`,
       height: "100%",
       left: 0,
-      top: 0,
-      transition
+      top: 0
     }),
     controllerWrapper: prepareStyles({
       position: "absolute",
-      width: "100%",
       left: 0,
       top: 0,
-      transform: `translateX(${valueRatio * 100}%)`
+      width: "100%",
+      height: 0,
+      transform: `translateX(${(valueRatio - (showValueInfo ? 0.5 : 0)) * 100}%)`,
+      pointerEvents: "none",
+      transition: currTransition
     }),
     controller: prepareStyles({
+      transition: currTransition,
       display: "inline-block",
       background: (useSimpleController || dragging || hovered) ? theme.baseHigh : theme.accent,
       borderRadius: controllerWidth2px / 2,
       width: controllerWidth2px,
       height: height2px,
-      transform: `translateX(-${controllerWidth2px / 2}px)`,
-      transition,
+      transform: `translate3D(-${controllerWidth2px / 2}px, 0, 0)`,
       ...customControllerStyle
     }),
     label: {
