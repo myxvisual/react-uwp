@@ -16,6 +16,7 @@ export interface DataProps {
   showValueInfo?: boolean;
   numberToFixed?: number;
   unit?: string;
+  transition?: string;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -41,7 +42,8 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     controllerWidth: 8,
     showValueInfo: false,
     numberToFixed: 0,
-    unit: ""
+    unit: "",
+    transition: "all 0.25s"
   };
   originBodyStyle = { ...document.body.style };
 
@@ -193,6 +195,7 @@ function getStyles(slider: Slider): {
   const {
     context: { theme },
     props: {
+      transition,
       maxValue,
       style,
       height,
@@ -213,7 +216,7 @@ function getStyles(slider: Slider): {
   const height2px: number = Number.parseFloat(height as any);
   const barHeight2px: number = Number.parseFloat(barHeight as any);
   const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
-  const transition = dragging ? void 0 : "all .25s 0s linear";
+  const currTransition = dragging ? void 0 : (transition || void 0);
   const useCustomBackground = barBackground || barBackgroundImage;
   const valueRatio = currValue / maxValue;
 
@@ -241,6 +244,7 @@ function getStyles(slider: Slider): {
       top: `calc(50% - ${barHeight2px / 2}px)`
     },
     bar: prepareStyles({
+      transition: currTransition,
       background: useCustomBackground ? barBackground : theme.listAccentLow,
       backgroundImage: barBackgroundImage,
       position: "absolute",
@@ -248,24 +252,24 @@ function getStyles(slider: Slider): {
       transform: useCustomBackground ? void 0 : `translateX(${(valueRatio - 1) * 100}%)`,
       height: "100%",
       left: 0,
-      top: 0,
-      transition
+      top: 0
     }),
     controllerWrapper: prepareStyles({
+      transition: currTransition,
       position: "absolute",
       width: "100%",
       left: 0,
       top: 0,
-      transform: `translateX(${valueRatio * 100}%)`
+      transform: `translate3D(${valueRatio * 100}%, 0, 0)`
     }),
     controller: prepareStyles({
+      transition: currTransition,
       display: "inline-block",
       background: (useSimpleController || dragging || hovered) ? theme.baseHigh : theme.accent,
       borderRadius: controllerWidth2px / 2,
       width: controllerWidth2px,
       height: height2px,
-      transform: `translateX(-${controllerWidth2px / 2}px)`,
-      transition,
+      transform: `translate3D(-${controllerWidth2px / 2}px, 0, 0)`,
       ...customControllerStyle
     }),
     label: {
