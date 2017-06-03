@@ -93,7 +93,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseMediumHigh,
-      background: isTenFt ? (visited ? theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"] : "none") : "none",
+      background: isTenFt ? (visited ? theme.listAccentLow : "none") : "none",
       width: "100%",
       display: "flex",
       flexDirection: "row",

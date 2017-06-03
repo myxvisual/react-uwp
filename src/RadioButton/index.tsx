@@ -92,7 +92,7 @@ export default class RadioButton extends React.Component<RadioButtonProps, Radio
           style={theme.prepareStyles({
             position: "relative",
             display: "inline-block",
-            borderRadioButton: size,
+            borderRadius: size,
             color: theme.altHigh,
             border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${currChecked ? theme.accent : (
               hovered ? theme.baseHigh : theme.baseMediumHigh
@@ -114,7 +114,7 @@ export default class RadioButton extends React.Component<RadioButtonProps, Radio
               background: disabled ? theme.baseLow : (
                 hovered ? theme.baseHigh : theme.baseMediumHigh
               ),
-              borderRadioButton: dotSize,
+              borderRadius: dotSize,
               width: dotSize,
               height: dotSize,
               transform: `scale(${currChecked ? 1 : 0})`

@@ -31,7 +31,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
     const isChoose = chooseISODates.includes(date.toISOString());
     e.currentTarget.style.boxShadow = isChoose ? `inset 0 0 0 2px ${theme.accent}, inset 0 0 0px 4px ${theme.altHigh}` : `inset 0 0 0 2px ${theme.baseMedium}`;
     e.currentTarget.style.background = isChoose ? (
-      isCurrMonth ? theme.accent : theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"]
+      isCurrMonth ? theme.accent : theme.listAccentLow
     ) : (isCurrMonth ? theme.altHigh : theme.chromeLow);
   }
 

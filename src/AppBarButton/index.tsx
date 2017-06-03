@@ -34,7 +34,7 @@ export default class AppBarButtonButton extends React.Component<AppBarButtonButt
         {...attributes as any}
         style={styles.root}
         hoverStyle={hoverStyle || {
-          background: theme[theme.isDarkTheme ? "accentDarker1" : "accentLighter1"]
+          background: theme.listAccentLow
         }}
       >
         <div>
@@ -78,6 +78,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
       padding: "0 10px",
       maxWidth: isRight ? void 0 : 72,
       cursor: "default",
+      transition: "all .25s",
       ...style
     }),
     label: {
