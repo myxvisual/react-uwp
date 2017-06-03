@@ -1,42 +1,56 @@
-import { fade, darken, lighten } from "../common/colorManipulator";
+import * as tinycolor from "tinycolor2";
 import "./fonts/segoe-mdl2-assets";
 import prefixAll from "../common/prefixAll";
+
+export function darken(color: string, coefficient: number) {
+  const hsl = tinycolor(color).toHsl();
+  hsl.l = hsl.l * (1 - coefficient);
+  return tinycolor(hsl).toRgbString();
+}
+export function lighten(color: string, coefficient: number) {
+  const hsl = tinycolor(color).toHsl();
+  hsl.l = hsl.l + (100 - hsl.l) * coefficient;
+  return tinycolor(hsl).toRgbString();
+}
 
 export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7"): ReactUWP.ThemeType {
   const isDark = themeName === "Dark";
   const baseHigh = isDark ? "#fff" : "#000";
   const altHigh = isDark ? "#000" : "#fff";
+  const baseHighColor = tinycolor(baseHigh);
+  const altHighColor = tinycolor(altHigh);
+  const accentColor = tinycolor(accent);
+  const accentColorHsl = accentColor.toHsl();
 
   return {
     themeName,
     fontFamily: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
     iconFontFamily: "Segoe MDL2 Assets",
-
     accent,
-    accentLighter1: lighten(accent, 0.5),
-    accentLighter2: lighten(accent, 0.7),
-    accentLighter3: lighten(accent, 0.9),
-    accentDarker1: darken(accent, 0.5),
-    accentDarker2: darken(accent, 0.7),
-    accentDarker3: darken(accent, 0.9),
+    accentLighter1: lighten(accentColor.toHexString(), 0.5),
+    accentLighter2: lighten(accentColor.toHexString(), 0.7),
+    accentLighter3: lighten(accentColor.toHexString(), 0.9),
+    accentDarker1: darken(accentColor.toHexString(), 0.5),
+    accentDarker2: darken(accentColor.toHexString(), 0.7),
+    accentDarker3: darken(accentColor.toHexString(), 0.9),
 
-    baseLow: fade(baseHigh, 0.2),
-    baseMediumLow: fade(baseHigh, 0.4),
-    baseMedium: fade(baseHigh, 0.6),
-    baseMediumHigh: fade(baseHigh, 0.8),
+    baseLow: baseHighColor.setAlpha(0.2).toRgbString(),
+    baseMediumLow: baseHighColor.setAlpha(0.4).toRgbString(),
+    baseMedium: baseHighColor.setAlpha(0.6).toRgbString(),
+    baseMediumHigh: baseHighColor.setAlpha(0.8).toRgbString(),
     baseHigh,
 
-    altLow: fade(altHigh, 0.2),
-    altMediumLow: fade(altHigh, 0.4),
-    altMedium: fade(altHigh, 0.6),
-    altMediumHigh: fade(altHigh, 0.8),
+    altLow: altHighColor.setAlpha(0.2).toRgbString(),
+    altMediumLow: altHighColor.setAlpha(0.4).toRgbString(),
+    altMedium: altHighColor.setAlpha(0.6).toRgbString(),
+    altMediumHigh: altHighColor.setAlpha(0.8).toRgbString(),
     altHigh,
 
-    listLow: fade(baseHigh, 0.1),
-    listMedium: fade(baseHigh, 0.2),
-    listAccentLow: fade(accent, 0.6),
-    listAccentMedium: fade(accent, 0.8),
-    listAccentHigh: fade(accent, 0.9),
+    listLow: baseHighColor.setAlpha(0.1).toRgbString(),
+    listMedium: baseHighColor.setAlpha(0.2).toRgbString(),
+    listAccentLow: accentColor.setAlpha(0.6).toRgbString(),
+    listAccentMedium: accentColor.setAlpha(0.8).toRgbString(),
+    listAccentHigh: accentColor.setAlpha(0.9).toRgbString(),
 
     chromeLow: isDark ? "#171717" : "#f2f2f2",
     chromeMediumLow: isDark ? "#2b2b2b" : "f2f2f2",
@@ -47,9 +61,9 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
     chromeDisabledLow: isDark ? "#858585" : "#7a7a7a",
     chromeDisabledHigh: isDark ? "#333" : "#ccc",
 
-    chromeBlackLow: fade("#000", 0.2),
-    chromeBlackMediumLow: fade("#000", 0.4),
-    chromeBlackMedium: fade("#000", 0.8),
+    chromeBlackLow: tinycolor("#000").setAlpha(0.2).toRgbString(),
+    chromeBlackMediumLow: tinycolor("#000").setAlpha(0.4).toRgbString(),
+    chromeBlackMedium: tinycolor("#000").setAlpha(0.8).toRgbString(),
     chromeBlackHigh: "#000",
     chromeWhite: "#fff",
 

@@ -11,21 +11,21 @@ export interface DataProps {
   label?: string;
 }
 
-export interface RadiusButtonProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
-export interface RadiusButtonState {
+export interface RadioButtonProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface RadioButtonState {
   currChecked?: boolean;
   hovered?: boolean;
   mouseDowned?: boolean;
 }
 
 const emptyFunc = () => {};
-export default class RadiusButton extends React.Component<RadiusButtonProps, RadiusButtonState> {
-  static defaultProps: RadiusButtonProps = {
+export default class RadioButton extends React.Component<RadioButtonProps, RadioButtonState> {
+  static defaultProps: RadioButtonProps = {
     size: 24,
     onCheck: emptyFunc
   };
 
-  state: RadiusButtonState = {
+  state: RadioButtonState = {
     currChecked: this.props.isChecked
   };
 
@@ -33,7 +33,7 @@ export default class RadiusButton extends React.Component<RadiusButtonProps, Rad
   context: { theme: ReactUWP.ThemeType };
   rootElm: HTMLSpanElement;
 
-  componentWillReceiveProps(nextProps: RadiusButtonProps) {
+  componentWillReceiveProps(nextProps: RadioButtonProps) {
     this.setState({
       currChecked: this.props.isChecked
     });
@@ -92,7 +92,7 @@ export default class RadiusButton extends React.Component<RadiusButtonProps, Rad
           style={theme.prepareStyles({
             position: "relative",
             display: "inline-block",
-            borderRadius: size,
+            borderRadioButton: size,
             color: theme.altHigh,
             border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${currChecked ? theme.accent : (
               hovered ? theme.baseHigh : theme.baseMediumHigh
@@ -114,7 +114,7 @@ export default class RadiusButton extends React.Component<RadiusButtonProps, Rad
               background: disabled ? theme.baseLow : (
                 hovered ? theme.baseHigh : theme.baseMediumHigh
               ),
-              borderRadius: dotSize,
+              borderRadioButton: dotSize,
               width: dotSize,
               height: dotSize,
               transform: `scale(${currChecked ? 1 : 0})`
