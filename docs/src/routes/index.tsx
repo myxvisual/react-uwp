@@ -230,6 +230,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/MediaPlayer").default);
           }, "react-uwp-Components-MediaPlayer");
         }
+      }, {
+        path: "NavigationView",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/NavigationView").default);
+          }, "react-uwp-Components-NavigationView");
+        }
       }]
     }, {
       path: "Resources",

@@ -7,61 +7,62 @@ import SlideInOut from "../Animate/SlideInOut";
 import IconButton from "../IconButton";
 import SplitViewCommand from "../SplitViewCommand";
 
-export interface TNode {
-  default?: any;
-  opened?: any;
+export interface NavigationComplexNode {
+  default?: React.ReactNode;
+  expanded?: React.ReactNode;
 }
+
+export type NavigationNode = SplitViewCommand | React.ReactNode;
+
 export interface DataProps {
-  expandedWidth?: number;
+  background?: string;
   initWidth?: number;
-  defaultOpened?: boolean;
-  topIcon?: any;
-  topNodes?: Array<TNode>;
-  bottomNodes?: Array<TNode>;
+  expandedWidth?: number;
+  defaultExpanded?: boolean;
+  topIcon?: React.ReactElement<any>;
+  navigationTopNodes?: Array<NavigationNode | NavigationComplexNode>;
+  navigationBottomNodes?: Array<NavigationNode | NavigationComplexNode>;
   displayMode?: "overlay" | "compact" | "inline";
   pageTitle?: string;
   position?: "left" | "right";
   paneStyle?: React.CSSProperties;
-  paneViewStyle?: React.CSSProperties;
-  background?: string;
+  contentStyle?: React.CSSProperties;
   isTenFt?: boolean;
   autoResize?: boolean;
-  focusIndex?: number;
+  focusNavigationNodeIndex?: number;
 }
 
-export interface NavPaneProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface NavigationViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface NavPaneState {
-  opened?: boolean;
+export interface NavigationViewState {
+  expanded?: boolean;
   focusNodeIndex?: number;
   currDisplayMode?: "overlay" | "compact" | "inline";
   currInitWidth?: number;
 }
 
-export default class NavPane extends React.Component<NavPaneProps, NavPaneState> {
-  static defaultProps: NavPaneProps = {
+export class NavigationView extends React.Component<NavigationViewProps, NavigationViewState> {
+  static defaultProps: NavigationViewProps = {
     position: "left",
     isTenFt: false,
     autoResize: true,
-    expandedWidth: 320,
     initWidth: 48,
-    topNodes: 1 ? [] : [
+    expandedWidth: 320,
+    navigationTopNodes: 0 ? [] : [
       <SplitViewCommand icon={"\uE716"} />,
       <SplitViewCommand label="Print" icon={"\uE2F6"} />
     ],
-    bottomNodes: 1 ? [] : [
+    navigationBottomNodes: 0 ? [] : [
       <SplitViewCommand label="Settings" icon={"\uE713"} />,
       <SplitViewCommand label="CalendarDay" icon={"\uE161"} />
     ],
-    pageTitle: "PageTitle",
     // background: "none",
-    displayMode: "compact",
-    children: "Inside Component"
+    displayMode: "compact"
   };
 
-  state: NavPaneState = {
-    opened: false,
-    focusNodeIndex: this.props.focusIndex,
+  state: NavigationViewState = {
+    expanded: false,
+    focusNodeIndex: this.props.focusNavigationNodeIndex,
     currDisplayMode: this.props.displayMode,
     currInitWidth: this.props.initWidth
   };
@@ -72,8 +73,8 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
   context: { theme: ReactUWP.ThemeType };
 
   componentDidMount() {
-    this.autoResize();
     if (this.props.autoResize) {
+      this.autoResize();
       window.addEventListener("resize", this.autoResize);
     }
   }
@@ -82,7 +83,7 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
     this.updateProps2State(this.props);
   }
 
-  shouldComponentUpdate(nextProps: NavPaneProps, nextState: NavPaneState, nextContext: { theme: ThemeType }) {
+  shouldComponentUpdate(nextProps: NavigationViewProps, nextState: NavigationViewState, nextContext: { theme: ReactUWP.ThemeType }) {
     return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state) || !shallowEqual(!nextContext, this.context);
   }
 
@@ -110,30 +111,30 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
     }
   }
 
-  updateProps2State = ({ defaultOpened }: NavPaneProps) => {
-    if (defaultOpened !== this.state.opened) {
-      this.setState({ opened: defaultOpened });
+  updateProps2State = ({ defaultExpanded }: NavigationViewProps) => {
+    if (defaultExpanded !== this.state.expanded) {
+      this.setState({ expanded: defaultExpanded });
     }
   }
 
-  toggleOpened = (opened?: boolean) => {
-    if (typeof opened === "boolean" && opened !== this.state.opened) {
-      this.setState({ opened });
+  toggleExpanded = (expanded?: boolean) => {
+    if (typeof expanded === "boolean" && expanded !== this.state.expanded) {
+      this.setState({ expanded });
     } else {
-      this.setState((prevState, prevProps) => ({  opened: !prevState.opened }));
+      this.setState((prevState, prevProps) => ({  expanded: !prevState.expanded }));
     }
   }
 
-  getNewNodeProps = (currNode: any, index: number, opened?: boolean, haveOpenNode?: boolean) => {
+  getNewNodeProps = (currNode: any, index: number, expanded?: boolean, haveExpandedNode?: boolean) => {
     const { onClick } = currNode.props;
     const { focusNodeIndex } = this.state;
     return {
-      key: `${index} ${opened}`,
+      key: `${index} ${expanded}`,
       visited: focusNodeIndex === void(0) ? void(0) : focusNodeIndex === index,
       onClick: (e: any) => {
         this.setState({
           focusNodeIndex: index,
-          opened: haveOpenNode ? true : this.state.opened
+          expanded: haveExpandedNode ? true : this.state.expanded
         });
         if (onClick) onClick(e);
       }
@@ -141,10 +142,27 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { topIcon, initWidth, topNodes, bottomNodes, expandedWidth, children, position, paneStyle, paneViewStyle, defaultOpened, displayMode, pageTitle, background, isTenFt, autoResize, focusIndex, ...attributes } = this.props;
+    const {
+      topIcon,
+      initWidth,
+      navigationTopNodes,
+      navigationBottomNodes,
+      expandedWidth,
+      children,
+      position,
+      paneStyle,
+      contentStyle,
+      defaultExpanded,
+      displayMode,
+      pageTitle,
+      background,
+      isTenFt,
+      autoResize,
+      focusNavigationNodeIndex,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
-    const { opened, focusNodeIndex, currDisplayMode } = this.state;
+    const { expanded, focusNodeIndex, currDisplayMode } = this.state;
     const styles = getStyles(this);
     let nodeIndex: number = -1;
 
@@ -170,20 +188,20 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
                   </IconButton>
                 ), {
                   onClick: (e: any) => {
-                    this.toggleOpened();
+                    this.toggleExpanded();
                     if (topIcon && topIcon.props.onClick) topIcon.props.onclick(e);
                   }
                 })}
-                <p style={theme.prepareStyles({ transition: "all 0.25s", opacity: (opened || currDisplayMode === "compact") ? 1 : 0 })}>
+                <p style={styles.pageTitle}>
                   {pageTitle}
                 </p>
               </div>
-              <div style={styles.paneTopItems}>
-                {topNodes.map((node, index) => {
+              <div style={styles.paneTopIcons}>
+                {navigationTopNodes && navigationTopNodes.map((node: any, index) => {
                   let currNode = node as any;
-                  const haveOpenNode = "opened" in node;
+                  const haveExpandedNode = "expanded" in node;
                   if (node.default) currNode = node.default;
-                  if (haveOpenNode && opened) currNode = node.opened;
+                  if (haveExpandedNode && expanded) currNode = node.expanded;
                   ++nodeIndex;
                   return (
                     <SlideInOut
@@ -193,18 +211,18 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
                       key={`${index}`}
                       style={{ height: 48 }}
                     >
-                      {React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex, Boolean(opened && haveOpenNode), haveOpenNode))}
+                      {React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex, Boolean(expanded && haveExpandedNode), haveExpandedNode))}
                     </SlideInOut>
                   );
                 })}
               </div>
             </div>
-            <div style={styles.paneBottom}>
-              {bottomNodes.map((node, index) => {
+            <div style={styles.paneBottomIcons}>
+              {navigationBottomNodes && navigationBottomNodes.map((node: any, index) => {
                 let currNode = node as any;
-                const haveOpenNode = "opened" in node;
+                const haveExpandedNode = "expanded" in node;
                 if (node.default) currNode = node.default;
-                if (haveOpenNode && opened) currNode = node.opened;
+                if (haveExpandedNode && expanded) currNode = node.expanded;
                 ++nodeIndex;
                 return (
                   <SlideInOut
@@ -214,88 +232,90 @@ export default class NavPane extends React.Component<NavPaneProps, NavPaneState>
                     key={`${index}`}
                     style={{ height: 48 }}
                   >
-                    {React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex, Boolean(opened && haveOpenNode), haveOpenNode))}
+                    {React.cloneElement(currNode, this.getNewNodeProps(currNode, nodeIndex, Boolean(expanded && haveExpandedNode), haveExpandedNode))}
                   </SlideInOut>
                 );
               })}
             </div>
           </div>
         </div>
-        <div style={styles.paneView}>{children}</div>
+        <div style={styles.contentView}>{children}</div>
       </div>
     );
   }
 }
 
-function getStyles(navPane: NavPane): {
+function getStyles(NavigationView: NavigationView): {
   root?: React.CSSProperties;
+  pageTitle?: React.CSSProperties;
   paneParent?: React.CSSProperties;
-  paneView?: React.CSSProperties;
+  contentView?: React.CSSProperties;
   topIcon?: React.CSSProperties;
   pane?: React.CSSProperties;
   paneTop?: React.CSSProperties;
-  paneTopItems?: React.CSSProperties;
-  paneBottom?: React.CSSProperties;
+  paneTopIcons?: React.CSSProperties;
+  paneBottomIcons?: React.CSSProperties;
   view?: React.CSSProperties;
 } {
   const {
     context,
-    props: { expandedWidth, paneStyle, paneViewStyle, background },
-    state: { currInitWidth, opened, currDisplayMode }
-  } = navPane;
+    props: { expandedWidth, paneStyle, contentStyle, background, navigationTopNodes, navigationBottomNodes },
+    state: { currInitWidth, expanded, currDisplayMode }
+  } = NavigationView;
   const isOverLay = currDisplayMode === "overlay";
+  const isInline = currDisplayMode === "inline";
   const isCompact = currDisplayMode === "compact";
   const { theme } = context;
   const { prepareStyles } = theme;
+  let minHeight = isInline ? 0 : 48;
+  if (navigationTopNodes) minHeight += 48 * navigationTopNodes.length;
+  if (navigationBottomNodes) minHeight += 48 * navigationBottomNodes.length;
+  const currBackground = background || theme.altHigh;
 
   return {
     root: prepareStyles({
       display: "flex",
-      flex: "0 0 auto",
-      flexDirection: isCompact ? "column" : "row",
+      flexDirection: isInline ? "column" : "row",
       alignItems: "flex-start",
       justifyContent: "flex-start",
       fontSize: 16,
       color: theme.baseMediumHigh,
-      // background: isCompact ? (background || theme.altHigh) : theme.altHigh,
       position: "relative"
-    }),
-    paneParent: prepareStyles({
-      display: "flex",
-      flex: "0 0 auto",
-      width: opened ? expandedWidth : currInitWidth,
-      transition: "all .25s 0s ease-in-out",
-      height: isCompact ? 0 : "100%",
-      ...(isOverLay ? {
-        position: "absolute",
-        left: 0,
-        top: 0
-      } : {})
-    }),
-    pane: prepareStyles({
-      flex: "0 0 auto",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      justifyContent: "space-between",
-      background: (opened || !isCompact) ? theme.altHigh : background || theme.altHigh,
-      width: opened ? expandedWidth : (isCompact ? 0 : currInitWidth),
-      height: "100%",
-      transition: "width .25s 0s ease-in-out",
-      ...(isOverLay ? {
-        position: "absolute",
-        left: 0,
-        top: 0
-      } : {}),
-      ...prepareStyles(paneStyle)
     }),
     topIcon: prepareStyles({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
-      background: background || theme.altHigh,
-      width: isCompact ? "100vw" : (opened ? "100%" : 48)
+      background: isInline ? currBackground : void 0,
+      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth)
+    }),
+    pageTitle: prepareStyles({
+      transition: "all 0.25s",
+      opacity: (expanded || isInline) ? 1 : 0,
+      width: "100%",
+      wordWrap: "normal",
+      whitespace: "no-wrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
+    }),
+    paneParent: prepareStyles({
+      display: "flex",
+      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth),
+      transition: "all .25s ease-in-out",
+      height: isInline ? currInitWidth : "100%",
+      zIndex: isOverLay || isInline ? 1 : void 0
+    }),
+    pane: prepareStyles({
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      background: isInline ? void 0 : currBackground,
+      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth),
+      height: "100%",
+      transition: "width .25s ease-in-out",
+      ...prepareStyles(paneStyle)
     }),
     paneTop: prepareStyles({
       display: "flex",
@@ -303,27 +323,34 @@ function getStyles(navPane: NavPane): {
       width: "100%",
       flex: "0 0 auto"
     }),
-    paneTopItems: prepareStyles({
+    paneTopIcons: prepareStyles({
+      background: currBackground,
       display: "flex",
       flexDirection: "column",
-      flex: "0 0 auto",
       overflow: "hidden",
-      width: opened ? "100%" : (isCompact ? 0 : currInitWidth)
+      width: expanded ? (isInline ? expandedWidth : "100%") : (isInline ? 0 : currInitWidth),
+      transition: "all .25s ease-in-out"
     }),
-    paneBottom: prepareStyles({
+    paneBottomIcons: prepareStyles({
+      background: currBackground,
       display: "flex",
       flexDirection: "column",
-      flex: "0 0 auto",
       overflow: "hidden",
-      width: opened ? "100%" : (isCompact ? 0 : currInitWidth)
+      width: expanded ? (isInline ? expandedWidth : "100%") : (isInline ? 0 : currInitWidth),
+      transition: "all .25s ease-in-out"
     }),
-    paneView: prepareStyles({
-      background: "none",
+    contentView: prepareStyles({
+      display: "flex",
+      background: theme.chromeLow,
       height: "100%",
-      width: (isCompact || isOverLay) ? "100%" : `calc(100% - ${(opened && !isOverLay) ? expandedWidth : currInitWidth}px)`,
-      position: isOverLay ? "absolute" : void(0),
-      left: isOverLay ? 0 : void(0),
-      ...paneViewStyle
+      minHeight,
+      width: isOverLay ? `calc(100% - ${(expanded && !isOverLay) ? expandedWidth : currInitWidth}px)` : "100%",
+      position: isOverLay ? "absolute" : void 0,
+      left: isOverLay ? currInitWidth : void 0,
+      top: isOverLay ? 0 : void 0,
+      ...contentStyle
     })
   };
 }
+
+export default NavigationView;

@@ -22,7 +22,7 @@ export { default as Link } from "./Link";
 export { default as ListView } from "./ListView";
 export { default as MediaPlayer } from "./MediaPlayer";
 export { default as Menus } from "./Menus";
-export { default as NavPane } from "./NavPane";
+export { default as NavigationView } from "./NavigationView";
 export { default as PasswordBox } from "./PasswordBox";
 export { default as ProgressRing } from "./ProgressRing";
 export { default as RadioButton } from "./RadioButton";

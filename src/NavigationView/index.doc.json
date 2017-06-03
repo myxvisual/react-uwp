@@ -1,0 +1,292 @@
+{
+  "fileName": "D:/react-uwp/src/NavigationView/index.tsx",
+  "name": "\"D:/react-uwp/src/NavigationView/index\"",
+  "exports": [
+    {
+      "name": "NavigationComplexNode",
+      "documentation": ""
+    },
+    {
+      "name": "NavigationNode",
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "NavigationViewProps",
+      "documentation": ""
+    },
+    {
+      "name": "NavigationViewState",
+      "documentation": ""
+    },
+    {
+      "name": "NavigationView",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "NavigationView"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "NavigationComplexNode",
+      "members": [
+        {
+          "name": "default",
+          "documentation": "",
+          "isRequired": false,
+          "type": "ReactNode"
+        },
+        {
+          "name": "expanded",
+          "documentation": "",
+          "isRequired": false,
+          "type": "ReactNode"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "background",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "initWidth",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "expandedWidth",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "defaultExpanded",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "topIcon",
+          "documentation": "",
+          "isRequired": false,
+          "type": "ReactElement<any>"
+        },
+        {
+          "name": "navigationTopNodes",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any[]"
+        },
+        {
+          "name": "navigationBottomNodes",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any[]"
+        },
+        {
+          "name": "displayMode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"overlay\" | \"compact\" | \"inline\""
+        },
+        {
+          "name": "pageTitle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "position",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"left\" | \"right\""
+        },
+        {
+          "name": "paneStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "contentStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "isTenFt",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "autoResize",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "focusNavigationNodeIndex",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "NavigationViewProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "NavigationViewState",
+      "members": [
+        {
+          "name": "expanded",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "focusNodeIndex",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "currDisplayMode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"overlay\" | \"compact\" | \"inline\""
+        },
+        {
+          "name": "currInitWidth",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "NavigationView",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    position: \"left\",\n    isTenFt: false,\n    autoResize: true,\n    initWidth: 48,\n    expandedWidth: 320,\n    navigationTopNodes: 0 ? [] : [\n      <SplitViewCommand icon={\"\\uE716\"} />,\n      <SplitViewCommand label=\"Print\" icon={\"\\uE2F6\"} />\n    ],\n    navigationBottomNodes: 0 ? [] : [\n      <SplitViewCommand label=\"Settings\" icon={\"\\uE713\"} />,\n      <SplitViewCommand label=\"CalendarDay\" icon={\"\\uE161\"} />\n    ],\n    // background: \"none\",\n    displayMode: \"compact\"\n  }",
+          "documentation": "",
+          "type": "NavigationViewProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    expanded: false,\n    focusNodeIndex: this.props.focusNavigationNodeIndex,\n    currDisplayMode: this.props.displayMode,\n    currInitWidth: this.props.initWidth\n  }",
+          "documentation": "",
+          "type": "NavigationViewState"
+        },
+        {
+          "name": "SplitViewCommands",
+          "initializerText": " []",
+          "documentation": "",
+          "type": "any[]"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "shouldComponentUpdate",
+          "documentation": "",
+          "type": "(nextProps: NavigationViewProps, nextState: NavigationViewState, nextContext: { theme: any; }) =>..."
+        },
+        {
+          "name": "componentWillUnmount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "autoResize",
+          "initializerText": " (e?: Event) => {\n    if (window.innerWidth < 1280) {\n      if (this.state.currDisplayMode !== \"compact\") {\n        this.setState({\n          currDisplayMode: \"compact\",\n          currInitWidth: 0\n        });\n      }\n    } else {\n      if (this.state.currDisplayMode === \"compact\") {\n        this.setState({\n          currDisplayMode: \"inline\",\n          currInitWidth: 48\n        });\n      }\n    }\n  }",
+          "documentation": "",
+          "type": "(e?: Event) => void"
+        },
+        {
+          "name": "updateProps2State",
+          "initializerText": " ({ defaultExpanded }: NavigationViewProps) => {\n    if (defaultExpanded !== this.state.expanded) {\n      this.setState({ expanded: defaultExpanded });\n    }\n  }",
+          "documentation": "",
+          "type": "({defaultExpanded}: NavigationViewProps) => void"
+        },
+        {
+          "name": "toggleExpanded",
+          "initializerText": " (expanded?: boolean) => {\n    if (typeof expanded === \"boolean\" && expanded !== this.state.expanded) {\n      this.setState({ expanded });\n    } else {\n      this.setState((prevState, prevProps) => ({  expanded: !prevState.expanded }));\n    }\n  }",
+          "documentation": "",
+          "type": "(expanded?: boolean) => void"
+        },
+        {
+          "name": "getNewNodeProps",
+          "initializerText": " (currNode: any, index: number, expanded?: boolean, haveExpandedNode?: boolean) => {\n    const { onClick } = currNode.props;\n    const { focusNodeIndex } = this.state;\n    return {\n      key: `${index} ${expanded}`,\n      visited: focusNodeIndex === void(0) ? void(0) : focusNodeIndex === index,\n      onClick: (e: any) => {\n        this.setState({\n          focusNodeIndex: index,\n          expanded: haveExpandedNode ? true : this.state.expanded\n        });\n        if (onClick) onClick(e);\n      }\n    };\n  }",
+          "documentation": "",
+          "type": "(currNode: any, index: number, expanded?: boolean, haveExpandedNode?: boolean) => { key: string; ..."
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(NavigationView: NavigationView) => { root?: CSSProperties; pageTitle?: CSSProperties; paneParent..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/NavigationView/index\""
+}
