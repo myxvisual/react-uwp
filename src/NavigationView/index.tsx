@@ -288,15 +288,16 @@ function getStyles(NavigationView: NavigationView): {
       alignItems: "center",
       justifyContent: "flex-start",
       background: isInline ? currBackground : void 0,
-      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth)
+      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth),
+      flex: "0 0 auto"
     }),
     pageTitle: prepareStyles({
       transition: "all 0.25s",
       opacity: (expanded || isInline) ? 1 : 0,
-      width: "100%",
+      width: isInline ? expandedWidth : "100%",
       wordWrap: "normal",
-      whitespace: "no-wrap",
-      overflow: "hidden",
+      whiteSpace: "nowrap",
+      overflow: isInline ? void 0 : "hidden",
       textOverflow: "ellipsis"
     }),
     paneParent: prepareStyles({
@@ -304,15 +305,22 @@ function getStyles(NavigationView: NavigationView): {
       width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth),
       transition: "all .25s ease-in-out",
       height: isInline ? currInitWidth : "100%",
-      zIndex: isOverLay || isInline ? 1 : void 0
+      zIndex: isOverLay || isInline ? 1 : void 0,
+      background: isInline ? theme.altHigh : void 0
     }),
     pane: prepareStyles({
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
       justifyContent: "space-between",
-      background: isInline ? void 0 : currBackground,
-      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth),
+      background: currBackground,
+      width: expanded ? expandedWidth : (isInline ? 0 : currInitWidth),
+      ...(isInline ? {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        background: theme.altHigh
+      } : void 0),
       height: "100%",
       transition: "width .25s ease-in-out",
       ...prepareStyles(paneStyle)
@@ -329,7 +337,8 @@ function getStyles(NavigationView: NavigationView): {
       flexDirection: "column",
       overflow: "hidden",
       width: expanded ? (isInline ? expandedWidth : "100%") : (isInline ? 0 : currInitWidth),
-      transition: "all .25s ease-in-out"
+      transition: "all .25s ease-in-out",
+      flex: "0 0 auto"
     }),
     paneBottomIcons: prepareStyles({
       background: currBackground,
@@ -337,16 +346,16 @@ function getStyles(NavigationView: NavigationView): {
       flexDirection: "column",
       overflow: "hidden",
       width: expanded ? (isInline ? expandedWidth : "100%") : (isInline ? 0 : currInitWidth),
-      transition: "all .25s ease-in-out"
+      transition: "all .25s ease-in-out",
+      flex: "0 0 auto"
     }),
     contentView: prepareStyles({
-      display: "flex",
       background: theme.chromeLow,
       height: "100%",
       minHeight,
       width: isOverLay ? `calc(100% - ${(expanded && !isOverLay) ? expandedWidth : currInitWidth}px)` : "100%",
       position: isOverLay ? "absolute" : void 0,
-      left: isOverLay ? currInitWidth : void 0,
+      left: isOverLay ? 0 : void 0,
       top: isOverLay ? 0 : void 0,
       ...contentStyle
     })

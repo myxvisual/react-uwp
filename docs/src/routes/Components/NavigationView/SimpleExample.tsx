@@ -10,7 +10,8 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     const baseStyle: React.CSSProperties = {
-      margin: 20
+      margin: 20,
+      // height: 640
     };
     return (
       <div>
@@ -20,6 +21,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           pageTitle="San Francisco"
           displayMode="overlay"
           autoResize={false}
+          background="none"
         >
           <Content />
         </NavigationView>
@@ -29,6 +31,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           pageTitle="San Francisco"
           displayMode="compact"
           autoResize={false}
+          defaultExpanded
         >
           <Content />
         </NavigationView>
@@ -38,6 +41,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           pageTitle="San Francisco"
           displayMode="inline"
           autoResize={false}
+          background="none"
         >
           <Content />
         </NavigationView>
