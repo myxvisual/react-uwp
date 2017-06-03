@@ -48,6 +48,8 @@ export default [{
   }, {
     "titleNode": "CheckBox"
   }, {
+    "titleNode": "RatingsControl"
+  }, {
     "titleNode": "ColorPicker"
   }, {
     "titleNode": "DatePickers",
@@ -68,9 +70,6 @@ export default [{
     "titleNode": "Flyout"
   }, {
     "titleNode": "FlipView"
-  }, {
-    "titleNode": "Hub",
-    disabled: true
   }, {
     "titleNode": "HyperLink"
   }, {
@@ -116,6 +115,12 @@ export default [{
     disabled: true
   }, {
     "titleNode": "Toast",
+    disabled: true
+  }, {
+    "titleNode": "Theme",
+    disabled: true
+  }, {
+    "titleNode": "ScrollReveal",
     disabled: true
   }, {
     "titleNode": "Notification",
