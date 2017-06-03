@@ -3,6 +3,10 @@
   "name": "\"D:/react-uwp/src/NavigationView/index\"",
   "exports": [
     {
+      "name": "SplitViewCommand",
+      "documentation": ""
+    },
+    {
       "name": "NavigationComplexNode",
       "documentation": ""
     },
@@ -58,91 +62,85 @@
       "members": [
         {
           "name": "background",
-          "documentation": "",
+          "documentation": "Set Navigation background.",
           "isRequired": false,
           "type": "string"
         },
         {
           "name": "initWidth",
-          "documentation": "",
+          "documentation": "Set Navigation width.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "expandedWidth",
-          "documentation": "",
+          "documentation": "Set Navigation expanded width.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "defaultExpanded",
-          "documentation": "",
+          "documentation": "Control Navigation expanded.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "topIcon",
-          "documentation": "",
+          "documentation": "Replace TopIcon, default is NavButton.",
           "isRequired": false,
           "type": "ReactElement<any>"
         },
         {
           "name": "navigationTopNodes",
-          "documentation": "",
+          "documentation": "Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.",
           "isRequired": false,
           "type": "any[]"
         },
         {
           "name": "navigationBottomNodes",
-          "documentation": "",
+          "documentation": "Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.",
           "isRequired": false,
           "type": "any[]"
         },
         {
           "name": "displayMode",
-          "documentation": "",
+          "documentation": "Three display control Navigation show mode.",
           "isRequired": false,
-          "type": "\"overlay\" | \"compact\" | \"inline\""
+          "type": "\"overlay\" | \"compact\" | \"minimal\""
         },
         {
           "name": "pageTitle",
-          "documentation": "",
+          "documentation": "The page title.",
           "isRequired": false,
           "type": "string"
         },
         {
-          "name": "position",
-          "documentation": "",
-          "isRequired": false,
-          "type": "\"left\" | \"right\""
-        },
-        {
           "name": "paneStyle",
-          "documentation": "",
+          "documentation": "The pane view style.",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
           "name": "contentStyle",
-          "documentation": "",
+          "documentation": "The content view style.",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
           "name": "isTenFt",
-          "documentation": "",
+          "documentation": "Usage TenFt Mode.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "autoResize",
-          "documentation": "",
+          "documentation": "Auto change mode by window `onResize`.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "focusNavigationNodeIndex",
-          "documentation": "",
+          "documentation": "Default focus Command by `index`.",
           "isRequired": false,
           "type": "number"
         }
@@ -176,7 +174,7 @@
           "name": "currDisplayMode",
           "documentation": "",
           "isRequired": false,
-          "type": "\"overlay\" | \"compact\" | \"inline\""
+          "type": "\"overlay\" | \"compact\" | \"minimal\""
         },
         {
           "name": "currInitWidth",
@@ -197,7 +195,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    position: \"left\",\n    isTenFt: false,\n    autoResize: true,\n    initWidth: 48,\n    expandedWidth: 320,\n    navigationTopNodes: 0 ? [] : [\n      <SplitViewCommand icon={\"\\uE716\"} />,\n      <SplitViewCommand label=\"Print\" icon={\"\\uE2F6\"} />\n    ],\n    navigationBottomNodes: 0 ? [] : [\n      <SplitViewCommand label=\"Settings\" icon={\"\\uE713\"} />,\n      <SplitViewCommand label=\"CalendarDay\" icon={\"\\uE161\"} />\n    ],\n    // background: \"none\",\n    displayMode: \"compact\"\n  }",
+          "initializerText": " {\n    isTenFt: false,\n    autoResize: true,\n    initWidth: 48,\n    expandedWidth: 320,\n    displayMode: \"compact\"\n  }",
           "documentation": "",
           "type": "NavigationViewProps"
         },
@@ -248,7 +246,7 @@
         },
         {
           "name": "autoResize",
-          "initializerText": " (e?: Event) => {\n    if (window.innerWidth < 1280) {\n      if (this.state.currDisplayMode !== \"compact\") {\n        this.setState({\n          currDisplayMode: \"compact\",\n          currInitWidth: 0\n        });\n      }\n    } else {\n      if (this.state.currDisplayMode === \"compact\") {\n        this.setState({\n          currDisplayMode: \"inline\",\n          currInitWidth: 48\n        });\n      }\n    }\n  }",
+          "initializerText": " (e?: Event) => {\n    if (window.innerWidth < 1280) {\n      if (this.state.currDisplayMode !== \"compact\") {\n        this.setState({\n          currDisplayMode: \"compact\",\n          currInitWidth: 0\n        });\n      }\n    } else {\n      if (this.state.currDisplayMode === \"compact\") {\n        this.setState({\n          currDisplayMode: \"minimal\",\n          currInitWidth: 48\n        });\n      }\n    }\n  }",
           "documentation": "",
           "type": "(e?: Event) => void"
         },

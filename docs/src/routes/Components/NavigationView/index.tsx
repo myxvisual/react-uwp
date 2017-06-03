@@ -35,7 +35,8 @@ export default class NavigationView extends React.Component<any, void> {
           code={SimpleExampleCode as any}
           description={SimpleExampleDesc as any}
           doubleThemeStyle={{ padding: 20 }}
-          useSingleTheme
+          useChromeColor
+          direction="column"
         >
           <SimpleExample />
         </CodeExample>

@@ -10,6 +10,7 @@ import Banner from "./components/Banner";
 import CustomTheme from "./components/CustomTheme";
 import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
 import MediaPlayer from "react-uwp/MediaPlayer";
+import NavigationViewExample from "../Components/NavigationView/SimpleExample";
 
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
@@ -95,6 +96,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             width: renderContentWidth
           }}
         />
+        <NavigationViewExample style={{ width: renderContentWidth, margin: "20px auto" }} />
       </div>
     );
   }

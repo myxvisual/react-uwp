@@ -7,6 +7,8 @@ import SlideInOut from "../Animate/SlideInOut";
 import IconButton from "../IconButton";
 import SplitViewCommand from "../SplitViewCommand";
 
+export { SplitViewCommand };
+
 export interface NavigationComplexNode {
   default?: React.ReactNode;
   expanded?: React.ReactNode;
@@ -15,20 +17,61 @@ export interface NavigationComplexNode {
 export type NavigationNode = SplitViewCommand | React.ReactNode;
 
 export interface DataProps {
+  /**
+   * Set Navigation background.
+   */
   background?: string;
+  /**
+   * Set Navigation width.
+   */
   initWidth?: number;
+  /**
+   * Set Navigation expanded width.
+   */
   expandedWidth?: number;
+  /**
+   * Control Navigation expanded.
+   */
   defaultExpanded?: boolean;
+  /**
+   * Replace TopIcon, default is NavButton.
+   */
   topIcon?: React.ReactElement<any>;
+  /**
+   * Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.
+   */
   navigationTopNodes?: Array<NavigationNode | NavigationComplexNode>;
+  /**
+   * Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.
+   */
   navigationBottomNodes?: Array<NavigationNode | NavigationComplexNode>;
-  displayMode?: "overlay" | "compact" | "inline";
+  /**
+   * Three display control Navigation show mode.
+   */
+  displayMode?: "overlay" | "compact" | "minimal";
+  /**
+   * The page title.
+   */
   pageTitle?: string;
-  position?: "left" | "right";
+  /**
+   * The pane view style.
+   */
   paneStyle?: React.CSSProperties;
+  /**
+   * The content view style.
+   */
   contentStyle?: React.CSSProperties;
+  /**
+   * Usage TenFt Mode.
+   */
   isTenFt?: boolean;
+  /**
+   * Auto change mode by window `onResize`.
+   */
   autoResize?: boolean;
+  /**
+   * Default focus Command by `index`.
+   */
   focusNavigationNodeIndex?: number;
 }
 
@@ -37,26 +80,16 @@ export interface NavigationViewProps extends DataProps, React.HTMLAttributes<HTM
 export interface NavigationViewState {
   expanded?: boolean;
   focusNodeIndex?: number;
-  currDisplayMode?: "overlay" | "compact" | "inline";
+  currDisplayMode?: "overlay" | "compact" | "minimal";
   currInitWidth?: number;
 }
 
 export class NavigationView extends React.Component<NavigationViewProps, NavigationViewState> {
   static defaultProps: NavigationViewProps = {
-    position: "left",
     isTenFt: false,
     autoResize: true,
     initWidth: 48,
     expandedWidth: 320,
-    navigationTopNodes: 0 ? [] : [
-      <SplitViewCommand icon={"\uE716"} />,
-      <SplitViewCommand label="Print" icon={"\uE2F6"} />
-    ],
-    navigationBottomNodes: 0 ? [] : [
-      <SplitViewCommand label="Settings" icon={"\uE713"} />,
-      <SplitViewCommand label="CalendarDay" icon={"\uE161"} />
-    ],
-    // background: "none",
     displayMode: "compact"
   };
 
@@ -104,7 +137,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     } else {
       if (this.state.currDisplayMode === "compact") {
         this.setState({
-          currDisplayMode: "inline",
+          currDisplayMode: "minimal",
           currInitWidth: 48
         });
       }
@@ -143,13 +176,13 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
 
   render() {
     const {
+      style,
       topIcon,
       initWidth,
       navigationTopNodes,
       navigationBottomNodes,
       expandedWidth,
       children,
-      position,
       paneStyle,
       contentStyle,
       defaultExpanded,
@@ -165,13 +198,14 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     const { expanded, focusNodeIndex, currDisplayMode } = this.state;
     const styles = getStyles(this);
     let nodeIndex: number = -1;
+    const isCompact = currDisplayMode === "compact";
 
-    return (
+    const renderContent =  (
       <div
-        {...attributes}
+        {...(isCompact ? void 0 : attributes)}
         style={{
           ...styles.root,
-          ...theme.prepareStyles(attributes.style)
+          ...(isCompact ? void 0 : theme.prepareStyles(style))
         }}
       >
         <div style={styles.paneParent}>
@@ -207,7 +241,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
                     <SlideInOut
                       appearAnimate={false}
                       mode="in"
-                      direction={position === "left" ? "right" : "left"}
+                      direction="right"
                       key={`${index}`}
                       style={{ height: 48 }}
                     >
@@ -228,7 +262,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
                   <SlideInOut
                     appearAnimate={false}
                     mode="in"
-                    direction={position === "left" ? "right" : "left"}
+                    direction="right"
                     key={`${index}`}
                     style={{ height: 48 }}
                   >
@@ -242,6 +276,19 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
         <div style={styles.contentView}>{children}</div>
       </div>
     );
+
+    return isCompact ? (
+      <div
+        {...attributes}
+        style={theme.prepareStyles({
+          display: "inline-block",
+          background: background || theme.altHigh,
+          ...theme.prepareStyles(style)
+        })}
+      >
+        {renderContent}
+      </div>
+    ) : renderContent;
   }
 }
 
@@ -263,11 +310,11 @@ function getStyles(NavigationView: NavigationView): {
     state: { currInitWidth, expanded, currDisplayMode }
   } = NavigationView;
   const isOverLay = currDisplayMode === "overlay";
-  const isInline = currDisplayMode === "inline";
+  const isMinimal = currDisplayMode === "minimal";
   const isCompact = currDisplayMode === "compact";
   const { theme } = context;
   const { prepareStyles } = theme;
-  let minHeight = isInline ? 0 : 48;
+  let minHeight = isMinimal ? 0 : 48;
   if (navigationTopNodes) minHeight += 48 * navigationTopNodes.length;
   if (navigationBottomNodes) minHeight += 48 * navigationBottomNodes.length;
   const currBackground = background || theme.altHigh;
@@ -277,7 +324,7 @@ function getStyles(NavigationView: NavigationView): {
     root: prepareStyles({
       display: isCompact ? "flex" : "inline-block",
       fontSize: 16,
-      color: theme.baseMediumHigh,
+      color: theme.baseHigh,
       position: "relative"
     }),
     topIcon: prepareStyles({
@@ -285,26 +332,26 @@ function getStyles(NavigationView: NavigationView): {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
-      width: isInline ? "100%" : expandedWidth,
+      width: isMinimal ? "100%" : expandedWidth,
       background: currBackground,
       flex: "0 0 auto",
       zIndex: 1
     }),
     pageTitle: prepareStyles({
-      opacity: (expanded || isInline) ? 1 : 0,
-      width: isInline ? expandedWidth : "100%",
+      opacity: (expanded || isMinimal) ? 1 : 0,
+      width: isMinimal ? expandedWidth : "100%",
       wordWrap: "normal",
       whiteSpace: "nowrap",
-      overflow: isInline ? void 0 : "hidden",
+      overflow: isMinimal ? void 0 : "hidden",
       textOverflow: "ellipsis"
     }),
     paneParent: prepareStyles({
       display: "inline-block",
       verticalAlign: "top",
-      width: isInline ? "100%" : (isOverLay ? currInitWidth : (expanded ? expandedWidth : currInitWidth)),
-      height: isInline ? currInitWidth : "100%",
-      zIndex: isOverLay || isInline ? 1 : void 0,
-      background: isInline ? theme.altHigh : void 0,
+      width: isMinimal ? "100%" : (isOverLay ? currInitWidth : (expanded ? expandedWidth : currInitWidth)),
+      height: isMinimal ? currInitWidth : "100%",
+      zIndex: isOverLay || isMinimal ? 1 : void 0,
+      background: isMinimal ? currBackground : void 0,
       transition
     }),
     pane: prepareStyles({
@@ -313,13 +360,13 @@ function getStyles(NavigationView: NavigationView): {
       alignItems: "flex-start",
       justifyContent: "space-between",
       background: currBackground,
-      overflow: isInline ? void 0 : "hidden",
-      width: expanded ? expandedWidth : (isInline ? 0 : 48),
-      ...(isInline ? {
+      overflow: isMinimal ? void 0 : "hidden",
+      width: expanded ? expandedWidth : (isMinimal ? 0 : 48),
+      ...(isMinimal ? {
         position: "absolute",
         top: 0,
         left: 0,
-        background: theme.altHigh
+        background: currBackground
       } : void 0),
       height: "100%",
       transition,
@@ -332,20 +379,18 @@ function getStyles(NavigationView: NavigationView): {
       flex: "0 0 auto"
     }),
     paneTopIcons: prepareStyles({
-      background: currBackground,
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
-      width: (isInline && !expanded) ? 0 : expandedWidth,
+      width: (isMinimal && !expanded) ? 0 : expandedWidth,
       flex: "0 0 auto",
       zIndex: 1
     }),
     paneBottomIcons: prepareStyles({
-      background: currBackground,
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
-      width: (isInline && !expanded) ? 0 : expandedWidth,
+      width: (isMinimal && !expanded) ? 0 : expandedWidth,
       flex: "0 0 auto",
       zIndex: 1
     }),
