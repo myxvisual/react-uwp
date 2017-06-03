@@ -17,8 +17,8 @@ export default class Content extends React.Component<ContentProps, void> {
     const { theme } = this.context;
 
     return (
-      <div {...attributes}>
-        <img src={require("./images/golden-gate-bridge-2037990_1280.jpg")} height={400} />
+      <div {...attributes} style={{ display: "inline-block" }}>
+        <img src={require("./images/golden-gate-bridge-2037990_1280.jpg")} style={{ maxWidth: 360, minHeight: 400, objectFit: "cover" }}/>
       </div>
     );
   }

@@ -180,7 +180,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
               <div style={styles.topIcon}>
                 {React.cloneElement(topIcon || (
                   <IconButton
-                    style={{ fontSize: 16, width: 48, height: 48, background: "none" }}
+                    style={styles.iconButton}
                     hoverStyle={{ background: theme.baseLow }}
                     activeStyle={{ background: theme.baseMediumLow }}
                   >
@@ -255,7 +255,7 @@ function getStyles(NavigationView: NavigationView): {
   paneTop?: React.CSSProperties;
   paneTopIcons?: React.CSSProperties;
   paneBottomIcons?: React.CSSProperties;
-  view?: React.CSSProperties;
+  iconButton?: React.CSSProperties;
 } {
   const {
     context,
@@ -271,13 +271,11 @@ function getStyles(NavigationView: NavigationView): {
   if (navigationTopNodes) minHeight += 48 * navigationTopNodes.length;
   if (navigationBottomNodes) minHeight += 48 * navigationBottomNodes.length;
   const currBackground = background || theme.altHigh;
+  const transition = "width .25s ease-in-out";
 
   return {
     root: prepareStyles({
-      display: "flex",
-      flexDirection: isInline ? "column" : "row",
-      alignItems: "flex-start",
-      justifyContent: "flex-start",
+      display: isCompact ? "flex" : "inline-block",
       fontSize: 16,
       color: theme.baseMediumHigh,
       position: "relative"
@@ -287,12 +285,12 @@ function getStyles(NavigationView: NavigationView): {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
-      background: isInline ? currBackground : void 0,
-      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth),
-      flex: "0 0 auto"
+      width: isInline ? "100%" : expandedWidth,
+      background: currBackground,
+      flex: "0 0 auto",
+      zIndex: 1
     }),
     pageTitle: prepareStyles({
-      transition: "all 0.25s",
       opacity: (expanded || isInline) ? 1 : 0,
       width: isInline ? expandedWidth : "100%",
       wordWrap: "normal",
@@ -301,12 +299,13 @@ function getStyles(NavigationView: NavigationView): {
       textOverflow: "ellipsis"
     }),
     paneParent: prepareStyles({
-      display: "flex",
-      width: isInline ? "100%" : (expanded ? expandedWidth : currInitWidth),
-      transition: "all .25s ease-in-out",
+      display: "inline-block",
+      verticalAlign: "top",
+      width: isInline ? "100%" : (isOverLay ? currInitWidth : (expanded ? expandedWidth : currInitWidth)),
       height: isInline ? currInitWidth : "100%",
       zIndex: isOverLay || isInline ? 1 : void 0,
-      background: isInline ? theme.altHigh : void 0
+      background: isInline ? theme.altHigh : void 0,
+      transition
     }),
     pane: prepareStyles({
       display: "flex",
@@ -314,7 +313,8 @@ function getStyles(NavigationView: NavigationView): {
       alignItems: "flex-start",
       justifyContent: "space-between",
       background: currBackground,
-      width: expanded ? expandedWidth : (isInline ? 0 : currInitWidth),
+      overflow: isInline ? void 0 : "hidden",
+      width: expanded ? expandedWidth : (isInline ? 0 : 48),
       ...(isInline ? {
         position: "absolute",
         top: 0,
@@ -322,7 +322,7 @@ function getStyles(NavigationView: NavigationView): {
         background: theme.altHigh
       } : void 0),
       height: "100%",
-      transition: "width .25s ease-in-out",
+      transition,
       ...prepareStyles(paneStyle)
     }),
     paneTop: prepareStyles({
@@ -336,29 +336,34 @@ function getStyles(NavigationView: NavigationView): {
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
-      width: expanded ? (isInline ? expandedWidth : "100%") : (isInline ? 0 : currInitWidth),
-      transition: "all .25s ease-in-out",
-      flex: "0 0 auto"
+      width: (isInline && !expanded) ? 0 : expandedWidth,
+      flex: "0 0 auto",
+      zIndex: 1
     }),
     paneBottomIcons: prepareStyles({
       background: currBackground,
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
-      width: expanded ? (isInline ? expandedWidth : "100%") : (isInline ? 0 : currInitWidth),
-      transition: "all .25s ease-in-out",
-      flex: "0 0 auto"
+      width: (isInline && !expanded) ? 0 : expandedWidth,
+      flex: "0 0 auto",
+      zIndex: 1
     }),
     contentView: prepareStyles({
-      background: theme.chromeLow,
-      height: "100%",
+      display: "inline-block",
+      background: theme.altHigh,
       minHeight,
-      width: isOverLay ? `calc(100% - ${(expanded && !isOverLay) ? expandedWidth : currInitWidth}px)` : "100%",
-      position: isOverLay ? "absolute" : void 0,
       left: isOverLay ? 0 : void 0,
       top: isOverLay ? 0 : void 0,
       ...contentStyle
-    })
+    }),
+    iconButton: {
+      cursor: "pointer",
+      fontSize: 16,
+      width: 48,
+      height: 48,
+      background: "none"
+    }
   };
 }
 
