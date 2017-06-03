@@ -93,7 +93,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
           style={{
             width: "100%",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
             alignItems: "center"
           }}
         />

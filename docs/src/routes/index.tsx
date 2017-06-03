@@ -237,6 +237,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/NavigationView").default);
           }, "react-uwp-Components-NavigationView");
         }
+      }, {
+        path: "ProgressBar",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/ProgressBar").default);
+          }, "react-uwp-Components-ProgressBar");
+        }
       }]
     }, {
       path: "Resources",

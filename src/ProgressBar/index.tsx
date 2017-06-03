@@ -1,13 +1,16 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface DataProps {}
+export interface DataProps {
+  valueRatio?: number;
+  isIndeterminate?: boolean;
+}
 
 export interface ProgressBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface ProgressBarState {}
 
-export default class ProgressBar extends React.Component<ProgressBarProps, ProgressBarState> {
+export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarState> {
   static defaultProps: ProgressBarProps = {};
 
   state: ProgressBarState = {};
@@ -49,3 +52,5 @@ function getStyles(progressBar: ProgressBar): {
     })
   };
 }
+
+export default ProgressBar;

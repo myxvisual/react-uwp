@@ -7,7 +7,7 @@ export interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElemen
 
 export interface MockState {}
 
-export default class Mock extends React.Component<MockProps, MockState> {
+export class Mock extends React.Component<MockProps, MockState> {
   static defaultProps: MockProps = {};
 
   state: MockState = {};
@@ -49,3 +49,5 @@ function getStyles(mock: Mock): {
     })
   };
 }
+
+export default Mock;

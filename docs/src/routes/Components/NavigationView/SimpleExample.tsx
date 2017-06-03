@@ -37,17 +37,19 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
           initWidth={0}
           navigationTopNodes={navigationTopNodes}
           navigationBottomNodes={navigationBottomNode}
+          focusNavigationNodeIndex={3}
         >
           <Content />
         </NavigationView>
 
         <NavigationView
-          style={{ height: 688, ...baseStyle }}
+          style={{ ...baseStyle }}
           pageTitle="San Francisco"
           displayMode="minimal"
           autoResize={false}
           navigationTopNodes={navigationTopNodes}
           navigationBottomNodes={navigationBottomNode}
+          focusNavigationNodeIndex={1}
         >
           <Content />
         </NavigationView>
@@ -61,6 +63,7 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
             defaultExpanded
             navigationTopNodes={navigationTopNodes}
             navigationBottomNodes={navigationBottomNode}
+            focusNavigationNodeIndex={2}
           >
             <Content />
           </NavigationView>

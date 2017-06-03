@@ -319,6 +319,7 @@ function getStyles(NavigationView: NavigationView): {
       display: isCompact ? "flex" : "inline-block",
       fontSize: 16,
       color: theme.baseHigh,
+      height: isCompact ? "100%" : void 0,
       position: "relative"
     }),
     topIcon: prepareStyles({
