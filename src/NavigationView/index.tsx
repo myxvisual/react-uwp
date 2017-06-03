@@ -58,10 +58,6 @@ export interface DataProps {
    */
   paneStyle?: React.CSSProperties;
   /**
-   * The content view style.
-   */
-  contentStyle?: React.CSSProperties;
-  /**
    * Usage TenFt Mode.
    */
   isTenFt?: boolean;
@@ -184,7 +180,6 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
       expandedWidth,
       children,
       paneStyle,
-      contentStyle,
       defaultExpanded,
       displayMode,
       pageTitle,
@@ -273,7 +268,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
             </div>
           </div>
         </div>
-        <div style={styles.contentView}>{children}</div>
+        {children}
       </div>
     );
 
@@ -296,7 +291,6 @@ function getStyles(NavigationView: NavigationView): {
   root?: React.CSSProperties;
   pageTitle?: React.CSSProperties;
   paneParent?: React.CSSProperties;
-  contentView?: React.CSSProperties;
   topIcon?: React.CSSProperties;
   pane?: React.CSSProperties;
   paneTop?: React.CSSProperties;
@@ -306,7 +300,7 @@ function getStyles(NavigationView: NavigationView): {
 } {
   const {
     context,
-    props: { expandedWidth, paneStyle, contentStyle, background, navigationTopNodes, navigationBottomNodes },
+    props: { expandedWidth, paneStyle, background, navigationTopNodes, navigationBottomNodes },
     state: { currInitWidth, expanded, currDisplayMode }
   } = NavigationView;
   const isOverLay = currDisplayMode === "overlay";
@@ -338,6 +332,7 @@ function getStyles(NavigationView: NavigationView): {
       zIndex: 1
     }),
     pageTitle: prepareStyles({
+      paddingLeft: 2,
       opacity: (expanded || isMinimal) ? 1 : 0,
       width: isMinimal ? expandedWidth : "100%",
       wordWrap: "normal",
@@ -393,14 +388,6 @@ function getStyles(NavigationView: NavigationView): {
       width: (isMinimal && !expanded) ? 0 : expandedWidth,
       flex: "0 0 auto",
       zIndex: 1
-    }),
-    contentView: prepareStyles({
-      display: "inline-block",
-      background: theme.altHigh,
-      minHeight,
-      left: isOverLay ? 0 : void 0,
-      top: isOverLay ? 0 : void 0,
-      ...contentStyle
     }),
     iconButton: {
       cursor: "pointer",

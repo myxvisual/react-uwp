@@ -11,7 +11,7 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
 
   render() {
     const baseStyle: React.CSSProperties = {
-      margin: 20
+      margin: 10
     };
     const navigationTopNodes = [
       <SplitViewCommand icon={"\uE716"} />,
@@ -41,9 +41,20 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
           <Content />
         </NavigationView>
 
+        <NavigationView
+          style={{ height: 688, ...baseStyle }}
+          pageTitle="San Francisco"
+          displayMode="minimal"
+          autoResize={false}
+          navigationTopNodes={navigationTopNodes}
+          navigationBottomNodes={navigationBottomNode}
+        >
+          <Content />
+        </NavigationView>
+
         <div>
           <NavigationView
-            style={{ height: 400, ...baseStyle }}
+            style={{ height: 640, ...baseStyle }}
             pageTitle="San Francisco"
             displayMode="compact"
             autoResize={false}
@@ -54,17 +65,6 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
             <Content />
           </NavigationView>
         </div>
-
-        <NavigationView
-          style={baseStyle}
-          pageTitle="San Francisco"
-          displayMode="minimal"
-          autoResize={false}
-          navigationTopNodes={navigationTopNodes}
-          navigationBottomNodes={navigationBottomNode}
-        >
-          <Content />
-        </NavigationView>
 
       </div>
     );

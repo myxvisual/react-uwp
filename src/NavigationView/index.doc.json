@@ -121,12 +121,6 @@
           "type": "CSSProperties"
         },
         {
-          "name": "contentStyle",
-          "documentation": "The content view style.",
-          "isRequired": false,
-          "type": "CSSProperties"
-        },
-        {
           "name": "isTenFt",
           "documentation": "Usage TenFt Mode.",
           "isRequired": false,

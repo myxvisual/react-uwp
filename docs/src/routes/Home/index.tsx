@@ -86,8 +86,16 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <MediaPlayer
           style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
           url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
-          width={renderContentWidth as any}
+          width={renderContentWidth as any - 40}
           height={(renderContentWidth as any) / 2}
+        />
+        <NavigationViewExample
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
         />
         <IndexOfComponentsByFunction
           style={{
@@ -96,7 +104,6 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             width: renderContentWidth
           }}
         />
-        <NavigationViewExample style={{ width: renderContentWidth, margin: "20px auto" }} />
       </div>
     );
   }
