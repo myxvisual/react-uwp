@@ -2,9 +2,21 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export interface DataProps {
+  /**
+   * The control Toggle `status`.
+   */
   defaultToggled?: boolean;
+  /**
+   * onToggle `callback`.
+   */
   onToggle?: (isOpen?: boolean) => void;
-  padding?: number;
+  /**
+   * Set custom size, Refer to the `height` of the component.
+   */
+  size?: number;
+  /**
+   * Set custom `label text`.
+   */
   label?: string;
 }
 export interface ToggleProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -16,9 +28,7 @@ export interface ToggleState {
 const emptyFunc = () => {};
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   static defaultProps: ToggleProps = {
-    width: 42,
-    height: 18,
-    padding: 6,
+    size: 18,
     onToggle: emptyFunc
   };
 
@@ -49,7 +59,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   render() {
-    const { style, defaultToggled, onToggle, padding, label, ...attributes } = this.props;
+    const { style, defaultToggled, onToggle, label, ...attributes } = this.props;
     const { currToggled } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
@@ -68,7 +78,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
           />
         </div>
         {label && (
-          <span style={{ marginLeft: 8, verticalAlign: "middle" }}>
+          <span style={styles.label}>
             {label}
           </span>
         )}
@@ -77,14 +87,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 }
 
-function getStyles(context: Toggle): {
-  root: React.CSSProperties;
-  button: React.CSSProperties;
+function getStyles(toggle: Toggle): {
+  root?: React.CSSProperties;
+  button?: React.CSSProperties;
+  label?: React.CSSProperties;
 } {
-  const { width, height, padding } = context.props;
-  const { theme } = context.context;
-  const { currToggled } = context.state;
-  const itemSize = Number(height) / 1.5;
+  const { size } = toggle.props;
+  const { theme } = toggle.context;
+  const { currToggled } = toggle.state;
   return {
     root: theme.prepareStyles({
       userSelect: "none",
@@ -92,26 +102,32 @@ function getStyles(context: Toggle): {
       display: "inline-block",
       verticalAlign: "middle",
       boxSizing: "content-box",
-      width,
-      height,
+      width: size * 2.5,
+      height: size,
       background: currToggled ? theme.accent : theme.altHigh,
-      border: `2px solid ${currToggled ? theme.accent : theme.baseMediumHigh}`,
-      borderRadius: height,
-      transition: "all .25s 0s ease-in-out"
+      border: `${size / 9}px solid ${currToggled ? theme.accent : theme.baseMediumHigh}`,
+      borderRadius: size * 2,
+      transition: "all .25s ease-in-out"
     }),
-    button: {
-      transform: `translateX(${currToggled ? Number(width) - Number(height) + padding : padding}px)`,
+    button: theme.prepareStyles({
+      transform: `translateX(${currToggled ? size * 2.5 - size / 1.5 - size / 9 : size / 4.5}px)`,
       flex: "0 0 auto",
       position: "absolute",
       left: 0,
       top: 0,
       bottom: 0,
       margin: "auto",
-      width: itemSize,
-      height: itemSize,
-      borderRadius: itemSize,
+      width: size / 1.5,
+      height: size / 1.5,
+      borderRadius: size / 1.5,
       background: currToggled ? "#fff" : theme.baseMediumHigh,
       transition: "all .25s 0s ease-in-out"
+    }),
+    label: {
+      marginLeft: size / 4,
+      verticalAlign: "middle",
+      fontSize: size / 1.5,
+      lineHeight: `${size / 1.5}px`
     }
   };
 }

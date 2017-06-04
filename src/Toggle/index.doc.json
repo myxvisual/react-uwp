@@ -32,25 +32,25 @@
       "members": [
         {
           "name": "defaultToggled",
-          "documentation": "",
+          "documentation": "The control Toggle `status`.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "onToggle",
-          "documentation": "",
+          "documentation": "onToggle `callback`.",
           "isRequired": false,
           "type": "(isOpen?: boolean) => void"
         },
         {
-          "name": "padding",
-          "documentation": "",
+          "name": "size",
+          "documentation": "Set custom size, Refer to the `height` of the component.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "label",
-          "documentation": "",
+          "documentation": "Set custom `label text`.",
           "isRequired": false,
           "type": "string"
         }
@@ -98,7 +98,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    width: 42,\n    height: 18,\n    padding: 6,\n    onToggle: emptyFunc\n  }",
+          "initializerText": " {\n    size: 18,\n    onToggle: emptyFunc\n  }",
           "documentation": "",
           "type": "ToggleProps"
         },
@@ -146,7 +146,7 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(context: Toggle) => { root: CSSProperties; button: CSSProperties; }"
+      "type": "(toggle: Toggle) => { root?: CSSProperties; button?: CSSProperties; label?: CSSProperties; }"
     }
   ],
   "documentation": "",

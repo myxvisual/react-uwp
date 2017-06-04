@@ -273,6 +273,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Separator");
         }
       }, {
+        path: "Toggle",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Toggle").default);
+          }, "react-uwp-Components-Toggle");
+        }
+      }, {
         path: "ProgressBar",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
