@@ -220,6 +220,8 @@ function getStyles(commandBar: CommandBar): {
       transition
     }),
     secondaryCommands: {
+      width: "auto",
+      maxWidth: 240,
       zIndex: theme.zIndex.commandBar,
       position: "absolute",
       right: isReverse ? void 0 : 0,
