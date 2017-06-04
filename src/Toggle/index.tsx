@@ -2,19 +2,19 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export interface DataProps {
-  checked?: boolean;
+  defaultToggled?: boolean;
   onToggle?: (isOpen?: boolean) => void;
   padding?: number;
   label?: string;
 }
-export interface ToggleProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
-}
+export interface ToggleProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 export interface ToggleState {
-  currChecked?: boolean;
+  currToggled?: boolean;
 }
 
 const emptyFunc = () => {};
-export default class Toggle extends React.Component<ToggleProps, ToggleState> {
+export class Toggle extends React.Component<ToggleProps, ToggleState> {
   static defaultProps: ToggleProps = {
     width: 42,
     height: 18,
@@ -23,33 +23,34 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   };
 
   state: ToggleState = {
-    currChecked: this.props.checked
+    currToggled: this.props.defaultToggled
   };
+
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: ToggleProps) {
-    this.setState({ currChecked: nextProps.checked });
+    this.setState({ currToggled: nextProps.defaultToggled });
   }
 
-  toggleToggle = (currChecked?: any) => {
-    if (typeof currChecked === "boolean") {
-      if (currChecked !== this.state.currChecked) {
-        this.setState({ currChecked });
-        this.props.onToggle(currChecked);
+  toggleToggle = (currToggled?: any) => {
+    if (typeof currToggled === "boolean") {
+      if (currToggled !== this.state.currToggled) {
+        this.setState({ currToggled });
+        this.props.onToggle(currToggled);
       }
     } else {
       this.setState((prevState, prevProps) => {
-        const currChecked = !prevState.currChecked;
-        this.props.onToggle(currChecked);
-        return { currChecked };
+        const currToggled = !prevState.currToggled;
+        this.props.onToggle(currToggled);
+        return { currToggled };
       });
     }
   }
 
   render() {
-    const { style, checked, onToggle, padding, label, ...attributes } = this.props;
-    const { currChecked } = this.state;
+    const { style, defaultToggled, onToggle, padding, label, ...attributes } = this.props;
+    const { currToggled } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
@@ -82,7 +83,7 @@ function getStyles(context: Toggle): {
 } {
   const { width, height, padding } = context.props;
   const { theme } = context.context;
-  const { currChecked } = context.state;
+  const { currToggled } = context.state;
   const itemSize = Number(height) / 1.5;
   return {
     root: theme.prepareStyles({
@@ -93,13 +94,13 @@ function getStyles(context: Toggle): {
       boxSizing: "content-box",
       width,
       height,
-      background: currChecked ? theme.accent : theme.altHigh,
-      border: `2px solid ${currChecked ? theme.accent : theme.baseMediumHigh}`,
+      background: currToggled ? theme.accent : theme.altHigh,
+      border: `2px solid ${currToggled ? theme.accent : theme.baseMediumHigh}`,
       borderRadius: height,
       transition: "all .25s 0s ease-in-out"
     }),
     button: {
-      transform: `translateX(${currChecked ? Number(width) - Number(height) + padding : padding}px)`,
+      transform: `translateX(${currToggled ? Number(width) - Number(height) + padding : padding}px)`,
       flex: "0 0 auto",
       position: "absolute",
       left: 0,
@@ -109,8 +110,10 @@ function getStyles(context: Toggle): {
       width: itemSize,
       height: itemSize,
       borderRadius: itemSize,
-      background: currChecked ? "#fff" : theme.baseMediumHigh,
+      background: currToggled ? "#fff" : theme.baseMediumHigh,
       transition: "all .25s 0s ease-in-out"
     }
   };
 }
+
+export default Toggle;

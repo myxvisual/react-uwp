@@ -396,7 +396,7 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
           played={played}
           style={{
             opacity: currShowControl ? 1 : 0,
-            zIndex: 2147483647,
+            zIndex: fullScreenMode ? theme.zIndex.mediaPlayer : void 0,
             position: fullScreenMode ? "fixed" : "absolute"
           }}
           fullScreenAction={this.handleFullScreenAction}

@@ -132,7 +132,8 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
       tooltip: 101,
       dropDownMenu: 102,
       commandBar: 200,
-      contentDialog: 300
+      contentDialog: 300,
+      mediaPlayer: 2147483647
     }
   };
 }

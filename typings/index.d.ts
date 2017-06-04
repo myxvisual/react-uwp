@@ -83,6 +83,7 @@ declare namespace ReactUWP {
       dropDownMenu?: number;
       commandBar?: number;
       contentDialog?: number;
+      mediaPlayer?: number;
       [key: string]: number;
     };
   }

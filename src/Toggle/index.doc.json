@@ -1,0 +1,154 @@
+{
+  "fileName": "D:/react-uwp/src/Toggle/index.tsx",
+  "name": "\"D:/react-uwp/src/Toggle/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "ToggleProps",
+      "documentation": ""
+    },
+    {
+      "name": "ToggleState",
+      "documentation": ""
+    },
+    {
+      "name": "Toggle",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "Toggle"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "defaultToggled",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "onToggle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "(isOpen?: boolean) => void"
+        },
+        {
+          "name": "padding",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "label",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ToggleProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "ToggleState",
+      "members": [
+        {
+          "name": "currToggled",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "Toggle",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    width: 42,\n    height: 18,\n    padding: 6,\n    onToggle: emptyFunc\n  }",
+          "documentation": "",
+          "type": "ToggleProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    currToggled: this.props.defaultToggled\n  }",
+          "documentation": "",
+          "type": "ToggleState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: ToggleProps) => void"
+        },
+        {
+          "name": "toggleToggle",
+          "initializerText": " (currToggled?: any) => {\n    if (typeof currToggled === \"boolean\") {\n      if (currToggled !== this.state.currToggled) {\n        this.setState({ currToggled });\n        this.props.onToggle(currToggled);\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        const currToggled = !prevState.currToggled;\n        this.props.onToggle(currToggled);\n        return { currToggled };\n      });\n    }\n  }",
+          "documentation": "",
+          "type": "(currToggled?: any) => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(context: Toggle) => { root: CSSProperties; button: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Toggle/index\""
+}
