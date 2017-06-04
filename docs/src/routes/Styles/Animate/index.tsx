@@ -221,7 +221,7 @@ function getStyles(animate: Animate): {
       background: `${theme.altMediumHigh} url(${require("./images/Tactile-13-1024x683.jpeg")}) no-repeat center center / cover`
     },
     animateControls: {
-      width: "85%",
+      width: 320,
       margin: 4
     },
     count: {

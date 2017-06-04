@@ -62,6 +62,10 @@ export interface DataProps {
    * Set custom Slider controller without animation.
    */
   useSimpleController?: boolean;
+  /**
+   * How many time call onChange callback.
+   */
+  throttleTimer?: number;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -87,7 +91,8 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     showValueInfo: false,
     numberToFixed: 0,
     unit: "",
-    transition: "all 0.25s"
+    transition: "all 0.25s",
+    throttleTimer: 120 / 1000
   };
   originBodyStyle = { ...document.body.style };
 
@@ -95,6 +100,8 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     currValue: this.props.initValue,
     valueRatio: this.props.initValue / (this.props.maxValue - this.props.minValue)
   };
+  throttleNow: number = null;
+  throttleNowTimer: any = null;
   rootElm: HTMLDivElement;
   labelElm: HTMLSpanElement;
   controllerWrapperElm: HTMLDivElement;
@@ -147,6 +154,16 @@ export class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   setValueByEvent = (e: any, type?: any) => {
+    const nowTime = performance ? performance.now() : Date.now();
+    if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {
+      clearTimeout(this.throttleNowTimer);
+      this.throttleNow = nowTime;
+    } else {
+      this.throttleNowTimer = setTimeout(() => {
+        this.setValueByEvent(e, type);
+      }, this.props.throttleTimer);
+      return;
+    }
     if (e.type === "mousemove" && !this.state.dragging) {
       this.setState({ dragging: true });
     }
@@ -209,6 +226,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       unit, // tslint:disable-line:no-unused-variable
       customControllerStyle, //  tslint:disable-line:no-unused-variable
       transition,
+      throttleTimer,
       ...attributes
     } = this.props;
     const { currValue } = this.state;
@@ -274,7 +292,8 @@ function getStyles(slider: Slider): {
       barBackgroundImage,
       useSimpleController,
       customControllerStyle,
-      showValueInfo
+      showValueInfo,
+      label
     },
     state: {
       currValue,
@@ -289,7 +308,6 @@ function getStyles(slider: Slider): {
   const currTransition = dragging ? void 0 : (transition || void 0);
   const useCustomBackground = barBackground || barBackgroundImage;
   const valueRatio = currValue / maxValue;
-  console.log(valueRatio);
 
   return {
     wrapper: prepareStyles({
@@ -300,6 +318,7 @@ function getStyles(slider: Slider): {
       ...style
     }),
     root: prepareStyles({
+      flex: label ? "0 0 auto" : void 0,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -311,7 +330,7 @@ function getStyles(slider: Slider): {
     barContainer: {
       background: theme.baseLow,
       position: "absolute",
-      width: "100%",
+      width: label ? "85%" : "100%",
       overflow: "hidden",
       height: barHeight,
       left: 0,
@@ -339,6 +358,7 @@ function getStyles(slider: Slider): {
       transition: currTransition
     }),
     controller: prepareStyles({
+      pointerEvents: "none",
       transition: currTransition,
       display: "inline-block",
       background: (useSimpleController || dragging || hovered) ? theme.baseHigh : theme.accent,
@@ -350,6 +370,8 @@ function getStyles(slider: Slider): {
       ...customControllerStyle
     }),
     label: {
+      flex: label ? "0 0 auto" : void 0,
+      width: "15%",
       display: "inline-block",
       marginLeft: 12,
       fontSize: height2px / 1.5,
