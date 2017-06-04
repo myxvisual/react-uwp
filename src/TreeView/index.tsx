@@ -3,23 +3,24 @@ import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
 
-export interface List extends React.HTMLAttributes<HTMLDivElement> {
+export interface ListItem extends React.HTMLAttributes<HTMLDivElement> {
   titleNode?: string | React.ReactNode;
   expanded?: boolean;
   disabled?: boolean;
   focus?: boolean;
   visited?: boolean;
   hoverStyle?: CSSStyleDeclaration;
-  children?: List[];
+  children?: ListItem[];
 }
+
 export interface DataProps {
-  listItems?: List[];
+  listItems?: ListItem[];
   iconDirection?: "left" | "right";
   listItemHeight?: number;
   childPadding?: number;
   iconPadding?: number;
   titleNodeStyle?: React.CSSProperties;
-  onChangeList?: (listItems: List[]) => void;
+  onChangeListItem?: (listItems: ListItem[]) => void;
   rootStyle?: React.CSSProperties;
   showFocus?: boolean;
   background?: string;
@@ -27,8 +28,8 @@ export interface DataProps {
 export interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 export interface TreeViewState {
   init?: boolean;
-  currListItems?: List[];
-  visitedList?: List;
+  currListItems?: ListItem[];
+  visitedList?: ListItem;
   showFocus?: boolean;
 }
 const emptyFunc = () => {};
@@ -39,7 +40,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     childPadding: 40,
     iconPadding: 10,
     iconDirection: "left",
-    onChangeList: () => {},
+    onChangeListItem: () => {},
     rootStyle: { width: 400 },
     background: "none"
   };
@@ -61,7 +62,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     });
   }
 
-  handelClick = (e: React.MouseEvent<HTMLDivElement>, list: List) => {
+  handelClick = (e: React.MouseEvent<HTMLDivElement>, list: ListItem) => {
     list.expanded = !list.expanded;
     if (this.state.visitedList && !list.children) {
       this.state.visitedList.visited = false;
@@ -72,7 +73,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
       visitedList: list.children ? this.state.visitedList : list,
       showFocus: false
     });
-    this.props.onChangeList(this.state.currListItems);
+    this.props.onChangeListItem(this.state.currListItems);
     // const { style } = e.currentTarget;
     // if (style.height !== "auto") {
     //   style.height = "auto";
@@ -91,7 +92,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
     const isRight = iconDirection === "right";
     const styles = getStyles(this);
     const { childPadding, iconPadding } = this.props;
-    const renderList = ((list: List, index: number, isChild?: boolean): React.ReactNode => {
+    const renderList = ((list: ListItem, index: number, isChild?: boolean): React.ReactNode => {
       const { titleNode, expanded, disabled, visited, focus, children, hoverStyle, ...attributes } = list;
       const haveChild = Array.isArray(children) && children.length !== 0;
       const fadeAccent = theme.listAccentLow;
@@ -183,7 +184,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
                 transition: "all .25s"
               })}
             >
-              {expanded && children.map((list: List[], index) => renderList(list, index, true))}
+              {expanded && children.map((list: ListItem[], index: number) => renderList(list, index, true))}
             </div>
           )}
         </div>
@@ -198,7 +199,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
       listItems,
       iconDirection,
       listItemHeight,
-      onChangeList,
+      onChangeListItem,
       rootStyle,
       titleNodeStyle,
       childPadding,

@@ -32,9 +32,20 @@ function setListItemsUrl(path = "/") {
       }
       return;
     }
-    if (typeof listData.titleNode !== "string") return;
+    let title: string;
+    let titleNode: any = listData.titleNode;
 
-    const title = listData.titleNode.toLowerCase().replace(/\s/gim, "-");
+    const convert2string = (titleNodes?: any): any => {
+      if (typeof titleNode === "string") {
+        return titleNode;
+      } else {
+        titleNode = titleNode.props.children;
+        return convert2string(titleNode);
+      }
+    };
+    title = convert2string(titleNode);
+    title = title.toLowerCase().replace(/\s/gim, "-");
+
     if (names.includes(title)) {
       listData.expanded = true;
       if (names.slice(-1)[0] === title) {
@@ -46,9 +57,11 @@ function setListItemsUrl(path = "/") {
       }
     }
 
-    const parentUrlNow = `${listData.parentUrl}/${listData.titleNode.toLowerCase().replace(/\s/gim, "-")}`;
-    listData.titleNode = <Link style={{ color: "inherit", textDecoration: "inherit" }} to={parentUrlNow}>{listData.titleNode}</Link>;
-    listData.onClick = () => browserHistory.push(parentUrlNow);
+    const parentUrlNow = `${listData.parentUrl}/${title}`;
+    listData.titleNode = <a style={{ color: "inherit", textDecoration: "inherit" }} href={parentUrlNow}>{listData.titleNode}</a>;
+    listData.onClick = () => {
+      browserHistory.push(parentUrlNow);
+    };
     listData.style = {
       textDecoration: "inherit"
     } as React.CSSProperties;
