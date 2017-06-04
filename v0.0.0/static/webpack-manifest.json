@@ -1,6 +1,6 @@
 {
-  "app.js": "js/app.f3c7f.js",
-  "common.js": "js/common.f3c7f.js",
+  "app.js": "js/app.6053d.js",
+  "common.js": "js/common.6053d.js",
   "images\\Tactile-13-1024x683.jpeg": "images/Tactile-13-1024x683.3m3YK.jpeg",
   "images\\acrylic.png": "images/acrylic.2UkDO.png",
   "images\\antcores.png": "images/antcores.ydU6A.png",
@@ -20,7 +20,7 @@
   "react-uwp-Components-CheckBox.js": "js/react-uwp-Components-CheckBox.d268f.js",
   "react-uwp-Components-ColorPicker.js": "js/react-uwp-Components-ColorPicker.d45d3.js",
   "react-uwp-Components-CommandBar.js": "js/react-uwp-Components-CommandBar.43452.js",
-  "react-uwp-Components-ContentDialog.js": "js/react-uwp-Components-ContentDialog.cfd93.js",
+  "react-uwp-Components-ContentDialog.js": "js/react-uwp-Components-ContentDialog.c5edf.js",
   "react-uwp-Components-DatePickers-CalendarDatePicker.js": "js/react-uwp-Components-DatePickers-CalendarDatePicker.80e49.js",
   "react-uwp-Components-DatePickers-CalendarView.js": "js/react-uwp-Components-DatePickers-CalendarView.50105.js",
   "react-uwp-Components-FlipView.js": "js/react-uwp-Components-FlipView.24717.js",
