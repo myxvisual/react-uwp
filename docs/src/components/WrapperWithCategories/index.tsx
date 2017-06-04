@@ -18,6 +18,16 @@ export interface Item {
 }
 
 let prevItemFocused: any = {};
+
+const convert2string = (titleNode?: any): any => {
+  if (typeof titleNode === "string") {
+    return titleNode;
+  } else {
+    titleNode = titleNode.props.children;
+    return convert2string(titleNode);
+  }
+};
+
 function setListItemsUrl(path = "/") {
   const listItem: any = listItemsData;
   const isRootPath = path === "/";
@@ -34,15 +44,6 @@ function setListItemsUrl(path = "/") {
     }
     let title: string;
     let titleNode: any = listData.titleNode;
-
-    const convert2string = (titleNodes?: any): any => {
-      if (typeof titleNode === "string") {
-        return titleNode;
-      } else {
-        titleNode = titleNode.props.children;
-        return convert2string(titleNode);
-      }
-    };
     title = convert2string(titleNode);
     title = title.toLowerCase().replace(/\s/gim, "-");
 
@@ -115,7 +116,8 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
     const checkItems = (items: any[], prevIndexArr: number[]) => {
       items.forEach((item, index) => {
         if (!item.prevIndexArr) item.prevIndexArr = [...prevIndexArr, index];
-        if (value && (typeof item.titleNode === "string" ? item.titleNode : item.titleNode.props.children).toLowerCase().includes(value.toLowerCase())) {
+        const title = convert2string(item.titleNode);
+        if (value && title.toLowerCase().includes(value.toLowerCase())) {
           let currSetParentItems: any[] = listItems;
           const length = item.prevIndexArr.length;
           for (let i = 0; i < length; i++) {
