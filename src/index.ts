@@ -20,6 +20,7 @@ export { default as IconButton } from "./IconButton";
 export { default as Input } from "./Input";
 export { default as Link } from "./Link";
 export { default as ListView } from "./ListView";
+export { default as MarkdownRender } from "./MarkdownRender";
 export { default as MediaPlayer } from "./MediaPlayer";
 export { default as Menus } from "./Menus";
 export { default as NavigationView } from "./NavigationView";

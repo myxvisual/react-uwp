@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ComponentDetail from "components/ComponentDetail";
-import MarkdownRender from "components/MarkdownRender";
+import MarkdownRender from "react-uwp/MarkdownRender";
 import * as docEntry from "react-uwp/ListView/index.doc.json";
 import * as readmeText from "!raw!./README.md";
 import * as itemTypeText from "!raw!./ListItemType.md";

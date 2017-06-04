@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import MarkdownRender from "components/MarkdownRender";
+import MarkdownRender from "react-uwp/MarkdownRender";
 import * as SystemColorDocs from "!raw!./SystemColor.md";
 
 export interface DataProps {}

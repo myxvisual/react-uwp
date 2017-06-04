@@ -2,7 +2,7 @@ import * as React from "react";
 import Title from "react-title-component";
 
 import ComponentDescription from "./ComponentDescription";
-import MarkdownRender from "./MarkdownRender";
+import MarkdownRender from "react-uwp/MarkdownRender";
 
 export interface ComponentDetailProps {
   title?: string;

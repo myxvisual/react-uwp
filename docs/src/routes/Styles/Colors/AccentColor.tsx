@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import * as accentColors from "react-uwp/styles/accentColors";
-import MarkdownRender from "components/MarkdownRender";
+import MarkdownRender from "react-uwp/MarkdownRender";
 import * as AccentColorDocs from "!raw!./AccentColor.md";
 
 export interface AccentColorProps extends React.HTMLAttributes<HTMLDivElement> {}

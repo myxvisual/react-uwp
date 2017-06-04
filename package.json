@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@types/core-js": "^0.9.41",
+    "@types/marked": "0.0.28",
     "@types/node": "^6.0.46",
     "@types/prop-types": "^15.5.1",
     "@types/react": "^0.14.57",
@@ -65,6 +66,8 @@
   "dependencies": {
     "inline-style-prefixer": "^2.0.5",
     "keycode": "^2.1.8",
+    "marked": "^0.3.6",
+    "prismjs": "^1.6.0",
     "prop-types": "^15.5.8",
     "react-lazyload": "^2.2.7",
     "react-transition-group": "^1.1.3",

@@ -4,14 +4,19 @@ import * as PropTypes from "prop-types";
 import  * as Prism from "prismjs";
 import "prismjs/components/prism-jsx.min.js";
 import  * as marked from "marked";
+import prismOkaidiaCSS from "./prismOkaidiaCSS";
+import prismCoyCSS from "./prismCoyCSS";
 
 export interface DataProps {
+  /**
+   * The Markdown string.
+   */
   text?: string;
 }
 
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
+export class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
   static defaultProps = {
     text: ""
   };
@@ -39,6 +44,10 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
               require("prismjs/components/prism-bash.min.js");
               break;
             }
+            case "css": {
+              require("prismjs/components/prism-css.min.js");
+              break;
+            }
             default: {
               break;
             }
@@ -60,9 +69,9 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
   updateThemeStyle = () => {
     let markdownStyleString: any;
     if (this.context.theme.isDarkTheme) {
-      markdownStyleString = require("!raw!prismjs/themes/prism-okaidia.css");
+      markdownStyleString = prismOkaidiaCSS;
     } else {
-      markdownStyleString = require("!raw!prismjs/themes/prism-coy.css");
+      markdownStyleString = prismCoyCSS;
     }
 
     const className = "react-uwp-markdown-style-sheet";
@@ -94,6 +103,7 @@ export default class MarkdownRender extends React.Component<MarkdownRenderProps,
   }
 }
 
+export default MarkdownRender;
 
 function getCSSString(theme: ReactUWP.ThemeType) {
 return (

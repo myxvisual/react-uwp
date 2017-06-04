@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import MarkdownRender from "components/MarkdownRender";
+import MarkdownRender from "react-uwp/MarkdownRender";
 import * as README from "!raw!./README.md";
 
 export interface DataProps {}

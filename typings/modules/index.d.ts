@@ -7,3 +7,5 @@ declare module "inline-style-prefix" {
 interface PrefixAll {
   (style: React.CSSProperties): React.CSSProperties;
 }
+
+declare module "prismjs";

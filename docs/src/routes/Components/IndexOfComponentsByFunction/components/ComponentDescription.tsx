@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import MarkdownRender from "../../../../components/MarkdownRender";
-import DoubleThemeRender from "../../../../components/DoubleThemeRender";
+import MarkdownRender from "react-uwp//MarkdownRender";
+import DoubleThemeRender from "components/DoubleThemeRender";
 
 export interface DataProps {
   description?: string;

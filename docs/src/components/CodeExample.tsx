@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import Icon from "react-uwp/Icon";
 import Tooltip from "react-uwp/Tooltip";
-import MarkdownRender from "./MarkdownRender";
+import MarkdownRender from "react-uwp/MarkdownRender";
 
 import DoubleThemeRender from "./DoubleThemeRender";
 
