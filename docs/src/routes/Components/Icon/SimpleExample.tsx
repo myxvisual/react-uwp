@@ -23,7 +23,7 @@ export default class SimpleExample extends React.Component<{}, void> {
       <div>
         <Icon {...{ style, hoverStyle }}>HeartFillLegacy</Icon>
         <Icon {...{ style, hoverStyle }}>{"\uE001"}</Icon>
-        <Icon {...{ style, hoverStyle }}>&#xE10F;</Icon>
+        <Icon {...{ style, hoverStyle }} useSVGElement>&#xE10F;</Icon>
       </div>
     );
   }

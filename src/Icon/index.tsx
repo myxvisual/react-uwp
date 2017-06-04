@@ -17,6 +17,10 @@ export interface DataProps {
    * `ReactNode`, Paste unicode or string or `IconName`.
    */
   children?: React.ReactNode;
+  /**
+   * if `true`, default `span` element will changed to `svg text` element.
+   */
+  useSVGElement?: boolean;
 }
 export interface IconProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 export interface IconState {
@@ -26,6 +30,7 @@ export interface IconState {
 const emptyFunc = () => {};
 export class Icon extends React.Component<IconProps, IconState> {
   static defaultProps: IconProps = {
+    useSVGElement: false,
     onMouseEnter: emptyFunc,
     onMouseLeave: emptyFunc
   };
@@ -52,36 +57,31 @@ export class Icon extends React.Component<IconProps, IconState> {
   }
 
   render() {
-    const { style, hoverStyle, children, ...attributes } = this.props;
+    const { style, hoverStyle, children, useSVGElement, ...attributes } = this.props;
     const { theme } = this.context;
     const { hovered } = this.state;
-
-    return (
-      <span
-        {...attributes}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        style={theme.prepareStyles({
-          textAlign: "center",
-          verticalAlign: "middle",
-          fontFamily: theme.iconFontFamily,
-          transition: "all .25s",
-          border: "none",
-          outline: "none",
-          userSelect: "none",
-          lineHeight: style ? (
-            typeof style.height === "number" ? `${style.height}px` : style.height
-          ) : void 0,
-          fontSize: "inherit",
-          cursor: "inherit",
-          color: "inherit",
-          ...style,
-          ...(hovered ? hoverStyle : {})
-        })}
-      >
-        {icons[children as any] || children}
-      </span>
-    );
+    return React.createElement(useSVGElement ? "text" : "span", {
+      ...attributes,
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave,
+      style: theme.prepareStyles({
+        textAlign: "center",
+        verticalAlign: "middle",
+        fontFamily: theme.iconFontFamily,
+        transition: "all .25s",
+        border: "none",
+        outline: "none",
+        userSelect: "none",
+        lineHeight: style ? (
+          typeof style.height === "number" ? `${style.height}px` : style.height
+        ) : void 0,
+        fontSize: "inherit",
+        cursor: "inherit",
+        color: "inherit",
+        ...style,
+        ...(hovered ? hoverStyle : {})
+      })
+    }, icons[children as any] || children);
   }
 }
 

@@ -56,6 +56,12 @@
           "documentation": "`ReactNode`, Paste unicode or string or `IconName`.",
           "isRequired": false,
           "type": "ReactNode"
+        },
+        {
+          "name": "useSVGElement",
+          "documentation": "if `true`, default `span` element will changed to `svg text` element.",
+          "isRequired": false,
+          "type": "boolean"
         }
       ],
       "documentation": ""
@@ -101,7 +107,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    onMouseEnter: emptyFunc,\n    onMouseLeave: emptyFunc\n  }",
+          "initializerText": " {\n    useSVGElement: false,\n    onMouseEnter: emptyFunc,\n    onMouseLeave: emptyFunc\n  }",
           "documentation": "",
           "type": "IconProps"
         },
@@ -139,7 +145,7 @@
         {
           "name": "render",
           "documentation": "",
-          "type": "() => Element"
+          "type": "() => DOMElement<{ onMouseEnter: (e: MouseEvent<HTMLSpanElement>) => void; onMouseLeave: (e: Mous..."
         }
       ],
       "documentation": "",
