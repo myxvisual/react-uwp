@@ -211,6 +211,7 @@ function getStyles(contentDialog: ContentDialog): {
       justifyContent: "center",
       fontSize: 10,
       width: 40,
+      lineHeight: "28px",
       height: 28
     }),
     content: prepareStyles({
