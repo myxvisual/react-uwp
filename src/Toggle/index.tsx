@@ -95,6 +95,7 @@ function getStyles(toggle: Toggle): {
   const { size } = toggle.props;
   const { theme } = toggle.context;
   const { currToggled } = toggle.state;
+
   return {
     root: theme.prepareStyles({
       userSelect: "none",

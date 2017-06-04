@@ -70,6 +70,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             checked={showStatusBarDialog}
             label="Toggle Show StatusBarDialog"
             onToggle={this.handleToggleStatusBar}
+            defaultToggled={showStatusBarDialog}
           />
           <ContentDialog
             {...statusBarProps}
@@ -84,6 +85,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             checked={showDialog}
             label="Toggle Show ContentDialog"
             onToggle={this.handleToggle}
+            defaultToggled={showDialog}
           />
           <ContentDialog
             {...props}
