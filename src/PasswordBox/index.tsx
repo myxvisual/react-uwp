@@ -122,8 +122,10 @@ function getStyles(passwordBox: PasswordBox): {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      padding: "6px 10px",
+      padding: `0 ${passwordBoxHeight / 4}px`,
       overflow: "hidden",
+      fontWeight: "lighter",
+      fontSize: passwordBoxHeight / 2,
       paddingRight: 0,
       ...style,
       height: passwordBoxHeight
