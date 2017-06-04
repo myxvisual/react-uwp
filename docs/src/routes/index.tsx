@@ -265,6 +265,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/ProgressBar").default);
           }, "react-uwp-Components-ProgressBar");
         }
+      }, {
+        path: "RatingsControl",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/RatingsControl").default);
+          }, "react-uwp-Components-RatingsControl");
+        }
       }]
     }, {
       path: "Resources",

@@ -58,7 +58,7 @@ function setListItemsUrl(path = "/") {
     }
 
     const parentUrlNow = `${listData.parentUrl}/${title}`;
-    listData.titleNode = <a style={{ color: "inherit", textDecoration: "inherit" }} href={parentUrlNow}>{listData.titleNode}</a>;
+    listData.titleNode = <Link style={{ color: "inherit", textDecoration: "inherit" }} to={parentUrlNow}>{listData.titleNode}</Link>;
     listData.onClick = () => {
       browserHistory.push(parentUrlNow);
     };

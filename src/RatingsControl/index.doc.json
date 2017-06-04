@@ -1,0 +1,196 @@
+{
+  "fileName": "D:/react-uwp/src/RatingsControl/index.tsx",
+  "name": "\"D:/react-uwp/src/RatingsControl/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "RatingsControlProps",
+      "documentation": ""
+    },
+    {
+      "name": "RatingsControlState",
+      "documentation": ""
+    },
+    {
+      "name": "RatingsControl",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "RatingsControl"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "defaultRating",
+          "documentation": "Control show how much `Rating`.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "maxRating",
+          "documentation": "Control show `Rating` size.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "icon",
+          "documentation": "Control show custom `Icon`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "iconNode",
+          "documentation": "Control show custom `React.ReactNode`.",
+          "isRequired": false,
+          "type": "ReactNode"
+        },
+        {
+          "name": "iconStyle",
+          "documentation": "Control custom `Icon Style`.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "iconRatedStyle",
+          "documentation": "Control custom `Icon Rated Style`.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "onChangeRating",
+          "documentation": "`onChange` Rating call back.",
+          "isRequired": false,
+          "type": "(rating?: number) => void"
+        },
+        {
+          "name": "label",
+          "documentation": "Control show custom label.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "isReadOnly",
+          "documentation": "Control Rating is can't be modified.",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "RatingsControlProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "RatingsControlState",
+      "members": [
+        {
+          "name": "currRating",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "RatingsControl",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    defaultRating: 2.5,\n    maxRating: 5,\n    icon: \"FavoriteStarFill\",\n    onChangeRating: emptyFunc\n  }",
+          "documentation": "",
+          "type": "RatingsControlProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    currRating: this.props.defaultRating\n  }",
+          "documentation": "",
+          "type": "RatingsControlState"
+        },
+        {
+          "name": "styles",
+          "initializerText": " getStyles(this)",
+          "documentation": "",
+          "type": "{ root?: CSSProperties; ratingsGroup?: CSSProperties; }"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: RatingsControlProps) => void"
+        },
+        {
+          "name": "handleRationClick",
+          "initializerText": " (e: React.MouseEvent<HTMLSpanElement>, index: number) => {\n    const boundingClientRect = e.currentTarget.getBoundingClientRect();\n    const left = e.clientX - boundingClientRect.left;\n    const currRating = index + left / boundingClientRect.width;\n    this.setState({ currRating });\n    this.props.onChangeRating(currRating);\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLSpanElement>, index: number) => void"
+        },
+        {
+          "name": "renderRatings",
+          "initializerText": " (notRated = true) => {\n    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly } = this.props;\n    const { currRating } = this.state;\n    const { theme } = this.context;\n    const ratio = currRating / maxRating;\n\n    const normalRatings = (\n      <div\n        style={{\n          ...this.styles.ratingsGroup,\n          ...(notRated ? void 0 : {\n            clipPath: `polygon(0% 0%, ${ratio * 100}% 0%, ${ratio * 100}% 100%, 0% 100%)`,\n            color: theme.accent,\n            position: \"absolute\",\n            top: 0,\n            left: 0\n          })\n        }}\n      >\n        {Array(maxRating).fill(0).map((zero, index) => (\n          iconNode || (\n            <Icon\n            key={`${index}`}\n            style={{\n              fontSize: 24,\n              margin: 10,\n              ...iconStyle,\n              ...(notRated ? void 0 : iconRatedStyle)\n            }}\n            onClick={isReadOnly ? void 0 : e => {\n              this.handleRationClick(e, index);\n            }}\n          >\n            {icon}\n          </Icon>\n          )\n        ))}\n      </div>\n    );\n    return normalRatings;\n  }",
+          "documentation": "",
+          "type": "(notRated?: boolean) => Element"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(ratingsControl: RatingsControl) => { root?: CSSProperties; ratingsGroup?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/RatingsControl/index\""
+}
