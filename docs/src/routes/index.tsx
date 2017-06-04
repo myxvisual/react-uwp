@@ -217,6 +217,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Icon");
         }
       }, {
+        path: "IconButton",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/IconButton").default);
+          }, "react-uwp-Components-IconButton");
+        }
+      }, {
         path: "Image",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

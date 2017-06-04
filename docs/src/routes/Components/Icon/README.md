@@ -2,6 +2,6 @@
 
 ----
 
-See The [Icons](/styles/icons) doc, to find your want Icon.
+Find the [Icons](/styles/icons) document and use the icon you need.
 
 ### Examples

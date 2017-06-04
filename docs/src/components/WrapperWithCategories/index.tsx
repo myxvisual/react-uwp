@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Router from "react-router";
+import { Link } from "react-router";
 import * as PropTypes from "prop-types";
 
 import * as tinycolor from "tinycolor2";
@@ -47,13 +47,10 @@ function setListItemsUrl(path = "/") {
     }
 
     const parentUrlNow = `${listData.parentUrl}/${listData.titleNode.toLowerCase().replace(/\s/gim, "-")}`;
+    listData.titleNode = <Link style={{ color: "inherit", textDecoration: "inherit" }} to={parentUrlNow}>{listData.titleNode}</Link>
     listData.style = {
       textDecoration: "inherit"
     } as React.CSSProperties;
-    listData.onClick = () => {
-      Router.browserHistory.push(parentUrlNow);
-      // location.href = parentUrlNow;
-    };
     listData.hoverStyle = {
       textDecoration: "underline"
     } as CSSStyleDeclaration;
