@@ -133,8 +133,8 @@ export default class Control extends React.Component<ControlProps, ControlState>
               onChangeSeek(Number(value.toFixed(1)));
             }}
           />
-          <span>{this.second2HHMMSS(playedValue)}</span>
-          <span style={{ float: "right" }}>{this.second2HHMMSS(duration)}</span>
+          <span style={{ marginLeft: 16 }}>{this.second2HHMMSS(playedValue)}</span>
+          <span style={{ float: "right", marginRight: 16 }}>{this.second2HHMMSS(duration)}</span>
         </div>
         <div style={styles.controlsGroup2}>
           <div>
@@ -149,7 +149,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
                 verticalPosition="top"
                 horizontalPosition="right"
               >
-                <Slider onChangeValue={onChangeVolume} initValue={volume} />
+                <Slider style={{ width: 240 }} onChangeValue={onChangeVolume} initValue={volume} />
               </FlyoutContent>
             </Flyout>
             <Tooltip content="Subtitles">
@@ -186,6 +186,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
                   horizontalPosition="left"
                   contentNode={
                     <ListView
+                      style={{ width: 80 }}
                       listSource={[{
                         itemNode: "2x",
                         onClick: () => {
@@ -277,8 +278,7 @@ function getStyles(mock: Control): {
     sliderContainer: {
       overflow: "hidden",
       position: "relative",
-      height: 48,
-      padding: "0 16px"
+      height: 48
     },
     controlsGroup2: prepareStyles({
       display: "flex",

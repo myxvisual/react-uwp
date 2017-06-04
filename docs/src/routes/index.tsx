@@ -157,6 +157,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/RadioButton").default);
           }, "react-uwp-Components-RadioButton");
         }
+      },  {
+        path: "Slider",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Slider").default);
+          }, "react-uwp-Components-Slider");
+        }
       }, {
         path: "ColorPicker",
         getComponent: (location: Location, cb: RouterCallback) => {

@@ -2,21 +2,66 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export interface DataProps {
+  /**
+   * Set the Slider minValue.
+   */
   minValue?: number;
+  /**
+   * Set the Slider maxValue.
+   */
   maxValue?: number;
+  /**
+   * Set the Slider initValue.
+   */
   initValue?: number;
-  onChangeValue?: (value?: number) => void;
-  onChangeValueRatio?: (valueRatio?: number) => void;
-  barHeight?: number;
-  barBackground?: string;
-  barBackgroundImage?: string;
-  customControllerStyle?: React.CSSProperties;
-  controllerWidth?: number;
-  useSimpleController?: boolean;
-  showValueInfo?: boolean;
+  /**
+   * Set `value.toFixed(numberToFixed)`.
+   */
   numberToFixed?: number;
+  /**
+   * Set value info add `unit`.
+   */
   unit?: string;
+  /**
+   * Toggle show value info.
+   */
+  showValueInfo?: boolean;
+  /**
+   * Set transition to all Slider Element.
+   */
   transition?: string;
+  /**
+   * onChangeValue callback.
+   */
+  onChangeValue?: (value?: number) => void;
+  /**
+   * onChangeValueRatio callback.
+   */
+  onChangeValueRatio?: (valueRatio?: number) => void;
+  /**
+   * Set custom Slider bar Hight.
+   */
+  barHeight?: number;
+  /**
+   * Set custom Slider bar background.
+   */
+  barBackground?: string;
+  /**
+   * Set custom Slider bar backgroundImage.
+   */
+  barBackgroundImage?: string;
+  /**
+   * Set custom Slider controllerStyle.
+   */
+  customControllerStyle?: React.CSSProperties;
+  /**
+   * Set custom Slider controller width.
+   */
+  controllerWidth?: number;
+  /**
+   * Set custom Slider controller without animation.
+   */
+  useSimpleController?: boolean;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -29,7 +74,7 @@ export interface SliderState {
 }
 
 const emptyFunc = () => {};
-export default class Slider extends React.Component<SliderProps, SliderState> {
+export class Slider extends React.Component<SliderProps, SliderState> {
   static defaultProps: SliderProps = {
     minValue: 0,
     maxValue: 1,
@@ -51,6 +96,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     valueRatio: this.props.initValue / (this.props.maxValue - this.props.minValue)
   };
   rootElm: HTMLDivElement;
+  labelElm: HTMLSpanElement;
   controllerWrapperElm: HTMLDivElement;
   controllerElm: HTMLDivElement;
   barElm: HTMLDivElement;
@@ -104,7 +150,15 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     if (e.type === "mousemove" && !this.state.dragging) {
       this.setState({ dragging: true });
     }
-    const { maxValue, minValue, barBackground, barBackgroundImage } = this.props;
+    const {
+      maxValue,
+      minValue,
+      barBackground,
+      barBackgroundImage,
+      label,
+      numberToFixed,
+      unit
+    } = this.props;
     const useCustomBackground = barBackground || barBackgroundImage;
     const { left, width } = this.rootElm.getBoundingClientRect();
     const mouseLeft = e.clientX;
@@ -125,13 +179,16 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
       } as React.CSSProperties);
     }
 
-    const transform = `translateX(${(valueRatio - (this.props.showValueInfo ? 0.5 : 0)) * 100}%)`;
+    const transform = `translateX(${valueRatio * 100}%)`;
     Object.assign(this.controllerWrapperElm.style, {
       transform,
       webKitTransform: transform,
       msTransform: transform,
       mozTransform: transform
     } as React.CSSProperties);
+
+    this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;
+
     this.props.onChangeValue(currValue);
   }
 
@@ -175,14 +232,19 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
           <div style={styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
         </div>
       </div>
-    )
+    );
 
     return (
       <div {...attributes} style={styles.wrapper}>
         {showValueInfo ? (
           <div style={theme.prepareStyles({ display: "flex", flexDirection: "row", alignItems: "center" })}>
             {normalRender}
-            <span style={styles.label}>{`${currValue.toFixed(numberToFixed)}${unit}`}</span>
+            <span
+              ref={labelElm => this.labelElm = labelElm}
+              style={styles.label}
+            >
+              {`${currValue.toFixed(numberToFixed)}${unit}`}
+            </span>
           </div>
         ) : normalRender}
       </div>
@@ -227,11 +289,14 @@ function getStyles(slider: Slider): {
   const currTransition = dragging ? void 0 : (transition || void 0);
   const useCustomBackground = barBackground || barBackgroundImage;
   const valueRatio = currValue / maxValue;
+  console.log(valueRatio);
 
   return {
     wrapper: prepareStyles({
       width: 320,
       display: "inline-block",
+      overflow: "hidden",
+      padding: `0 ${controllerWidth2px}px`,
       ...style
     }),
     root: prepareStyles({
@@ -269,7 +334,7 @@ function getStyles(slider: Slider): {
       top: 0,
       width: "100%",
       height: 0,
-      transform: `translateX(${(valueRatio - (showValueInfo ? 0.5 : 0)) * 100}%)`,
+      transform: `translateX(${valueRatio * 100}%)`,
       pointerEvents: "none",
       transition: currTransition
     }),
@@ -280,6 +345,7 @@ function getStyles(slider: Slider): {
       borderRadius: controllerWidth2px / 2,
       width: controllerWidth2px,
       height: height2px,
+      float: "left",
       transform: `translate3D(-${controllerWidth2px / 2}px, 0, 0)`,
       ...customControllerStyle
     }),
@@ -292,3 +358,5 @@ function getStyles(slider: Slider): {
     }
   };
 }
+
+export default Slider;
