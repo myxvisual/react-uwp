@@ -1,5 +1,3 @@
-
-
 # The missing Docs
 Styling Components
 
@@ -15,7 +13,6 @@ Styling Components
 - [x] FlipView
 - [x] ListView
 - [ ] GirdView
-- [ ] ItemsControl
 
 ### DatePickers
 - [x] CalendarDatePicker
@@ -35,7 +32,7 @@ Styling Components
 - [x] MediaPlayer
 
 ### Navigation
-- [ ] Hub
+- [x] NavigationView
 - [ ] Tabs
 - [ ] SemanticZoom
 - [ ] SplitView
@@ -54,8 +51,7 @@ Styling Components
 
 ### Selection Controls
 - [x] CheckBox
-- [ ] ComboBox
-- [ ] ListBox
+- [x] DropDownMenu
 - [x] RadioButton
 - [x] Slider
 - [x] Toggle
