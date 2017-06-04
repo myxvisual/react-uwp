@@ -11,9 +11,13 @@ export default class SimpleExample extends React.Component<{}, void> {
     const { theme } = this.context;
     return (
       <div>
-        <IconButton>GlobalNavButton</IconButton>
+        <IconButton>
+          GlobalNavButton
+        </IconButton>
 
-        <IconButton disabled>SettingsLegacy</IconButton>
+        <IconButton disabled style={{ margin: 20 }}>
+          SettingsLegacy
+        </IconButton>
 
         <IconButton
           style={{ background: theme.listAccentLow, color: "#fff" }}

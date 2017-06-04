@@ -105,7 +105,7 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
             key={`${index}`}
             style={{
               fontSize: 24,
-              margin: 10,
+              padding: 10,
               ...iconStyle,
               ...(notRated ? void 0 : iconRatedStyle)
             }}

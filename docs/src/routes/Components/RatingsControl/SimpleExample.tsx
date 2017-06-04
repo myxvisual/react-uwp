@@ -17,8 +17,10 @@ export default class SimpleExample extends React.Component<{}, void> {
 
         <RatingsControl
           style={blockStyle}
+          iconStyle={{ fontSize: 48 }}
+          iconRatedStyle={{ color: "yellowgreen" }}
           icon="HeartFillLegacy"
-          defaultRating={1}
+          defaultRating={1.25}
           maxRating={4}
         />
 
