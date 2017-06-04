@@ -13,14 +13,15 @@ export interface DataProps {
 
 type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>;
 
-export interface InputProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-export interface InputState {
+export interface TextBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export interface TextBoxState {
   hovered?: boolean;
   focused?: boolean;
 }
 const emptyFunc = () => {};
-export default class Input extends React.Component<InputProps, InputState> {
-  static defaultProps: InputProps = {
+export default class TextBox extends React.Component<TextBoxProps, TextBoxState> {
+  static defaultProps: TextBoxProps = {
     inputStyle: {
       fontSize: "inherit",
       outline: "none",
@@ -32,9 +33,9 @@ export default class Input extends React.Component<InputProps, InputState> {
     onChangeValue: emptyFunc
   };
 
-  state: InputState = {};
+  state: TextBoxState = {};
   rootElm: HTMLDivElement;
-  input: HTMLInputElement;
+  inputElm: HTMLInputElement;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -66,9 +67,9 @@ export default class Input extends React.Component<InputProps, InputState> {
     this.props.onBlur(e as any);
   }
 
-  setValue = (value: string) => this.input.value = value;
+  setValue = (value: string) => this.inputElm.value = value;
 
-  getValue = () => this.input.value;
+  getValue = () => this.inputElm.value;
 
   render() {
     const {
@@ -101,7 +102,7 @@ export default class Input extends React.Component<InputProps, InputState> {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          color: "#000",
+          color: focused ? "#000" : theme.baseHigh,
           background: focused ? "#fff" : currBackground,
           boxShadow: focused ? `inset 0px 0px 0 2px ${this.context.theme.accent}` : hovered ? `inset 0px 0px 0 2px ${theme.baseMedium}` : `inset 0px 0px 0 2px ${theme.baseLow}`,
           transition: "all .25s",
@@ -111,10 +112,10 @@ export default class Input extends React.Component<InputProps, InputState> {
       >
         {leftNode}
         <input
-          ref={input => this.input = input}
+          ref={inputElm => this.inputElm = inputElm}
           {...attributes as any}
           style={theme.prepareStyles({
-            color: focused ? "#000" : theme.baseMediumHigh,
+            color: focused ? "#000" : theme.baseHigh,
             width: "100%",
             height: "100%",
             background: "none",

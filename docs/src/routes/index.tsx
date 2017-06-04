@@ -287,6 +287,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-ProgressBar");
         }
       }, {
+        path: "PasswordBox",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/PasswordBox").default);
+          }, "react-uwp-Components-PasswordBox");
+        }
+      }, {
         path: "RatingsControl",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

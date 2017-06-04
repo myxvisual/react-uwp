@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
-import Input from "../Input";
+import TextBox from "../TextBox";
 import CalendarView from "../CalendarView";
 
 export interface DataProps {
@@ -102,7 +102,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
         style={styles.root}
         onClick={this.toggleShowCalendarView}
       >
-        <Input
+        <TextBox
           {...attributes}
           style={styles.input}
           placeholder={isInit ? placeholder : mmddyy }

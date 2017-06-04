@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
-import Input from "../Input";
+import TextBox from "../TextBox";
 import ListView from "../ListView";
 
 export interface DataProps {
@@ -56,7 +56,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   /**
    * `Input` component.
    */
-  refs: { input: Input };
+  refs: { textBox: TextBox };
   listView: ListView;
   inputTimer: any = null;
 
@@ -76,7 +76,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 
   checkLayerClick = (e: Event) => {
     const { typing } = this.state;
-    if (!this.refs.input.rootElm.contains(e.target as Node)) {
+    if (!this.refs.textBox.rootElm.contains(e.target as Node)) {
       this.setState({ showListSource: false });
     }
   }
@@ -84,7 +84,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   checkLayerKeydown = (e: KeyboardEvent) => {
     const { keyCode } = e;
     const { typing } = this.state;
-    if (this.refs.input.input.matches(":focus") && keyCode === 27) {
+    if (this.refs.textBox.inputElm.matches(":focus") && keyCode === 27) {
       this.setState({ showListSource: false });
     }
   }
@@ -122,12 +122,12 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   /**
    * `Get` input value method.
    */
-  getValue = () => this.refs.input.getValue();
+  getValue = () => this.refs.textBox.getValue();
 
   /**
    * `Set` input value method.
    */
-  setValue = (value: string) => this.refs.input.setValue(value);
+  setValue = (value: string) => this.refs.textBox.setValue(value);
 
   /**
    * `Reset` input value method.
@@ -139,7 +139,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
         typing: false,
         showListSource: false
       });
-      this.refs.input.input.focus();
+      this.refs.textBox.inputElm.focus();
     } else {
       this.props.searchAction(this.getValue());
     }
@@ -219,9 +219,9 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
     const styles = getStyles(this);
 
     return (
-      <Input
+      <TextBox
         {...attributes}
-        ref="input"
+        ref="textBox"
         style={styles.root}
         onClick={this.showListSource}
         onKeyDown={this.handleInputKeyDown}
@@ -249,7 +249,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
             onChooseItem={this.handleChooseItem}
           />
         )}
-      </Input>
+      </TextBox>
     );
   }
 }

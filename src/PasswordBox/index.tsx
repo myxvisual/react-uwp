@@ -1,14 +1,22 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import Input from "../Input";
+import TextBox from "../TextBox";
 import Icon from "../Icon";
 
 export interface DataProps {
-  showIcon?: boolean;
+  /**
+   * Control default `show password`.
+   */
   defaultShowPassword?: boolean;
+  /**
+   * onChangeValue `callback`.
+   */
   onChangeValue?: (value: string) => void;
-  iconHeight?: number;
+  /**
+   * Control PasswordBox `height` and `icon size`.
+   */
+  passwordBoxHeight?: number;
 }
 
 export interface PasswordBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -17,13 +25,12 @@ export interface PasswordBoxState {
   showPassword?: boolean;
 }
 
-export default class PasswordBox extends React.Component<PasswordBoxProps, PasswordBoxState> {
+const emptyFunc = () => {};
+export class PasswordBox extends React.Component<PasswordBoxProps, PasswordBoxState> {
   static defaultProps: PasswordBoxProps = {
-    showIcon: true,
+    passwordBoxHeight: 32,
     defaultShowPassword: false,
-    iconHeight: 32,
-    onChangeValue: () => {},
-    placeholder: "Please Input Password"
+    onChangeValue: emptyFunc
   };
 
   state: PasswordBoxState = {
@@ -33,85 +40,95 @@ export default class PasswordBox extends React.Component<PasswordBoxProps, Passw
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  refs: { input: Input };
+  textBox: TextBox;
 
-  componentWillReceiveProps(nextProps: PasswordBoxProps) {
-    this.setState({
-      showPassword: nextProps.showIcon
-    });
-  }
-
-  handleOnchange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
+  handleChange = (e?: any | React.SyntheticEvent<HTMLInputElement>) => {
     let event: React.SyntheticEvent<HTMLInputElement>;
     event = e;
     this.props.onChangeValue(event.currentTarget.value);
   }
 
-  getValue = () => this.refs.input.getValue();
+  getValue = () => this.textBox.getValue();
 
-  setValue = (value: string) => this.refs.input.setValue(value);
+  setValue = (value: string) => this.textBox.setValue(value);
+
+  toggleShowPassword = (showPassword?: any) => {
+    if (typeof showPassword === "boolean") {
+      if (showPassword !== this.state.showPassword) {
+        this.setState({ showPassword });
+      }
+    } else {
+      this.setState((prevState, prevProps) => ({
+        showPassword: !prevState.showPassword
+      }));
+    }
+  }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { showIcon, iconHeight, onChangeValue, defaultShowPassword, ...attributes } = this.props;
+    const {
+      onChangeValue,
+      defaultShowPassword,
+      passwordBoxHeight,
+      ...attributes
+    } = this.props;
     const { showPassword } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
     return (
-      <Input
+      <TextBox
         {...attributes}
         type={showPassword ? "text" : "password"}
-        ref="input"
-        style={{
-          height: iconHeight,
-          ...styles.container,
-          ...theme.prepareStyles(attributes.style)
-        }}
+        ref={textBox => this.textBox = textBox}
+        style={styles.root}
         hoverStyle={{
           border: `2px solid ${theme.accent}`
         }}
-        rightNode={showIcon ? (
-          <Icon
-            onClick={() => this.setState({ showPassword: !showPassword })}
-            style={{
-              cursor: "pointer",
-              height: iconHeight,
-              width: iconHeight,
-              background: "none",
-              color: theme.baseHigh
-            }}
-            hoverStyle={{
-              color: "#fff",
-              background: theme.accent
-            }}
-          >
-            &#xE052;
-          </Icon>
-        ) : void 0}
-        onChange={this.handleOnchange}
+        rightNode={<Icon
+          onClick={this.toggleShowPassword}
+          style={theme.prepareStyles({
+            width: passwordBoxHeight,
+            height: passwordBoxHeight,
+            fontSize: passwordBoxHeight / 2,
+            lineHeight: `${passwordBoxHeight}px`,
+            cursor: "pointer",
+            background: "none",
+            color: theme.baseHigh,
+            flex: "0 0 auto",
+            transition: "all .25s"
+          })}
+          hoverStyle={{
+            color: "#fff",
+            background: theme.accent
+          }}
+        >
+          RevealPasswordLegacy
+        </Icon>}
+        onChange={this.handleChange}
       />
     );
   }
 }
 
 function getStyles(passwordBox: PasswordBox): {
-  container?: React.CSSProperties;
+  root?: React.CSSProperties;
 } {
-  const { context } = passwordBox;
+  const { context, props: { style, passwordBoxHeight } } = passwordBox;
   const { theme } = context;
 
   return {
-    container: theme.prepareStyles({
+    root: theme.prepareStyles({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      color: theme.baseMediumHigh,
-      background: theme.altMediumHigh,
       padding: "6px 10px",
       overflow: "hidden",
-      paddingRight: 0
+      paddingRight: 0,
+      ...style,
+      height: passwordBoxHeight
     })
   };
 }
+
+export default PasswordBox;
