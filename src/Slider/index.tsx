@@ -137,7 +137,6 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     });
     window.addEventListener("mousemove", this.setValueByEvent);
     window.addEventListener("mouseup", this.handelMouseUp);
-    this.setValueByEvent(e);
   }
 
   handelMouseUp = (e: any) => {
@@ -154,6 +153,9 @@ export class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   setValueByEvent = (e: any, type?: any) => {
+    if (e.type === "mousemove" && !this.state.dragging) {
+      this.setState({ dragging: true });
+    }
     const nowTime = performance ? performance.now() : Date.now();
     if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {
       clearTimeout(this.throttleNowTimer);
@@ -163,9 +165,6 @@ export class Slider extends React.Component<SliderProps, SliderState> {
         this.setValueByEvent(e, type);
       }, this.props.throttleTimer);
       return;
-    }
-    if (e.type === "mousemove" && !this.state.dragging) {
-      this.setState({ dragging: true });
     }
     const {
       maxValue,
@@ -204,7 +203,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       mozTransform: transform
     } as React.CSSProperties);
 
-    this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;
+    if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;
 
     this.props.onChangeValue(currValue);
   }

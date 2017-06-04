@@ -24,7 +24,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           initValue={.8}
           numberToFixed={2}
           customControllerStyle={{
-            background: "#fff"
+            background: this.context.theme.baseHigh
           }}
           barBackground="yellowgreen"
         />
