@@ -2,10 +2,8 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ComponentDetail from "components/ComponentDetail";
-import MarkdownRender from "components/MarkdownRender";
-import * as docEntry from "react-uwp/ListView/index.doc.json";
+import * as docEntry from "react-uwp/Separator/index.doc.json";
 import * as readmeText from "!raw!./README.md";
-import * as itemTypeText from "!raw!./ListItemType.md";
 
 import CodeExample from "components/CodeExample";
 
@@ -13,7 +11,7 @@ import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
 import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
-export default class ListView extends React.Component<any, void> {
+export default class Separator extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {
@@ -37,11 +35,9 @@ export default class ListView extends React.Component<any, void> {
           code={SimpleExampleCode as any}
           description={SimpleExampleDesc as any}
           doubleThemeStyle={{ padding: 20 }}
-          useSingleTheme
         >
           <SimpleExample />
         </CodeExample>
-        <MarkdownRender text={itemTypeText as any} />
       </ComponentDetail>
     );
   }

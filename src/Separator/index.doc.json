@@ -1,24 +1,24 @@
 {
-  "fileName": "D:/react-uwp/src/IconButton/index.tsx",
-  "name": "\"D:/react-uwp/src/IconButton/index\"",
+  "fileName": "D:/react-uwp/src/Separator/index.tsx",
+  "name": "\"D:/react-uwp/src/Separator/index\"",
   "exports": [
     {
       "name": "DataProps",
       "documentation": ""
     },
     {
-      "name": "IconButtonProps",
+      "name": "SeparatorProps",
       "documentation": ""
     },
     {
-      "name": "IconButton",
+      "name": "Separator",
       "documentation": ""
     },
     {
       "name": "default",
       "documentation": "",
       "extends": [
-        "IconButton"
+        "Separator"
       ]
     }
   ],
@@ -27,34 +27,16 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "hoverStyle",
-          "documentation": "The IconButton `onMouseEnter` will applied to `rootElm.style`.",
+          "name": "direction",
+          "documentation": "",
           "isRequired": false,
-          "type": "CSSProperties"
-        },
-        {
-          "name": "activeStyle",
-          "documentation": "The IconButton `onMouseDown` will applied to `rootElm.style`.",
-          "isRequired": false,
-          "type": "CSSProperties"
-        },
-        {
-          "name": "size",
-          "documentation": "The control IconButton size.",
-          "isRequired": false,
-          "type": "number"
-        },
-        {
-          "name": "disabled",
-          "documentation": "The control IconButton disabled.",
-          "isRequired": false,
-          "type": "boolean"
+          "type": "\"row\" | \"column\""
         }
       ],
       "documentation": ""
     },
     {
-      "name": "IconButtonProps",
+      "name": "SeparatorProps",
       "documentation": "",
       "extends": [
         "DataProps",
@@ -62,18 +44,12 @@
       ]
     },
     {
-      "name": "IconButton",
+      "name": "Separator",
       "exports": [
         {
           "name": "prototype",
           "documentation": "",
           "type": "prototype"
-        },
-        {
-          "name": "defaultProps",
-          "initializerText": " {\n    size: 48\n  }",
-          "documentation": "",
-          "type": "IconButtonProps"
         },
         {
           "name": "contextTypes",
@@ -98,8 +74,13 @@
       "extends": [
         "Component"
       ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(separator: Separator) => { root?: CSSProperties; }"
     }
   ],
   "documentation": "",
-  "type": "typeof \"D:/react-uwp/src/IconButton/index\""
+  "type": "typeof \"D:/react-uwp/src/Separator/index\""
 }

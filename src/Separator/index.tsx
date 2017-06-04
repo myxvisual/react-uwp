@@ -7,11 +7,10 @@ export interface DataProps {
 
 export interface SeparatorProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface SeparatorState {}
-
-export default class Separator extends React.Component<SeparatorProps, SeparatorState> {
-  state: SeparatorState = {};
-
+export class Separator extends React.Component<SeparatorProps, void> {
+  static defaultProps: SeparatorProps = {
+    direction: "row"
+  };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -24,7 +23,7 @@ export default class Separator extends React.Component<SeparatorProps, Separator
     const styles = getStyles(this);
 
     return (
-      <div
+      <span
         {...attributes}
         style={styles.root}
       />
@@ -42,11 +41,14 @@ function getStyles(separator: Separator): {
 
   return {
     root: prepareStyles({
-      display: "inline-block",
+      display: "block",
       width: isColumn ? 1 : "100%",
       height: isColumn ? "100%" : 1,
       background: theme.baseLow,
+      margin: "0 auto",
       ...style
     })
   };
 }
+
+export default Separator;

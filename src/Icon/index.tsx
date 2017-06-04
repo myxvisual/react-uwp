@@ -10,7 +10,7 @@ const icons: {
 
 export interface DataProps {
   /**
-   * Icon`onMouseEnter` style.
+   * The Icon `onMouseEnter` will applied to `rootElm.style`.
    */
   hoverStyle?: React.CSSProperties;
   /**

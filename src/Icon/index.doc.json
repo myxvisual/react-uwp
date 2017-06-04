@@ -47,7 +47,7 @@
       "members": [
         {
           "name": "hoverStyle",
-          "documentation": "Icon`onMouseEnter` style.",
+          "documentation": "The Icon `onMouseEnter` will applied to `rootElm.style`.",
           "isRequired": false,
           "type": "CSSProperties"
         },

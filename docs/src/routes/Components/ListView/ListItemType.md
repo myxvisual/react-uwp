@@ -1,4 +1,4 @@
-# Item 
+# ListItem 
 Name | Type | default | Required | Description
 ---|---
 itemNode | `React.ReactNode` | | | render to `listItem`

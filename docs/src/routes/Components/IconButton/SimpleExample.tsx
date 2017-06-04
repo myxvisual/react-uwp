@@ -8,9 +8,20 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
+    const { theme } = this.context;
     return (
       <div>
-        <IconButton>Text</IconButton>
+        <IconButton>GlobalNavButton</IconButton>
+
+        <IconButton disabled>SettingsLegacy</IconButton>
+
+        <IconButton
+          style={{ background: theme.listAccentLow, color: "#fff" }}
+          hoverStyle={{ background: theme.listAccentHigh }}
+          activeStyle={{ background: theme.accent }}
+        >
+          HeartFillLegacy
+        </IconButton>
       </div>
     );
   }

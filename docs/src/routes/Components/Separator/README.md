@@ -1,0 +1,7 @@
+## Separator
+
+----
+
+///
+
+### Examples

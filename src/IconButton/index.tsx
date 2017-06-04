@@ -5,9 +5,21 @@ import ElementState from "../ElementState";
 import Icon from "../Icon";
 
 export interface DataProps {
+  /**
+   * The IconButton `onMouseEnter` will applied to `rootElm.style`.
+   */
   hoverStyle?: React.CSSProperties;
+  /**
+   * The IconButton `onMouseDown` will applied to `rootElm.style`.
+   */
   activeStyle?: React.CSSProperties;
+  /**
+   * The control IconButton size.
+   */
   size?: number;
+  /**
+   * The control IconButton disabled.
+   */
   disabled?: boolean;
 }
 
@@ -40,15 +52,15 @@ export class IconButton extends React.Component<IconButtonProps, void> {
           fontFamily: "Segoe MDL2 Assets",
           transition: "background .25s 0s ease-in-out",
           userSelect: "none",
-          background: "none",
+          background: disabled ? theme.baseLow : "none",
           border: "none",
           outline: "none",
           fontSize: size / 2,
           width: size,
           height: size,
           cursor: "pointer",
-          color: theme.baseHigh,
-          padding: 4,
+          color: disabled ? theme.baseMedium : theme.baseHigh,
+          padding: 0,
           flexShrink: 0,
           ...style
         }}
@@ -60,7 +72,7 @@ export class IconButton extends React.Component<IconButtonProps, void> {
         }}
       >
         <button>
-          <Icon>{children}</Icon>
+          <Icon style={{ lineHeight: `${size}px` }}>{children}</Icon>
         </button>
       </ElementState>
     );

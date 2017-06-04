@@ -132,7 +132,7 @@ export default class Icons extends React.Component<void, IconsState> {
             <Tooltip
               verticalPosition="top"
               horizontalPosition="center"
-              onClick={() => this.handleCopy(jsesc(icons[iconName]))}
+              onClick={() => this.handleCopy(iconName)}
               contentNode={<span>Copy {jsesc(icons[iconName])}</span>}
               style={{
                 cursor: "pointer"
