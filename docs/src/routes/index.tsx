@@ -210,6 +210,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-HyperLink");
         }
       }, {
+        path: "Icon",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Icon").default);
+          }, "react-uwp-Components-Icon");
+        }
+      }, {
         path: "Image",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

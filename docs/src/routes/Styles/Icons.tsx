@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+const jsesc = require("jsesc");
 import Icon, { icons } from "react-uwp/Icon";
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 import Tooltip from "react-uwp/Tooltip";
@@ -47,6 +48,7 @@ export default class Icons extends React.Component<void, IconsState> {
   state: IconsState = {
     currIconNames: iconNames
   };
+  inputElm: HTMLInputElement;
   inputTimer: any = null;
 
   handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -61,11 +63,11 @@ export default class Icons extends React.Component<void, IconsState> {
     } as CSSStyleDeclaration);
   }
 
-  handleCopy = (e: React.MouseEvent<HTMLParagraphElement>) => {
+  handleCopy = (value: string) => {
     const currentFocus: any = document.activeElement;
-    const inputElm: HTMLInputElement = e.currentTarget.children[0].children[0] as any;
-    inputElm.focus();
-    inputElm.setSelectionRange(0, inputElm.value.length);
+    this.inputElm.value = value;
+    this.inputElm.focus();
+    this.inputElm.setSelectionRange(0, this.inputElm.value.length);
     document.execCommand("copy");
     currentFocus.focus();
   }
@@ -87,6 +89,7 @@ export default class Icons extends React.Component<void, IconsState> {
     rootStyle = theme.prepareStyles(rootStyle);
     return (
       <div style={{ width: "100%", fontSize: 14 }}>
+        <input style={inputStyle} ref={inputElm => this.inputElm = inputElm} />
         <div style={{ position: "relative", width: "100%", height: 60 }}>
           <div
             style={{
@@ -127,18 +130,10 @@ export default class Icons extends React.Component<void, IconsState> {
         >
           {currIconNames.map((iconName, index) => (
             <Tooltip
-              verticalPosition="bottom"
+              verticalPosition="top"
               horizontalPosition="center"
-              onClick={this.handleCopy}
-              contentNode={(
-                <div>
-                  <input
-                    value={iconName}
-                    style={inputStyle}
-                  />
-                  <p>Copy</p>
-                </div>
-              )}
+              onClick={() => this.handleCopy(jsesc(icons[iconName]))}
+              contentNode={<span>Copy {jsesc(icons[iconName])}</span>}
               style={{
                 cursor: "pointer"
               }}

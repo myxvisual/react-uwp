@@ -9,7 +9,14 @@ const icons: {
 } = iconsType;
 
 export interface DataProps {
+  /**
+   * Icon`onMouseEnter` style.
+   */
   hoverStyle?: React.CSSProperties;
+  /**
+   * `ReactNode`, Paste unicode or string or `IconName`.
+   */
+  children?: React.ReactNode;
 }
 export interface IconProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 export interface IconState {
@@ -17,7 +24,7 @@ export interface IconState {
 }
 
 const emptyFunc = () => {};
-export default class Icon extends React.Component<IconProps, IconState> {
+export class Icon extends React.Component<IconProps, IconState> {
   static defaultProps: IconProps = {
     onMouseEnter: emptyFunc,
     onMouseLeave: emptyFunc
@@ -68,8 +75,8 @@ export default class Icon extends React.Component<IconProps, IconState> {
           fontSize: "inherit",
           cursor: "inherit",
           color: "inherit",
-          ...(hovered ? hoverStyle : {}),
-          ...style
+          ...style,
+          ...(hovered ? hoverStyle : {})
         })}
       >
         {icons[children as any] || children}
@@ -78,5 +85,6 @@ export default class Icon extends React.Component<IconProps, IconState> {
   }
 }
 
-export { icons, Icon };
+export { icons };
 
+export default Icon;

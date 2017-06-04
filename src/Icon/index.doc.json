@@ -1,0 +1,153 @@
+{
+  "fileName": "D:/react-uwp/src/Icon/index.tsx",
+  "name": "\"D:/react-uwp/src/Icon/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "IconProps",
+      "documentation": ""
+    },
+    {
+      "name": "IconState",
+      "documentation": ""
+    },
+    {
+      "name": "Icon",
+      "documentation": ""
+    },
+    {
+      "name": "icons",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "Icon"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "documentation": "",
+      "name": "icons",
+      "type": "{ [key: string]: string; }",
+      "initializerText": " iconsType"
+    },
+    {
+      "name": "icons",
+      "documentation": "",
+      "type": "{ [key: string]: string; }"
+    },
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "hoverStyle",
+          "documentation": "Icon`onMouseEnter` style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "children",
+          "documentation": "`ReactNode`, Paste unicode or string or `IconName`.",
+          "isRequired": false,
+          "type": "ReactNode"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "IconProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "IconState",
+      "members": [
+        {
+          "name": "hovered",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "Icon",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    onMouseEnter: emptyFunc,\n    onMouseLeave: emptyFunc\n  }",
+          "documentation": "",
+          "type": "IconProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    hovered: false\n  }",
+          "documentation": "",
+          "type": "IconState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "handleMouseEnter",
+          "initializerText": " (e: React.MouseEvent<HTMLSpanElement>) => {\n    this.props.onMouseEnter(e);\n    this.setState({\n      hovered: true\n    });\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLSpanElement>) => void"
+        },
+        {
+          "name": "handleMouseLeave",
+          "initializerText": " (e: React.MouseEvent<HTMLSpanElement>) => {\n    this.props.onMouseLeave(e);\n    this.setState({\n      hovered: false\n    });\n  }",
+          "documentation": "",
+          "type": "(e: MouseEvent<HTMLSpanElement>) => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Icon/index\""
+}
