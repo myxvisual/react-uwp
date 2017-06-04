@@ -4,10 +4,25 @@ import * as PropTypes from "prop-types";
 import ElementState from "../ElementState";
 
 export interface DataProps {
+  /**
+   * Default checked status.
+   */
   isChecked?: true | false;
+  /**
+   * `Disabled` the RadioButton.
+   */
   disabled?: boolean;
+  /**
+   * `onCheck` call back.
+   */
   onCheck?: (currChecked?: boolean) => void;
+  /**
+   * Control RadioButton `RadioButton`.
+   */
   size?: number;
+  /**
+   * Set RadioButton `label`.
+   */
   label?: string;
 }
 
@@ -19,7 +34,7 @@ export interface RadioButtonState {
 }
 
 const emptyFunc = () => {};
-export default class RadioButton extends React.Component<RadioButtonProps, RadioButtonState> {
+export class RadioButton extends React.Component<RadioButtonProps, RadioButtonState> {
   static defaultProps: RadioButtonProps = {
     size: 24,
     onCheck: emptyFunc
@@ -76,6 +91,46 @@ export default class RadioButton extends React.Component<RadioButtonProps, Radio
     const { currChecked, hovered, mouseDowned } = this.state;
     const dotSize = size / 2.5;
     const { theme } = this.context;
+    const normalRender = (
+      <div
+        onClick={disabled ? void 0 : this.handleClick}
+        onMouseEnter={disabled ? void 0 : this.handleMouseEnter}
+        onMouseLeave={disabled ? void 0 : this.handleMouseLeave}
+        onMouseDown={disabled ? void 0 : this.handleMouseDown}
+        onMouseUp={disabled ? void 0 : this.handleMouseUp}
+        style={theme.prepareStyles({
+          position: "relative",
+          display: "inline-block",
+          borderRadius: size,
+          color: theme.altHigh,
+          border: disabled ? `${size / 12}px solid ${theme.baseLow}` : `${size / 12}px solid ${currChecked ? theme.accent : (
+            hovered ? theme.baseHigh : theme.baseMediumHigh
+          )}`,
+          width: size,
+          height: size,
+          overflow: "hidden",
+          transition: "all .25s ease-in-out"
+        })}
+      >
+        <div
+          style={theme.prepareStyles({
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            margin: "auto",
+            background: disabled ? theme.baseLow : (
+              hovered ? theme.baseHigh : theme.baseMediumHigh
+            ),
+            borderRadius: dotSize,
+            width: dotSize,
+            height: dotSize,
+            transform: `scale(${currChecked ? 1 : 0})`
+          })}
+        />
+      </div>
+    );
 
     return (
       <div
@@ -83,57 +138,31 @@ export default class RadioButton extends React.Component<RadioButtonProps, Radio
         {...attributes}
         style={theme.prepareStyles({ display: "inline-block", verticalAlign: "middle", ...style})}
       >
-        <div
-          onClick={disabled ? void 0 : this.handleClick}
-          onMouseEnter={disabled ? void 0 : this.handleMouseEnter}
-          onMouseLeave={disabled ? void 0 : this.handleMouseLeave}
-          onMouseDown={disabled ? void 0 : this.handleMouseDown}
-          onMouseUp={disabled ? void 0 : this.handleMouseUp}
-          style={theme.prepareStyles({
-            position: "relative",
-            display: "inline-block",
-            borderRadius: size,
-            color: theme.altHigh,
-            border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${currChecked ? theme.accent : (
-              hovered ? theme.baseHigh : theme.baseMediumHigh
-            )}`,
-            width: size,
-            height: size,
-            overflow: "hidden",
-            transition: "all .25s ease-in-out"
-          })}
-        >
+        {label ? (
           <div
             style={theme.prepareStyles({
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              margin: "auto",
-              background: disabled ? theme.baseLow : (
-                hovered ? theme.baseHigh : theme.baseMediumHigh
-              ),
-              borderRadius: dotSize,
-              width: dotSize,
-              height: dotSize,
-              transform: `scale(${currChecked ? 1 : 0})`
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center"
             })}
-          />
-        </div>
-        {label && (
-          <span
-            style={{
-              verticalAlign: "super",
-              color: disabled ? theme.baseLow : theme.baseMediumHigh,
-              marginLeft: 8,
-              cursor: "default"
-            }}
           >
-            {label}
-          </span>
-        )}
+            {normalRender}
+            <span
+              style={{
+                fontSize: size / 2,
+                lineHeight: `${size}px`,
+                color: disabled ? theme.baseLow : theme.baseMediumHigh,
+                marginLeft: size / 4,
+                cursor: "default"
+              }}
+            >
+              {label}
+            </span>
+          </div>
+        ) : normalRender}
       </div>
     );
   }
 }
+
+export default RadioButton;

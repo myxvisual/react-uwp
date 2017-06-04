@@ -151,6 +151,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-CheckBox");
         }
       }, {
+        path: "RadioButton",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/RadioButton").default);
+          }, "react-uwp-Components-RadioButton");
+        }
+      }, {
         path: "ColorPicker",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
