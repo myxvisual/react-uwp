@@ -114,6 +114,7 @@ export class ContentDialog extends React.Component<ContentDialogProps, void> {
                 ?
                 <IconButton
                   onClick={closeButtonAction}
+                  size={24}
                   style={styles.iconButton}
                   hoverStyle={{ background: "#d00f2a", color: "#fff" }}
                   activeStyle={{ background: "#d00f2a", color: "#fff" }}
