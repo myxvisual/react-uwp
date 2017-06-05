@@ -280,6 +280,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Toggle");
         }
       }, {
+        path: "TextBox",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/TextBox").default);
+          }, "react-uwp-Components-TextBox");
+        }
+      }, {
         path: "ProgressBar",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

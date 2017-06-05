@@ -28,6 +28,9 @@ const descStyle: React.CSSProperties = {
   textAlign: "center"
 };
 const inputStyle: React.CSSProperties = {
+  position: "fixed",
+  left: 0,
+  top: 0,
   display: "inherit",
   overflow: "hidden",
   border: "none",

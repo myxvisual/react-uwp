@@ -128,6 +128,8 @@ export default [{
   }, {
     "titleNode": "Toggle"
   }, {
+    "titleNode": "TextBox"
+  }, {
     "titleNode": "TreeView"
   }, {
     "titleNode": "Tooltip"

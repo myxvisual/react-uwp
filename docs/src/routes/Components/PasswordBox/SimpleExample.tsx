@@ -13,7 +13,7 @@ export default class SimpleExample extends React.Component<{}, void> {
   render() {
     return (
       <div>
-        <PasswordBox value="The Secret Password..." style={baseStyle} />
+        <PasswordBox defaultValue="The Secret Password..." style={baseStyle} />
 
         <PasswordBox
           style={{ width: 340, ...baseStyle }}
@@ -24,7 +24,7 @@ export default class SimpleExample extends React.Component<{}, void> {
         <PasswordBox
           style={baseStyle}
           defaultShowPassword
-          value="This My Password"
+          defaultValue="This My Password"
         />
       </div>
     );

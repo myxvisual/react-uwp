@@ -56,7 +56,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   /**
    * `Input` component.
    */
-  refs: { textBox: TextBox };
+  textBox: TextBox;
   listView: ListView;
   inputTimer: any = null;
 
@@ -76,7 +76,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 
   checkLayerClick = (e: Event) => {
     const { typing } = this.state;
-    if (!this.refs.textBox.rootElm.contains(e.target as Node)) {
+    if (!this.textBox.rootElm.contains(e.target as Node)) {
       this.setState({ showListSource: false });
     }
   }
@@ -84,7 +84,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   checkLayerKeydown = (e: KeyboardEvent) => {
     const { keyCode } = e;
     const { typing } = this.state;
-    if (this.refs.textBox.inputElm.matches(":focus") && keyCode === 27) {
+    if (this.textBox.inputElm.matches(":focus") && keyCode === 27) {
       this.setState({ showListSource: false });
     }
   }
@@ -122,12 +122,12 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   /**
    * `Get` input value method.
    */
-  getValue = () => this.refs.textBox.getValue();
+  getValue = () => this.textBox.getValue();
 
   /**
    * `Set` input value method.
    */
-  setValue = (value: string) => this.refs.textBox.setValue(value);
+  setValue = (value: string) => this.textBox.setValue(value);
 
   /**
    * `Reset` input value method.
@@ -139,7 +139,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
         typing: false,
         showListSource: false
       });
-      this.refs.textBox.inputElm.focus();
+      this.textBox.inputElm.focus();
     } else {
       this.props.searchAction(this.getValue());
     }
@@ -221,7 +221,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
     return (
       <TextBox
         {...attributes}
-        ref="textBox"
+        ref={textBox => this.textBox = textBox}
         style={styles.root}
         onClick={this.showListSource}
         onKeyDown={this.handleInputKeyDown}

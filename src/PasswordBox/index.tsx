@@ -58,9 +58,10 @@ export class PasswordBox extends React.Component<PasswordBoxProps, PasswordBoxSt
         this.setState({ showPassword });
       }
     } else {
-      this.setState((prevState, prevProps) => ({
-        showPassword: !prevState.showPassword
-      }));
+      this.setState((prevState, prevProps) => {
+        showPassword = !prevState.showPassword;
+        return { showPassword };
+      });
     }
   }
 

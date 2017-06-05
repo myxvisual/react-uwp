@@ -41,7 +41,7 @@ export interface TextBoxState {
   focused?: boolean;
 }
 const emptyFunc = () => {};
-export default class TextBox extends React.Component<TextBoxProps, TextBoxState> {
+export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
   static defaultProps: TextBoxProps = {
     textBoxStyle: {
       fontSize: "inherit",
@@ -110,51 +110,65 @@ export default class TextBox extends React.Component<TextBoxProps, TextBoxState>
     const { theme } = this.context;
     const currBackground = (background === void 0 ? theme.altHigh : background);
 
-    return (
-      <div
-        onMouseEnter={this.handleHover}
-        onMouseLeave={this.handleUnHover}
-        ref={rootElm => this.rootElm = rootElm}
+    const rootWrapperStyle: React.CSSProperties = {
+      height: 32,
+      width: 296,
+      padding: !haveChild ? "0 8px" : 0,
+      fontSize: 15,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      color: focused ? "#000" : theme.baseHigh,
+      background: focused ? "#fff" : currBackground,
+      boxShadow: focused ? `inset 0px 0px 0 2px ${this.context.theme.accent}` : hovered ? `inset 0px 0px 0 2px ${theme.baseMedium}` : `inset 0px 0px 0 2px ${theme.baseLow}`,
+      border: "none",
+      transition: "all .25s"
+    };
+    const normalRender = (
+      <input
+        ref={inputElm => this.inputElm = inputElm}
+        {...attributes as any}
         style={theme.prepareStyles({
-          height: 32,
-          width: 296,
-          padding: haveChild ? "0 10px" : void 0,
-          fontSize: 15,
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          color: focused ? "#000" : theme.baseHigh,
-          background: focused ? "#fff" : currBackground,
-          boxShadow: focused ? `inset 0px 0px 0 2px ${this.context.theme.accent}` : hovered ? `inset 0px 0px 0 2px ${theme.baseMedium}` : `inset 0px 0px 0 2px ${theme.baseLow}`,
-          transition: "all .25s",
-          ...style
-        })}
-        onClick={this.handleClick}
-      >
-        {leftNode}
-        <input
-          ref={inputElm => this.inputElm = inputElm}
-          {...attributes as any}
-          style={theme.prepareStyles({
-            color: focused ? "#000" : theme.baseHigh,
+          ...(haveChild ? {
+            paddingLeft: rightNode ? 8 : void 0,
+            paddingRight: leftNode ? 8 : void 0,
             width: "100%",
             height: "100%",
             background: "none",
             border: "none",
             outline: "none",
-            transition: "all .25s",
-            ...textBoxStyle
-          })}
-          onChange={(e) => {
-            onChangeValue(e.currentTarget.value);
-            attributes.onChange(e as any);
-          }}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-        />
-        {rightNode}
-        {children}
-      </div>
+            color: "inherit",
+            transition: "all .25s"
+          } : rootWrapperStyle),
+          ...(haveChild ? void 0 : style),
+          ...textBoxStyle
+        })}
+        onChange={(e) => {
+          onChangeValue(e.currentTarget.value);
+          attributes.onChange(e as any);
+        }}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+      />
     );
+
+    return haveChild ? (
+      <div
+        onMouseEnter={this.handleHover}
+        onMouseLeave={this.handleUnHover}
+        ref={rootElm => this.rootElm = rootElm}
+        style={theme.prepareStyles({
+          ...rootWrapperStyle,
+          ...style
+        })}
+        onClick={this.handleClick}
+      >
+        {leftNode}
+        {normalRender}
+        {rightNode}
+      </div>
+    ) : normalRender;
   }
 }
+
+export default TextBox;

@@ -15,8 +15,15 @@
       "documentation": ""
     },
     {
-      "name": "default",
+      "name": "TextBox",
       "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "TextBox"
+      ]
     }
   ],
   "members": [
@@ -106,7 +113,7 @@
       "type": "() => void"
     },
     {
-      "name": "default",
+      "name": "TextBox",
       "exports": [
         {
           "name": "prototype",
