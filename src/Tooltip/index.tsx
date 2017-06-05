@@ -2,14 +2,34 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export interface DataProps {
+  /**
+   * Set Tooltip content.
+   */
+  content?: string;
+  /**
+   * Set ReactNode to replace content.
+   */
+  contentNode?: React.ReactNode;
+  /**
+   * Set Tooltip custom vertical position.
+   */
   verticalPosition?: "top" | "bottom" | "center";
+  /**
+   * Set Tooltip custom horizontal position.
+   */
   horizontalPosition?: "left" | "right" | "center";
-  show?: boolean;
-  itemHeigh?: number;
+  /**
+   * Set Tooltip custom margin from `rootElm` (px).
+   */
   margin?: number;
+  /**
+   * Set Tooltip auto close in showed some time.
+   */
   autoClose?: boolean;
-  timeout?: number;
-  contentNode?: any;
+  /**
+   * Set Tooltip auto close time (ms).
+   */
+  autoCloseTimeout?: number;
 }
 export interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 
@@ -17,13 +37,13 @@ export interface TooltipState {
   showTooltip?: boolean;
 }
 
-export default class Tooltip extends React.Component<TooltipProps, TooltipState> {
+export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   static defaultProps: TooltipProps = {
     verticalPosition: "top",
     horizontalPosition: "center",
     margin: 4,
     autoClose: false,
-    timeout: 0
+    autoCloseTimeout: 750
   };
 
   state: TooltipState = {
@@ -53,7 +73,7 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
         this.setState({
           showTooltip: false
         });
-      }, this.props.timeout);
+      }, this.props.autoCloseTimeout);
     } else {
       show();
     }
@@ -137,13 +157,22 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
           break;
         }
       }
-    };
+    }
     return this.getStyle(showTooltip, positionStyle);
   }
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { verticalPosition, timeout, autoClose, margin, horizontalPosition, show, children, itemHeigh, content, contentNode, ...attributes } = this.props;
+    const {
+      verticalPosition,
+      autoCloseTimeout,
+      autoClose,
+      margin,
+      horizontalPosition,
+      children,
+      content,
+      contentNode,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
 
     return (
@@ -166,3 +195,5 @@ export default class Tooltip extends React.Component<TooltipProps, TooltipState>
     );
   }
 }
+
+export default Tooltip;
