@@ -301,6 +301,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Toggle");
         }
       }, {
+        path: "Tooltip",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Tooltip").default);
+          }, "react-uwp-Components-Tooltip");
+        }
+      }, {
         path: "TextBox",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
@@ -313,6 +320,13 @@ function getRoutes(path = "/") {
           require.ensure([], (require) => {
             cb(null, require<any>("./Components/ProgressBar").default);
           }, "react-uwp-Components-ProgressBar");
+        }
+      }, {
+        path: "ProgressRing",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/ProgressRing").default);
+          }, "react-uwp-Components-ProgressRing");
         }
       }, {
         path: "PasswordBox",

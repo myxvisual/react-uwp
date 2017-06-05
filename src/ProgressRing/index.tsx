@@ -5,99 +5,135 @@ import vendors from "../common/browser/vendors";
 const vendorPrefixes: string[] = vendors.map(str => str ? `-${str}-` : str);
 
 export interface DataProps {
-  itemLength?: number;
-  itemStyle?: React.CSSProperties;
+  /**
+   * Set number of dots.
+   */
+  dotsNumber?: number;
+  /**
+   * Set ProgressRing size(px).
+   */
   size?: number;
+  /**
+   * Set ProgressRing animate run once speed (2 loop).
+   */
   speed?: number;
-  itemSize?: number;
-  delay?: number;
+  /**
+   * Set ProgressRing dots custom style.
+   */
+  dotsStyle?: React.CSSProperties;
 }
 export interface ProgressRingProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-const getInnerCSS = (progressRing: ProgressRing) => (
-`.react-uwp-progress-ring {
+export class ProgressRing extends React.Component<ProgressRingProps, void> {
+  static defaultProps: ProgressRingProps = {
+    dotsNumber: 6,
+    speed: 5000,
+    size: 100
+  };
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ReactUWP.ThemeType };
+
+  getOnlyClassName = () => {
+    const {
+      dotsNumber,
+      speed
+    } = this.props;
+    return `react-uwp-progress-ring_${dotsNumber}_${speed}`;
+  }
+
+  getInnerCSS = (className?: string) => {
+    const { dotsNumber, speed } = this.props;
+    return (
+`.${className} {
 }
-${Array(progressRing.props.itemLength).fill(0).map((name, index) => (
-  [".react-uwp-progress-ring-item-" + index + " {",
-  vendorPrefixes.map(str => (`    ${str}animation: CircleLoopFade ${progressRing.props.speed}ms ${index * progressRing.props.delay}ms linear infinite normal forwards;`)).join("\n"),
+${Array(dotsNumber).fill(0).map((name, index) => (
+  [`.${className}-item-` + index + " {",
+  vendorPrefixes.map(str => (`    ${str}animation: CircleLoopFade ${speed}ms ${index * speed / 40}ms linear infinite normal forwards;`)).join("\n"),
   "  }"].join("")
 )).join("")}
 
 ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
   0% {
     transform: rotateZ(0deg);
-    opacity: 0.5;
-  }
-  25% {
-    transform: rotateZ(180deg);
     opacity: 1;
   }
-  50% {
+  12.5% {
+    transform: rotateZ(180deg);
+    opacity: 0.8;
+  }
+  25% {
     transform: rotateZ(270deg);
-    opacity: 0;
+    opacity: 0.8;
+  }
+  37.5% {
+    transform: rotateZ(300deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotateZ(360deg);
+    opacity: 1;
+  }
+  62.5% {
+    transform: rotateZ(540deg);
+    opacity: 0.8;
   }
   75% {
-    transform: rotateZ(300deg);
+    transform: rotateZ(630deg);
+    opacity: 0;
+  }
+  87.5% {
+    transform: rotateZ(660deg);
     opacity: 0;
   }
   100% {
-    transform: rotateZ(360deg);
-    opacity: 0.125;
+    transform: rotateZ(720deg);
+    opacity: 1;
   }
 }`)}.join("")`);
-
-export default class ProgressRing extends React.Component<ProgressRingProps, void> {
-  static defaultProps: ProgressRingProps = {
-    itemLength: 6,
-    speed: 2500,
-    size: 100,
-    delay: 150
-  };
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
+  }
 
   render() {
     const {
-      itemLength,
-      itemStyle,
+      dotsNumber,
       size,
-      itemSize,
-      delay,
       speed,
+      dotsStyle,
       style,
       ...attributes
     } = this.props;
-    const currentItemSize = itemSize || size / 10;
+    const dotsSize = size / 9;
     const { theme } = this.context;
+    const className = this.getOnlyClassName();
 
     return (
       <div
         {...attributes}
-        className="react-uwp-progress-ring"
+        className={`${className} ${attributes.className || ""}`}
         style={theme.prepareStyles({
+          display: "inline-block",
           ...style,
           width: size,
           height: size,
           position: "relative"
         })}
       >
-        <style type="text/css" dangerouslySetInnerHTML={{ __html: getInnerCSS(this) }} />
+        <style type="text/css" dangerouslySetInnerHTML={{ __html: this.getInnerCSS(className) }} />
         <div>
-          {Array(itemLength).fill(0).map((numb, index) => (
+          {Array(dotsNumber).fill(0).map((numb, index) => (
             <div
               key={`${index}`}
-              className={`react-uwp-progress-ring-item-${index}`}
+              className={`${className}-item-${index}`}
               style={theme.prepareStyles({
                 background: theme.accent,
-                ...itemStyle,
+                ...dotsStyle,
                 position: "absolute",
                 top: 0,
                 left: size / 2,
-                width: currentItemSize,
-                height: currentItemSize,
+                width: dotsSize,
+                height: dotsSize,
                 opacity: 0,
                 transformOrigin: `0px ${size / 2}px`,
-                borderRadius: currentItemSize
+                borderRadius: dotsSize
               })}
             />
           ))}
@@ -106,3 +142,5 @@ export default class ProgressRing extends React.Component<ProgressRingProps, voi
     );
   }
 }
+
+export default ProgressRing;

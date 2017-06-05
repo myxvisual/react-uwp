@@ -8,6 +8,15 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    return <ProgressRing />;
+    return (
+      <div>
+        <ProgressRing size={25} />
+        <ProgressRing size={50} />
+        <ProgressRing size={75} />
+        <ProgressRing size={75} dotsNumber={4} />
+        <ProgressRing size={100} speed={6125} />
+        <ProgressRing size={100} dotsStyle={{ background: "yellowgreen" }} />
+      </div>
+    );
   }
 }
