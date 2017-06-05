@@ -8,7 +8,7 @@ import * as docEntry from "react-uwp/Button/index.doc.json";
 import * as readmeText from "!raw!./README.md";
 
 import SimpleExample from "./SimpleExample";
-import SimpleExampleCode from "!raw!./SimpleExample.tsx";
+import * as SimpleExampleCode from "!raw!./SimpleExample.tsx";
 import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
 import ComplexExample from "./ComplexExample";
