@@ -2,12 +2,33 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export interface DataProps {
+  /**
+   * Applied `hoverStyle` to the root element.
+   */
   hoverStyle?: React.CSSProperties;
+  /**
+   * Applied `focusStyle` to the root element.
+   */
   focusStyle?: React.CSSProperties;
-  inputStyle?: React.CSSProperties;
+  /**
+   * Applied `style` to the root input element.
+   */
+  textBoxStyle?: React.CSSProperties;
+  /**
+   * onChange value `callback`.
+   */
   onChangeValue?: (value: string) => void;
-  leftNode?: any;
-  rightNode?: any;
+  /**
+   * Set `ReactNode` in input element left.
+   */
+  leftNode?: React.ReactNode;
+  /**
+   * Set `ReactNode` in input element right.
+   */
+  rightNode?: React.ReactNode;
+  /**
+   * Set TextBox `background`.
+   */
   background?: string;
 }
 
@@ -22,7 +43,7 @@ export interface TextBoxState {
 const emptyFunc = () => {};
 export default class TextBox extends React.Component<TextBoxProps, TextBoxState> {
   static defaultProps: TextBoxProps = {
-    inputStyle: {
+    textBoxStyle: {
       fontSize: "inherit",
       outline: "none",
       transition: "all .25s"
@@ -78,7 +99,7 @@ export default class TextBox extends React.Component<TextBoxProps, TextBoxState>
       leftNode,
       rightNode,
       style,
-      inputStyle,
+      textBoxStyle,
       onChangeValue,
       children,
       background,
@@ -122,7 +143,7 @@ export default class TextBox extends React.Component<TextBoxProps, TextBoxState>
             border: "none",
             outline: "none",
             transition: "all .25s",
-            ...inputStyle
+            ...textBoxStyle
           })}
           onChange={(e) => {
             onChangeValue(e.currentTarget.value);

@@ -257,6 +257,7 @@ function getStyles(flipView: FlipView): {
     zIndex: 20,
     fontSize: navigationIconSize / 2,
     width: navigationIconSize * (isHorizontal ? 1 : 2),
+    lineHeight: `${navigationIconSize * (isHorizontal ? 2 : 1)}px`,
     height: navigationIconSize * (isHorizontal ? 2 : 1)
   };
 

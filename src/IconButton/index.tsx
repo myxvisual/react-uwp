@@ -49,8 +49,9 @@ export class IconButton extends React.Component<IconButtonProps, void> {
         {...attributes}
         style={{
           display: "inline-block",
-          fontFamily: "Segoe MDL2 Assets",
-          transition: "background .25s 0s ease-in-out",
+          fontFamily: theme.iconFontFamily,
+          verticalAlign: "middle",
+          textAlign: "center",
           userSelect: "none",
           background: disabled ? theme.baseLow : "none",
           border: "none",
@@ -62,6 +63,8 @@ export class IconButton extends React.Component<IconButtonProps, void> {
           color: disabled ? theme.baseMedium : theme.baseHigh,
           padding: 0,
           flexShrink: 0,
+          lineHeight: `${size}px`,
+          transition: "background .25s ease-in-out",
           ...style
         }}
         hoverStyle={disabled ? void 0 : hoverStyle || {
@@ -71,9 +74,9 @@ export class IconButton extends React.Component<IconButtonProps, void> {
           background: theme.baseLow
         }}
       >
-        <button>
-          <Icon style={{ lineHeight: `${size}px` }}>{children}</Icon>
-        </button>
+        <Icon>
+          {children}
+        </Icon>
       </ElementState>
     );
   }
