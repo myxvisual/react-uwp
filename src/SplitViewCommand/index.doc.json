@@ -28,13 +28,13 @@
       "members": [
         {
           "name": "label",
-          "documentation": "",
+          "documentation": "Set custom icon label.",
           "isRequired": false,
           "type": "string"
         },
         {
           "name": "icon",
-          "documentation": "",
+          "documentation": "Set custom icon.",
           "isRequired": false,
           "type": "string"
         },
