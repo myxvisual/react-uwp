@@ -1,0 +1,118 @@
+{
+  "fileName": "D:/react-uwp/src/SplitView/index.tsx",
+  "name": "\"D:/react-uwp/src/SplitView/index\"",
+  "exports": [
+    {
+      "name": "SplitViewPane",
+      "documentation": ""
+    },
+    {
+      "name": "SplitViewPaneProps",
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "SplitViewProps",
+      "documentation": ""
+    },
+    {
+      "name": "SplitView",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "SplitView"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "displayMode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"compact\" | \"overlay\""
+        },
+        {
+          "name": "expandedWidth",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "defaultExpanded",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "panePosition",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"left\" | \"right\""
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "SplitViewProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "SplitView",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    expandedWidth: 320,\n    displayMode: \"compact\",\n    panePosition: \"right\"\n  }",
+          "documentation": "",
+          "type": "SplitViewProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(splitView: SplitView) => { root?: CSSProperties; pane?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/SplitView/index\""
+}

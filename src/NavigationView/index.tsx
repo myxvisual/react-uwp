@@ -38,11 +38,11 @@ export interface DataProps {
    */
   topIcon?: React.ReactElement<any>;
   /**
-   * Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.
+   * Normal usage `SplitViewCommand[]`, different status use `{ default?: React.ReactNode, expanded?: React.ReactNode }`.
    */
   navigationTopNodes?: Array<NavigationNode | NavigationComplexNode>;
   /**
-   * Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.
+   * Normal usage `SplitViewCommand[]`, different status use `{ default?: React.ReactNode, expanded?: React.ReactNode }`.
    */
   navigationBottomNodes?: Array<NavigationNode | NavigationComplexNode>;
   /**
@@ -66,7 +66,7 @@ export interface DataProps {
    */
   autoResize?: boolean;
   /**
-   * Default focus Command by `index`.
+   * Default focus `SplitViewCommand` item by `index`.
    */
   focusNavigationNodeIndex?: number;
 }

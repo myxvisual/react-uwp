@@ -279,6 +279,13 @@ function getRoutes(path = "/") {
             cb(null, require<any>("./Components/Separator").default);
           }, "react-uwp-Components-Separator");
         }
+      },  {
+        path: "SplitView",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/SplitView").default);
+          }, "react-uwp-Components-SplitView");
+        }
       }, {
         path: "Toggle",
         getComponent: (location: Location, cb: RouterCallback) => {

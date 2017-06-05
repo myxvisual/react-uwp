@@ -92,13 +92,13 @@
         },
         {
           "name": "navigationTopNodes",
-          "documentation": "Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.",
+          "documentation": "Normal usage `SplitViewCommand[]`, different status use `{ default?: React.ReactNode, expanded?: React.ReactNode }`.",
           "isRequired": false,
           "type": "any[]"
         },
         {
           "name": "navigationBottomNodes",
-          "documentation": "Normal usage `SplitViewCommand[]`, different status use `{ default: React.ReactNode, expanded?: React.ReactNode }`.",
+          "documentation": "Normal usage `SplitViewCommand[]`, different status use `{ default?: React.ReactNode, expanded?: React.ReactNode }`.",
           "isRequired": false,
           "type": "any[]"
         },
@@ -134,7 +134,7 @@
         },
         {
           "name": "focusNavigationNodeIndex",
-          "documentation": "Default focus Command by `index`.",
+          "documentation": "Default focus `SplitViewCommand` item by `index`.",
           "isRequired": false,
           "type": "number"
         }

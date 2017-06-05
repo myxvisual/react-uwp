@@ -101,6 +101,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
         style={theme.prepareStyles({
           position: "relative",
           display: "inline-block",
+          verticalAlign: "middle",
           zIndex: showList ? theme.zIndex.dropDownMenu : 1,
           width: itemWidth,
           height: itemHeight + padding,

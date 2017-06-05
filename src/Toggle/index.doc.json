@@ -53,6 +53,12 @@
           "documentation": "Set custom `label text`.",
           "isRequired": false,
           "type": "string"
+        },
+        {
+          "name": "background",
+          "documentation": "Set custom Toggle `background`.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""

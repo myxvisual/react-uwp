@@ -18,6 +18,10 @@ export interface DataProps {
    * Set custom `label text`.
    */
   label?: string;
+  /**
+   * Set custom Toggle `background`.
+   */
+  background?: string;
 }
 export interface ToggleProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
@@ -59,13 +63,28 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   render() {
-    const { style, defaultToggled, onToggle, label, ...attributes } = this.props;
+    const {
+      style,
+      defaultToggled,
+      onToggle,
+      label,
+      background,
+      ...attributes
+    } = this.props;
     const { currToggled } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
     return (
-      <div {...attributes} style={theme.prepareStyles({ display: "inline-block", verticalAlign: "middle", ...style })}>
+      <div
+        {...attributes}
+        style={theme.prepareStyles({
+          display: "inline-block",
+          verticalAlign: "middle",
+          cursor: "default",
+           ...style
+          })}
+        >
         <div
           style={styles.root}
           onClick={this.toggleToggle}
@@ -92,7 +111,7 @@ function getStyles(toggle: Toggle): {
   button?: React.CSSProperties;
   label?: React.CSSProperties;
 } {
-  const { size } = toggle.props;
+  const { size, background } = toggle.props;
   const { theme } = toggle.context;
   const { currToggled } = toggle.state;
 
@@ -105,7 +124,7 @@ function getStyles(toggle: Toggle): {
       boxSizing: "content-box",
       width: size * 2.5,
       height: size,
-      background: currToggled ? theme.accent : theme.altHigh,
+      background: currToggled ? theme.accent : background || theme.altHigh,
       border: `${size / 9}px solid ${currToggled ? theme.accent : theme.baseMediumHigh}`,
       borderRadius: size * 2,
       transition: "all .25s ease-in-out"

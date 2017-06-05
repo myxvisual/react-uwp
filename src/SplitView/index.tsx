@@ -1,50 +1,136 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface DataProps {}
+import SplitViewPane, { SplitViewPaneProps } from "./SplitViewPane";
+
+export { SplitViewPane, SplitViewPaneProps };
+
+export interface DataProps {
+  displayMode?: "compact" | "overlay";
+  expandedWidth?: number;
+  defaultExpanded?: boolean;
+  panePosition?: "left" | "right";
+}
 
 export interface SplitViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface SplitViewState {}
 
-export default class SplitView extends React.Component<SplitViewProps, SplitViewState> {
-  state: SplitViewState = {};
+export class SplitView extends React.Component<SplitViewProps, void> {
+  static defaultProps: SplitViewProps = {
+    expandedWidth: 320,
+    displayMode: "compact",
+    panePosition: "right"
+  };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { ...attributes } = this.props;
+    const {
+      displayMode,
+      expandedWidth,
+      defaultExpanded,
+      panePosition,
+      children,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const splitViewPanes: any[] = [];
+    const childView: any[] = [];
+
+    if (children) {
+      React.Children.forEach(children, (child: any, index) => {
+        if (child.type === SplitViewPane) {
+          splitViewPanes.push(React.cloneElement(child, {
+            style: { ...styles.pane, ...child.props.style },
+            key: index.toString()
+          }));
+        } else {
+          childView.push(child);
+        }
+      });
+    }
 
     return (
       <div
         {...attributes}
         style={{
-          ...styles.container,
+          ...styles.root,
           ...theme.prepareStyles(attributes.style)
         }}
       >
-        SplitView
+        {childView.length > 0 && childView}
+        {splitViewPanes.length > 0 && splitViewPanes}
       </div>
     );
   }
 }
 
 function getStyles(splitView: SplitView): {
-  container?: React.CSSProperties;
+  root?: React.CSSProperties;
+  pane?: React.CSSProperties;
 } {
-  const { context } = splitView;
+  const {
+    context,
+    props: {
+      style,
+      defaultExpanded,
+      expandedWidth,
+      displayMode,
+      panePosition
+    }
+  } = splitView;
   const { theme } = context;
-  // tslint:disable-next-line:no-unused-variable
   const { prepareStyles } = theme;
+  const isCompact = displayMode === "compact";
+  const isOverlay = displayMode === "overlay";
+  const panePositionIsRight = panePosition === "right";
+  const transition = "all .25s ease-in-out";
 
   return {
-    container: {
-      fontSize: 14,
-      color: theme.baseMediumHigh,
-      background: theme.altMediumHigh
-    }
+    root: prepareStyles({
+      color: theme.baseHigh,
+      background: theme.chromeLow,
+      display: "inline-block",
+      position: "relative",
+      margin: 0,
+      padding: 0,
+      transition,
+      ...style,
+      ...(isCompact ? {
+        flex: "0 0 auto",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        width: "auto",
+        height: "auto"
+      } as React.CSSProperties : void 0),
+      ...(isOverlay ? {
+        width: "100%",
+        overflow: "hidden"
+      } as React.CSSProperties : void 0)
+    }),
+    pane: prepareStyles({
+      background: theme.altHigh,
+      transition,
+      ...(isCompact ? {
+        overflow: "hidden",
+        height: "100%",
+        width: defaultExpanded ? expandedWidth : 0
+      } as React.CSSProperties : void 0),
+      ...(isOverlay ? {
+        position: "absolute",
+        top: 0,
+        right: panePositionIsRight ? 0 : void 0,
+        left: panePositionIsRight ? void 0 : 0,
+        height: "100%",
+        width: expandedWidth,
+        transform: `translate3D(${defaultExpanded ? 0 : expandedWidth}px, 0, 0)`
+      } as React.CSSProperties : void 0)
+    })
   };
 }
+
+export default SplitView;
