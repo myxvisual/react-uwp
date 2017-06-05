@@ -93,6 +93,9 @@ export default [{
     "titleNode": "ProgressBar",
     disabled: true
   }, {
+    "titleNode": "ProgressRing",
+    disabled: true
+  }, {
     "titleNode": "RadioButton"
   }, {
     "titleNode": "ScrollBar",
@@ -112,9 +115,6 @@ export default [{
   }, {
     "titleNode": "PasswordBox"
   }, {
-    "titleNode": "Tiles",
-    disabled: true
-  }, {
     "titleNode": "Toast",
     disabled: true
   }, {
@@ -124,8 +124,7 @@ export default [{
     "titleNode": "ScrollReveal",
     disabled: true
   }, {
-    "titleNode": "Notification",
-    disabled: true
+    "titleNode": "DropDownMenu"
   }, {
     "titleNode": "Toggle"
   }, {
