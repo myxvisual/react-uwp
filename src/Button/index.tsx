@@ -15,6 +15,10 @@ export interface DataProps {
    */
   hoverStyle?: React.CSSProperties;
   /**
+   * Is onMouseDown Inline Style will assign to default `hoverStyle`.
+   */
+  activeStyle?: React.CSSProperties;
+  /**
    * icon use the Iconfont like `\uE00A` or iconName `HeartLegacy`.
    */
   icon?: string;
@@ -34,6 +38,10 @@ export interface DataProps {
    * `tooltip` is any type, you can passe a `React.Element` or `string`.
    */
   tooltip?: React.ReactElement<any> | string;
+  /**
+   * Set custom Button `background`.
+   */
+  background?: string;
 }
 
 export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -63,6 +71,8 @@ export class Button extends React.Component<ButtonProps, {}> {
       iconPosition,
       disabled,
       tooltip,
+      background,
+      activeStyle,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -76,7 +86,7 @@ export class Button extends React.Component<ButtonProps, {}> {
     const normalRender =  (
       <ElementState
         style={{
-          background: disabled ? theme.baseMedium : theme.baseLow,
+          background: disabled ? theme.baseMedium : (background || theme.baseLow),
           cursor: disabled ? "not-allowed" : "pointer",
           color: disabled ? theme.baseMedium : theme.baseHigh,
           outline: "none",
@@ -90,7 +100,10 @@ export class Button extends React.Component<ButtonProps, {}> {
           border: `2px solid ${theme.baseMediumLow}`,
           ...theme.prepareStyles(hoverStyle)
         }}
-        activeStyle={disabled ? void 0 : { background: theme.baseMediumLow }}
+        activeStyle={disabled ? void 0 : {
+          background: theme.baseMediumLow,
+          ...theme.prepareStyles(activeStyle)
+        }}
         {...attributes}
       >
         {icon ? (iconPosition === "right" ? (

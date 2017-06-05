@@ -1,6 +1,6 @@
 {
-  "fileName": "D:/electron-app-dev/src/react-uwp/src/controls/Button/index.tsx",
-  "name": "\"D:/electron-app-dev/src/react-uwp/src/controls/Button/index\"",
+  "fileName": "D:/react-uwp/src/Button/index.tsx",
+  "name": "\"D:/react-uwp/src/Button/index\"",
   "exports": [
     {
       "name": "DataProps",
@@ -43,6 +43,12 @@
           "type": "CSSProperties"
         },
         {
+          "name": "activeStyle",
+          "documentation": "Is onMouseDown Inline Style will assign to default `hoverStyle`.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
           "name": "icon",
           "documentation": "icon use the Iconfont like `\\uE00A` or iconName `HeartLegacy`.",
           "isRequired": false,
@@ -71,6 +77,12 @@
           "documentation": "`tooltip` is any type, you can passe a `React.Element` or `string`.",
           "isRequired": false,
           "type": "string | ReactElement<any>"
+        },
+        {
+          "name": "background",
+          "documentation": "Set custom Button `background`.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""
@@ -97,22 +109,26 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n\t\tborderSize: \"2px\",\n\t\tchildren: \"Button\",\n\t\ticonPosition: \"left\"\n\t}",
+          "initializerText": " {\n    borderSize: \"2px\",\n    children: \"Button\",\n    iconPosition: \"left\"\n  }",
+          "documentation": "",
           "type": "ButtonProps"
         },
         {
           "name": "contextTypes",
-          "initializerText": " { theme: React.PropTypes.object }",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "type": "{ theme: ThemeType; }"
+          "documentation": "",
+          "type": "{ theme: any; }"
         },
         {
           "name": "refs",
+          "documentation": "",
           "type": "{ container: HTMLButtonElement; }"
         },
         {
@@ -128,5 +144,5 @@
     }
   ],
   "documentation": "",
-  "type": "typeof \"D:/electron-app-dev/src/react-uwp/src/controls/Button/index\""
+  "type": "typeof \"D:/react-uwp/src/Button/index\""
 }

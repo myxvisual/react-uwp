@@ -86,7 +86,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
     this.props.onActive();
   }
   unActive = () => {
-    this.resetStyle();
+    this.setStyle(this.props.hoverStyle);
     this.props.onMouseUp();
     this.props.unActive();
   }
