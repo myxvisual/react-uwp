@@ -1,0 +1,116 @@
+{
+  "fileName": "D:/react-uwp/src/AppBarButton/index.tsx",
+  "name": "\"D:/react-uwp/src/AppBarButton/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "AppBarButtonButtonProps",
+      "documentation": ""
+    },
+    {
+      "name": "AppBarButtonButton",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "AppBarButtonButton"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "icon",
+          "documentation": "Set custom icon string.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "iconStyle",
+          "documentation": "Set custom icon style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "hoverStyle",
+          "documentation": "Set rootElm hovered style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "label",
+          "documentation": "Set label string.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "labelPosition",
+          "documentation": "Set label display position.",
+          "isRequired": false,
+          "type": "\"right\" | \"bottom\" | \"collapsed\""
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "AppBarButtonButtonProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "AppBarButtonButton",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    labelPosition: \"bottom\"\n  }",
+          "documentation": "",
+          "type": "AppBarButtonButtonProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(AppBarButtonButton: AppBarButtonButton) => { root?: CSSProperties; icon?: CSSProperties; label?:..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/AppBarButton/index\""
+}

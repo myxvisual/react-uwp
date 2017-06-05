@@ -114,7 +114,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       height: 32,
       width: 296,
       padding: !haveChild ? "0 8px" : 0,
-      fontSize: 15,
+      fontSize: 14,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",

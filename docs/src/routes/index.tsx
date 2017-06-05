@@ -130,6 +130,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-CommandBar");
         }
       }, {
+        path: "AppBarButton",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/AppBarButton").default);
+          }, "react-uwp-Components-AppBarButton");
+        }
+      }, {
         path: "AutoSuggestBox",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

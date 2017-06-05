@@ -5,15 +5,34 @@ import ElementState from "../ElementState";
 import Icon from "../Icon";
 
 export interface DataProps {
+  /**
+   * Set custom icon string.
+   */
   icon?: string;
+  /**
+   * Set custom icon style.
+   */
   iconStyle?: React.CSSProperties;
+  /**
+   * Set rootElm hovered style.
+   */
   hoverStyle?: React.CSSProperties;
+  /**
+   * Set label string.
+   */
+  label?: string;
+  /**
+   * Set label display position.
+   */
   labelPosition?: "right" | "bottom" | "collapsed";
 }
 
 export interface AppBarButtonButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps, void> {
+  static defaultProps: AppBarButtonButtonProps = {
+    labelPosition: "bottom"
+  };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
