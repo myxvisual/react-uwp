@@ -150,11 +150,11 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
       ...style
     }),
     input: {
-      padding: "0 10px",
       width,
       height
     },
     icon: {
+      margin: "0 8px",
       cursor: "pointer",
       color: theme.baseHigh
     },

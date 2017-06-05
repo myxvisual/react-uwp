@@ -271,8 +271,6 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
   return {
     root: theme.prepareStyles({
       display: "inline-block",
-      padding: "6px 10px",
-      paddingRight: `${iconSize}px`,
       ...style,
       position: "relative"
     }),
