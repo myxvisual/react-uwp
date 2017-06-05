@@ -90,7 +90,8 @@ export default [{
   }, {
     "titleNode": "NavigationView"
   }, {
-    "titleNode": "ProgressBar"
+    "titleNode": "ProgressBar",
+    disabled: true
   }, {
     "titleNode": "RadioButton"
   }, {

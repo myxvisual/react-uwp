@@ -1,0 +1,121 @@
+{
+  "fileName": "D:/react-uwp/src/SplitViewCommand/index.tsx",
+  "name": "\"D:/react-uwp/src/SplitViewCommand/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "SplitViewCommandProps",
+      "documentation": ""
+    },
+    {
+      "name": "SplitViewCommand",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "SplitViewCommand"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "label",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "icon",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "visited",
+          "documentation": "Set command is visited status.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "iconStyle",
+          "documentation": "Set custom icon style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "isTenFt",
+          "documentation": "Use 10ft Design mode.",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "SplitViewCommandProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "SplitViewCommand",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    isTenFt: false\n  }",
+          "documentation": "",
+          "type": "SplitViewCommandProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "displayName",
+          "documentation": "",
+          "type": "\"SplitViewCommand\""
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(splitViewCommand: SplitViewCommand) => { root?: CSSProperties; icon?: CSSProperties; visitedBord..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/SplitViewCommand/index\""
+}

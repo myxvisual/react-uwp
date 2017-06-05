@@ -4,37 +4,43 @@ import * as PropTypes from "prop-types";
 import Icon from "../Icon";
 
 export interface DataProps {
-  labelNode?: any;
+  /**
+   * Set custom icon label.
+   */
+  label?: string;
+  /**
+   * Set custom icon.
+   */
   icon?: string;
+  /**
+   * Set command is visited status.
+   */
   visited?: boolean;
+  /**
+   * Set custom icon style.
+   */
   iconStyle?: React.CSSProperties;
+  /**
+   * Use 10ft Design mode.
+   */
   isTenFt?: boolean;
 }
 
 export interface SplitViewCommandProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface SplitViewCommandState {}
-
-export default class SplitViewCommand extends React.Component<SplitViewCommandProps, SplitViewCommandState> {
+export class SplitViewCommand extends React.Component<SplitViewCommandProps, void> {
   static defaultProps: SplitViewCommandProps = {
     isTenFt: false
   };
-
-  state: SplitViewCommandState = {};
 
   displayName: "SplitViewCommand";
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  shouldComponentUpdate(nextProps: SplitViewCommandProps, nextState: SplitViewCommandState) {
-    return nextProps !== this.props || nextState !== this.state;
-  }
-
   render() {
     const {
       label,
-      labelNode,
       icon,
       visited,
       onMouseEnter,
@@ -59,22 +65,27 @@ export default class SplitViewCommand extends React.Component<SplitViewCommandPr
           if (onMouseEnter) onMouseEnter(e);
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.background = (visited && isTenFt) ? theme.baseLow : "none";
+          e.currentTarget.style.background = (visited && isTenFt) ? theme.listAccentLow : "none";
           if (onMouseLeave) onMouseLeave(e);
         }}
       >
         {(visited && !isTenFt) ? <div style={styles.visitedBorder} /> : null}
-        <Icon hoverStyle={{}} style={styles.icon}>
+        <Icon
+          hoverStyle={{}}
+          style={styles.icon}
+        >
           {icon}
         </Icon>
-        <div
-          style={{
-            color: isTenFt ? void(0) : (visited ? theme.accent : theme.baseHigh),
-            cursor: "default"
-          }}
-        >
-          {label || labelNode}
-        </div>
+        {label && (
+          <div
+            style={{
+              color: isTenFt ? void(0) : (visited ? theme.accent : theme.baseHigh),
+              cursor: "default"
+            }}
+          >
+            {label}
+          </div>
+        )}
       </div>
     );
   }
@@ -121,3 +132,5 @@ function getStyles(splitViewCommand: SplitViewCommand): {
     })
   };
 }
+
+export default SplitViewCommand;

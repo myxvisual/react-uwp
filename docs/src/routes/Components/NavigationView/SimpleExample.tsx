@@ -15,7 +15,7 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
     };
     const navigationTopNodes = [
       <SplitViewCommand icon={"\uE716"} />,
-      <SplitViewCommand label="Print" icon={"\uE2F6"} />
+      <SplitViewCommand label="Print" icon="PrintLegacy" />
     ];
 
     const navigationBottomNode = [

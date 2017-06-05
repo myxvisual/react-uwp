@@ -96,8 +96,6 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     currInitWidth: this.props.initWidth
   };
 
-  SplitViewCommands: SplitViewCommand[] = [];
-
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -159,7 +157,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     const { focusNodeIndex } = this.state;
     return {
       key: `${index} ${expanded}`,
-      visited: focusNodeIndex === void(0) ? void(0) : focusNodeIndex === index,
+      visited: focusNodeIndex === void 0 ? void 0 : focusNodeIndex === index,
       onClick: (e: any) => {
         this.setState({
           focusNodeIndex: index,
@@ -213,7 +211,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
                     hoverStyle={{ background: theme.baseLow }}
                     activeStyle={{ background: theme.baseMediumLow }}
                   >
-                    {"\uE700"}
+                    GlobalNavButton
                   </IconButton>
                 ), {
                   onClick: (e: any) => {

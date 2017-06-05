@@ -5,7 +5,7 @@ import * as PropTypes from "prop-types";
 import setStyleToElement from "./common/setStyleToElement";
 
 export interface DataProps {
-  children?: React.ReactNode;
+  children?: React.ReactElement<any>;
   style?: React.CSSProperties;
   hoverStyle?: React.CSSProperties;
   focusStyle?: React.CSSProperties;
@@ -51,20 +51,20 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
   static contextTypes = { theme: PropTypes.object };
 
   context: { theme: ReactUWP.ThemeType };
-  currentDOM: HTMLElement;
+  rootElm: HTMLElement;
   visitedStyle: React.CSSProperties = {};
 
   componentDidMount() {
-    this.currentDOM = ReactDOM.findDOMNode(this) as any;
+    this.rootElm = ReactDOM.findDOMNode(this) as any;
   }
 
   componentDidUpdate() {
-    this.currentDOM = ReactDOM.findDOMNode(this) as any;
+    this.rootElm = ReactDOM.findDOMNode(this) as any;
   }
 
   setStyle = (style: React.CSSProperties) => {
     setStyleToElement(
-      this.currentDOM,
+      this.rootElm,
       this.context.theme.prepareStyles({ ...this.props.style, ...style })
     );
   }
@@ -116,10 +116,8 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
     if (resetVisited) {
       this.visitedStyle = void 0;
     }
-    setStyleToElement(this.currentDOM, { ...this.props.style, ...this.visitedStyle }, true);
+    setStyleToElement(this.rootElm, { ...this.props.style, ...this.visitedStyle }, true);
   }
-
-  getDOM = () => this.currentDOM;
 
   render() {
     const {

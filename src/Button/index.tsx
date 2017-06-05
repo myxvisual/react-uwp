@@ -96,13 +96,11 @@ export class Button extends React.Component<ButtonProps, {}> {
           display: "inline-bloc",
           ...theme.prepareStyles(style)
         }}
-        hoverStyle={disabled ? void 0 : {
-          border: `2px solid ${theme.baseMediumLow}`,
-          ...theme.prepareStyles(hoverStyle)
+        hoverStyle={disabled ? void 0 : hoverStyle || {
+          border: `2px solid ${theme.baseMediumLow}`
         }}
-        activeStyle={disabled ? void 0 : {
-          background: theme.baseMediumLow,
-          ...theme.prepareStyles(activeStyle)
+        activeStyle={disabled ? void 0 : activeStyle || {
+          background: theme.baseMediumLow
         }}
         {...attributes}
       >

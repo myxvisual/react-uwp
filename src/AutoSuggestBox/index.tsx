@@ -135,13 +135,16 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   handleButtonAction = (e: React.MouseEvent<HTMLInputElement>) => {
     if (this.state.typing) {
       this.setValue("");
+      this.props.onChangeValue("");
       this.setState({
         typing: false,
         showListSource: false
       });
       this.textBox.inputElm.focus();
     } else {
-      this.props.searchAction(this.getValue());
+      const value = this.getValue();
+      this.props.searchAction(value);
+      this.props.onChangeValue(value);
     }
   }
 
