@@ -12,6 +12,14 @@ export interface DataProps {
    * The Markdown string.
    */
   text?: string;
+  /**
+   * Use Custom Markdown CSS style in dark theme mode.
+   */
+  darkThemeCSSString?: string;
+  /**
+   * Use Custom Markdown CSS style in light theme mode.
+   */
+  lightThemeCSSString?: string;
 }
 
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -67,16 +75,18 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
   }
 
   updateThemeStyle = () => {
+    const { darkThemeCSSString, lightThemeCSSString } = this.props;
+    const { theme } = this.context;
     let markdownStyleString: any;
-    if (this.context.theme.isDarkTheme) {
-      markdownStyleString = prismOkaidiaCSS;
+    if (theme.isDarkTheme) {
+      markdownStyleString = darkThemeCSSString || prismOkaidiaCSS;
     } else {
-      markdownStyleString = prismCoyCSS;
+      markdownStyleString = lightThemeCSSString || prismCoyCSS;
     }
 
-    const className = "react-uwp-markdown-style-sheet";
+    const className = `react-uwp-markdown-style-sheet-${theme.themeName}`;
     let styleSheet = document.querySelector(`.${className}`);
-    const cssString = getCSSString(this.context.theme) + "\n" + markdownStyleString;
+    const cssString = getCSSString(theme, `react-uwp-markdown-${theme.themeName}`) + "\n" + markdownStyleString;
     if (!styleSheet) {
       styleSheet = document.createElement("style");
       styleSheet.className = className;
@@ -95,7 +105,7 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
       <div>
         <div
           {...attributes}
-          className={`react-uwp-markdown ${className || ""}`}
+          className={`react-uwp-markdown-${theme.themeName} ${className || ""}`}
           dangerouslySetInnerHTML={{ __html: marked(text) }}
         />
       </div>
@@ -105,21 +115,21 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
 
 export default MarkdownRender;
 
-function getCSSString(theme: ReactUWP.ThemeType) {
+function getCSSString(theme: ReactUWP.ThemeType, className: string) {
 return (
-`.react-uwp-markdown {
+`.${className} {
   /** background: ${theme.chromeMedium}; **/
   color: ${theme.baseMediumHigh};
   font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
 }
 
-.react-uwp-markdown img {
+.${className} img {
   display: block;
   max-width: 100%;
   margin: 0 auto;
 }
 
-.react-uwp-markdown div {
+.${className} div {
   letter-spacing: 0px;
   margin: 0;
   padding: 0 32px;
@@ -129,87 +139,87 @@ return (
   overflow-x: hidden;
 }
 
-.react-uwp-markdown a, .react-uwp-markdown h1, .react-uwp-markdown h2, .react-uwp-markdown h3, .react-uwp-markdown h4, .react-uwp-markdown h5, .react-uwp-markdown h6 {
+.${className} a, .${className} h1, .${className} h2, .${className} h3, .${className} h4, .${className} h5, .${className} h6 {
   line-height: 1.8;
   font-weight: normal;
   color: ${theme.baseHigh};
 }
 
-.react-uwp-markdown p {
+.${className} p {
   line-height: 1.8;
   font-size: 14px;
 }
 
-.react-uwp-markdown strong {
+.${className} strong {
   color: ${theme.baseHigh};
   font-size: 16px;
 }
 
-.react-uwp-markdown a {
+.${className} a {
   font-size: 15px;
   color: ${theme.accent};
   font-weight: lighter;
 }
 
-.react-uwp-markdown h1 {
+.${className} h1 {
   font-size: 24px;
 }
 
-.react-uwp-markdown h2 {
+.${className} h2 {
   font-size: 20px;
 }
 
 
-.react-uwp-markdown h3 {
+.${className} h3 {
   font-size: 18px;
 }
 
-.react-uwp-markdown h4 {
+.${className} h4 {
   font-size: 16px;
 }
 
-.react-uwp-markdown h5 {
+.${className} h5 {
   font-size: 15px;
 }
 
-.react-uwp-markdown h6 {
+.${className} h6 {
   font-size: 14px;
 }
 
-.react-uwp-markdown hr {
+.${className} hr {
   margin: 4px 0;
   border: 0;
   width: 100%;
   border-top: 2px solid ${theme.listAccentMedium};
 }
 
-.react-uwp-markdown ol > li {
+.${className} ol > li {
   margin-left: 12px;
 }
 
-.react-uwp-markdown li {
+.${className} li {
   font-size: 14px;
   line-height: 1.5;
 }
 
-.react-uwp-markdown blockquote {
+.${className} blockquote {
   border-left: 2px solid ${theme.listAccentLow};
   padding-left: 15px;
   margin: 20px 0px 35px;
 }
 
-.react-uwp-markdown .language-math {
+.${className} .language-math {
   font-size: 24px;
   color: ${theme.baseHigh};
 }
 
-.react-uwp-markdown .language-math pre {
+.${className} .language-math pre {
   margin: 6px 0 6px;
   padding: 10px;
   width: 100%;
 }
 
-.react-uwp-markdown pre {
+.${className} pre {
   font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
   background: ${theme.chromeLow};
   border: 1px solid ${theme.listLow};
@@ -222,12 +232,12 @@ return (
   white-space: pre-wrap;
 }
 
-.react-uwp-markdown pre {
+.${className} pre {
   font-size: 14;
 }
 
 
-.react-uwp-markdown code {
+.${className} code {
   font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
   font-size: inherit;
   background: ${theme.chromeLow};
@@ -236,30 +246,30 @@ return (
   font-weight: inherit;
 }
 
-.react-uwp-markdown table {
+.${className} table {
   width: 100%;
 }
 
-.react-uwp-markdown table, .react-uwp-markdown td, .react-uwp-markdown th {
+.${className} table, .${className} td, .${className} th {
   border-collapse: collapse;
   border: 1px solid ${theme.altHigh};
   padding: 10px;
   / ** word-break: break-all; **/
 }
 
-.react-uwp-markdown table tbody {
+.${className} table tbody {
   background: ${theme.baseLow};
 }
 
-.react-uwp-markdown table tr:nth-child(1n) {
+.${className} table tr:nth-child(1n) {
   background: ${theme.altMedium};
 }
 
-.react-uwp-markdown table tr:nth-child(2n) {
+.${className} table tr:nth-child(2n) {
   background: ${theme.altMediumHigh};
 }
 
-.react-uwp-markdown th {
+.${className} th {
   vertical-align: middle;
   border-collapse: collapse;
   padding: 12px;
@@ -268,7 +278,7 @@ return (
   border: 1px solid ${theme.altHigh};
 }
 
-.react-uwp-markdown input[type="checkbox"] {
+.${className} input[type="checkbox"] {
   width: 18px;
   height: 18px;
   vertical-align: middle;
@@ -276,11 +286,11 @@ return (
   pointer-events: none;
 }
 
-.react-uwp-markdown li > label {
+.${className} li > label {
   pointer-events: none;
 }
 
-.react-uwp-markdown ul {
+.${className} ul {
   margin: 10px 20px;
 }
 code[class*="language-"], pre[class*="language-"] {
