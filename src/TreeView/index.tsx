@@ -14,40 +14,43 @@ export interface ListItem extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export interface DataProps {
-  listItems?: ListItem[];
+  listSource?: ListItem[];
   iconDirection?: "left" | "right";
   listItemHeight?: number;
   childPadding?: number;
   iconPadding?: number;
   titleNodeStyle?: React.CSSProperties;
-  onChangeListItem?: (listItems: ListItem[]) => void;
+  onChangeListItem?: (listSource: ListItem[]) => void;
   rootStyle?: React.CSSProperties;
   showFocus?: boolean;
   background?: string;
 }
+
 export interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+
 export interface TreeViewState {
   init?: boolean;
   currListItems?: ListItem[];
   visitedList?: ListItem;
   showFocus?: boolean;
 }
+
 const emptyFunc = () => {};
-export default class TreeView extends React.Component<TreeViewProps, TreeViewState> {
+export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
   static defaultProps: TreeViewProps = {
-    listItems: [],
+    listSource: [],
     listItemHeight: 40,
     childPadding: 40,
     iconPadding: 10,
     iconDirection: "left",
-    onChangeListItem: () => {},
+    onChangeListItem: emptyFunc,
     rootStyle: { width: 400 },
     background: "none"
   };
 
   state: TreeViewState = {
     init: true,
-    currListItems: this.props.listItems,
+    currListItems: this.props.listSource,
     visitedList: null,
     showFocus: this.props.showFocus
   };
@@ -57,7 +60,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 
   componentWillReceiveProps(nexProps: TreeViewProps) {
     this.setState({
-      currListItems: nexProps.listItems,
+      currListItems: nexProps.listSource,
       showFocus: nexProps.showFocus
     });
   }
@@ -74,14 +77,6 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
       showFocus: false
     });
     this.props.onChangeListItem(this.state.currListItems);
-    // const { style } = e.currentTarget;
-    // if (style.height !== "auto") {
-    //   style.height = "auto";
-    //   style.padding = "0 0";
-    // } else {
-    //   style.height = "0";
-    //   style.padding = "2px 0";
-    // }
   }
 
   renderTree = (): React.ReactNode => {
@@ -196,7 +191,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
 
   render() {
     const {
-      listItems,
+      listSource,
       iconDirection,
       listItemHeight,
       onChangeListItem,
@@ -271,3 +266,5 @@ function getStyles(treeView: TreeView): {
     }
   } as any;
 }
+
+export default TreeView;

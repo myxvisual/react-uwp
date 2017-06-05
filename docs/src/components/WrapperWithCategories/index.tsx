@@ -190,7 +190,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
               onChangeValue={this.handleChangeValue}
             />
             <TreeView
-              listItems={listItems as any}
+              listSource={listItems as any}
               listItemHeight={32}
               childPadding={20}
               iconPadding={2}

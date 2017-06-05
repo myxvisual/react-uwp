@@ -16,6 +16,10 @@ export interface DataProps {
    * If use `label`, `labelPosition` to control label position.
    */
   labelPosition?: "left" | "right";
+  /**
+   * Set custom background to CheckBbox.
+   */
+  background?: string;
 }
 
 export interface CheckBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -86,6 +90,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
       label,
       labelPosition, // tslint:disable-line:no-unused-variable
       disabled, // tslint:disable-line:no-unused-variable
+      background,
       ...attributes
     } = this.props;
     const { checked, hovered } = this.state;
@@ -144,7 +149,7 @@ function getStyles(checkBox: CheckBox): {
 } {
   const {
     context,
-    props: { size, disabled, labelPosition },
+    props: { size, disabled, labelPosition, background },
     state: { checked, hovered }
   } = checkBox;
   const { theme } = context;
@@ -160,7 +165,7 @@ function getStyles(checkBox: CheckBox): {
     border: `2px solid ${theme.baseMediumHigh}`,
     width: `${size}px`,
     height: `${size}px`,
-    background: theme.altMediumHigh,
+    background: background || theme.altMediumHigh,
     cursor: "default",
     overflow: "hidden"
   });
@@ -221,7 +226,7 @@ function getStyles(checkBox: CheckBox): {
       color: disabled ? (
         checkedIsNull ? "transparent" : theme.baseLow
       ) : (
-        checkedIsNull ? theme.accent : theme.altHigh
+        checkedIsNull ? theme.accent : "#fff"
       ),
       padding: 0,
       margin: 0,

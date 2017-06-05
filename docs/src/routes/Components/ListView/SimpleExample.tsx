@@ -15,12 +15,12 @@ const listSource: ListItem[] = [{
 }, ...Array(12).fill(0).map((numb, index) => (
   <span key={`${index}`}>
     <span>Confirm{index + 1}</span>
-    <Toggle style={{ float: "right" }} />
+    <Toggle background="none" style={{ float: "right" }} />
   </span>
 )),
   <span>
     <span>Confirm</span>
-    <CheckBox style={{ float: "right" }} />
+    <CheckBox background="none" style={{ float: "right" }} />
   </span>
 ];
 
