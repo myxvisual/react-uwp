@@ -4,17 +4,45 @@ import * as PropTypes from "prop-types";
 import Icon from "../Icon";
 
 export interface DataProps {
-  itemWidth?: number;
-  itemHeight?: number;
-  padding?: number;
+  /**
+   * Set default show value, `value` must is one of `values`, default is `values[0]`.
+   */
+  defaultValue?: string | string[];
+  /**
+   * Set DropDownMenu values.
+   */
   values?: string[];
-  containerAttributes?: React.HTMLAttributes<HTMLDivElement>;
-  itemAttributes?: React.HTMLAttributes<HTMLDivElement>;
+  /**
+   * `onChangeValue` callback.
+   */
   onChangeValue?: (value: string) => void;
+  /**
+   * Set DropDownMenu custom background.
+   */
+  background?: string;
+  /**
+   * Set DropDownMenu width, only this way set width is right (px).
+   */
+  itemWidth?: number;
+  /**
+   * Set DropDownMenu height, only this way set width is right (px).
+   */
+  itemHeight?: number;
+  /**
+   * Set DropDownMenu item padding (px).
+   */
+  padding?: number;
+  /**
+   * Set `wrapperElm` HTMLAttributes.
+   */
+  wrapperAttributes?: React.HTMLAttributes<HTMLDivElement>;
+  /**
+   * Set `itemElm` HTMLAttributes.
+   */
+  itemAttributes?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-
 
 export interface DropDownMenuState {
   showList?: boolean;
@@ -23,14 +51,13 @@ export interface DropDownMenuState {
 }
 
 const emptyFunc = () => {};
-
-export default class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
+export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
   static defaultProps: DropDownMenuProps = {
     itemWidth: 132,
     padding: 4,
     itemHeight: 28,
     onChangeValue: emptyFunc,
-    containerAttributes: {
+    wrapperAttributes: {
       onMouseEnter: emptyFunc,
       onMouseLeave: emptyFunc
     },
@@ -89,11 +116,22 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
   getValue = () => this.state.currentValue;
 
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { values, itemWidth, itemHeight, defaultValue, containerAttributes, itemAttributes, onChangeValue, padding, ...attributes } = this.props;
+    const {
+      values,
+      itemWidth,
+      itemHeight,
+      defaultValue,
+      wrapperAttributes,
+      itemAttributes,
+      onChangeValue,
+      background,
+      padding,
+      ...attributes
+    } = this.props;
     const { showList, currentValue, currentValues } = this.state;
     const { theme } = this.context;
     const isDarkTheme = theme.themeName === "Dark";
+    const currBackground = background || theme.chromeLow;
 
     return (
       <div
@@ -115,7 +153,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
             top: 0,
             left: 0,
             color: theme.baseMediumHigh,
-            background: theme.chromeLow,
+            background: currBackground,
             width: itemWidth,
             height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
             overflow: "hidden",
@@ -126,12 +164,12 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
           })}
           onMouseEnter={!showList ? (e) => {
             e.currentTarget.style.border = `2px solid ${theme.baseHigh}`;
-            containerAttributes.onMouseEnter(e);
-          } : containerAttributes.onMouseEnter}
+            wrapperAttributes.onMouseEnter(e);
+          } : wrapperAttributes.onMouseEnter}
           onMouseLeave={!showList ? (e) => {
             e.currentTarget.style.border = `2px solid ${theme.baseLow}`;
-            containerAttributes.onMouseLeave(e);
-          } : containerAttributes.onMouseLeave}
+            wrapperAttributes.onMouseLeave(e);
+          } : wrapperAttributes.onMouseLeave}
         >
           {currentValues.map((value, index) => {
             const isCurrent = currentValue === value;
@@ -140,7 +178,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
                 style={theme.prepareStyles({
                   width: itemWidth,
                   height: itemHeight,
-                  background: isCurrent && showList ? theme[isDarkTheme ? "accentDarker2" : "accentLighter2"] : theme.chromeLow,
+                  background: isCurrent && showList ? theme.listAccentLow : currBackground,
                   display: "flex",
                   padding: "0 8px",
                   flexDirection: "row",
@@ -149,11 +187,11 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
                 })}
                 onClick={this.toggleShowList}
                 onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
-                  e.currentTarget.style.background = isCurrent ? theme[isDarkTheme ? "accentDarker1" : "accentLighter1"] : theme.chromeMedium;
+                  e.currentTarget.style.background = isCurrent ? theme.listAccentMedium : theme.chromeMedium;
                   itemAttributes.onMouseEnter(e);
                 }}
                 onMouseLeave={!showList ? itemAttributes.onMouseLeave : (e) => {
-                  e.currentTarget.style.background = isCurrent ? theme[isDarkTheme ? "accentDarker2" : "accentLighter2"] : theme.chromeLow;
+                  e.currentTarget.style.background = isCurrent ? theme.listAccentLow : currBackground;
                   itemAttributes.onMouseLeave(e);
                 }}
                 key={`${index}`}
@@ -173,7 +211,7 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
                 >
                   {value}
                 </p>
-                {!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>&#xE011;</Icon> : null}
+                {!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>ChevronDown4Legacy</Icon> : null}
               </div>
             );
           })}
@@ -182,3 +220,5 @@ export default class DropDownMenu extends React.Component<DropDownMenuProps, Dro
     );
   }
 }
+
+export default DropDownMenu;

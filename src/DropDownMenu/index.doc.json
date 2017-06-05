@@ -1,0 +1,197 @@
+{
+  "fileName": "D:/react-uwp/src/DropDownMenu/index.tsx",
+  "name": "\"D:/react-uwp/src/DropDownMenu/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "DropDownMenuProps",
+      "documentation": ""
+    },
+    {
+      "name": "DropDownMenuState",
+      "documentation": ""
+    },
+    {
+      "name": "DropDownMenu",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "DropDownMenu"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "defaultValue",
+          "documentation": "Set default show value, `value` must is one of `values`, default is `values[0]`.",
+          "isRequired": false,
+          "type": "string | string[]"
+        },
+        {
+          "name": "values",
+          "documentation": "Set DropDownMenu values.",
+          "isRequired": false,
+          "type": "string[]"
+        },
+        {
+          "name": "onChangeValue",
+          "documentation": "`onChangeValue` callback.",
+          "isRequired": false,
+          "type": "(value: string) => void"
+        },
+        {
+          "name": "background",
+          "documentation": "Set DropDownMenu custom background.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "itemWidth",
+          "documentation": "Set DropDownMenu width, only this way set width is right (px).",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "itemHeight",
+          "documentation": "Set DropDownMenu height, only this way set width is right (px).",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "padding",
+          "documentation": "Set DropDownMenu item padding (px).",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "wrapperAttributes",
+          "documentation": "Set `wrapperElm` HTMLAttributes.",
+          "isRequired": false,
+          "type": "HTMLAttributes<HTMLDivElement>"
+        },
+        {
+          "name": "itemAttributes",
+          "documentation": "Set `itemElm` HTMLAttributes.",
+          "isRequired": false,
+          "type": "HTMLAttributes<HTMLDivElement>"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "DropDownMenuProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "DropDownMenuState",
+      "members": [
+        {
+          "name": "showList",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "currentValue",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string | string[]"
+        },
+        {
+          "name": "currentValues",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string[]"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "DropDownMenu",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    itemWidth: 132,\n    padding: 4,\n    itemHeight: 28,\n    onChangeValue: emptyFunc,\n    wrapperAttributes: {\n      onMouseEnter: emptyFunc,\n      onMouseLeave: emptyFunc\n    },\n    itemAttributes: {\n      onMouseEnter: emptyFunc,\n      onMouseLeave: emptyFunc\n    }\n  }",
+          "documentation": "",
+          "type": "DropDownMenuProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    currentValue: this.props.defaultValue || Array.isArray(this.props.values) && this.props.values[0],\n    currentValues: (() => {\n      let { values, defaultValue } = this.props;\n      if (!Array.isArray(values)) return [];\n      values = [...values];\n      defaultValue = (defaultValue || values[0]) as string;\n      values.unshift(...values.splice(values.indexOf(defaultValue), 1));\n      return values;\n    })()\n  }",
+          "documentation": "",
+          "type": "DropDownMenuState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: DropDownMenuProps) => void"
+        },
+        {
+          "name": "toggleShowList",
+          "initializerText": " (e: React.SyntheticEvent<HTMLDivElement>) => {\n    const { currentValues, showList } = this.state;\n    const valueNode = e.currentTarget.children[0] as any;\n    const currentValue = valueNode.innerText;\n    if (showList) {\n      currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));\n    }\n    if (currentValue !== this.state.currentValue) {\n      this.props.onChangeValue(currentValue);\n    }\n    this.setState({\n      currentValue,\n      showList: !showList,\n      currentValues: showList ? currentValues : [...this.props.values]\n    });\n  }",
+          "documentation": "",
+          "type": "(e: SyntheticEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "getValue",
+          "initializerText": " () => this.state.currentValue",
+          "documentation": "",
+          "type": "() => string | string[]"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/DropDownMenu/index\""
+}

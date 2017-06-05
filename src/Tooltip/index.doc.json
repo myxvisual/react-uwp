@@ -157,7 +157,7 @@
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
-          "name": "notShowTooltip",
+          "name": "unShowTooltip",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.unShowTimer = setTimeout(() => {\n      this.setState({\n        showTooltip: false\n      });\n      clearTimeout(this.unShowTimer);\n    }, 500);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"

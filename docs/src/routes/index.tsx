@@ -179,6 +179,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-ColorPicker");
         }
       }, {
+        path: "DropDownMenu",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/DropDownMenu").default);
+          }, "react-uwp-Components-DropDownMenu");
+        }
+      }, {
         path: "DatePickers",
         indexRoute: {
           getComponent: (location: Location, cb: RouterCallback) => {

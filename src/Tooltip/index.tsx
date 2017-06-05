@@ -79,7 +79,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }
   }
 
-  notShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
+  unShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
     this.unShowTimer = setTimeout(() => {
       this.setState({
         showTooltip: false
@@ -181,7 +181,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
         ref="rootElm"
         onMouseEnter={this.showTooltip}
         onClick={this.showTooltip}
-        onMouseLeave={this.notShowTooltip}
+        onMouseLeave={this.unShowTooltip}
       >
         <span
           {...attributes}
