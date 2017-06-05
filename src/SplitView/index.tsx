@@ -108,17 +108,17 @@ function getStyles(splitView: SplitView): {
         height: "auto"
       } as React.CSSProperties : void 0),
       ...(isOverlay ? {
-        width: "100%",
-        overflow: "hidden"
-      } as React.CSSProperties : void 0)
+        width: "100%"
+      } as React.CSSProperties : void 0),
+      overflow: "hidden"
     }),
     pane: prepareStyles({
       background: theme.altHigh,
       transition,
       ...(isCompact ? {
-        overflow: "hidden",
         height: "100%",
-        width: defaultExpanded ? expandedWidth : 0
+        width: expandedWidth,
+        transform: `translate3D(${defaultExpanded ? 0 : expandedWidth}px, 0, 0)`
       } as React.CSSProperties : void 0),
       ...(isOverlay ? {
         position: "absolute",

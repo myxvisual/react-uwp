@@ -23,35 +23,29 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
     const { expanded, displayMode } = this.state;
 
     return (
-      <div style={{ width: "100%" }}>
-        <SplitView
-          defaultExpanded={expanded}
-          displayMode={displayMode}
-          style={{
-            width: "85%",
-            height: 640,
-            margin: "0 auto"
-          }}
-        >
-          <div>
-            <div>
-              <Toggle
-                label="Toggle SplitView"
-                defaultToggled={expanded}
-                background="none"
-                onToggle={expanded => { this.setState({ expanded }); }}
-              />
-            </div>
-            <DropDownMenu
-              values={["compact", "overlay"]}
-              defaultValue={displayMode}
-              onChangeValue={(displayMode: any) => { this.setState({ displayMode }); }}
-            />
-          </div>
+      <SplitView
+        defaultExpanded={expanded}
+        displayMode={displayMode}
+        style={{
+          width: "85%",
+          margin: "20px auto",
+          height: 640
+        }}
+      >
+        <div>
+          <Toggle
+            label="Toggle SplitView"
+            defaultToggled={expanded}
+            background="none"
+            style={{ margin: 20 }}
+            onToggle={expanded => { this.setState({ expanded }); }}
+          />
+        </div>
 
-          <SplitViewPane>SplitViewPane</SplitViewPane>
-        </SplitView>
-      </div>
+        <SplitViewPane>
+          SplitViewPane
+        </SplitViewPane>
+      </SplitView>
     );
   }
 }
