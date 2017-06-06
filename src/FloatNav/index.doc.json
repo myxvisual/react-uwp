@@ -35,26 +35,26 @@
       "name": "Item",
       "members": [
         {
-          "name": "showNode",
-          "documentation": "",
+          "name": "iconNode",
+          "documentation": "Set ReactNode to item.",
           "isRequired": false,
-          "type": "any"
+          "type": "ReactElement<any>"
         },
         {
           "name": "title",
-          "documentation": "",
+          "documentation": "Set title to item.",
           "isRequired": false,
           "type": "string"
         },
         {
           "name": "href",
-          "documentation": "",
+          "documentation": "Set custom link to item.",
           "isRequired": false,
           "type": "string"
         },
         {
-          "name": "color",
-          "documentation": "",
+          "name": "focusColor",
+          "documentation": "Set focus focus color to item.",
           "isRequired": false,
           "type": "string"
         }
@@ -65,46 +65,52 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "focusItem",
-          "documentation": "",
-          "isRequired": false,
-          "type": "number"
-        },
-        {
-          "name": "onFocusIndex",
-          "documentation": "",
-          "isRequired": false,
-          "type": "(index: number) => void"
-        },
-        {
-          "name": "topNode",
-          "documentation": "",
-          "isRequired": false,
-          "type": "ReactElement<any> | ReactElement<any>[]"
-        },
-        {
-          "name": "bottomNode",
-          "documentation": "",
-          "isRequired": false,
-          "type": "ReactElement<any> | ReactElement<any>[]"
-        },
-        {
           "name": "isFloatRight",
           "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
-          "name": "items",
-          "documentation": "",
+          "name": "initWidth",
+          "documentation": "Set custom default width.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "expandedWidth",
+          "documentation": "Set custom expanded width.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "topNode",
+          "documentation": "Set custom ReactNode to top.",
+          "isRequired": false,
+          "type": "ReactElement<any> | ReactElement<any>[]"
+        },
+        {
+          "name": "bottomNode",
+          "documentation": "Set custom ReactNode to Bottom.",
+          "isRequired": false,
+          "type": "ReactElement<any> | ReactElement<any>[]"
+        },
+        {
+          "name": "expandedItems",
+          "documentation": "Set custom expanded items.",
           "isRequired": false,
           "type": "Item[]"
         },
         {
-          "name": "floatNavWidth",
-          "documentation": "",
+          "name": "focusItemIndex",
+          "documentation": "HightLight expanded item ny index.",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "onFocusItem",
+          "documentation": "HightLight expanded item ny index.",
+          "isRequired": false,
+          "type": "(itemIndex?: number) => void"
         }
       ],
       "documentation": ""
@@ -121,7 +127,7 @@
       "name": "FloatNavState",
       "members": [
         {
-          "name": "currFocusItem",
+          "name": "currFocusItemIndex",
           "documentation": "",
           "isRequired": false,
           "type": "number"
@@ -142,6 +148,17 @@
       "documentation": ""
     },
     {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
       "name": "FloatNav",
       "exports": [
         {
@@ -151,7 +168,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    onFocusIndex: () => {},\n    items: [],\n    width: 48,\n    isFloatRight: true,\n    floatNavWidth: 240\n  }",
+          "initializerText": " {\n    onFocusItem: emptyFunc,\n    expandedItems: [],\n    initWidth: 48,\n    isFloatRight: true,\n    expandedWidth: 240\n  }",
           "documentation": "",
           "type": "FloatNavProps"
         },
@@ -165,7 +182,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    currFocusItem: this.props.focusItem,\n    hoverItem: null,\n    hoverIndexArray: []\n  }",
+          "initializerText": " {\n    currFocusItemIndex: this.props.focusItemIndex,\n    hoverItem: null,\n    hoverIndexArray: []\n  }",
           "documentation": "",
           "type": "FloatNavState"
         },
@@ -186,19 +203,19 @@
         },
         {
           "name": "focusIndex",
-          "initializerText": " (currFocusItem: number) => this.setState({ currFocusItem })",
+          "initializerText": " (currFocusItemIndex: number) => this.setState({ currFocusItemIndex })",
           "documentation": "",
-          "type": "(currFocusItem: number) => void"
+          "type": "(currFocusItemIndex: number) => void"
         },
         {
           "name": "getFocusIndex",
-          "initializerText": " () => this.state.currFocusItem",
+          "initializerText": " () => this.state.currFocusItemIndex",
           "documentation": "",
           "type": "() => number"
         },
         {
           "name": "getItems",
-          "initializerText": " () => this.props.items",
+          "initializerText": " () => this.props.expandedItems",
           "documentation": "",
           "type": "() => Item[]"
         },

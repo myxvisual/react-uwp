@@ -2,6 +2,6 @@
 
 ----
 
-///
+Floating Navigation Bar.
 
 ### Examples

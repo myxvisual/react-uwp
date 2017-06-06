@@ -2,41 +2,80 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 export interface Item {
-  showNode?: any;
+  /**
+   * Set ReactNode to item.
+   */
+  iconNode?: React.ReactElement<any>;
+  /**
+   * Set title to item.
+   */
   title?: string;
+  /**
+   * Set custom link to item.
+   */
   href?: string;
-  color?: string;
+  /**
+   * Set focus focus color to item.
+   */
+  focusColor?: string;
 }
+import IconButton from "../IconButton";
 
 export interface DataProps {
-  focusItem?: number;
-  onFocusIndex?: (index: number) => void;
-  topNode?: React.ReactElement<any> | React.ReactElement<any>[];
-  bottomNode?: React.ReactElement<any> | React.ReactElement<any>[];
+  /**
+   * Set Float expanded position.
+   */
   isFloatRight?: boolean;
-  items?: Item[];
-  floatNavWidth?: number;
+  /**
+   * Set custom default width.
+   */
+  initWidth?: number;
+  /**
+   * Set custom expanded width.
+   */
+  expandedWidth?: number;
+  /**
+   * Set custom ReactNode to top.
+   */
+  topNode?: React.ReactElement<any> | React.ReactElement<any>[];
+  /**
+   * Set custom ReactNode to Bottom.
+   */
+  bottomNode?: React.ReactElement<any> | React.ReactElement<any>[];
+  /**
+   * Set custom expanded items.
+   */
+  expandedItems?: Item[];
+  /**
+   * HightLight expanded item ny index.
+   */
+  focusItemIndex?: number;
+  /**
+   * HightLight expanded item ny index.
+   */
+  onFocusItem?: (itemIndex?: number) => void;
 }
 
 export interface FloatNavProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface FloatNavState {
-  currFocusItem?: number;
+  currFocusItemIndex?: number;
   hoverItem?: number;
   hoverIndexArray?: boolean[];
 }
 
+const emptyFunc = () => {};
 export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
   static defaultProps: FloatNavProps = {
-    onFocusIndex: () => {},
-    items: [],
-    width: 48,
+    onFocusItem: emptyFunc,
+    expandedItems: [],
+    initWidth: 48,
     isFloatRight: true,
-    floatNavWidth: 240
+    expandedWidth: 240
   };
 
   state: FloatNavState = {
-    currFocusItem: this.props.focusItem,
+    currFocusItemIndex: this.props.focusItemIndex,
     hoverItem: null,
     hoverIndexArray: []
   };
@@ -46,7 +85,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
 
   componentWillReceiveProps(nextProps: FloatNavProps) {
     this.setState({
-      currFocusItem: nextProps.focusItem
+      currFocusItemIndex: nextProps.focusItemIndex
     });
   }
 
@@ -54,26 +93,26 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
     return nextProps !== this.props || nextState !== this.state;
   }
 
-  focusIndex = (currFocusItem: number) => this.setState({ currFocusItem });
+  focusIndex = (currFocusItemIndex: number) => this.setState({ currFocusItemIndex });
 
-  getFocusIndex = () => this.state.currFocusItem;
+  getFocusIndex = () => this.state.currFocusItemIndex;
 
-  getItems = () => this.props.items;
+  getItems = () => this.props.expandedItems;
 
   render() {
     const {
-      items,
-      onFocusIndex,
+      expandedItems,
+      onFocusItem,
       topNode,
       bottomNode,
       isFloatRight,
-      floatNavWidth,
-      width,
-      focusItem,
+      expandedWidth,
+      initWidth,
+      focusItemIndex,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const { currFocusItem, hoverItem, hoverIndexArray } = this.state;
+    const { currFocusItemIndex, hoverItem, hoverIndexArray } = this.state;
     const itemStyle = theme.prepareStyles({
       display: "flex",
       flexDirection: "row",
@@ -83,12 +122,16 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
       transition: "all .25s 0s cubic-bezier(.04, .89, .44, 1.07)",
       fontSize: 12
     });
+    const staticButtonStyle: React.CSSProperties = {
+      background: theme.accent,
+      color: "#fff"
+    };
 
     return (
       <div
         {...attributes}
         style={theme.prepareStyles({
-          width: 40,
+          width: 48,
           background: theme.altHigh,
           ...attributes.style
         })}
@@ -96,7 +139,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
         <div
           {...attributes}
           style={theme.prepareStyles({
-            width,
+            width: initWidth,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -108,18 +151,19 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
               key={`${index}`}
               style={theme.prepareStyles({
                 ...itemStyle,
-                width,
-                height: width
+                width: initWidth,
+                height: initWidth
+                // ...(child.type === IconButton ? staticButtonStyle : void 0)
               })}
             >
-              {React.cloneElement(child, { style: { ...child.props.style, width, height: width } })}
+              {React.cloneElement(child, { style: { ...child.props.style, width: initWidth, height: initWidth } })}
             </div>
           ))}
-          {items.map((item, index) => {
-            const { showNode, color, title } = item;
-            const isFirst = currFocusItem === index;
+          {expandedItems.map((item, index) => {
+            const { iconNode, focusColor, title, href } = item;
+            const isFirst = currFocusItemIndex === index;
             const isHovered = hoverItem === index;
-            const padding = Number.parseInt(width.toString()) / 2;
+            const padding = initWidth / 2;
             return (
               <a
                 onMouseEnter={(e) => {
@@ -130,7 +174,8 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
                   hoverIndexArray[index] = false;
                   this.setState({ hoverItem: void(0), hoverIndexArray });
                 }}
-                onClick={() => { onFocusIndex(index); }}
+                href={href}
+                onClick={() => { onFocusItem(index); }}
                 style={theme.prepareStyles({
                   overflow: "hidden",
                   display: "flex",
@@ -141,30 +186,18 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
                   transition: "all .25s 0s ease-in-out",
                   color: hoverIndexArray[index] ? "#fff" : theme.baseHigh,
                   textDecoration: "none",
-                  background: (isFirst || isHovered) ? (theme.accent || color) : theme.altHigh,
-                  width: hoverIndexArray[index] ? floatNavWidth : width,
-                  height: width
+                  background: (isFirst || isHovered) ? (theme.accent || focusColor) : theme.altHigh,
+                  width: hoverIndexArray[index] ? expandedWidth : initWidth,
+                  height: initWidth
                 })}
                 key={`${index}`}
               >
-                {isHovered && <span style={{ cursor: "default", color: "#fff", margin: `0 ${padding}px` }}>{title}</span>}
-                {typeof showNode === "string"
-                  ?
-                  <div
-                    style={theme.prepareStyles({
-                      transition: [
-                        "width cubic-bezier(.04, .89, .44, 1.07),",
-                        "opacity cubic-bezier(.04, .89, .44, 1.07),",
-                        "visibility cubic-bezier(.04, .89, .44, 1.07)"
-                      ].join(""),
-                      width,
-                      height: padding,
-                      background: `url(${showNode}) no-repeat center center / contain`,
-                      filter: isHovered ? "brightness(100)" : void 0
-                    })}
-                  />
-                  : React.cloneElement(showNode, { style: { ...showNode.props.style, width, height: width } })
-                }
+                {isHovered && <span style={{ cursor: "default", color: "#fff", margin: `0 ${padding}px`, whiteSpace: "nowrap" }}>{title}</span>}
+                {iconNode.type === IconButton ? (
+                  React.cloneElement(iconNode, {
+                    style: { color: hoverIndexArray[index] || isFirst ? "#fff" : theme.baseHigh }
+                  })
+                ) : iconNode}
               </a>
             );
           })}
@@ -173,11 +206,12 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
               key={`${index}`}
               style={theme.prepareStyles({
                 ...itemStyle,
-                width,
-                height: width
+                width: initWidth,
+                height: initWidth
+                // ...(child.type === IconButton ? staticButtonStyle : void 0)
               })}
             >
-              {React.cloneElement(child, { style: { ...child.props.style, width, height: width } })}
+              {React.cloneElement(child, { style: { ...child.props.style, width: initWidth, height: initWidth } })}
             </div>
           ))}
         </div>

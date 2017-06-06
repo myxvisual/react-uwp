@@ -155,7 +155,6 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
                 ScrollChevronUpLegacy
               </IconButton>
             ]}
-            floatNavWidth={200}
           />
         </div>
       </div>
