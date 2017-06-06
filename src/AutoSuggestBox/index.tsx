@@ -7,13 +7,13 @@ import ListView from "../ListView";
 
 export interface DataProps {
   /**
-   * `AutoSuggestBox` onChange callback.
-   */
-  onChangeValue?: (value: string) => void;
-  /**
    * Array of strings or nodes used to populate the list.
    */
   listSource?: React.ReactNode[];
+  /**
+   * `AutoSuggestBox` onChange callback.
+   */
+  onChangeValue?: (value: string) => void;
   /**
    * Array of strings or nodes used to populate the list.
    */
@@ -31,7 +31,6 @@ export interface DataProps {
 export interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface AutoSuggestBoxState {
-  currListSource?: React.ReactNode[];
   typing?: boolean;
   showListSource?: boolean;
   focusListSourceIndex?: number;
@@ -47,7 +46,6 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   };
 
   state: AutoSuggestBoxState = {
-    currListSource: this.props.listSource
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -63,10 +61,6 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   componentDidMount() {
     document.addEventListener("click", this.checkLayerClick);
     document.addEventListener("keydown", this.checkLayerKeydown);
-  }
-
-  componentWillReceiveProps(nextProps: AutoSuggestBoxProps) {
-    this.setState({ currListSource: nextProps.listSource });
   }
 
   componentWillUnmount() {
@@ -159,10 +153,10 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 
   handleInputKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const { keyCode } = e;
-    let { focusListSourceIndex, currListSource, showListSource } = this.state;
+    let { focusListSourceIndex, showListSource } = this.state;
     const { searchAction } = this.props;
     let listSourceSize: number;
-    if (currListSource && (listSourceSize = currListSource.length) && showListSource) {
+    if (listSourceSize && showListSource) {
       switch (keyCode) {
         case 38: {
           if (focusListSourceIndex === void 0) {
@@ -216,7 +210,6 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
     } = this.props;
     const {
       typing,
-      currListSource,
       focusListSourceIndex
     } = this.state;
     const styles = getStyles(this);
@@ -238,11 +231,11 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
         )}
         onChange={this.handleChange}
       >
-        {currListSource && currListSource.length > 0 && (
+        {listSource && listSource.length > 0 && (
           <ListView
             ref={listView => this.listView = listView}
             style={styles.listView}
-            listSource={currListSource.map((itemNode, index) => ({
+            listSource={listSource.map((itemNode, index) => ({
               itemNode,
               focus: index === focusListSourceIndex
             }))}

@@ -26,11 +26,11 @@ export interface FloatNavState {
   hoverIndexArray?: boolean[];
 }
 
-export default class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
+export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
   static defaultProps: FloatNavProps = {
     onFocusIndex: () => {},
     items: [],
-    width: 40,
+    width: 48,
     isFloatRight: true,
     floatNavWidth: 240
   };
@@ -185,3 +185,5 @@ export default class FloatNav extends React.Component<FloatNavProps, FloatNavSta
     );
   }
 }
+
+export default FloatNav;

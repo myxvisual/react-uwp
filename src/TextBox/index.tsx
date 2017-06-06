@@ -106,7 +106,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       ...attributes
     } = this.props;
     const { hovered, focused } = this.state;
-    const haveChild = leftNode || rightNode;
+    const haveChild = leftNode || rightNode || children;
     const { theme } = this.context;
     const currBackground = (background === void 0 ? theme.altHigh : background);
 
@@ -165,6 +165,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       >
         {leftNode}
         {normalRender}
+        {children}
         {rightNode}
       </div>
     ) : normalRender;
