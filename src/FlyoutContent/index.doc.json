@@ -57,6 +57,18 @@
           "type": "boolean"
         },
         {
+          "name": "autoClose",
+          "documentation": "After showed the flyout, auto hidden Flyout.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "autoCloseTimeout",
+          "documentation": "Set `autoClose` timeout.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
           "name": "enterDelay",
           "documentation": "In `props.isControlled === false`, this will control `FlyoutContent` fade in timer.",
           "isRequired": false,
@@ -106,7 +118,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    verticalPosition: \"top\",\n    horizontalPosition: \"center\",\n    margin: 4,\n    isControlled: false,\n    enterDelay: 0,\n    onMouseLeave: emptyFunc,\n    onMouseEnter: emptyFunc\n  }",
+          "initializerText": " {\n    verticalPosition: \"top\",\n    horizontalPosition: \"center\",\n    margin: 4,\n    isControlled: false,\n    enterDelay: 0,\n    onMouseLeave: emptyFunc,\n    onMouseEnter: emptyFunc,\n    autoClose: false,\n    autoCloseTimeout: 1250\n  }",
           "documentation": "",
           "type": "FlyoutContentProps"
         },
@@ -130,6 +142,18 @@
           "type": "HTMLDivElement"
         },
         {
+          "name": "autoHideTimer",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "hideTimer",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "any"
+        },
+        {
           "name": "context",
           "documentation": "",
           "type": "{ theme: any; }"
@@ -151,13 +175,13 @@
         },
         {
           "name": "showFlyoutContent",
-          "initializerText": " () => this.toggleShowFlyoutContent(true)",
+          "initializerText": " () => {\n    clearTimeout(this.autoHideTimer);\n    clearTimeout(this.hideTimer);\n    this.toggleShowFlyoutContent(true);\n    let now = Date.now();\n    if (this.props.autoClose) {\n      this.autoHideTimer = setTimeout(() => {\n        console.log(Date.now() - now, this.props.autoCloseTimeout);\n        this.hideFlyoutContent();\n      }, this.props.autoCloseTimeout);\n    }\n  }",
           "documentation": "",
           "type": "() => void"
         },
         {
           "name": "hideFlyoutContent",
-          "initializerText": " () => this.toggleShowFlyoutContent(false)",
+          "initializerText": " () => {\n    this.hideTimer = setTimeout(() => {\n      this.toggleShowFlyoutContent(false);\n    }, 250);\n  }",
           "documentation": "",
           "type": "() => void"
         },
@@ -169,7 +193,7 @@
         },
         {
           "name": "getStyle",
-          "initializerText": " (showFlyoutContent = this.state.showFlyoutContent, positionStyle = {}): React.CSSProperties => {\n    const { context: { theme }, props: { style } } = this;\n    const enterDelay = showFlyoutContent ? this.props.enterDelay : 0;\n    return theme.prepareStyles({\n      width: 280,\n\n      boxSizing: \"content-box\",\n      padding: 8,\n      border: `1px solid ${showFlyoutContent ? theme.listAccentLow : theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: theme.chromeLow,\n      pointerEvents: showFlyoutContent ? \"all\" : \"none\",\n      opacity: showFlyoutContent ? 1 : 0,\n      transform: `translateY(${showFlyoutContent ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      zIndex: theme.zIndex.FlyoutContent,\n      transition: `transform .25s ${ enterDelay}ms ease-in-out, opacity .25s ${enterDelay}ms ease-in-out, border ${enterDelay}ms .25s ease-in-out`,\n      ...positionStyle,\n      ...style\n    });\n  }",
+          "initializerText": " (showFlyoutContent = this.state.showFlyoutContent, positionStyle = {}): React.CSSProperties => {\n    const { context: { theme }, props: { style } } = this;\n    const enterDelay = showFlyoutContent ? this.props.enterDelay : 0;\n    return theme.prepareStyles({\n      width: 280,\n\n      boxSizing: \"content-box\",\n      padding: 8,\n      border: `1px solid ${theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: theme.chromeLow,\n      pointerEvents: showFlyoutContent ? \"all\" : \"none\",\n      opacity: showFlyoutContent ? 1 : 0,\n      transform: `translateY(${showFlyoutContent ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      zIndex: theme.zIndex.FlyoutContent,\n      transition: `transform .25s ${ enterDelay}ms ease-in-out, opacity .25s ${enterDelay}ms ease-in-out, border ${enterDelay}ms .25s ease-in-out`,\n      ...positionStyle,\n      ...style\n    });\n  }",
           "documentation": "",
           "type": "(showFlyoutContent?: boolean, positionStyle?: {}) => CSSProperties"
         },
@@ -187,13 +211,13 @@
         },
         {
           "name": "handelMouseEnter",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => this.showFlyoutContent()",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    clearTimeout(this.autoHideTimer);\n    clearTimeout(this.hideTimer);\n    e.currentTarget.style.border = `1px solid ${this.context.theme.listAccentLow}`;\n    if (!this.props.isControlled) this.showFlyoutContent();\n    this.props.onMouseEnter(e);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handelMouseLeave",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => this.hideFlyoutContent()",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;\n    this.hideFlyoutContent();\n    this.props.onMouseLeave(e);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },

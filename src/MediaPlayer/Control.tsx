@@ -143,7 +143,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
                 Volume
               </IconButton>
               <FlyoutContent
-                style={{ width: 298 }}
+                style={{ width: void 0 }}
                 isControlled
                 show={showVolumeSlider}
                 verticalPosition="top"

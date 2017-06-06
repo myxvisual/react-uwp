@@ -24,6 +24,14 @@ export interface DataProps {
    */
   isControlled?: boolean;
   /**
+   * After showed the flyout, auto hidden Flyout.
+   */
+  autoClose?: boolean;
+  /**
+   * Set `autoClose` timeout.
+   */
+  autoCloseTimeout?: number;
+  /**
    * In `props.isControlled === false`, this will control `FlyoutContent` fade in timer.
    */
   enterDelay?: number;
@@ -42,7 +50,9 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     isControlled: false,
     enterDelay: 0,
     onMouseLeave: emptyFunc,
-    onMouseEnter: emptyFunc
+    onMouseEnter: emptyFunc,
+    autoClose: false,
+    autoCloseTimeout: 1250
   };
 
   state: FlyoutContentState = {
@@ -50,6 +60,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
   };
   rootElm: HTMLDivElement;
   autoHideTimer: any = null;
+  hideTimer: any = null;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -76,9 +87,23 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     }
   }
 
-  showFlyoutContent = () => this.toggleShowFlyoutContent(true);
+  showFlyoutContent = () => {
+    clearTimeout(this.autoHideTimer);
+    clearTimeout(this.hideTimer);
+    this.toggleShowFlyoutContent(true);
+    let now = Date.now();
+    if (this.props.autoClose) {
+      this.autoHideTimer = setTimeout(() => {
+        this.hideFlyoutContent();
+      }, this.props.autoCloseTimeout);
+    }
+  }
 
-  hideFlyoutContent = () => this.toggleShowFlyoutContent(false);
+  hideFlyoutContent = () => {
+    this.hideTimer = setTimeout(() => {
+      this.toggleShowFlyoutContent(false);
+    }, 250);
+  }
 
   toggleShowFlyoutContent = (showFlyoutContent?: boolean) => {
     if (typeof showFlyoutContent === "boolean") {
@@ -176,6 +201,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
 
   handelMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     clearTimeout(this.autoHideTimer);
+    clearTimeout(this.hideTimer);
     e.currentTarget.style.border = `1px solid ${this.context.theme.listAccentLow}`;
     if (!this.props.isControlled) this.showFlyoutContent();
     this.props.onMouseEnter(e);
@@ -183,11 +209,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
 
   handelMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;
-    if (!this.props.isControlled) {
-      this.autoHideTimer = setTimeout(() => {
-        this.hideFlyoutContent();
-      }, 2000);
-    }
+    this.hideFlyoutContent();
     this.props.onMouseLeave(e);
   }
 
@@ -199,6 +221,8 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
       margin,
       horizontalPosition,
       show,
+      autoClose,
+      autoCloseTimeout,
       children,
       ...attributes
     } = this.props;
