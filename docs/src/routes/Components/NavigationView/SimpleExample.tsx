@@ -56,7 +56,7 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
 
         <div>
           <NavigationView
-            style={{ height: 640, ...baseStyle }}
+            style={{ width: 640, height: 640, ...baseStyle }}
             pageTitle="San Francisco"
             displayMode="compact"
             autoResize={false}
@@ -65,7 +65,7 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
             navigationBottomNodes={navigationBottomNode}
             focusNavigationNodeIndex={2}
           >
-            <Content />
+            <img src={require("./components/images/golden-gate-bridge-2037990_1280.jpg")} height="100%" style={{ objectFit: "cover" }} />
           </NavigationView>
         </div>
 

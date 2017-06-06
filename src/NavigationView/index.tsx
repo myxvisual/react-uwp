@@ -266,7 +266,17 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
             </div>
           </div>
         </div>
-        {children}
+        {isCompact ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              overflow: "hidden"
+            }}
+          >
+            {children}
+          </div>
+        ) : children}
       </div>
     );
 
@@ -345,6 +355,8 @@ function getStyles(NavigationView: NavigationView): {
       width: isMinimal ? "100%" : (isOverLay ? currInitWidth : (expanded ? expandedWidth : currInitWidth)),
       height: isMinimal ? currInitWidth : "100%",
       zIndex: isOverLay || isMinimal ? 1 : void 0,
+      position: isOverLay ? "absolute" : void 0,
+      top: isOverLay ? 0 : void 0,
       background: isMinimal ? currBackground : void 0,
       transition
     }),
