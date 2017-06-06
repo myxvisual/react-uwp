@@ -241,8 +241,8 @@ return (
   font-weight: inherit;
 }
 
-.${className} p > code {
-  border: 1px solid ${theme.listLow};
+.${className} p > code, .${className} h1 > code, .${className} h2 > code, .${className} h3 > code, .${className} h4 > code, .${className} h5 > code, .${className} h6 > code {
+  background: ${theme.altMedium};
 }
 
 code[class*="language-"], pre[class*="language-"] {

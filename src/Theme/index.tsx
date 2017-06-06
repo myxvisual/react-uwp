@@ -66,7 +66,7 @@ body {
   border-radius: none;
 }`;
 
-export default class Theme extends React.Component<ThemeProps, ThemeState> {
+export class Theme extends React.Component<ThemeProps, ThemeState> {
   static childContextTypes = {
     theme: PropTypes.object
   };
@@ -178,3 +178,5 @@ export default class Theme extends React.Component<ThemeProps, ThemeState> {
     );
   }
 }
+
+export default Theme;

@@ -1,0 +1,170 @@
+{
+  "fileName": "D:/react-uwp/src/Theme/index.tsx",
+  "name": "\"D:/react-uwp/src/Theme/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "ThemeProps",
+      "documentation": ""
+    },
+    {
+      "name": "ThemeState",
+      "documentation": ""
+    },
+    {
+      "name": "Theme",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "Theme"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "theme",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        },
+        {
+          "name": "autoSaveTheme",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ThemeProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "ThemeState",
+      "members": [
+        {
+          "name": "currTheme",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "customLocalStorageName",
+      "type": "\"__REACT_UWP__\"",
+      "initializerText": " \"__REACT_UWP__\""
+    },
+    {
+      "name": "customLocalStorageName",
+      "documentation": "",
+      "type": "\"__REACT_UWP__\""
+    },
+    {
+      "documentation": "",
+      "name": "themeClassName",
+      "type": "\"react-uwp-theme\"",
+      "initializerText": " \"react-uwp-theme\""
+    },
+    {
+      "name": "themeClassName",
+      "documentation": "",
+      "type": "\"react-uwp-theme\""
+    },
+    {
+      "documentation": "",
+      "name": "getBaseCSSString",
+      "type": "(theme: any) => string",
+      "initializerText": " (theme: ReactUWP.ThemeType) => `.${themeClassName} * {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\n*::-webkit-scrollbar {\n  -webkit-appearance: none\n}\n\n*::-webkit-scrollbar-track {\n  background-color: ${theme.chromeLow};\n}\n\n*::-webkit-scrollbar:vertical {\n  width: 6px;\n}\n\n*::-webkit-scrollbar:horizontal {\n  height: 6px\n}\n\n*::-webkit-scrollbar-thumb {\n  background-color: ${theme.baseMediumLow};\n}\n\nbody {\n  margin: 0;\n}\n\n.${themeClassName} *:after, *:before {\n  box-sizing: border-box;\n}\n\n.${themeClassName} {\n  -webkit-text-size-adjust: none;\n}\n\n.${themeClassName} {\n  -webkit-font-smoothing: antialiased;\n  text-rendering: optimizeLegibility;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.${themeClassName} input, .${themeClassName} textarea {\n  box-shadow: none;\n  border-radius: none;\n}`"
+    },
+    {
+      "name": "getBaseCSSString",
+      "documentation": "",
+      "type": "(theme: any) => string"
+    },
+    {
+      "name": "Theme",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "childContextTypes",
+          "initializerText": " {\n    theme: PropTypes.object\n  }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "updateBaseCSS",
+          "initializerText": " (init = false) => {\n    const styleSheetClassName = `.${themeClassName}-style-sheet`;\n    let styleSheet = document.querySelector(styleSheetClassName);\n    const CSSString = getBaseCSSString(this.state.currTheme);\n    if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};\n    if (styleSheet || window.__REACT_UWP__.baseCSSRequired) {\n      if (styleSheet) {\n        styleSheet.innerHTML = CSSString;\n      } else return;\n    } else {\n      styleSheet = document.createElement(\"style\");\n      styleSheet.className = styleSheetClassName;\n      styleSheet.innerHTML = CSSString;\n      document.head.appendChild(styleSheet);\n      window.__REACT_UWP__.baseCSSRequired = true;\n    }\n  }",
+          "documentation": "",
+          "type": "(init?: boolean) => void"
+        },
+        {
+          "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: ThemeProps) => void"
+        },
+        {
+          "name": "saveTheme",
+          "initializerText": " (currTheme?: ReactUWP.ThemeType) => {\n    currTheme.saveTheme = this.saveTheme;\n    localStorage.setItem(customLocalStorageName, JSON.stringify({\n      themeName: currTheme.themeName,\n      accent: currTheme.accent\n    }));\n    this.setState({\n      currTheme\n    });\n  }",
+          "documentation": "",
+          "type": "(currTheme?: any) => void"
+        },
+        {
+          "name": "getDefaultTheme",
+          "initializerText": " () => {\n    let theme: ReactUWP.ThemeType;\n\n    if (this.props.autoSaveTheme) {\n      const storageString = localStorage.getItem(customLocalStorageName);\n      if (storageString) {\n        let data: any = {};\n        try {\n          data = JSON.parse(storageString);\n          theme = getTheme(data.themeName, data.accent);\n        } catch (error) {\n          theme = darkTheme;\n        }\n      } else {\n        theme = darkTheme;\n      }\n      theme.saveTheme = this.saveTheme;\n    } else {\n      theme = this.props.theme || darkTheme;\n    }\n    return theme;\n  }",
+          "documentation": "",
+          "type": "() => any"
+        },
+        {
+          "name": "state",
+          "initializerText": " {\n    currTheme: this.getDefaultTheme()\n  }",
+          "documentation": "",
+          "type": "ThemeState"
+        },
+        {
+          "name": "getChildContext",
+          "documentation": "",
+          "type": "() => { theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Theme/index\""
+}
