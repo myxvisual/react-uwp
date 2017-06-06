@@ -7,7 +7,7 @@ export interface DataProps {
   /**
    * Checkbox is checked if `true`.
    */
-  isChecked?: true | false | null;
+  defaultChecked?: true | false | null;
   /**
    * `Callback` function that is fired when the checkbox is checked.
    */
@@ -33,7 +33,7 @@ const emptyFunc = () => {};
 
 export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
   static defaultProps: CheckBoxProps = {
-    isChecked: null,
+    defaultChecked: null,
     onCheck: emptyFunc,
     onClick: emptyFunc,
     size: 20,
@@ -42,7 +42,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
   };
 
   state: CheckBoxState = {
-    checked: this.props.isChecked
+    checked: this.props.defaultChecked
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -54,19 +54,20 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
   rootElm: HTMLDivElement;
 
   componentWillReceiveProps(nextProps: CheckBoxProps) {
-    this.setState({
-      checked: this.props.isChecked
-    });
+    this.setState((prevState, prevProps) => ({
+      checked: nextProps.defaultChecked
+    }));
   }
 
   /**
    * `Public` Toggle Checked Method.
    */
   toggleChecked = (e?: React.SyntheticEvent<HTMLDivElement>) => {
+    let checked: boolean;
     this.setState((prevState, prevProps) => {
-      this.props.onCheck(!prevState.checked);
-      return { checked: !prevState.checked };
-    });
+      checked = !prevState.checked;
+      return { checked };
+    }, () => this.props.onCheck(checked));
   }
 
   handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -85,7 +86,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
 
   render() {
     const {
-      isChecked, // tslint:disable-line:no-unused-variable
+      defaultChecked, // tslint:disable-line:no-unused-variable
       onCheck, // tslint:disable-line:no-unused-variable
       label,
       labelPosition, // tslint:disable-line:no-unused-variable

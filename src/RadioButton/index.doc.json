@@ -31,7 +31,7 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "isChecked",
+          "name": "defaultChecked",
           "documentation": "Default checked status.",
           "isRequired": false,
           "type": "boolean"
@@ -130,7 +130,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    currChecked: this.props.isChecked\n  }",
+          "initializerText": " {\n    currChecked: this.props.defaultChecked\n  }",
           "documentation": "",
           "type": "RadioButtonState"
         },

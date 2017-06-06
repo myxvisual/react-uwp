@@ -1,6 +1,6 @@
 {
-  "fileName": "D:/electron-app-dev/src/react-uwp/src/controls/CheckBox/index.tsx",
-  "name": "\"D:/electron-app-dev/src/react-uwp/src/controls/CheckBox/index\"",
+  "fileName": "D:/react-uwp/src/CheckBox/index.tsx",
+  "name": "\"D:/react-uwp/src/CheckBox/index\"",
   "exports": [
     {
       "name": "DataProps",
@@ -31,7 +31,7 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "isChecked",
+          "name": "defaultChecked",
           "documentation": "Checkbox is checked if `true`.",
           "isRequired": false,
           "type": "boolean"
@@ -47,6 +47,12 @@
           "documentation": "If use `label`, `labelPosition` to control label position.",
           "isRequired": false,
           "type": "\"left\" | \"right\""
+        },
+        {
+          "name": "background",
+          "documentation": "Set custom background to CheckBbox.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""
@@ -69,7 +75,7 @@
           "type": "boolean"
         },
         {
-          "name": "hover",
+          "name": "hovered",
           "documentation": "",
           "isRequired": false,
           "type": "boolean"
@@ -98,13 +104,13 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n\t\tisChecked: null,\n\t\tonCheck: emptyFunc,\n\t\tonClick: emptyFunc,\n\t\tsize: 20,\n\t\tlabelPosition: \"right\",\n\t\tlabel: void 0\n\t}",
+          "initializerText": " {\n    defaultChecked: null,\n    onCheck: emptyFunc,\n    onClick: emptyFunc,\n    size: 20,\n    labelPosition: \"right\",\n    label: void 0\n  }",
           "documentation": "",
           "type": "CheckBoxProps"
         },
         {
           "name": "contextTypes",
-          "initializerText": " { theme: React.PropTypes.object }",
+          "initializerText": " { theme: PropTypes.object }",
           "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
@@ -112,14 +118,14 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n\t\tchecked: this.props.isChecked\n\t}",
+          "initializerText": " {\n    checked: this.props.defaultChecked\n  }",
           "documentation": "",
           "type": "CheckBoxState"
         },
         {
           "name": "context",
           "documentation": "",
-          "type": "{ theme: ThemeType; }"
+          "type": "{ theme: any; }"
         },
         {
           "name": "rootElm",
@@ -133,25 +139,25 @@
         },
         {
           "name": "toggleChecked",
-          "initializerText": " (e?: React.SyntheticEvent<HTMLDivElement>) => {\n\t\tthis.setState((prevState, prevProps) => {\n\t\t\tthis.props.onCheck(!prevState.checked);\n\t\t\treturn { checked: !prevState.checked };\n\t\t});\n\t}",
+          "initializerText": " (e?: React.SyntheticEvent<HTMLDivElement>) => {\n    let checked: boolean;\n    this.setState((prevState, prevProps) => {\n      checked = !prevState.checked;\n      return { checked };\n    }, () => this.props.onCheck(checked));\n  }",
           "documentation": "`Public` Toggle Checked Method.",
           "type": "(e?: SyntheticEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleClick",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n\t\tconst { disabled, onClick } = this.props;\n\t\tif (!disabled) this.toggleChecked(e);\n\t\tonClick(e);\n\t}",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    const { disabled, onClick } = this.props;\n    if (!disabled) this.toggleChecked(e);\n    onClick(e);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleMouseEnter",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n\t\tthis.setState({ hover: true });\n\t}",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: true });\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleMouseLeave",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n\t\tthis.setState({ hover: false });\n\t}",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: false });\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
@@ -169,9 +175,9 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(checkBox: CheckBox) => { root?: CSSProperties; iconParent?: CSSProperties; icon?: CSSProperties;..."
+      "type": "(checkBox: CheckBox) => { root?: CSSProperties; iconParent?: { style?: CSSProperties; hoverStyle?..."
     }
   ],
   "documentation": "",
-  "type": "typeof \"D:/electron-app-dev/src/react-uwp/src/controls/CheckBox/index\""
+  "type": "typeof \"D:/react-uwp/src/CheckBox/index\""
 }

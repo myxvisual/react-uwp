@@ -12,32 +12,32 @@ export default class SimpleExample extends React.Component<{}, void> {
         <div>
           <CheckBox
             style={checkBoxStyle}
-            isChecked
+            defaultChecked
           />
           <CheckBox
             style={checkBoxStyle}
-            isChecked={false}
+            defaultChecked={false}
           />
           <CheckBox
             style={checkBoxStyle}
-            isChecked={null}
+            defaultChecked={null}
           />
         </div>
 
         <div>
           <CheckBox
             style={checkBoxStyle}
-            isChecked
+            defaultChecked
             label="Checked"
           />
           <CheckBox
             style={checkBoxStyle}
-            isChecked={false}
+            defaultChecked={false}
             label="UnChecked"
           />
           <CheckBox
             style={checkBoxStyle}
-            isChecked={null}
+            defaultChecked={null}
             label="UnSure"
           />
         </div>
@@ -45,21 +45,21 @@ export default class SimpleExample extends React.Component<{}, void> {
         <div>
           <CheckBox
             style={checkBoxStyle}
-            isChecked
+            defaultChecked
             disabled
             label="Disabled"
             labelPosition="left"
           />
           <CheckBox
             style={checkBoxStyle}
-            isChecked={false}
+            defaultChecked={false}
             disabled
             label="Disabled"
             labelPosition="left"
           />
           <CheckBox
             style={checkBoxStyle}
-            isChecked={null}
+            defaultChecked={null}
             disabled
             label="Disabled"
             labelPosition="left"

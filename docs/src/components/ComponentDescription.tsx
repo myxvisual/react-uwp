@@ -20,6 +20,7 @@ export interface DocEntry {
 }
 export interface DataProps {
   docEntry?: DocEntry;
+  renderOtherTypes?: string[];
 }
 
 export interface ComponentDescriptionProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -121,6 +122,24 @@ export default class ComponentDescription extends React.Component<ComponentDescr
     };
   }
 
+  getTypeDoc = (typeName: string) => {
+    const { docEntry } = this.props;
+    const membersSize = docEntry.members.length;
+    let interfaceType: DocEntry[] = [];
+
+    for (let i = 0; i < membersSize; i++) {
+      let findInterface = false;
+
+      if (docEntry.members[i].name === typeName) {
+        interfaceType = docEntry.members[i].members;
+        findInterface = true;
+      }
+
+      if (findInterface) break;
+    }
+    return interfaceType;
+  }
+
   members2MarkdownText = (members: DocEntry[], getProps = false) => {
     if (!members) return "";
 
@@ -146,6 +165,7 @@ ${planeText}
   render() {
     const {
       docEntry, // tslint:disable-line:no-unused-variable
+      renderOtherTypes,
       ...attributes
     } = this.props;
     const { componentMembers, dataProps } = this.getMembersAndDataProps();
@@ -168,6 +188,12 @@ ${planeText}
         >
           Other Props is HTMLAttributes will are applied to the root element.
         </p>
+        {renderOtherTypes && renderOtherTypes.map((otherType, index) => (
+          <div key={`${index}`}>
+            <p style={styles.head}>{otherType}</p>
+            <MarkdownRender text={this.members2MarkdownText(this.getTypeDoc(otherType), true)} />
+          </div>
+        ))}
         <p style={styles.head}>Members</p>
         <MarkdownRender text={this.members2MarkdownText(componentMembers)} />
       </div>

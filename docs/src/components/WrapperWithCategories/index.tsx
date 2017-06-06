@@ -59,16 +59,18 @@ function setListItemsUrl(path = "/") {
     }
 
     const parentUrlNow = `${listData.parentUrl}/${title}`;
-    listData.titleNode = <Link style={{ color: "inherit", textDecoration: "inherit" }} to={parentUrlNow}>{listData.titleNode}</Link>;
+    if (typeof listData.titleNode === "string") {
+      listData.titleNode = <Link style={{ color: "inherit", textDecoration: "inherit" }} to={parentUrlNow}>{listData.titleNode}</Link>;
+    }
     listData.onClick = () => {
       browserHistory.push(parentUrlNow);
     };
     listData.style = {
       textDecoration: "inherit"
-    } as React.CSSProperties;
+    };
     listData.hoverStyle = {
       textDecoration: "underline"
-    } as CSSStyleDeclaration;
+    };
     if (listData.children) {
       listData.children.forEach((item: any) => {
         item.parentUrl = parentUrlNow;
@@ -190,14 +192,11 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
               onChangeValue={this.handleChangeValue}
             />
             <TreeView
-              listSource={listItems as any}
-              listItemHeight={32}
-              childPadding={20}
+              itemHeight={32}
+              itemPadding={20}
               iconPadding={2}
+              listSource={listItems as any}
               showFocus={showFocus}
-              titleNodeStyle={{
-                fontSize: 14
-              }}
               style={{
                 maxHeight: "100%"
               }}

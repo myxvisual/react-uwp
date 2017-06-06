@@ -9,6 +9,7 @@ export interface ComponentDetailProps {
   docEntry?: any;
   readmeText?: string;
   children?: any;
+  renderOtherTypes?: string[];
 }
 
 export default class ComponentDetail extends React.Component<ComponentDetailProps, void> {
@@ -17,7 +18,7 @@ export default class ComponentDetail extends React.Component<ComponentDetailProp
   };
 
   render() {
-    const { title, docEntry, readmeText, children, ...attributes } = this.props;
+    const { title, docEntry, readmeText, children, renderOtherTypes, ...attributes } = this.props;
     return (
       <div>
         <Title render={title} />
@@ -25,7 +26,7 @@ export default class ComponentDetail extends React.Component<ComponentDetailProp
           <MarkdownRender text={readmeText} />
           {children}
           {docEntry && (
-            <ComponentDescription docEntry={docEntry} />
+            <ComponentDescription renderOtherTypes={renderOtherTypes} docEntry={docEntry} />
           )}
         </div>
       </div>

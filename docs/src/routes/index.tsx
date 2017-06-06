@@ -329,6 +329,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-TextBox");
         }
       }, {
+        path: "TreeView",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/TreeView").default);
+          }, "react-uwp-Components-TreeView");
+        }
+      }, {
         path: "ProgressBar",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

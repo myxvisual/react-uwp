@@ -175,7 +175,7 @@
         },
         {
           "name": "showFlyoutContent",
-          "initializerText": " () => {\n    clearTimeout(this.autoHideTimer);\n    clearTimeout(this.hideTimer);\n    this.toggleShowFlyoutContent(true);\n    let now = Date.now();\n    if (this.props.autoClose) {\n      this.autoHideTimer = setTimeout(() => {\n        console.log(Date.now() - now, this.props.autoCloseTimeout);\n        this.hideFlyoutContent();\n      }, this.props.autoCloseTimeout);\n    }\n  }",
+          "initializerText": " () => {\n    clearTimeout(this.autoHideTimer);\n    clearTimeout(this.hideTimer);\n    this.toggleShowFlyoutContent(true);\n    let now = Date.now();\n    if (this.props.autoClose) {\n      this.autoHideTimer = setTimeout(() => {\n        this.hideFlyoutContent();\n      }, this.props.autoCloseTimeout);\n    }\n  }",
           "documentation": "",
           "type": "() => void"
         },

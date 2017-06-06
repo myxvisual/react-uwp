@@ -35,9 +35,17 @@ export interface DataProps {
    */
   onChangeValue?: (value?: number) => void;
   /**
+   * After finished onChangeValue callback.
+   */
+  onChangedValue?: (value?: number) => void;
+  /**
    * onChangeValueRatio callback.
    */
   onChangeValueRatio?: (valueRatio?: number) => void;
+  /**
+   * After finished onChangeValueRatio callback.
+   */
+  onChangedValueRatio?: (value?: number) => void;
   /**
    * Set custom Slider bar Hight.
    */
@@ -84,7 +92,9 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     maxValue: 1,
     initValue: 0,
     onChangeValue: emptyFunc,
+    onChangedValue: emptyFunc,
     onChangeValueRatio: emptyFunc,
+    onChangedValueRatio: emptyFunc,
     height: 24,
     barHeight: 2,
     controllerWidth: 8,
@@ -102,6 +112,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
   };
   throttleNow: number = null;
   throttleNowTimer: any = null;
+  onChangedValueTimer: any = null;
   rootElm: HTMLDivElement;
   labelElm: HTMLSpanElement;
   controllerWrapperElm: HTMLDivElement;
@@ -112,6 +123,11 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     if (this.state.currValue !== nextProps.initValue) {
       this.setState({ currValue: nextProps.initValue });
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.throttleNowTimer);
+    clearTimeout(this.onChangedValueTimer);
   }
 
   static contextTypes = { theme: PropTypes.object };
@@ -129,6 +145,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   handelMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    this.setValueByEvent(e);
     Object.assign(document.body.style, {
       userSelect: "none",
       msUserSelect: "none",
@@ -153,6 +170,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   setValueByEvent = (e: any, type?: any) => {
+    clearTimeout(this.onChangedValueTimer);
     if (e.type === "mousemove" && !this.state.dragging) {
       this.setState({ dragging: true });
     }
@@ -173,7 +191,10 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       barBackgroundImage,
       label,
       numberToFixed,
-      unit
+      unit,
+      onChangeValue,
+      onChangedValue,
+      onChangeValueRatio
     } = this.props;
     const useCustomBackground = barBackground || barBackgroundImage;
     const { left, width } = this.rootElm.getBoundingClientRect();
@@ -205,7 +226,17 @@ export class Slider extends React.Component<SliderProps, SliderState> {
 
     if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;
 
-    this.props.onChangeValue(currValue);
+    if (e.type === "mousedown") {
+      this.setState({ currValue });
+    }
+    onChangeValue(currValue);
+    onChangeValueRatio(valueRatio);
+    this.state.currValue = currValue;
+    this.onChangedValueTimer = setTimeout(() => {
+      this.setState({ currValue });
+      onChangedValue(currValue);
+      onChangeValueRatio(valueRatio);
+    }, 500);
   }
 
   render() {
@@ -215,6 +246,8 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       initValue, // tslint:disable-line:no-unused-variable
       onChangeValue, // tslint:disable-line:no-unused-variable
       onChangeValueRatio, // tslint:disable-line:no-unused-variable
+      onChangedValue, // tslint:disable-line:no-unused-variable
+      onChangedValueRatio, // tslint:disable-line:no-unused-variable
       barHeight, // tslint:disable-line:no-unused-variable
       controllerWidth, // tslint:disable-line:no-unused-variable
       barBackground, // tslint:disable-line:no-unused-variable
@@ -291,8 +324,7 @@ function getStyles(slider: Slider): {
       barBackgroundImage,
       useSimpleController,
       customControllerStyle,
-      showValueInfo,
-      label
+      showValueInfo
     },
     state: {
       currValue,
@@ -312,12 +344,11 @@ function getStyles(slider: Slider): {
     wrapper: prepareStyles({
       width: 320,
       display: "inline-block",
-      overflow: "hidden",
       padding: `0 ${controllerWidth2px}px`,
       ...style
     }),
     root: prepareStyles({
-      flex: label ? "0 0 auto" : void 0,
+      flex: showValueInfo ? "0 0 auto" : void 0,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -329,7 +360,7 @@ function getStyles(slider: Slider): {
     barContainer: {
       background: theme.baseLow,
       position: "absolute",
-      width: label ? "85%" : "100%",
+      width: "100%",
       overflow: "hidden",
       height: barHeight,
       left: 0,
@@ -369,8 +400,7 @@ function getStyles(slider: Slider): {
       ...customControllerStyle
     }),
     label: {
-      flex: label ? "0 0 auto" : void 0,
-      width: "15%",
+      flex: showValueInfo ? "0 0 auto" : void 0,
       display: "inline-block",
       marginLeft: 12,
       fontSize: height2px / 1.5,

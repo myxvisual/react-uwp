@@ -7,7 +7,7 @@ export interface DataProps {
   /**
    * Default checked status.
    */
-  isChecked?: true | false;
+  defaultChecked?: true | false;
   /**
    * `Disabled` the RadioButton.
    */
@@ -41,7 +41,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
   };
 
   state: RadioButtonState = {
-    currChecked: this.props.isChecked
+    currChecked: this.props.defaultChecked
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -50,7 +50,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
 
   componentWillReceiveProps(nextProps: RadioButtonProps) {
     this.setState({
-      currChecked: this.props.isChecked
+      currChecked: nextProps.defaultChecked
     });
   }
 
@@ -80,7 +80,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
 
   render() {
     const {
-      isChecked,
+      defaultChecked,
       onCheck,
       style,
       size,

@@ -79,10 +79,22 @@
           "type": "(value?: number) => void"
         },
         {
+          "name": "onChangedValue",
+          "documentation": "After finished onChangeValue callback.",
+          "isRequired": false,
+          "type": "(value?: number) => void"
+        },
+        {
           "name": "onChangeValueRatio",
           "documentation": "onChangeValueRatio callback.",
           "isRequired": false,
           "type": "(valueRatio?: number) => void"
+        },
+        {
+          "name": "onChangedValueRatio",
+          "documentation": "After finished onChangeValueRatio callback.",
+          "isRequired": false,
+          "type": "(value?: number) => void"
         },
         {
           "name": "barHeight",
@@ -119,6 +131,12 @@
           "documentation": "Set custom Slider controller without animation.",
           "isRequired": false,
           "type": "boolean"
+        },
+        {
+          "name": "throttleTimer",
+          "documentation": "How many time call onChange callback.",
+          "isRequired": false,
+          "type": "number"
         }
       ],
       "documentation": ""
@@ -182,7 +200,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    minValue: 0,\n    maxValue: 1,\n    initValue: 0,\n    onChangeValue: emptyFunc,\n    onChangeValueRatio: emptyFunc,\n    height: 24,\n    barHeight: 2,\n    controllerWidth: 8,\n    showValueInfo: false,\n    numberToFixed: 0,\n    unit: \"\",\n    transition: \"all 0.25s\"\n  }",
+          "initializerText": " {\n    minValue: 0,\n    maxValue: 1,\n    initValue: 0,\n    onChangeValue: emptyFunc,\n    onChangedValue: emptyFunc,\n    onChangeValueRatio: emptyFunc,\n    onChangedValueRatio: emptyFunc,\n    height: 24,\n    barHeight: 2,\n    controllerWidth: 8,\n    showValueInfo: false,\n    numberToFixed: 0,\n    unit: \"\",\n    transition: \"all 0.25s\",\n    throttleTimer: 120 / 1000\n  }",
           "documentation": "",
           "type": "SliderProps"
         },
@@ -205,6 +223,24 @@
           "initializerText": " {\n    currValue: this.props.initValue,\n    valueRatio: this.props.initValue / (this.props.maxValue - this.props.minValue)\n  }",
           "documentation": "",
           "type": "SliderState"
+        },
+        {
+          "name": "throttleNow",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "number"
+        },
+        {
+          "name": "throttleNowTimer",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "onChangedValueTimer",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "any"
         },
         {
           "name": "rootElm",
@@ -237,6 +273,11 @@
           "type": "(nextProps: SliderProps) => void"
         },
         {
+          "name": "componentWillUnmount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
           "name": "context",
           "documentation": "",
           "type": "{ theme: any; }"
@@ -261,7 +302,7 @@
         },
         {
           "name": "handelMouseDown",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    Object.assign(document.body.style, {\n      userSelect: \"none\",\n      msUserSelect: \"none\",\n      webkitUserSelect: \"none\",\n      cursor: \"default\"\n    });\n    window.addEventListener(\"mousemove\", this.setValueByEvent);\n    window.addEventListener(\"mouseup\", this.handelMouseUp);\n    this.setValueByEvent(e);\n  }",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setValueByEvent(e);\n    Object.assign(document.body.style, {\n      userSelect: \"none\",\n      msUserSelect: \"none\",\n      webkitUserSelect: \"none\",\n      cursor: \"default\"\n    });\n    window.addEventListener(\"mousemove\", this.setValueByEvent);\n    window.addEventListener(\"mouseup\", this.handelMouseUp);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
@@ -273,7 +314,7 @@
         },
         {
           "name": "setValueByEvent",
-          "initializerText": " (e: any, type?: any) => {\n    if (e.type === \"mousemove\" && !this.state.dragging) {\n      this.setState({ dragging: true });\n    }\n    const {\n      maxValue,\n      minValue,\n      barBackground,\n      barBackgroundImage,\n      label,\n      numberToFixed,\n      unit\n    } = this.props;\n    const useCustomBackground = barBackground || barBackgroundImage;\n    const { left, width } = this.rootElm.getBoundingClientRect();\n    const mouseLeft = e.clientX;\n    const controllerWidth = this.controllerElm.getBoundingClientRect().width;\n    let valueRatio = (mouseLeft - left) / (width - controllerWidth);\n    valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);\n    const currValue = minValue + (maxValue - minValue) * valueRatio;\n    this.state.currValue = currValue;\n    this.state.valueRatio = valueRatio;\n\n    if (!useCustomBackground) {\n      const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;\n      Object.assign(this.barElm.style, {\n        transform: barTransform,\n        webKitTransform: barTransform,\n        msTransform: barTransform,\n        mozTransform: barTransform\n      } as React.CSSProperties);\n    }\n\n    const transform = `translateX(${valueRatio * 100}%)`;\n    Object.assign(this.controllerWrapperElm.style, {\n      transform,\n      webKitTransform: transform,\n      msTransform: transform,\n      mozTransform: transform\n    } as React.CSSProperties);\n\n    this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;\n\n    this.props.onChangeValue(currValue);\n  }",
+          "initializerText": " (e: any, type?: any) => {\n    clearTimeout(this.onChangedValueTimer);\n    if (e.type === \"mousemove\" && !this.state.dragging) {\n      this.setState({ dragging: true });\n    }\n    const nowTime = performance ? performance.now() : Date.now();\n    if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {\n      clearTimeout(this.throttleNowTimer);\n      this.throttleNow = nowTime;\n    } else {\n      this.throttleNowTimer = setTimeout(() => {\n        this.setValueByEvent(e, type);\n      }, this.props.throttleTimer);\n      return;\n    }\n    const {\n      maxValue,\n      minValue,\n      barBackground,\n      barBackgroundImage,\n      label,\n      numberToFixed,\n      unit,\n      onChangeValue,\n      onChangedValue,\n      onChangeValueRatio\n    } = this.props;\n    const useCustomBackground = barBackground || barBackgroundImage;\n    const { left, width } = this.rootElm.getBoundingClientRect();\n    const mouseLeft = e.clientX;\n    const controllerWidth = this.controllerElm.getBoundingClientRect().width;\n    let valueRatio = (mouseLeft - left) / (width - controllerWidth);\n    valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);\n    const currValue = minValue + (maxValue - minValue) * valueRatio;\n    this.state.currValue = currValue;\n    this.state.valueRatio = valueRatio;\n\n    if (!useCustomBackground) {\n      const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;\n      Object.assign(this.barElm.style, {\n        transform: barTransform,\n        webKitTransform: barTransform,\n        msTransform: barTransform,\n        mozTransform: barTransform\n      } as React.CSSProperties);\n    }\n\n    const transform = `translateX(${valueRatio * 100}%)`;\n    Object.assign(this.controllerWrapperElm.style, {\n      transform,\n      webKitTransform: transform,\n      msTransform: transform,\n      mozTransform: transform\n    } as React.CSSProperties);\n\n    if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;\n\n    if (e.type === \"mousedown\") {\n      this.setState({ currValue });\n    }\n    onChangeValue(currValue);\n    onChangeValueRatio(valueRatio);\n    this.state.currValue = currValue;\n    this.onChangedValueTimer = setTimeout(() => {\n      this.setState({ currValue });\n      onChangedValue(currValue);\n      onChangeValueRatio(valueRatio);\n    }, 500);\n  }",
           "documentation": "",
           "type": "(e: any, type?: any) => void"
         },

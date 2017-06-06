@@ -3,167 +3,201 @@ import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
 
-export interface ListItem extends React.HTMLAttributes<HTMLDivElement> {
-  titleNode?: string | React.ReactNode;
-  expanded?: boolean;
+export interface TreeItem {
+  title?: string;
+  titleNode?: React.ReactNode;
   disabled?: boolean;
-  focus?: boolean;
   visited?: boolean;
-  hoverStyle?: CSSStyleDeclaration;
-  children?: ListItem[];
+  expanded?: boolean;
+  focus?: boolean;
+  hidden?: boolean;
+  children?: TreeItem[];
+  style?: React.CSSProperties;
+  hoverStyle?: React.CSSProperties;
+  onClick?: (e: MouseEvent) => void;
 }
 
 export interface DataProps {
-  listSource?: ListItem[];
+  listSource?: TreeItem[] | string[];
   iconDirection?: "left" | "right";
-  listItemHeight?: number;
-  childPadding?: number;
+  itemHeight?: number;
+  itemPadding?: number;
   iconPadding?: number;
-  titleNodeStyle?: React.CSSProperties;
-  onChangeListItem?: (listSource: ListItem[]) => void;
-  rootStyle?: React.CSSProperties;
-  showFocus?: boolean;
+  onChooseTreeItem?: (listItem: TreeItem) => void;
+  headerIcon?: React.ReactNode;
+  itemIcon?: React.ReactNode;
   background?: string;
+  showFocus?: boolean;
 }
 
 export interface TreeViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface TreeViewState {
   init?: boolean;
-  currListItems?: ListItem[];
-  visitedList?: ListItem;
-  showFocus?: boolean;
+  chooseTreeItem?: TreeItem;
 }
 
 const emptyFunc = () => {};
 export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
   static defaultProps: TreeViewProps = {
     listSource: [],
-    listItemHeight: 40,
-    childPadding: 40,
-    iconPadding: 10,
+    itemHeight: 40,
+    itemPadding: 20,
+    iconPadding: 2,
     iconDirection: "left",
-    onChangeListItem: emptyFunc,
-    rootStyle: { width: 400 },
+    onChooseTreeItem: emptyFunc,
+    showFocus: true,
     background: "none"
   };
 
   state: TreeViewState = {
-    init: true,
-    currListItems: this.props.listSource,
-    visitedList: null,
-    showFocus: this.props.showFocus
+    init: true
   };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  componentWillReceiveProps(nexProps: TreeViewProps) {
-    this.setState({
-      currListItems: nexProps.listSource,
-      showFocus: nexProps.showFocus
-    });
-  }
-
-  handelClick = (e: React.MouseEvent<HTMLDivElement>, list: ListItem) => {
-    list.expanded = !list.expanded;
-    if (this.state.visitedList && !list.children) {
-      this.state.visitedList.visited = false;
+  setChooseItem = (chooseTreeItem: TreeItem) => {
+    const { onChooseTreeItem, listSource } = this.props;
+    if (this.state.chooseTreeItem && chooseTreeItem !== this.state.chooseTreeItem) {
+      this.state.chooseTreeItem.visited = false;
     }
-    list.visited = true;
-    this.setState({
-      init: false,
-      visitedList: list.children ? this.state.visitedList : list,
-      showFocus: false
-    });
-    this.props.onChangeListItem(this.state.currListItems);
+    chooseTreeItem.visited = true;
+    if (chooseTreeItem.children) {
+      chooseTreeItem.expanded = !chooseTreeItem.expanded;
+    }
+    this.setState({ chooseTreeItem, init: false });
+    this.props.onChooseTreeItem(chooseTreeItem);
   }
 
   renderTree = (): React.ReactNode => {
-    const { init, currListItems, showFocus } = this.state;
     const { theme } = this.context;
     const { prepareStyles } = theme;
-    const { iconDirection, listItemHeight } = this.props;
-    const isRight = iconDirection === "right";
+    const {
+      iconDirection,
+      showFocus,
+      itemHeight,
+      iconPadding,
+      itemPadding,
+      headerIcon,
+      itemIcon,
+      listSource
+    } = this.props;
+
+    const { init, chooseTreeItem } = this.state;
     const styles = getStyles(this);
-    const { childPadding, iconPadding } = this.props;
-    const renderList = ((list: ListItem, index: number, isChild?: boolean): React.ReactNode => {
-      const { titleNode, expanded, disabled, visited, focus, children, hoverStyle, ...attributes } = list;
+
+    const renderList = ((item: TreeItem, index: number, isChild?: boolean, prevIndexArray: number[] = []): React.ReactNode => {
+      const indexArray = prevIndexArray.concat(index);
+      if (typeof item === "string" || typeof item === "number") {
+        let lastIndex: number = indexArray.splice(-1)[0];
+        let itemParent: any = listSource;
+        for (const numb of indexArray) {
+          itemParent = itemParent.children ? itemParent.children[numb] : itemParent[numb];
+        }
+        const newData = { title: item };
+        if (itemParent.children) {
+          itemParent.children[lastIndex as any] = newData;
+        } else {
+          itemParent[lastIndex as any] = newData;
+        }
+        item = newData;
+      }
+      let {
+        title,
+        titleNode,
+        expanded,
+        disabled,
+        visited,
+        focus,
+        children,
+        hidden,
+        onClick,
+        style,
+        hoverStyle
+      } = item;
+      titleNode = title || titleNode;
       const haveChild = Array.isArray(children) && children.length !== 0;
-      const fadeAccent = theme.listAccentLow;
-      const isVisited = ((visited && !haveChild) || (visited && haveChild && init));
-      return (
+      const isRight = iconDirection === "right";
+      const isVisited = (visited && !haveChild) || (visited && init);
+
+      return hidden ? null : (
         <div
           style={{
-            paddingLeft: isChild ? (isRight ? 10 : childPadding) : void 0
+            paddingLeft: isChild ? (isRight ? 10 : itemPadding) : void 0
           }}
           key={`${index}`}
         >
           <div
-            style={{
+            style={theme.prepareStyles({
               color: disabled ? theme.baseLow : void 0,
               ...styles.title
-            } as any}
+            })}
             onMouseEnter={disabled ? void 0 : e => {
-              const bgNode = e.currentTarget.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
-              const titleNode = e.currentTarget.querySelector(".react-uwp-tree-view-title") as HTMLDivElement;
+              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, hoverStyle);
+              const bgNode = e.currentTarget.parentElement.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
               Object.assign(bgNode.style, {
                 background: isVisited ? theme.accent : theme.baseLow
               } as CSSStyleDeclaration);
-              Object.assign(titleNode.style, hoverStyle as any);
             }}
             onMouseLeave={disabled ? void 0 : e => {
-              const bgNode = e.currentTarget.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
-              const titleNode = e.currentTarget.querySelector(".react-uwp-tree-view-title") as HTMLDivElement;
+              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, style);
+              const bgNode = e.currentTarget.parentElement.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
               Object.assign(bgNode.style, {
-                background: isVisited ? fadeAccent : "none"
+                background: isVisited ? theme.listAccentLow : "none"
               } as CSSStyleDeclaration);
-              Object.assign(titleNode.style, attributes.style as any);
             }}
           >
             <div
-              {...attributes}
-              onClick={disabled && attributes ? emptyFunc : attributes.onClick}
-              className="react-uwp-tree-view-title"
+              onClick={disabled ? void 0 : (e) => {
+                if (onClick) onClick(e as any);
+                this.setChooseItem(item);
+              }}
               style={{
                 cursor: disabled ? "not-allowed" : "pointer",
                 paddingLeft: haveChild ? iconPadding : 0,
+                height: "100%",
+                lineHeight: `${itemHeight}px`,
                 ...styles.titleNode,
-                ...attributes.style
-                } as any}
-              >
+                ...style
+              }}
+            >
               {titleNode}
             </div>
-            {haveChild && (
+            {haveChild ? headerIcon : itemIcon}
+            {(headerIcon || itemIcon ? (headerIcon && itemIcon) : true) && haveChild && (
               <Icon
-                onClick={disabled ? void(0) : (e) => {
-                  this.handelClick(e as any, list);
+                onClick={disabled ? void 0 : (e) => {
+                  this.setChooseItem(item);
                 }}
                 style={prepareStyles({
                   cursor: disabled ? "not-allowed" : "pointer",
                   color: disabled ? theme.baseLow : void 0,
-                  width: isRight ? void 0 : 14,
-                  marginRight: 1,
-                  fontSize: listItemHeight / 2,
+                  fontSize: itemHeight / 2,
+                  lineHeight: `${itemHeight / 2}px`,
+                  width: itemHeight / 2,
+                  height: itemHeight / 2,
+                  flex: "0 0 auto",
                   zIndex: 1,
                   transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`
                 })}
               >
-                {"\uE011"}
+                ScrollChevronDownLegacy
               </Icon>
             )}
             <div
-              {...attributes}
-              onClick={disabled && attributes ? emptyFunc : attributes.onClick}
+              onClick={disabled ? void 0 : (e) => {
+                if (onClick) onClick(e as any);
+                this.setChooseItem(item);
+              }}
               style={prepareStyles({
                 cursor: disabled ? "not-allowed" : "pointer",
                 transition: "all 0.25s",
                 zIndex: 0,
                 background: (focus && showFocus) ? theme.accent : (
-                  isVisited ? fadeAccent : "none"
+                  isVisited ? theme.listAccentLow : "none"
                 ),
-                ...styles.bg,
-                ...attributes.style
+                ...styles.bg
               } as any)}
               className="react-uwp-tree-view-bg"
             />
@@ -179,36 +213,35 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
                 transition: "all .25s"
               })}
             >
-              {expanded && children.map((list: ListItem[], index: number) => renderList(list, index, true))}
+              {expanded && children.map((item: TreeItem[], index: number) => renderList(item, index, true, indexArray))}
             </div>
           )}
         </div>
       );
     });
 
-    return currListItems.map((list, index) => renderList(list, index));
+    return (listSource as any).map((list: any, index: number) => renderList(list, index));
   }
 
   render() {
     const {
       listSource,
       iconDirection,
-      listItemHeight,
-      onChangeListItem,
-      rootStyle,
-      titleNodeStyle,
-      childPadding,
+      itemHeight,
+      onChooseTreeItem,
+      itemPadding,
       iconPadding,
       showFocus,
       background,
+      headerIcon,
+      itemIcon,
       ...attributes
     } = this.props;
-    const { currListItems } = this.state;
     const styles = getStyles(this);
 
     return (
       <div {...attributes} style={styles.root}>
-        {currListItems ? this.renderTree() : null}
+        {listSource ? this.renderTree() : null}
       </div>
     );
   }
@@ -221,7 +254,7 @@ function getStyles(treeView: TreeView): {
   icon?: React.CSSProperties;
   bg?: React.CSSProperties;
 } {
-  const { context, props: { iconDirection, listItemHeight, style, titleNodeStyle, background } } = treeView;
+  const { context, props: { iconDirection, itemHeight, style, background } } = treeView;
   const isRight = iconDirection === "right";
   const { theme } = context;
   const { prepareStyles } = theme;
@@ -232,9 +265,10 @@ function getStyles(treeView: TreeView): {
       overflowY: "auto",
       color: theme.baseMediumHigh,
       background: background,
-      padding: "0 20px",
+      width: 320,
+      padding: "0 16px",
       ...prepareStyles(style)
-    } as any),
+    }),
     title: prepareStyles({
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
@@ -242,7 +276,7 @@ function getStyles(treeView: TreeView): {
       position: "relative",
       fontSize: 14,
       display: "flex",
-      height: listItemHeight,
+      height: itemHeight,
       flexDirection: `row${isRight ? "" : "-reverse"}` as any,
       alignItems: "center",
       justifyContent: isRight ? "space-between" : "flex-end",
@@ -254,8 +288,7 @@ function getStyles(treeView: TreeView): {
       width: "100%",
       overflow: "hidden",
       whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      ...titleNodeStyle
+      textOverflow: "ellipsis"
     }),
     bg: {
       position: "absolute",

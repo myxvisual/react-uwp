@@ -13,13 +13,13 @@ export default class SimpleExample extends React.Component<{}, void> {
   render() {
     return (
       <div>
-        <RadioButton isChecked style={baseStyle} label="Checked" />
+        <RadioButton defaultChecked style={baseStyle} label="Checked" />
 
         <RadioButton style={baseStyle} label="UnChecked" />
 
         <RadioButton style={baseStyle} label="Disabled" disabled />
 
-        <RadioButton isChecked size={40} style={baseStyle} label="Custom Size" />
+        <RadioButton defaultChecked size={40} style={baseStyle} label="Custom Size" />
       </div>
     );
   }
