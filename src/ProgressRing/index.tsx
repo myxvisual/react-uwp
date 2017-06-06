@@ -75,7 +75,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
   }
   62.5% {
     transform: rotateZ(540deg);
-    opacity: 0.8;
+    opacity: 0;
   }
   75% {
     transform: rotateZ(630deg);
@@ -101,7 +101,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
       style,
       ...attributes
     } = this.props;
-    const dotsSize = size / 9;
+    const dotsSize = size / 12;
     const { theme } = this.context;
     const className = this.getOnlyClassName();
 
