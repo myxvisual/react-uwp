@@ -299,6 +299,7 @@ function getStyles(calendarView: CalendarView): {
   return {
     root: prepareStyles({
       display: "inline-block",
+      verticalAlign: "middle",
       fontSize: 14,
       color: theme.baseHigh,
       width: 296,

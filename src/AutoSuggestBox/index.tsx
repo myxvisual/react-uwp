@@ -274,6 +274,7 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
   return {
     root: theme.prepareStyles({
       display: "inline-block",
+      verticalAlign: "middle",
       ...style,
       position: "relative"
     }),

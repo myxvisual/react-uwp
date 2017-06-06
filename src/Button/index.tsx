@@ -86,6 +86,8 @@ export class Button extends React.Component<ButtonProps, {}> {
     const normalRender =  (
       <ElementState
         style={{
+          display: "inline-block",
+          verticalAlign: "middle",
           background: disabled ? theme.baseMedium : (background || theme.baseLow),
           cursor: disabled ? "not-allowed" : "pointer",
           color: disabled ? theme.baseMedium : theme.baseHigh,
@@ -93,7 +95,6 @@ export class Button extends React.Component<ButtonProps, {}> {
           padding: "4px 16px",
           border: `${borderSize} solid transparent`,
           transition: "all ease-in-out .25s",
-          display: "inline-bloc",
           ...theme.prepareStyles(style)
         }}
         hoverStyle={disabled ? void 0 : hoverStyle || {

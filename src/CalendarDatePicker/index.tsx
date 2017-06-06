@@ -146,6 +146,7 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
   return {
     root: prepareStyles({
       display: "inline-block",
+      verticalAlign: "middle",
       position: "relative",
       ...style
     }),

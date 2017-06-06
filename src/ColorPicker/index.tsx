@@ -303,6 +303,8 @@ function getStyles(colorPicker: ColorPicker): {
 
   return {
     root: prepareStyles({
+      display: "inline-block",
+      verticalAlign: "middle",
       width: size,
       flexDirection: "column",
       ...style
