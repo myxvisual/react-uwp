@@ -84,9 +84,9 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
       markdownStyleString = lightThemeCSSString || prismCoyCSS;
     }
 
-    const className = `react-uwp-markdown-style-sheet-${theme.themeName}`;
+    const className = `react-uwp-markdown-style-sheet`;
     let styleSheet = document.querySelector(`.${className}`);
-    const cssString = getCSSString(theme, `react-uwp-markdown-${theme.themeName}`) + "\n" + markdownStyleString;
+    const cssString = getCSSString(theme, `react-uwp-markdown`) + "\n" + markdownStyleString;
     if (!styleSheet) {
       styleSheet = document.createElement("style");
       styleSheet.className = className;
@@ -105,7 +105,7 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
       <div>
         <div
           {...attributes}
-          className={`react-uwp-markdown-${theme.themeName} ${className || ""}`}
+          className={`react-uwp-markdown ${className || ""}`}
           dangerouslySetInnerHTML={{ __html: marked(text) }}
         />
       </div>
@@ -221,29 +221,38 @@ return (
 
 .${className} pre {
   font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
-  background: ${theme.chromeLow};
+  background: none !important;
   border: 1px solid ${theme.listLow};
-  border-left: 2px solid ${theme.listAccentLow} !important;
+  border-left: 4px solid ${theme.listAccentMedium} !important;
   border-radius: 0 !important;
   padding: 12px;
   margin: 10px 0;
+  font-size: 14px;
   width: 100%;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
 
-.${className} pre {
-  font-size: 14;
-}
-
-
 .${className} code {
   font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
   font-size: inherit;
-  background: ${theme.chromeLow};
   color: ${theme.accent};
-  padding: 2px 4px;
+  padding: 1px 4px;
   font-weight: inherit;
+}
+
+.${className} p > code {
+  border: 1px solid ${theme.listLow};
+}
+
+code[class*="language-"], pre[class*="language-"] {
+  ${theme.isDarkTheme ? (
+    "background: none !important;"
+  ) : (
+    ""
+  )}
+  text-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .${className} table {
@@ -292,15 +301,6 @@ return (
 
 .${className} ul {
   margin: 10px 20px;
-}
-code[class*="language-"], pre[class*="language-"] {
-  text-shadow: none !important;
-  box-shadow: none !important;
-  ${theme.isDarkTheme ? (
-    "background: none !important;"
-  ) : (
-    ""
-  )}
 }
 `
 ); }
