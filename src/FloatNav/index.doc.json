@@ -1,0 +1,219 @@
+{
+  "fileName": "D:/react-uwp/src/FloatNav/index.tsx",
+  "name": "\"D:/react-uwp/src/FloatNav/index\"",
+  "exports": [
+    {
+      "name": "Item",
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "FloatNavProps",
+      "documentation": ""
+    },
+    {
+      "name": "FloatNavState",
+      "documentation": ""
+    },
+    {
+      "name": "FloatNav",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "FloatNav"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "Item",
+      "members": [
+        {
+          "name": "showNode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        },
+        {
+          "name": "title",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "href",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "focusItem",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "onFocusIndex",
+          "documentation": "",
+          "isRequired": false,
+          "type": "(index: number) => void"
+        },
+        {
+          "name": "topNode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "ReactElement<any> | ReactElement<any>[]"
+        },
+        {
+          "name": "bottomNode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "ReactElement<any> | ReactElement<any>[]"
+        },
+        {
+          "name": "isFloatRight",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "items",
+          "documentation": "",
+          "isRequired": false,
+          "type": "Item[]"
+        },
+        {
+          "name": "floatNavWidth",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "FloatNavProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "FloatNavState",
+      "members": [
+        {
+          "name": "currFocusItem",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "hoverItem",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "hoverIndexArray",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean[]"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "FloatNav",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    onFocusIndex: () => {},\n    items: [],\n    width: 48,\n    isFloatRight: true,\n    floatNavWidth: 240\n  }",
+          "documentation": "",
+          "type": "FloatNavProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    currFocusItem: this.props.focusItem,\n    hoverItem: null,\n    hoverIndexArray: []\n  }",
+          "documentation": "",
+          "type": "FloatNavState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: FloatNavProps) => void"
+        },
+        {
+          "name": "shouldComponentUpdate",
+          "documentation": "",
+          "type": "(nextProps: FloatNavProps, nextState: FloatNavState) => boolean"
+        },
+        {
+          "name": "focusIndex",
+          "initializerText": " (currFocusItem: number) => this.setState({ currFocusItem })",
+          "documentation": "",
+          "type": "(currFocusItem: number) => void"
+        },
+        {
+          "name": "getFocusIndex",
+          "initializerText": " () => this.state.currFocusItem",
+          "documentation": "",
+          "type": "() => number"
+        },
+        {
+          "name": "getItems",
+          "initializerText": " () => this.props.items",
+          "documentation": "",
+          "type": "() => Item[]"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/FloatNav/index\""
+}

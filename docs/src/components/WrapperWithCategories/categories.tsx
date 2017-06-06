@@ -132,7 +132,7 @@ export default [{
   }, {
     "titleNode": "Tooltip"
   }, {
-    "titleNode": "NavFloat"
+    "titleNode": "FloatNav"
   }, {
     "titleNode": "MarkdownRender"
   }]

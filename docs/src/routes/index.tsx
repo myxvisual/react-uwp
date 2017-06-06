@@ -224,6 +224,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Flyout");
         }
       }, {
+        path: "FloatNav",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/FloatNav").default);
+          }, "react-uwp-Components-FloatNav");
+        }
+      }, {
         path: "FlipView",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
