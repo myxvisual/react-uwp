@@ -25,7 +25,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
     showHeaderIcon: false,
     showItemIcon: false,
     iconDirection: "left",
-    itemHeight: 40
+    itemHeight: 32
   };
 
   render() {
@@ -69,6 +69,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
         </div>
 
         <TreeView
+          style={{ height: 640 }}
           iconDirection={iconDirection}
           itemHeight={itemHeight}
           headerIcon={showHeaderIcon && <Icon style={{ fontSize: itemHeight / 3 }}>FolderLegacy</Icon>}

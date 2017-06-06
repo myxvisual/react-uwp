@@ -104,7 +104,7 @@ const emptyFunc = () => {};
 export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
   static defaultProps: TreeViewProps = {
     listSource: [],
-    itemHeight: 28,
+    itemHeight: 32,
     iconPadding: 2,
     iconDirection: "left",
     onChooseTreeItem: emptyFunc,
