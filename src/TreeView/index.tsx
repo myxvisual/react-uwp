@@ -217,7 +217,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
               }}
               style={{
                 cursor: disabled ? "not-allowed" : "pointer",
-                paddingLeft: haveChild ? iconPadding : 0,
+                paddingLeft: haveChild ? iconPadding : itemHeight / 8,
                 fontSize: itemHeight / 2.25,
                 height: "100%",
                 lineHeight: `${itemHeight}px`,
