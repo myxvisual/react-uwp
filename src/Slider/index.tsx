@@ -345,6 +345,7 @@ function getStyles(slider: Slider): {
       width: 320,
       display: "inline-block",
       padding: `0 ${controllerWidth2px}px`,
+      verticalAlign: "middle",
       ...style
     }),
     root: prepareStyles({

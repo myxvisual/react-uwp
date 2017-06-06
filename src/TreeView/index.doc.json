@@ -36,67 +36,67 @@
       "members": [
         {
           "name": "title",
-          "documentation": "",
+          "documentation": "Set TreeView item title.",
           "isRequired": false,
           "type": "string"
         },
         {
           "name": "titleNode",
-          "documentation": "",
+          "documentation": "Set TreeView ReactNode to item title.",
           "isRequired": false,
           "type": "ReactNode"
         },
         {
           "name": "disabled",
-          "documentation": "",
+          "documentation": "Disabled TreeView item.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "visited",
-          "documentation": "",
+          "documentation": "Init Item is `Visited`,only effective for the first loaded.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "expanded",
-          "documentation": "",
+          "documentation": "Set Item is expanded.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "focus",
-          "documentation": "",
+          "documentation": "Init Item is `Focus`,only effective for the first loaded.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "hidden",
-          "documentation": "",
+          "documentation": "Hidden TreeView item.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "children",
-          "documentation": "",
+          "documentation": "Set TreeView Children.",
           "isRequired": false,
           "type": "TreeItem[]"
         },
         {
           "name": "style",
-          "documentation": "",
+          "documentation": "Set TreeView item init style.",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
           "name": "hoverStyle",
-          "documentation": "",
+          "documentation": "Set TreeView item hovered style.",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
           "name": "onClick",
-          "documentation": "",
+          "documentation": "Set TreeView item onclick callback.",
           "isRequired": false,
           "type": "(e: MouseEvent) => void"
         }
@@ -108,61 +108,61 @@
       "members": [
         {
           "name": "listSource",
-          "documentation": "",
+          "documentation": "Set TreView data source.",
           "isRequired": false,
           "type": "TreeItem[] | string[]"
         },
         {
           "name": "iconDirection",
-          "documentation": "",
+          "documentation": "Set TreView icon direction.",
           "isRequired": false,
           "type": "\"left\" | \"right\""
         },
         {
           "name": "itemHeight",
-          "documentation": "",
+          "documentation": "Set TreView item height.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "itemPadding",
-          "documentation": "",
+          "documentation": "Set TreView item padding.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "iconPadding",
-          "documentation": "",
+          "documentation": "Set TreView icon padding.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "onChooseTreeItem",
-          "documentation": "",
+          "documentation": "onChoose Tree item callback.",
           "isRequired": false,
           "type": "(listItem: TreeItem) => void"
         },
         {
           "name": "headerIcon",
-          "documentation": "",
+          "documentation": "Set Tree header item icon.",
           "isRequired": false,
           "type": "ReactNode"
         },
         {
           "name": "itemIcon",
-          "documentation": "",
+          "documentation": "Set Tree item children icon.",
           "isRequired": false,
           "type": "ReactNode"
         },
         {
           "name": "background",
-          "documentation": "",
+          "documentation": "Set TreeView custom background.",
           "isRequired": false,
           "type": "string"
         },
         {
           "name": "showFocus",
-          "documentation": "",
+          "documentation": "Set first loaded show focus item ro not.",
           "isRequired": false,
           "type": "boolean"
         }
@@ -216,7 +216,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    listSource: [],\n    itemHeight: 40,\n    itemPadding: 20,\n    iconPadding: 2,\n    iconDirection: \"left\",\n    onChooseTreeItem: emptyFunc,\n    showFocus: true,\n    background: \"none\"\n  }",
+          "initializerText": " {\n    listSource: [],\n    itemHeight: 28,\n    iconPadding: 2,\n    iconDirection: \"left\",\n    onChooseTreeItem: emptyFunc,\n    showFocus: true,\n    background: \"none\"\n  }",
           "documentation": "",
           "type": "TreeViewProps"
         },
@@ -247,7 +247,7 @@
         },
         {
           "name": "renderTree",
-          "initializerText": " (): React.ReactNode => {\n    const { theme } = this.context;\n    const { prepareStyles } = theme;\n    const {\n      iconDirection,\n      showFocus,\n      itemHeight,\n      iconPadding,\n      itemPadding,\n      headerIcon,\n      itemIcon,\n      listSource\n    } = this.props;\n\n    const { init, chooseTreeItem } = this.state;\n    const styles = getStyles(this);\n\n    const renderList = ((item: TreeItem, index: number, isChild?: boolean, prevIndexArray: number[] = []): React.ReactNode => {\n      const indexArray = prevIndexArray.concat(index);\n      if (typeof item === \"string\" || typeof item === \"number\") {\n        let lastIndex: number = indexArray.splice(-1)[0];\n        let itemParent: any = listSource;\n        for (const numb of indexArray) {\n          itemParent = itemParent.children ? itemParent.children[numb] : itemParent[numb];\n        }\n        const newData = { title: item };\n        if (itemParent.children) {\n          itemParent.children[lastIndex as any] = newData;\n        } else {\n          itemParent[lastIndex as any] = newData;\n        }\n        item = newData;\n      }\n      let {\n        title,\n        titleNode,\n        expanded,\n        disabled,\n        visited,\n        focus,\n        children,\n        hidden,\n        onClick,\n        style,\n        hoverStyle\n      } = item;\n      titleNode = title || titleNode;\n      const haveChild = Array.isArray(children) && children.length !== 0;\n      const isRight = iconDirection === \"right\";\n      const isVisited = (visited && !haveChild) || (visited && init);\n\n      return hidden ? null : (\n        <div\n          style={{\n            paddingLeft: isChild ? (isRight ? 10 : itemPadding) : void 0\n          }}\n          key={`${index}`}\n        >\n          <div\n            style={theme.prepareStyles({\n              color: disabled ? theme.baseLow : void 0,\n              ...styles.title\n            })}\n            onMouseEnter={disabled ? void 0 : e => {\n              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, hoverStyle);\n              const bgNode = e.currentTarget.parentElement.querySelector(\".react-uwp-tree-view-bg\") as HTMLDivElement;\n              Object.assign(bgNode.style, {\n                background: isVisited ? theme.accent : theme.baseLow\n              } as CSSStyleDeclaration);\n            }}\n            onMouseLeave={disabled ? void 0 : e => {\n              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, style);\n              const bgNode = e.currentTarget.parentElement.querySelector(\".react-uwp-tree-view-bg\") as HTMLDivElement;\n              Object.assign(bgNode.style, {\n                background: isVisited ? theme.listAccentLow : \"none\"\n              } as CSSStyleDeclaration);\n            }}\n          >\n            <div\n              onClick={disabled ? void 0 : (e) => {\n                if (onClick) onClick(e as any);\n                this.setChooseItem(item);\n              }}\n              style={{\n                cursor: disabled ? \"not-allowed\" : \"pointer\",\n                paddingLeft: haveChild ? iconPadding : 0,\n                height: \"100%\",\n                lineHeight: `${itemHeight}px`,\n                ...styles.titleNode,\n                ...style\n              }}\n            >\n              {titleNode}\n            </div>\n            {haveChild ? headerIcon : itemIcon}\n            {(headerIcon || itemIcon ? (headerIcon && itemIcon) : true) && haveChild && (\n              <Icon\n                onClick={disabled ? void 0 : (e) => {\n                  this.setChooseItem(item);\n                }}\n                style={prepareStyles({\n                  cursor: disabled ? \"not-allowed\" : \"pointer\",\n                  color: disabled ? theme.baseLow : void 0,\n                  fontSize: itemHeight / 2,\n                  lineHeight: `${itemHeight / 2}px`,\n                  width: itemHeight / 2,\n                  height: itemHeight / 2,\n                  flex: \"0 0 auto\",\n                  zIndex: 1,\n                  transform: `rotateZ(${expanded ? \"-180deg\" : (isRight ? \"0deg\" : \"-90deg\")})`\n                })}\n              >\n                ScrollChevronDownLegacy\n              </Icon>\n            )}\n            <div\n              onClick={disabled ? void 0 : (e) => {\n                if (onClick) onClick(e as any);\n                this.setChooseItem(item);\n              }}\n              style={prepareStyles({\n                cursor: disabled ? \"not-allowed\" : \"pointer\",\n                transition: \"all 0.25s\",\n                zIndex: 0,\n                background: (focus && showFocus) ? theme.accent : (\n                  isVisited ? theme.listAccentLow : \"none\"\n                ),\n                ...styles.bg\n              } as any)}\n              className=\"react-uwp-tree-view-bg\"\n            />\n          </div>\n          {haveChild && (\n            <div\n              style={theme.prepareStyles({\n                height: \"auto\",\n                overflow: expanded ? void 0 : \"hidden\",\n                opacity: expanded ? 1 : 0,\n                transform: `translateY(${expanded ? 0 : -10 }px)`,\n                transformOrigin: \"top\",\n                transition: \"all .25s\"\n              })}\n            >\n              {expanded && children.map((item: TreeItem[], index: number) => renderList(item, index, true, indexArray))}\n            </div>\n          )}\n        </div>\n      );\n    });\n\n    return (listSource as any).map((list: any, index: number) => renderList(list, index));\n  }",
+          "initializerText": " (): React.ReactNode => {\n    const { theme } = this.context;\n    const { prepareStyles } = theme;\n    const {\n      iconDirection,\n      showFocus,\n      itemHeight,\n      iconPadding,\n      itemPadding,\n      headerIcon,\n      itemIcon,\n      listSource\n    } = this.props;\n\n    const { init, chooseTreeItem } = this.state;\n    const styles = getStyles(this);\n\n    const renderList = ((item: TreeItem, index: number, isChild?: boolean, prevIndexArray: number[] = []): React.ReactNode => {\n      const indexArray = prevIndexArray.concat(index);\n      if (typeof item === \"string\" || typeof item === \"number\") {\n        let lastIndex: number = indexArray.splice(-1)[0];\n        let itemParent: any = listSource;\n        for (const numb of indexArray) {\n          itemParent = itemParent.children ? itemParent.children[numb] : itemParent[numb];\n        }\n        const newData = { title: item };\n        if (itemParent.children) {\n          itemParent.children[lastIndex as any] = newData;\n        } else {\n          itemParent[lastIndex as any] = newData;\n        }\n        item = newData;\n      }\n      let {\n        title,\n        titleNode,\n        expanded,\n        disabled,\n        visited,\n        focus,\n        children,\n        hidden,\n        onClick,\n        style,\n        hoverStyle\n      } = item;\n      titleNode = title || titleNode;\n      const haveChild = Array.isArray(children) && children.length !== 0;\n      const isRight = iconDirection === \"right\";\n      const isVisited = (visited && !haveChild) || (visited && init);\n\n      return hidden ? null : (\n        <div\n          style={{\n            paddingLeft: isChild ? (isRight ? itemHeight / 2.8 : itemPadding || itemHeight * 2 / 3) : void 0\n          }}\n          key={`${index}`}\n        >\n          <div\n            style={theme.prepareStyles({\n              color: disabled ? theme.baseLow : void 0,\n              ...styles.title\n            })}\n            onMouseEnter={disabled ? void 0 : e => {\n              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, hoverStyle);\n              const bgNode = e.currentTarget.parentElement.querySelector(\".react-uwp-tree-view-bg\") as HTMLDivElement;\n              Object.assign(bgNode.style, {\n                background: isVisited ? theme.accent : theme.baseLow\n              } as CSSStyleDeclaration);\n            }}\n            onMouseLeave={disabled ? void 0 : e => {\n              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, style);\n              const bgNode = e.currentTarget.parentElement.querySelector(\".react-uwp-tree-view-bg\") as HTMLDivElement;\n              Object.assign(bgNode.style, {\n                background: isVisited ? theme.listAccentLow : \"none\"\n              } as CSSStyleDeclaration);\n            }}\n          >\n            <div\n              onClick={disabled ? void 0 : (e) => {\n                if (onClick) onClick(e as any);\n                this.setChooseItem(item);\n              }}\n              style={{\n                cursor: disabled ? \"not-allowed\" : \"pointer\",\n                paddingLeft: haveChild ? iconPadding : 0,\n                fontSize: itemHeight / 2.25,\n                height: \"100%\",\n                lineHeight: `${itemHeight}px`,\n                ...styles.titleNode,\n                ...style\n              }}\n            >\n              {titleNode}\n            </div>\n            {haveChild ? headerIcon : itemIcon}\n            {(headerIcon || itemIcon ? (headerIcon && itemIcon) : true) && haveChild && (\n              <Icon\n                onClick={disabled ? void 0 : (e) => {\n                  this.setChooseItem(item);\n                }}\n                style={prepareStyles({\n                  cursor: disabled ? \"not-allowed\" : \"pointer\",\n                  color: disabled ? theme.baseLow : void 0,\n                  fontSize: itemHeight / 2,\n                  lineHeight: `${itemHeight / 2}px`,\n                  width: itemHeight / 2,\n                  height: itemHeight / 2,\n                  flex: \"0 0 auto\",\n                  zIndex: 1,\n                  transform: `rotateZ(${expanded ? \"-180deg\" : (isRight ? \"0deg\" : \"-90deg\")})`\n                })}\n              >\n                ScrollChevronDownLegacy\n              </Icon>\n            )}\n            <div\n              onClick={disabled ? void 0 : (e) => {\n                if (onClick) onClick(e as any);\n                this.setChooseItem(item);\n              }}\n              style={prepareStyles({\n                cursor: disabled ? \"not-allowed\" : \"pointer\",\n                transition: \"all 0.25s\",\n                zIndex: 0,\n                background: (focus && showFocus) ? theme.accent : (\n                  isVisited ? theme.listAccentLow : \"none\"\n                ),\n                ...styles.bg\n              } as any)}\n              className=\"react-uwp-tree-view-bg\"\n            />\n          </div>\n          {haveChild && (\n            <div\n              style={theme.prepareStyles({\n                height: \"auto\",\n                overflow: expanded ? void 0 : \"hidden\",\n                opacity: expanded ? 1 : 0,\n                transform: `translateY(${expanded ? 0 : -10 }px)`,\n                transformOrigin: \"top\",\n                transition: \"all .25s\"\n              })}\n            >\n              {expanded && children.map((item: TreeItem[], index: number) => renderList(item, index, true, indexArray))}\n            </div>\n          )}\n        </div>\n      );\n    });\n\n    return (listSource as any).map((list: any, index: number) => renderList(list, index));\n  }",
           "documentation": "",
           "type": "() => ReactNode"
         },

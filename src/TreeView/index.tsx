@@ -4,29 +4,92 @@ import * as PropTypes from "prop-types";
 import Icon from "../Icon";
 
 export interface TreeItem {
+  /**
+   * Set TreeView item title.
+   */
   title?: string;
+  /**
+   * Set TreeView ReactNode to item title.
+   */
   titleNode?: React.ReactNode;
+  /**
+   * Disabled TreeView item.
+   */
   disabled?: boolean;
+  /**
+   * Init Item is `Visited`,only effective for the first loaded.
+   */
   visited?: boolean;
+  /**
+   * Set Item is expanded.
+   */
   expanded?: boolean;
+  /**
+   * Init Item is `Focus`,only effective for the first loaded.
+   */
   focus?: boolean;
+  /**
+   * Hidden TreeView item.
+   */
   hidden?: boolean;
+  /**
+   * Set TreeView Children.
+   */
   children?: TreeItem[];
+  /**
+   * Set TreeView item init style.
+   */
   style?: React.CSSProperties;
+  /**
+   * Set TreeView item hovered style.
+   */
   hoverStyle?: React.CSSProperties;
+  /**
+   * Set TreeView item onclick callback.
+   */
   onClick?: (e: MouseEvent) => void;
 }
 
 export interface DataProps {
+  /**
+   * Set TreView data source.
+   */
   listSource?: TreeItem[] | string[];
+  /**
+   * Set TreView icon direction.
+   */
   iconDirection?: "left" | "right";
+  /**
+   * Set TreView item height.
+   */
   itemHeight?: number;
+  /**
+   * Set TreView item padding.
+   */
   itemPadding?: number;
+  /**
+   * Set TreView icon padding.
+   */
   iconPadding?: number;
+  /**
+   * onChoose Tree item callback.
+   */
   onChooseTreeItem?: (listItem: TreeItem) => void;
+  /**
+   * Set Tree header item icon.
+   */
   headerIcon?: React.ReactNode;
+  /**
+   * Set Tree item children icon.
+   */
   itemIcon?: React.ReactNode;
+  /**
+   * Set TreeView custom background.
+   */
   background?: string;
+  /**
+   * Set first loaded show focus item ro not.
+   */
   showFocus?: boolean;
 }
 
@@ -41,8 +104,7 @@ const emptyFunc = () => {};
 export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
   static defaultProps: TreeViewProps = {
     listSource: [],
-    itemHeight: 40,
-    itemPadding: 20,
+    itemHeight: 28,
     iconPadding: 2,
     iconDirection: "left",
     onChooseTreeItem: emptyFunc,
@@ -124,7 +186,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
       return hidden ? null : (
         <div
           style={{
-            paddingLeft: isChild ? (isRight ? 10 : itemPadding) : void 0
+            paddingLeft: isChild ? (isRight ? itemHeight / 2.8 : itemPadding || itemHeight * 2 / 3) : void 0
           }}
           key={`${index}`}
         >
@@ -156,6 +218,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
               style={{
                 cursor: disabled ? "not-allowed" : "pointer",
                 paddingLeft: haveChild ? iconPadding : 0,
+                fontSize: itemHeight / 2.25,
                 height: "100%",
                 lineHeight: `${itemHeight}px`,
                 ...styles.titleNode,
@@ -265,9 +328,9 @@ function getStyles(treeView: TreeView): {
       overflowY: "auto",
       color: theme.baseMediumHigh,
       background: background,
-      width: 320,
+      width: itemHeight * 10,
       padding: "0 16px",
-      ...prepareStyles(style)
+      ...style
     }),
     title: prepareStyles({
       whiteSpace: "nowrap",

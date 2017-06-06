@@ -6,6 +6,7 @@ import Icon from "react-uwp/Icon";
 import CheckBox from "react-uwp/CheckBox";
 import Toggle from "react-uwp/Toggle";
 import Slider from "react-uwp/Slider";
+import DropDownMenu from "react-uwp/DropDownMenu";
 
 export interface SimpleExampleState {
   showHeaderIcon?: boolean;
@@ -14,6 +15,9 @@ export interface SimpleExampleState {
   itemHeight?: number;
 }
 
+const baseStyle: React.CSSProperties = {
+  margin: 10
+};
 export default class SimpleExample extends React.Component<{}, SimpleExampleState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -34,21 +38,30 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
     } = this.state;
 
     return (
-      <div>
-        <div>
+      <div style={{ padding: 20 }}>
+        <div style={baseStyle}>
           <Toggle
+            style={baseStyle}
             defaultToggled={showHeaderIcon}
             label="Show Header Icon"
             onToggle={showHeaderIcon => this.setState({ showHeaderIcon })}
           />
           <Toggle
+            style={baseStyle}
             defaultToggled={showItemIcon}
             label="Show Item Icon"
             onToggle={showItemIcon => this.setState({ showItemIcon })}
           />
+          <DropDownMenu
+            style={baseStyle}
+            values={["left", "right"]}
+            defaultValue={iconDirection}
+            onChangeValue={(iconDirection: any) => this.setState({ iconDirection })}
+          />
           <Slider
+            style={{ width: 120, ...baseStyle }}
             minValue={0}
-            maxValue={100}
+            maxValue={60}
             initValue={itemHeight}
             onChangedValue={itemHeight => this.setState({ itemHeight })}
             showValueInfo
@@ -56,10 +69,10 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
         </div>
 
         <TreeView
-          iconDirection="left"
+          iconDirection={iconDirection}
           itemHeight={itemHeight}
-          headerIcon={showHeaderIcon && <Icon size={itemHeight}>FolderLegacy</Icon>}
-          itemIcon={showItemIcon && <Icon size={itemHeight}>OpenFileLegacy</Icon>}
+          headerIcon={showHeaderIcon && <Icon style={{ fontSize: itemHeight / 3 }}>FolderLegacy</Icon>}
+          itemIcon={showItemIcon && <Icon style={{ fontSize: itemHeight / 3 }}>OpenFileLegacy</Icon>}
           listSource={[{
             title: "A",
             children: [{
