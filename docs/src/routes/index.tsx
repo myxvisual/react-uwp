@@ -215,6 +215,13 @@ function getRoutes(path = "/") {
               cb(null, require<any>("./Components/DatePickers/DatePicker").default);
             }, "react-uwp-Components-DatePickers-DatePicker");
           }
+        }, {
+          path: "TimePicker",
+          getComponent: (location: Location, cb: RouterCallback) => {
+            require.ensure([], (require) => {
+              cb(null, require<any>("./Components/DatePickers/TimePicker").default);
+            }, "react-uwp-Components-DatePickers-TimePicker");
+          }
         }]
       }, {
         path: "ContentDialog",

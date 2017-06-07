@@ -110,6 +110,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
       listSource, // tslint:disable-line:no-unused-variable
       listItemStyle, // tslint:disable-line:no-unused-variable
       onChooseItem,
+      defaultFocusListIndex,
       ...attributes
     } = this.props;
     const { theme } = this.context;

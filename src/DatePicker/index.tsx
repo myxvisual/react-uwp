@@ -27,8 +27,8 @@ export interface DatePickerState {
 const emptyFunc = () => {};
 export class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   static defaultProps: DatePickerProps = {
-    inputItemHeight: 32,
-    pickerItemHeight: 48,
+    inputItemHeight: 28,
+    pickerItemHeight: 44,
     onChangeDate: emptyFunc,
     defaultDate: new Date(),
     maxYear: new Date().getFullYear() + 50,
@@ -151,7 +151,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
               defaultFocusListIndex={this.dateIndex}
               listSource={dateArray}
               onChooseItem={dayIndex => {
-                this.setDate(dayIndex, void 0, void 0);
+                this.setDate(dayIndex + 1, void 0, void 0);
               }}
             />
             <ListView

@@ -1,28 +1,28 @@
 {
-  "fileName": "D:/react-uwp/src/DatePicker/index.tsx",
-  "name": "\"D:/react-uwp/src/DatePicker/index\"",
+  "fileName": "D:/react-uwp/src/TimePicker/index.tsx",
+  "name": "\"D:/react-uwp/src/TimePicker/index\"",
   "exports": [
     {
       "name": "DataProps",
       "documentation": ""
     },
     {
-      "name": "DatePickerProps",
+      "name": "TimePickerProps",
       "documentation": ""
     },
     {
-      "name": "DatePickerState",
+      "name": "TimePickerState",
       "documentation": ""
     },
     {
-      "name": "DatePicker",
+      "name": "TimePicker",
       "documentation": ""
     },
     {
       "name": "default",
       "documentation": "",
       "extends": [
-        "DatePicker"
+        "TimePicker"
       ]
     }
   ],
@@ -70,7 +70,7 @@
       "documentation": ""
     },
     {
-      "name": "DatePickerProps",
+      "name": "TimePickerProps",
       "documentation": "",
       "extends": [
         "DataProps",
@@ -78,7 +78,7 @@
       ]
     },
     {
-      "name": "DatePickerState",
+      "name": "TimePickerState",
       "members": [
         {
           "name": "showPicker",
@@ -107,7 +107,7 @@
       "type": "() => void"
     },
     {
-      "name": "DatePicker",
+      "name": "TimePicker",
       "exports": [
         {
           "name": "prototype",
@@ -116,9 +116,9 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    inputItemHeight: 28,\n    pickerItemHeight: 44,\n    onChangeDate: emptyFunc,\n    defaultDate: new Date(),\n    maxYear: new Date().getFullYear() + 50,\n    minYear: new Date().getFullYear() - 50\n  }",
+          "initializerText": " {\n    inputItemHeight: 32,\n    pickerItemHeight: 48,\n    onChangeDate: emptyFunc,\n    defaultDate: new Date(),\n    maxYear: new Date().getFullYear() + 50,\n    minYear: new Date().getFullYear() - 50\n  }",
           "documentation": "",
-          "type": "DatePickerProps"
+          "type": "TimePickerProps"
         },
         {
           "name": "contextTypes",
@@ -132,7 +132,7 @@
           "name": "state",
           "initializerText": " {\n    showPicker: false,\n    currDate: this.props.defaultDate\n  }",
           "documentation": "",
-          "type": "DatePickerState"
+          "type": "TimePickerState"
         },
         {
           "name": "prevDate",
@@ -181,7 +181,7 @@
         {
           "name": "componentWillReceiveProps",
           "documentation": "",
-          "type": "(nextProps: DatePickerProps) => void"
+          "type": "(nextProps: TimePickerProps) => void"
         },
         {
           "name": "componentDidUpdate",
@@ -214,9 +214,9 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(datePicker: DatePicker) => { root?: CSSProperties; button?: CSSProperties; pickerModal?: CSSProp..."
+      "type": "(TimePicker: TimePicker) => { root?: CSSProperties; button?: CSSProperties; pickerModal?: CSSProp..."
     }
   ],
   "documentation": "",
-  "type": "typeof \"D:/react-uwp/src/DatePicker/index\""
+  "type": "typeof \"D:/react-uwp/src/TimePicker/index\""
 }
