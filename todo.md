@@ -17,8 +17,8 @@ Styling Components
 ### DatePickers
 - [x] CalendarDatePicker
 - [x] CalendarView
-- [ ] DatePicker
-- [ ] TimePicker
+- [x] DatePicker
+- [x] TimePicker
 
 ### Flyouts
 - [x] Flyout
@@ -35,7 +35,7 @@ Styling Components
 - [x] NavigationView
 - [ ] Tabs
 - [ ] SemanticZoom
-- [ ] SplitView
+- [x] SplitView
 - [ ] PullRefresh
 - [ ] ScrollBar
 
@@ -46,8 +46,7 @@ Styling Components
 ### Text Controls
 - [x] AutoSuggestBox
 - [x] PasswordBox
-- [ ] SearchBox
-- [ ] TextBox
+- [x] TextBox
 
 ### Selection Controls
 - [x] CheckBox
@@ -57,10 +56,8 @@ Styling Components
 - [x] Toggle
 
 
-### Toasts
-- [ ] Tiles
+### Toast
 - [ ] Toast
-- [ ] Notification
 
 ProgressBar
 ProgressRing
