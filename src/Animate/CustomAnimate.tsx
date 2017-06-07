@@ -36,6 +36,15 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  customAnimateChild: CustomAnimateChild;
+
+  initializeAnimation = () => {
+    this.customAnimateChild.initializeAnimation();
+  }
+
+  animate = () => {
+    this.customAnimateChild.animate();
+  }
 
   render() {
     const {
@@ -62,6 +71,7 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
       >
         {React.Children.map(children, (child: any, index) => (
           <CustomAnimateChild
+            ref={customAnimateChild => this.customAnimateChild = customAnimateChild}
             key={child.key}
             enterDelay={enterDelay}
             leaveDelay={leaveDelay}
