@@ -36,14 +36,18 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
-  customAnimateChild: CustomAnimateChild;
+  customAnimateChildArray: CustomAnimateChild[] = [];
 
   initializeAnimation = () => {
-    this.customAnimateChild.initializeAnimation();
+    for (const customAnimateChild of this.customAnimateChildArray) {
+      customAnimateChild.initializeAnimation();
+    }
   }
 
   animate = () => {
-    this.customAnimateChild.animate();
+    for (const customAnimateChild of this.customAnimateChildArray) {
+      customAnimateChild.animate();
+    }
   }
 
   render() {
@@ -66,12 +70,17 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
     return (
       <ReactTransitionGroup
         {...others as any}
-        style={this.context.theme.prepareStyles({ overflow: "hidden", ...wrapperStyle })}
+        style={this.context.theme.prepareStyles({
+          display: "inline-block",
+          verticalAlign: "middle",
+          overflow: "hidden",
+          ...wrapperStyle
+        })}
         component={component}
       >
         {React.Children.map(children, (child: any, index) => (
           <CustomAnimateChild
-            ref={customAnimateChild => this.customAnimateChild = customAnimateChild}
+            ref={customAnimateChild => this.customAnimateChildArray[index] = customAnimateChild}
             key={child.key}
             enterDelay={enterDelay}
             leaveDelay={leaveDelay}

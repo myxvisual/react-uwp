@@ -79,7 +79,7 @@ export default [{
     disabled: true
   }, {
     "titleNode": "PullRefresh",
-    disabled: true
+    hidden: true
   }, {
     "titleNode": "MediaPlayer"
   }, {
@@ -95,7 +95,7 @@ export default [{
     "titleNode": "RadioButton"
   }, {
     "titleNode": "ScrollBar",
-    disabled: true
+    hidden: true
   }, {
     "titleNode": "SemanticZoom",
     disabled: true

@@ -1,13 +1,15 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface DataProps {}
+export interface DataProps {
+  children?: React.ReactElement<any>;
+}
 
-export interface ScrollRevealProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ScrollRevealProps extends DataProps {}
 
 export interface ScrollRevealState {}
 
-export default class ScrollReveal extends React.Component<ScrollRevealProps, ScrollRevealState> {
+export class ScrollReveal extends React.Component<ScrollRevealProps, ScrollRevealState> {
   static defaultProps: ScrollRevealProps = {};
 
   state: ScrollRevealState = {};
@@ -16,7 +18,7 @@ export default class ScrollReveal extends React.Component<ScrollRevealProps, Scr
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { ...attributes } = this.props;
+    const { children, ...attributes } = this.props;
     const { theme } = this.context;
 
     return (
@@ -28,3 +30,5 @@ export default class ScrollReveal extends React.Component<ScrollRevealProps, Scr
     );
   }
 }
+
+export default ScrollReveal;

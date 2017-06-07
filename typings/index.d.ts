@@ -3,7 +3,8 @@ interface Window {
     baseCSSRequired?: boolean;
     version?: string;
     docRootPath?: string;
-    scrollRevealDomNodes?: HTMLElement[];
+    scrollRevealElements?: HTMLElement[];
+    scrollRevealListenr?: (e?: Event) => void;
   }
 }
 
