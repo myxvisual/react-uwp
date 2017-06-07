@@ -31,38 +31,38 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "onChangeDate",
-          "documentation": "",
-          "isRequired": false,
-          "type": "(date?: Date) => void"
-        },
-        {
           "name": "defaultDate",
-          "documentation": "",
+          "documentation": "Set default date.",
           "isRequired": false,
           "type": "Date"
         },
         {
+          "name": "onChangeDate",
+          "documentation": "`onChangeDate` callback.",
+          "isRequired": false,
+          "type": "(date?: Date) => void"
+        },
+        {
           "name": "maxYear",
-          "documentation": "",
+          "documentation": "Set can choose max year.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "minYear",
-          "documentation": "",
+          "documentation": "Set can choose min year.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "inputItemHeight",
-          "documentation": "",
+          "documentation": "Set `Input` element height.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "pickerItemHeight",
-          "documentation": "",
+          "documentation": "Set `Picker` element height.",
           "isRequired": false,
           "type": "number"
         }
@@ -90,7 +90,7 @@
           "name": "currDate",
           "documentation": "",
           "isRequired": false,
-          "type": "any"
+          "type": "Date"
         }
       ],
       "documentation": ""

@@ -9,11 +9,29 @@ import scrollToYEasing from "../common/browser/scrollToYEasing";
 import { dayList, monthList, getLastDayOfMonth } from "../common/date.utils";
 
 export interface DataProps {
-  onChangeDate?: (date?: Date) => void;
+  /**
+   * Set default date.
+   */
   defaultDate?: Date;
+  /**
+   * `onChangeDate` callback.
+   */
+  onChangeDate?: (date?: Date) => void;
+  /**
+   * Set can choose max year.
+   */
   maxYear?: number;
+  /**
+   * Set can choose min year.
+   */
   minYear?: number;
+  /**
+   * Set `Input` element height.
+   */
   inputItemHeight?: number;
+  /**
+   * Set `Picker` element height.
+   */
   pickerItemHeight?: number;
 }
 
@@ -253,6 +271,7 @@ function getStyles(datePicker: DatePicker): {
       ...style
     }),
     pickerModal: prepareStyles({
+      overflow: "hidden",
       flex: "0 0 auto",
       display: "flex",
       flexDirection: "column",
@@ -262,7 +281,8 @@ function getStyles(datePicker: DatePicker): {
       width: "100%",
       background: background,
       opacity: showPicker ? 1 : 0,
-      transform: `translate3d(0, ${showPicker ? "-50%" : 0}, 0)`,
+      transform: `scaleY(${showPicker ? 1 : 0}) translateY(-50%)`,
+      transformOrigin: "top",
       pointerEvents: showPicker ? "all" : "none",
       transition: "all .25s ease-in-out"
     }),
