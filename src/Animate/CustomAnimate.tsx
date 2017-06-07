@@ -18,20 +18,26 @@ export interface DataProps {
   children?: any;
   wrapperStyle?: React.CSSProperties;
   component?: any;
+  useSingleChild?: boolean;
 }
 
 export interface CustomAnimateProps extends DataProps {}
 
+function FirstChild(props: any) {
+  const childrenArray = React.Children.toArray(props.children);
+  return childrenArray[0] || null;
+}
 export default class CustomAnimate extends React.Component<CustomAnimateProps, void> {
   static defaultProps: CustomAnimateProps = {
     appearAnimate: true,
-    children: <span>CustomAnimate</span>,
+    children: <p>CustomAnimate</p>,
     enterDelay: 0,
     leaveDelay: 0,
     mode: "in-out",
     speed: 500,
     animate: void 0,
-    component: "span"
+    component: "span",
+    useSingleChild: false
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -64,6 +70,7 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
       transitionTimingFunction,
       wrapperStyle,
       component,
+      useSingleChild,
       ...others
     } = this.props;
 
@@ -76,7 +83,7 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
           overflow: "hidden",
           ...wrapperStyle
         })}
-        component={component}
+        component={useSingleChild ? FirstChild : component}
       >
         {React.Children.map(children, (child: any, index) => (
           <CustomAnimateChild

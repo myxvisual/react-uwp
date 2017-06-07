@@ -90,6 +90,22 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentDidMount() {
+    this.updateDidMethod();
+  }
+
+  componentDidUpdate() {
+    this.updateDidMethod();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScrollReveal);
+  }
+
+  updateDidMethod = () => {
+    if (!window.__REACT_UWP__) {
+      window.__REACT_UWP__ = {};
+    }
+    window.addEventListener("scroll", this.handleScrollReveal);
     this.updateBaseCSS();
   }
 
@@ -102,6 +118,43 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         this.setState({
           currTheme: nextProps.theme
         });
+      }
+    }
+  }
+
+  handleScrollReveal = (e?: Event) => {
+    if (window.__REACT_UWP__ && window.__REACT_UWP__.scrollReveals) {
+      for (const scrollReveal of window.__REACT_UWP__.scrollReveals) {
+        const {
+          rootElm,
+          animate,
+          animated,
+          initializeAnimation,
+          props: {
+            topOffset,
+            bottomOffset
+          }
+        } = scrollReveal;
+        const { top, height } = rootElm.getBoundingClientRect();
+        const { innerHeight } = window;
+
+        let isIn = false;
+        if (height > innerHeight) {
+          isIn = top < innerHeight - height * height && top > - height * 0.5;
+        } else {
+          isIn = top > 0 + topOffset && top + height + bottomOffset < innerHeight;
+        }
+        if (isIn) {
+          if (!animated) {
+            animate();
+            scrollReveal.animated = true;
+          }
+        } else {
+          if (animated) {
+            initializeAnimation();
+            scrollReveal.animated = false;
+          }
+        }
       }
     }
   }

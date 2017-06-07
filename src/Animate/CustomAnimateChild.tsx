@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { findDOMNode } from "react-dom";
 
 import { DataProps } from "./CustomAnimate";
 
@@ -80,6 +81,9 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
       return;
     }
     const { style } = this.rootElm;
+    if (!this.rootElm.style) {
+      this.rootElm = findDOMNode(this.rootElm) as any;
+    }
 
     Object.assign(this.rootElm.style, this.context.theme.prepareStyles(animatedStyle));
 
@@ -116,6 +120,7 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
     const currStyle = {
       transition: `all ${speed}ms${transitionTimingFunction ? ` ${transitionTimingFunction}` : ""}`,
       ...(children as any).props.style,
+      ...style,
       ...(isControlledAnimate ? this.props[animate ? "animatedStyle" : "style"] : void 0)
     };
 

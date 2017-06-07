@@ -117,8 +117,7 @@ export default [{
     "titleNode": "Theme",
     disabled: true
   }, {
-    "titleNode": "ScrollReveal",
-    disabled: true
+    "titleNode": "ScrollReveal"
   }, {
     "titleNode": "DropDownMenu"
   }, {

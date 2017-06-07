@@ -329,6 +329,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-SplitViewCommand");
         }
       }, {
+        path: "ScrollReveal",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/ScrollReveal").default);
+          }, "react-uwp-Components-ScrollReveal");
+        }
+      }, {
         path: "Toggle",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

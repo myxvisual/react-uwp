@@ -1,10 +1,23 @@
 interface Window {
-  __REACT_UWP__: {
+  __REACT_UWP__?: {
     baseCSSRequired?: boolean;
     version?: string;
     docRootPath?: string;
-    scrollRevealElements?: HTMLElement[];
-    scrollRevealListenr?: (e?: Event) => void;
+    scrollReveals?: {
+      rootElm?: HTMLElement;
+      animate?: () => void;
+      animated?: boolean;
+      initializeAnimation: () => void;
+      props: {
+        speed?: number;
+        style?: React.CSSProperties;
+        animatedStyle?: React.CSSProperties;
+        children?: React.ReactElement<any>;
+        topOffset?: number;
+        bottomOffset?: number;
+      }
+    }[];
+    scrollRevealListener?: (e?: Event) => void;
   }
 }
 

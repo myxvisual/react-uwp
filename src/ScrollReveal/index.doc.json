@@ -1,0 +1,173 @@
+{
+  "fileName": "D:/react-uwp/src/ScrollReveal/index.tsx",
+  "name": "\"D:/react-uwp/src/ScrollReveal/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "ScrollRevealProps",
+      "documentation": ""
+    },
+    {
+      "name": "ScrollReveal",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "ScrollReveal"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "speed",
+          "documentation": "Set custom Animate speed.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "style",
+          "documentation": "Set custom default style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "animatedStyle",
+          "documentation": "Set custom animated style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "transitionTimingFunction",
+          "documentation": "Set custom transitionTimingFunction.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "documentation": "Set custom children.",
+          "isRequired": false,
+          "type": "ReactElement<any>"
+        },
+        {
+          "name": "topOffset",
+          "documentation": "Set scroll topOffset,, when `Element` top > topOffset, will animated.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "bottomOffset",
+          "documentation": "Set scroll bottomOffset,, when `Element` top + bottomOffset < window.innerHeight, will animated.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "useWrapper",
+          "documentation": "Used a `span` wrapper element.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "wrapperStyle",
+          "documentation": "Set custom wrapper Style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ScrollRevealProps",
+      "documentation": "",
+      "extends": [
+        "DataProps"
+      ]
+    },
+    {
+      "name": "ScrollReveal",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    style: { transform: \"scale(0)\" },\n    animatedStyle: { transform: \"scale(1)\" },\n    speed: 250,\n    transitionTimingFunction: \"ease-in-out\",\n    topOffset: window.innerHeight / 16,\n    bottomOffset: window.innerHeight / 16,\n    useWrapper: false\n  }",
+          "documentation": "",
+          "type": "ScrollRevealProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "customAnimate",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "rootElm",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "animated",
+          "initializerText": " false",
+          "documentation": "",
+          "type": "boolean"
+        },
+        {
+          "name": "componentWillMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "animate",
+          "initializerText": " () => {\n    this.customAnimate.animate();\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "initializeAnimation",
+          "initializerText": " () => {\n    this.customAnimate.initializeAnimation();\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/ScrollReveal/index\""
+}
