@@ -259,7 +259,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
                 borderRadius: mainBoardDotSize,
                 background: "none",
                 boxShadow: `0 0 0 4px #fff`,
-                transform: `translate3D(${colorPickerBoardSize - mainBoardDotSize / 2}px, ${colorPickerBoardSize - mainBoardDotSize / 2}px, 0)`
+                transform: `translate3d(${colorPickerBoardSize - mainBoardDotSize / 2}px, ${colorPickerBoardSize - mainBoardDotSize / 2}px, 0)`
               })}
             />
           </div>

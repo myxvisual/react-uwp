@@ -118,7 +118,7 @@ function getStyles(splitView: SplitView): {
       ...(isCompact ? {
         height: "100%",
         width: expandedWidth,
-        transform: `translate3D(${defaultExpanded ? 0 : expandedWidth}px, 0, 0)`
+        transform: `translate3d(${defaultExpanded ? 0 : expandedWidth}px, 0, 0)`
       } as React.CSSProperties : void 0),
       ...(isOverlay ? {
         position: "absolute",
@@ -127,7 +127,7 @@ function getStyles(splitView: SplitView): {
         left: panePositionIsRight ? void 0 : 0,
         height: "100%",
         width: expandedWidth,
-        transform: `translate3D(${defaultExpanded ? 0 : expandedWidth}px, 0, 0)`
+        transform: `translate3d(${defaultExpanded ? 0 : expandedWidth}px, 0, 0)`
       } as React.CSSProperties : void 0)
     })
   };

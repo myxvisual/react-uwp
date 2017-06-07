@@ -15,8 +15,15 @@
       "documentation": ""
     },
     {
-      "name": "default",
+      "name": "DatePicker",
       "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "DatePicker"
+      ]
     }
   ],
   "members": [
@@ -27,7 +34,7 @@
           "name": "onChangeDate",
           "documentation": "",
           "isRequired": false,
-          "type": "(date: Date) => void"
+          "type": "(date?: Date) => void"
         },
         {
           "name": "defaultDate",
@@ -46,6 +53,18 @@
           "documentation": "",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "inputItemHeight",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "pickerItemHeight",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
         }
       ],
       "documentation": ""
@@ -60,10 +79,35 @@
     },
     {
       "name": "DatePickerState",
+      "members": [
+        {
+          "name": "showPicker",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "currDate",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        }
+      ],
       "documentation": ""
     },
     {
-      "name": "default",
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "DatePicker",
       "exports": [
         {
           "name": "prototype",
@@ -72,7 +116,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    onChangeDate: () => {},\r\n    defaultDate: new Date(),\r\n    maxYear: (new Date()).getFullYear() + 40,\r\n    minYear: (new Date()).getFullYear() - 40\r\n  }",
+          "initializerText": " {\n    inputItemHeight: 32,\n    pickerItemHeight: 48,\n    onChangeDate: emptyFunc,\n    defaultDate: new Date(),\n    maxYear: new Date().getFullYear() + 50,\n    minYear: new Date().getFullYear() - 50\n  }",
           "documentation": "",
           "type": "DatePickerProps"
         },
@@ -86,15 +130,15 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {}",
+          "initializerText": " {\n    showPicker: true,\n    currDate: this.props.defaultDate\n  }",
           "documentation": "",
           "type": "DatePickerState"
         },
         {
-          "name": "dropDownMenus",
-          "initializerText": " []",
+          "name": "prevDate",
+          "initializerText": " this.props.defaultDate",
           "documentation": "",
-          "type": "any[]"
+          "type": "Date"
         },
         {
           "name": "context",
@@ -102,16 +146,66 @@
           "type": "{ theme: any; }"
         },
         {
-          "name": "handelChangeDate",
-          "initializerText": " (date: string) => {\r\n    this.props.onChangeDate(this.getDate());\r\n  }",
+          "name": "monthListView",
           "documentation": "",
-          "type": "(date: string) => void"
+          "type": "any"
         },
         {
-          "name": "getDate",
-          "initializerText": " () => (\r\n    new Date(\r\n      this.dropDownMenus[0].getValue() as any,\r\n      (this.dropDownMenus[1].getValue() as any - 1),\r\n      this.dropDownMenus[2].getValue() as any\r\n    )\r\n  )",
+          "name": "dateListView",
           "documentation": "",
-          "type": "() => Date"
+          "type": "any"
+        },
+        {
+          "name": "yearListView",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "monthIndex",
+          "initializerText": " 0",
+          "documentation": "",
+          "type": "number"
+        },
+        {
+          "name": "dateIndex",
+          "initializerText": " 0",
+          "documentation": "",
+          "type": "number"
+        },
+        {
+          "name": "yearIndex",
+          "initializerText": " 0",
+          "documentation": "",
+          "type": "number"
+        },
+        {
+          "name": "wheelTimeOut",
+          "initializerText": " null",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "componentDidUpdate",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "toggleShowPicker",
+          "initializerText": " (showPicker?: any) => {\n    const { currDate } = this.state;\n    if (typeof showPicker === \"boolean\") {\n      if (showPicker !== this.state.showPicker) {\n        this.setState({ showPicker });\n        if (showPicker) {\n          this.prevDate = currDate;\n        }\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        const showPicker = !prevState.showPicker;\n        if (showPicker) {\n          this.prevDate = currDate;\n        }\n        return { showPicker };\n      });\n    }\n  }",
+          "documentation": "",
+          "type": "(showPicker?: any) => void"
+        },
+        {
+          "name": "setDate",
+          "initializerText": " (date?: number, month?: number, year?: number) => {\n    const { currDate } = this.state;\n    const currDateNumb = date === void 0 ? currDate.getDate() : date;\n    const currMonth = month === void 0 ? currDate.getMonth() : month;\n    const currYear = year === void 0 ? currDate.getFullYear() : year;\n    this.setState({ currDate: new Date(currYear, currMonth, currDateNumb) });\n  }",
+          "documentation": "",
+          "type": "(date?: number, month?: number, year?: number) => void"
+        },
+        {
+          "name": "handelChangeDate",
+          "initializerText": " (date: string) => {\n    this.props.onChangeDate();\n  }",
+          "documentation": "",
+          "type": "(date: string) => void"
         },
         {
           "name": "render",
@@ -127,7 +221,7 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(datePicker: DatePicker) => { root?: CSSProperties; }"
+      "type": "(datePicker: DatePicker) => { root?: CSSProperties; button?: CSSProperties; pickerModal?: CSSProp..."
     }
   ],
   "documentation": "",

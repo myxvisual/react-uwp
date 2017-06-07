@@ -228,7 +228,7 @@ function getStyles(commandBar: CommandBar): {
       left: isReverse ? 0 : void 0,
       top: inBottom ? void 0 : changedHeight,
       bottom: inBottom ? changedHeight : void 0,
-      transform: `translate3D(0, ${currExpanded ? 0 : -8}px, 0)`,
+      transform: `translate3d(0, ${currExpanded ? 0 : -8}px, 0)`,
       opacity: currExpanded ? 1 : 0,
       pointerEvents: currExpanded ? "all" : "none"
     }

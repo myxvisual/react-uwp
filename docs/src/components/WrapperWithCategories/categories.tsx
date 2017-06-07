@@ -58,11 +58,9 @@ export default [{
     }, {
       "titleNode": "CalendarView"
     }, {
-      "titleNode": "DatePicker",
-      disabled: true
+      "titleNode": "DatePicker"
     }, {
-      "titleNode": "TimePicker",
-      disabled: true
+      "titleNode": "TimePicker"
     }]
   }, {
     "titleNode": "ContentDialog"

@@ -397,7 +397,7 @@ function getStyles(slider: Slider): {
       width: controllerWidth2px,
       height: height2px,
       float: "left",
-      transform: `translate3D(-${controllerWidth2px / 2}px, 0, 0)`,
+      transform: `translate3d(-${controllerWidth2px / 2}px, 0, 0)`,
       ...customControllerStyle
     }),
     label: {

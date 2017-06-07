@@ -21,10 +21,10 @@ const easingEquations = {
 };
 
 const scrollToY = (
+  targetElement: HTMLElement = null,
   scrollTargetY = 0,
   speed = 2000,
   easing: "easeOutSine" | "easeInOutSine" | "easeInOutQuint" = "easeOutSine",
-  targetElement: HTMLElement = null,
   callback = (() => {})
 ) => {
   let scrollY = window.scrollY;
@@ -56,7 +56,7 @@ const scrollToY = (
       flag = 1;
     }
     callback();
-  };
+  }
   tick();
 };
 

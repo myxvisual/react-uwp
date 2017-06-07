@@ -1,5 +1,5 @@
 const dayShortList = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-const dayList = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const dayList = ["Sunday ", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const monthShortList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -47,5 +47,5 @@ export {
   dayShortList,
   dayList,
   monthShortList,
-  monthList,
+  monthList
 };

@@ -150,7 +150,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
                 style={iconButtonStyle}
                 hoverStyle={iconButtonStyle}
                 activeStyle={iconButtonStyle}
-                onClick={() => scrollToYEasing(0)}
+                onClick={() => scrollToYEasing()}
               >
                 ScrollChevronUpLegacy
               </IconButton>

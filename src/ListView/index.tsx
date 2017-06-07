@@ -50,6 +50,12 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  rootElm: HTMLDivElement;
+  componentWillReceiveProps(nextProps: ListViewProps) {
+    if (nextProps.defaultFocusListIndex !== this.state.focusIndex) {
+      this.setState({ focusIndex: nextProps.defaultFocusListIndex });
+    }
+  }
 
   getItemNode = (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {
     const styles = getStyles(this);
@@ -113,6 +119,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
 
     return (
       <div
+        ref={rootElm => this.rootElm = rootElm}
         {...attributes}
         style={{
           ...styles.root,

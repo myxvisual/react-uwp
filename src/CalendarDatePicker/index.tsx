@@ -163,7 +163,7 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
       position: "absolute",
       top: height,
       left: 0,
-      transform: `translate3D(0, ${(
+      transform: `translate3d(0, ${(
         showCalendarView ? "4px" : (
           typeof height === "number" ? `-${height}px` : `-${height}`
         )

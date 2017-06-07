@@ -17,10 +17,10 @@ export class ScaleInOut extends React.Component<DataProps, void> {
     const { position, direction, ...others } = this.props;
     return <CustomAnimate
       style={{
-        transform: `translate3D(0, ${position}, 0)`
+        transform: `translate3d(0, ${position}, 0)`
       }}
       animatedStyle={{
-        transform: `translate3D(0, 0, 0)`
+        transform: `translate3d(0, 0, 0)`
       }}
       {...others}
     />;

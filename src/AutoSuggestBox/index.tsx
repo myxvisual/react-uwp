@@ -278,7 +278,7 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
       left: 0,
       zIndex: 2,
       border: `1px solid ${theme.baseLow}`,
-      transform: `translate3D(0, ${showListSource ? 0 : "-10px"}, 0)`,
+      transform: `translate3d(0, ${showListSource ? 0 : "-10px"}, 0)`,
       opacity: showListSource ? 1 : 0,
       pointerEvents: showListSource ? void 0 : "none",
       transition: "all .25s"

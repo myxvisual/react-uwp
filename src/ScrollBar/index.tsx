@@ -91,7 +91,7 @@ export default class ScrollBar extends React.Component<ScrollBarProps, ScrollBar
     const { style } = this.refs.view;
     const newTranslateY = this.translateY + (toTop ? 40 : -40);
     this.translateY = toTop ? (newTranslateY > 0 ? 0 : newTranslateY) : newTranslateY;
-    style.transform = `translate3D(0px, ${this.translateY}px, 0px)`;
+    style.transform = `translate3d(0px, ${this.translateY}px, 0px)`;
   }
 
   iconMouseDown = (toTop: boolean) => {
@@ -183,7 +183,7 @@ function getStyles(scrollBar: ScrollBar): {
       width: "100%",
       height: "100%",
       transition: `all ${scrollSpeed}ms 0s linear`,
-      transform: `translate3D(0px, 0px, 0px)`
+      transform: `translate3d(0px, 0px, 0px)`
     },
     horizontal: {
       ...scrollBarStyle,

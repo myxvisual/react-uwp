@@ -190,8 +190,8 @@ function getRoutes(path = "/") {
         indexRoute: {
           getComponent: (location: Location, cb: RouterCallback) => {
             require.ensure([], (require) => {
-              cb(null, require<any>("./Components/DatePickers/CalendarView").default);
-            }, "react-uwp-Components-DatePickers-CalendarView");
+              cb(null, require<any>("./Components/DatePickers/CalendarDatePicker").default);
+            }, "react-uwp-Components-DatePickers-CalendarDatePicker");
           }
         },
         childRoutes: [{
@@ -207,6 +207,13 @@ function getRoutes(path = "/") {
             require.ensure([], (require) => {
               cb(null, require<any>("./Components/DatePickers/CalendarView").default);
             }, "react-uwp-Components-DatePickers-CalendarView");
+          }
+        }, {
+          path: "DatePicker",
+          getComponent: (location: Location, cb: RouterCallback) => {
+            require.ensure([], (require) => {
+              cb(null, require<any>("./Components/DatePickers/DatePicker").default);
+            }, "react-uwp-Components-DatePickers-DatePicker");
           }
         }]
       }, {
