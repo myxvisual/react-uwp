@@ -6,14 +6,31 @@ import IconButton from "../IconButton";
 import ElementState from "../ElementState";
 import ListView from "../ListView";
 import scrollToYEasing from "../common/browser/scrollToYEasing";
-import { dayList, monthList, getLastDayOfMonth } from "../common/date.utils";
 
 export interface DataProps {
-  onChangeDate?: (date?: Date) => void;
-  defaultDate?: Date;
-  maxYear?: number;
-  minYear?: number;
+  /**
+   * Set default `hour`.
+   */
+  defaultHour?: number;
+  /**
+   * Set default `minute`.
+   */
+  defaultMinute?: number;
+  /**
+   * Set default show `Picker` modal.
+   */
+  defaultShowPicker?: boolean;
+  /**
+   * `onChangeTime` callback.
+   */
+  onChangeTime?: (hours?: number, minutes?: number) => void;
+  /**
+   * Set `Input` element height.
+   */
   inputItemHeight?: number;
+  /**
+   * Set `Picker` element height.
+   */
   pickerItemHeight?: number;
 }
 
@@ -21,109 +38,101 @@ export interface TimePickerProps extends DataProps, React.HTMLAttributes<HTMLDiv
 
 export interface TimePickerState {
   showPicker?: boolean;
-  currDate?: any;
+  currHour?: number;
+  currMinute?: number;
 }
 
 const emptyFunc = () => {};
 export class TimePicker extends React.Component<TimePickerProps, TimePickerState> {
   static defaultProps: TimePickerProps = {
-    inputItemHeight: 32,
-    pickerItemHeight: 48,
-    onChangeDate: emptyFunc,
-    defaultDate: new Date(),
-    maxYear: new Date().getFullYear() + 50,
-    minYear: new Date().getFullYear() - 50
+    defaultShowPicker: false,
+    inputItemHeight: 28,
+    pickerItemHeight: 44,
+    defaultHour: 12,
+    defaultMinute: 30,
+    onChangeTime: emptyFunc
   };
 
   state: TimePickerState = {
-    showPicker: false,
-    currDate: this.props.defaultDate
+    showPicker: this.props.defaultShowPicker,
+    currHour: this.props.defaultHour,
+    currMinute: this.props.defaultMinute
   };
-
-  prevDate: Date = this.props.defaultDate;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  monthListView: ListView;
-  dateListView: ListView;
-  yearListView: ListView;
+  prevState: {
+    currHour: number;
+    currMinute: number;
+  } = {
+    currHour: this.props.defaultHour,
+    currMinute: this.props.defaultMinute
+  };
 
-  monthIndex: number = 0;
-  dateIndex: number = 0;
-  yearIndex: number = 0;
+  hourListView: ListView;
+  minuteListView: ListView;
+  timeTypeListView: ListView;
+
+  hourIndex: number;
+  minuteIndex: number;
+  timeTypeIndex: number;
 
   componentWillReceiveProps(nextProps: TimePickerProps) {
-    if (nextProps.defaultDate !== this.state.currDate) {
-      this.setState({ currDate: nextProps.defaultDate });
+    const { defaultHour, defaultMinute, defaultShowPicker } = nextProps;
+    const { currHour, currMinute, showPicker } = this.state;
+    if (defaultHour !== currHour || defaultMinute !== currMinute || defaultShowPicker !== showPicker) {
+      this.setState({ currHour: defaultHour, currMinute: defaultMinute, showPicker: defaultShowPicker });
     }
   }
 
   componentDidUpdate() {
     const { pickerItemHeight } = this.props;
-    scrollToYEasing(this.monthListView.rootElm, this.monthIndex * pickerItemHeight, 0.1);
-    scrollToYEasing(this.dateListView.rootElm, this.dateIndex * pickerItemHeight, 0.1);
-    scrollToYEasing(this.yearListView.rootElm, this.yearIndex * pickerItemHeight, 0.1);
+    scrollToYEasing(this.hourListView.rootElm, this.hourIndex * pickerItemHeight, 0.1);
+    scrollToYEasing(this.minuteListView.rootElm, this.minuteIndex * pickerItemHeight, 0.1);
+    scrollToYEasing(this.timeTypeListView.rootElm, this.timeTypeIndex * pickerItemHeight, 0.1);
   }
 
   toggleShowPicker = (showPicker?: any) => {
-    const { currDate } = this.state;
     if (typeof showPicker === "boolean") {
       if (showPicker !== this.state.showPicker) {
         this.setState({ showPicker });
-        if (showPicker) {
-          this.prevDate = currDate;
-        }
       }
     } else {
       this.setState((prevState, prevProps) => {
         const showPicker = !prevState.showPicker;
-        if (showPicker) {
-          this.prevDate = currDate;
-        }
         return { showPicker };
       });
     }
   }
 
-  setDate = (date?: number, month?: number, year?: number) => {
-    const { currDate } = this.state;
-    const currDateNumb = date === void 0 ? currDate.getDate() : date;
-    const currMonth = month === void 0 ? currDate.getMonth() : month;
-    const currYear = year === void 0 ? currDate.getFullYear() : year;
-    this.setState({ currDate: new Date(currYear, currMonth, currDateNumb) });
-  }
-
   render() {
     const {
-      onChangeDate,
-      defaultDate,
-      maxYear,
-      minYear,
-      inputItemHeight,
-      pickerItemHeight,
+    defaultShowPicker,
+    defaultHour,
+    defaultMinute,
+    onChangeTime,
+    inputItemHeight,
+    pickerItemHeight,
       ...attributes
     } = this.props;
-    const {
-      currDate,
+    let {
+      currHour,
+      currMinute,
       showPicker
     } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
 
     const separator = <Separator direction="column" style={{ margin: 0 }} />;
+    const currTimeType = currHour < 13 ? "AM" : "PM";
+    const hourArray = Array(12).fill(0).map((zero, index) => index + 1);
+    const minuteArray = Array(60).fill(0).map((zero, index) => index + 1);
+    const timeTypeArray = ["AM", "PM"];
 
-    const currYear = currDate.getFullYear();
-    const currMonth = currDate.getMonth();
-    const currDateNumb = currDate.getDate();
-
-    const monthArray = monthList;
-    const dateArray = Array(getLastDayOfMonth(currDate).getDate()).fill(0).map((numb, index) => index + 1);
-    const yearArray = Array(maxYear - minYear).fill(0).map((numb, index) => minYear + index);
-
-    this.monthIndex = currMonth;
-    this.dateIndex = dateArray.indexOf(currDateNumb);
-    this.yearIndex = yearArray.indexOf(currYear);
+    this.hourIndex = hourArray.indexOf(currHour > 12 ? currHour - 12 : currHour);
+    this.minuteIndex = minuteArray.indexOf(currMinute);
+    this.timeTypeIndex = timeTypeArray.indexOf(currTimeType);
 
     return (
       <ElementState
@@ -135,33 +144,38 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
         <div style={styles.pickerModal}>
           <div style={styles.listViews}>
             <ListView
-              ref={monthListView => this.monthListView = monthListView}
+              ref={hourListView => this.hourListView = hourListView}
               style={styles.listView}
               listItemStyle={styles.listItem}
-              defaultFocusListIndex={currMonth}
-              listSource={monthArray}
-              onChooseItem={month => {
-                this.setDate(void 0, month, void 0);
+              defaultFocusListIndex={this.hourIndex}
+              listSource={hourArray}
+              onChooseItem={hourIndex => {
+                this.setState({ currHour: currHour > 12 ? 13 + hourIndex : hourIndex + 1});
               }}
             />
             <ListView
-              ref={dateListView => this.dateListView = dateListView}
+              ref={minuteListView => this.minuteListView = minuteListView}
               style={styles.listView}
               listItemStyle={styles.listItem}
-              defaultFocusListIndex={this.dateIndex}
-              listSource={dateArray}
-              onChooseItem={dayIndex => {
-                this.setDate(dayIndex, void 0, void 0);
+              defaultFocusListIndex={this.minuteIndex}
+              listSource={minuteArray}
+              onChooseItem={minuteIndex => {
+                this.setState({ currMinute: minuteIndex + 1 });
               }}
             />
             <ListView
-              ref={yearListView => this.yearListView = yearListView}
+              ref={timeTypeListView => this.timeTypeListView = timeTypeListView}
               style={styles.listView}
               listItemStyle={styles.listItem}
-              defaultFocusListIndex={this.yearIndex}
-              listSource={yearArray}
-              onChooseItem={yearIndex => {
-                this.setDate(void 0, void 0, minYear + yearIndex);
+              defaultFocusListIndex={this.timeTypeIndex}
+              listSource={timeTypeArray}
+              onChooseItem={timeTypeIndex => {
+                if (timeTypeIndex === 0 && currHour > 12) {
+                  this.setState({ currHour: currHour - 12 });
+                }
+                if (timeTypeIndex === 1 && currHour < 25) {
+                  this.setState({ currHour: currHour + 12 });
+                }
               }}
             />
           </div>
@@ -170,8 +184,8 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
               style={styles.iconButton}
               size={pickerItemHeight}
               onClick={() => {
-                onChangeDate(currDate);
                 this.setState({ showPicker: false });
+                this.prevState = { currHour, currMinute };
               }}
             >
               AcceptLegacy
@@ -180,7 +194,9 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
               style={styles.iconButton}
               size={pickerItemHeight}
               onClick={() => {
-                this.setState({ currDate: this.prevDate, showPicker: false });
+                const { currHour, currMinute } = this.prevState;
+                this.setState({ showPicker: false });
+                this.setState({ currHour, currMinute });
               }}
             >
               ClearLegacy
@@ -191,21 +207,21 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
           style={styles.button}
           onClick={this.toggleShowPicker}
         >
-          {monthList[currMonth]}
+          {currHour > 12 ? currHour - 12 : currHour}
         </span>
         {separator}
         <span
           style={styles.button}
           onClick={this.toggleShowPicker}
         >
-          {currDateNumb}
+          {currMinute}
         </span>
         {separator}
         <span
           style={styles.button}
           onClick={this.toggleShowPicker}
         >
-          {currYear}
+          {currTimeType}
         </span>
       </div>
       </ElementState>
@@ -276,6 +292,7 @@ function getStyles(TimePicker: TimePicker): {
       zIndex: theme.zIndex.flyout
     }),
     listView: prepareStyles({
+      userSelect: "none",
       border: "none",
       borderLeft: `1px solid ${theme.listLow}`,
       padding: `${pickerItemHeight * 3}px 0`,

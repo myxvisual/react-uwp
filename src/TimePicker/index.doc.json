@@ -31,38 +31,38 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "onChangeDate",
-          "documentation": "",
-          "isRequired": false,
-          "type": "(date?: Date) => void"
-        },
-        {
-          "name": "defaultDate",
-          "documentation": "",
-          "isRequired": false,
-          "type": "Date"
-        },
-        {
-          "name": "maxYear",
-          "documentation": "",
+          "name": "defaultHour",
+          "documentation": "Set default `hour`.",
           "isRequired": false,
           "type": "number"
         },
         {
-          "name": "minYear",
-          "documentation": "",
+          "name": "defaultMinute",
+          "documentation": "Set default `minute`.",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "defaultShowPicker",
+          "documentation": "Set default show `Picker` modal.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "onChangeTime",
+          "documentation": "`onChangeTime` callback.",
+          "isRequired": false,
+          "type": "(hours?: number, minutes?: number) => void"
         },
         {
           "name": "inputItemHeight",
-          "documentation": "",
+          "documentation": "Set `Input` element height.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "pickerItemHeight",
-          "documentation": "",
+          "documentation": "Set `Picker` element height.",
           "isRequired": false,
           "type": "number"
         }
@@ -87,10 +87,16 @@
           "type": "boolean"
         },
         {
-          "name": "currDate",
+          "name": "currHour",
           "documentation": "",
           "isRequired": false,
-          "type": "any"
+          "type": "number"
+        },
+        {
+          "name": "currMinute",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
         }
       ],
       "documentation": ""
@@ -116,7 +122,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    inputItemHeight: 32,\n    pickerItemHeight: 48,\n    onChangeDate: emptyFunc,\n    defaultDate: new Date(),\n    maxYear: new Date().getFullYear() + 50,\n    minYear: new Date().getFullYear() - 50\n  }",
+          "initializerText": " {\n    defaultShowPicker: false,\n    inputItemHeight: 28,\n    pickerItemHeight: 44,\n    defaultHour: 12,\n    defaultMinute: 30,\n    onChangeTime: emptyFunc\n  }",
           "documentation": "",
           "type": "TimePickerProps"
         },
@@ -130,15 +136,9 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    showPicker: false,\n    currDate: this.props.defaultDate\n  }",
+          "initializerText": " {\n    showPicker: this.props.defaultShowPicker,\n    currHour: this.props.defaultHour,\n    currMinute: this.props.defaultMinute\n  }",
           "documentation": "",
           "type": "TimePickerState"
-        },
-        {
-          "name": "prevDate",
-          "initializerText": " this.props.defaultDate",
-          "documentation": "",
-          "type": "Date"
         },
         {
           "name": "context",
@@ -146,35 +146,38 @@
           "type": "{ theme: any; }"
         },
         {
-          "name": "monthListView",
+          "name": "prevState",
+          "initializerText": " {\n    currHour: this.props.defaultHour,\n    currMinute: this.props.defaultMinute\n  }",
+          "documentation": "",
+          "type": "{ currHour: number; currMinute: number; }"
+        },
+        {
+          "name": "hourListView",
           "documentation": "",
           "type": "any"
         },
         {
-          "name": "dateListView",
+          "name": "minuteListView",
           "documentation": "",
           "type": "any"
         },
         {
-          "name": "yearListView",
+          "name": "timeTypeListView",
           "documentation": "",
           "type": "any"
         },
         {
-          "name": "monthIndex",
-          "initializerText": " 0",
+          "name": "hourIndex",
           "documentation": "",
           "type": "number"
         },
         {
-          "name": "dateIndex",
-          "initializerText": " 0",
+          "name": "minuteIndex",
           "documentation": "",
           "type": "number"
         },
         {
-          "name": "yearIndex",
-          "initializerText": " 0",
+          "name": "timeTypeIndex",
           "documentation": "",
           "type": "number"
         },
@@ -190,15 +193,9 @@
         },
         {
           "name": "toggleShowPicker",
-          "initializerText": " (showPicker?: any) => {\n    const { currDate } = this.state;\n    if (typeof showPicker === \"boolean\") {\n      if (showPicker !== this.state.showPicker) {\n        this.setState({ showPicker });\n        if (showPicker) {\n          this.prevDate = currDate;\n        }\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        const showPicker = !prevState.showPicker;\n        if (showPicker) {\n          this.prevDate = currDate;\n        }\n        return { showPicker };\n      });\n    }\n  }",
+          "initializerText": " (showPicker?: any) => {\n    if (typeof showPicker === \"boolean\") {\n      if (showPicker !== this.state.showPicker) {\n        this.setState({ showPicker });\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        const showPicker = !prevState.showPicker;\n        return { showPicker };\n      });\n    }\n  }",
           "documentation": "",
           "type": "(showPicker?: any) => void"
-        },
-        {
-          "name": "setDate",
-          "initializerText": " (date?: number, month?: number, year?: number) => {\n    const { currDate } = this.state;\n    const currDateNumb = date === void 0 ? currDate.getDate() : date;\n    const currMonth = month === void 0 ? currDate.getMonth() : month;\n    const currYear = year === void 0 ? currDate.getFullYear() : year;\n    this.setState({ currDate: new Date(currYear, currMonth, currDateNumb) });\n  }",
-          "documentation": "",
-          "type": "(date?: number, month?: number, year?: number) => void"
         },
         {
           "name": "render",

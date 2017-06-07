@@ -21,7 +21,7 @@ export interface DatePickerProps extends DataProps, React.HTMLAttributes<HTMLDiv
 
 export interface DatePickerState {
   showPicker?: boolean;
-  currDate?: any;
+  currDate?: Date;
 }
 
 const emptyFunc = () => {};
@@ -276,6 +276,7 @@ function getStyles(datePicker: DatePicker): {
       zIndex: theme.zIndex.flyout
     }),
     listView: prepareStyles({
+      userSelect: "none",
       border: "none",
       borderLeft: `1px solid ${theme.listLow}`,
       padding: `${pickerItemHeight * 3}px 0`,
