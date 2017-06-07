@@ -77,6 +77,10 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
     window.__REACT_UWP__.scrollReveals.push(this);
   }
 
+  componentWillUnmount() {
+    window.__REACT_UWP__.scrollReveals.splice(window.__REACT_UWP__.scrollReveals.indexOf(this), 1);
+  }
+
   animate = () => {
     this.customAnimate.animate();
   }
