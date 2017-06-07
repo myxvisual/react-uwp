@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import DropDownMenu from "../DropDownMenu";
+import Flyout from '../Flyout'
+import FlyoutContent from '../FlyoutContent'
 
 export interface DataProps {
   onChangeDate?: (date: Date) => void;
@@ -18,8 +19,8 @@ export default class DatePicker extends React.Component<DatePickerProps, DatePic
   static defaultProps: DatePickerProps = {
     onChangeDate: () => {},
     defaultDate: new Date(),
-    maxYear: (new Date()).getFullYear() + 40,
-    minYear: (new Date()).getFullYear() - 40
+    maxYear: new Date().getFullYear() + 40,
+    minYear: new Date().getFullYear() - 40
   };
 
   state: DatePickerState = {};
@@ -42,7 +43,6 @@ export default class DatePicker extends React.Component<DatePickerProps, DatePic
 
   render() {
     const {
-      // tslint:disable-next-line:no-unused-variable
       onChangeDate,
       defaultDate,
       maxYear,
@@ -62,24 +62,9 @@ export default class DatePicker extends React.Component<DatePickerProps, DatePic
         {...attributes}
         style={styles.root}
       >
-        <DropDownMenu
-          defaultValue={`${currYear}`}
-          values={years}
-          ref={dropDownMenu => this.dropDownMenus[0] = dropDownMenu}
-          onChangeValue={this.handelChangeDate}
-        />
-        <DropDownMenu
-          defaultValue={`${currMonth + 1}`}
-          values={[...Array(12).keys() as any].map(index => `${index + 1} Month`)}
-          ref={dropDownMenu => this.dropDownMenus[1] = dropDownMenu}
-          onChangeValue={this.handelChangeDate}
-        />
-        <DropDownMenu
-          defaultValue={`${currDate}`}
-          values={[...Array(dateCount).keys() as any].map(index => `${index + 1} Day`)}
-          ref={dropDownMenu => this.dropDownMenus[2] = dropDownMenu}
-          onChangeValue={this.handelChangeDate}
-        />
+        <span style={styles.button}>February</span>
+        <span style={styles.button}>24</span>
+        <span style={styles.button}>2014</span>
       </div>
     );
   }
@@ -87,6 +72,7 @@ export default class DatePicker extends React.Component<DatePickerProps, DatePic
 
 function getStyles(datePicker: DatePicker): {
   root?: React.CSSProperties;
+  button?: React.CSSProperties;
 } {
   const {
     context: { theme },
