@@ -36,7 +36,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
   };
 
   state: DatePickerState = {
-    showPicker: true,
+    showPicker: false,
     currDate: this.props.defaultDate
   };
 
@@ -53,7 +53,11 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
   dateIndex: number = 0;
   yearIndex: number = 0;
 
-  wheelTimeOut: any = null;
+  componentWillReceiveProps(nextProps: DatePickerProps) {
+    if (nextProps.defaultDate !== this.state.currDate) {
+      this.setState({ currDate: nextProps.defaultDate });
+    }
+  }
 
   componentDidUpdate() {
     const { pickerItemHeight } = this.props;
@@ -88,10 +92,6 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
     const currMonth = month === void 0 ? currDate.getMonth() : month;
     const currYear = year === void 0 ? currDate.getFullYear() : year;
     this.setState({ currDate: new Date(currYear, currMonth, currDateNumb) });
-  }
-
-  handelChangeDate = (date: string) => {
-    this.props.onChangeDate();
   }
 
   render() {
@@ -169,7 +169,10 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
             <IconButton
               style={styles.iconButton}
               size={pickerItemHeight}
-              onClick={this.toggleShowPicker}
+              onClick={() => {
+                onChangeDate(currDate);
+                this.setState({ showPicker: false });
+              }}
             >
               AcceptLegacy
             </IconButton>

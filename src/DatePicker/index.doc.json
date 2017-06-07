@@ -130,7 +130,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    showPicker: true,\n    currDate: this.props.defaultDate\n  }",
+          "initializerText": " {\n    showPicker: false,\n    currDate: this.props.defaultDate\n  }",
           "documentation": "",
           "type": "DatePickerState"
         },
@@ -179,10 +179,9 @@
           "type": "number"
         },
         {
-          "name": "wheelTimeOut",
-          "initializerText": " null",
+          "name": "componentWillReceiveProps",
           "documentation": "",
-          "type": "any"
+          "type": "(nextProps: DatePickerProps) => void"
         },
         {
           "name": "componentDidUpdate",
@@ -200,12 +199,6 @@
           "initializerText": " (date?: number, month?: number, year?: number) => {\n    const { currDate } = this.state;\n    const currDateNumb = date === void 0 ? currDate.getDate() : date;\n    const currMonth = month === void 0 ? currDate.getMonth() : month;\n    const currYear = year === void 0 ? currDate.getFullYear() : year;\n    this.setState({ currDate: new Date(currYear, currMonth, currDateNumb) });\n  }",
           "documentation": "",
           "type": "(date?: number, month?: number, year?: number) => void"
-        },
-        {
-          "name": "handelChangeDate",
-          "initializerText": " (date: string) => {\n    this.props.onChangeDate();\n  }",
-          "documentation": "",
-          "type": "(date: string) => void"
         },
         {
           "name": "render",
