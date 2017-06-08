@@ -303,7 +303,7 @@ function getStyles(calendarView: CalendarView): {
       fontSize: 14,
       color: theme.baseHigh,
       width: 296,
-      background: theme.altHigh,
+      background: theme.useFluentDesign ? "none" : theme.altHigh,
       border: `2px solid ${theme.baseLow}`,
       ...style
     }),

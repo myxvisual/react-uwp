@@ -55,8 +55,10 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  textBox: TextBox;
 
   toggleShowCalendarView = (showCalendarView?: any) => {
+    if (!this.textBox.rootElm.contains(showCalendarView.target)) return;
     this.props.onClick(showCalendarView);
     if (typeof showCalendarView === "boolean") {
       if (showCalendarView !== this.state.showCalendarView) {
@@ -73,8 +75,6 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
     this.state.currDate = date;
     this.state.isInit = false;
     this.props.onChangeDate(date);
-
-    this.toggleShowCalendarView();
   }
 
   render() {
@@ -104,6 +104,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
       >
         <TextBox
           {...attributes}
+          ref={textBox => this.textBox = textBox}
           style={styles.input}
           placeholder={isInit ? placeholder : mmddyy }
           disabled

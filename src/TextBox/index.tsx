@@ -119,7 +119,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       flexDirection: "row",
       alignItems: "center",
       color: focused ? "#000" : theme.baseHigh,
-      background: focused ? "#fff" : currBackground,
+      background: focused ? "#fff" : theme.useFluentDesign ? "none" : currBackground,
       boxShadow: focused ? `inset 0px 0px 0 2px ${this.context.theme.accent}` : hovered ? `inset 0px 0px 0 2px ${theme.baseMedium}` : `inset 0px 0px 0 2px ${theme.baseLow}`,
       border: "none",
       transition: "all .25s"

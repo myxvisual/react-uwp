@@ -89,6 +89,12 @@
           "documentation": "default is `top`, set `bottom` if your `CommandBar` in your app's bottom.",
           "isRequired": false,
           "type": "\"bottom\" | \"top\""
+        },
+        {
+          "name": "background",
+          "documentation": "Set custom background.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""
@@ -119,7 +125,7 @@
         {
           "name": "prototype",
           "documentation": "",
-          "type": "any"
+          "type": "prototype"
         },
         {
           "name": "defaultProps",
@@ -144,7 +150,7 @@
         {
           "name": "context",
           "documentation": "",
-          "type": "{ theme: ThemeType; }"
+          "type": "{ theme: any; }"
         },
         {
           "name": "componentWillReceiveProps",

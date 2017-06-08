@@ -187,7 +187,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
                 })}
                 onClick={this.toggleShowList}
                 onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
-                  e.currentTarget.style.background = isCurrent ? theme.listAccentMedium : theme.chromeMedium;
+                  e.currentTarget.style.background = isCurrent ? theme.listAccentMedium : theme.useFluentDesign ? theme.listLow : theme.chromeMedium;
                   itemAttributes.onMouseEnter(e);
                 }}
                 onMouseLeave={!showList ? itemAttributes.onMouseLeave : (e) => {

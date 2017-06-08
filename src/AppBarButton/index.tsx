@@ -88,6 +88,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseMediumHigh,
+      background: "none",
       display: "flex",
       flexDirection: flexDirection[labelPosition],
       alignItems: "center",

@@ -10,7 +10,7 @@ export default class SimpleExample extends React.Component<{}, void> {
     const { theme } = this.context;
 
     const baseStyle: React.CSSProperties = {
-      background: theme.chromeLow,
+      background: theme.useFluentDesign ? theme.listLow : theme.chromeLow,
       margin: 8
     };
     return (

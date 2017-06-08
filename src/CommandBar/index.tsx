@@ -46,6 +46,10 @@ export interface DataProps {
    * default is `top`, set `bottom` if your `CommandBar` in your app's bottom.
    */
   verticalPosition?: "top" | "bottom";
+  /**
+   * Set custom background.
+   */
+  background?: string;
 }
 
 export interface CommandBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -94,6 +98,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
       expanded,
       isMinimal,
       verticalPosition,
+      background,
       ...attributes
     } = this.props;
     const { currExpanded } = this.state;
@@ -165,7 +170,8 @@ function getStyles(commandBar: CommandBar): {
       contentStyle,
       primaryCommands,
       isMinimal,
-      verticalPosition
+      verticalPosition,
+      background
     },
     state: { currExpanded }
   } = commandBar;
@@ -198,7 +204,7 @@ function getStyles(commandBar: CommandBar): {
       justifyContent: haveContent ? "space-between" : "flex-start",
       fontSize: 14,
       color: theme.baseMediumHigh,
-      background: theme.altHigh,
+      background: theme.useFluentDesign ? theme.listLow : background || theme.altHigh,
       height: changedHeight,
       transition
     }),

@@ -221,9 +221,9 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
           </Icon>
           <div
             style={theme.prepareStyles({
-              background: theme.useFluentDesign ? theme.chromeLow : theme.altHigh,
+              background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.altHigh,
               width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
-              ...getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
+              ...(theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent")),
               minHeight: "100%"
             })}
           >
