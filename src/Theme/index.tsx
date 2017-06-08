@@ -254,6 +254,17 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
   }
 
+  updateTheme = (newTheme?: ReactUWP.ThemeType) => {
+    newTheme.updateTheme = this.updateTheme;
+    this.setState({
+      currTheme: newTheme
+    }, () => {
+      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage) {
+        this.generateAcrylicTextures();
+      }
+    });
+  }
+
   getDefaultTheme = () => {
     let theme: ReactUWP.ThemeType;
     let defaultConfig: any = {};
