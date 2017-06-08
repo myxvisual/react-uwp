@@ -195,6 +195,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       ) {
         this.setState({
           currTheme: theme
+        }, () => {
+          if (theme.useFluentDesign && theme.desktopBackgroundImage) {
+            this.generateAcrylicTextures();
+          }
         });
       }
     }
