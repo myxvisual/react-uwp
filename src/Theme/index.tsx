@@ -269,6 +269,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
   }
 
+  cleanLocalStorage = () => {
+    localStorage.setItem(customLocalStorageName, "");
+  }
+
   getDefaultTheme = () => {
     let theme: ReactUWP.ThemeType;
     let defaultConfig: any = {};
