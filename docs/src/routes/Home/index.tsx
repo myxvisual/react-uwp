@@ -38,13 +38,18 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
     return (
       <div style={{ width: "100%" }}>
-        <div style={{ width: "100%", background: theme.listLow }}>
+        <div
+          style={{
+            width: "100%",
+            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.listLow
+          }}
+        >
           <FlipView
             style={{
               height: FLIP_HEIGHT,
-              background: "none",
               margin: "0 auto",
-              width: renderContentWidth
+              width: renderContentWidth,
+              background: "none"
             }}
           >
             <FlipViewItem
@@ -78,11 +83,12 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             height: "auto",
             padding: "20px 0",
             margin: "0 auto",
-            width: renderContentWidth
+            width: renderContentWidth,
+            background: theme.altMedium
           }}
         />
         <Banner renderContentWidth={renderContentWidth} />
-        <CustomTheme renderContentWidth={renderContentWidth} />
+        <CustomTheme renderContentWidth={renderContentWidth} style={{ background: theme.acrylicTextures.acrylicTexture40.background }} />
         <MediaPlayer
           style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
           url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
@@ -96,7 +102,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             flexDirection: "row",
             flexWrap: "wrap",
             justifyContent: "space-around",
-            alignItems: "center"
+            alignItems: "center",
+            background: theme.acrylicTextures.acrylicTexture40.background
           }}
         />
         <IndexOfComponentsByFunction

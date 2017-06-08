@@ -21,6 +21,15 @@ interface Window {
   }
 }
 
+interface AcrylicTexture {
+  tintColor?: string;
+  tintOpacity?: number;
+  blurSize?: number;
+  noiseSize?: number;
+  noiseOpacity?: number;
+  background?: string;
+}
+
 declare namespace ReactUWP {
   interface ThemeType {
     themeName: "dark" | "light";
@@ -28,10 +37,14 @@ declare namespace ReactUWP {
     iconFontFamily?: string;
 
     useFluentDesign?: boolean;
-    blurBackground?: string;
-    blurSize?: number;
-    lightBackgroundBrightness?: number;
-    darkBackgroundBrightness?: number;
+    desktopBackgroundImage?: string;
+
+    acrylicTextures?: {
+      acrylicTexture40: AcrylicTexture;
+      acrylicTexture60: AcrylicTexture;
+      acrylicTexture80: AcrylicTexture;
+      [key:string]: AcrylicTexture;
+    };
 
     accent?: string;
     accentLighter1?: string;

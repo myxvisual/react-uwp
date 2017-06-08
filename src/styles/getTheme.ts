@@ -12,8 +12,27 @@ export function lighten(color: string, coefficient: number) {
   hsl.l = hsl.l + (100 - hsl.l) * coefficient;
   return tinycolor(hsl).toRgbString();
 }
+export interface ThemeConfig {
+  themeName?: "dark" | "light";
+  accent?: string;
 
-export default function getTheme(themeName: "dark" | "light" = "dark", accent = "#0078D7", useFluentDesign = false, blurSize = 8): ReactUWP.ThemeType {
+  useFluentDesign?: boolean;
+  desktopBackgroundImage?: string;
+}
+
+export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
+  let {
+    themeName,
+    accent,
+
+    useFluentDesign,
+    desktopBackgroundImage
+  } = themeConfig;
+
+  themeName = themeName || "dark";
+  accent = accent || "#0078D7";
+  useFluentDesign = useFluentDesign === void 0 ? false : useFluentDesign;
+
   const isDark = themeName === "dark";
   const baseHigh = isDark ? "#fff" : "#000";
   const altHigh = isDark ? "#000" : "#fff";
@@ -28,7 +47,19 @@ export default function getTheme(themeName: "dark" | "light" = "dark", accent = 
     iconFontFamily: "Segoe MDL2 Assets",
 
     useFluentDesign,
-    blurSize,
+    desktopBackgroundImage,
+
+    acrylicTextures: {
+      acrylicTexture40: {
+        background: "none"
+      },
+      acrylicTexture60: {
+        background: "none"
+      },
+      acrylicTexture80: {
+        background: "none"
+      }
+    },
 
     accent,
     accentLighter1: lighten(accentColor.toHexString(), 0.5),

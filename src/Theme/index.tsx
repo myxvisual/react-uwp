@@ -7,10 +7,10 @@ import RenderToBody from "../RenderToBody";
 
 export interface DataProps {
   theme?: ReactUWP.ThemeType;
-  useFluentDesign?: boolean;
   autoSaveTheme?: boolean;
-  blurBackground?: string;
 }
+
+import generateAcrylicTexture from "../styles/generateAcrylicTexture";
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
@@ -92,8 +92,79 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
+  generateAcrylicTextures = () => {
+    const { currTheme } = this.state;
+    let i = 0;
+    const baseConfig = {
+      blurSize: 24,
+      noiseSize: 1,
+      noiseOpacity: 0.2
+    };
+    let backgrounds: string[] = [];
+    const callback = (image: string, key: number) => {
+      if (key === 4) {
+        i++;
+        this.state.currTheme.acrylicTextures.acrylicTexture40 = {
+          tintColor: currTheme.chromeMediumLow,
+          tintOpacity: 0.4,
+          background: `url(${image}) no-repeat fixed top left / cover`,
+          ...baseConfig
+        };
+      }
+      if (key === 6) {
+        i++;
+        this.state.currTheme.acrylicTextures.acrylicTexture60 = {
+          tintColor: currTheme.chromeLow,
+          tintOpacity: 0.6,
+          background: `url(${image}) no-repeat fixed top left / cover`,
+          ...baseConfig
+        };
+      }
+      if (key === 8) {
+        i++;
+        this.state.currTheme.acrylicTextures.acrylicTexture80 = {
+          tintColor: currTheme.chromeLow,
+          tintOpacity: 0.8,
+          background: `url(${image}) no-repeat fixed top left / cover`,
+          ...baseConfig
+        };
+      }
+      if (i === 3) {
+        this.setState({ currTheme: this.state.currTheme });
+      }
+    };
+    generateAcrylicTexture(
+      currTheme.desktopBackgroundImage,
+      currTheme.chromeMediumLow,
+      0.4,
+      void 0,
+      void 0,
+      void 0,
+      image => callback(image, 4)
+    );
+    generateAcrylicTexture(
+      currTheme.desktopBackgroundImage,
+      currTheme.chromeLow,
+      0.6,
+      void 0,
+      void 0,
+      void 0,
+      image => callback(image, 6)
+    );
+    generateAcrylicTexture(
+      currTheme.desktopBackgroundImage,
+      currTheme.chromeLow,
+      0.8,
+      void 0,
+      void 0,
+      void 0,
+      image => callback(image, 8)
+    );
+  }
+
   componentDidMount() {
     this.updateDidMethod();
+    this.generateAcrylicTextures();
   }
 
   componentDidUpdate() {
@@ -163,20 +234,35 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   saveTheme = (newTheme?: ReactUWP.ThemeType) => {
-    newTheme.blurBackground = this.state.currTheme.blurBackground;
-    newTheme.useFluentDesign = this.state.currTheme.useFluentDesign;
-    newTheme.saveTheme = this.saveTheme;
     localStorage.setItem(customLocalStorageName, JSON.stringify({
       themeName: newTheme.themeName,
-      accent: newTheme.accent
+      accent: newTheme.accent,
+      useFluentDesign: newTheme.useFluentDesign,
+      desktopBackgroundImage: newTheme.desktopBackgroundImage
     }));
+    newTheme.saveTheme = this.saveTheme;
     this.setState({
       currTheme: newTheme
+    }, () => {
+      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage) {
+        this.generateAcrylicTextures();
+      }
     });
   }
 
   getDefaultTheme = () => {
     let theme: ReactUWP.ThemeType;
+    let defaultConfig: any = {};
+
+    theme = this.props.theme;
+    if (theme) {
+      Object.assign(defaultConfig, {
+        themeName: theme.themeName,
+        accent: theme.accent,
+        useFluentDesign: theme.useFluentDesign,
+        desktopBackgroundImage: theme.desktopBackgroundImage
+      });
+    }
 
     if (this.props.autoSaveTheme) {
       const storageString = localStorage.getItem(customLocalStorageName);
@@ -184,7 +270,14 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         let data: any = {};
         try {
           data = JSON.parse(storageString);
-          theme = getTheme(data.themeName, data.accent, this.props.useFluentDesign);
+          const { themeName, accent, useFluentDesign, desktopBackgroundImage } = data;
+          theme = getTheme({
+            ...defaultConfig,
+            themeName: themeName === void 0 ? defaultConfig.themeName : themeName,
+            accent: accent === void 0 ? defaultConfig.accent : accent,
+            useFluentDesign: useFluentDesign === void 0 ? defaultConfig.useFluentDesign : useFluentDesign,
+            desktopBackgroundImage: desktopBackgroundImage === void 0 ? defaultConfig.desktopBackgroundImage : desktopBackgroundImage
+          });
         } catch (error) {
           theme = darkTheme;
         }
@@ -195,7 +288,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     } else {
       theme = this.props.theme || darkTheme;
     }
-    if (this.props.blurBackground) theme.blurBackground = this.props.blurBackground;
     return theme;
   }
 
@@ -210,8 +302,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   render() {
     const {
       autoSaveTheme,
-      useFluentDesign,
-      blurBackground,
       children,
       style,
       className,
@@ -228,13 +318,13 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           fontSize: 14,
           fontFamily: currTheme.fontFamily,
           color: currTheme.baseHigh,
-          background: useFluentDesign ? void 0 : currTheme.altHigh,
+          background: currTheme.useFluentDesign ? void 0 : currTheme.altHigh,
           width: "100%",
           height: "100%",
           ...style
         })}
       >
-        {useFluentDesign && blurBackground && (
+        {currTheme.useFluentDesign && currTheme.desktopBackgroundImage && (
           <RenderToBody
             style={currTheme.prepareStyles({
               position: "fixed",
@@ -243,7 +333,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
               left: 0,
               width: "100%",
               height: "100%",
-              background: `url(${currTheme.blurBackground}) no-repeat fixed top left / cover`
+              background: `url(${currTheme.desktopBackgroundImage}) no-repeat fixed top left / cover`
             })}
           />
         )}

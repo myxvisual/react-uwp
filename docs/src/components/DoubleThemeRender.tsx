@@ -18,9 +18,9 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
 
   render() {
     const { children, direction, themeStyle, useBorder, useChromeColor, useSingleTheme, ...attributes } = this.props;
-    const darkTheme = getTheme("dark", this.context.theme.accent);
+    const darkTheme = getTheme({ themeName: "dark", accent: this.context.theme.accent });
     const { prepareStyles } = darkTheme;
-    const lightTheme = getTheme("light", this.context.theme.accent);
+    const lightTheme = getTheme({ themeName: "light", accent: this.context.theme.accent });
     const isColumn = direction === "column";
     const currThemeStyle: React.CSSProperties = prepareStyles({
       width: "50%",

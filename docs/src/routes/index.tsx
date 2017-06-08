@@ -10,20 +10,17 @@ export interface RouterCallback {
   (error: any, component?: any): void;
 }
 
-const blurBackground = require("assets/images/blurBackground/camera-1246655_1920.jpg");
-// const blurBackground = require("assets/images/blurBackground/blueberries-2278921_1920.jpg");
 const useFluentDesign = true;
+// const desktopBackgroundImage = require("assets/images/blurBackground/camera-1246655_1920.jpg");
+const desktopBackgroundImage = require("assets/images/blurBackground/blueberries-2278921_1920.jpg");
+const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 
 let WrapperWithPath: new() => React.Component<any, any>;
 class WrapperWithTheme extends React.Component<{}, void> {
   render() {
     const { children } = this.props;
     return (
-      <Theme
-        autoSaveTheme
-        useFluentDesign={useFluentDesign}
-        blurBackground={blurBackground}
-      >
+      <Theme autoSaveTheme theme={theme}>
         <Wrapper>
           {children as any}
         </Wrapper>
@@ -39,11 +36,7 @@ function getRoutes(path = "/") {
       render() {
         const { children } = this.props;
         return (
-          <Theme
-            autoSaveTheme
-            useFluentDesign={useFluentDesign}
-            blurBackground={blurBackground}
-          >
+          <Theme autoSaveTheme theme={theme}>
             <WrapperWithCategories path={path}>
               {children as any}
             </WrapperWithCategories>

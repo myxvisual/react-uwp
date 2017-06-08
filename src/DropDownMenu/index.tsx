@@ -131,7 +131,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     const { showList, currentValue, currentValues } = this.state;
     const { theme } = this.context;
     const { isDarkTheme } = theme;
-    const currBackground = background || theme.chromeLow;
+    const currBackground = background || theme.useFluentDesign ? "none" : theme.chromeLow;
 
     return (
       <div

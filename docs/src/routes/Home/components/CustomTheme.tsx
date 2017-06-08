@@ -5,6 +5,7 @@ import getTheme from "react-uwp/styles/getTheme";
 import Icon from "react-uwp/Icon";
 import DropDownMenu from "react-uwp/DropDownMenu";
 import ColorPicker from "react-uwp/ColorPicker";
+import CheckBox from "react-uwp/CheckBox";
 
 export interface DataProps {
   renderContentWidth?: number | string;
@@ -53,7 +54,25 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
                 ]}
                 defaultValue={theme.isDarkTheme ? "Dark" : "Light"}
                 onChangeValue={value => {
-                  theme.saveTheme(getTheme(value.toLowerCase() as any, theme.accent));
+                  theme.saveTheme(getTheme({
+                    themeName: value.toLowerCase() as any,
+                    accent: theme.accent,
+                    useFluentDesign: theme.useFluentDesign,
+                    desktopBackgroundImage: theme.desktopBackgroundImage
+                  }));
+                }}
+              />
+              <CheckBox
+                style={{ marginLeft: 8 }}
+                defaultChecked={theme.useFluentDesign}
+                label="Use New Fluent Design"
+                onCheck={useFluentDesign => {
+                  theme.saveTheme(getTheme({
+                    themeName: theme.themeName,
+                    accent: theme.accent,
+                    useFluentDesign,
+                    desktopBackgroundImage: theme.desktopBackgroundImage
+                  }));
                 }}
               />
             </div>
@@ -62,7 +81,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
             <ColorPicker
               defaultColor={theme.accent}
               onChangedColor={color => {
-                  theme.saveTheme(getTheme(theme.themeName, color));
+                theme.saveTheme(getTheme({ themeName: theme.themeName, accent: color }));
               }}
             />
           </div>
