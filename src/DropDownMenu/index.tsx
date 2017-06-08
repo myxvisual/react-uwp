@@ -130,7 +130,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     } = this.props;
     const { showList, currentValue, currentValues } = this.state;
     const { theme } = this.context;
-    const isDarkTheme = theme.themeName === "Dark";
+    const { isDarkTheme } = theme;
     const currBackground = background || theme.chromeLow;
 
     return (

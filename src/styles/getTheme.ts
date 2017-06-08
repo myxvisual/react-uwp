@@ -13,8 +13,8 @@ export function lighten(color: string, coefficient: number) {
   return tinycolor(hsl).toRgbString();
 }
 
-export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7", useFluentDesign = false, blurSize = 8): ReactUWP.ThemeType {
-  const isDark = themeName === "Dark";
+export default function getTheme(themeName: "dark" | "light" = "dark", accent = "#0078D7", useFluentDesign = false, blurSize = 8): ReactUWP.ThemeType {
+  const isDark = themeName === "dark";
   const baseHigh = isDark ? "#fff" : "#000";
   const altHigh = isDark ? "#000" : "#fff";
   const baseHighColor = tinycolor(baseHigh);

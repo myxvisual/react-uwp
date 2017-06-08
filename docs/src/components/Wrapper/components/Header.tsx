@@ -100,7 +100,7 @@ function getStyles(header: Header): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseHigh,
-      background: theme.isDarkTheme ? "hsla(0, 0%, 6%, 0.95)" : "hsla(0, 0%, 94%, 0.95)",
+      background: theme.isDarkTheme ? "hsla(0, 0%, 6%, 0.85)" : "hsla(0, 0%, 94%, 0.85)",
       boxShadow: theme.isDarkTheme ? void 0 : `0 2px 8px ${theme.listLow}`,
       width: "100%",
       height: headerHeight,

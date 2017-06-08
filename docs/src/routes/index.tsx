@@ -12,7 +12,7 @@ export interface RouterCallback {
 
 const blurBackground = require("assets/images/blurBackground/camera-1246655_1920.jpg");
 // const blurBackground = require("assets/images/blurBackground/blueberries-2278921_1920.jpg");
-const useFluentDesign = false;
+const useFluentDesign = true;
 
 let WrapperWithPath: new() => React.Component<any, any>;
 class WrapperWithTheme extends React.Component<{}, void> {

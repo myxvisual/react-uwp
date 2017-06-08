@@ -21,18 +21,22 @@ export default class RenderToBody extends React.Component<RenderToBodyProps, voi
   }
 
   componentWillUnmount() {
-    this.unRenderComponent();
+    if (this.props.children) {
+      this.unRenderComponent();
+    }
     document.body.removeChild(this.rootElm);
     this.rootElm = null;
   }
 
   renderComponent = () => {
     const { children } = this.props;
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      children,
-      this.rootElm
-    );
+    if (children) {
+      ReactDOM.unstable_renderSubtreeIntoContainer(
+        this,
+        children,
+        this.rootElm
+      );
+    }
   }
 
   unRenderComponent = () => {

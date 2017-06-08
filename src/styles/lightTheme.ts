@@ -1,3 +1,3 @@
 import getTheme from "./getTheme";
 
-export default getTheme("Light");
+export default getTheme("light");

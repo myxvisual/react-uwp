@@ -23,13 +23,15 @@ interface Window {
 
 declare namespace ReactUWP {
   interface ThemeType {
-    themeName: "Dark" | "Light";
+    themeName: "dark" | "light";
     fontFamily?: string;
     iconFontFamily?: string;
 
     useFluentDesign?: boolean;
     blurBackground?: string;
     blurSize?: number;
+    lightBackgroundBrightness?: number;
+    darkBackgroundBrightness?: number;
 
     accent?: string;
     accentLighter1?: string;

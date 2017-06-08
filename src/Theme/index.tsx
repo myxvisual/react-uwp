@@ -239,20 +239,13 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
             style={currTheme.prepareStyles({
               position: "fixed",
               zIndex: -1,
-              top: `-${currTheme.blurSize}px`,
-              left: `-${currTheme.blurSize}px`,
-              width: `calc(100vw + ${currTheme.blurSize * 2}px)`,
-              height: `calc(100vh + ${currTheme.blurSize * 2}px)`,
-              filter: `blur(${currTheme.blurSize}px) brightness(${currTheme.isDarkTheme ? .6 : 1})`
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: `url(${currTheme.blurBackground}) no-repeat fixed top left / cover`
             })}
-          >
-            <img
-              style={currTheme.prepareStyles({ objectFit: "cover" })}
-              src={currTheme.blurBackground}
-              width="100%"
-              height="100%"
-            />
-          </RenderToBody>
+          />
         )}
         {children}
       </div>

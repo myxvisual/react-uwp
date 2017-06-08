@@ -51,9 +51,9 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
                   "Dark",
                   "Light"
                 ]}
-                defaultValue={theme.themeName}
+                defaultValue={theme.isDarkTheme ? "Dark" : "Light"}
                 onChangeValue={value => {
-                  theme.saveTheme(getTheme(value as any, theme.accent));
+                  theme.saveTheme(getTheme(value.toLowerCase() as any, theme.accent));
                 }}
               />
             </div>

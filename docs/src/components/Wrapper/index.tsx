@@ -139,7 +139,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
                 hoverStyle={iconButtonStyle}
                 activeStyle={iconButtonStyle}
                 onClick={() => {
-                  theme.saveTheme(getTheme(theme.isDarkTheme ? "Light" : "Dark", theme.accent));
+                  theme.saveTheme(getTheme(theme.isDarkTheme ? "light" : "dark", theme.accent));
                 }}
               >
                 {theme.isDarkTheme ? "Brightness" : "QuietHours"}
