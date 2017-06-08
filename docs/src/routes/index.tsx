@@ -12,6 +12,8 @@ export interface RouterCallback {
 
 const blurBackground = require("assets/images/blurBackground/camera-1246655_1920.jpg");
 // const blurBackground = require("assets/images/blurBackground/blueberries-2278921_1920.jpg");
+const useFluentDesign = false;
+
 let WrapperWithPath: new() => React.Component<any, any>;
 class WrapperWithTheme extends React.Component<{}, void> {
   render() {
@@ -19,7 +21,7 @@ class WrapperWithTheme extends React.Component<{}, void> {
     return (
       <Theme
         autoSaveTheme
-        useFluentDesign
+        useFluentDesign={useFluentDesign}
         blurBackground={blurBackground}
       >
         <Wrapper>
@@ -39,7 +41,7 @@ function getRoutes(path = "/") {
         return (
           <Theme
             autoSaveTheme
-            useFluentDesign
+            useFluentDesign={useFluentDesign}
             blurBackground={blurBackground}
           >
             <WrapperWithCategories path={path}>
