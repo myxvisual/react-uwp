@@ -319,7 +319,7 @@ function getStyles(NavigationView: NavigationView): {
   let minHeight = isMinimal ? 0 : 48;
   if (navigationTopNodes) minHeight += 48 * navigationTopNodes.length;
   if (navigationBottomNodes) minHeight += 48 * navigationBottomNodes.length;
-  const currBackground = background || theme.altHigh;
+  const currBackground = theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : background || theme.altHigh;
   const transition = "width .25s ease-in-out";
 
   return {
