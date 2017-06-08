@@ -27,6 +27,10 @@ declare namespace ReactUWP {
     fontFamily?: string;
     iconFontFamily?: string;
 
+    useFluentDesign?: boolean;
+    blurBackground?: string;
+    blurSize?: number;
+
     accent?: string;
     accentLighter1?: string;
     accentLighter2?: string;

@@ -3,10 +3,13 @@ import * as PropTypes from "prop-types";
 
 import darkTheme from "../styles/darkTheme";
 import getTheme from "../styles/getTheme";
+import RenderToBody from "../RenderToBody";
 
 export interface DataProps {
   theme?: ReactUWP.ThemeType;
+  useFluentDesign?: boolean;
   autoSaveTheme?: boolean;
+  blurBackground?: string;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -159,14 +162,16 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
-  saveTheme = (currTheme?: ReactUWP.ThemeType) => {
-    currTheme.saveTheme = this.saveTheme;
+  saveTheme = (newTheme?: ReactUWP.ThemeType) => {
+    newTheme.blurBackground = this.state.currTheme.blurBackground;
+    newTheme.useFluentDesign = this.state.currTheme.useFluentDesign;
+    newTheme.saveTheme = this.saveTheme;
     localStorage.setItem(customLocalStorageName, JSON.stringify({
-      themeName: currTheme.themeName,
-      accent: currTheme.accent
+      themeName: newTheme.themeName,
+      accent: newTheme.accent
     }));
     this.setState({
-      currTheme
+      currTheme: newTheme
     });
   }
 
@@ -179,7 +184,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         let data: any = {};
         try {
           data = JSON.parse(storageString);
-          theme = getTheme(data.themeName, data.accent);
+          theme = getTheme(data.themeName, data.accent, this.props.useFluentDesign);
         } catch (error) {
           theme = darkTheme;
         }
@@ -190,6 +195,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     } else {
       theme = this.props.theme || darkTheme;
     }
+    if (this.props.blurBackground) theme.blurBackground = this.props.blurBackground;
     return theme;
   }
 
@@ -204,6 +210,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   render() {
     const {
       autoSaveTheme,
+      useFluentDesign,
+      blurBackground,
       children,
       style,
       className,
@@ -220,12 +228,32 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           fontSize: 14,
           fontFamily: currTheme.fontFamily,
           color: currTheme.baseHigh,
-          background: currTheme.altHigh,
+          background: useFluentDesign ? void 0 : currTheme.altHigh,
           width: "100%",
           height: "100%",
           ...style
         })}
       >
+        {useFluentDesign && blurBackground && (
+          <RenderToBody
+            style={currTheme.prepareStyles({
+              position: "fixed",
+              zIndex: -1,
+              top: `-${currTheme.blurSize}px`,
+              left: `-${currTheme.blurSize}px`,
+              width: `calc(100vw + ${currTheme.blurSize * 2}px)`,
+              height: `calc(100vh + ${currTheme.blurSize * 2}px)`,
+              filter: `blur(${currTheme.blurSize}px) brightness(${currTheme.isDarkTheme ? .6 : 1})`
+            })}
+          >
+            <img
+              style={currTheme.prepareStyles({ objectFit: "cover" })}
+              src={currTheme.blurBackground}
+              width="100%"
+              height="100%"
+            />
+          </RenderToBody>
+        )}
         {children}
       </div>
     );

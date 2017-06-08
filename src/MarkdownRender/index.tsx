@@ -302,5 +302,8 @@ code[class*="language-"], pre[class*="language-"] {
 .${className} ul {
   margin: 10px 20px;
 }
+ .${className} .token.operator, .${className} .token.entity, .${className} .token.url, .${className} .token.variable {
+   background: none;
+ }
 `
 ); }

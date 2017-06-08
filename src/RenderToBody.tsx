@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 export interface RenderToBodyProps {
+  style?: React.CSSProperties;
   children?: React.ReactElement<any>;
 }
 
@@ -10,6 +11,7 @@ export default class RenderToBody extends React.Component<RenderToBodyProps, voi
 
   componentDidMount() {
     this.rootElm = document.createElement("div");
+    Object.assign(this.rootElm.style, this.props.style);
     document.body.appendChild(this.rootElm);
     this.renderComponent();
   }

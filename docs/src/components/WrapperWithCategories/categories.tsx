@@ -137,4 +137,19 @@ export default [{
   "titleNode": "Resources"
 }, {
   "titleNode": "Examples"
+}, {
+  "titleNode": "Fluent Design System",
+  hidden: true,
+  "expanded": true,
+  "children": [{
+    "titleNode": "Z Space"
+  }, {
+    "titleNode": "WebGL"
+  }, {
+    "titleNode": "Material"
+  }, {
+    "titleNode": "Acrylic"
+  }, {
+    "titleNode": "Reveal"
+  }]
 }];

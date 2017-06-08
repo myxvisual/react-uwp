@@ -2,6 +2,7 @@ import * as React from "react";
 import { Router, RouteComponent, browserHistory } from "react-router";
 
 import Theme from "react-uwp/Theme";
+import getTheme from "react-uwp/styles/getTheme";
 import Wrapper from "../components/Wrapper";
 import WrapperWithCategories from "../components/WrapperWithCategories";
 
@@ -9,12 +10,18 @@ export interface RouterCallback {
   (error: any, component?: any): void;
 }
 
-let WrapperWithPath:  new() => React.Component<any, any>;
+const blurBackground = require("assets/images/blurBackground/camera-1246655_1920.jpg");
+// const blurBackground = require("assets/images/blurBackground/blueberries-2278921_1920.jpg");
+let WrapperWithPath: new() => React.Component<any, any>;
 class WrapperWithTheme extends React.Component<{}, void> {
   render() {
     const { children } = this.props;
     return (
-      <Theme autoSaveTheme>
+      <Theme
+        autoSaveTheme
+        useFluentDesign
+        blurBackground={blurBackground}
+      >
         <Wrapper>
           {children as any}
         </Wrapper>
@@ -30,7 +37,11 @@ function getRoutes(path = "/") {
       render() {
         const { children } = this.props;
         return (
-          <Theme autoSaveTheme>
+          <Theme
+            autoSaveTheme
+            useFluentDesign
+            blurBackground={blurBackground}
+          >
             <WrapperWithCategories path={path}>
               {children as any}
             </WrapperWithCategories>

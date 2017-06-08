@@ -13,7 +13,7 @@ export function lighten(color: string, coefficient: number) {
   return tinycolor(hsl).toRgbString();
 }
 
-export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7"): ReactUWP.ThemeType {
+export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = "#0078D7", useFluentDesign = false, blurSize = 8): ReactUWP.ThemeType {
   const isDark = themeName === "Dark";
   const baseHigh = isDark ? "#fff" : "#000";
   const altHigh = isDark ? "#000" : "#fff";
@@ -26,6 +26,10 @@ export default function getTheme(themeName: "Dark" | "Light" = "Dark", accent = 
     themeName,
     fontFamily: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
     iconFontFamily: "Segoe MDL2 Assets",
+
+    useFluentDesign,
+    blurSize,
+
     accent,
     accentLighter1: lighten(accentColor.toHexString(), 0.5),
     accentLighter2: lighten(accentColor.toHexString(), 0.7),

@@ -32,9 +32,22 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
       ...themeStyle
     });
 
-    return  useSingleTheme ? (
-        children as any
-      ) : (
+    const { theme } = this.context;
+
+    return  useSingleTheme || theme.useFluentDesign ? (
+      <div
+        style={prepareStyles({
+          width: "100%",
+          padding: "0 4px",
+          minHeight: 240,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        })}
+      >
+        {children}
+      </div>
+    ) : (
       <div
         {...attributes}
         style={prepareStyles({
@@ -47,7 +60,9 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
         <Theme
           theme={darkTheme}
           style={prepareStyles({
-            background: useChromeColor ? darkTheme.chromeLow : darkTheme.altHigh,
+            background: theme.useFluentDesign ? void 0 : (
+              useChromeColor ? darkTheme.chromeLow : darkTheme.altHigh
+            ),
             ...prepareStyles({
               width: "50%",
               padding: "0 4px",
@@ -64,7 +79,9 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
         <Theme
           theme={lightTheme}
           style={prepareStyles({
-            background: useChromeColor ? lightTheme.chromeLow : lightTheme.altHigh,
+            background: theme.useFluentDesign ? void 0 : (
+              useChromeColor ? lightTheme.chromeLow : lightTheme.altHigh
+            ),
             ...currThemeStyle
           })}
         >
