@@ -328,7 +328,7 @@ function getStyles(treeView: TreeView): {
       overflowX: "hidden",
       overflowY: "auto",
       color: theme.baseMediumHigh,
-      background: background,
+      background,
       width: itemHeight * 10,
       padding: "0 16px",
       ...style

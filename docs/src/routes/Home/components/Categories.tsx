@@ -1,16 +1,18 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import { WrapperState } from "components/Wrapper";
 import MainTitleCenter from "./MainTitleCenter";
 import Category from "./Category";
 import IconComponents from "components/Icons/IconComponents";
 import IconLayout from "components/Icons/IconLayout";
 import IconStyle from "components/Icons/IconStyle";
 import IconToolkits from "components/Icons/IconToolkits";
+import ScrollReveal from "react-uwp/ScrollReveal";
 
 export interface DataProps {}
 
-export interface CategoriesProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CategoriesProps extends DataProps, React.HTMLAttributes<HTMLDivElement>, WrapperState {}
 
 const ICON_WIDTH = 180;
 const CATEGORY_STYLE: React.CSSProperties = {
@@ -21,7 +23,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { ...attributes } = this.props;
+    const { renderContentHeight, renderContentWidth, screenType, ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
 
@@ -30,25 +32,34 @@ export default class Categories extends React.Component<CategoriesProps, void> {
         {...attributes}
         style={styles.root}
       >
-        <MainTitleCenter
-          style={{ padding: 20 }}
-          title="Design and UI for UWP Web Apps"
-          description={<p>
-            React-UWP came about from our love of React and Microsoft's UWP Design.
-            <br />
-            We want UWP design easier to implementation in web applications
-          </p>}
-          linkInfo="GET STARTED"
-          link="get-started"
-        />
-        <div style={styles.categories}>
-          <Category
-            style={CATEGORY_STYLE}
-            title="Layout"
-            description="Design and code an app that’s easy to navigate and looks great on a variety of devices and screen sizes."
-            link="/layout"
-            icon={<IconLayout width={ICON_WIDTH} />}
+        <ScrollReveal speed={1000}>
+          <MainTitleCenter
+            style={{ padding: 20 }}
+            title="Design and UI for UWP Web Apps"
+            description={<p>
+              React-UWP came about from our love of React and Microsoft's UWP Design.
+              <br />
+              We want UWP design easier to implementation in web applications
+            </p>}
+            linkInfo="GET STARTED"
+            link="get-started"
           />
+        </ScrollReveal>
+        <ScrollReveal
+          style={{ transform: "translateY(400px)", opacity: 0 }}
+          animatedStyle={{ transform: "translateY(0)", opacity: 1 }}
+          speed={1500}
+          wrapperStyle={{ width: "100%" }}
+          useWrapper
+        >
+        <div style={styles.categories}>
+            <Category
+              style={CATEGORY_STYLE}
+              title="Layout"
+              description="Design and code an app that’s easy to navigate and looks great on a variety of devices and screen sizes."
+              link="/layout"
+              icon={<IconLayout width={ICON_WIDTH} />}
+            />
           <Category
             style={CATEGORY_STYLE}
             title="Styles"
@@ -71,6 +82,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
             icon={<IconToolkits width={ICON_WIDTH} />}
           />
         </div>
+        </ScrollReveal>
       </div>
     );
   }
@@ -82,7 +94,7 @@ function getStyles(categories: Categories): {
 } {
   const {
     context: { theme },
-    props: { style }
+    props: { style, renderContentWidth }
   } = categories;
   const { prepareStyles } = theme;
 
@@ -91,12 +103,13 @@ function getStyles(categories: Categories): {
       ...style
     }),
     categories: prepareStyles({
+      width: renderContentWidth,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
       flexWrap: "wrap",
-      marginTop: 40
+      margin: "40px auto 0"
     })
   };
 }

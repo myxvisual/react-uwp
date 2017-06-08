@@ -96,6 +96,7 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
       speed,
       transitionTimingFunction,
       useWrapper,
+      wrapperStyle,
       children
     } = this.props;
     const { theme } = this.context;
@@ -109,6 +110,7 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
         animatedStyle={animatedStyle}
         appearAnimate={false}
         useSingleChild={!useWrapper}
+        wrapperStyle={wrapperStyle}
       >
         {children}
       </CustomAnimate>

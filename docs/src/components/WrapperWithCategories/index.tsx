@@ -176,7 +176,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
             style={{
               width: 320,
               padding: "10px 0",
-              background: theme.listLow,
+              background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.listLow,
               display: notPhoneTablet ? void 0 : "none"
             }}
           >
@@ -221,6 +221,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
           </Icon>
           <div
             style={theme.prepareStyles({
+              background: theme.useFluentDesign ? theme.chromeLow : void 0,
               width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
               ...getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
               minHeight: "100%"

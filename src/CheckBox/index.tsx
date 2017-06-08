@@ -166,7 +166,7 @@ function getStyles(checkBox: CheckBox): {
     border: `2px solid ${theme.baseMediumHigh}`,
     width: `${size}px`,
     height: `${size}px`,
-    background: background || theme.altMediumHigh,
+    background: background || "none",
     cursor: "default",
     overflow: "hidden"
   });
@@ -176,7 +176,7 @@ function getStyles(checkBox: CheckBox): {
   switch (checked) {
     case true: {
       iconParent = {
-        style:  {
+        style: {
           ...iconParentBaseStyle,
           border: disabled ? `2px solid ${theme.baseLow}` : (
             hovered ? `2px solid ${disabled ? theme.baseLow : theme.baseMediumHigh}` : "none"

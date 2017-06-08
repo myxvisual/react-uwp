@@ -279,10 +279,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
             desktopBackgroundImage: desktopBackgroundImage === void 0 ? defaultConfig.desktopBackgroundImage : desktopBackgroundImage
           });
         } catch (error) {
-          theme = darkTheme;
+          theme = this.props.theme || darkTheme;
         }
       } else {
-        theme = darkTheme;
+        theme = this.props.theme || darkTheme;
       }
       theme.saveTheme = this.saveTheme;
     } else {

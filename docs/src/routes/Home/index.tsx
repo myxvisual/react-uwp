@@ -41,7 +41,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <div
           style={{
             width: "100%",
-            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.listLow
+            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.listLow
           }}
         >
           <FlipView
@@ -79,22 +79,24 @@ export default class Home extends React.Component<HomeProps, HomeState> {
           </FlipView>
         </div>
         <Categories
+          renderContentWidth={renderContentWidth}
           style={{
             height: "auto",
-            padding: "20px 0",
-            margin: "0 auto",
-            width: renderContentWidth,
+            padding: "40px 0",
+            width: "100%",
             background: theme.altMedium
           }}
         />
         <Banner renderContentWidth={renderContentWidth} />
-        <CustomTheme renderContentWidth={renderContentWidth} style={{ background: theme.acrylicTextures.acrylicTexture40.background }} />
-        <MediaPlayer
-          style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
-          url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
-          width={renderContentWidth as any - 40}
-          height={(renderContentWidth as any) / 2}
-        />
+        <CustomTheme renderContentWidth={renderContentWidth} style={{ background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : `linear-gradient(90deg, ${theme.listLow}, transparent)` }} />
+        <div style={{ background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : void 0 }}>
+          <MediaPlayer
+            style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
+            url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
+            width={renderContentWidth as any - 40}
+            height={(renderContentWidth as any) / 2}
+          />
+        </div>
         <NavigationViewExample
           style={{
             width: "100%",
@@ -103,14 +105,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             flexWrap: "wrap",
             justifyContent: "space-around",
             alignItems: "center",
-            background: theme.acrylicTextures.acrylicTexture40.background
+            background: theme.chromeLow
           }}
         />
         <IndexOfComponentsByFunction
           style={{
             padding: 20,
             margin: "0 auto",
-            width: renderContentWidth
+            width: renderContentWidth,
+            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : void 0
           }}
         />
       </div>

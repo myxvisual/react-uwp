@@ -102,10 +102,7 @@ function getStyles(customTheme: CustomTheme): {
   const { prepareStyles } = theme;
 
   return {
-    root: prepareStyles({
-      backgroundImage: `linear-gradient(90deg, ${theme.listLow}, transparent)`,
-      ...style
-    }),
+    root: prepareStyles(style),
     content: prepareStyles({
       padding: 20,
       width: renderContentWidth,
