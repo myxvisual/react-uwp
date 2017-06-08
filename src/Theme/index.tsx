@@ -184,13 +184,17 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentWillReceiveProps(nextProps: ThemeProps) {
-    if (nextProps && nextProps.theme) {
+    const { theme } = nextProps;
+    const { currTheme } = this.state;
+    if (nextProps && nextProps.theme && !this.props.autoSaveTheme) {
       if (
-        nextProps.theme.accent !== this.state.currTheme.accent ||
-        nextProps.theme.themeName !== this.state.currTheme.themeName
+        theme.accent !== currTheme.accent ||
+        theme.themeName !== currTheme.themeName ||
+        theme.useFluentDesign !== currTheme.useFluentDesign ||
+        theme.desktopBackgroundImage !== currTheme.desktopBackgroundImage
       ) {
         this.setState({
-          currTheme: nextProps.theme
+          currTheme: theme
         });
       }
     }
