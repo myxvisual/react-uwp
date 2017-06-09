@@ -38,6 +38,7 @@ declare namespace ReactUWP {
 
     useFluentDesign?: boolean;
     desktopBackgroundImage?: string;
+    desktopBackground?: string;
 
     acrylicTextures?: {
       acrylicTexture40: AcrylicTexture;

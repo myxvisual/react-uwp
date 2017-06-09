@@ -32,6 +32,10 @@ export interface DataProps {
    * Set `Picker` element height.
    */
   pickerItemHeight?: number;
+  /**
+   * Set Custom background.
+   */
+  background?: string;
 }
 
 export interface TimePickerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -114,6 +118,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
     onChangeTime,
     inputItemHeight,
     pickerItemHeight,
+    background,
       ...attributes
     } = this.props;
     let {
@@ -243,14 +248,15 @@ function getStyles(TimePicker: TimePicker): {
     props: {
       style,
       inputItemHeight,
-      pickerItemHeight
+      pickerItemHeight,
+      background
     },
     state: {
       showPicker
     }
   } = TimePicker;
   const { prepareStyles } = theme;
-  const background = theme.chromeLow;
+  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80 : theme.chromeLow);
 
   return {
     root: prepareStyles({
@@ -261,6 +267,7 @@ function getStyles(TimePicker: TimePicker): {
       alignItems: "center",
       verticalAlign: "middle",
       color: theme.baseMediumHigh,
+      background: currBackground,
       boxShadow: `inset 0 0 0 2px ${theme.baseMediumLow}`,
       height: inputItemHeight,
       lineHeight: `${inputItemHeight}px`,
@@ -277,11 +284,11 @@ function getStyles(TimePicker: TimePicker): {
       top: 0,
       left: 0,
       width: "100%",
-      background: background,
       opacity: showPicker ? 1 : 0,
       transform: `scaleY(${showPicker ? 1 : 0}) translateY(-50%)`,
       transformOrigin: "top",
       pointerEvents: showPicker ? "all" : "none",
+      zIndex: theme.zIndex.flyout,
       transition: "all .25s ease-in-out"
     }),
     listViews: prepareStyles({
@@ -290,8 +297,7 @@ function getStyles(TimePicker: TimePicker): {
       width: "100%",
       height: pickerItemHeight * 7,
       display: "flex",
-      flexDirection: "row",
-      zIndex: theme.zIndex.flyout
+      flexDirection: "row"
     }),
     listView: prepareStyles({
       userSelect: "none",

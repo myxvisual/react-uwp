@@ -124,7 +124,7 @@ function getStyles(toggle: Toggle): {
       boxSizing: "content-box",
       width: size * 2.5,
       height: size,
-      background: currToggled ? theme.accent : background || theme.useFluentDesign ? "none" : theme.altHigh,
+      background: currToggled ? theme.accent : (background || (theme.useFluentDesign ? "none" : theme.altHigh)),
       border: `${size / 9}px solid ${currToggled ? theme.accent : theme.baseMediumHigh}`,
       borderRadius: size * 2,
       transition: "all .25s ease-in-out"

@@ -67,7 +67,11 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
               style={{
                 ...styles.monthItem,
                 background: isNow ? theme.accent : (
-                  isCurrYear ? theme.altHigh : theme.chromeLow
+                  theme.useFluentDesign ? (
+                    isCurrYear ? theme.altLow : theme.listLow
+                  ) : (
+                    isCurrYear ? theme.altHigh : theme.chromeLow
+                  )
                 ),
                 border: "2px solid transparent"
               }}

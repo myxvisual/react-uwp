@@ -108,8 +108,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
     iconPadding: 2,
     iconDirection: "left",
     onChooseTreeItem: emptyFunc,
-    showFocus: true,
-    background: "none"
+    showFocus: true
   };
 
   state: TreeViewState = {
@@ -328,7 +327,7 @@ function getStyles(treeView: TreeView): {
       overflowX: "hidden",
       overflowY: "auto",
       color: theme.baseMediumHigh,
-      background,
+      background: background || theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : "none",
       width: itemHeight * 10,
       padding: "0 16px",
       ...style

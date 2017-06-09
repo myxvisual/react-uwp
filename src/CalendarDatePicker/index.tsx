@@ -169,6 +169,7 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
           typeof height === "number" ? `-${height}px` : `-${height}`
         )
       )}, 0)`,
+      zIndex: showCalendarView ? theme.zIndex.flyout : void 0,
       opacity: showCalendarView ? 1 : 0,
       pointerEvents: showCalendarView ? "all" : "none",
       transition: "all .25s ease"

@@ -53,6 +53,12 @@
           "documentation": "if true, just select one highLight date item.",
           "isRequired": false,
           "type": "boolean"
+        },
+        {
+          "name": "background",
+          "documentation": "Set custom background.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""

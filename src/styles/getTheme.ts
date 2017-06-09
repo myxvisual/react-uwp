@@ -163,10 +163,10 @@ export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
     zIndex: {
       listView: 10,
       calendarView: 20,
-      flyout: 100,
-      tooltip: 101,
       dropDownMenu: 102,
       commandBar: 200,
+      tooltip: 201,
+      flyout: 202,
       contentDialog: 300,
       mediaPlayer: 2147483647
     }

@@ -57,6 +57,12 @@
           "documentation": "",
           "isRequired": false,
           "type": "\"left\" | \"right\""
+        },
+        {
+          "name": "paneStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
         }
       ],
       "documentation": ""

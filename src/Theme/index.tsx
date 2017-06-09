@@ -332,6 +332,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
+    currTheme.desktopBackground = `url(${currTheme.desktopBackgroundImage}) no-repeat fixed top left / cover`;
 
     return (
       <div
@@ -356,7 +357,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
               left: 0,
               width: "100%",
               height: "100%",
-              background: `url(${currTheme.desktopBackgroundImage}) no-repeat fixed top left / cover`
+              background: currTheme.desktopBackground
             })}
           />
         )}

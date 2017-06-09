@@ -71,6 +71,12 @@
           "documentation": "Set Tooltip auto close time (ms).",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "background",
+          "documentation": "Set custom background.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""
@@ -124,9 +130,14 @@
           "type": "TooltipState"
         },
         {
-          "name": "refs",
+          "name": "rootElm",
           "documentation": "",
-          "type": "{ rootElm: HTMLDivElement; tooltipElm: HTMLSpanElement; }"
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "tooltipElm",
+          "documentation": "",
+          "type": "HTMLSpanElement"
         },
         {
           "name": "timer",
@@ -164,13 +175,13 @@
         },
         {
           "name": "getStyle",
-          "initializerText": " (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {\n    const { context: { theme }, props: { style } } = this;\n    return theme.prepareStyles({\n      height: 28,\n      overflow: \"hidden\",\n      textOverflow: \"ellipsis\",\n      whiteSpace: \"nowrap\",\n      padding: \"4px 8px\",\n      transition: \"all .25s 0s ease-in-out\",\n      border: `1px solid ${theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: theme.chromeMedium,\n      opacity: showTooltip ? 1 : 0,\n      transform: `translateY(${showTooltip ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      fontSize: 14,\n      pointerEvents: showTooltip ? \"all\" : \"none\",\n      zIndex: theme.zIndex.tooltip,\n      ...style,\n      ...positionStyle\n    });\n  }",
+          "initializerText": " (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {\n    const { context: { theme }, props: { style, background } } = this;\n    return theme.prepareStyles({\n      height: 28,\n      overflow: \"hidden\",\n      textOverflow: \"ellipsis\",\n      whiteSpace: \"nowrap\",\n      padding: \"4px 8px\",\n      transition: \"all .25s 0s ease-in-out\",\n      border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.chromeMedium),\n      opacity: showTooltip ? 1 : 0,\n      transform: `translateY(${showTooltip ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      fontSize: 14,\n      pointerEvents: showTooltip ? \"all\" : \"none\",\n      zIndex: theme.zIndex.tooltip,\n      ...style,\n      ...positionStyle\n    });\n  }",
           "documentation": "",
           "type": "(showTooltip?: boolean, positionStyle?: {}) => CSSProperties"
         },
         {
           "name": "getTooltipStyle",
-          "initializerText": " (): React.CSSProperties => {\n    const { rootElm, tooltipElm } = this.refs;\n    if (!(rootElm && tooltipElm)) return this.getStyle();\n\n    const { theme } = this.context;\n    const { verticalPosition, horizontalPosition, margin } = this.props;\n    const { width, height } = rootElm.getBoundingClientRect();\n    const containerWidth = tooltipElm.getBoundingClientRect().width;\n    const containerHeight = tooltipElm.getBoundingClientRect().height;\n    const { showTooltip } = this.state;\n    const positionStyle: React.CSSProperties = {};\n    if (width !== void(0) && height !== void(0)) {\n      switch (horizontalPosition) {\n        case \"left\": {\n          positionStyle.right = 0;\n          break;\n        }\n        case \"center\": {\n          positionStyle.left = (width - containerWidth) / 2;\n          break;\n        }\n        case \"right\": {\n          positionStyle.left = 0;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n      switch (verticalPosition) {\n        case \"top\": {\n          positionStyle.top = -containerHeight - margin;\n          break;\n        }\n        case \"center\": {\n          positionStyle.top = (height - containerHeight) / 2;\n          break;\n        }\n        case \"bottom\": {\n          positionStyle.top = height + margin;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    }\n    return this.getStyle(showTooltip, positionStyle);\n  }",
+          "initializerText": " (): React.CSSProperties => {\n    const { rootElm, tooltipElm } = this;\n    if (!(rootElm && tooltipElm)) return this.getStyle();\n\n    const { theme } = this.context;\n    const { verticalPosition, horizontalPosition, margin } = this.props;\n    const { width, height } = rootElm.getBoundingClientRect();\n    const containerWidth = tooltipElm.getBoundingClientRect().width;\n    const containerHeight = tooltipElm.getBoundingClientRect().height;\n    const { showTooltip } = this.state;\n    const positionStyle: React.CSSProperties = {};\n    if (width !== void(0) && height !== void(0)) {\n      switch (horizontalPosition) {\n        case \"left\": {\n          positionStyle.right = 0;\n          break;\n        }\n        case \"center\": {\n          positionStyle.left = (width - containerWidth) / 2;\n          break;\n        }\n        case \"right\": {\n          positionStyle.left = 0;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n      switch (verticalPosition) {\n        case \"top\": {\n          positionStyle.top = -containerHeight - margin;\n          break;\n        }\n        case \"center\": {\n          positionStyle.top = (height - containerHeight) / 2;\n          break;\n        }\n        case \"bottom\": {\n          positionStyle.top = height + margin;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    }\n    return this.getStyle(showTooltip, positionStyle);\n  }",
           "documentation": "",
           "type": "() => CSSProperties"
         },

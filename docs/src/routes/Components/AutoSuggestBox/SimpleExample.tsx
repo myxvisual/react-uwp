@@ -7,7 +7,6 @@ export default class SimpleExample extends React.Component<{}, void> {
     return (
       <AutoSuggestBox
         placeholder="AutoSuggestBox"
-        style={{ width: "100%" }}
       />
     );
   }

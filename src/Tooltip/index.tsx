@@ -30,6 +30,10 @@ export interface DataProps {
    * Set Tooltip auto close time (ms).
    */
   autoCloseTimeout?: number;
+  /**
+   * Set custom background.
+   */
+  background?: string;
 }
 export interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 
@@ -49,7 +53,8 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   state: TooltipState = {
     showTooltip: false
   };
-  refs: { rootElm: HTMLDivElement; tooltipElm: HTMLSpanElement };
+  rootElm: HTMLDivElement;
+  tooltipElm: HTMLSpanElement;
   timer: any = null;
   unShowTimer: any = null;
 
@@ -89,7 +94,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   getStyle = (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {
-    const { context: { theme }, props: { style } } = this;
+    const { context: { theme }, props: { style, background } } = this;
     return theme.prepareStyles({
       height: 28,
       overflow: "hidden",
@@ -97,9 +102,9 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       whiteSpace: "nowrap",
       padding: "4px 8px",
       transition: "all .25s 0s ease-in-out",
-      border: `1px solid ${theme.baseLow}`,
+      border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,
       color: theme.baseMediumHigh,
-      background: theme.chromeMedium,
+      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.chromeMedium),
       opacity: showTooltip ? 1 : 0,
       transform: `translateY(${showTooltip ? "0px" : "10px"})`,
       position: "absolute",
@@ -112,7 +117,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   getTooltipStyle = (): React.CSSProperties => {
-    const { rootElm, tooltipElm } = this.refs;
+    const { rootElm, tooltipElm } = this;
     if (!(rootElm && tooltipElm)) return this.getStyle();
 
     const { theme } = this.context;
@@ -171,6 +176,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       children,
       content,
       contentNode,
+      background,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -178,14 +184,14 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     return (
       <div
         style={{ position: "relative", display: "inline-block" }}
-        ref="rootElm"
+        ref={rootElm => this.rootElm = rootElm}
         onMouseEnter={this.showTooltip}
         onClick={this.showTooltip}
         onMouseLeave={this.unShowTooltip}
       >
         <span
           {...attributes}
-          ref="tooltipElm"
+          ref={tooltipElm => this.tooltipElm = tooltipElm}
           style={this.getTooltipStyle()}
         >
           {content || contentNode}

@@ -10,6 +10,7 @@ export interface DataProps {
   expandedWidth?: number;
   defaultExpanded?: boolean;
   panePosition?: "left" | "right";
+  paneStyle?: React.CSSProperties;
 }
 
 export interface SplitViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -32,6 +33,7 @@ export class SplitView extends React.Component<SplitViewProps, void> {
       defaultExpanded,
       panePosition,
       children,
+      paneStyle,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -78,7 +80,8 @@ function getStyles(splitView: SplitView): {
       defaultExpanded,
       expandedWidth,
       displayMode,
-      panePosition
+      panePosition,
+      paneStyle
     }
   } = splitView;
   const { theme } = context;
@@ -91,7 +94,7 @@ function getStyles(splitView: SplitView): {
   return {
     root: prepareStyles({
       color: theme.baseHigh,
-      background: theme.chromeLow,
+      background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.altHigh,
       display: "inline-block",
       position: "relative",
       margin: 0,
@@ -113,8 +116,9 @@ function getStyles(splitView: SplitView): {
       overflow: "hidden"
     }),
     pane: prepareStyles({
-      background: theme.altHigh,
+      background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.altHigh,
       transition,
+      boxShadow: theme.useFluentDesign ? `rgba(0, 0, 0, 0.34) 0px 4px 24px` : void 0,
       ...(isCompact ? {
         height: "100%",
         width: expandedWidth,
@@ -128,7 +132,8 @@ function getStyles(splitView: SplitView): {
         height: "100%",
         width: expandedWidth,
         transform: `translate3d(${defaultExpanded ? 0 : expandedWidth}px, 0, 0)`
-      } as React.CSSProperties : void 0)
+      } as React.CSSProperties : void 0),
+      ...paneStyle
     })
   };
 }

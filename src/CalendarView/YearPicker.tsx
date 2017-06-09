@@ -70,7 +70,7 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
               onMouseLeave={(e) => this.handleMouseLeave(e, isNow)}
               style={{
                 ...styles.yearItem,
-                background: isNow ? theme.accent : theme.altHigh,
+                background: isNow ? theme.accent : theme.useFluentDesign ? theme.altLow : theme.altHigh,
                 border: "2px solid transparent"
               }}
               onClick={() => onChooseYear(year)}

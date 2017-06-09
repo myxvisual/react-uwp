@@ -50,6 +50,10 @@ export interface DataProps {
    * secondaryButton `click callback`.
    */
   secondaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /**
+   * Set custom background.
+   */
+  background?: string;
 }
 
 export interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -90,6 +94,7 @@ export class ContentDialog extends React.Component<ContentDialogProps, void> {
       primaryButtonAction,
       secondaryButtonAction,
       closeButtonAction,
+      background,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -156,7 +161,7 @@ function getStyles(contentDialog: ContentDialog): {
   buttonGroup?: React.CSSProperties;
   button?: React.CSSProperties;
 } {
-  const { context, props: { style, defaultShow } } = contentDialog;
+  const { context, props: { style, defaultShow, background } } = contentDialog;
   const { theme } = context;
   const { prepareStyles } = theme;
 
@@ -184,7 +189,7 @@ function getStyles(contentDialog: ContentDialog): {
       ...style
     }),
     container: prepareStyles({
-      background: theme.altHigh,
+      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.altHigh),
       border: `1px solid ${theme.baseLow}`,
       flex: "0 0 auto",
       width: "80%",

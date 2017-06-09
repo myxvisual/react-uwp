@@ -7,7 +7,6 @@ export default class SearchExample extends React.Component<{}, void> {
     return (
       <AutoSuggestBox
         defaultValue="Color"
-        style={{ width: "100%" }}
         searchAction={(value: string) => alert(value)}
       />
     );

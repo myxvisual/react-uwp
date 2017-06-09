@@ -93,6 +93,12 @@
           "documentation": "default focus List Item by `Index`.",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "background",
+          "documentation": "Set Custom Background.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""
@@ -162,8 +168,18 @@
           "type": "{ theme: any; }"
         },
         {
+          "name": "rootElm",
+          "documentation": "",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: ListViewProps) => void"
+        },
+        {
           "name": "getItemNode",
-          "initializerText": " (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {\n    const styles = getStyles(this);\n    const { theme } = this.context;\n    const { onChooseItem } = this.props;\n    const { focusIndex } = this.state;\n    const { isDarkTheme } = theme;\n    const isFocus = focus || focusIndex === index;\n    const defaultBG = isFocus ? theme.listAccentLow : theme.chromeLow;\n    const focusBG = isFocus ? theme.listAccentHigh : theme.chromeMedium;\n    const clickBG = isFocus ? theme.accent : theme.chromeHigh;\n    return (\n      <div\n        style={theme.prepareStyles({\n          background: defaultBG,\n          color: disabled ? theme.baseLow : theme.baseHigh,\n          ...styles.item,\n          ...style\n        })}\n        key={`${index}`}\n        onClick={onClick}\n        onMouseEnter={disabled ? void(0) : (e) => {\n          e.currentTarget.style.background = focusBG;\n        }}\n        onMouseLeave={disabled ? void(0) : (e) => {\n          e.currentTarget.style.background = defaultBG;\n        }}\n        onMouseDown={disabled ? void(0) : (e) => {\n          this.setState({ focusIndex: index });\n          for (const vendor of vendors) {\n            e.currentTarget.style[`${vendor}Transform` as any] = \"scale(0.99)\";\n          }\n          onChooseItem(index);\n          e.currentTarget.style.transform = \"scale(0.99)\";\n          e.currentTarget.style.background = clickBG;\n        }}\n        onMouseUp={disabled ? void(0) : (e) => {\n          for (const vendor of vendors) {\n            e.currentTarget.style[`${vendor}Transform` as any] = \"scale(1)\";\n          }\n          e.currentTarget.style.transform = \"scale(1)\";\n          e.currentTarget.style.background = defaultBG;\n        }}\n      >\n        {itemNode}\n      </div>\n    );\n  }",
+          "initializerText": " (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {\n    const styles = getStyles(this);\n    const { theme } = this.context;\n    const { onChooseItem, background } = this.props;\n    const { focusIndex } = this.state;\n    const { isDarkTheme } = theme;\n    const isFocus = focus || focusIndex === index;\n    const defaultBG = isFocus ? theme.listAccentLow : \"none\";\n    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.listLow);\n    const clickBG = isFocus ? theme.accent : theme.chromeHigh;\n    return (\n      <div\n        style={theme.prepareStyles({\n          background: defaultBG,\n          color: disabled ? theme.baseLow : theme.baseHigh,\n          ...styles.item,\n          ...style\n        })}\n        key={`${index}`}\n        onClick={onClick}\n        onMouseEnter={disabled ? void(0) : (e) => {\n          e.currentTarget.style.background = focusBG;\n        }}\n        onMouseLeave={disabled ? void(0) : (e) => {\n          e.currentTarget.style.background = defaultBG;\n        }}\n        onMouseDown={disabled ? void(0) : (e) => {\n          this.setState({ focusIndex: index });\n          for (const vendor of vendors) {\n            e.currentTarget.style[`${vendor}Transform` as any] = \"scale(0.99)\";\n          }\n          onChooseItem(index);\n          e.currentTarget.style.transform = \"scale(0.99)\";\n          e.currentTarget.style.background = clickBG;\n        }}\n        onMouseUp={disabled ? void(0) : (e) => {\n          for (const vendor of vendors) {\n            e.currentTarget.style[`${vendor}Transform` as any] = \"scale(1)\";\n          }\n          e.currentTarget.style.transform = \"scale(1)\";\n          e.currentTarget.style.background = defaultBG;\n        }}\n      >\n        {itemNode}\n      </div>\n    );\n  }",
           "documentation": "",
           "type": "(itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: CSSProperties, onClic..."
         },

@@ -2,18 +2,44 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import MarkdownRender from "react-uwp/MarkdownRender";
-import ComponentDescription from "./components/ComponentDescription";
 
-import AppBarSeparator from "react-uwp/AppBarSeparator";
-import CommandBar from "react-uwp/CommandBar";
-import Button from "react-uwp/Button";
-import AppBarButton from "react-uwp/AppBarButton";
-import Toggle from "react-uwp/Toggle";
-import CheckBox from "react-uwp/CheckBox";
-import RadioButton from "react-uwp/RadioButton";
-import HyperLink from "react-uwp/HyperLink";
-import CalendarView from "react-uwp/CalendarView";
-import Slider from "react-uwp/Slider";
+import AppBarButton from "../AppBarButton/SimpleExample";
+import AutoSuggestBox from "../AutoSuggestBox/SimpleExample";
+import Button from "../Button/SimpleExample";
+import CheckBox from "../CheckBox/SimpleExample";
+import ColorPicker from "../ColorPicker/SimpleExample";
+import CommandBar from "../CommandBar/SimpleExample";
+import ContentDialog from "../ContentDialog/SimpleExample";
+import CalendarDatePicker from "../DatePickers/CalendarDatePicker/SimpleExample";
+import CalendarView from "../DatePickers/CalendarView/SimpleExample";
+import DatePicker from "../DatePickers/DatePicker/SimpleExample";
+import TimePicker from "../DatePickers/TimePicker/SimpleExample";
+import DropDownMenu from "../DropDownMenu/SimpleExample";
+import FlipView from "../FlipView/SimpleExample";
+import FloatNav from "../FloatNav/SimpleExample";
+import Flyout from "../Flyout/SimpleExample";
+import HyperLink from "../HyperLink/SimpleExample";
+import Icon from "../Icon/SimpleExample";
+import IconButton from "../IconButton/SimpleExample";
+import Image from "../Image/SimpleExample";
+
+import ListView from "../ListView/SimpleExample";
+import MediaPlayer from "../MediaPlayer/SimpleExample";
+import NavigationView from "../NavigationView/SimpleExample";
+import PasswordBox from "../PasswordBox/SimpleExample";
+import ProgressBar from "../ProgressBar/SimpleExample";
+import ProgressRing from "../ProgressRing/SimpleExample";
+import RadioButton from "../RadioButton/SimpleExample";
+import RatingsControl from "../RatingsControl/SimpleExample";
+import ScrollReveal from "../ScrollReveal/SimpleExample";
+import Separator from "../Separator/SimpleExample";
+import Slider from "../Slider/SimpleExample";
+import SplitView from "../SplitView/SimpleExample";
+import SplitViewCommand from "../SplitViewCommand/SimpleExample";
+import TextBox from "../TextBox/SimpleExample";
+import Toggle from "../Toggle/SimpleExample";
+import Tooltip from "../Tooltip/SimpleExample";
+import TreeView from "../TreeView/SimpleExample";
 
 export default class IndexOfComponentsByFunction extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
@@ -42,42 +68,42 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
 The UI framework for Windows provides an extensive library of controls that support UI development. Some of these controls have a visual representation; others function as the containers for other controls or content, such as images and media.`
           }
         />
-        <ComponentDescription isChromeMode themeStyle={{ padding: 40 }}>
-          <CommandBar
-            primaryCommands={[
-              <AppBarButton icon={"\uE72D"} label="Share" />,
-              <AppBarButton icon="Edit" label="Edit" />,
-              <AppBarButton icon="Delete" label="Delete" />,
-              <AppBarButton icon="Save" label="Save" />
-            ]}
-            secondaryCommands={[
-              <p>Open with</p>,
-              <p>Print</p>,
-              <p>Set as</p>,
-              <p>View actual size</p>,
-              <AppBarSeparator />,
-              <p>File info</p>,
-              <AppBarSeparator />,
-              <p>Send feedback</p>
-            ]}
-          />
-        </ComponentDescription>
 
-        <ComponentDescription direction="row" themeStyle={{ padding: 0 }}>
-          <div style={this.context.theme.prepareStyles({ width: "100%", padding: 20, display: "flex", flexDirection: "column" })}>
-            <div>
-              <Button style={baseStyle}>Button</Button>
-              <CheckBox style={baseStyle} label="CheckBox Button" />
-              <RadioButton style={baseStyle} label="RadioButton" />
-              <Toggle style={baseStyle} />
-              <HyperLink style={baseStyle}>HyperLink</HyperLink>
-              <Slider />
-            </div>
-            <div>
-              <CalendarView style={baseStyle} />
-            </div>
-          </div>
-        </ComponentDescription>
+        <AppBarButton />
+        <AutoSuggestBox />
+        <Button />
+        <CheckBox />
+        <CommandBar />
+        <ColorPicker />
+        <ContentDialog />
+        <CalendarDatePicker />
+        <CalendarView />
+        <DatePicker />
+        <TimePicker />
+        <DropDownMenu />
+        <FlipView />
+        <FloatNav />
+        <Flyout />
+        <HyperLink />
+        <Icon />
+        <IconButton />
+        <ListView />
+        <MediaPlayer />
+        <NavigationView />
+        <PasswordBox />
+        <ProgressBar />
+        <ProgressRing />
+        <RadioButton />
+        <RatingsControl />
+        <ScrollReveal />
+        <Separator />
+        <Slider />
+        <SplitView />
+        <SplitViewCommand />
+        <TextBox />
+        <Toggle />
+        <Tooltip />
+        <TreeView />
       </div>
     );
   }

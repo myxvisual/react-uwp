@@ -11,6 +11,7 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
+    const { theme } = this.context;
     return (
       <div>
         <DropDownMenu
@@ -34,7 +35,7 @@ export default class SimpleExample extends React.Component<{}, void> {
         <DropDownMenu
           style={baseStyle}
           values={["---", "A", "a"]}
-          background={this.context.theme.altHigh}
+          background={theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.altHigh}
         />
       </div>
     );

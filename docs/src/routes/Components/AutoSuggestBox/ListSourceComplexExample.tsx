@@ -39,7 +39,6 @@ export default class ListSourceComplexExample extends React.Component<{}, ListSo
     return (
       <AutoSuggestBox
         placeholder="Focus this Input. (Initial listSource)"
-        style={{ width: "100%" }}
         listSource={listSource}
         onChangeValue={this.handleChangeValue}
       />

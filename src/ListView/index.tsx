@@ -30,6 +30,10 @@ export interface DataProps {
    * default focus List Item by `Index`.
    */
   defaultFocusListIndex?: number;
+  /**
+   * Set Custom Background.
+   */
+  background?: string;
 }
 
 export interface ListViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -60,12 +64,12 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
   getItemNode = (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {
     const styles = getStyles(this);
     const { theme } = this.context;
-    const { onChooseItem } = this.props;
+    const { onChooseItem, background } = this.props;
     const { focusIndex } = this.state;
     const { isDarkTheme } = theme;
     const isFocus = focus || focusIndex === index;
-    const defaultBG = isFocus ? theme.listAccentLow : theme.chromeLow;
-    const focusBG = isFocus ? theme.listAccentHigh : theme.chromeMedium;
+    const defaultBG = isFocus ? theme.listAccentLow : "none";
+    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.listLow);
     const clickBG = isFocus ? theme.accent : theme.chromeHigh;
     return (
       <div
@@ -110,6 +114,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
       listSource, // tslint:disable-line:no-unused-variable
       listItemStyle, // tslint:disable-line:no-unused-variable
       onChooseItem,
+      background,
       defaultFocusListIndex,
       ...attributes
     } = this.props;
@@ -150,7 +155,7 @@ function getStyles(listView: ListView): {
   root?: React.CSSProperties;
   item?: React.CSSProperties;
 } {
-  const { context, props: { listItemStyle } } = listView;
+  const { context, props: { listItemStyle, background } } = listView;
   const { theme } = context;
   const { prepareStyles } = theme;
 
@@ -162,8 +167,8 @@ function getStyles(listView: ListView): {
       fontSize: 14,
       padding: "8px 0",
       color: theme.baseMediumHigh,
-      border: `1px solid ${theme.altHigh}`,
-      background: theme.chromeLow,
+      border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.altHigh}`,
+      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.chromeLow),
       transition: "all .25s"
     },
     item: {

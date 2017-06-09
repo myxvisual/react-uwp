@@ -27,6 +27,10 @@ export interface DataProps {
    * if true, just select one highLight date item.
    */
   selectSingleDay?: boolean;
+  /**
+   * Set custom background.
+   */
+  background?: string;
 }
 
 export interface CalendarViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -196,7 +200,7 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
   }
 
   render() {
-    const { defaultDate, pickerMode, onChangeDate, selectSingleDay, ...attributes } = this.props;
+    const { defaultDate, pickerMode, onChangeDate, selectSingleDay, background, ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
     const {  viewDate, direction, chooseISODates, currPickerMode } = this.state;
@@ -292,7 +296,7 @@ function getStyles(calendarView: CalendarView): {
   titleIcon?: React.CSSProperties;
   body?: React.CSSProperties;
 } {
-  const { context, props: { style } } = calendarView;
+  const { context, props: { style, background } } = calendarView;
   const { theme } = context;
   const { prepareStyles } = theme;
 
@@ -303,7 +307,7 @@ function getStyles(calendarView: CalendarView): {
       fontSize: 14,
       color: theme.baseHigh,
       width: 296,
-      background: theme.useFluentDesign ? "none" : theme.altHigh,
+      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.altHigh),
       border: `2px solid ${theme.baseLow}`,
       ...style
     }),

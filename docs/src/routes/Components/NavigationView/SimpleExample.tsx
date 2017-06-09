@@ -26,7 +26,7 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
     const { theme } = this.context;
 
     return (
-      <div style={theme.prepareStyles({ background: theme.chromeLow, ...this.props.style })}>
+      <div style={theme.prepareStyles({ background: theme.useFluentDesign ? "none" : theme.chromeLow, ...this.props.style })}>
 
         <NavigationView
           style={baseStyle}
