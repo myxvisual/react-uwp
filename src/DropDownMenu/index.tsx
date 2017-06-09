@@ -178,7 +178,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
                 style={theme.prepareStyles({
                   width: itemWidth,
                   height: itemHeight,
-                  background: isCurrent && showList ? theme.listAccentLow : currBackground,
+                  background: (isCurrent && showList) ? theme.listAccentLow : "none",
                   display: "flex",
                   padding: "0 8px",
                   flexDirection: "row",
