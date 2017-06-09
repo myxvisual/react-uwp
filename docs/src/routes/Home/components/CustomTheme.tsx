@@ -6,6 +6,7 @@ import Icon from "react-uwp/Icon";
 import DropDownMenu from "react-uwp/DropDownMenu";
 import ColorPicker from "react-uwp/ColorPicker";
 import CheckBox from "react-uwp/CheckBox";
+import TextBox from "react-uwp/TextBox";
 
 export interface DataProps {
   renderContentWidth?: number | string;
@@ -22,6 +23,8 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+
+  fileInput: HTMLInputElement;
 
   render() {
     const {
@@ -73,6 +76,64 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
                     useFluentDesign,
                     desktopBackgroundImage: theme.desktopBackgroundImage
                   }));
+                }}
+              />
+              <TextBox
+                value="Paste Image URL or Upload..."
+                style={{ marginTop: 4 }}
+                onChangeValue={desktopBackgroundImage => {
+                  const image = new Image();
+                  image.addEventListener("load", function(e) {
+                    theme.saveTheme(getTheme({
+                      themeName: theme.themeName,
+                      accent: theme.accent,
+                      useFluentDesign: theme.useFluentDesign,
+                      desktopBackgroundImage
+                    }));
+                  });
+                  image.src = desktopBackgroundImage;
+                }}
+                onClick={() => {
+                  this.fileInput.click();
+                }}
+                rightNode={
+                  <Icon
+                    style={{
+                      fontSize: 12,
+                      height: 32,
+                      width: 32,
+                      lineHeight: "32px",
+                      cursor: "pointer"
+                    }}
+                    hoverStyle={{
+                      background: theme.listLow
+                    }}
+                    onClick={() => {
+                      this.fileInput.click();
+                    }}
+                  >
+                    UpLegacy
+                  </Icon>
+                }
+              />
+              <input
+                ref={fileInput => this.fileInput = fileInput}
+                type="file"
+                style={{ display: "none" }}
+                onChange={e => {
+                  const file = e.currentTarget.files[0];
+                  const reader  = new FileReader();
+                    reader.addEventListener("load", () => {
+                      theme.saveTheme(getTheme({
+                        themeName: theme.themeName,
+                        accent: theme.accent,
+                        useFluentDesign: theme.useFluentDesign,
+                        desktopBackgroundImage: reader.result
+                      }));
+                    }, false);
+                  if (file) {
+                    reader.readAsDataURL(file);
+                  }
                 }}
               />
             </div>

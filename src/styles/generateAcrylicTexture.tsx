@@ -20,6 +20,7 @@ export default function generateAcrylicTexture(
   }
   const context = canvas.getContext("2d");
   const imageNode = new Image();
+  imageNode.crossOrigin = "Anonymous";
   imageNode.onload = () => {
     let { naturalWidth, naturalHeight } = imageNode;
     if (naturalWidth > 1000) {

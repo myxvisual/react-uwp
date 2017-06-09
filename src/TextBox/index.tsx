@@ -154,6 +154,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
 
     return haveChild ? (
       <div
+        {...attributes as any}
         onMouseEnter={this.handleHover}
         onMouseLeave={this.handleUnHover}
         ref={rootElm => this.rootElm = rootElm}

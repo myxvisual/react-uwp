@@ -12,12 +12,14 @@ export default class RenderToBody extends React.Component<RenderToBodyProps, voi
   componentDidMount() {
     this.rootElm = document.createElement("div");
     Object.assign(this.rootElm.style, this.props.style);
+
     document.body.appendChild(this.rootElm);
     this.renderComponent();
   }
 
   componentDidUpdate() {
     this.renderComponent();
+    Object.assign(this.rootElm.style, this.props.style);
   }
 
   componentWillUnmount() {

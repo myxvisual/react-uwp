@@ -10,6 +10,10 @@ const icons: {
 
 export interface DataProps {
   /**
+   * Set custom Icon size.
+   */
+  size?: number;
+  /**
    * The Icon `onMouseEnter` will applied to `rootElm.style`.
    */
   hoverStyle?: React.CSSProperties;
@@ -57,7 +61,14 @@ export class Icon extends React.Component<IconProps, IconState> {
   }
 
   render() {
-    const { style, hoverStyle, children, useSVGElement, ...attributes } = this.props;
+    const {
+      size,
+      style,
+      hoverStyle,
+      children,
+      useSVGElement,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
     const { hovered } = this.state;
     return React.createElement(useSVGElement ? "text" : "span", {
@@ -72,10 +83,10 @@ export class Icon extends React.Component<IconProps, IconState> {
         border: "none",
         outline: "none",
         userSelect: "none",
-        lineHeight: style ? (
+        lineHeight: size ? `${size}px` : style ? (
           typeof style.height === "number" ? `${style.height}px` : style.height
         ) : void 0,
-        fontSize: "inherit",
+        fontSize: size || "inherit",
         cursor: "inherit",
         color: "inherit",
         ...style,
