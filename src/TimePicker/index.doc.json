@@ -65,6 +65,12 @@
           "documentation": "Set `Picker` element height.",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "background",
+          "documentation": "Set Custom background.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""
