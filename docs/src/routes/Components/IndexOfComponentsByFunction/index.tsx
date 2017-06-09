@@ -73,21 +73,16 @@ The UI framework for Windows provides an extensive library of controls that supp
         <Button />
         <CheckBox />
         <CommandBar />
-        <ColorPicker />
         <ContentDialog />
         <CalendarView />
         <CalendarDatePicker />
         <DatePicker />
         <TimePicker />
         <DropDownMenu />
-        <FlipView />
         <Flyout />
         <HyperLink />
         <Icon />
         <IconButton />
-        <ListView />
-        <MediaPlayer />
-        <NavigationView />
         <PasswordBox />
         <ProgressBar />
         <ProgressRing />
@@ -96,12 +91,18 @@ The UI framework for Windows provides an extensive library of controls that supp
         <ScrollReveal />
         <Separator />
         <Slider />
-        <SplitView />
         <SplitViewCommand />
         <TextBox />
         <Toggle />
         <Tooltip />
         <TreeView />
+        <ListView />
+        <Image />
+        <FlipView />
+        <ColorPicker />
+        <MediaPlayer />
+        <NavigationView />
+        <SplitView />
       </div>
     );
   }

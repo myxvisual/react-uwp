@@ -16,7 +16,7 @@ export interface SimpleExampleState {
 }
 
 const baseStyle: React.CSSProperties = {
-  margin: 10
+  margin: "10px 10px 10px 0"
 };
 export default class SimpleExample extends React.Component<{}, SimpleExampleState> {
   static contextTypes = { theme: PropTypes.object };
@@ -38,7 +38,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
     } = this.state;
 
     return (
-      <div style={{ padding: 20 }}>
+      <div>
         <div style={baseStyle}>
           <Toggle
             style={baseStyle}
@@ -97,7 +97,9 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             disabled: true
           }]}
           showFocus
-          background={theme.chromeLow}
+          background={theme.useFluentDesign ? (
+            theme.acrylicTextures.acrylicTexture40.background
+          ) : theme.chromeLow}
         />
       </div>
     );

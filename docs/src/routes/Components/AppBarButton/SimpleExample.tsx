@@ -11,7 +11,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
     const baseStyle: React.CSSProperties = {
       background: theme.useFluentDesign ? theme.listLow : theme.chromeLow,
-      margin: 8
+      margin: "10px 0"
     };
     return (
       <div>

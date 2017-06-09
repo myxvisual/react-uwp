@@ -40,6 +40,10 @@ export interface DataProps {
    * Control Rating is can't be modified.
    */
   isReadOnly?: boolean;
+  /**
+   * Set each ratings padding size.
+   */
+  padding?: number;
 }
 
 export interface RatingsControlProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -54,7 +58,8 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
     defaultRating: 2.5,
     maxRating: 5,
     icon: "FavoriteStarFill",
-    onChangeRating: emptyFunc
+    onChangeRating: emptyFunc,
+    padding: 10
   };
 
   state: RatingsControlState = {
@@ -81,7 +86,7 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
   }
 
   renderRatings = (notRated = true) => {
-    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly } = this.props;
+    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly, padding } = this.props;
     const { currRating } = this.state;
     const { theme } = this.context;
     const ratio = currRating / maxRating;
@@ -105,7 +110,7 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
             key={`${index}`}
             style={{
               fontSize: 24,
-              padding: 10,
+              padding: (index === 0 || index === maxRating) ? 0 : "0 10px",
               ...iconStyle,
               ...(notRated ? void 0 : iconRatedStyle)
             }}
@@ -133,6 +138,7 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
       onChangeRating,
       label,
       isReadOnly,
+      padding,
       ...attributes
     } = this.props;
     const { theme } = this.context;

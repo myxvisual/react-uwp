@@ -14,7 +14,7 @@ export default class SimpleExample extends React.Component<{}, void> {
     return (
       <div>
         <ScrollReveal
-          style={{ padding: 10, background: theme.accent, color: "#fff" }}
+          style={{ padding: 10, marginRight: 10, background: theme.accent, color: "#fff" }}
           animatedStyle={{ background: "yellowgreen" }}
         >
           <div style={{ display: "inline-block" }}>Scroll the Window</div>
@@ -22,7 +22,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
         <ScrollReveal
           speed={850}
-          style={{ transform: "scale(0)", padding: 10, background: theme.baseLow }}
+          style={{ transform: "scale(0)", padding: 10, marginRight: 10, background: theme.baseLow }}
           animatedStyle={{ transform: "scale(1)" }}
         >
           <div style={{ display: "inline-block" }}>Scale In Animation</div>
@@ -30,7 +30,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
         <ScrollReveal
           speed={500}
-          style={{ transform: "translateX(120px)", opacity: 0 }}
+          style={{ marginRight: 10, transform: "translateX(120px)", opacity: 0 }}
           animatedStyle={{ transform: "translateX(0)", opacity: 1 }}
         >
           <div style={{ display: "inline-block" }}>

@@ -13,10 +13,8 @@ export default class SimpleExample extends React.Component<{}, void> {
         <Slider />
 
         <Slider
-          showValueInfo
           initValue={250}
           maxValue={500}
-          unit="px"
         />
 
         <Slider
@@ -27,6 +25,7 @@ export default class SimpleExample extends React.Component<{}, void> {
             background: this.context.theme.baseHigh
           }}
           barBackground="yellowgreen"
+          unit="px"
         />
       </div>
     );

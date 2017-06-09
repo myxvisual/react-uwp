@@ -45,10 +45,7 @@ export default class Link extends React.Component<LinkProps, LinkState> {
         {...attributes}
         onMouseEnter={this.mouseEnterHandler}
         onMouseLeave={this.mouseLeaveHandler}
-        style={{
-          ...styles.root,
-          ...theme.prepareStyles(attributes.style)
-        }}
+        style={styles.root}
       />
     );
   }
@@ -57,9 +54,8 @@ export default class Link extends React.Component<LinkProps, LinkState> {
 function getStyles(link: Link): {
   root?: React.CSSProperties;
 } {
-  const { context, state: { hover } } = link;
+  const { context, props: { style }, state: { hover } } = link;
   const { theme } = context;
-  // tslint:disable-next-line:no-unused-variable
   const { prepareStyles } = theme;
 
   return {
@@ -69,7 +65,8 @@ function getStyles(link: Link): {
       cursor: "pointer",
       textDecoration: "none",
       transition: "all .25s 0s ease-in-out",
-      background: "none"
+      background: "none",
+      ...style
     })
   };
 }

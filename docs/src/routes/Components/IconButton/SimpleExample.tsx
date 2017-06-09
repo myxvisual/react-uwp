@@ -15,7 +15,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           GlobalNavButton
         </IconButton>
 
-        <IconButton disabled style={{ margin: 20 }}>
+        <IconButton disabled style={{ margin: 10 }}>
           SettingsLegacy
         </IconButton>
 

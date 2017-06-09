@@ -11,7 +11,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <div>
+      <div style={{ margin: "10px 0" }}>
         <Flyout>
           <Button>Your FlyoutContent</Button>
 

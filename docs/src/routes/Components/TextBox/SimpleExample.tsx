@@ -5,7 +5,7 @@ import TextBox from "react-uwp/TextBox";
 import Icon from "react-uwp/Icon";
 
 const baseStyle: React.CSSProperties = {
-  margin: 10
+  margin: "10px 0"
 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };

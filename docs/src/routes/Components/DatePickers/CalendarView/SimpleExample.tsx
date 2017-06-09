@@ -9,7 +9,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <CalendarView style={{ margin: "0 10px" }} />
+      <CalendarView style={{ margin: "10px 10px 10px 0" }} />
     );
   }
 }

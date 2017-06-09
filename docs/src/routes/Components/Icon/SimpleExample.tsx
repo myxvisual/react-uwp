@@ -20,7 +20,7 @@ export default class SimpleExample extends React.Component<{}, void> {
       color: theme.accent
     };
     return (
-      <div>
+      <div style={{ margin: "10px 0" }}>
         <Icon {...{ style, hoverStyle }}>HeartFillLegacy</Icon>
         <Icon {...{ style, hoverStyle }}>{"\uE001"}</Icon>
         <Icon {...{ style, hoverStyle }} useSVGElement>&#xE10F;</Icon>

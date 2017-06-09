@@ -9,7 +9,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <HyperLink href="/" target="_blank">
+      <HyperLink style={{ margin: "10px 0" }} href="/" target="_blank">
         Link to Home Page
       </HyperLink>
     );

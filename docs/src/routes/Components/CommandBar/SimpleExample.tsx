@@ -5,7 +5,7 @@ import AppBarButton from "react-uwp/AppBarButton";
 import AppBarSeparator from "react-uwp/AppBarSeparator";
 
 const commandBarStyle: React.CSSProperties = {
-  margin: "60px 0"
+  margin: "30px 0"
 };
 export default class SimpleExample extends React.Component<{}, void> {
   render() {

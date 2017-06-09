@@ -55,10 +55,19 @@ class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { ...attributes } = this.props;
+    const { style, ...attributes } = this.props;
     const { theme } = this.context;
     return (
-      <div {...attributes as any} style={{ background: theme.chromeMedium }}>
+      <div
+        {...attributes as any}
+        style={theme.prepareStyles({
+          background: theme.chromeMedium,
+          padding: 20,
+          display: "inline-block",
+          verticalAlign: "middle",
+          ...style
+        })}
+      >
         <Icon
           style={{
             color: theme.baseMedium,
@@ -100,20 +109,24 @@ export class Image extends React.Component<ImageProps, ImageState> {
       useLazyLoad,
       useDivContainer,
       once, scroll, offset, overflow, resize, debounce, throttle,
+      style,
       ...attributes
     } = this.props;
+    const { theme } = this.context;
     const placeholder = (attributes.placeholder || <Placeholder {...attributes as any} />) as any;
+    const baseStyle: React.CSSProperties = theme.prepareStyles({
+        background: `url(${attributes.src}) no-repeat center center / cover`,
+      display: "inline-block",
+      verticalAlign: "middle",
+      ...style
+    });
 
-    const ImageOrDiv = () => (useDivContainer
-      ?
+    const ImageOrDiv = () => (useDivContainer ?
       <div
         {...attributes as React.HTMLAttributes<HTMLDivElement>}
-        style={{
-          background: `url(${attributes.src}) no-repeat center center / cover`,
-          ...attributes.style
-        }}
+        style={baseStyle}
       />
-      : <img {...attributes as any} onError={this.errorHandler} />
+      : <img {...attributes as any} style={baseStyle} onError={this.errorHandler} />
     );
 
     if (!attributes.src || this.state.showEmptyImage) {

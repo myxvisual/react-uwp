@@ -81,7 +81,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
               />
               <TextBox
                 background="none"
-                value="Paste Image URL or Upload..."
+                defaultValue="Paste Image URL or Upload..."
                 style={{ marginTop: 4 }}
                 onChangeValue={desktopBackgroundImage => {
                   const image = new Image();
@@ -140,8 +140,13 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
           <div style={{ padding: "20px 0" }}>
             <ColorPicker
               defaultColor={theme.accent}
-              onChangedColor={color => {
-                theme.saveTheme(getTheme({ themeName: theme.themeName, accent: color }));
+              onChangedColor={accent => {
+                theme.saveTheme(getTheme({
+                  themeName: theme.themeName,
+                  accent,
+                  useFluentDesign: theme.useFluentDesign,
+                  desktopBackgroundImage: theme.desktopBackgroundImage
+                }));
               }}
             />
           </div>

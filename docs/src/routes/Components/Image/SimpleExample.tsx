@@ -5,6 +5,7 @@ import Image from "react-uwp/Image";
 
 const imageStyle: React.CSSProperties = {
   width: "100%",
+  maxWidth: 320,
   height: "auto"
 };
 export default class SimpleExample extends React.Component<{}, void> {

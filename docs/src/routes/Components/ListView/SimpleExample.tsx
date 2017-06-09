@@ -24,26 +24,29 @@ const listSource: ListItem[] = [{
   </span>
 ];
 
+const baseStyle: React.CSSProperties = {
+  margin: "10px 10px 10px 0"
+};
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
   render() {
     return (
-      <div style={{ margin: "10px auto" }}>
+      <div style={baseStyle}>
         <ListView
           listSource={listSource}
-          style={{ width: 300, margin: "10px auto" }}
+          style={baseStyle}
         />
         <ListView
-          listSource={Array(6).fill(0).map((numb, index) => (
+          listSource={Array(15).fill(0).map((numb, index) => (
             <div key={`${index}`}>{Array(index + 1).fill(<Icon>RatingStarFillZeroWidthLegacy</Icon>)}</div>
           ))}
-          style={{ width: 150, margin: "10px auto" }}
+          style={baseStyle}
           listItemStyle={{ height: 40 }}
         />
         <ListView
-          listSource={Array(6).fill(0).map((numb, index) => index)}
+          listSource={Array(15).fill(0).map((numb, index) => index)}
         />
       </div>
     );

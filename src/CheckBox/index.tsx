@@ -92,6 +92,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
       labelPosition, // tslint:disable-line:no-unused-variable
       disabled, // tslint:disable-line:no-unused-variable
       background,
+      style,
       ...attributes
     } = this.props;
     const { checked, hovered } = this.state;
@@ -121,7 +122,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
         style={theme.prepareStyles({
           display: "inline-block",
           verticalAlign: "middle",
-          ...attributes.style
+          ...style
         })}
       >
         {haveLabel ? (

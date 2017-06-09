@@ -20,7 +20,9 @@ export default class SimpleExample extends React.Component<{}, void> {
           autoClose
           autoCloseTimeout={1000}
         >
-          <p>Auto Close after showed in 1000ms</p>
+          <p style={{ margin: "0 10px" }}>
+            Tooltip auto close after showed in 1000ms
+          </p>
         </Tooltip>
 
         <Tooltip

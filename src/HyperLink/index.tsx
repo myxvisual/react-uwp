@@ -19,7 +19,7 @@ export class HyperLink extends React.Component<LinkProps, void> {
     return (
       <Link
         {...{
-          style: { textDecoration: "underline" },
+          style: { textDecoration: "underline", ...this.props.style },
           ...this.props
         }}
       />

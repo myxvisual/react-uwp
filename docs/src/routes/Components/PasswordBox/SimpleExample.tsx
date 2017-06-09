@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import PasswordBox from "react-uwp/PasswordBox";
 
 const baseStyle: React.CSSProperties = {
-  margin: 20
+  margin: "10px 10px 10px 0"
 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };

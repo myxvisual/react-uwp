@@ -3,7 +3,8 @@ import * as PropTypes from "prop-types";
 
 import RatingsControl from "react-uwp/RatingsControl";
 
-const blockStyle: React.CSSProperties = {
+const baseStyle: React.CSSProperties = {
+  margin: "10px 0",
   display: "block"
 };
 export default class SimpleExample extends React.Component<{}, void> {
@@ -13,10 +14,10 @@ export default class SimpleExample extends React.Component<{}, void> {
   render() {
     return (
       <div>
-        <RatingsControl style={blockStyle} />
+        <RatingsControl style={baseStyle} />
 
         <RatingsControl
-          style={blockStyle}
+          style={baseStyle}
           iconStyle={{ fontSize: 48 }}
           iconRatedStyle={{ color: "yellowgreen" }}
           icon="HeartFillLegacy"
@@ -25,12 +26,12 @@ export default class SimpleExample extends React.Component<{}, void> {
         />
 
         <RatingsControl
-          style={blockStyle}
+          style={baseStyle}
           icon="HighlightLegacy"
           isReadOnly
           label="ReadOnly"
           defaultRating={2.5}
-          maxRating={3}
+          maxRating={7}
         />
       </div>
     );

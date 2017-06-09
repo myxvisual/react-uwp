@@ -7,28 +7,28 @@ export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
   render() {
-    const defaultBtnStyle: React.CSSProperties = {
-      margin: 4
+    const baseStyle: React.CSSProperties = {
+      margin: "10px 10px 10px 0"
     };
     const { theme } = this.context;
     return (
       <div>
-        <Button style={defaultBtnStyle}>
+        <Button style={baseStyle}>
           Button
         </Button>
 
-        <Button style={defaultBtnStyle} disabled>
+        <Button style={baseStyle} disabled>
           Disable Button
         </Button>
 
-        <Button style={defaultBtnStyle} tooltip="Tooltip">
+        <Button style={baseStyle} tooltip="Tooltip">
           Tooltip Button
         </Button>
 
         <Button
           style={{
             border: `2px solid ${theme.listLow}`,
-            ...defaultBtnStyle
+            ...baseStyle
           }}
           background="none"
           activeStyle={{

@@ -10,7 +10,7 @@ export interface SimpleExampleState {
 }
 
 const wrapperStyle: React.CSSProperties = {
-  margin: 20
+  margin: "10px 0"
 };
 export default class SimpleExample extends React.Component<{}, SimpleExampleState> {
   static contextTypes = { theme: PropTypes.object };

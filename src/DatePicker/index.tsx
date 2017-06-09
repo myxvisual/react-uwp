@@ -258,7 +258,7 @@ function getStyles(datePicker: DatePicker): {
     }
   } = datePicker;
   const { prepareStyles } = theme;
-  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80 : theme.chromeLow);
+  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.chromeLow);
 
   return {
     root: prepareStyles({
@@ -308,7 +308,7 @@ function getStyles(datePicker: DatePicker): {
       padding: `${pickerItemHeight * 3}px 0`,
       width: "auto",
       height: pickerItemHeight * 7,
-      overflowY: "auto",
+      overflow: "auto",
       flex: "1 1 auto"
     }),
     listItem: {

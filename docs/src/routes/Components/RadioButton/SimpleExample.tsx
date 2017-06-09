@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import RadioButton from "react-uwp/RadioButton";
 
 const baseStyle: React.CSSProperties = {
-  margin: 10
+  margin: "10px 10px 10px 0"
 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };

@@ -162,8 +162,8 @@ function getStyles(listView: ListView): {
   return {
     root: {
       width: 320,
-      display: "flex",
-      flexDirection: "column",
+      display: "inline-block",
+      verticalAlign: "middle",
       fontSize: 14,
       padding: "8px 0",
       color: theme.baseMediumHigh,

@@ -10,6 +10,7 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
+    const { theme } = this.context;
     return (
       <div>
         <ListView
@@ -23,9 +24,10 @@ export default class SimpleExample extends React.Component<{}, void> {
             justifyContent: "space-around",
             height: 200,
             width: 200,
-            margin: 10,
+            margin: "10px 0",
+            padding: 20,
             fontSize: 40,
-            background: this.context.theme.chromeLow
+            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.chromeLow
           })}
         >
           <Icon>HeartFillLegacy</Icon>
