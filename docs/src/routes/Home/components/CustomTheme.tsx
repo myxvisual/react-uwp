@@ -79,6 +79,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
                 }}
               />
               <TextBox
+                background="none"
                 value="Paste Image URL or Upload..."
                 style={{ marginTop: 4 }}
                 onChangeValue={desktopBackgroundImage => {
@@ -92,9 +93,6 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
                     }));
                   });
                   image.src = desktopBackgroundImage;
-                }}
-                onClick={() => {
-                  this.fileInput.click();
                 }}
                 rightNode={
                   <Icon

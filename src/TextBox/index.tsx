@@ -43,6 +43,7 @@ export interface TextBoxState {
 const emptyFunc = () => {};
 export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
   static defaultProps: TextBoxProps = {
+    background: "none",
     textBoxStyle: {
       fontSize: "inherit",
       outline: "none",
