@@ -16,13 +16,11 @@ import DatePicker from "../DatePickers/DatePicker/SimpleExample";
 import TimePicker from "../DatePickers/TimePicker/SimpleExample";
 import DropDownMenu from "../DropDownMenu/SimpleExample";
 import FlipView from "../FlipView/SimpleExample";
-import FloatNav from "../FloatNav/SimpleExample";
 import Flyout from "../Flyout/SimpleExample";
 import HyperLink from "../HyperLink/SimpleExample";
 import Icon from "../Icon/SimpleExample";
 import IconButton from "../IconButton/SimpleExample";
 import Image from "../Image/SimpleExample";
-
 import ListView from "../ListView/SimpleExample";
 import MediaPlayer from "../MediaPlayer/SimpleExample";
 import NavigationView from "../NavigationView/SimpleExample";
@@ -58,6 +56,7 @@ export default class IndexOfComponentsByFunction extends React.Component<any, vo
     const baseStyle: React.CSSProperties = {
       margin: 10
     };
+    const { theme } = this.context;
 
     return (
       <div {...attributes}>
@@ -76,13 +75,12 @@ The UI framework for Windows provides an extensive library of controls that supp
         <CommandBar />
         <ColorPicker />
         <ContentDialog />
-        <CalendarDatePicker />
         <CalendarView />
+        <CalendarDatePicker />
         <DatePicker />
         <TimePicker />
         <DropDownMenu />
         <FlipView />
-        <FloatNav />
         <Flyout />
         <HyperLink />
         <Icon />

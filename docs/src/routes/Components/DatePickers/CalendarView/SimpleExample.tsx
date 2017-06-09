@@ -8,6 +8,8 @@ export default class SimpleExample extends React.Component<{}, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    return <CalendarView />;
+    return (
+      <CalendarView style={{ margin: "0 10px" }} />
+    );
   }
 }

@@ -101,7 +101,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             padding: 20,
             margin: "0 auto",
             width: renderContentWidth,
-            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : void 0
+            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : (
+              theme.isDarkTheme ? "hsla(0, 0%, 3%, 1)" : "hsla(0, 0%, 97%, 1)"
+            )
           }}
         />
       </div>

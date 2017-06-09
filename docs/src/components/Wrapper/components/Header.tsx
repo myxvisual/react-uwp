@@ -111,7 +111,7 @@ function getStyles(header: Header): {
       justifyContent: "center",
       left: 0,
       top: 0,
-      zIndex: 20,
+      zIndex: theme.zIndex.header,
       ...style
     }),
     content: prepareStyles({

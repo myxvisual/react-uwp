@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import DropDownMenu from "react-uwp/DropDownMenu";
 
 const baseStyle: React.CSSProperties = {
-  margin: 10
+  margin: "10px 20px 10px 0"
 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };

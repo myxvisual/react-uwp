@@ -47,7 +47,6 @@ function getStyles(progressBar: ProgressBar): {
     root: prepareStyles({
       fontSize: 14,
       color: theme.baseMediumHigh,
-      background: theme.altMediumHigh,
       ...style
     })
   };

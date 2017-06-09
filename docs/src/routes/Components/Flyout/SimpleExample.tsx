@@ -11,25 +11,27 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <Flyout>
-        <Button>Your Content Component</Button>
+      <div>
+        <Flyout>
+          <Button>Your FlyoutContent</Button>
 
-        <FlyoutContent
-          show={false}
-          style={{ height: 40 }}
-        >
-          Your Top FlyoutContent
-        </FlyoutContent>
-        <FlyoutContent
-          show={false}
-          verticalPosition="bottom"
-          style={{ height: 60 }}
-          enterDelay={850}
-        >
-          Your Bottom FlyoutContent with delay 850ms
-        </FlyoutContent>
+          <FlyoutContent
+            show={false}
+            style={{ height: 40 }}
+          >
+            Your Top FlyoutContent
+          </FlyoutContent>
+          <FlyoutContent
+            show={false}
+            verticalPosition="bottom"
+            style={{ height: 60 }}
+            enterDelay={850}
+          >
+            Your Bottom FlyoutContent with delay 850ms
+          </FlyoutContent>
 
-      </Flyout>
+        </Flyout>
+      </div>
     );
   }
 }

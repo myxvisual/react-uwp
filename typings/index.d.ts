@@ -118,6 +118,7 @@ declare namespace ReactUWP {
       commandBar?: number;
       contentDialog?: number;
       mediaPlayer?: number;
+      header?: number;
       [key: string]: number;
     };
   }

@@ -45,8 +45,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
     iconSize: 32
   };
 
-  state: AutoSuggestBoxState = {
-  };
+  state: AutoSuggestBoxState = {};
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -206,6 +205,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       listSource, // tslint:disable-line:no-unused-variable
       iconSize, // tslint:disable-line:no-unused-variable
       children, // tslint:disable-line:no-unused-variable
+      background,
       ...attributes
     } = this.props;
     const {
@@ -229,6 +229,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
             {typing ? "CancelLegacy" : "Search"}
           </Icon>
         )}
+        background={background}
         onChange={this.handleChange}
       >
         {listSource && listSource.length > 0 && (

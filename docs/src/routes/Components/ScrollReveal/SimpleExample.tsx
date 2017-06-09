@@ -17,7 +17,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           style={{ padding: 10, background: theme.accent, color: "#fff" }}
           animatedStyle={{ background: "yellowgreen" }}
         >
-          <div>Scroll the Window</div>
+          <div style={{ display: "inline-block" }}>Scroll the Window</div>
         </ScrollReveal>
 
         <ScrollReveal
@@ -25,7 +25,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           style={{ transform: "scale(0)", padding: 10, background: theme.baseLow }}
           animatedStyle={{ transform: "scale(1)" }}
         >
-          <div>Scale In Animation</div>
+          <div style={{ display: "inline-block" }}>Scale In Animation</div>
         </ScrollReveal>
 
         <ScrollReveal
@@ -33,7 +33,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           style={{ transform: "translateX(120px)", opacity: 0 }}
           animatedStyle={{ transform: "translateX(0)", opacity: 1 }}
         >
-          <div>
+          <div style={{ display: "inline-block" }}>
             <CheckBox />
             <IconButton>HeartFillLegacy</IconButton>
           </div>

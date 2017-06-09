@@ -168,6 +168,7 @@ export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
       tooltip: 201,
       flyout: 202,
       contentDialog: 300,
+      header: 301,
       mediaPlayer: 2147483647
     }
   };
