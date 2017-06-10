@@ -75,8 +75,8 @@ export default [{
   }, {
     "titleNode": "ListView"
   }, {
-    "titleNode": "GirdView",
-    disabled: true
+    "titleNode": "GridView",
+    hidden: true
   }, {
     "titleNode": "PullRefresh",
     hidden: true
