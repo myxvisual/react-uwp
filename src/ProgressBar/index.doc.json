@@ -49,25 +49,25 @@
         },
         {
           "name": "isIndeterminate",
-          "documentation": "",
+          "documentation": "Set ProgressBar to indeterminate model.",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "barWidth",
-          "documentation": "",
+          "documentation": "Set ProgressBar width.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "barHeight",
-          "documentation": "",
+          "documentation": "Set ProgressBar height.",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "speed",
-          "documentation": "",
+          "documentation": "Set ProgressBar animation speed.",
           "isRequired": false,
           "type": "number"
         }
