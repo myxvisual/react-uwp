@@ -274,7 +274,6 @@ function getStyles(datePicker: DatePicker): {
       lineHeight: `${inputItemHeight}px`,
       position: "relative",
       transition: "all .25s ease-in-out",
-      background: currBackground,
       ...style
     }),
     pickerModal: prepareStyles({
@@ -283,6 +282,7 @@ function getStyles(datePicker: DatePicker): {
       display: "flex",
       flexDirection: "column",
       position: "absolute",
+      background: currBackground,
       top: 0,
       left: 0,
       width: "100%",
