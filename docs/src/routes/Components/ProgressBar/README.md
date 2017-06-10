@@ -2,8 +2,8 @@
 
 ----
 
-When it is not known how long the operation will take, use an indeterminate ProgressBar.
+A progress control provides feedback to the user that a long-running operation is underway.
 
-Indeterminate ProgressBars are also good when filling a virtualized list, and creating a smooth visual transition between an indeterminate to determinate ProgressBar.
+It can mean that the user cannot interact with the app when the progress indicator is visible, and can also indicate how long the wait time might be, depending on the indicator used.
 
 ### Examples

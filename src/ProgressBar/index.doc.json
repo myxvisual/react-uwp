@@ -28,11 +28,22 @@
   ],
   "members": [
     {
+      "documentation": "",
+      "name": "vendorPrefixes",
+      "type": "string[]",
+      "initializerText": " vendors.map(str => str ? `-${str}-` : str)"
+    },
+    {
+      "name": "vendorPrefixes",
+      "documentation": "",
+      "type": "string[]"
+    },
+    {
       "name": "DataProps",
       "members": [
         {
-          "name": "valueRatio",
-          "documentation": "",
+          "name": "defaultProgressValue",
+          "documentation": "Set progress value. `(0 <= value <=1)`",
           "isRequired": false,
           "type": "number"
         },
@@ -41,6 +52,24 @@
           "documentation": "",
           "isRequired": false,
           "type": "boolean"
+        },
+        {
+          "name": "barWidth",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "barHeight",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "speed",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
         }
       ],
       "documentation": ""
@@ -67,7 +96,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {}",
+          "initializerText": " {\n    speed: 4000,\n    barWidth: 320,\n    barHeight: 4,\n    isIndeterminate: false,\n    defaultProgressValue: 0.5\n  }",
           "documentation": "",
           "type": "ProgressBarProps"
         },
@@ -91,6 +120,18 @@
           "type": "{ theme: any; }"
         },
         {
+          "name": "getOnlyClassName",
+          "initializerText": " () => {\n    const { speed } = this.props;\n    return `react-uwp-progress-bar_${speed}`;\n  }",
+          "documentation": "",
+          "type": "() => string"
+        },
+        {
+          "name": "getInnerCSS",
+          "initializerText": " (className?: string) => {\n    const { speed, barHeight, barWidth } = this.props;\n    return (\n`.${className} {\n}\n${Array(5).fill(0).map((name, index) => (\n  [`.${className}-item-` + index + \" {\",\n  vendorPrefixes.map(str => (`    ${str}animation: ProgressBar ${speed}ms ${index * barHeight * barWidth * speed / 5 / 10e3}ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards;`)).join(\"\\n\"),\n  \"  }\"].join(\"\")\n)).join(\"\")}\n\n${vendorPrefixes.map(str => `@${str}keyframes ProgressBar {\n  0% {\n    left: -${barHeight}px;\n  }\n  15% {\n    left: -${barHeight}px;\n  }\n  85% {\n    left: ${barWidth + barHeight}px;\n  }\n  100% {\n    left: ${barWidth + barHeight}px;\n  }\n}`)}.join(\"\")`);\n  }",
+          "documentation": "",
+          "type": "(className?: string) => string"
+        },
+        {
           "name": "render",
           "documentation": "",
           "type": "() => Element"
@@ -104,7 +145,7 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(progressBar: ProgressBar) => { root?: CSSProperties; }"
+      "type": "(progressBar: ProgressBar) => { root?: CSSProperties; bar?: CSSProperties; }"
     }
   ],
   "documentation": "",
