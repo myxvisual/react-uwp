@@ -132,7 +132,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
       opacity: showFlyoutContent ? 1 : 0,
       transform: `translateY(${showFlyoutContent ? "0px" : "10px"})`,
       position: "absolute",
-      zIndex: theme.zIndex.FlyoutContent,
+      zIndex: theme.zIndex.flyout,
       transition: `transform .25s ${ enterDelay}ms ease-in-out, opacity .25s ${enterDelay}ms ease-in-out, border ${enterDelay}ms .25s ease-in-out`,
       ...positionStyle,
       ...style
