@@ -94,7 +94,7 @@ function getStyles(splitView: SplitView): {
   return {
     root: prepareStyles({
       color: theme.baseHigh,
-      background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.altHigh,
+      background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.chromeLow,
       display: "inline-block",
       position: "relative",
       margin: 0,

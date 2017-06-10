@@ -5,8 +5,10 @@ import Image from "react-uwp/Image";
 
 const imageStyle: React.CSSProperties = {
   width: "100%",
+  height: "auto",
   maxWidth: 320,
-  height: "auto"
+  maxHeight: 320,
+  marginRight: 10
 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };

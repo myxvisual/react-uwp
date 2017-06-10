@@ -65,6 +65,7 @@ class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>
           padding: 20,
           display: "inline-block",
           verticalAlign: "middle",
+          cursor: "default",
           ...style
         })}
       >
@@ -110,10 +111,11 @@ export class Image extends React.Component<ImageProps, ImageState> {
       useDivContainer,
       once, scroll, offset, overflow, resize, debounce, throttle,
       style,
+      placeholder,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const placeholder = (attributes.placeholder || <Placeholder {...attributes as any} />) as any;
+    const currPlaceholder = (placeholder || <Placeholder style={style} {...attributes as any} />) as any;
     const baseStyle: React.CSSProperties = theme.prepareStyles({
         background: `url(${attributes.src}) no-repeat center center / cover`,
       display: "inline-block",
@@ -130,7 +132,7 @@ export class Image extends React.Component<ImageProps, ImageState> {
     );
 
     if (!attributes.src || this.state.showEmptyImage) {
-      return useLazyLoad ? placeholder : null;
+      return useLazyLoad ? currPlaceholder : null;
     }
 
     if (useLazyLoad) {
@@ -146,7 +148,7 @@ export class Image extends React.Component<ImageProps, ImageState> {
             throttle
           }}
           height={attributes.height}
-          placeholder={placeholder}
+          placeholder={currPlaceholder}
         >
           <ImageOrDiv />
         </ReactLazyLoad>
