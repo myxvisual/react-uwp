@@ -50,7 +50,6 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
     style: { transform: "scale(0)" },
     animatedStyle: { transform: "scale(1)" },
     speed: 250,
-    transitionTimingFunction: "ease-in-out",
     topOffset: window.innerHeight / 16,
     bottomOffset: window.innerHeight / 16,
     useWrapper: false
@@ -119,3 +118,88 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
 }
 
 export default ScrollReveal;
+
+const slideBottomInProps = {
+  style: {
+    transform: "translateY(100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateY(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const slideTopInProps = {
+  style: {
+    transform: "translateY(-100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateY(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const slideLeftInProps = {
+  style: {
+    transform: "translateX(-100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateX(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const slideRightInProps = {
+  style: {
+    transform: "translateX(-100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateX(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const scaleInProps = {
+  style: {
+    transform: "scale(0)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "scale(1)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const fadeInProps = {
+  style: {
+    opacity: 0
+  },
+  animatedStyle: {
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+export {
+  fadeInProps,
+  scaleInProps,
+  slideTopInProps,
+  slideBottomInProps,
+  slideLeftInProps,
+  slideRightInProps
+};

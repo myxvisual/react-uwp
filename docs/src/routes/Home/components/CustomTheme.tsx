@@ -7,6 +7,7 @@ import DropDownMenu from "react-uwp/DropDownMenu";
 import ColorPicker from "react-uwp/ColorPicker";
 import CheckBox from "react-uwp/CheckBox";
 import TextBox from "react-uwp/TextBox";
+import ScrollReveal, { slideLeftInProps, slideBottomInProps, scaleInProps } from "react-uwp/ScrollReveal";
 
 export interface DataProps {
   renderContentWidth?: number | string;
@@ -41,11 +42,14 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
       >
         <div style={styles.content}>
           <div>
+            <ScrollReveal {...{ ...slideLeftInProps, speed: 850 }}>
             <div style={{ width: 320, fontWeight: "lighter" }}>
               <Icon style={{ fontSize: 120, linHeight: 1.6 }}>Color</Icon>
               <p style={{ fontSize: 24 }}>Custom Beautiful Themes</p>
               <p style={{ fontSize: 13 }}>React-UWP just to achieve design specifications, more simple design of different themes, let you have complete design freedom.</p>
             </div>
+            </ScrollReveal>
+            <ScrollReveal {...{ ...slideBottomInProps, speed: 850, useWrapper: false }}>
             <div style={{ marginTop: 24 }}>
               <p style={{ fontSize: 18, lineHeight: 1.6 }}>
                 Choose Theme
@@ -136,8 +140,9 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
                 }}
               />
             </div>
+            </ScrollReveal>
           </div>
-          <div style={{ padding: "20px 0" }}>
+          <ScrollReveal {...scaleInProps}>
             <ColorPicker
               defaultColor={theme.accent}
               onChangedColor={accent => {
@@ -149,7 +154,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
                 }));
               }}
             />
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     );

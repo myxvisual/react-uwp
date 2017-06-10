@@ -30,7 +30,6 @@ function FirstChild(props: any) {
 export default class CustomAnimate extends React.Component<CustomAnimateProps, void> {
   static defaultProps: CustomAnimateProps = {
     appearAnimate: true,
-    children: <p>CustomAnimate</p>,
     enterDelay: 0,
     leaveDelay: 0,
     mode: "in-out",

@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ReactIcon from "components/ReactIcon";
+import ScrollReveal, { slideBottomInProps } from "react-uwp/ScrollReveal";
 
 export interface DataProps {
   renderContentWidth?: number | string;
@@ -28,13 +29,13 @@ export default class Banner extends React.Component<BannerProps, void> {
         {...attributes}
         style={styles.root}
       >
-        <div style={styles.content}>
+        <ScrollReveal {...slideBottomInProps} wrapperStyle={styles.content}>
           <ReactIcon width={80} fill="#fff" />
           <p style={{ marginTop: 12 }}>
             Built with React <br />
             React-UWP’s robust, up-to-date components are built with React
           </p>
-        </div>
+        </ScrollReveal>
       </div>
     );
   }

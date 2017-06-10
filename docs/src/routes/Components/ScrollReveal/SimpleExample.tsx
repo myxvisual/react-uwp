@@ -14,6 +14,7 @@ export default class SimpleExample extends React.Component<{}, void> {
     return (
       <div>
         <ScrollReveal
+          speed={2000}
           style={{ padding: 10, marginRight: 10, background: theme.accent, color: "#fff" }}
           animatedStyle={{ background: "yellowgreen" }}
         >

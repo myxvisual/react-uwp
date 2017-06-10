@@ -26,6 +26,12 @@ export default class Categories extends React.Component<CategoriesProps, void> {
     const { renderContentHeight, renderContentWidth, screenType, ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const slideInProps = {
+      style: { transform: "translateY(400px)", opacity: 0 },
+      animatedStyle: { transform: "translateY(0)", opacity: 1 },
+      speed: 850,
+      useWrapper: true
+    };
 
     return (
       <div
@@ -45,14 +51,8 @@ export default class Categories extends React.Component<CategoriesProps, void> {
             link="get-started"
           />
         </ScrollReveal>
-        <ScrollReveal
-          style={{ transform: "translateY(400px)", opacity: 0 }}
-          animatedStyle={{ transform: "translateY(0)", opacity: 1 }}
-          speed={1500}
-          wrapperStyle={{ width: "100%" }}
-          useWrapper
-        >
         <div style={styles.categories}>
+          <ScrollReveal {...slideInProps}>
             <Category
               style={CATEGORY_STYLE}
               title="Layout"
@@ -60,29 +60,35 @@ export default class Categories extends React.Component<CategoriesProps, void> {
               link="/layout"
               icon={<IconLayout width={ICON_WIDTH} />}
             />
-          <Category
-            style={CATEGORY_STYLE}
-            title="Styles"
-            description="Define your app’s personality through color, typography, and motion."
-            link="/styles"
-            icon={<IconStyle width={ICON_WIDTH} />}
-          />
-          <Category
-            style={CATEGORY_STYLE}
-            title="Components"
-            description="Create a UI from a powerful set of building blocks."
-            link="/components"
-            icon={<IconComponents width={ICON_WIDTH} />}
-          />
-          <Category
-            style={CATEGORY_STYLE}
-            title="Design Toolkits"
-            description="Jumpstart your project with design templates and tools."
-            link="/resources"
-            icon={<IconToolkits width={ICON_WIDTH} />}
-          />
+          </ScrollReveal>
+          <ScrollReveal {...slideInProps}>
+            <Category
+              style={CATEGORY_STYLE}
+              title="Styles"
+              description="Define your app’s personality through color, typography, and motion."
+              link="/styles"
+              icon={<IconStyle width={ICON_WIDTH} />}
+            />
+          </ScrollReveal>
+          <ScrollReveal {...slideInProps}>
+            <Category
+              style={CATEGORY_STYLE}
+              title="Components"
+              description="Create a UI from a powerful set of building blocks."
+              link="/components"
+              icon={<IconComponents width={ICON_WIDTH} />}
+            />
+          </ScrollReveal>
+          <ScrollReveal {...slideInProps}>
+            <Category
+              style={CATEGORY_STYLE}
+              title="Design Toolkits"
+              description="Jumpstart your project with design templates and tools."
+              link="/resources"
+              icon={<IconToolkits width={ICON_WIDTH} />}
+            />
+          </ScrollReveal>
         </div>
-        </ScrollReveal>
       </div>
     );
   }

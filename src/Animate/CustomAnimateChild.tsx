@@ -80,26 +80,43 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
       callback();
       return;
     }
-    const { style } = this.rootElm;
-    if (!this.rootElm.style) {
-      this.rootElm = findDOMNode(this.rootElm) as any;
-    }
 
-    Object.assign(this.rootElm.style, this.context.theme.prepareStyles(animatedStyle));
+    const style = this.getElmOrComponentStyle(this.rootElm);
+
+    Object.assign(style, this.context.theme.prepareStyles(animatedStyle));
 
     this.enterTimer = setTimeout(callback, speed + enterDelay);
   }
 
   initializeAnimation = (callback = () => {}, revers = false) => {
-    const { speed, leaveDelay, style, animate } = this.props;
+    const { speed, leaveDelay, animate } = this.props;
     const isControlledAnimate = typeof animate === "boolean";
     if (isControlledAnimate) {
       callback();
       return;
     }
 
-    Object.assign(this.rootElm.style, this.context.theme.prepareStyles(style));
+    const style = this.getElmOrComponentStyle(this.rootElm);
+
+    Object.assign(style, this.context.theme.prepareStyles(this.props.style));
     callback();
+  }
+
+  getElmOrComponentStyle = (rootElm: any): any => {
+    let { style } = rootElm;
+    if (style) {
+      return style;
+    } else {
+      rootElm = findDOMNode(rootElm) as any;
+      style = rootElm.style;
+      if (style) {
+        return style;
+      } else if (rootElm) {
+        return this.getElmOrComponentStyle(rootElm);
+      } else {
+        return {};
+      }
+    }
   }
 
   render() {

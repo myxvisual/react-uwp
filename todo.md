@@ -59,6 +59,7 @@ Styling Components
 ### Toast
 - [ ] Toast
 
-ProgressBar
-ProgressRing
-RadioButton
+DatePicker Border
+RatingControl Name
+GridView
+Menus
