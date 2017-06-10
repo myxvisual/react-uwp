@@ -28,7 +28,7 @@ import PasswordBox from "../PasswordBox/SimpleExample";
 import ProgressBar from "../ProgressBar/SimpleExample";
 import ProgressRing from "../ProgressRing/SimpleExample";
 import RadioButton from "../RadioButton/SimpleExample";
-import RatingsControl from "../RatingsControl/SimpleExample";
+import RatingControl from "../RatingControl/SimpleExample";
 import ScrollReveal from "../ScrollReveal/SimpleExample";
 import Separator from "../Separator/SimpleExample";
 import Slider from "../Slider/SimpleExample";
@@ -87,7 +87,7 @@ The UI framework for Windows provides an extensive library of controls that supp
         <ProgressBar />
         <ProgressRing />
         <RadioButton />
-        <RatingsControl />
+        <RatingControl />
         <ScrollReveal />
         <Separator />
         <Slider />

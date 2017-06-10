@@ -46,15 +46,15 @@ export interface DataProps {
   padding?: number;
 }
 
-export interface RatingsControlProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface RatingControlProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface RatingsControlState {
+export interface RatingControlState {
   currRating?: number;
 }
 
 const emptyFunc = () => {};
-export class RatingsControl extends React.Component<RatingsControlProps, RatingsControlState> {
-  static defaultProps: RatingsControlProps = {
+export class RatingControl extends React.Component<RatingControlProps, RatingControlState> {
+  static defaultProps: RatingControlProps = {
     defaultRating: 2.5,
     maxRating: 5,
     icon: "FavoriteStarFill",
@@ -62,7 +62,7 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
     padding: 10
   };
 
-  state: RatingsControlState = {
+  state: RatingControlState = {
     currRating: this.props.defaultRating
   };
 
@@ -71,7 +71,7 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  componentWillReceiveProps(nextProps: RatingsControlProps) {
+  componentWillReceiveProps(nextProps: RatingControlProps) {
     if (nextProps.defaultRating !== this.state.currRating) {
       this.setState({ currRating: nextProps.defaultRating });
     }
@@ -172,14 +172,14 @@ export class RatingsControl extends React.Component<RatingsControlProps, Ratings
   }
 }
 
-function getStyles(ratingsControl: RatingsControl): {
+function getStyles(RatingControl: RatingControl): {
   root?: React.CSSProperties;
   ratingsGroup?: React.CSSProperties;
 } {
   const {
     context: { theme },
     props: { style }
-  } = ratingsControl;
+  } = RatingControl;
   const { prepareStyles } = theme;
 
   return {
@@ -199,4 +199,4 @@ function getStyles(ratingsControl: RatingsControl): {
   };
 }
 
-export default RatingsControl;
+export default RatingControl;

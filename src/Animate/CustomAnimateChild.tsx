@@ -81,7 +81,7 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
       return;
     }
 
-    const style = this.getElmOrComponentStyle(this.rootElm);
+    const style = this.getRootElmOrComponentStyle(this.rootElm);
 
     Object.assign(style, this.context.theme.prepareStyles(animatedStyle));
 
@@ -96,13 +96,13 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
       return;
     }
 
-    const style = this.getElmOrComponentStyle(this.rootElm);
+    const style = this.getRootElmOrComponentStyle(this.rootElm);
 
     Object.assign(style, this.context.theme.prepareStyles(this.props.style));
     callback();
   }
 
-  getElmOrComponentStyle = (rootElm: any): any => {
+  getRootElmOrComponentStyle = (rootElm: any): any => {
     let { style } = rootElm;
     if (style) {
       return style;
@@ -112,7 +112,7 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
       if (style) {
         return style;
       } else if (rootElm) {
-        return this.getElmOrComponentStyle(rootElm);
+        return this.getRootElmOrComponentStyle(rootElm);
       } else {
         return {};
       }

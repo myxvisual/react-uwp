@@ -391,11 +391,11 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-PasswordBox");
         }
       }, {
-        path: "RatingsControl",
+        path: "RatingControl",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
-            cb(null, require<any>("./Components/RatingsControl").default);
-          }, "react-uwp-Components-RatingsControl");
+            cb(null, require<any>("./Components/RatingControl").default);
+          }, "react-uwp-Components-RatingControl");
         }
       }]
     }, {

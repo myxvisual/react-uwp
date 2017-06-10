@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import RatingsControl from "react-uwp/RatingsControl";
+import RatingControl from "react-uwp/RatingControl";
 
 const baseStyle: React.CSSProperties = {
   margin: "10px 0",
@@ -14,9 +14,9 @@ export default class SimpleExample extends React.Component<{}, void> {
   render() {
     return (
       <div>
-        <RatingsControl style={baseStyle} />
+        <RatingControl style={baseStyle} />
 
-        <RatingsControl
+        <RatingControl
           style={baseStyle}
           iconStyle={{ fontSize: 48 }}
           iconRatedStyle={{ color: "yellowgreen" }}
@@ -25,7 +25,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           maxRating={4}
         />
 
-        <RatingsControl
+        <RatingControl
           style={baseStyle}
           icon="HighlightLegacy"
           isReadOnly

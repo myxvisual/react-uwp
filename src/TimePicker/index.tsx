@@ -304,7 +304,7 @@ function getStyles(TimePicker: TimePicker): {
       border: "none",
       borderLeft: `1px solid ${theme.listLow}`,
       padding: `${pickerItemHeight * 3}px 0`,
-      width: "auto",
+      width: "100%",
       height: pickerItemHeight * 7,
       overflow: "auto",
       flex: "1 1 auto"
