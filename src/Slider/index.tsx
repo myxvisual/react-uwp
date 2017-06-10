@@ -145,7 +145,6 @@ export class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   handelMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setValueByEvent(e);
     Object.assign(document.body.style, {
       userSelect: "none",
       msUserSelect: "none",
@@ -164,7 +163,9 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       cursor: void 0,
       ...this.originBodyStyle
     });
-    this.setState({ dragging: false });
+    if (this.state.dragging) {
+      this.setState({ dragging: false });
+    }
     window.removeEventListener("mousemove", this.setValueByEvent);
     window.removeEventListener("mouseup", this.handelMouseUp);
   }
@@ -174,16 +175,20 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     if (e.type === "mousemove" && !this.state.dragging) {
       this.setState({ dragging: true });
     }
-    const nowTime = performance ? performance.now() : Date.now();
-    if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {
-      clearTimeout(this.throttleNowTimer);
-      this.throttleNow = nowTime;
-    } else {
-      this.throttleNowTimer = setTimeout(() => {
-        this.setValueByEvent(e, type);
-      }, this.props.throttleTimer);
-      return;
+
+    if (e.type === "mousemove") {
+      const nowTime = performance ? performance.now() : Date.now();
+      if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {
+        clearTimeout(this.throttleNowTimer);
+        this.throttleNow = nowTime;
+      } else {
+        this.throttleNowTimer = setTimeout(() => {
+          this.setValueByEvent(e, type);
+        }, this.props.throttleTimer);
+        return;
+      }
     }
+
     const {
       maxValue,
       minValue,
@@ -203,40 +208,41 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     let valueRatio = (mouseLeft - left) / (width - controllerWidth);
     valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);
     const currValue = minValue + (maxValue - minValue) * valueRatio;
+
     this.state.currValue = currValue;
     this.state.valueRatio = valueRatio;
 
-    if (!useCustomBackground) {
-      const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;
-      Object.assign(this.barElm.style, {
-        transform: barTransform,
-        webKitTransform: barTransform,
-        msTransform: barTransform,
-        mozTransform: barTransform
-      } as React.CSSProperties);
-    }
-
-    const transform = `translateX(${valueRatio * 100}%)`;
-    Object.assign(this.controllerWrapperElm.style, {
-      transform,
-      webKitTransform: transform,
-      msTransform: transform,
-      mozTransform: transform
-    } as React.CSSProperties);
-
-    if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;
-
-    if (e.type === "mousedown") {
+    if (e.type === "click") {
       this.setState({ currValue });
+    } else {
+      if (!useCustomBackground) {
+        const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;
+        Object.assign(this.barElm.style, {
+          transform: barTransform,
+          webKitTransform: barTransform,
+          msTransform: barTransform,
+          mozTransform: barTransform
+        } as React.CSSProperties);
+      }
+
+      const transform = `translateX(${valueRatio * 100}%)`;
+      Object.assign(this.controllerWrapperElm.style, {
+        transform,
+        webKitTransform: transform,
+        msTransform: transform,
+        mozTransform: transform
+      } as React.CSSProperties);
+
+      if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;
     }
+
     onChangeValue(currValue);
     onChangeValueRatio(valueRatio);
-    this.state.currValue = currValue;
+
     this.onChangedValueTimer = setTimeout(() => {
-      this.setState({ currValue });
       onChangedValue(currValue);
       onChangeValueRatio(valueRatio);
-    }, 500);
+    }, 0);
   }
 
   render() {
