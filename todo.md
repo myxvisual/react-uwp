@@ -40,7 +40,7 @@ Styling Components
 - [ ] ScrollBar
 
 ### Progress Controls
-- [ ] ProgressBar
+- [x] ProgressBar
 - [x] ProgressRing
 
 ### Text Controls
