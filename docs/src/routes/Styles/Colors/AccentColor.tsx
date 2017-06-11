@@ -145,7 +145,7 @@ export default class AccentColor extends React.Component<AccentColorProps, void>
               <span>black</span>
               <span style={{ float: "right" }}>#ffffff</span>
             </li>
-          </ul>;
+          </ul>
         </div>
         <MarkdownRender text={AccentColorDocs as any} style={{ clear: "both", margin: 10 }} />
       </div>
