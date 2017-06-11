@@ -65,6 +65,7 @@ function getStyles(notFound: NotFound): {
       fontSize: 14,
       color: theme.baseMediumHigh,
       padding: 40,
+      height: "100%",
       width: "100%",
       minHeight: renderContentHeight,
       margin: "0 auto",
