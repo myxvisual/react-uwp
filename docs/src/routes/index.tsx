@@ -15,55 +15,42 @@ const useFluentDesign = true;
 const desktopBackgroundImage = require("assets/images/blurBackground/jennifer-bailey-10753.jpg");
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 
-let WrapperWithPath: new() => React.Component<any, any>;
-class WrapperWithTheme extends React.Component<{}, void> {
+export class ThemeWrapper extends React.Component<{}, void> {
   render() {
     const { children } = this.props;
     return (
       <Theme autoSaveTheme theme={theme}>
-        <Wrapper>
-          {children as any}
-        </Wrapper>
+        {children}
       </Theme>
     );
   }
 }
 
 function getRoutes(path = "/") {
-
-  const getWrapper = () => (
-    class extends React.Component<void, void> {
-      render() {
-        const { children } = this.props;
-        return (
-          <Theme autoSaveTheme theme={theme}>
-            <WrapperWithCategories path={path}>
-              {children as any}
-            </WrapperWithCategories>
-          </Theme>
-        );
-      }
-    }
+  const CategoriesWrapper = (props: any) => (
+    <WrapperWithCategories path={path}>
+      {props.children}
+    </WrapperWithCategories>
   );
-  WrapperWithPath = getWrapper();
 
   return {
     path,
+    component: ThemeWrapper,
     indexRoute: {
       getComponent(location: Location, cb: RouterCallback) {
         require.ensure([], (require) => {
           const Child = require<any>("./Home").default;
           cb(null, () => (
-            <WrapperWithTheme>
+            <Wrapper>
               <Child />
-            </WrapperWithTheme>
+            </Wrapper>
           ));
         }, "react-uwp-home");
       }
     },
     childRoutes: [{
       path: "get-started",
-      component: WrapperWithPath,
+      component: CategoriesWrapper,
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
@@ -73,7 +60,7 @@ function getRoutes(path = "/") {
       }
     }, {
       path: "Resources",
-      component: WrapperWithPath,
+      component: CategoriesWrapper,
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
@@ -83,7 +70,7 @@ function getRoutes(path = "/") {
       }
     }, {
       path: "Examples",
-      component: WrapperWithPath,
+      component: CategoriesWrapper,
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
@@ -93,7 +80,7 @@ function getRoutes(path = "/") {
       }
     }, {
       path: "Styles",
-      component: WrapperWithPath,
+      component: CategoriesWrapper,
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
@@ -124,7 +111,7 @@ function getRoutes(path = "/") {
         }
       }]
     }, {
-      component: WrapperWithPath,
+      component: CategoriesWrapper,
       path: "Components",
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
@@ -413,7 +400,7 @@ function getRoutes(path = "/") {
       }]
     }, {
       path: "*",
-      component: WrapperWithTheme,
+      component: CategoriesWrapper,
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
@@ -434,5 +421,5 @@ if (versionPattern.test(rootPath)) {
 }
 const routes: any = getRoutes(version);
 
-export { getRoutes, WrapperWithPath };
+export { getRoutes };
 export default () => <Router history={browserHistory} routes={routes} />;
