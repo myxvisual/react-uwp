@@ -412,18 +412,6 @@ function getRoutes(path = "/") {
         }
       }]
     }, {
-      path: "Resources",
-      getComponent: (location: Location, cb: RouterCallback) => {
-        require.ensure([], (require) => {
-          const Child = require<any>("./Resources").default;
-          cb(null, () => (
-            <WrapperWithPath>
-              <Child />
-            </WrapperWithPath>
-          ));
-        }, "react-uwp-Resources");
-      }
-    }, {
       path: "*",
       component: WrapperWithTheme,
       indexRoute: {
