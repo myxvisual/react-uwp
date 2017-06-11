@@ -76,6 +76,7 @@ export class Icon extends React.Component<IconProps, IconState> {
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
       style: theme.prepareStyles({
+        display: "inline-block",
         textAlign: "center",
         verticalAlign: "middle",
         fontFamily: theme.iconFontFamily,
@@ -83,6 +84,8 @@ export class Icon extends React.Component<IconProps, IconState> {
         border: "none",
         outline: "none",
         userSelect: "none",
+        width: size,
+        height: size,
         lineHeight: size ? `${size}px` : "inherit",
         fontSize: size || "inherit",
         cursor: "inherit",

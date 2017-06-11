@@ -58,13 +58,13 @@
         },
         {
           "name": "tabStyle",
-          "documentation": "",
+          "documentation": "Set every `Tab` style.",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
           "name": "renderTitle",
-          "documentation": "",
+          "documentation": "Custom set render `Tab Title` method.",
           "isRequired": false,
           "type": "(title?: string) => ReactNode"
         }

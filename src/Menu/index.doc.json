@@ -1,0 +1,196 @@
+{
+  "fileName": "D:/react-uwp/src/Menu/index.tsx",
+  "name": "\"D:/react-uwp/src/Menu/index\"",
+  "exports": [
+    {
+      "name": "MenuItem",
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "MenuItemProps",
+      "documentation": ""
+    },
+    {
+      "name": "AnyAttributes",
+      "documentation": ""
+    },
+    {
+      "name": "MenuProps",
+      "documentation": ""
+    },
+    {
+      "name": "MenuState",
+      "documentation": ""
+    },
+    {
+      "name": "Menu",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "Menu"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "children",
+          "documentation": "Set ReactNode to Menu item.",
+          "isRequired": false,
+          "type": "any"
+        },
+        {
+          "name": "menuItemWidth",
+          "documentation": "Set Menu Item width.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "menuItemHeight",
+          "documentation": "Set Menu Item height.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "menuItemHoverStyle",
+          "documentation": "Set Menu Item hovered style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "MenuItemProps",
+      "members": [
+        {
+          "name": "icon",
+          "documentation": "Set icon to Menu Item.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "label",
+          "documentation": "Set label text to Menu Item.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "documentation": "Set Menu Item nested children.",
+          "isRequired": false,
+          "type": "any"
+        },
+        {
+          "name": "defaultShowChild",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "itemWidth",
+          "documentation": "Set Menu Item width.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "itemHeight",
+          "documentation": "Set Menu Item height.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "hoverStyle",
+          "documentation": "Set Menu Item hovered style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "AnyAttributes",
+      "members": [
+        {
+          "name": "__index",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "MenuProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "AnyAttributes"
+      ]
+    },
+    {
+      "name": "MenuState",
+      "documentation": ""
+    },
+    {
+      "name": "Menu",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    menuItemHeight: 44,\n    menuItemWidth: 240\n  }",
+          "documentation": "",
+          "type": "MenuProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {}",
+          "documentation": "",
+          "type": "MenuState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(menu: Menu) => { root?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Menu/index\""
+}

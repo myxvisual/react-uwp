@@ -293,6 +293,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-MediaPlayer");
         }
       }, {
+        path: "Menu",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Menu").default);
+          }, "react-uwp-Components-Menu");
+        }
+      }, {
         path: "MarkdownRender",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

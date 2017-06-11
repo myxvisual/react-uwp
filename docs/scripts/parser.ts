@@ -212,7 +212,7 @@ export class Parser {
     const parentSymbol: ts.Symbol = newSymbol.parent;
     if (parentSymbol && parentSymbol.flags === ts.SymbolFlags.Interface) {
       const valueDeclaration: any = symbol.valueDeclaration;
-      isRequired = !valueDeclaration.questionToken;
+      isRequired = valueDeclaration ? !valueDeclaration.questionToken : false;
     }
 
     let extendsDocEntry = "declarations" in newSymbol ? newSymbol.declarations.map((declaration: any) => (

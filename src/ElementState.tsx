@@ -146,7 +146,10 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
     return React.cloneElement(children as any, {
       ...attributes,
-      style: this.context.theme.prepareStyles(style),
+      style: this.context.theme.prepareStyles({
+        transition: "all .25s",
+        ...style
+      }),
       onMouseEnter: hoverStyle ? this.hover : onMouseEnter,
       onMouseLeave: hoverStyle ? this.unHover : onMouseLeave,
       onMouseDown: activeStyle ? this.active : onMouseDown,

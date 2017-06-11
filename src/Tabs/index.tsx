@@ -19,7 +19,13 @@ export interface DataProps {
    * Set custom focused tab title style.
    */
   tabTitleFocusStyle?: React.CSSProperties;
+  /**
+   * Set every `Tab` style.
+   */
   tabStyle?: React.CSSProperties;
+  /**
+   * Custom set render `Tab Title` method.
+   */
   renderTitle?: (title?: string) => React.ReactNode;
 }
 

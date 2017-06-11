@@ -79,6 +79,8 @@ export default [{
   }, {
     "titleNode": "MediaPlayer"
   }, {
+    "titleNode": "Menu"
+  }, {
     "titleNode": "NavigationView"
   }, {
     "titleNode": "PasswordBox"
@@ -110,9 +112,6 @@ export default [{
     "titleNode": "Tooltip"
   }, {
     "titleNode": "TreeView"
-  }, {
-    "titleNode": "Menus",
-    disabled: true
   }, {
     "titleNode": "ScrollBar",
     hidden: true
