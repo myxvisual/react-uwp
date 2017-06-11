@@ -126,6 +126,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
       flex: "0 0 auto",
       width: 48,
       height: 48,
+      linHeight: "48px",
       color: isTenFt ? void 0 : (visited ? theme.accent : theme.baseHigh),
       fontSize: 16,
       ...iconStyle
