@@ -22,6 +22,7 @@ import Icon from "../Icon/SimpleExample";
 import IconButton from "../IconButton/SimpleExample";
 import Image from "../Image/SimpleExample";
 import ListView from "../ListView/SimpleExample";
+import Menu from "../Menu/SimpleExample";
 import MediaPlayer from "../MediaPlayer/SimpleExample";
 import NavigationView from "../NavigationView/SimpleExample";
 import PasswordBox from "../PasswordBox/SimpleExample";
@@ -96,6 +97,7 @@ The UI framework for Windows provides an extensive library of controls that supp
         <Toggle />
         <Tooltip />
         <TreeView />
+        <Menu />
         <ListView />
         <Image />
         <FlipView />

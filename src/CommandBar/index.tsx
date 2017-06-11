@@ -128,7 +128,12 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
             <AppBarButton
               labelPosition="bottom"
               style={styles.moreLegacy}
-              iconStyle={{ maxWidth: defaultHeight, height: defaultHeight }}
+              iconStyle={{
+                maxWidth: defaultHeight,
+                height: defaultHeight,
+                lineHeight: isMinimal ? (
+                  expanded ? "48px" : "24px"
+                ) : "48px" }}
               icon="MoreLegacy"
               onClick={this.toggleExpanded}
             />
