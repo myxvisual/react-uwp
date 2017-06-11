@@ -59,6 +59,16 @@ function getRoutes(path = "/") {
         }
       }
     }, {
+      path: "Layout",
+      component: CategoriesWrapper,
+      indexRoute: {
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Layout").default);
+          }, "react-uwp-Layout");
+        }
+      }
+    }, {
       path: "Resources",
       component: CategoriesWrapper,
       indexRoute: {

@@ -91,7 +91,7 @@ export default [{
   }, {
     "titleNode": "RadioButton"
   }, {
-    "titleNode": "RatingsControl"
+    "titleNode": "RatingControl"
   }, {
     "titleNode": "ScrollReveal"
   }, {
