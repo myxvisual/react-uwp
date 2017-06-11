@@ -138,7 +138,7 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
     const currStyle = theme.prepareStyles({
       transition: `all ${speed}ms${transitionTimingFunction ? ` ${transitionTimingFunction}` : ""}`,
       ...(children as any).props.style,
-      ...(appearAnimate ? style : animatedStyle),
+      ...(appearAnimate ? style : { ...style, ...animatedStyle }),
       ...(isControlledAnimate ? this.props[animate ? "animatedStyle" : "style"] : void 0)
     });
 

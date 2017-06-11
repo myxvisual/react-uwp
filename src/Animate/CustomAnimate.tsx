@@ -80,7 +80,7 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
           display: "inline-block",
           verticalAlign: "middle",
           overflow: "hidden",
-          ...wrapperStyle
+          ...(useWrapper ? wrapperStyle : style)
         })}
         component={useWrapper ? component : FirstChild}
       >
