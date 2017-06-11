@@ -101,6 +101,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       rightNode,
       style,
       textBoxStyle,
+      onChange,
       onChangeValue,
       children,
       background,
@@ -112,6 +113,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
     const currBackground = (background === void 0 ? theme.altHigh : background);
 
     const rootWrapperStyle: React.CSSProperties = {
+      lineHeight: "32px",
       height: 32,
       width: 296,
       padding: !haveChild ? "0 8px" : 0,
@@ -146,7 +148,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
         })}
         onChange={(e) => {
           onChangeValue(e.currentTarget.value);
-          attributes.onChange(e as any);
+          onChange(e as any);
         }}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}

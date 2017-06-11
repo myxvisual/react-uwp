@@ -113,6 +113,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
     icon: prepareStyles({
       width: 48,
       height: 48,
+      lineHeight: "48px",
       fontSize: 18,
       ...iconStyle
     })
