@@ -36,7 +36,10 @@ export interface MenuItemProps {
    * Set Menu Item nested children.
    */
   children?: MenuItem | MenuItem[];
-  defaultShowChild?: boolean;
+  /**
+   * Set default expanded children.
+   */
+  defaultExpanded?: boolean;
   /**
    * Set Menu Item width.
    */
