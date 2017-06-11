@@ -13,6 +13,11 @@ export default [{
   }, {
     "titleNode": "Animate"
   }, {
+    "titleNode": "Acrylic"
+  }, {
+    "titleNode": "Reveal",
+    disabled: true
+  }, {
     "titleNode": "Typography",
     disabled: true,
     "children": [{
