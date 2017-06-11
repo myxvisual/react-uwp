@@ -111,7 +111,7 @@ export default class Icons extends React.Component<void, IconsState> {
           >
             <AutoSuggestBox
               placeholder="Search Icons"
-              background={theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.altHigh}
+              background={theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh}
               style={{
                 width: 320
               }}

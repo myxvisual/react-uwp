@@ -98,7 +98,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
           }]}
           showFocus
           background={theme.useFluentDesign ? (
-            theme.acrylicTextures.acrylicTexture40.background
+            theme.acrylicTexture40.background
           ) : theme.chromeLow}
         />
       </div>

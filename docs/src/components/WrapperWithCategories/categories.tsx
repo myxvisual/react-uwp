@@ -106,8 +106,7 @@ export default [{
   }, {
     "titleNode": "SplitViewCommand"
   }, {
-    "titleNode": "Tabs",
-    disabled: true
+    "titleNode": "Tabs"
   }, {
     "titleNode": "PasswordBox"
   }, {

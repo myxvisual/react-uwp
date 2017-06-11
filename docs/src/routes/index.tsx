@@ -335,6 +335,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-SplitViewCommand");
         }
       }, {
+        path: "Tabs",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Tabs").default);
+          }, "react-uwp-Components-Tabs");
+        }
+      }, {
         path: "ScrollReveal",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

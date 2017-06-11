@@ -35,7 +35,7 @@ export default class SimpleExample extends React.Component<{}, void> {
         <DropDownMenu
           style={baseStyle}
           values={["---", "A", "a"]}
-          background={theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.altHigh}
+          background={theme.useFluentDesign ? theme.acrylicTexture40.background : theme.altHigh}
         />
       </div>
     );

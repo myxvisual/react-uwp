@@ -94,7 +94,7 @@ function getStyles(splitView: SplitView): {
   return {
     root: prepareStyles({
       color: theme.baseHigh,
-      background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.chromeLow,
+      background: theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow,
       display: "inline-block",
       position: "relative",
       margin: 0,
@@ -116,7 +116,7 @@ function getStyles(splitView: SplitView): {
       overflow: "hidden"
     }),
     pane: prepareStyles({
-      background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.altHigh,
+      background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.altHigh,
       transition,
       boxShadow: theme.useFluentDesign ? `rgba(0, 0, 0, 0.34) 0px 4px 24px` : void 0,
       ...(isCompact ? {

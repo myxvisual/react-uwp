@@ -258,7 +258,7 @@ function getStyles(datePicker: DatePicker): {
     }
   } = datePicker;
   const { prepareStyles } = theme;
-  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.chromeLow);
+  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
 
   return {
     root: prepareStyles({

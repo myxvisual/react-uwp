@@ -40,7 +40,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <div
           style={{
             width: "100%",
-            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.listLow
+            background: theme.useFluentDesign ? theme.acrylicTexture80.background : theme.listLow
           }}
         >
           <FlipView
@@ -87,8 +87,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
           }}
         />
         <Banner renderContentWidth={renderContentWidth} />
-        <CustomTheme renderContentWidth={renderContentWidth} style={{ background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : `linear-gradient(90deg, ${theme.listLow}, transparent)` }} />
-        <div style={{ background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : void 0 }}>
+        <CustomTheme renderContentWidth={renderContentWidth} style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : `linear-gradient(90deg, ${theme.listLow}, transparent)` }} />
+        <div style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : void 0 }}>
           <MediaPlayer
             style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
             url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
@@ -101,7 +101,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             padding: 20,
             margin: "0 auto",
             width: renderContentWidth,
-            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : (
+            background: theme.useFluentDesign ? theme.acrylicTexture80.background : (
               theme.isDarkTheme ? "hsla(0, 0%, 3%, 1)" : "hsla(0, 0%, 97%, 1)"
             )
           }}

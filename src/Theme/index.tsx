@@ -31,7 +31,7 @@ const getBaseCSSString = (theme: ReactUWP.ThemeType) => `.${themeClassName} * {
 }
 
 *::-webkit-scrollbar-track {
-  background-color: ${theme.chromeLow};
+  background-color: ${theme.useFluentDesign ? theme.chromeLow : theme.chromeLow};
 }
 
 *::-webkit-scrollbar:vertical {
@@ -43,7 +43,7 @@ const getBaseCSSString = (theme: ReactUWP.ThemeType) => `.${themeClassName} * {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: ${theme.baseMediumLow};
+  background-color: ${theme.useFluentDesign ? theme.baseLow : theme.baseMediumLow};
 }
 
 body {
@@ -104,7 +104,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     const callback = (image: string, key: number) => {
       if (key === 4) {
         i++;
-        this.state.currTheme.acrylicTextures.acrylicTexture40 = {
+        this.state.currTheme.acrylicTexture40 = {
           tintColor: currTheme.chromeMediumLow,
           tintOpacity: 0.4,
           background: `url(${image}) no-repeat fixed top left / cover`,
@@ -113,7 +113,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       }
       if (key === 6) {
         i++;
-        this.state.currTheme.acrylicTextures.acrylicTexture60 = {
+        this.state.currTheme.acrylicTexture60 = {
           tintColor: currTheme.chromeLow,
           tintOpacity: 0.6,
           background: `url(${image}) no-repeat fixed top left / cover`,
@@ -122,7 +122,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       }
       if (key === 8) {
         i++;
-        this.state.currTheme.acrylicTextures.acrylicTexture80 = {
+        this.state.currTheme.acrylicTexture80 = {
           tintColor: currTheme.chromeLow,
           tintOpacity: 0.8,
           background: `url(${image}) no-repeat fixed top left / cover`,

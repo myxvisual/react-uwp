@@ -327,7 +327,7 @@ function getStyles(treeView: TreeView): {
       overflowX: "hidden",
       overflowY: "auto",
       color: theme.baseMediumHigh,
-      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : "none"),
+      background: background || (theme.useFluentDesign ? theme.acrylicTexture60.background : "none"),
       width: itemHeight * 10,
       padding: "0 16px",
       ...style

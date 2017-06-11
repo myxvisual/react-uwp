@@ -83,9 +83,7 @@ export class Icon extends React.Component<IconProps, IconState> {
         border: "none",
         outline: "none",
         userSelect: "none",
-        lineHeight: size ? `${size}px` : style ? (
-          typeof style.height === "number" ? `${style.height}px` : style.height
-        ) : void 0,
+        lineHeight: size ? `${size}px` : "inherit",
         fontSize: size || "inherit",
         cursor: "inherit",
         color: "inherit",

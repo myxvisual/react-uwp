@@ -189,7 +189,7 @@ function getStyles(contentDialog: ContentDialog): {
       ...style
     }),
     container: prepareStyles({
-      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.altHigh),
+      background: background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh),
       border: `1px solid ${theme.baseLow}`,
       flex: "0 0 auto",
       width: "80%",

@@ -1,0 +1,151 @@
+{
+  "fileName": "D:/react-uwp/src/Tabs/index.tsx",
+  "name": "\"D:/react-uwp/src/Tabs/index\"",
+  "exports": [
+    {
+      "name": "Tab",
+      "documentation": ""
+    },
+    {
+      "name": "TabProps",
+      "documentation": ""
+    },
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "TabsProps",
+      "documentation": ""
+    },
+    {
+      "name": "TabsState",
+      "documentation": ""
+    },
+    {
+      "name": "Tabs",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "Tabs"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "defaultFocusTabIndex",
+          "documentation": "Set custom focus tab by index.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "tabTitleStyle",
+          "documentation": "Set custom tab title style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "tabTitleFocusStyle",
+          "documentation": "Set custom focused tab title style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "tabStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "renderTitle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "(title?: string) => ReactNode"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "TabsProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "TabsState",
+      "members": [
+        {
+          "name": "tabFocusIndex",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "Tabs",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    renderTitle: (title: string) => title\n  }",
+          "documentation": "",
+          "type": "TabsProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    tabFocusIndex: this.props.defaultFocusTabIndex || 0\n  }",
+          "documentation": "",
+          "type": "TabsState"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: TabsProps) => void"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(Tabs: Tabs) => { root?: CSSProperties; titles?: CSSProperties; title?: CSSProperties; titleFocus..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Tabs/index\""
+}

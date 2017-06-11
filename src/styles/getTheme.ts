@@ -49,16 +49,14 @@ export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
     useFluentDesign,
     desktopBackgroundImage,
 
-    acrylicTextures: {
-      acrylicTexture40: {
-        background: "none"
-      },
-      acrylicTexture60: {
-        background: "none"
-      },
-      acrylicTexture80: {
-        background: "none"
-      }
+    acrylicTexture40: {
+      background: "none"
+    },
+    acrylicTexture60: {
+      background: "none"
+    },
+    acrylicTexture80: {
+      background: "none"
     },
 
     accent,

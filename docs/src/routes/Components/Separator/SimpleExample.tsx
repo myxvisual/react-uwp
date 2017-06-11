@@ -27,7 +27,7 @@ export default class SimpleExample extends React.Component<{}, void> {
             margin: "10px 0",
             padding: 20,
             fontSize: 40,
-            background: theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.chromeLow
+            background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.chromeLow
           })}
         >
           <Icon>HeartFillLegacy</Icon>

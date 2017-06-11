@@ -134,12 +134,13 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
       ...attributes
     } = this.props;
     const isControlledAnimate = typeof animate === "boolean";
-    const currStyle = {
+    const { theme } = this.context;
+    const currStyle = theme.prepareStyles({
       transition: `all ${speed}ms${transitionTimingFunction ? ` ${transitionTimingFunction}` : ""}`,
       ...(children as any).props.style,
-      ...style,
+      ...(appearAnimate ? style : animatedStyle),
       ...(isControlledAnimate ? this.props[animate ? "animatedStyle" : "style"] : void 0)
-    };
+    });
 
     return typeof children !== "object" ? (
       <span
@@ -150,7 +151,7 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
         {children}
       </span>
     ) : React.cloneElement(children as any, {
-      style: this.context.theme.prepareStyles(currStyle),
+      style: currStyle,
       ref: (rootElm: any) => this.rootElm = rootElm
     });
   }

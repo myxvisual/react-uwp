@@ -40,12 +40,9 @@ declare namespace ReactUWP {
     desktopBackgroundImage?: string;
     desktopBackground?: string;
 
-    acrylicTextures?: {
-      acrylicTexture40: AcrylicTexture;
-      acrylicTexture60: AcrylicTexture;
-      acrylicTexture80: AcrylicTexture;
-      [key:string]: AcrylicTexture;
-    };
+    acrylicTexture40: AcrylicTexture;
+    acrylicTexture60: AcrylicTexture;
+    acrylicTexture80: AcrylicTexture;
 
     accent?: string;
     accentLighter1?: string;

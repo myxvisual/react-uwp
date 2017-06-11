@@ -16,9 +16,9 @@ export interface DataProps {
   speed?: number;
   animate?: boolean;
   children?: any;
+  useWrapper?: boolean;
   wrapperStyle?: React.CSSProperties;
   component?: any;
-  useSingleChild?: boolean;
 }
 
 export interface CustomAnimateProps extends DataProps {}
@@ -36,7 +36,7 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
     speed: 500,
     animate: void 0,
     component: "span",
-    useSingleChild: false
+    useWrapper: true
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -69,7 +69,7 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
       transitionTimingFunction,
       wrapperStyle,
       component,
-      useSingleChild,
+      useWrapper,
       ...others
     } = this.props;
 
@@ -82,7 +82,7 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
           overflow: "hidden",
           ...wrapperStyle
         })}
-        component={useSingleChild ? FirstChild : component}
+        component={useWrapper ? component : FirstChild}
       >
         {React.Children.map(children, (child: any, index) => (
           <CustomAnimateChild
@@ -105,3 +105,88 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
     );
   }
 }
+
+const slideBottomInProps = {
+  style: {
+    transform: "translateY(100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateY(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const slideTopInProps = {
+  style: {
+    transform: "translateY(-100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateY(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const slideLeftInProps = {
+  style: {
+    transform: "translateX(-100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateX(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const slideRightInProps = {
+  style: {
+    transform: "translateX(100%)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "translateX(0)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const scaleInProps = {
+  style: {
+    transform: "scale(0)",
+    opacity: 0
+  },
+  animatedStyle: {
+    transform: "scale(1)",
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+const fadeInProps = {
+  style: {
+    opacity: 0
+  },
+  animatedStyle: {
+    opacity: 1
+  },
+  speed: 500,
+  useWrapper: true
+};
+
+export {
+  fadeInProps,
+  scaleInProps,
+  slideTopInProps,
+  slideBottomInProps,
+  slideLeftInProps,
+  slideRightInProps
+};

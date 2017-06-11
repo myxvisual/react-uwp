@@ -69,7 +69,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     const { isDarkTheme } = theme;
     const isFocus = focus || focusIndex === index;
     const defaultBG = isFocus ? theme.listAccentLow : "none";
-    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture40.background : theme.listLow);
+    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow);
     const clickBG = isFocus ? theme.accent : theme.chromeHigh;
     return (
       <div
@@ -168,7 +168,7 @@ function getStyles(listView: ListView): {
       padding: "8px 0",
       color: theme.baseMediumHigh,
       border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.altHigh}`,
-      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture60.background : theme.chromeLow),
+      background: background || (theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow),
       transition: "all .25s"
     },
     item: {

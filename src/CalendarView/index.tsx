@@ -307,7 +307,7 @@ function getStyles(calendarView: CalendarView): {
       fontSize: 14,
       color: theme.baseHigh,
       width: 296,
-      background: background || (theme.useFluentDesign ? theme.acrylicTextures.acrylicTexture80.background : theme.altHigh),
+      background: background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh),
       border: `2px solid ${theme.baseLow}`,
       ...style
     }),
