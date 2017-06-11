@@ -4,7 +4,7 @@ export default [{
   "titleNode": "Get Started"
 }, {
   "titleNode": "Layout"
-  }, {
+}, {
   "titleNode": "Styles",
   "children": [{
     "titleNode": "Colors"
@@ -32,25 +32,19 @@ export default [{
 }, {
   "titleNode": "Components",
   "children": [{
-    "titleNode": "CommandBar"
-  }, {
     "titleNode": "AppBarButton"
   }, {
     "titleNode": "AutoSuggestBox"
   }, {
     "titleNode": "Button"
   }, {
-    "titleNode": "Icon"
-  }, {
-    "titleNode": "IconButton"
-  }, {
-    "titleNode": "Separator"
-  }, {
     "titleNode": "CheckBox"
   }, {
-    "titleNode": "RatingsControl"
-  }, {
     "titleNode": "ColorPicker"
+  }, {
+    "titleNode": "CommandBar"
+  }, {
+    "titleNode": "ContentDialog"
   }, {
     "titleNode": "DatePickers",
     "children": [{
@@ -63,30 +57,31 @@ export default [{
       "titleNode": "TimePicker"
     }]
   }, {
-    "titleNode": "ContentDialog"
-  }, {
-    "titleNode": "Flyout"
+    "titleNode": "DropDownMenu"
   }, {
     "titleNode": "FlipView"
   }, {
+    "titleNode": "Flyout"
+  }, {
+    "titleNode": "FloatNav"
+  }, {
     "titleNode": "HyperLink"
+  }, {
+    "titleNode": "Icon"
+  }, {
+    "titleNode": "IconButton"
   }, {
     "titleNode": "Image"
   }, {
     "titleNode": "ListView"
   }, {
-    "titleNode": "GridView",
-    hidden: true
-  }, {
-    "titleNode": "PullRefresh",
-    hidden: true
+    "titleNode": "MarkdownRender"
   }, {
     "titleNode": "MediaPlayer"
   }, {
-    "titleNode": "Menus",
-    disabled: true
-  }, {
     "titleNode": "NavigationView"
+  }, {
+    "titleNode": "PasswordBox"
   }, {
     "titleNode": "ProgressBar"
   }, {
@@ -94,11 +89,11 @@ export default [{
   }, {
     "titleNode": "RadioButton"
   }, {
-    "titleNode": "ScrollBar",
-    hidden: true
+    "titleNode": "RatingsControl"
   }, {
-    "titleNode": "SemanticZoom",
-    disabled: true
+    "titleNode": "ScrollReveal"
+  }, {
+    "titleNode": "Separator"
   }, {
     "titleNode": "Slider"
   }, {
@@ -108,29 +103,28 @@ export default [{
   }, {
     "titleNode": "Tabs"
   }, {
-    "titleNode": "PasswordBox"
+    "titleNode": "TextBox"
+  }, {
+    "titleNode": "Toggle"
+  }, {
+    "titleNode": "Tooltip"
+  }, {
+    "titleNode": "TreeView"
+  }, {
+    "titleNode": "Menus",
+    disabled: true
+  }, {
+    "titleNode": "ScrollBar",
+    hidden: true
+  }, {
+    "titleNode": "SemanticZoom",
+    disabled: true
   }, {
     "titleNode": "Toast",
     disabled: true
   }, {
     "titleNode": "Theme",
     disabled: true
-  }, {
-    "titleNode": "ScrollReveal"
-  }, {
-    "titleNode": "DropDownMenu"
-  }, {
-    "titleNode": "Toggle"
-  }, {
-    "titleNode": "TextBox"
-  }, {
-    "titleNode": "TreeView"
-  }, {
-    "titleNode": "Tooltip"
-  }, {
-    "titleNode": "FloatNav"
-  }, {
-    "titleNode": "MarkdownRender"
   }]
 }, {
   "titleNode": "Resources"
@@ -150,5 +144,11 @@ export default [{
     "titleNode": "Acrylic"
   }, {
     "titleNode": "Reveal"
+  }, {
+    "titleNode": "GridView",
+    hidden: true
+  }, {
+    "titleNode": "PullRefresh",
+    hidden: true
   }]
 }];

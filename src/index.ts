@@ -21,7 +21,7 @@ export { default as Link } from "./Link";
 export { default as ListView } from "./ListView";
 export { default as MarkdownRender } from "./MarkdownRender";
 export { default as MediaPlayer } from "./MediaPlayer";
-export { default as Menus } from "./Menus";
+export { default as Menu } from "./Menu";
 export { default as NavigationView } from "./NavigationView";
 export { default as PasswordBox } from "./PasswordBox";
 export { default as ProgressRing } from "./ProgressRing";

@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import { fade } from "../common/colorManipulator";
 import ElementState from "../ElementState";
 
 export interface DataProps {
