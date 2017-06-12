@@ -1,3 +1,5 @@
+![img](https://github.com/myxvisual/react-uwp/blob/master/docs/public/static/images/icons/icon-144x144.png)
+
 # [react-uwp](https://www.react-uwp.com/)
 React Components that Implement Microsoft's UWP Design & Fluent Design System.
 
