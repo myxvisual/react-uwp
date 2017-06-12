@@ -373,7 +373,7 @@ function getStyles(NavigationView: NavigationView): {
         top: 0,
         left: 0,
         background: currBackground
-      } : void 0),
+      } as React.CSSProperties : void 0),
       height: "100%",
       transition,
       ...prepareStyles(paneStyle)

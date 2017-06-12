@@ -101,7 +101,7 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
             position: "absolute",
             top: 0,
             left: 0
-          })
+          } as React.CSSProperties)
         }}
       >
         {Array(maxRating).fill(0).map((zero, index) => (

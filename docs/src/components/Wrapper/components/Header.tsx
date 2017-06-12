@@ -121,7 +121,7 @@ function getStyles(header: Header): {
       width: renderContentWidth,
       height: "100%",
       overflow: "auto",
-      flexWrap: "no-wrap"
+      flexWrap: "nowrap"
     }),
     logo: prepareStyles({
       display: "flex",

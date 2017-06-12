@@ -16,7 +16,7 @@ export interface DataProps {
   /**
    * Set Menu Item nested children.
    */
-  children?: MenuItem | MenuItem[];
+  children?: MenuItem | MenuItem[] | React.ReactElement<any> | React.ReactElement<any> [];
   /**
    * Set default expanded children.
    */

@@ -87,7 +87,7 @@ declare namespace ReactUWP {
 
     chromeWhite?: string;
 
-    prepareStyles?: <TAny>(style?: React.CSSProperties | TAny) => TAny | React.CSSProperties;
+    prepareStyles?: (style?: React.CSSProperties) => React.CSSProperties;
     isDarkTheme?: boolean;
     updateTheme?: (theme: ThemeType) => void;
     saveTheme?: (theme: ThemeType) => void;

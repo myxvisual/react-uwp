@@ -24,7 +24,7 @@ export interface DataProps {
   /**
    * Set custom children.
    */
-  children?: React.ReactElement<any>;
+  children?: React.ReactElement<any> | React.ReactElement<any>[];
   /**
    * Set scroll topOffset,, when `Element` top > topOffset, will animated.
    */
@@ -73,11 +73,11 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
 
   componentDidMount() {
     this.rootElm = findDOMNode(this) as HTMLElement;
-    window.__REACT_UWP__.scrollReveals.push(this);
+    window.__REACT_UWP__.scrollReveals.push(this as any);
   }
 
   componentWillUnmount() {
-    window.__REACT_UWP__.scrollReveals.splice(window.__REACT_UWP__.scrollReveals.indexOf(this), 1);
+    window.__REACT_UWP__.scrollReveals.splice(window.__REACT_UWP__.scrollReveals.indexOf(this as any), 1);
   }
 
   animate = () => {

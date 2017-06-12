@@ -294,12 +294,12 @@ function getStyles(flipView: FlipView): {
         width: "100%",
         bottom: 4,
         left: 0
-      } : {
+      } as React.CSSProperties : {
         flexDirection: "column",
         height: "100%",
         top: 0,
         right: 4
-      })
+      } as React.CSSProperties)
     },
     controlContent: prepareStyles({
       display: "flex",
