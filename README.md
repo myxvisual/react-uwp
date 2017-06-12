@@ -19,7 +19,7 @@ Or build the documentation to locally.
 ## Installation
 React-UWP is available as an [npm package](https://www.npmjs.org/package/react-uwp).
 
-Use NPM to get Fabric components and core styling. All you need is node.js and gulp.
+Use NPM to get React-UWP components and core styling. All you need is node.js and gulp.
 
 ``` bash
 npm install --save react-uwp
