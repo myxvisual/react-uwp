@@ -17,7 +17,6 @@ Visit [react-uwp.com](https://www.react-uwp.com/) online to review the API, see 
 Or build the documentation to locally.
 
 ## Installation
----
 React-UWP is available as an [npm package](https://www.npmjs.org/package/react-uwp).
 
 Use NPM to get Fabric components and core styling. All you need is node.js and gulp.
@@ -27,7 +26,6 @@ npm install --save react-uwp
 ```
 
 ## Usage
----
 React-UWP components require a theme to be provided.
 The quickest way to get up and running is by using the `Theme` to inject the theme into your application context.then, you can use any of the components as demonstrated in documentation.
 
@@ -88,6 +86,6 @@ see [`/src/index.ts`](https://github.com/myxvisual/react-uwp/blob/master/src/ind
 We have implemented a default theme to render all React-UWP components.
 Styling components to your liking is simple and hassle-free.
 This can be achieved in the following two ways:
-- [With the theme](/styles/styling-components/custom-theme), you can use a custom theme to style components.
-- [With the inline style](/styles/styling-components/use-inlinestyle-replace-the-default-style), you can override individual
+- [With the theme](https://www.react-uwp.com/styles/styling-components/custom-theme), you can use a custom theme to style components.
+- [With the inline style]((https://www.react-uwp.com/styles/styling-components/use-inlinestyle-replace-the-default-style), you can override individual
 component styles via the style property.
