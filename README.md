@@ -87,5 +87,5 @@ We have implemented a default theme to render all React-UWP components.
 Styling components to your liking is simple and hassle-free.
 This can be achieved in the following two ways:
 - [With the theme](https://www.react-uwp.com/styles/styling-components/custom-theme), you can use a custom theme to style components.
-- [With the inline style]((https://www.react-uwp.com/styles/styling-components/use-inlinestyle-replace-the-default-style), you can override individual
+- [With the inline style](https://www.react-uwp.com/styles/styling-components/use-inlinestyle-replace-the-default-style), you can override individual
 component styles via the style property.
