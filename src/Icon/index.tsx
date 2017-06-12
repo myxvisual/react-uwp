@@ -91,7 +91,7 @@ export class Icon extends React.Component<IconProps, IconState> {
         cursor: "inherit",
         color: "inherit",
         ...style,
-        ...(hovered ? hoverStyle : {})
+        ...(hovered ? hoverStyle : void 0)
       })
     }, icons[children as any] || children);
   }
