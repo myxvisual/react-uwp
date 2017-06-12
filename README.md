@@ -11,8 +11,6 @@
 
 [React](https://facebook.github.io/react/) Components that Implement [Microsoft's UWP Design](https://developer.microsoft.com/en-us/windows/apps/design) & [Fluent Design System](http://fluent.microsoft.com/).
 
-This is the documentation site for [react-uwp](https://www.react-uwp.com/).
-
 # [Online Documentation](https://www.react-uwp.com/)
 ![img](https://github.com/myxvisual/react-uwp/blob/master/images/doc-site.JPG)
 Visit [react-uwp.com](https://www.react-uwp.com/) online to review the API, see the components in action with live.
