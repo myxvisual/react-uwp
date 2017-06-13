@@ -303,10 +303,11 @@ function getStyles(TimePicker: TimePicker): {
       userSelect: "none",
       border: "none",
       borderLeft: `1px solid ${theme.listLow}`,
-      padding: `${pickerItemHeight * 3}px 0`,
       width: "100%",
-      height: pickerItemHeight * 7,
-      overflow: "auto",
+      height: pickerItemHeight,
+      padding: `${pickerItemHeight * 3}px 0`,
+      overflowY: "auto",
+      overflowX: "hidden",
       flex: "1 1 auto"
     }),
     listItem: {

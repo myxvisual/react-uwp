@@ -4,7 +4,9 @@ import * as PropTypes from "prop-types";
 import Menu, { MenuItem } from "react-uwp/Menu";
 
 const baseStyle: React.CSSProperties = {
-  margin: "10px 0"
+  margin: "10px 0",
+  display: "inline-block",
+  verticalAlign: "middle"
 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };

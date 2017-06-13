@@ -6,6 +6,7 @@ import getTheme from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import getBaseCSS from "./getBaseCSS";
 
+export { getTheme };
 export interface DataProps {
   theme?: ReactUWP.ThemeType;
   autoSaveTheme?: boolean;
@@ -21,7 +22,7 @@ export interface ThemeState {
 }
 
 const customLocalStorageName = "__REACT_UWP__";
-const themeClassName = "react-uwp-theme";
+const baseClassName = "react-uwp-theme";
 const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
@@ -29,6 +30,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     theme: PropTypes.object
   };
   acrylicTextureCount = 0;
+  themeClassName = "react-uwp-theme-dark";
 
   componentDidMount() {
     if (!window.__REACT_UWP__) {
@@ -141,9 +143,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   updateBaseCSS = (init = false) => {
-    const styleSheetClassName = `.${themeClassName}-style-sheet`;
+    const styleSheetClassName = `.${this.themeClassName}-style-sheet`;
     let styleSheet = document.querySelector(styleSheetClassName);
-    const CSSString = getBaseCSS(this.state.currTheme, themeClassName);
+    const CSSString = getBaseCSS(this.state.currTheme, this.themeClassName);
     if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};
     if (styleSheet || window.__REACT_UWP__.baseCSSRequired) {
       if (styleSheet) {
@@ -297,6 +299,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     } = this.props;
     const { currTheme } = this.state;
 
+    this.themeClassName = `${baseClassName}-${currTheme.themeName}`;
     Object.assign(currTheme, {
       desktopBackground: `url(${currTheme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
       updateTheme: this.updateTheme,
@@ -306,11 +309,13 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return (
       <div
         {...attributes}
-        className={className ? `${themeClassName} ${className}` : themeClassName}
+        className={className ? `${this.themeClassName} ${className}` : this.themeClassName}
         style={darkTheme.prepareStyles({
           fontSize: 14,
           fontFamily: currTheme.fontFamily,
           color: currTheme.baseHigh,
+          display: "inline-block",
+          verticalAlign: "middle",
           background: currTheme.useFluentDesign ? (
             this.acrylicTextureCount === 3 ? "none" : currTheme.altMediumHigh
           ) : currTheme.altHigh,

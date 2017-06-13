@@ -188,7 +188,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
               }}
             />
           </div>
-          <div style={{ boxShadow: `inset 0 0 0 1px ${theme.baseLow}` }}>
+          <div style={{ boxShadow: `inset 0 0 0 1px ${theme.baseLow}`, zIndex: theme.zIndex.flyout + 1 }}>
             <IconButton
               style={styles.iconButton}
               size={pickerItemHeight}
@@ -305,10 +305,11 @@ function getStyles(datePicker: DatePicker): {
       userSelect: "none",
       border: "none",
       borderLeft: `1px solid ${theme.listLow}`,
-      padding: `${pickerItemHeight * 3}px 0`,
       width: "100%",
       height: pickerItemHeight * 7,
-      overflow: "auto",
+      padding: `${pickerItemHeight * 3}px 0`,
+      overflowY: "auto",
+      overflowX: "hidden",
       flex: "1 1 auto"
     }),
     listItem: {

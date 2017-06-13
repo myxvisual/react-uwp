@@ -20,7 +20,8 @@ export interface ThemeConfig {
   desktopBackgroundImage?: string;
 }
 
-export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
+export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType {
+  themeConfig = themeConfig || {};
   let {
     themeName,
     accent,
@@ -91,7 +92,7 @@ export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
     listAccentHigh: accentColor.setAlpha(0.9).toRgbString(),
 
     chromeLow: isDark ? "#171717" : "#f2f2f2",
-    chromeMediumLow: isDark ? "#2b2b2b" : "f2f2f2",
+    chromeMediumLow: isDark ? "#2b2b2b" : "#f2f2f2",
     chromeMedium: isDark ? "#1f1f1f" : "#e6e6e6",
     chromeHigh: isDark ? "#767676" : "#ccc",
 

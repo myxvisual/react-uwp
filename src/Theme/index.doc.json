@@ -3,6 +3,10 @@
   "name": "\"D:/react-uwp/src/Theme/index\"",
   "exports": [
     {
+      "name": "getTheme",
+      "documentation": ""
+    },
+    {
       "name": "DataProps",
       "documentation": ""
     },
@@ -84,12 +88,12 @@
     },
     {
       "documentation": "",
-      "name": "themeClassName",
+      "name": "baseClassName",
       "type": "\"react-uwp-theme\"",
       "initializerText": " \"react-uwp-theme\""
     },
     {
-      "name": "themeClassName",
+      "name": "baseClassName",
       "documentation": "",
       "type": "\"react-uwp-theme\""
     },
@@ -125,6 +129,12 @@
           "initializerText": " 0",
           "documentation": "",
           "type": "number"
+        },
+        {
+          "name": "themeClassName",
+          "initializerText": " \"react-uwp-theme-dark\"",
+          "documentation": "",
+          "type": "string"
         },
         {
           "name": "componentDidMount",
@@ -166,7 +176,7 @@
         },
         {
           "name": "updateBaseCSS",
-          "initializerText": " (init = false) => {\n    const styleSheetClassName = `.${themeClassName}-style-sheet`;\n    let styleSheet = document.querySelector(styleSheetClassName);\n    const CSSString = getBaseCSS(this.state.currTheme, themeClassName);\n    if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};\n    if (styleSheet || window.__REACT_UWP__.baseCSSRequired) {\n      if (styleSheet) {\n        styleSheet.innerHTML = CSSString;\n      } else return;\n    } else {\n      styleSheet = document.createElement(\"style\");\n      styleSheet.className = styleSheetClassName;\n      styleSheet.innerHTML = CSSString;\n      document.head.appendChild(styleSheet);\n      window.__REACT_UWP__.baseCSSRequired = true;\n    }\n  }",
+          "initializerText": " (init = false) => {\n    const styleSheetClassName = `.${this.themeClassName}-style-sheet`;\n    let styleSheet = document.querySelector(styleSheetClassName);\n    const CSSString = getBaseCSS(this.state.currTheme, this.themeClassName);\n    if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};\n    if (styleSheet || window.__REACT_UWP__.baseCSSRequired) {\n      if (styleSheet) {\n        styleSheet.innerHTML = CSSString;\n      } else return;\n    } else {\n      styleSheet = document.createElement(\"style\");\n      styleSheet.className = styleSheetClassName;\n      styleSheet.innerHTML = CSSString;\n      document.head.appendChild(styleSheet);\n      window.__REACT_UWP__.baseCSSRequired = true;\n    }\n  }",
           "documentation": "",
           "type": "(init?: boolean) => void"
         },

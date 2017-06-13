@@ -5,12 +5,16 @@ const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName: string) => `.${th
   box-sizing: border-box;
 }
 
-*::-webkit-scrollbar {
-  -webkit-appearance: none
+body {
+  margin: 0;
 }
 
 *::-webkit-scrollbar-track {
-  background-color: ${theme.useFluentDesign ? theme.chromeLow : theme.chromeLow};
+  background-color: ${theme.chromeLow};
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: ${theme.useFluentDesign ? theme.baseLow : theme.baseMediumLow};
 }
 
 *::-webkit-scrollbar:vertical {
@@ -21,15 +25,11 @@ const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName: string) => `.${th
   height: 6px
 }
 
-*::-webkit-scrollbar-thumb {
-  background-color: ${theme.useFluentDesign ? theme.baseLow : theme.baseMediumLow};
+*::-webkit-scrollbar {
+  -webkit-appearance: none
 }
 
-body {
-  margin: 0;
-}
-
-.${themeClassName} *:after, *:before {
+.${themeClassName} *:after, .${themeClassName} *:before {
   box-sizing: border-box;
 }
 
