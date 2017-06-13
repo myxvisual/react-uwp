@@ -352,6 +352,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Tabs");
         }
       }, {
+        path: "Theme",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Theme").default);
+          }, "react-uwp-Components-Theme");
+        }
+      }, {
         path: "ScrollReveal",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

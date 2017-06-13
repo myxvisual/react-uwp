@@ -41,22 +41,27 @@ export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
   const accentColor = tinycolor(accent);
   const accentColorHsl = accentColor.toHsl();
 
+  const altMediumLow = altHighColor.setAlpha(0.4).toRgbString();
+  const altMedium = altHighColor.setAlpha(0.6).toRgbString();
+  const altMediumHigh = altHighColor.setAlpha(0.8).toRgbString();
+
   return {
     themeName,
     fontFamily: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
     iconFontFamily: "Segoe MDL2 Assets",
 
     useFluentDesign,
+    desktopBackground: void 0,
     desktopBackgroundImage,
 
     acrylicTexture40: {
-      background: "none"
+      background: altMediumLow
     },
     acrylicTexture60: {
-      background: "none"
+      background: altMedium
     },
     acrylicTexture80: {
-      background: "none"
+      background: altMediumHigh
     },
 
     accent,
@@ -74,9 +79,9 @@ export default function getTheme(themeConfig: ThemeConfig): ReactUWP.ThemeType {
     baseHigh,
 
     altLow: altHighColor.setAlpha(0.2).toRgbString(),
-    altMediumLow: altHighColor.setAlpha(0.4).toRgbString(),
-    altMedium: altHighColor.setAlpha(0.6).toRgbString(),
-    altMediumHigh: altHighColor.setAlpha(0.8).toRgbString(),
+    altMediumLow,
+    altMedium,
+    altMediumHigh,
     altHigh,
 
     listLow: baseHighColor.setAlpha(0.1).toRgbString(),

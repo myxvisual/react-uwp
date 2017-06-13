@@ -12,7 +12,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <div>
+      <div style={{ margin: "10px 0" }}>
         <SplitViewCommand
           style={baseStyle}
           label="Shuffle"

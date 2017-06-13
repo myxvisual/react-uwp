@@ -16,10 +16,9 @@ export default [{
     "titleNode": "Acrylic"
   }, {
     "titleNode": "Reveal",
-    disabled: true
+    hidden: true
   }, {
     "titleNode": "Typography",
-    disabled: true,
     "children": [{
       "titleNode": "Fonts"
     }, {
@@ -27,7 +26,6 @@ export default [{
     }]
   }, {
     "titleNode": "Styling Components",
-    disabled: true,
     "children": [{
       "titleNode": "Use InlineStyle replace the default style"
     }, {

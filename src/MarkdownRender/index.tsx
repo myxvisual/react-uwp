@@ -242,7 +242,7 @@ return (
 }
 
 .${className} p > code, .${className} h1 > code, .${className} h2 > code, .${className} h3 > code, .${className} h4 > code, .${className} h5 > code, .${className} h6 > code {
-  background: ${theme.altMedium};
+  background: ${theme.useFluentDesign ? theme.altMediumLow : theme.altMedium};
 }
 
 code[class*="language-"], pre[class*="language-"] {
