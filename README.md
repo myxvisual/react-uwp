@@ -89,3 +89,5 @@ This can be achieved in the following two ways:
 - [With the theme](https://www.react-uwp.com/styles/styling-components/custom-theme), you can use a custom theme to style components.
 - [With the inline style](https://www.react-uwp.com/styles/styling-components/use-inlinestyle-replace-the-default-style), you can override individual
 component styles via the style property.
+# Four Theme Style (Fluent Design & UWP Design)
+![img](https://github.com/myxvisual/react-uwp/blob/master/images/four-theme-style.JPG)
