@@ -15,6 +15,7 @@ if (fse.existsSync(buildPath)) {
 
 const copyFiles = [
   'README.md',
+  'package.json',
   'CHANGELOG.md',
   'LICENSE'
 ]
