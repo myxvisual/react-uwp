@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import darkTheme from "../styles/darkTheme";
 import getTheme from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
+import getBaseCSS from "./getBaseCSS";
 
 export interface DataProps {
   theme?: ReactUWP.ThemeType;
@@ -20,54 +21,7 @@ export interface ThemeState {
 
 const customLocalStorageName = "__REACT_UWP__";
 const themeClassName = "react-uwp-theme";
-const getBaseCSSString = (theme: ReactUWP.ThemeType) => `.${themeClassName} * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-*::-webkit-scrollbar {
-  -webkit-appearance: none
-}
-
-*::-webkit-scrollbar-track {
-  background-color: ${theme.useFluentDesign ? theme.chromeLow : theme.chromeLow};
-}
-
-*::-webkit-scrollbar:vertical {
-  width: 6px;
-}
-
-*::-webkit-scrollbar:horizontal {
-  height: 6px
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: ${theme.useFluentDesign ? theme.baseLow : theme.baseMediumLow};
-}
-
-body {
-  margin: 0;
-}
-
-.${themeClassName} *:after, *:before {
-  box-sizing: border-box;
-}
-
-.${themeClassName} {
-  -webkit-text-size-adjust: none;
-}
-
-.${themeClassName} {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.${themeClassName} input, .${themeClassName} textarea {
-  box-shadow: none;
-  border-radius: none;
-}`;
+const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static childContextTypes = {
@@ -77,7 +31,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   updateBaseCSS = (init = false) => {
     const styleSheetClassName = `.${themeClassName}-style-sheet`;
     let styleSheet = document.querySelector(styleSheetClassName);
-    const CSSString = getBaseCSSString(this.state.currTheme);
+    const CSSString = getBaseCSS(this.state.currTheme, themeClassName);
     if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};
     if (styleSheet || window.__REACT_UWP__.baseCSSRequired) {
       if (styleSheet) {
@@ -92,7 +46,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
-  generateAcrylicTextures = () => {
+  generateAcrylicTextures = (generateCallBack?: (theme?: ReactUWP.ThemeType) => void) => {
     const { currTheme } = this.state;
     let i = 0;
     const baseConfig = {
@@ -101,6 +55,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       noiseOpacity: 0.2
     };
     let backgrounds: string[] = [];
+
     const callback = (image: string, key: number) => {
       if (key === 4) {
         i++;
@@ -130,9 +85,14 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         };
       }
       if (i === 3) {
-        this.setState({ currTheme: this.state.currTheme });
+        if (generateCallBack) {
+          themeCallback(this.state.currTheme);
+        } else {
+          this.setState({ currTheme: this.state.currTheme });
+        }
       }
     };
+
     generateAcrylicTexture(
       currTheme.desktopBackgroundImage,
       currTheme.chromeMediumLow,
@@ -241,28 +201,31 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
-  saveTheme = (newTheme?: ReactUWP.ThemeType) => {
+  saveTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
     localStorage.setItem(customLocalStorageName, JSON.stringify({
       themeName: newTheme.themeName,
       accent: newTheme.accent,
       useFluentDesign: newTheme.useFluentDesign,
       desktopBackgroundImage: newTheme.desktopBackgroundImage
     }));
+
     newTheme.saveTheme = this.saveTheme;
     this.setState({
       currTheme: newTheme
     }, () => {
+      callback(newTheme);
       if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage) {
         this.generateAcrylicTextures();
       }
     });
   }
 
-  updateTheme = (newTheme?: ReactUWP.ThemeType) => {
+  updateTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
     newTheme.updateTheme = this.updateTheme;
     this.setState({
       currTheme: newTheme
     }, () => {
+      callback(newTheme);
       if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage) {
         this.generateAcrylicTextures();
       }

@@ -1,11 +1,12 @@
 import * as easings from "../common/easing";
 
+const oldWindow: any = window;
 const requestAnimationFrame = (
-  window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.mozRequestAnimationFrame ||
-  window.msRequestAnimationFrame ||
-  ((callback: FrameRequestCallback) => window.setTimeout(callback, 1000 / 60))
+  oldWindow.requestAnimationFrame ||
+  oldWindow.webkitRequestAnimationFrame ||
+  oldWindow.mozRequestAnimationFrame ||
+  oldWindow.msRequestAnimationFrame ||
+  ((callback: FrameRequestCallback) => oldWindow.setTimeout(callback, 1000 / 60))
 );
 
 export default function animation(
@@ -44,4 +45,4 @@ export default function animation(
   setTimeout(() => {
     tick();
   }, delay);
-};
+}

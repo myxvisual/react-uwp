@@ -1,11 +1,13 @@
 // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 
+const oldWindow: any = window;
+
 const requestAnimationFrame = (
-  window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.mozRequestAnimationFrame ||
-  window.msRequestAnimationFrame ||
-  ((callback: FrameRequestCallback) => window.setTimeout(callback, 1000 / 60))
+  oldWindow.requestAnimationFrame ||
+  oldWindow.webkitRequestAnimationFrame ||
+  oldWindow.mozRequestAnimationFrame ||
+  oldWindow.msRequestAnimationFrame ||
+  ((callback: FrameRequestCallback) => oldWindow.setTimeout(callback, 1000 / 60))
 );
 // const cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 

@@ -7,7 +7,7 @@ const buildPath = path.resolve(__dirname, '../build')
 // empty build path.
 if (fse.existsSync(buildPath)) {
   fse.emptyDirSync(buildPath, err => {
-    if (err) throw err;
+    if (err) throw err
   })
 } else {
   fse.mkdirSync(buildPath)
@@ -25,18 +25,18 @@ for (const copyFile of copyFiles) {
     path.resolve(__dirname, '../', copyFile),
     path.resolve(buildPath, copyFile),
     err => {
-      if (err) throw err;
+      if (err) throw err
     }
   )
 }
 
 const assetsFiles = [
-  'styles/segoe-mdl2-assets/segoe-mdl2-assets.css',
-  'styles/segoe-mdl2-assets/segoe-mdl2-assets.eot',
-  'styles/segoe-mdl2-assets/segoe-mdl2-assets.svg',
-  'styles/segoe-mdl2-assets/segoe-mdl2-assets.ttf',
-  'styles/segoe-mdl2-assets/segoe-mdl2-assets.woff',
-  'styles/segoe-mdl2-assets/segoe-mdl2-assets.woff2',
+  'styles/fonts/segoe-mdl2-assets/segoe-mdl2-assets.css',
+  'styles/fonts/segoe-mdl2-assets/segmdl2.svg',
+  'styles/fonts/segoe-mdl2-assets/segmdl2.ttf',
+  'styles/fonts/segoe-mdl2-assets/segmdl2.woff',
+  'styles/fonts/segoe-mdl2-assets/segmdl2.woff2',
+  'styles/fonts/segoe-mdl2-assets/segmdl2.eot',
   '__assets__'
 ]
 
@@ -46,7 +46,7 @@ for (const assetsFile of assetsFiles) {
     path.resolve(__dirname, '../src', assetsFile),
     path.resolve(buildPath, assetsFile),
     err => {
-      if (err) throw err;
+      if (err) console.error(err)
     }
   )
 }

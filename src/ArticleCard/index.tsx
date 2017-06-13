@@ -4,7 +4,6 @@ import * as PropTypes from "prop-types";
 import Icon from "../Icon";
 import Image from "../Image";
 import shallowEqual from "../common/shallowEqual";
-import { fade } from "../common/colorManipulator";
 
 export interface DataProps {
   author?: string;
@@ -36,10 +35,10 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  getNormalColor = (context: { theme: ThemeType }) => (
+  getNormalColor = (context: { theme: ReactUWP.ThemeType }) => (
     Math.random() < 0.875 ?
       `linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 35%, transparent 100%)` :
-      fade(context.theme.accent, 0.875)
+      context.theme.listAccentMedium
   )
 
   state: ArticleCardState = {
@@ -59,7 +58,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
     });
   }
 
-  shouldComponentUpdate(nextProps: ArticleCardProps, nextState: ArticleCardState, nextContext: { theme: ThemeType }) {
+  shouldComponentUpdate(nextProps: ArticleCardProps, nextState: ArticleCardState, nextContext: { theme: ReactUWP.ThemeType }) {
     this.state.normalColor = this.getNormalColor(nextContext);
     return (!shallowEqual(nextProps, this.props) ||
       !shallowEqual(nextState, this.state) ||
@@ -98,7 +97,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
       >
         {image && (
           <Image
-            isLazyLoad
+            useLazyLoad
             useDivContainer
             src={image}
             alt="Work Show"
@@ -119,7 +118,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
             }
           />
         )}
-        <div style={{ ...styles.content, background: isHovered ? "transparent" : (image ? normalColor : fade(theme.accent, 0.875)) }}>
+        <div style={{ ...styles.content, background: isHovered ? "transparent" : (image ? normalColor : theme.listAccentMedium) }}>
           <p style={theme.prepareStyles({ fontSize: 12, color: "#fff", textAlign: "left", opacity: (isHovered && image) ? 0 : 1, transition: "all .5s 0s ease-in-out" })}>
             {title}
           </p>

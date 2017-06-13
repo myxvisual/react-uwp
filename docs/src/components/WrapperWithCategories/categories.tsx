@@ -118,17 +118,7 @@ export default [{
   }, {
     "titleNode": "TreeView"
   }, {
-    "titleNode": "ScrollBar",
-    hidden: true
-  }, {
-    "titleNode": "SemanticZoom",
-    disabled: true
-  }, {
-    "titleNode": "Toast",
-    disabled: true
-  }, {
-    "titleNode": "Theme",
-    disabled: true
+    "titleNode": "Theme"
   }]
 }, {
   "titleNode": "Resources"
@@ -148,6 +138,15 @@ export default [{
     "titleNode": "Acrylic"
   }, {
     "titleNode": "Reveal"
+  }, {
+    "titleNode": "ScrollBar",
+    hidden: true
+  }, {
+    "titleNode": "SemanticZoom",
+    hidden: true
+  }, {
+    "titleNode": "Toast",
+    hidden: true
   }, {
     "titleNode": "GridView",
     hidden: true

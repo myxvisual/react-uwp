@@ -4,4 +4,4 @@ export default function removeEventListener<T>(elm: any, event: string, func = (
   } else if (elm.detachEvent) {
     elm.detachEvent(`on${event}`, func);
   }
-};
+}
