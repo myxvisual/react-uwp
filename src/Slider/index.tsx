@@ -350,7 +350,7 @@ function getStyles(slider: Slider): {
     wrapper: prepareStyles({
       width: 320,
       display: "inline-block",
-      padding: `0 ${controllerWidth2px}px`,
+      padding: showValueInfo ? `0 ${controllerWidth2px}px` : void 0,
       verticalAlign: "middle",
       ...style
     }),

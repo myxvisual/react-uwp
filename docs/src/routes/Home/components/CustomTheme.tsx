@@ -144,6 +144,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
           </div>
           <ScrollReveal {...scaleInProps}>
             <ColorPicker
+              style={{ margin: "10px 0" }}
               defaultColor={theme.accent}
               onChangedColor={accent => {
                 theme.saveTheme(getTheme({
