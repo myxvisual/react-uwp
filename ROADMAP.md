@@ -1,7 +1,6 @@
 # RoadMap
 Styling Components
 
-## React UWP
 ### Commands
 - [x] CommandBar
 
@@ -12,7 +11,7 @@ Styling Components
 ### Collection/Data Controls
 - [x] FlipView
 - [x] ListView
-- [ ] GirdView
+- [ ] GridView
 
 ### DatePickers
 - [x] CalendarDatePicker
@@ -22,7 +21,7 @@ Styling Components
 
 ### Flyouts
 - [x] Flyout
-- [ ] Menus
+- [x] Menu
 - [x] Tooltip
 
 ### Images
@@ -33,7 +32,7 @@ Styling Components
 
 ### Navigation
 - [x] NavigationView
-- [ ] Tabs
+- [x] Tabs
 - [ ] SemanticZoom
 - [x] SplitView
 - [ ] PullRefresh
@@ -58,8 +57,3 @@ Styling Components
 
 ### Toast
 - [ ] Toast
-
-DatePicker Border
-RatingControl Name
-GridView
-Menus
