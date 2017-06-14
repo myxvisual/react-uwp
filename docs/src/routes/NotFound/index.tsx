@@ -87,7 +87,7 @@ function getStyles(notFound: NotFound): {
       color: theme.accent
     },
     descTitle: {
-      fontSize: 36,
+      fontSize: 42,
       lineHeight: 1,
       fontWeight: "lighter"
     },
