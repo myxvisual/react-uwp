@@ -30,7 +30,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           justifyContent: "center",
           flexWrap: "wrap",
           width: "100%",
-          padding: 20,
+          padding: "160px 0",
           background: theme.desktopBackground
         })}
       >

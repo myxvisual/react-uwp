@@ -18,12 +18,9 @@ export default [{
     "titleNode": "Reveal",
     hidden: true
   }, {
-    "titleNode": "Typography",
-    "children": [{
-      "titleNode": "Fonts"
-    }, {
-      "titleNode": "Segoe MDL2 icons"
-    }]
+    "titleNode": "Typography"
+  }, {
+    "titleNode": "Fonts"
   }, {
     "titleNode": "Styling Components",
     "children": [{
