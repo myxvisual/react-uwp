@@ -111,7 +111,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
     let needGenerateAcrylic = theme.useFluentDesign && theme.desktopBackgroundImage && this.props.needGenerateAcrylic;
 
-    if (needGenerateAcrylic && theme.desktopBackgroundImage === currTheme.desktopBackgroundImage) {
+    if (needGenerateAcrylic && theme.desktopBackgroundImage === currTheme.desktopBackgroundImage && theme.themeName === currTheme.themeName) {
       needGenerateAcrylic = false;
       Object.assign(theme, {
         acrylicTexture40: currTheme.acrylicTexture40,
@@ -157,7 +157,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     const { currTheme } = this.state;
 
     let needGenerateAcrylic = newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
-    if (needGenerateAcrylic && newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage) {
+    if (needGenerateAcrylic && newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage && newTheme.themeName === currTheme.themeName) {
       needGenerateAcrylic = false;
       Object.assign(newTheme, {
         acrylicTexture40: currTheme.acrylicTexture40,
@@ -181,7 +181,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
     let needGenerateAcrylic = newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
 
-    if (needGenerateAcrylic && newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage) {
+    if (needGenerateAcrylic && newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage && newTheme.themeName === currTheme.themeName) {
       needGenerateAcrylic = false;
       Object.assign(newTheme, {
         acrylicTexture40: currTheme.acrylicTexture40,

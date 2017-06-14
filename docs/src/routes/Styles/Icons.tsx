@@ -90,6 +90,16 @@ export default class Icons extends React.Component<void, IconsState> {
   render() {
     const { context: { theme }, state: { currIconNames } } = this;
     rootStyle = theme.prepareStyles(rootStyle);
+
+    const itemWrapperStyle = theme.prepareStyles({
+      cursor: "default",
+      width: "100%",
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "flex-start",
+      flexWrap: "wrap"
+    });
+
     return (
       <div style={{ width: "100%", fontSize: 14 }}>
         <input style={inputStyle} ref={inputElm => this.inputElm = inputElm} />
@@ -122,15 +132,7 @@ export default class Icons extends React.Component<void, IconsState> {
         <p style={{ lineHeight: 1.8, padding: 10 }}>
           Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. ({currIconNames.length} icon)
         </p>
-        <div
-          style={theme.prepareStyles({
-            width: "100%",
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            flexWrap: "wrap"
-          })}
-        >
+        <div style={itemWrapperStyle}>
           {currIconNames.map((iconName, index) => (
             <Tooltip
               background={theme.listLow}
