@@ -421,7 +421,11 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
             this.reactPlayer.seekTo(currPlayed);
           }}
           onEnded={() => {
-            this.setState({ currPlaying: false, currShowControl: true });
+            this.setState({
+              currPlaying: false,
+              currShowControl: true,
+              played: 0
+            });
           }}
         />
       </div>

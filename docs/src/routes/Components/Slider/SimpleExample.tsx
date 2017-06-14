@@ -9,12 +9,13 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <div>
+      <div style={{ margin: "10px 0" }}>
         <Slider />
 
         <Slider
           initValue={250}
           maxValue={500}
+          style={{ margin: 10 }}
         />
 
         <Slider

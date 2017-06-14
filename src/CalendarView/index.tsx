@@ -230,7 +230,7 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
             }}
           >
             <p
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", height: "100%" }}
               onClick={this.togglePickerMode}
               key={title}
             >
