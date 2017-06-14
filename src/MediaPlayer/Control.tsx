@@ -118,7 +118,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
       >
         <div style={styles.sliderContainer}>
           <Slider
-            style={{ width: "100%" }}
+            style={{ width: "100%", padding: "0 16px" }}
             initValue={played || 0}
             minValue={0}
             maxValue={1}
