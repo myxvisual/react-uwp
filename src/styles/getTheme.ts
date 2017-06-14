@@ -111,7 +111,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     isDarkTheme: isDark,
     prepareStyles: prefixAll(),
 
-    typography: {
+    typographyStyles: {
       header: {
         fontWeight: "lighter",
         fontSize: 46,
@@ -149,7 +149,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
         fontSize: 15,
         lineHeight: "20px"
       },
-      Body: {
+      body: {
         fontWeight: 200,
         fontSize: 15,
         lineHeight: "20px"

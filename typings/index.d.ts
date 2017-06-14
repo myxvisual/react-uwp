@@ -93,7 +93,7 @@ declare namespace ReactUWP {
     isDarkTheme?: boolean;
     updateTheme?: (theme: ThemeType) => void;
     saveTheme?: (theme: ThemeType) => void;
-    typography?: {
+    typographyStyles?: {
       header?: React.CSSProperties;
       subHeader?: React.CSSProperties;
 
@@ -103,7 +103,7 @@ declare namespace ReactUWP {
 
       base?: React.CSSProperties;
       baseAlt?: React.CSSProperties;
-      Body?: React.CSSProperties;
+      body?: React.CSSProperties;
 
       captionAlt?: React.CSSProperties;
       caption?: React.CSSProperties;

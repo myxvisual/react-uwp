@@ -1,4 +1,4 @@
-## How to Generate Acrylic Textures ?
+### How to Generate Acrylic Textures ?
 ---
 
 ``` jsx
