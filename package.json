@@ -10,7 +10,10 @@
     "build:docs": "cd docs && npm run build:docs",
     "build:copy": "node ./scripts/copy-build-files.js",
     "build:source": "tsc --rootDir ./src --outDir ./build",
-    "publish:next-version": ""
+    "publish:next-version": "",
+    "commitmsg": "validate-commit-msg",
+    "commit": "git-cz ",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "repository": {
     "type": "git",
