@@ -1,5 +1,7 @@
 @font-face {
   font-family: "Segoe MDL2 Assets";
+  font-style: normal;
+  font-weight: 400;
   src:
     local("Segoe MDL2 Assets"),
     url("./segmdl2.eot"),
