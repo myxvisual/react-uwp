@@ -1,4 +1,4 @@
-### How to use Typography style?
+### How to use Typography style? [Source typographyStyles](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L114)
 
 ``` jsx
 import * as React from "react";

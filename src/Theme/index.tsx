@@ -108,6 +108,18 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   componentWillReceiveProps(nextProps: ThemeProps) {
     const { theme } = nextProps;
     const { currTheme } = this.state;
+
+    let needGenerateAcrylic = theme.useFluentDesign && theme.desktopBackgroundImage && this.props.needGenerateAcrylic;
+
+    if (needGenerateAcrylic && theme.desktopBackgroundImage === currTheme.desktopBackgroundImage) {
+      needGenerateAcrylic = false;
+      Object.assign(theme, {
+        acrylicTexture40: currTheme.acrylicTexture40,
+        acrylicTexture60: currTheme.acrylicTexture60,
+        acrylicTexture80: currTheme.acrylicTexture80
+      } as ReactUWP.ThemeType);
+    }
+
     if (nextProps && nextProps.theme && !this.props.autoSaveTheme) {
       if (
         theme.accent !== currTheme.accent ||
@@ -118,7 +130,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         this.setState({
           currTheme: theme
         }, () => {
-          if (theme.useFluentDesign && theme.desktopBackgroundImage && nextProps.needGenerateAcrylic) {
+          if (needGenerateAcrylic) {
             this.generateAcrylicTextures();
           }
         });
@@ -142,22 +154,47 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       desktopBackgroundImage: newTheme.desktopBackgroundImage
     }));
 
+    const { currTheme } = this.state;
+
+    let needGenerateAcrylic = newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
+    if (needGenerateAcrylic && newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage) {
+      needGenerateAcrylic = false;
+      Object.assign(newTheme, {
+        acrylicTexture40: currTheme.acrylicTexture40,
+        acrylicTexture60: currTheme.acrylicTexture60,
+        acrylicTexture80: currTheme.acrylicTexture80
+      } as ReactUWP.ThemeType);
+    }
+
     this.setState({
       currTheme: newTheme
     }, () => {
       callback(newTheme);
-      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
+      if (needGenerateAcrylic) {
         this.generateAcrylicTextures();
       }
     });
   }
 
   updateTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
+    const { currTheme } = this.state;
+
+    let needGenerateAcrylic = newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
+
+    if (needGenerateAcrylic && newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage) {
+      needGenerateAcrylic = false;
+      Object.assign(newTheme, {
+        acrylicTexture40: currTheme.acrylicTexture40,
+        acrylicTexture60: currTheme.acrylicTexture60,
+        acrylicTexture80: currTheme.acrylicTexture80
+      } as ReactUWP.ThemeType);
+    }
+
     this.setState({
       currTheme: newTheme
     }, () => {
       callback(newTheme);
-      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
+      if (needGenerateAcrylic) {
         this.generateAcrylicTextures();
       }
     });

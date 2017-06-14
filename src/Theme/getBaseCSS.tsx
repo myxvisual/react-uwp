@@ -3,6 +3,9 @@ const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName: string) => `* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.${themeClassName} * {
   font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
 }
 
@@ -36,9 +39,6 @@ body {
 
 .${themeClassName} {
   -webkit-text-size-adjust: none;
-}
-
-.${themeClassName} {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
