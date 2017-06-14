@@ -1,5 +1,5 @@
 
-const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName: string) => `.${themeClassName} * {
+const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName: string) => `* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

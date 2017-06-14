@@ -70,7 +70,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           data = JSON.parse(storageString);
           const { themeName, accent, useFluentDesign, desktopBackgroundImage } = data;
           theme = getTheme({
-            ...defaultConfig,
             themeName: themeName === void 0 ? defaultConfig.themeName : themeName,
             accent: accent === void 0 ? defaultConfig.accent : accent,
             useFluentDesign: useFluentDesign === void 0 ? defaultConfig.useFluentDesign : useFluentDesign,
@@ -106,14 +105,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     window.addEventListener("scroll", this.handleScrollReveal);
   }
 
-  componentDidUpdate() {
-    this.updateBaseCSS();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScrollReveal);
-  }
-
   componentWillReceiveProps(nextProps: ThemeProps) {
     const { theme } = nextProps;
     const { currTheme } = this.state;
@@ -133,6 +124,14 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         });
       }
     }
+  }
+
+  componentDidUpdate() {
+    this.updateBaseCSS();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScrollReveal);
   }
 
   saveTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {

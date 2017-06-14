@@ -4,6 +4,7 @@
   "description": "UWP Design Ui by React",
   "main": "index.js",
   "scripts": {
+    "preprod": "cd docs && npm run preprod",
     "start": "cd docs && npm start",
     "test": "echo \"Error: no test specified\" && exit 0",
     "build": "npm-run-all build:copy build:source",

@@ -27,6 +27,7 @@ export default class SimpleExample extends React.Component<{}, void> {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
+          justifyContent: "center",
           flexWrap: "wrap",
           width: "100%",
           padding: 20,

@@ -18,6 +18,7 @@ export default function generateAcrylicTexture(
     canvas.id = id;
     document.body.appendChild(canvas);
   }
+  canvas.style.display = "none";
   const context = canvas.getContext("2d");
   const imageNode = new Image();
   imageNode.crossOrigin = "Anonymous";
@@ -35,7 +36,6 @@ export default function generateAcrylicTexture(
 
     canvas.width = naturalWidth;
     canvas.height = naturalHeight;
-    canvas.style.display = "none";
     context.drawImage(imageNode, 0, 0, naturalWidth, naturalHeight);
 
     stackBlurCanvas.canvasRGBA(canvas, 0, 0, naturalWidth, naturalHeight, blurSize);
@@ -56,9 +56,9 @@ export default function generateAcrylicTexture(
 function generateNoise(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, width: number, height: number, noiseSize: number, opacity: number) {
   for (let x = 0; x < width; x++ ) {
     for (let y = 0; y < height; y++ ) {
-        let numb = Math.floor( Math.random() * 60 );
-        context.fillStyle = `rgba(${numb}, ${numb}, ${numb}, ${opacity})`;
-        context.fillRect(x, y, noiseSize, noiseSize);
+      let numb = Math.floor( Math.random() * 60 );
+      context.fillStyle = `rgba(${numb}, ${numb}, ${numb}, ${opacity})`;
+      context.fillRect(x, y, noiseSize, noiseSize);
     }
   }
 

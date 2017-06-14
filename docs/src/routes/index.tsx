@@ -12,7 +12,7 @@ export interface RouterCallback {
 
 const useFluentDesign = true;
 // const desktopBackgroundImage = require("assets/images/blurBackground/camera-1246655_1920.jpg");
-const desktopBackgroundImage = require("assets/images/blurBackground/jennifer-bailey-10753.jpg");
+const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 
 export class ThemeWrapper extends React.Component<{}, void> {
