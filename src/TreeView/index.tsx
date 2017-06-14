@@ -211,8 +211,8 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
           >
             <div
               onClick={disabled ? void 0 : (e) => {
-                if (onClick) onClick(e as any);
                 this.setChooseItem(item);
+                if (onClick) onClick(e as any);
               }}
               style={{
                 cursor: disabled ? "not-allowed" : "pointer",
@@ -250,8 +250,8 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
             )}
             <div
               onClick={disabled ? void 0 : (e) => {
-                if (onClick) onClick(e as any);
                 this.setChooseItem(item);
+                if (onClick) onClick(e as any);
               }}
               style={prepareStyles({
                 cursor: disabled ? "not-allowed" : "pointer",
