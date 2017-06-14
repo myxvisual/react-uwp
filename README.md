@@ -86,7 +86,7 @@ import { Button } from "react-uwp";
 This will make your build process faster and your build output smaller.
 
 For a complete mapping of React-UWP components to `import`,
-see [`/src/index.ts`](https://github.com/myxvisual/react-uwp/blob/master/src/index.ts) inside the Material-UI npm package root directory.
+see [`/src/index.ts`](https://github.com/myxvisual/react-uwp/blob/master/src/index.ts) inside the React-UWP npm package root directory.
 
 ### Custom Theme
 
