@@ -327,7 +327,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         className={className ? `${this.themeClassName} ${className}` : this.themeClassName}
         style={darkTheme.prepareStyles({
           fontSize: 14,
-          fontFamily: currTheme.fontFamily,
+          fontFamily: currTheme.fonts.sansSerifFonts,
           color: currTheme.baseHigh,
           display: "inline-block",
           verticalAlign: "middle",

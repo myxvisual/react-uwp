@@ -33,8 +33,10 @@ interface AcrylicTexture {
 declare namespace ReactUWP {
   interface ThemeType {
     themeName: "dark" | "light";
-    fontFamily?: string;
-    iconFontFamily?: string;
+    fonts?: {
+      sansSerifFonts?: string;
+      segoeMDL2Assets?: string;
+    };
 
     useFluentDesign?: boolean;
     desktopBackgroundImage?: string;

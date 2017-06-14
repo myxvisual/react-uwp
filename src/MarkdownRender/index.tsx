@@ -120,7 +120,7 @@ return (
 `.${className} {
   /** background: ${theme.chromeMedium}; **/
   color: ${theme.baseMediumHigh};
-  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
+  font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
 }
 
 .${className} img {
@@ -220,7 +220,7 @@ return (
 }
 
 .${className} pre {
-  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
+  font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
   background: none !important;
   border: 1px solid ${theme.listLow};
   border-left: 4px solid ${theme.listAccentMedium} !important;
@@ -234,7 +234,7 @@ return (
 }
 
 .${className} code {
-  font-family: ${theme.fontFamily.split(", ").map((font: string) => `"${font}"`).join(", ")};
+  font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
   font-size: inherit;
   color: ${theme.accent};
   padding: 1px 4px;

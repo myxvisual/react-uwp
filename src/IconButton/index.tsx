@@ -49,7 +49,7 @@ export class IconButton extends React.Component<IconButtonProps, void> {
         {...attributes}
         style={{
           display: "inline-block",
-          fontFamily: theme.iconFontFamily,
+          fontFamily: theme.fonts.segoeMDL2Assets,
           verticalAlign: "middle",
           textAlign: "center",
           userSelect: "none",

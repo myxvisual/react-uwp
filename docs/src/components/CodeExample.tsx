@@ -128,7 +128,7 @@ function getStyles(codeExample: CodeExample): {
       color: "#fff",
       background: theme.accent,
       cursor: "pointer",
-      padding: "12px 8px",
+      padding: "10px 8px",
       ...style
     }),
     code: prepareStyles({

@@ -168,7 +168,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
             display: "flex",
             flexDirection: "row",
             width: renderContentWidth,
-            minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT - 20}px)`,
+            minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
             margin: "0 auto"
           })}
         >

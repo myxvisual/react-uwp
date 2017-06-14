@@ -24,7 +24,6 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
     const isColumn = direction === "column";
     const currThemeStyle: React.CSSProperties = prepareStyles({
       width: "50%",
-      padding: "0 4px",
       minHeight: 240,
       display: "flex",
       alignItems: "center",
@@ -38,7 +37,6 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
       <div
         style={prepareStyles({
           width: "100%",
-          padding: "0 4px",
           minHeight: 240,
           display: "flex",
           alignItems: "center",

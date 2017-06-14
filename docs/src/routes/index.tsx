@@ -19,7 +19,7 @@ export class ThemeWrapper extends React.Component<{}, void> {
   render() {
     const { children } = this.props;
     return (
-      <Theme autoSaveTheme theme={theme} needGenerateAcrylic={!__DEV__}>
+      <Theme autoSaveTheme theme={theme} needGenerateAcrylic>
         {children}
       </Theme>
     );
@@ -104,6 +104,13 @@ function getRoutes(path = "/") {
           require.ensure([], (require) => {
             cb(null, require<any>("./Styles/Icons").default);
           }, "react-uwp-style-Icons");
+        }
+      }, {
+        path: "Acrylic",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Acrylic").default);
+          }, "react-uwp-style-Acrylic");
         }
       }, {
         path: "Animate",

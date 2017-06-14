@@ -79,7 +79,7 @@ export class Icon extends React.Component<IconProps, IconState> {
         display: "inline-block",
         textAlign: "center",
         verticalAlign: "middle",
-        fontFamily: theme.iconFontFamily,
+        fontFamily: theme.fonts.segoeMDL2Assets,
         transition: "all .25s",
         border: "none",
         outline: "none",

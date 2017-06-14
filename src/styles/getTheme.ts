@@ -48,8 +48,10 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
 
   return {
     themeName,
-    fontFamily: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
-    iconFontFamily: "Segoe MDL2 Assets",
+    fonts: {
+      sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
+      segoeMDL2Assets: "Segoe MDL2 Assets"
+    },
 
     useFluentDesign,
     desktopBackground: void 0,
