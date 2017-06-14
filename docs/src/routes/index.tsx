@@ -19,7 +19,7 @@ export class ThemeWrapper extends React.Component<{}, void> {
   render() {
     const { children } = this.props;
     return (
-      <Theme autoSaveTheme theme={theme}>
+      <Theme autoSaveTheme theme={theme} needGenerateAcrylic={!__DEV__}>
         {children}
       </Theme>
     );

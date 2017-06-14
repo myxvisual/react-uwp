@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-// import "./assets/styles/base.css";
 import App from "./routes";
 
 const { render } = ReactDOM;

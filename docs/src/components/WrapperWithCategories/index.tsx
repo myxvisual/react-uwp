@@ -199,7 +199,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
               listSource={listItems as any}
               showFocus={showFocus}
               style={{
-                width: 288,
+                width: 320,
                 maxHeight: "100%"
               }}
             />

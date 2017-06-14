@@ -52,7 +52,6 @@ module.exports = {
     }, {
       test: /\.tsx?$/,
       use: {
-        // loader: 'ts',
         loader: 'awesome-typescript',
         query: {
           configFileName: path.resolve(__dirname, './tsconfig.json'),

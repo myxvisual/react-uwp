@@ -5,15 +5,27 @@ import darkTheme from "../styles/darkTheme";
 import getTheme from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import getBaseCSS from "./getBaseCSS";
+import generateAcrylicTexture from "../styles/generateAcrylicTexture";
 
 export { getTheme };
 export interface DataProps {
+  /**
+   * Set theme object. [ThemeType](https://github.com/myxvisual/react-uwp/blob/master/typings/index.d.ts#L34), Usually use [getTheme](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L23) function to get it.
+   */
   theme?: ReactUWP.ThemeType;
+  /**
+   * For simple development, autoSaveTheme can read and save theme to `localStorage`. use global context `theme.saveTheme` method to save.
+   */
   autoSaveTheme?: boolean;
+  /**
+   * onGeneratedAcrylic callback, base acrylic textures is base64 url image, for production, you can set this callback, post image to your server, and update theme(use this callback will not auto update theme).
+   */
   onGeneratedAcrylic?: (theme?: ReactUWP.ThemeType) => void;
+  /**
+   * for production if you have generated acrylic textures, you can disabled generation acrylic textures.
+   */
+  needGenerateAcrylic?: boolean;
 }
-
-import generateAcrylicTexture from "../styles/generateAcrylicTexture";
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
@@ -21,56 +33,20 @@ export interface ThemeState {
   currTheme?: ReactUWP.ThemeType;
 }
 
+if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};
 const customLocalStorageName = "__REACT_UWP__";
 const baseClassName = "react-uwp-theme";
 const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
+  static defaultProps: ThemeProps = {
+    needGenerateAcrylic: true
+  };
   static childContextTypes = {
     theme: PropTypes.object
   };
   acrylicTextureCount = 0;
   themeClassName = "react-uwp-theme-dark";
-
-  componentDidMount() {
-    if (!window.__REACT_UWP__) {
-      window.__REACT_UWP__ = {};
-    }
-    this.generateAcrylicTextures();
-
-    window.addEventListener("scroll", this.handleScrollReveal);
-
-    this.updateBaseCSS();
-  }
-
-  componentDidUpdate() {
-    this.updateBaseCSS();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScrollReveal);
-  }
-
-  componentWillReceiveProps(nextProps: ThemeProps) {
-    const { theme } = nextProps;
-    const { currTheme } = this.state;
-    if (nextProps && nextProps.theme && !this.props.autoSaveTheme) {
-      if (
-        theme.accent !== currTheme.accent ||
-        theme.themeName !== currTheme.themeName ||
-        theme.useFluentDesign !== currTheme.useFluentDesign ||
-        theme.desktopBackgroundImage !== currTheme.desktopBackgroundImage
-      ) {
-        this.setState({
-          currTheme: theme
-        }, () => {
-          if (theme.useFluentDesign && theme.desktopBackgroundImage) {
-            this.generateAcrylicTextures();
-          }
-        });
-      }
-    }
-  }
 
   getDefaultTheme = () => {
     let theme: ReactUWP.ThemeType;
@@ -113,6 +89,52 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return theme;
   }
 
+  state: ThemeState = {
+    currTheme: this.getDefaultTheme()
+  };
+
+  getChildContext() {
+    return { theme: this.state.currTheme };
+  }
+
+  componentDidMount() {
+    const { currTheme } = this.state;
+    if (currTheme.useFluentDesign && currTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
+      this.generateAcrylicTextures();
+    }
+    this.updateBaseCSS();
+    window.addEventListener("scroll", this.handleScrollReveal);
+  }
+
+  componentDidUpdate() {
+    this.updateBaseCSS();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScrollReveal);
+  }
+
+  componentWillReceiveProps(nextProps: ThemeProps) {
+    const { theme } = nextProps;
+    const { currTheme } = this.state;
+    if (nextProps && nextProps.theme && !this.props.autoSaveTheme) {
+      if (
+        theme.accent !== currTheme.accent ||
+        theme.themeName !== currTheme.themeName ||
+        theme.useFluentDesign !== currTheme.useFluentDesign ||
+        theme.desktopBackgroundImage !== currTheme.desktopBackgroundImage
+      ) {
+        this.setState({
+          currTheme: theme
+        }, () => {
+          if (theme.useFluentDesign && theme.desktopBackgroundImage && nextProps.needGenerateAcrylic) {
+            this.generateAcrylicTextures();
+          }
+        });
+      }
+    }
+  }
+
   saveTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
     localStorage.setItem(customLocalStorageName, JSON.stringify({
       themeName: newTheme.themeName,
@@ -125,7 +147,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       currTheme: newTheme
     }, () => {
       callback(newTheme);
-      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage) {
+      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
         this.generateAcrylicTextures();
       }
     });
@@ -136,7 +158,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       currTheme: newTheme
     }, () => {
       callback(newTheme);
-      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage) {
+      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
         this.generateAcrylicTextures();
       }
     });
@@ -279,14 +301,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     localStorage.setItem(customLocalStorageName, "");
   }
 
-  state: ThemeState = {
-    currTheme: this.getDefaultTheme()
-  };
-
-  getChildContext() {
-    return { theme: this.state.currTheme };
-  }
-
   render() {
     const {
       autoSaveTheme,
@@ -295,6 +309,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       children,
       style,
       className,
+      needGenerateAcrylic,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
@@ -317,7 +332,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           display: "inline-block",
           verticalAlign: "middle",
           background: currTheme.useFluentDesign ? (
-            this.acrylicTextureCount === 3 ? "none" : currTheme.altMediumHigh
+            this.acrylicTextureCount === 3 ? "none" : (needGenerateAcrylic ? currTheme.altMediumHigh : "none")
           ) : currTheme.altHigh,
           width: "100%",
           height: "100%",
