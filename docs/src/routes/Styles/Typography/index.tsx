@@ -3,8 +3,7 @@ import * as PropTypes from "prop-types";
 
 import MarkdownRender from "react-uwp/MarkdownRender";
 
-import * as readmeDoc1 from "!raw!./README1.md";
-import * as readmeDoc2 from "!raw!./README2.md";
+import * as readmeDoc from "!raw!./README.md";
 
 export interface DataProps {}
 
@@ -39,7 +38,7 @@ export default class Typography extends React.Component<TypographyProps, void> {
     >
       <p style={itemStyle}>{name}</p>
       <p style={itemStyle}>{style.fontWeight}</p>
-      <p style={itemStyle}>{style.fontSize}px</p>
+      <p style={itemStyle}>{style.fontSize === "fontSize" ? "fontSize" : `${style.fontSize}px`}</p>
       <p style={itemStyle}>{style.lineHeight}</p>
     </div>;
   }
@@ -56,28 +55,30 @@ export default class Typography extends React.Component<TypographyProps, void> {
 
     return (
       <div {...attributes}>
-        <MarkdownRender text={readmeDoc1 as any} />
-        <div>
-          <div style={groupStyle}>
-            {this.renderTypographyItem("header", theme.typographyStyles.header)}
-            {this.renderTypographyItem("subHeader", theme.typographyStyles.subHeader)}
-          </div>
-          <div style={groupStyle}>
-            {this.renderTypographyItem("title", theme.typographyStyles.title)}
-            {this.renderTypographyItem("subTitle", theme.typographyStyles.subTitle)}
-            {this.renderTypographyItem("subTitleAlt", theme.typographyStyles.subTitleAlt)}
-          </div>
-          <div style={groupStyle}>
-            {this.renderTypographyItem("base", theme.typographyStyles.base)}
-            {this.renderTypographyItem("baseAlt", theme.typographyStyles.baseAlt)}
-            {this.renderTypographyItem("body", theme.typographyStyles.body)}
-          </div>
-          <div style={groupStyle}>
-            {this.renderTypographyItem("captionAlt", theme.typographyStyles.captionAlt)}
-            {this.renderTypographyItem("caption", theme.typographyStyles.caption)}
-          </div>
+        <div style={groupStyle}>
+          {this.renderTypographyItem("", {
+            fontWeight: "fontWeight",
+            fontSize: "fontSize",
+            lineHeight: "lineHeight"
+          } as any)}
+          {this.renderTypographyItem("header", theme.typographyStyles.header)}
+          {this.renderTypographyItem("subHeader", theme.typographyStyles.subHeader)}
         </div>
-        <MarkdownRender text={readmeDoc2 as any} />
+        <div style={groupStyle}>
+          {this.renderTypographyItem("title", theme.typographyStyles.title)}
+          {this.renderTypographyItem("subTitle", theme.typographyStyles.subTitle)}
+          {this.renderTypographyItem("subTitleAlt", theme.typographyStyles.subTitleAlt)}
+        </div>
+        <div style={groupStyle}>
+          {this.renderTypographyItem("base", theme.typographyStyles.base)}
+          {this.renderTypographyItem("baseAlt", theme.typographyStyles.baseAlt)}
+          {this.renderTypographyItem("body", theme.typographyStyles.body)}
+        </div>
+        <div style={groupStyle}>
+          {this.renderTypographyItem("captionAlt", theme.typographyStyles.captionAlt)}
+          {this.renderTypographyItem("caption", theme.typographyStyles.caption)}
+        </div>
+        <MarkdownRender text={readmeDoc as any} />
       </div>
     );
   }
