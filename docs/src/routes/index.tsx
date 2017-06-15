@@ -127,11 +127,25 @@ function getRoutes(path = "/") {
           }, "react-uwp-Styles-Colors");
         }
       }, {
+        path: "Custom-Theme",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/CustomTheme").default);
+          }, "react-uwp-Styles-CustomTheme");
+        }
+      }, {
         path: "Fonts",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
             cb(null, require<any>("./Styles/Fonts").default);
           }, "react-uwp-Styles-Fonts");
+        }
+      }, {
+        path: "Styling-Components",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/StylingComponents").default);
+          }, "react-uwp-Styles-StylingComponents");
         }
       }, {
         path: "Typography",

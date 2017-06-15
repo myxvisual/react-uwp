@@ -15,13 +15,7 @@ export interface DataProps {
 
 export interface CustomThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface CustomThemeState {}
-
-export default class CustomTheme extends React.Component<CustomThemeProps, CustomThemeState> {
-  static defaultProps: CustomThemeProps = {};
-
-  state: CustomThemeState = {};
-
+export default class CustomTheme extends React.Component<CustomThemeProps, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -143,18 +137,18 @@ export default class CustomTheme extends React.Component<CustomThemeProps, Custo
             </ScrollReveal>
           </div>
           <ScrollReveal {...scaleInProps}>
-            <ColorPicker
-              style={{ margin: "10px 0" }}
-              defaultColor={theme.accent}
-              onChangedColor={accent => {
-                theme.saveTheme(getTheme({
-                  themeName: theme.themeName,
-                  accent,
-                  useFluentDesign: theme.useFluentDesign,
-                  desktopBackgroundImage: theme.desktopBackgroundImage
-                }));
-              }}
-            />
+          <ColorPicker
+            style={{ margin: "10px 0" }}
+            defaultColor={theme.accent}
+            onChangedColor={accent => {
+              theme.saveTheme(getTheme({
+                themeName: theme.themeName,
+                accent,
+                useFluentDesign: theme.useFluentDesign,
+                desktopBackgroundImage: theme.desktopBackgroundImage
+              }));
+            }}
+          />
           </ScrollReveal>
         </div>
       </div>
