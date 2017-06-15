@@ -149,8 +149,14 @@
           "type": "string"
         },
         {
+          "name": "cacheAcrylicTextures",
+          "initializerText": " {}",
+          "documentation": "",
+          "type": "any"
+        },
+        {
           "name": "getDefaultTheme",
-          "initializerText": " () => {\n    let theme: ReactUWP.ThemeType;\n    let defaultConfig: any = {};\n\n    theme = this.props.theme;\n    if (theme) {\n      Object.assign(defaultConfig, {\n        themeName: theme.themeName,\n        accent: theme.accent,\n        useFluentDesign: theme.useFluentDesign,\n        desktopBackgroundImage: theme.desktopBackgroundImage\n      });\n    }\n\n    if (this.props.autoSaveTheme) {\n      const storageString = localStorage.getItem(customLocalStorageName);\n      if (storageString) {\n        let data: any = {};\n        try {\n          data = JSON.parse(storageString);\n          const { themeName, accent, useFluentDesign, desktopBackgroundImage } = data;\n          theme = getTheme({\n            ...defaultConfig,\n            themeName: themeName === void 0 ? defaultConfig.themeName : themeName,\n            accent: accent === void 0 ? defaultConfig.accent : accent,\n            useFluentDesign: useFluentDesign === void 0 ? defaultConfig.useFluentDesign : useFluentDesign,\n            desktopBackgroundImage: desktopBackgroundImage === void 0 ? defaultConfig.desktopBackgroundImage : desktopBackgroundImage\n          });\n        } catch (error) {\n          theme = this.props.theme || darkTheme;\n        }\n      } else {\n        theme = this.props.theme || darkTheme;\n      }\n    } else {\n      theme = this.props.theme || darkTheme;\n    }\n\n    return theme;\n  }",
+          "initializerText": " () => {\n    let theme: ReactUWP.ThemeType;\n    let defaultConfig: any = {};\n\n    theme = this.props.theme;\n    if (theme) {\n      Object.assign(defaultConfig, {\n        themeName: theme.themeName,\n        accent: theme.accent,\n        useFluentDesign: theme.useFluentDesign,\n        desktopBackgroundImage: theme.desktopBackgroundImage\n      });\n    }\n\n    if (this.props.autoSaveTheme) {\n      const storageString = localStorage.getItem(customLocalStorageName);\n      if (storageString) {\n        let data: any = {};\n        try {\n          data = JSON.parse(storageString);\n          const { themeName, accent, useFluentDesign, desktopBackgroundImage } = data;\n          theme = getTheme({\n            themeName: themeName === void 0 ? defaultConfig.themeName : themeName,\n            accent: accent === void 0 ? defaultConfig.accent : accent,\n            useFluentDesign: useFluentDesign === void 0 ? defaultConfig.useFluentDesign : useFluentDesign,\n            desktopBackgroundImage: desktopBackgroundImage === void 0 ? defaultConfig.desktopBackgroundImage : desktopBackgroundImage\n          });\n        } catch (error) {\n          theme = this.props.theme || darkTheme;\n        }\n      } else {\n        theme = this.props.theme || darkTheme;\n      }\n    } else {\n      theme = this.props.theme || darkTheme;\n    }\n\n    return theme;\n  }",
           "documentation": "",
           "type": "() => any"
         },
@@ -171,6 +177,11 @@
           "type": "() => void"
         },
         {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: ThemeProps) => void"
+        },
+        {
           "name": "componentDidUpdate",
           "documentation": "",
           "type": "() => void"
@@ -181,21 +192,22 @@
           "type": "() => void"
         },
         {
-          "name": "componentWillReceiveProps",
-          "documentation": "",
-          "type": "(nextProps: ThemeProps) => void"
-        },
-        {
           "name": "saveTheme",
-          "initializerText": " (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {\n    localStorage.setItem(customLocalStorageName, JSON.stringify({\n      themeName: newTheme.themeName,\n      accent: newTheme.accent,\n      useFluentDesign: newTheme.useFluentDesign,\n      desktopBackgroundImage: newTheme.desktopBackgroundImage\n    }));\n\n    this.setState({\n      currTheme: newTheme\n    }, () => {\n      callback(newTheme);\n      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {\n        this.generateAcrylicTextures();\n      }\n    });\n  }",
+          "initializerText": " (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {\n    localStorage.setItem(customLocalStorageName, JSON.stringify({\n      themeName: newTheme.themeName,\n      accent: newTheme.accent,\n      useFluentDesign: newTheme.useFluentDesign,\n      desktopBackgroundImage: newTheme.desktopBackgroundImage\n    }));\n\n    const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);\n\n    this.setState({\n      currTheme: newTheme\n    }, () => {\n      callback(newTheme);\n      if (needGenerateAcrylic) {\n        this.generateAcrylicTextures();\n      }\n    });\n  }",
           "documentation": "",
           "type": "(newTheme?: any, callback?: (theme?: any) => void) => void"
         },
         {
           "name": "updateTheme",
-          "initializerText": " (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {\n    this.setState({\n      currTheme: newTheme\n    }, () => {\n      callback(newTheme);\n      if (newTheme.useFluentDesign && newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {\n        this.generateAcrylicTextures();\n      }\n    });\n  }",
+          "initializerText": " (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {\n    const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);\n\n    this.setState({\n      currTheme: newTheme\n    }, () => {\n      callback(newTheme);\n      if (needGenerateAcrylic) {\n        this.generateAcrylicTextures();\n      }\n    });\n  }",
           "documentation": "",
           "type": "(newTheme?: any, callback?: (theme?: any) => void) => void"
+        },
+        {
+          "name": "sureNeedGenerateAcrylic",
+          "initializerText": " (newTheme: ReactUWP.ThemeType): boolean => {\n    const { currTheme } = this.state;\n    let needGenerateAcrylic = newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;\n\n    if (needGenerateAcrylic &&\n      newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage &&\n      newTheme.themeName === currTheme.themeName\n    ) {\n      if (currTheme.useFluentDesign && (!newTheme.useFluentDesign)) {\n        Object.assign(this.cacheAcrylicTextures, {\n          acrylicTexture40: currTheme.acrylicTexture40,\n          acrylicTexture60: currTheme.acrylicTexture60,\n          acrylicTexture80: currTheme.acrylicTexture80\n        } as ReactUWP.ThemeType);\n        needGenerateAcrylic = false;\n      } else if (newTheme.useFluentDesign && (!currTheme.useFluentDesign)) {\n        if (this.cacheAcrylicTextures.acrylicTexture40) {\n          Object.assign(newTheme, this.cacheAcrylicTextures);\n          needGenerateAcrylic = false;\n        } else {\n          needGenerateAcrylic = true;\n        }\n      } else {\n        needGenerateAcrylic = false;\n        Object.assign(newTheme, {\n          acrylicTexture40: currTheme.acrylicTexture40,\n          acrylicTexture60: currTheme.acrylicTexture60,\n          acrylicTexture80: currTheme.acrylicTexture80\n        } as ReactUWP.ThemeType);\n      }\n    }\n    needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign;\n    return needGenerateAcrylic;\n  }",
+          "documentation": "",
+          "type": "(newTheme: any) => boolean"
         },
         {
           "name": "updateBaseCSS",
