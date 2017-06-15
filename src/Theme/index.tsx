@@ -47,7 +47,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   };
   acrylicTextureCount = 0;
   themeClassName = "react-uwp-theme-dark";
-  cacheAcrylicTextures: ReactUWP.ThemeType = {};
+  cacheDarkAcrylicTextures: ReactUWP.ThemeType = {};
+  cacheLightAcrylicTextures: ReactUWP.ThemeType = {};
 
   getDefaultTheme = () => {
     let theme: ReactUWP.ThemeType;
@@ -175,19 +176,20 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     let needGenerateAcrylic = newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
 
     if (needGenerateAcrylic &&
-      newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage &&
-      newTheme.themeName === currTheme.themeName
+      newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage
     ) {
-      if (currTheme.useFluentDesign && (!newTheme.useFluentDesign)) {
-        Object.assign(this.cacheAcrylicTextures, {
+      if (currTheme.useFluentDesign) {
+        Object.assign(currTheme.isDarkTheme ? this.cacheDarkAcrylicTextures : this.cacheLightAcrylicTextures, {
           acrylicTexture40: currTheme.acrylicTexture40,
           acrylicTexture60: currTheme.acrylicTexture60,
           acrylicTexture80: currTheme.acrylicTexture80
         } as ReactUWP.ThemeType);
         needGenerateAcrylic = false;
-      } else if (newTheme.useFluentDesign && (!currTheme.useFluentDesign)) {
-        if (this.cacheAcrylicTextures.acrylicTexture40) {
-          Object.assign(newTheme, this.cacheAcrylicTextures);
+      } else if (newTheme.useFluentDesign) {
+        if (newTheme.isDarkTheme && this.cacheDarkAcrylicTextures.acrylicTexture40 || (
+          !newTheme.isDarkTheme && this.cacheLightAcrylicTextures.acrylicTexture40
+        )) {
+          Object.assign(newTheme, newTheme.isDarkTheme ? this.cacheDarkAcrylicTextures : this.cacheLightAcrylicTextures);
           needGenerateAcrylic = false;
         } else {
           needGenerateAcrylic = true;
