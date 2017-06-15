@@ -80,3 +80,8 @@ This can be achieved in the following two ways:
 - [With the theme](/styles/styling-components/custom-theme), you can use a custom theme to style components.
 - [With the inline style](/styles/styling-components/use-inlinestyle-replace-the-default-style), you can override individual
 component styles via the style property.
+
+# Need a component?
+Please check the [React-UWP Trello](https://trello.com/b/lrDKBog2/react-uwp-requests) and vote up the request, or see the [ROADMAP.md](https://github.com/myxvisual/react-uwp/blob/master/ROADMAP.md).
+
+If you don’t see an existing card, please file an [issue](https://github.com/myxvisual/react-uwp/issues) in the repository.

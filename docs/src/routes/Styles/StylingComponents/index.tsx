@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import MarkdownRender from "react-uwp/MarkdownRender";
 import * as readmeText from "!raw!./README.md";
 
 import CodeExample from "components/CodeExample";
@@ -23,7 +24,8 @@ export default class Mock extends React.Component<any, void> {
     } = this.props;
 
     return (
-      <div>
+      <div style={{ padding: "0 20px" }}>
+        <MarkdownRender text={readmeText as any} />
         <CodeExample
           title="Simple Examples"
           code={SimpleExampleCode as any}

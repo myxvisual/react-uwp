@@ -1,16 +1,32 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import AutoSuggestBox from "react-uwp/AutoSuggestBox";
+import Button from "react-uwp/Button";
 
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
   render() {
+    const { theme } = this.context;
     return (
       <div>
-        <AutoSuggestBox />
+        <Button>Normal Button</Button>
+
+        <Button
+          style={{
+            padding: 20,
+            width: 320,
+            color: "#fff",
+            margin: 10,
+            background: theme.listAccentLow
+          }}
+          hoverStyle={{
+            background: theme.accent
+          }}
+        >
+          Custom Style Button
+        </Button>
       </div>
     );
   }
