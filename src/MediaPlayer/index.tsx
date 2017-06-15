@@ -300,8 +300,15 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
       this.setState((prevState, prevProps) => ({ fullScreenMode: !this.state.fullScreenMode }));
     }
   }
+
   handleEnded = () => {
-    this.setState({ currPlaying: false });
+    setTimeout(() => {
+      this.setState({
+        currPlaying: false,
+        currShowControl: true,
+        played: 0
+      });
+    }, 1000);
   }
 
   render() {
@@ -419,13 +426,6 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
             const currPlayed = played + 0.03;
             this.setState({ played: currPlayed });
             this.reactPlayer.seekTo(currPlayed);
-          }}
-          onEnded={() => {
-            this.setState({
-              currPlaying: false,
-              currShowControl: true,
-              played: 0
-            });
           }}
         />
       </div>
