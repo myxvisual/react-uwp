@@ -149,7 +149,13 @@
           "type": "string"
         },
         {
-          "name": "cacheAcrylicTextures",
+          "name": "cacheDarkAcrylicTextures",
+          "initializerText": " {}",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "cacheLightAcrylicTextures",
           "initializerText": " {}",
           "documentation": "",
           "type": "any"
@@ -205,7 +211,7 @@
         },
         {
           "name": "sureNeedGenerateAcrylic",
-          "initializerText": " (newTheme: ReactUWP.ThemeType): boolean => {\n    const { currTheme } = this.state;\n    let needGenerateAcrylic = newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;\n\n    if (needGenerateAcrylic &&\n      newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage &&\n      newTheme.themeName === currTheme.themeName\n    ) {\n      if (currTheme.useFluentDesign && (!newTheme.useFluentDesign)) {\n        Object.assign(this.cacheAcrylicTextures, {\n          acrylicTexture40: currTheme.acrylicTexture40,\n          acrylicTexture60: currTheme.acrylicTexture60,\n          acrylicTexture80: currTheme.acrylicTexture80\n        } as ReactUWP.ThemeType);\n        needGenerateAcrylic = false;\n      } else if (newTheme.useFluentDesign && (!currTheme.useFluentDesign)) {\n        if (this.cacheAcrylicTextures.acrylicTexture40) {\n          Object.assign(newTheme, this.cacheAcrylicTextures);\n          needGenerateAcrylic = false;\n        } else {\n          needGenerateAcrylic = true;\n        }\n      } else {\n        needGenerateAcrylic = false;\n        Object.assign(newTheme, {\n          acrylicTexture40: currTheme.acrylicTexture40,\n          acrylicTexture60: currTheme.acrylicTexture60,\n          acrylicTexture80: currTheme.acrylicTexture80\n        } as ReactUWP.ThemeType);\n      }\n    }\n    needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign;\n    return needGenerateAcrylic;\n  }",
+          "initializerText": " (newTheme: ReactUWP.ThemeType): boolean => {\n    const { currTheme } = this.state;\n    let needGenerateAcrylic = newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;\n\n    if (needGenerateAcrylic &&\n      newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage\n    ) {\n      if (currTheme.useFluentDesign) {\n        Object.assign(currTheme.isDarkTheme ? this.cacheDarkAcrylicTextures : this.cacheLightAcrylicTextures, {\n          acrylicTexture40: currTheme.acrylicTexture40,\n          acrylicTexture60: currTheme.acrylicTexture60,\n          acrylicTexture80: currTheme.acrylicTexture80\n        } as ReactUWP.ThemeType);\n        needGenerateAcrylic = false;\n      } else if (newTheme.useFluentDesign) {\n        if (newTheme.isDarkTheme && this.cacheDarkAcrylicTextures.acrylicTexture40 || (\n          !newTheme.isDarkTheme && this.cacheLightAcrylicTextures.acrylicTexture40\n        )) {\n          Object.assign(newTheme, newTheme.isDarkTheme ? this.cacheDarkAcrylicTextures : this.cacheLightAcrylicTextures);\n          needGenerateAcrylic = false;\n        } else {\n          needGenerateAcrylic = true;\n        }\n      } else {\n        needGenerateAcrylic = false;\n        Object.assign(newTheme, {\n          acrylicTexture40: currTheme.acrylicTexture40,\n          acrylicTexture60: currTheme.acrylicTexture60,\n          acrylicTexture80: currTheme.acrylicTexture80\n        } as ReactUWP.ThemeType);\n      }\n    }\n    needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign;\n    return needGenerateAcrylic;\n  }",
           "documentation": "",
           "type": "(newTheme: any) => boolean"
         },
