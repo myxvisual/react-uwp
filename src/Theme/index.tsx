@@ -185,7 +185,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           acrylicTexture80: currTheme.acrylicTexture80
         } as ReactUWP.ThemeType);
         needGenerateAcrylic = false;
-      } else if (newTheme.useFluentDesign) {
+      }
+      if (newTheme.useFluentDesign) {
         if (newTheme.isDarkTheme && this.cacheDarkAcrylicTextures.acrylicTexture40 || (
           !newTheme.isDarkTheme && this.cacheLightAcrylicTextures.acrylicTexture40
         )) {
