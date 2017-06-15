@@ -127,6 +127,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Styles-Colors");
         }
       }, {
+        path: "Fonts",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Styles/Fonts").default);
+          }, "react-uwp-Styles-Fonts");
+        }
+      }, {
         path: "Typography",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

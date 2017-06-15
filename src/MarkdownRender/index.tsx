@@ -140,13 +140,14 @@ return (
 }
 
 .${className} a, .${className} h1, .${className} h2, .${className} h3, .${className} h4, .${className} h5, .${className} h6 {
-  line-height: 1.8;
-  font-weight: normal;
+  line-height: 1.4;
+  font-weight: 300;
+  margin: 16px 0 4px;
   color: ${theme.baseHigh};
 }
 
 .${className} p {
-  line-height: 1.8;
+  line-height: 1.6;
   font-size: 14px;
 }
 
