@@ -89,6 +89,7 @@ function getStyles(footer: Footer): {
 
   return {
     root: prepareStyles({
+      zIndex: theme.zIndex.header,
       fontSize: 14,
       color: theme.baseHigh,
       background: theme.useFluentDesign ? (
@@ -96,7 +97,6 @@ function getStyles(footer: Footer): {
       ) : (
         theme.isDarkTheme ? "hsla(0, 0%, 5%, 0.85)" : "hsla(0, 0%, 95%, 0.85)"
       ),
-      boxShadow: theme.isDarkTheme ? void 0 : `0 -2px 8px ${theme.listLow}`,
       minHeight: footerHeight,
       ...style
     }),

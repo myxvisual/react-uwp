@@ -142,7 +142,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
               >
                 {theme.useFluentDesign ? "HeartFill" : "Heart"}
               </IconButton>,
-              title: "Use Fluent Design",
+              title: "Toggle Fluent Design",
               onClick: () => {
                 theme.saveTheme(getTheme({
                   themeName: theme.themeName,
