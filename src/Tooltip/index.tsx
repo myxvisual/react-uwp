@@ -85,12 +85,9 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   unShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.unShowTimer = setTimeout(() => {
-      this.setState({
-        showTooltip: false
-      });
-      clearTimeout(this.unShowTimer);
-    }, 500);
+    this.setState({
+      showTooltip: false
+    });
   }
 
   getStyle = (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {
@@ -104,7 +101,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       transition: "all .25s 0s ease-in-out",
       border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,
       color: theme.baseMediumHigh,
-      background: background || (theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeMedium),
+      background: background || (theme.useFluentDesign ? theme.listLow : theme.chromeMedium),
       opacity: showTooltip ? 1 : 0,
       transform: `translateY(${showTooltip ? "0px" : "10px"})`,
       position: "absolute",
@@ -127,10 +124,12 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     const containerHeight = tooltipElm.getBoundingClientRect().height;
     const { showTooltip } = this.state;
     const positionStyle: React.CSSProperties = {};
+    const isVerticalCenter = verticalPosition === "center";
+
     if (width !== void(0) && height !== void(0)) {
       switch (horizontalPosition) {
         case "left": {
-          positionStyle.right = 0;
+          positionStyle.right = isVerticalCenter ? (width + margin) : 0;
           break;
         }
         case "center": {
@@ -138,7 +137,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
           break;
         }
         case "right": {
-          positionStyle.left = 0;
+          positionStyle.left = isVerticalCenter ? (-width - margin) : 0;
           break;
         }
         default: {

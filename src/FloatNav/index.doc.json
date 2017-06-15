@@ -3,7 +3,7 @@
   "name": "\"D:/react-uwp/src/FloatNav/index\"",
   "exports": [
     {
-      "name": "Item",
+      "name": "ExpandedItem",
       "documentation": ""
     },
     {
@@ -32,7 +32,7 @@
   ],
   "members": [
     {
-      "name": "Item",
+      "name": "ExpandedItem",
       "members": [
         {
           "name": "iconNode",
@@ -47,8 +47,14 @@
           "type": "string"
         },
         {
+          "name": "onClick",
+          "documentation": "onClick callback.",
+          "isRequired": false,
+          "type": "(e?: MouseEvent<HTMLAnchorElement>) => void"
+        },
+        {
           "name": "href",
-          "documentation": "Set custom link to item.",
+          "documentation": "Set focus focus color to item.",
           "isRequired": false,
           "type": "string"
         },
@@ -98,7 +104,7 @@
           "name": "expandedItems",
           "documentation": "Set custom expanded items.",
           "isRequired": false,
-          "type": "Item[]"
+          "type": "ExpandedItem[]"
         },
         {
           "name": "focusItemIndex",
@@ -217,7 +223,7 @@
           "name": "getItems",
           "initializerText": " () => this.props.expandedItems",
           "documentation": "",
-          "type": "() => Item[]"
+          "type": "() => ExpandedItem[]"
         },
         {
           "name": "render",

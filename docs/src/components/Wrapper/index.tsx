@@ -11,6 +11,7 @@ import getRootPath from "../../common/getRootPath";
 
 import IconButton from "react-uwp/IconButton";
 import FloatNav from "react-uwp/FloatNav";
+import Tooltip from "react-uwp/Tooltip";
 
 export interface DataProps {
   onChangeRenderContentWidth?: (renderContentWidth?: string | number, screenType?: "phone" | "tablet" | "laptop" | "pc") => void;
@@ -134,21 +135,40 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
                 Home
               </IconButton>
             }
-            bottomNode={[
-              <IconButton
+            expandedItems={[{
+              iconNode: <IconButton
                 hoverStyle={iconButtonStyle}
                 activeStyle={iconButtonStyle}
-                onClick={() => {
-                  theme.saveTheme(getTheme({
-                    themeName: theme.isDarkTheme ? "light" : "dark",
-                    accent: theme.accent,
-                    useFluentDesign: theme.useFluentDesign,
-                    desktopBackgroundImage: theme.desktopBackgroundImage
-                  }));
-                }}
+              >
+                {theme.useFluentDesign ? "HeartFill" : "Heart"}
+              </IconButton>,
+              title: "Use Fluent Design",
+              onClick: () => {
+                theme.saveTheme(getTheme({
+                  themeName: theme.themeName,
+                  accent: theme.accent,
+                  useFluentDesign: !theme.useFluentDesign,
+                  desktopBackgroundImage: theme.desktopBackgroundImage
+                }));
+              }
+            }, {
+              iconNode: <IconButton
+                hoverStyle={iconButtonStyle}
+                activeStyle={iconButtonStyle}
               >
                 {theme.isDarkTheme ? "Brightness" : "QuietHours"}
               </IconButton>,
+              title: "Toggle Theme",
+              onClick: () => {
+                theme.saveTheme(getTheme({
+                  themeName: theme.isDarkTheme ? "light" : "dark",
+                  accent: theme.accent,
+                  useFluentDesign: theme.useFluentDesign,
+                  desktopBackgroundImage: theme.desktopBackgroundImage
+                }));
+              }
+            }]}
+            bottomNode={[
               <IconButton
                 style={iconButtonStyle}
                 hoverStyle={iconButtonStyle}

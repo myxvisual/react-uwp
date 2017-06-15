@@ -37,6 +37,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
 
         <FloatNav
+          style={{ margin: "20px 0" }}
           isFloatRight={false}
           focusItemIndex={1}
           topNode={[

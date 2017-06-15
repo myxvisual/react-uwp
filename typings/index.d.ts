@@ -32,7 +32,7 @@ interface AcrylicTexture {
 
 declare namespace ReactUWP {
   interface ThemeType {
-    themeName: "dark" | "light";
+    themeName?: "dark" | "light";
     fonts?: {
       sansSerifFonts?: string;
       segoeMDL2Assets?: string;
@@ -42,9 +42,9 @@ declare namespace ReactUWP {
     desktopBackgroundImage?: string;
     desktopBackground?: string;
 
-    acrylicTexture40: AcrylicTexture;
-    acrylicTexture60: AcrylicTexture;
-    acrylicTexture80: AcrylicTexture;
+    acrylicTexture40?: AcrylicTexture;
+    acrylicTexture60?: AcrylicTexture;
+    acrylicTexture80?: AcrylicTexture;
 
     accent?: string;
     accentLighter1?: string;
@@ -118,7 +118,6 @@ declare namespace ReactUWP {
       contentDialog?: number;
       mediaPlayer?: number;
       header?: number;
-      [key: string]: number;
     };
   }
 }

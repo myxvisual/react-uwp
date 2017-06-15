@@ -29,6 +29,7 @@ export default class FloatNav extends React.Component<any, void> {
       <ComponentDetail
         readmeText={readmeText as any}
         docEntry={docEntry}
+        renderOtherTypes={["ExpandedItem"]}
       >
         <CodeExample
           title="Simple Examples"

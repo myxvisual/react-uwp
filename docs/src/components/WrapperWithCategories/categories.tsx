@@ -22,12 +22,9 @@ export default [{
   }, {
     "titleNode": "Fonts"
   }, {
-    "titleNode": "Styling Components",
-    "children": [{
-      "titleNode": "Use InlineStyle replace the default style"
-    }, {
-      "titleNode": "Custom theme"
-    }]
+    "titleNode": "Styling Components"
+  }, {
+    "titleNode": "Custom Theme"
   }]
 }, {
   "titleNode": "Components",

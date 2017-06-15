@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface Item {
+export interface ExpandedItem {
   /**
    * Set ReactNode to item.
    */
@@ -11,7 +11,11 @@ export interface Item {
    */
   title?: string;
   /**
-   * Set custom link to item.
+   * onClick callback.
+   */
+  onClick?: (e?: React.MouseEvent<HTMLAnchorElement>) => void;
+  /**
+   * Set focus focus color to item.
    */
   href?: string;
   /**
@@ -45,7 +49,7 @@ export interface DataProps {
   /**
    * Set custom expanded items.
    */
-  expandedItems?: Item[];
+  expandedItems?: ExpandedItem[];
   /**
    * HightLight expanded item ny index.
    */
@@ -160,7 +164,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
             </div>
           ))}
           {expandedItems.map((item, index) => {
-            const { iconNode, focusColor, title, href } = item;
+            const { iconNode, focusColor, title, href, onClick } = item;
             const isFirst = currFocusItemIndex === index;
             const isHovered = hoverItem === index;
             const padding = initWidth / 2;
@@ -175,7 +179,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
                   this.setState({ hoverItem: void(0), hoverIndexArray });
                 }}
                 href={href}
-                onClick={() => { onFocusItem(index); }}
+                onClick={e => { onFocusItem(index); if (onClick) onClick(e); }}
                 style={theme.prepareStyles({
                   overflow: "hidden",
                   display: "flex",
