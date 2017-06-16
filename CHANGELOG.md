@@ -1,5 +1,5 @@
 <a name="1.0.3"></a>
-## 1.0.3 (2017-06-16)
+## [1.0.3](https://github.com/myxvisual/react-uwp/compare/8b58710...v1.0.3) (2017-06-16)
 
 
 ### Bug Fixes
