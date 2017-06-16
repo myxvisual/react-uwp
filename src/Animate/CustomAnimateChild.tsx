@@ -117,6 +117,7 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
       leaveDelay,
       mode,
       speed,
+      style,
       leaveStyle,
       enterStyle,
       transitionTimingFunction,
@@ -125,6 +126,7 @@ export default class CustomAnimateChild extends React.Component<DataProps, void>
     const { theme } = this.context;
     const currStyle = theme.prepareStyles({
       transition: `all ${speed}ms${transitionTimingFunction ? ` ${transitionTimingFunction}` : ""}`,
+      ...style,
       ...(children as any).props.style,
       ...(appearAnimate ? leaveStyle : Object.assign({}, leaveStyle, enterStyle))
     });

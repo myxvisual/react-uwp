@@ -14,7 +14,7 @@ export class ScaleInOut extends React.Component<DataProps, void> {
   };
 
   render() {
-    const { position, direction, ...others } = this.props;
+    const { position, direction, wrapperStyle, ...others } = this.props;
     return <CustomAnimate
       leaveStyle={{
         transform: `translate3d(0, ${position}, 0)`,
@@ -24,7 +24,7 @@ export class ScaleInOut extends React.Component<DataProps, void> {
         transform: `translate3d(0, 0, 0)`,
         opacity: 1
       }}
-      wrapperStyle={{ overflow: "hidden" }}
+      wrapperStyle={{ overflow: "hidden", ...wrapperStyle }}
       {...others}
     />;
   }

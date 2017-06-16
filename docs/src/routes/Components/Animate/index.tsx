@@ -11,6 +11,9 @@ import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
 import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
+import Animation from "../../Styles/Animation";
+import * as AnimationCode from "!raw!../../Styles/Animation";
+
 export default class CustomAnimate extends React.Component<any, void> {
   static contextTypes = { theme: PropTypes.object };
 
@@ -37,6 +40,12 @@ export default class CustomAnimate extends React.Component<any, void> {
           doubleThemeStyle={{ padding: 20 }}
         >
           <SimpleExample />
+        </CodeExample>
+        <CodeExample
+          title="Complex Example"
+          code={AnimationCode as any}
+        >
+          <Animation />
         </CodeExample>
       </ComponentDetail>
     );

@@ -11,7 +11,7 @@ export default [{
   }, {
     "titleNode": "Icons"
   }, {
-    "titleNode": "Animate"
+    "titleNode": "Animation"
   }, {
     "titleNode": "Acrylic"
   }, {

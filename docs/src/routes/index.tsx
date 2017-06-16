@@ -113,11 +113,11 @@ function getRoutes(path = "/") {
           }, "react-uwp-style-Acrylic");
         }
       }, {
-        path: "Animate",
+        path: "Animation",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
-            cb(null, require<any>("./Styles/Animate").default);
-          }, "react-uwp-Styles-Animate");
+            cb(null, require<any>("./Styles/Animation").default);
+          }, "react-uwp-Styles-Animation");
         }
       }, {
         path: "Colors",

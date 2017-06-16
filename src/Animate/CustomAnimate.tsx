@@ -5,19 +5,54 @@ import * as PropTypes from "prop-types";
 import CustomAnimateChild from "./CustomAnimateChild";
 
 export interface DataProps {
-  transitionTimingFunction?: string;
+  /**
+   * If true, animate in end component `componentDidAppear`.
+   */
   appearAnimate?: boolean;
-  enterDelay?: number;
-  leaveDelay?: number;
-  style?: React.CSSProperties;
-  leaveStyle?: React.CSSProperties;
-  enterStyle?: React.CSSProperties;
+  /**
+   * Set component animate mode, if `in`, animate just run on component end in.
+   */
   mode?: "in" | "out" | "in-out";
+  /**
+   * Set component leave style.
+   */
+  leaveStyle?: React.CSSProperties;
+  /**
+   * Set component enter style.
+   */
+  enterStyle?: React.CSSProperties;
+  /**
+   * Set animation speed.
+   */
   speed?: number;
-  children?: any;
-  useWrapper?: boolean;
-  wrapperStyle?: React.CSSProperties;
+  /**
+   * Set transitionTimingFunction for animation.
+   */
+  transitionTimingFunction?: string;
+  /**
+   * Set animate `enter` delay.
+   */
+  enterDelay?: number;
+  /**
+   * Set animate `leave` delay.
+   */
+  leaveDelay?: number;
+  /**
+   * Set wrapper component.
+   */
   component?: any;
+  /**
+   * Add `Wrapper` element for component.
+   */
+  useWrapper?: boolean;
+  /**
+   * set `Wrapper` element style.
+   */
+  wrapperStyle?: React.CSSProperties;
+  /**
+   * set to root element style.
+   */
+  style?: React.CSSProperties;
 }
 
 export interface CustomAnimateProps extends DataProps {}
@@ -33,6 +68,8 @@ function FirstChild(props: any) {
 }
 export class CustomAnimate extends React.Component<CustomAnimateProps, void> {
   static defaultProps: CustomAnimateProps = {
+    leaveStyle: { opacity: 0 },
+    enterStyle: { opacity: 1 },
     appearAnimate: true,
     enterDelay: 0,
     leaveDelay: 0,
@@ -92,6 +129,7 @@ export class CustomAnimate extends React.Component<CustomAnimateProps, void> {
             enterDelay={enterDelay}
             leaveDelay={leaveDelay}
             mode={mode}
+            style={style}
             speed={speed}
             appearAnimate={appearAnimate}
             leaveStyle={style ? { ...style, ...leaveStyle } : leaveStyle}

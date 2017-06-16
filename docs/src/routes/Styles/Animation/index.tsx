@@ -15,10 +15,11 @@ import SlideInOut from "react-uwp/Animate/SlideInOut";
 
 export interface DataProps {}
 
-export interface AnimateProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface AnimationProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface AnimateState {
+export interface AnimationState {
   animateName?: "Fade" | "Scale" | "Slide";
+  mode?: "in" | "out" | "in-out";
   speed?: number;
   numb?: number;
   transitionTimingFunction?: string;
@@ -30,6 +31,11 @@ const animateNames = [
   "Slide"
 ];
 
+const modeNames = [
+  "in",
+  "out",
+  "in-out"
+];
 const animateSpeeds = [
   "500",
   "1000",
@@ -46,11 +52,12 @@ const transitionTimingFunctions = [
   "cubic-bezier(0.645, 0.045, 0.355, 1)"
 ];
 
-export default class Animate extends React.Component<AnimateProps, AnimateState> {
-  static defaultProps: AnimateProps = {};
+export default class Animation extends React.Component<AnimationProps, AnimationState> {
+  static defaultProps: AnimationProps = {};
 
-  state: AnimateState = {
+  state: AnimationState = {
     animateName: "Scale",
+    mode: "in-out",
     speed: 850,
     numb: 0,
     transitionTimingFunction: "ease"
@@ -72,6 +79,10 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
     this.setState({ transitionTimingFunction });
   }
 
+  handleChooseMode = (mode: any) => {
+    this.setState({ mode });
+  }
+
   increaseNumb = (e?: any) => {
     this.setState((preState, preProps) => ({ numb: preState.numb + 1 }));
   }
@@ -84,7 +95,7 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
     const {
       ...attributes
     } = this.props;
-    const { animateName, speed, numb, transitionTimingFunction } = this.state;
+    const { animateName, speed, numb, mode, transitionTimingFunction } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
     let AnimateWrapper: any = FadeInOut;
@@ -114,8 +125,9 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
         <div style={styles.animate}>
           <AnimateWrapper
             speed={speed}
+            mode={mode}
             key={`${animateName} ${speed} ${transitionTimingFunction}`}
-            wrapperStyle={{ display: "block", width: "100%", marginBottom: 40 }}
+            wrapperStyle={{ display: "block", overflow: "hidden", width: "100%", marginBottom: 40 }}
             transitionTimingFunction={transitionTimingFunction}
           >
             <div style={styles.animateTitle}>
@@ -135,6 +147,12 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
               values={transitionTimingFunctions}
               onChangeValue={this.handleChooseTransitionTimingFunction}
             />
+            <DropDownMenu
+              style={styles.animateControls}
+              defaultValue={mode}
+              values={modeNames}
+              onChangeValue={this.handleChooseMode}
+            />
           </div>
           <Slider
             style={styles.animateControls}
@@ -149,7 +167,7 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
         <div style={styles.count}>
           <AnimateWrapper
             speed={speed}
-            mode="in-out"
+            mode={mode}
             wrapperStyle={{ display: "block", height: 100, overflow: "hidden" }}
             transitionTimingFunction={transitionTimingFunction}
           >
@@ -170,7 +188,7 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
           Based On The Powerful ReactTransitionGroup.
         </p>
         <p>React UWP Animate  is very easy to use.</p>
-        <Link to="/components" style={{ color: theme.listAccentMedium, marginTop: 24, fontSize: 18 }}>
+        <Link to="/components/Animate" style={{ color: theme.listAccentMedium, marginTop: 24, fontSize: 18 }}>
           --- More Animate components ---
         </Link>
       </div>
@@ -178,7 +196,7 @@ export default class Animate extends React.Component<AnimateProps, AnimateState>
   }
 }
 
-function getStyles(animate: Animate): {
+function getStyles(animation: Animation): {
   root?: React.CSSProperties;
   animate?: React.CSSProperties;
   animateTitle?: React.CSSProperties;
@@ -190,11 +208,12 @@ function getStyles(animate: Animate): {
   const {
     context: { theme },
     props: { style }
-  } = animate;
+  } = animation;
   const { prepareStyles } = theme;
 
   return {
     root: prepareStyles({
+      width: "100%",
       padding: 20,
       display: "flex",
       flexDirection: "column",
@@ -221,7 +240,6 @@ function getStyles(animate: Animate): {
       background: `${theme.altMediumHigh} url(${require("./images/Tactile-13-1024x683.jpeg")}) no-repeat center center / cover`
     },
     animateControls: {
-      width: 320,
       margin: 4
     },
     count: {
