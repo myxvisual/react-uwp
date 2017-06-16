@@ -374,6 +374,7 @@ const parser = new Parser();
 
 const buildComponentName = process.argv[2] || "Button";
 let fileName = `../../src/${buildComponentName}.tsx`;
+
 if (!fs.existsSync(fileName)) {
   fileName = `../../src/${buildComponentName}/index.tsx`;
 }
