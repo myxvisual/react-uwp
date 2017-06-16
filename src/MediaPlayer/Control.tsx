@@ -157,16 +157,16 @@ export default class Control extends React.Component<ControlProps, ControlState>
             </Tooltip>
           </div>
           <div>
-            <Tooltip content="Skip Back">
+            <Tooltip content="Skip Back" background={theme.chromeLow}>
               <IconButton onClick={skipBackAction as any}>SkipBack10</IconButton>
             </Tooltip>
             <IconButton onClick={playOrPauseAction}>{playing ? "Pause" : "Play"}</IconButton>
-            <Tooltip content="Skip Forward">
+            <Tooltip content="Skip Forward" background={theme.chromeLow}>
               <IconButton onClick={skipForwardAction as any}>SkipForward30</IconButton>
             </Tooltip>
           </div>
           <div>
-            <Tooltip content="Full Screen">
+            <Tooltip content="Full Screen" background={theme.chromeLow}>
               <IconButton onClick={fullScreenAction}>FullScreen</IconButton>
             </Tooltip>
             <Flyout>
@@ -184,6 +184,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
                   style={{ height: "auto", padding: 0, border: "none"}}
                   margin={0}
                   horizontalPosition="left"
+                  background={theme.chromeLow}
                   contentNode={
                     <ListView
                       style={{ width: 80 }}
