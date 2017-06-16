@@ -152,7 +152,7 @@ export default class ComponentDescription extends React.Component<ComponentDescr
       `<p style="color: ${theme.baseMedium};">${documentation || ""}</p>`
     ].join(" | "))).join("\n");
     return getProps ? `
-Name | Type | default | Required | Description
+Name | Type | Default | Required | Description
 --- | --- | --- | --- | ---
 ${planeText}
 ` : `

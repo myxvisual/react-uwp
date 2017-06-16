@@ -20,6 +20,30 @@
       "extends": [
         "ScrollReveal"
       ]
+    },
+    {
+      "name": "fadeInProps",
+      "documentation": ""
+    },
+    {
+      "name": "scaleInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideTopInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideBottomInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideLeftInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideRightInProps",
+      "documentation": ""
     }
   ],
   "members": [
@@ -33,14 +57,14 @@
           "type": "number"
         },
         {
-          "name": "style",
-          "documentation": "Set custom default style.",
+          "name": "leaveStyle",
+          "documentation": "Set component leave default style.",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
-          "name": "animatedStyle",
-          "documentation": "Set custom animated style.",
+          "name": "enterStyle",
+          "documentation": "Set component enter default style.",
           "isRequired": false,
           "type": "CSSProperties"
         },
@@ -54,7 +78,7 @@
           "name": "children",
           "documentation": "Set custom children.",
           "isRequired": false,
-          "type": "ReactElement<any>"
+          "type": "ReactElement<any> | ReactElement<any>[]"
         },
         {
           "name": "topOffset",
@@ -85,6 +109,14 @@
     },
     {
       "name": "ScrollRevealProps",
+      "members": [
+        {
+          "name": "style",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        }
+      ],
       "documentation": "",
       "extends": [
         "DataProps"
@@ -100,7 +132,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    style: { transform: \"scale(0)\" },\n    animatedStyle: { transform: \"scale(1)\" },\n    speed: 250,\n    transitionTimingFunction: \"ease-in-out\",\n    topOffset: window.innerHeight / 16,\n    bottomOffset: window.innerHeight / 16,\n    useWrapper: false\n  }",
+          "initializerText": " {\n    leaveStyle: { transform: \"scale(0)\" },\n    enterStyle: { transform: \"scale(1)\" },\n    speed: 250,\n    topOffset: window.innerHeight / 16,\n    bottomOffset: window.innerHeight / 16,\n    useWrapper: false\n  }",
           "documentation": "",
           "type": "ScrollRevealProps"
         },
@@ -145,14 +177,19 @@
           "type": "() => void"
         },
         {
-          "name": "animate",
-          "initializerText": " () => {\n    this.customAnimate.animate();\n  }",
+          "name": "componentWillUnmount",
           "documentation": "",
           "type": "() => void"
         },
         {
-          "name": "initializeAnimation",
-          "initializerText": " () => {\n    this.customAnimate.initializeAnimation();\n  }",
+          "name": "setEnterStyle",
+          "initializerText": " () => {\n    this.customAnimate.setEnterStyle();\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "setLeaveStyle",
+          "initializerText": " () => {\n    this.customAnimate.setLeaveStyle();\n  }",
           "documentation": "",
           "type": "() => void"
         },

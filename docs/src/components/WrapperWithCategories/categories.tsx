@@ -29,6 +29,8 @@ export default [{
 }, {
   "titleNode": "Components",
   "children": [{
+    "titleNode": "Animate"
+  }, {
     "titleNode": "AppBarButton"
   }, {
     "titleNode": "AutoSuggestBox"

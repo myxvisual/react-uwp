@@ -97,11 +97,11 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
           ))}
         </div>
         <CustomAnimate
-          style={{
+          leaveStyle={{
             transform: "translateX(100%)",
-            opacity: 0
+            opacity: 1
           }}
-          animatedStyle={{
+          enterStyle={{
             transform: "translateX(0)",
             opacity: 1
           }}

@@ -1,0 +1,271 @@
+{
+  "fileName": "D:/react-uwp/src/Animate/CustomAnimate.tsx",
+  "name": "\"D:/react-uwp/src/Animate/CustomAnimate\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "CustomAnimateProps",
+      "documentation": ""
+    },
+    {
+      "name": "CustomAnimate",
+      "documentation": ""
+    },
+    {
+      "name": "fadeInProps",
+      "documentation": ""
+    },
+    {
+      "name": "scaleInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideTopInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideBottomInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideLeftInProps",
+      "documentation": ""
+    },
+    {
+      "name": "slideRightInProps",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "CustomAnimate"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "transitionTimingFunction",
+          "documentation": "",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "appearAnimate",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "enterDelay",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "leaveDelay",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "style",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "leaveStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "enterStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "mode",
+          "documentation": "",
+          "isRequired": false,
+          "type": "\"in\" | \"out\" | \"in-out\""
+        },
+        {
+          "name": "speed",
+          "documentation": "",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "children",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        },
+        {
+          "name": "useWrapper",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "wrapperStyle",
+          "documentation": "",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "component",
+          "documentation": "",
+          "isRequired": false,
+          "type": "any"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "CustomAnimateProps",
+      "documentation": "",
+      "extends": [
+        "DataProps"
+      ]
+    },
+    {
+      "name": "FirstChild",
+      "documentation": "",
+      "type": "(props: any) => ReactChild"
+    },
+    {
+      "name": "CustomAnimate",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    appearAnimate: true,\n    enterDelay: 0,\n    leaveDelay: 0,\n    mode: \"in-out\",\n    speed: 500,\n    component: \"span\",\n    useWrapper: true\n  }",
+          "documentation": "",
+          "type": "CustomAnimateProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "customAnimateChildArray",
+          "initializerText": " []",
+          "documentation": "",
+          "type": "any[]"
+        },
+        {
+          "name": "setLeaveStyle",
+          "initializerText": " () => {\n    for (const customAnimateChild of this.customAnimateChildArray) {\n      customAnimateChild.setLeaveStyle();\n    }\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "setEnterStyle",
+          "initializerText": " () => {\n    for (const customAnimateChild of this.customAnimateChildArray) {\n      customAnimateChild.setEnterStyle();\n    }\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => Element"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "documentation": "",
+      "name": "slideBottomInProps",
+      "type": "CustomAnimateProps",
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateY(100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateY(0)\",\n    opacity: 1\n  },\n  speed: 500,\n  useWrapper: true\n} as CustomAnimateProps"
+    },
+    {
+      "name": "slideBottomInProps",
+      "documentation": "",
+      "type": "CustomAnimateProps"
+    },
+    {
+      "documentation": "",
+      "name": "slideTopInProps",
+      "type": "CustomAnimateProps",
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateY(-100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateY(0)\",\n    opacity: 1\n  },\n  speed: 500,\n  useWrapper: true\n} as CustomAnimateProps"
+    },
+    {
+      "name": "slideTopInProps",
+      "documentation": "",
+      "type": "CustomAnimateProps"
+    },
+    {
+      "documentation": "",
+      "name": "slideLeftInProps",
+      "type": "{ leaveStyle: { transform: string; opacity: number; }; enterStyle: { transform: string; opacity: ...",
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateX(-100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateX(0)\",\n    opacity: 1\n  },\n  speed: 500,\n  useWrapper: true\n}"
+    },
+    {
+      "name": "slideLeftInProps",
+      "documentation": "",
+      "type": "{ leaveStyle: { transform: string; opacity: number; }; enterStyle: { transform: string; opacity: ..."
+    },
+    {
+      "documentation": "",
+      "name": "slideRightInProps",
+      "type": "{ leaveStyle: { transform: string; opacity: number; }; enterStyle: { transform: string; opacity: ...",
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateX(100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateX(0)\",\n    opacity: 1\n  },\n  appearAnimate: true,\n  speed: 500,\n  useWrapper: true\n}"
+    },
+    {
+      "name": "slideRightInProps",
+      "documentation": "",
+      "type": "{ leaveStyle: { transform: string; opacity: number; }; enterStyle: { transform: string; opacity: ..."
+    },
+    {
+      "documentation": "",
+      "name": "scaleInProps",
+      "type": "{ leaveStyle: { transform: string; opacity: number; }; enterStyle: { transform: string; opacity: ...",
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"scale(0)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"scale(1)\",\n    opacity: 1\n  },\n  appearAnimate: true,\n  speed: 500,\n  useWrapper: true\n}"
+    },
+    {
+      "name": "scaleInProps",
+      "documentation": "",
+      "type": "{ leaveStyle: { transform: string; opacity: number; }; enterStyle: { transform: string; opacity: ..."
+    },
+    {
+      "documentation": "",
+      "name": "fadeInProps",
+      "type": "{ leaveStyle: { opacity: number; }; enterStyle: { opacity: number; }; appearAnimate: boolean; spe...",
+      "initializerText": " {\n  leaveStyle: {\n    opacity: 0\n  },\n  enterStyle: {\n    opacity: 1\n  },\n  appearAnimate: true,\n  speed: 500,\n  useWrapper: true\n}"
+    },
+    {
+      "name": "fadeInProps",
+      "documentation": "",
+      "type": "{ leaveStyle: { opacity: number; }; enterStyle: { opacity: number; }; appearAnimate: boolean; spe..."
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Animate/CustomAnimate\""
+}

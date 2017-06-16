@@ -1,13 +1,13 @@
 import * as React from "react";
 
-import CustomAnimate, { DataProps as CustomAnimateProps } from "./CustomAnimate";
+import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./CustomAnimate";
 
 export interface DataProps extends CustomAnimateProps {}
 
 export class FadeInOut extends React.Component<DataProps, void> {
   static defaultProps: DataProps = {
-    style: { opacity: 0 },
-    animatedStyle: { opacity: 1 }
+    leaveStyle: { opacity: 0 },
+    enterStyle: { opacity: 1 }
   };
 
   render() {

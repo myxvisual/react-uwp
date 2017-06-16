@@ -27,11 +27,14 @@ export default class Categories extends React.Component<CategoriesProps, void> {
     const { theme } = this.context;
     const styles = getStyles(this);
     const slideInProps = {
-      style: { transform: "translateY(400px)", opacity: 0 },
-      animatedStyle: { transform: "translateY(0)", opacity: 1 },
+      leaveStyle: { transform: "translateY(400px)", opacity: 0 },
+      enterStyle: { transform: "translateY(0)", opacity: 1 },
       speed: 850,
+      wrapperStyle: {
+        overflow: "hidden"
+      },
       useWrapper: true
-    };
+    } as any;
 
     return (
       <div

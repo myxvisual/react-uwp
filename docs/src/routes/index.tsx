@@ -167,6 +167,13 @@ function getRoutes(path = "/") {
         }
       },
       childRoutes: [{
+        path: "Animate",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Animate").default);
+          }, "react-uwp-Components-Animate");
+        }
+      }, {
         path: "CommandBar",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

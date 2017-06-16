@@ -5,9 +5,9 @@ interface Window {
     docRootPath?: string;
     scrollReveals?: {
       rootElm?: HTMLElement;
-      animate?: () => void;
       animated?: boolean;
-      initializeAnimation: () => void;
+      setEnterStyle?: () => void;
+      setLeaveStyle: () => void;
       props: {
         speed?: number;
         style?: React.CSSProperties;

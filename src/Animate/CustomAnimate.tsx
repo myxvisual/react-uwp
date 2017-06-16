@@ -4,17 +4,16 @@ import * as PropTypes from "prop-types";
 
 import CustomAnimateChild from "./CustomAnimateChild";
 
-
 export interface DataProps {
   transitionTimingFunction?: string;
   appearAnimate?: boolean;
   enterDelay?: number;
   leaveDelay?: number;
   style?: React.CSSProperties;
-  animatedStyle?: React.CSSProperties;
+  leaveStyle?: React.CSSProperties;
+  enterStyle?: React.CSSProperties;
   mode?: "in" | "out" | "in-out";
   speed?: number;
-  animate?: boolean;
   children?: any;
   useWrapper?: boolean;
   wrapperStyle?: React.CSSProperties;
@@ -23,18 +22,22 @@ export interface DataProps {
 
 export interface CustomAnimateProps extends DataProps {}
 
+const baseStyle = {
+  display: "inline-block",
+  verticalAlign: "middle"
+};
+
 function FirstChild(props: any) {
   const childrenArray = React.Children.toArray(props.children);
   return childrenArray[0] || null;
 }
-export default class CustomAnimate extends React.Component<CustomAnimateProps, void> {
+export class CustomAnimate extends React.Component<CustomAnimateProps, void> {
   static defaultProps: CustomAnimateProps = {
     appearAnimate: true,
     enterDelay: 0,
     leaveDelay: 0,
     mode: "in-out",
     speed: 500,
-    animate: void 0,
     component: "span",
     useWrapper: true
   };
@@ -43,15 +46,15 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
   context: { theme: ReactUWP.ThemeType };
   customAnimateChildArray: CustomAnimateChild[] = [];
 
-  initializeAnimation = () => {
+  setLeaveStyle = () => {
     for (const customAnimateChild of this.customAnimateChildArray) {
-      customAnimateChild.initializeAnimation();
+      customAnimateChild.setLeaveStyle();
     }
   }
 
-  animate = () => {
+  setEnterStyle = () => {
     for (const customAnimateChild of this.customAnimateChildArray) {
-      customAnimateChild.animate();
+      customAnimateChild.setEnterStyle();
     }
   }
 
@@ -64,8 +67,8 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
       mode,
       speed,
       style,
-      animatedStyle,
-      animate,
+      leaveStyle,
+      enterStyle,
       transitionTimingFunction,
       wrapperStyle,
       component,
@@ -76,12 +79,10 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
     return (
       <ReactTransitionGroup
         {...others as any}
-        style={this.context.theme.prepareStyles({
-          display: "inline-block",
-          verticalAlign: "middle",
-          overflow: "hidden",
-          ...(useWrapper ? wrapperStyle : style)
-        })}
+        style={{
+          ...baseStyle,
+          ...(useWrapper ? wrapperStyle : leaveStyle)
+        }}
         component={useWrapper ? component : FirstChild}
       >
         {React.Children.map(children, (child: any, index) => (
@@ -93,12 +94,13 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
             mode={mode}
             speed={speed}
             appearAnimate={appearAnimate}
-            style={style}
-            animatedStyle={animatedStyle}
-            animate={animate}
+            leaveStyle={style ? { ...style, ...leaveStyle } : leaveStyle}
+            enterStyle={style ? { ...style, ...enterStyle } : enterStyle}
             transitionTimingFunction={transitionTimingFunction}
           >
-            {child}
+            {useWrapper ? <span style={{ ...baseStyle, width: "100%" }}>
+              {child}
+            </span> : child}
           </CustomAnimateChild>
         ))}
       </ReactTransitionGroup>
@@ -106,78 +108,85 @@ export default class CustomAnimate extends React.Component<CustomAnimateProps, v
   }
 }
 
-const slideBottomInProps = {
-  style: {
+const slideBottomInProps: CustomAnimateProps = {
+  leaveStyle: {
     transform: "translateY(100%)",
     opacity: 0
   },
-  animatedStyle: {
+  enterStyle: {
     transform: "translateY(0)",
     opacity: 1
   },
+  wrapperStyle: { overflow: "hidden" },
   speed: 500,
   useWrapper: true
-};
+} as CustomAnimateProps;
 
-const slideTopInProps = {
-  style: {
+const slideTopInProps: CustomAnimateProps = {
+  leaveStyle: {
     transform: "translateY(-100%)",
     opacity: 0
   },
-  animatedStyle: {
+  enterStyle: {
     transform: "translateY(0)",
     opacity: 1
   },
+  wrapperStyle: { overflow: "hidden" },
   speed: 500,
   useWrapper: true
-};
+} as CustomAnimateProps;
 
-const slideLeftInProps = {
-  style: {
+const slideLeftInProps: CustomAnimateProps = {
+  leaveStyle: {
     transform: "translateX(-100%)",
     opacity: 0
   },
-  animatedStyle: {
+  enterStyle: {
     transform: "translateX(0)",
     opacity: 1
   },
+  wrapperStyle: { overflow: "hidden" },
   speed: 500,
   useWrapper: true
 };
 
-const slideRightInProps = {
-  style: {
+const slideRightInProps: CustomAnimateProps = {
+  leaveStyle: {
     transform: "translateX(100%)",
     opacity: 0
   },
-  animatedStyle: {
+  enterStyle: {
     transform: "translateX(0)",
     opacity: 1
   },
+  wrapperStyle: { overflow: "hidden" },
+  appearAnimate: true,
   speed: 500,
   useWrapper: true
 };
 
-const scaleInProps = {
-  style: {
+const scaleInProps: CustomAnimateProps = {
+  leaveStyle: {
     transform: "scale(0)",
     opacity: 0
   },
-  animatedStyle: {
+  enterStyle: {
     transform: "scale(1)",
     opacity: 1
   },
+  appearAnimate: true,
   speed: 500,
   useWrapper: true
 };
 
-const fadeInProps = {
-  style: {
+const fadeInProps: CustomAnimateProps = {
+  leaveStyle: {
     opacity: 0
   },
-  animatedStyle: {
+  enterStyle: {
     opacity: 1
   },
+  appearAnimate: true,
   speed: 500,
   useWrapper: true
 };
@@ -190,3 +199,5 @@ export {
   slideLeftInProps,
   slideRightInProps
 };
+
+export default CustomAnimate;

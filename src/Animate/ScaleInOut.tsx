@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import CustomAnimate, { DataProps as CustomAnimateProps } from "./CustomAnimate";
+import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./CustomAnimate";
 
 export interface DataProps extends CustomAnimateProps {
   minScale?: number;
@@ -9,8 +9,8 @@ export interface DataProps extends CustomAnimateProps {
 
 export class ScaleInOut extends React.Component<DataProps, void> {
   static defaultProps: DataProps = {
-    style: { transform: "scale(0)" },
-    animatedStyle: { transform: "scale(1)" }
+    leaveStyle: { transform: "scale(0)" },
+    enterStyle: { transform: "scale(1)" }
   };
 
   render() {

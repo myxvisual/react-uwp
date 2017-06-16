@@ -1,6 +1,6 @@
 {
-  "fileName": "D:/react-uwp/src/Tooltip/index.tsx",
-  "name": "\"D:/react-uwp/src/Tooltip/index\"",
+  "fileName": "D:/react-uwp/src/ToolTip/index.tsx",
+  "name": "\"D:/react-uwp/src/ToolTip/index\"",
   "exports": [
     {
       "name": "DataProps",
@@ -73,6 +73,12 @@
           "type": "number"
         },
         {
+          "name": "closeDelay",
+          "documentation": "Set close delay time (ms).",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
           "name": "background",
           "documentation": "Set custom background.",
           "isRequired": false,
@@ -111,7 +117,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    verticalPosition: \"top\",\n    horizontalPosition: \"center\",\n    margin: 4,\n    autoClose: false,\n    autoCloseTimeout: 750\n  }",
+          "initializerText": " {\n    verticalPosition: \"top\",\n    horizontalPosition: \"center\",\n    margin: 4,\n    autoClose: false,\n    autoCloseTimeout: 750,\n    closeDelay: 0\n  }",
           "documentation": "",
           "type": "TooltipProps"
         },
@@ -169,19 +175,19 @@
         },
         {
           "name": "unShowTooltip",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.unShowTimer = setTimeout(() => {\n      this.setState({\n        showTooltip: false\n      });\n      clearTimeout(this.unShowTimer);\n    }, 500);\n  }",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.timer = setTimeout(() => {\n      this.setState({\n        showTooltip: false\n      });\n    }, this.props.closeDelay);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "getStyle",
-          "initializerText": " (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {\n    const { context: { theme }, props: { style, background } } = this;\n    return theme.prepareStyles({\n      height: 28,\n      overflow: \"hidden\",\n      textOverflow: \"ellipsis\",\n      whiteSpace: \"nowrap\",\n      padding: \"4px 8px\",\n      transition: \"all .25s 0s ease-in-out\",\n      border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: background || (theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeMedium),\n      opacity: showTooltip ? 1 : 0,\n      transform: `translateY(${showTooltip ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      fontSize: 14,\n      pointerEvents: showTooltip ? \"all\" : \"none\",\n      zIndex: theme.zIndex.tooltip,\n      ...style,\n      ...positionStyle\n    });\n  }",
+          "initializerText": " (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {\n    const { context: { theme }, props: { style, background } } = this;\n    return theme.prepareStyles({\n      height: 28,\n      overflow: \"hidden\",\n      textOverflow: \"ellipsis\",\n      whiteSpace: \"nowrap\",\n      padding: \"4px 8px\",\n      transition: \"all .25s 0s ease-in-out\",\n      border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: background || (theme.useFluentDesign ? theme.listLow : theme.chromeMedium),\n      opacity: showTooltip ? 1 : 0,\n      transform: `translateY(${showTooltip ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      fontSize: 14,\n      pointerEvents: showTooltip ? \"all\" : \"none\",\n      zIndex: theme.zIndex.tooltip,\n      ...style,\n      ...positionStyle\n    });\n  }",
           "documentation": "",
           "type": "(showTooltip?: boolean, positionStyle?: {}) => CSSProperties"
         },
         {
           "name": "getTooltipStyle",
-          "initializerText": " (): React.CSSProperties => {\n    const { rootElm, tooltipElm } = this;\n    if (!(rootElm && tooltipElm)) return this.getStyle();\n\n    const { theme } = this.context;\n    const { verticalPosition, horizontalPosition, margin } = this.props;\n    const { width, height } = rootElm.getBoundingClientRect();\n    const containerWidth = tooltipElm.getBoundingClientRect().width;\n    const containerHeight = tooltipElm.getBoundingClientRect().height;\n    const { showTooltip } = this.state;\n    const positionStyle: React.CSSProperties = {};\n    if (width !== void(0) && height !== void(0)) {\n      switch (horizontalPosition) {\n        case \"left\": {\n          positionStyle.right = 0;\n          break;\n        }\n        case \"center\": {\n          positionStyle.left = (width - containerWidth) / 2;\n          break;\n        }\n        case \"right\": {\n          positionStyle.left = 0;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n      switch (verticalPosition) {\n        case \"top\": {\n          positionStyle.top = -containerHeight - margin;\n          break;\n        }\n        case \"center\": {\n          positionStyle.top = (height - containerHeight) / 2;\n          break;\n        }\n        case \"bottom\": {\n          positionStyle.top = height + margin;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    }\n    return this.getStyle(showTooltip, positionStyle);\n  }",
+          "initializerText": " (): React.CSSProperties => {\n    const { rootElm, tooltipElm } = this;\n    if (!(rootElm && tooltipElm)) return this.getStyle();\n\n    const { theme } = this.context;\n    const { verticalPosition, horizontalPosition, margin } = this.props;\n    const { width, height } = rootElm.getBoundingClientRect();\n    const containerWidth = tooltipElm.getBoundingClientRect().width;\n    const containerHeight = tooltipElm.getBoundingClientRect().height;\n    const { showTooltip } = this.state;\n    const positionStyle: React.CSSProperties = {};\n    const isVerticalCenter = verticalPosition === \"center\";\n\n    if (width !== void(0) && height !== void(0)) {\n      switch (horizontalPosition) {\n        case \"left\": {\n          positionStyle.right = isVerticalCenter ? (width + margin) : 0;\n          break;\n        }\n        case \"center\": {\n          positionStyle.left = (width - containerWidth) / 2;\n          break;\n        }\n        case \"right\": {\n          positionStyle.left = isVerticalCenter ? (-width - margin) : 0;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n      switch (verticalPosition) {\n        case \"top\": {\n          positionStyle.top = -containerHeight - margin;\n          break;\n        }\n        case \"center\": {\n          positionStyle.top = (height - containerHeight) / 2;\n          break;\n        }\n        case \"bottom\": {\n          positionStyle.top = height + margin;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    }\n    return this.getStyle(showTooltip, positionStyle);\n  }",
           "documentation": "",
           "type": "() => CSSProperties"
         },
@@ -198,5 +204,5 @@
     }
   ],
   "documentation": "",
-  "type": "typeof \"D:/react-uwp/src/Tooltip/index\""
+  "type": "typeof \"D:/react-uwp/src/ToolTip/index\""
 }

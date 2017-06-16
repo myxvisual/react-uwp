@@ -309,9 +309,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       for (const scrollReveal of window.__REACT_UWP__.scrollReveals) {
         const {
           rootElm,
-          animate,
           animated,
-          initializeAnimation,
+          setEnterStyle,
+          setLeaveStyle,
           props: {
             topOffset,
             bottomOffset
@@ -328,12 +328,12 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         }
         if (isIn) {
           if (!animated) {
-            animate();
+            setEnterStyle();
             scrollReveal.animated = true;
           }
         } else {
           if (animated) {
-            initializeAnimation();
+            setLeaveStyle();
             scrollReveal.animated = false;
           }
         }

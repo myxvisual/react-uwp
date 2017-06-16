@@ -2,8 +2,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as PropTypes from "prop-types";
 
-import setStyleToElement from "./common/setStyleToElement";
-
 export interface DataProps {
   children?: React.ReactElement<any>;
   style?: React.CSSProperties;
@@ -29,9 +27,16 @@ export interface Attributes {
   [key: string]: any;
 }
 
+export interface ElementStateState {
+  currFocus?: boolean;
+  currHovered?: boolean;
+  currActive?: boolean;
+  currVisited?: boolean;
+}
+
 export interface ElementStateProps extends DataProps, Attributes {}
 const emptyFunc = () => {};
-export default class ElementState extends React.Component<ElementStateProps, {}> {
+export default class ElementState extends React.Component<ElementStateProps, ElementStateState> {
   static defaultProps: ElementStateProps = {
     onHover: emptyFunc,
     onFocus: emptyFunc,
@@ -49,78 +54,49 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
   };
 
   static contextTypes = { theme: PropTypes.object };
+  state: ElementStateState = {};
 
   context: { theme: ReactUWP.ThemeType };
-  rootElm: HTMLElement;
-  originStyle: CSSStyleDeclaration;
-  visitedStyle: React.CSSProperties = {};
-
-  componentDidMount() {
-    this.rootElm = ReactDOM.findDOMNode(this) as any;
-    this.originStyle = { ...this.rootElm.style };
-  }
-
-  componentDidUpdate() {
-    this.rootElm = ReactDOM.findDOMNode(this) as any;
-    this.originStyle = { ...this.rootElm.style };
-  }
-
-  setStyle = (style: React.CSSProperties) => {
-    setStyleToElement(
-      this.rootElm,
-      this.context.theme.prepareStyles({ ...this.props.style, ...style })
-    );
-  }
 
   hover = () => {
-    let child: any = this.props.children;
-    this.setStyle(this.props.hoverStyle);
     this.props.onMouseEnter();
     this.props.onHover();
+    this.setState((prevState, prevProps) => ({ currHovered: true }));
   }
   unHover = () => {
-    this.resetStyle();
     this.props.onMouseLeave();
     this.props.unHover();
+    this.setState((prevState, prevProps) => ({ currHovered: false }));
   }
 
   active = () => {
-    this.setStyle(this.props.activeStyle);
     this.props.onMouseDown();
     this.props.onActive();
+    this.setState((prevState, prevProps) => ({ currActive: true }));
   }
   unActive = () => {
-    this.setStyle(this.props.hoverStyle);
     this.props.onMouseUp();
     this.props.unActive();
+    this.setState((prevState, prevProps) => ({ currActive: false }));
   }
 
   focus = () => {
-    this.setStyle(this.props.focusStyle);
     this.props.onFocus();
+    this.setState((prevState, prevProps) => ({ currFocus: true }));
   }
   unFocus = () => {
-    this.resetStyle();
     this.props.unFocus();
+    this.setState((prevState, prevProps) => ({ currFocus: false }));
   }
 
   visited = () => {
-    this.setStyle(this.props.visitedStyle);
     this.props.onClick();
     this.props.onVisited();
-    this.visitedStyle = this.props.visitedStyle;
+    this.setState((prevState, prevProps) => ({ currVisited: true }));
   }
   unVisited = () => {
-    this.resetStyle(true);
     this.props.onClick();
     this.props.unVisited();
-  }
-
-  resetStyle = (resetVisited = false) => {
-    if (resetVisited) {
-      this.visitedStyle = void 0;
-    }
-    setStyleToElement(this.rootElm, { ...this.props.style, ...this.visitedStyle }, true);
   }
 
   render() {
@@ -147,12 +123,17 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
       children,
       ...attributes
     } = this.props;
+    const { currHovered, currFocus, currVisited, currActive } = this.state;
 
     return React.cloneElement(children as any, {
       ...attributes,
       style: this.context.theme.prepareStyles({
         transition: "all .25s",
-        ...style
+        ...style,
+        ...(currHovered ? hoverStyle : void 0),
+        ...(currFocus ? focusStyle : void 0),
+        ...(currActive ? activeStyle : void 0),
+        ...(currVisited ? visitedStyle : void 0)
       }),
       onMouseEnter: hoverStyle ? this.hover : onMouseEnter,
       onMouseLeave: hoverStyle ? this.unHover : onMouseLeave,

@@ -143,6 +143,7 @@ export default class Icons extends React.Component<void, IconsState> {
               style={{
                 cursor: "pointer"
               }}
+              closeDelay={250}
               margin={-6}
               key={`${index}`}
             >

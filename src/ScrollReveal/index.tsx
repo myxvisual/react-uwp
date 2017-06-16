@@ -10,13 +10,13 @@ export interface DataProps {
    */
   speed?: number;
   /**
-   * Set custom default style.
+   * Set component leave default style.
    */
-  style?: React.CSSProperties;
+  leaveStyle?: React.CSSProperties;
   /**
-   * Set custom animated style.
+   * Set component enter default style.
    */
-  animatedStyle?: React.CSSProperties;
+  enterStyle?: React.CSSProperties;
   /**
    * Set custom transitionTimingFunction.
    */
@@ -43,12 +43,14 @@ export interface DataProps {
   wrapperStyle?: React.CSSProperties;
 }
 
-export interface ScrollRevealProps extends DataProps {}
+export interface ScrollRevealProps extends DataProps {
+  style?: React.CSSProperties;
+}
 
 export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
   static defaultProps: ScrollRevealProps = {
-    style: { transform: "scale(0)" },
-    animatedStyle: { transform: "scale(1)" },
+    leaveStyle: { transform: "scale(0)" },
+    enterStyle: { transform: "scale(1)" },
     speed: 250,
     topOffset: window.innerHeight / 16,
     bottomOffset: window.innerHeight / 16,
@@ -80,18 +82,19 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
     window.__REACT_UWP__.scrollReveals.splice(window.__REACT_UWP__.scrollReveals.indexOf(this as any), 1);
   }
 
-  animate = () => {
-    this.customAnimate.animate();
+  setEnterStyle = () => {
+    this.customAnimate.setEnterStyle();
   }
 
-  initializeAnimation = () => {
-    this.customAnimate.initializeAnimation();
+  setLeaveStyle = () => {
+    this.customAnimate.setLeaveStyle();
   }
 
   render() {
     const {
       style,
-      animatedStyle,
+      leaveStyle,
+      enterStyle,
       speed,
       transitionTimingFunction,
       useWrapper,
@@ -106,7 +109,8 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
         speed={speed}
         transitionTimingFunction={transitionTimingFunction}
         style={style}
-        animatedStyle={animatedStyle}
+        leaveStyle={leaveStyle}
+        enterStyle={enterStyle}
         appearAnimate={false}
         useWrapper={useWrapper}
         wrapperStyle={wrapperStyle}

@@ -31,6 +31,10 @@ export interface DataProps {
    */
   autoCloseTimeout?: number;
   /**
+   * Set close delay time (ms).
+   */
+  closeDelay?: number;
+  /**
    * Set custom background.
    */
   background?: string;
@@ -47,7 +51,8 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     horizontalPosition: "center",
     margin: 4,
     autoClose: false,
-    autoCloseTimeout: 750
+    autoCloseTimeout: 750,
+    closeDelay: 0
   };
 
   state: TooltipState = {
@@ -85,9 +90,11 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   unShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({
-      showTooltip: false
-    });
+    this.timer = setTimeout(() => {
+      this.setState({
+        showTooltip: false
+      });
+    }, this.props.closeDelay);
   }
 
   getStyle = (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {
@@ -175,6 +182,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       children,
       content,
       contentNode,
+      closeDelay,
       background,
       ...attributes
     } = this.props;
