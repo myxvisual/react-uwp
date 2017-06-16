@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { Link } from "react-router";
 
-import AutoSuggestBox from "react-uwp/AutoSuggestBox";
+import DropDownMenu from "react-uwp/DropDownMenu";
 import IconButton from "react-uwp/IconButton";
 import NavLink from "./NavLink";
 import { WrapperState } from "../";
@@ -12,16 +12,62 @@ export interface DataProps extends WrapperState {
   headerHeight?: number;
   docVersion?: string;
 }
+import getCurrVersion from "common/getCurrVersion";
 
 export interface HeaderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface HeaderState {
+  currVersion?: string;
+  currVersions?: string[];
+}
 
-export default class Header extends React.Component<HeaderProps, void> {
+export default class Header extends React.Component<HeaderProps, HeaderState> {
   static defaultProps: HeaderProps = {
     headerHeight: 60
+  };
+  state: HeaderState = {
+    currVersion: getCurrVersion(),
+    currVersions: ["HEAD"]
   };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+
+  componentDidMount() {
+    const self = this;
+    const url = "https://www.react-uwp.com/versions.json";
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = () => {
+      if (request.readyState === 4 && request.status === 200) {
+        this.setState({
+          currVersions: JSON.parse(request.responseText).concat(["HEAD"])
+        });
+      }
+    };
+
+    request.open("GET", url, true);
+    request.send();
+  }
+
+  handleChangeVersion = (version: string) => {
+    const currVersion = getCurrVersion();
+    if ((version === "HEAD" && currVersion === "HEAD") || (
+      version === currVersion
+    )) {
+      return;
+    }
+    if (version === "HEAD" && currVersion !== "HEAD") {
+      const href = location.href.replace(`${currVersion}/`, "");
+      window.location.href = href;
+    }
+    if (version !== "HEAD" && currVersion === "HEAD") {
+      window.location.pathname = `/${version}${location.pathname}`;
+    }
+    if (version !== "HEAD" && currVersion !== "HEAD") {
+      const href = location.href.replace(currVersion, version);
+      window.location.href = href;
+    }
+  }
 
   render() {
     const {
@@ -31,6 +77,7 @@ export default class Header extends React.Component<HeaderProps, void> {
       screenType,
       ...attributes
     } = this.props;
+    const { currVersion, currVersions } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
     const isPhoneScreen = screenType === "phone";
@@ -66,14 +113,19 @@ export default class Header extends React.Component<HeaderProps, void> {
                   </NavLink>
                 </div>
               )}
-              {isPhoneScreen ? (
-                <IconButton>Search</IconButton>
-              ) : (
-                <AutoSuggestBox
-                  background="none"
-                  placeholder="Search Feature is building..."
-                />
-              )}
+              <DropDownMenu
+                style={{
+                  zIndex: theme.zIndex.header + 1,
+                  position: "fixed",
+                  top: 14,
+                  right: isPhoneScreen ? 20 : (window.innerWidth - (renderContentWidth as any)) / 2
+                }}
+                itemWidth={isPhoneScreen ? 80 : 120}
+                defaultValue={currVersion}
+                background={theme.altHigh}
+                values={currVersions}
+                onChangeValue={this.handleChangeVersion}
+              />
             </div>
           </div>
         </div>

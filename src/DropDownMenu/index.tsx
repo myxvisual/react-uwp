@@ -126,12 +126,14 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       onChangeValue,
       background,
       padding,
+      style,
       ...attributes
     } = this.props;
     const { showList, currentValue, currentValues } = this.state;
     const { theme } = this.context;
     const { isDarkTheme } = theme;
     const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
+    const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
 
     return (
       <div
@@ -140,10 +142,10 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           position: "relative",
           display: "inline-block",
           verticalAlign: "middle",
-          zIndex: showList ? theme.zIndex.dropDownMenu : 1,
           width: itemWidth,
           height: itemHeight + padding,
-          ...attributes.style
+          ...style,
+          zIndex
         })}
       >
         <div
@@ -157,7 +159,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
             width: itemWidth,
             height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
             overflow: "hidden",
-            zIndex: showList ? theme.zIndex.dropDownMenu : 1,
+            zIndex,
             padding: showList ? "8px 0" : 0,
             transition: "all .25s 0s ease-in-out",
             border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`

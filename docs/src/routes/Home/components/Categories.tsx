@@ -9,11 +9,12 @@ import IconLayout from "components/Icons/IconLayout";
 import IconStyle from "components/Icons/IconStyle";
 import IconToolkits from "components/Icons/IconToolkits";
 import ScrollReveal from "react-uwp/ScrollReveal";
+import getRootPath from "common/getRootPath";
 
 export interface DataProps {}
-
 export interface CategoriesProps extends DataProps, React.HTMLAttributes<HTMLDivElement>, WrapperState {}
 
+const rootPath = getRootPath();
 const ICON_WIDTH = 180;
 const CATEGORY_STYLE: React.CSSProperties = {
   margin: 10
@@ -51,7 +52,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
               We want UWP design easier to implementation in web applications
             </p>}
             linkInfo="GET STARTED"
-            link="get-started"
+            link={`${rootPath}/get-started`}
           />
         </ScrollReveal>
         <div style={styles.categories}>
@@ -60,7 +61,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
               style={CATEGORY_STYLE}
               title="Layout"
               description="Design and code an app that’s easy to navigate and looks great on a variety of devices and screen sizes."
-              link="/layout"
+              link={`${rootPath}/layout`}
               icon={<IconLayout width={ICON_WIDTH} />}
             />
           </ScrollReveal>
@@ -69,7 +70,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
               style={CATEGORY_STYLE}
               title="Styles"
               description="Define your app’s personality through color, typography, and motion."
-              link="/styles"
+              link={`${rootPath}/styles`}
               icon={<IconStyle width={ICON_WIDTH} />}
             />
           </ScrollReveal>
@@ -78,7 +79,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
               style={CATEGORY_STYLE}
               title="Components"
               description="Create a UI from a powerful set of building blocks."
-              link="/components"
+              link={`${rootPath}/components`}
               icon={<IconComponents width={ICON_WIDTH} />}
             />
           </ScrollReveal>
@@ -87,7 +88,7 @@ export default class Categories extends React.Component<CategoriesProps, void> {
               style={CATEGORY_STYLE}
               title="Design Toolkits"
               description="Jumpstart your project with design templates and tools."
-              link="/resources"
+              link={`${rootPath}/resources`}
               icon={<IconToolkits width={ICON_WIDTH} />}
             />
           </ScrollReveal>
