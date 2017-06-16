@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 import { findDOMNode } from "react-dom";
 
 import CustomAnimate from "../Animate/CustomAnimate";
+const newWindow = window as ReactUWP.Window;
 
 export interface DataProps {
   /**
@@ -65,21 +66,21 @@ export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
   animated: boolean = false;
 
   componentWillMount() {
-    if (!window.__REACT_UWP__) {
-      window.__REACT_UWP__ = {};
+    if (!newWindow.__REACT_UWP__) {
+      newWindow.__REACT_UWP__ = {};
     }
-    if (!window.__REACT_UWP__.scrollReveals) {
-      window.__REACT_UWP__.scrollReveals = [];
+    if (!newWindow.__REACT_UWP__.scrollReveals) {
+      newWindow.__REACT_UWP__.scrollReveals = [];
     }
   }
 
   componentDidMount() {
     this.rootElm = findDOMNode(this) as HTMLElement;
-    window.__REACT_UWP__.scrollReveals.push(this as any);
+    newWindow.__REACT_UWP__.scrollReveals.push(this as any);
   }
 
   componentWillUnmount() {
-    window.__REACT_UWP__.scrollReveals.splice(window.__REACT_UWP__.scrollReveals.indexOf(this as any), 1);
+    newWindow.__REACT_UWP__.scrollReveals.splice(newWindow.__REACT_UWP__.scrollReveals.indexOf(this as any), 1);
   }
 
   setEnterStyle = () => {

@@ -7,6 +7,8 @@ import RenderToBody from "../RenderToBody";
 import getBaseCSS from "./getBaseCSS";
 import generateAcrylicTexture from "../styles/generateAcrylicTexture";
 
+const newWindow = window as ReactUWP.Window;
+
 export { getTheme };
 export interface DataProps {
   /**
@@ -33,7 +35,7 @@ export interface ThemeState {
   currTheme?: ReactUWP.ThemeType;
 }
 
-if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};
+if (!newWindow.__REACT_UWP__) newWindow.__REACT_UWP__ = {};
 const customLocalStorageName = "__REACT_UWP__";
 const baseClassName = "react-uwp-theme";
 const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
@@ -212,8 +214,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     const styleSheetClassName = `.${this.themeClassName}-style-sheet`;
     let styleSheet = document.querySelector(styleSheetClassName);
     const CSSString = getBaseCSS(this.state.currTheme, this.themeClassName);
-    if (!window.__REACT_UWP__) window.__REACT_UWP__ = {};
-    if (styleSheet || window.__REACT_UWP__.baseCSSRequired) {
+    if (!newWindow.__REACT_UWP__) newWindow.__REACT_UWP__ = {};
+    if (styleSheet || newWindow.__REACT_UWP__.baseCSSRequired) {
       if (styleSheet) {
         styleSheet.innerHTML = CSSString;
       } else return;
@@ -222,7 +224,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       styleSheet.className = styleSheetClassName;
       styleSheet.innerHTML = CSSString;
       document.head.appendChild(styleSheet);
-      window.__REACT_UWP__.baseCSSRequired = true;
+      newWindow.__REACT_UWP__.baseCSSRequired = true;
     }
   }
 
@@ -305,8 +307,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   handleScrollReveal = (e?: Event) => {
-    if (window.__REACT_UWP__ && window.__REACT_UWP__.scrollReveals) {
-      for (const scrollReveal of window.__REACT_UWP__.scrollReveals) {
+    if (newWindow.__REACT_UWP__ && newWindow.__REACT_UWP__.scrollReveals) {
+      for (const scrollReveal of newWindow.__REACT_UWP__.scrollReveals) {
         const {
           rootElm,
           animated,

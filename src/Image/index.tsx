@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ReactLazyLoad from "react-lazyload";
+const ReactLazyLoad = require("react-lazyload");
 
 import Icon from "../Icon";
 

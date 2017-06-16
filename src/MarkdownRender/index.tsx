@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import  * as Prism from "prismjs";
-import "prismjs/components/prism-jsx.min.js";
-import  * as marked from "marked";
+const Prism = require("prismjs");
+require("prismjs/components/prism-jsx.min.js");
+import * as marked from "marked";
 import prismOkaidiaCSS from "./prismOkaidiaCSS";
 import prismCoyCSS from "./prismCoyCSS";
 

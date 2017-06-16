@@ -33,7 +33,7 @@
     "**/*.tsx",
     "__mocks__/**/*.ts",
     "__mocks__/**/*.tsx",
-    "./typings/**/*.d.ts"
+    "./typings/index.d.ts"
   ],
   "exclude": [
     "./docs",

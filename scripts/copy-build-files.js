@@ -1,6 +1,7 @@
 const path = require('path')
 const fse = require('fs-extra')
 const child_process = require('child_process')
+process.chdir(__dirname)
 
 const buildPath = path.resolve(__dirname, '../build')
 

@@ -13,6 +13,23 @@ npm install --save react-uwp
 React-UWP components require a theme to be provided.
 The quickest way to get up and running is by using the `Theme` to inject the theme into your application context.then, you can use any of the components as demonstrated in documentation.
 
+> If you coding by Typescript, add `ReactUWP` namespace to `tsconfig.json`.
+
+``` js
+{
+  "compilerOptions": {
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/react-uwp" // add to here.
+    ],
+    // ....
+    "include": [
+      "./node_modules/react-uwp/index.d.ts" // or add to here.
+    ]
+  }
+}
+```
+
 
 **./App.js**
 ```jsx
