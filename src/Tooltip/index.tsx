@@ -108,7 +108,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       transition: "all .25s 0s ease-in-out",
       border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,
       color: theme.baseMediumHigh,
-      background: background || (theme.useFluentDesign ? theme.listLow : theme.chromeMedium),
+      background: background || theme.chromeMedium,
       opacity: showTooltip ? 1 : 0,
       transform: `translateY(${showTooltip ? "0px" : "10px"})`,
       position: "absolute",
