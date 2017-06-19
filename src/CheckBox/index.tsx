@@ -230,6 +230,7 @@ function getStyles(checkBox: CheckBox): {
       ) : (
         checkedIsNull ? theme.accent : "#fff"
       ),
+      flex: "0 0 auto",
       padding: 0,
       margin: 0,
       width: size,
