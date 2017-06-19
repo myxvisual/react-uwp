@@ -8,13 +8,13 @@ export default class SimpleExample extends React.Component<any, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { screenType } = this.props;
+    const isPhoneScreen = window.innerHeight < 1024;
     return (
       <MediaPlayer
         url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
         style={{ margin: 20 }}
-        width={screenType === "phone" ? 320 : 640}
-        height={screenType === "phone" ? 160 : 320}
+        width={isPhoneScreen ? 320 : 640}
+        height={isPhoneScreen ? 160 : 320}
       />
     );
   }

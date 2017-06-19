@@ -18,13 +18,13 @@ export default class SimpleExample extends React.Component<WrapperState, void> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { screenType } = this.props;
-
+    const isPhoneScreen = window.innerHeight < 1024;
     const flipViewStyle: React.CSSProperties = {
-      width: screenType === "phone" ? 320 : 640,
-      height: screenType === "phone" ? 160 : 320,
+      width: isPhoneScreen ? 320 : 640,
+      height: isPhoneScreen ? 160 : 320,
       margin: "16px auto"
     };
+
     return (
       <div>
         <FlipView style={flipViewStyle}>
