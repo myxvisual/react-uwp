@@ -42,6 +42,7 @@
     "./src/**/*.tsx",
     "__mocks__/**/*.ts",
     "__mocks__/**/*.tsx",
+    "./typings/index.d.ts",
     "./typings/**/*.d.ts",
     "../typings/**/*.d.ts"
   ],

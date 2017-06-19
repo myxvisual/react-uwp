@@ -7,6 +7,7 @@ import IconButton from "react-uwp/IconButton";
 import NavLink from "./NavLink";
 import { WrapperState } from "../";
 import ReactIcon from "../../ReactIcon";
+import DocsTreeView from "../../DocsTreeView";
 
 export interface DataProps extends WrapperState {
   headerHeight?: number;
@@ -18,6 +19,7 @@ export interface HeaderProps extends DataProps, React.HTMLAttributes<HTMLDivElem
 export interface HeaderState {
   currVersion?: string;
   currVersions?: string[];
+  showDocsTreeView?: boolean;
 }
 
 export default class Header extends React.Component<HeaderProps, HeaderState> {
@@ -26,7 +28,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   };
   state: HeaderState = {
     currVersion: getCurrVersion(),
-    currVersions: ["HEAD"]
+    currVersions: ["HEAD"],
+    showDocsTreeView: false
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -69,6 +72,18 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     }
   }
 
+  toggleShowDocsTreeView = (showDocsTreeView?: any) => {
+    if (typeof showDocsTreeView === "boolean") {
+      if (showDocsTreeView !== this.state.showDocsTreeView) {
+        this.setState({ showDocsTreeView });
+      }
+    } else {
+      this.setState((prevState, prevProps) => ({
+        showDocsTreeView: !prevState.showDocsTreeView
+      }));
+    }
+  }
+
   render() {
     const {
       renderContentWidth,
@@ -77,20 +92,33 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       screenType,
       ...attributes
     } = this.props;
-    const { currVersion, currVersions } = this.state;
+    const { currVersion, currVersions, showDocsTreeView } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
     const isPhoneScreen = screenType === "phone";
 
     return (
       <header style={{ width: "100%", height: headerHeight }}>
+        {isPhoneScreen ? (
+          <DocsTreeView
+            style={{
+              position: "fixed",
+              top: headerHeight,
+              height: "100%",
+              left: 0,
+              zIndex: theme.zIndex.header + 2,
+              transition: "all .25s",
+              transform: `translate3d(${showDocsTreeView ? "0" : "-100%"}, 0, 0)`
+            }}
+          />
+        ) : null}
         <div
           {...attributes}
           style={styles.root}
         >
           <div style={styles.content}>
             {isPhoneScreen && (
-              <IconButton>GlobalNavButton</IconButton>
+              <IconButton onClick={this.toggleShowDocsTreeView}>GlobalNavButton</IconButton>
             )}
             <Link style={styles.logo} to={`${docVersion}/`}>
               <ReactIcon fill={theme.accent} />
@@ -113,19 +141,21 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                   </NavLink>
                 </div>
               )}
-              <DropDownMenu
-                style={{
-                  zIndex: theme.zIndex.header + 1,
-                  position: "fixed",
-                  top: 14,
-                  right: isPhoneScreen ? 20 : (window.innerWidth - (renderContentWidth as any)) / 2
-                }}
-                itemWidth={isPhoneScreen ? 80 : 120}
-                defaultValue={currVersion}
-                background={theme.altHigh}
-                values={currVersions}
-                onChangeValue={this.handleChangeVersion}
-              />
+              <div style={{ width: isPhoneScreen ? 80 : 120 }}>
+                <DropDownMenu
+                  style={{
+                    zIndex: theme.zIndex.header + 1,
+                    position: "fixed",
+                    top: isPhoneScreen ? 9 : 14,
+                    right: isPhoneScreen ? 20 : (window.innerWidth - (renderContentWidth as any)) / 2
+                  }}
+                  itemWidth={isPhoneScreen ? 80 : 120}
+                  defaultValue={currVersion}
+                  background={theme.altHigh}
+                  values={currVersions}
+                  onChangeValue={this.handleChangeVersion}
+                />
+              </div>
             </div>
           </div>
         </div>

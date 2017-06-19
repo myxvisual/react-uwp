@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import getTheme from "react-uwp/styles/getTheme";
 import getRootPath from "../../common/getRootPath";
+import addCSSRule from "react-uwp/common/browser/addCSSRule";
 
 import IconButton from "react-uwp/IconButton";
 import FloatNav from "react-uwp/FloatNav";
@@ -24,12 +25,12 @@ export interface WrapperProps extends DataProps, Router.RouteProps {
 }
 
 export interface WrapperState {
+  headerHeight?: number;
   renderContentHeight?: number | string;
   renderContentWidth?: number | string;
   screenType?: "phone" | "tablet" | "laptop" | "pc";
 }
 
-const HEADER_HEIGHT = 60;
 const FOOTER_HEIGHT = 260;
 const emptyFunc = () => {};
 
@@ -40,13 +41,16 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  state: WrapperState = {};
+  state: WrapperState = {
+    headerHeight: 60
+  };
 
   componentWillMount() {
     this.resize();
   }
 
   componentDidMount() {
+    addCSSRule("body { overflow-x: hidden; }");
     window.addEventListener("resize", this.resize);
   }
 
@@ -76,7 +80,8 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
       this.props.onChangeRenderContentWidth(renderContentWidth, screenType);
       this.setState({
         renderContentWidth,
-        screenType
+        screenType,
+        headerHeight: screenType === "phone" ? 48 : 60
       });
     }
   }
@@ -89,9 +94,9 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
       path, // tslint:disable-line:no-unused-variable
       children
     } = this.props;
-    const { renderContentWidth, screenType } = this.state;
+    const { renderContentWidth, screenType, headerHeight } = this.state;
     const { theme } = this.context;
-    const renderContentHeight = `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`;
+    const renderContentHeight = `calc(100vh - ${headerHeight + FOOTER_HEIGHT}px)`;
 
     const iconButtonStyle: React.CSSProperties = {
       color: "#fff",
@@ -110,7 +115,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
         <Header
           screenType={screenType}
           docVersion={getRootPath()}
-          headerHeight={HEADER_HEIGHT}
+          headerHeight={headerHeight}
           renderContentWidth={renderContentWidth}
         />
         <div

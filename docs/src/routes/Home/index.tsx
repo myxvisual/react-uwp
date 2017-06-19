@@ -33,7 +33,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
       screenType
     } = this.props;
     const { theme } = this.context;
-    const FLIP_HEIGHT = screenType === "phone" ? 240 : 500;
+    const isPhoneScreen = screenType === "phone";
+    const FLIP_HEIGHT = isPhoneScreen ? 240 : 500;
 
     return (
       <div style={{ width: "100%" }}>
@@ -90,10 +91,10 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <CustomTheme renderContentWidth={renderContentWidth} style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : `linear-gradient(90deg, ${theme.listLow}, transparent)` }} />
         <div style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : void 0 }}>
           <MediaPlayer
-            style={{ margin: "0 auto", width: renderContentWidth, display: "block" }}
+            style={{ margin: "0 auto", width: isPhoneScreen ? window.innerWidth : renderContentWidth, display: "block" }}
             url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
-            width={renderContentWidth as any - 40}
-            height={(renderContentWidth as any) / 2}
+            width={isPhoneScreen ? (window.innerWidth - 40) : (renderContentWidth as any - 40)}
+            height={((isPhoneScreen ? window.innerWidth : renderContentWidth) as any) / 2}
           />
         </div>
         <IndexOfComponentsByFunction

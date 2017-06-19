@@ -127,7 +127,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
       padding: 8,
       border: `1px solid ${theme.baseLow}`,
       color: theme.baseMediumHigh,
-      background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.chromeLow,
+      background: theme.chromeLow,
       pointerEvents: showFlyoutContent ? "all" : "none",
       opacity: showFlyoutContent ? 1 : 0,
       transform: `translateY(${showFlyoutContent ? "0px" : "10px"})`,

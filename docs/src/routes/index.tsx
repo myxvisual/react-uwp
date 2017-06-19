@@ -9,7 +9,6 @@ import WrapperWithCategories from "../components/WrapperWithCategories";
 export interface RouterCallback {
   (error: any, component?: any): void;
 }
-
 const useFluentDesign = true;
 // const desktopBackgroundImage = require("assets/images/blurBackground/camera-1246655_1920.jpg");
 const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
