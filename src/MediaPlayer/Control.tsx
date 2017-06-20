@@ -141,7 +141,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
         </IconButton>
         <FlyoutContent
           style={theme.prepareStyles({
-            width: void 0
+            width: isDefaultMode ? void 0 : 30
           })}
           isControlled
           show={showVolumeSlider}
@@ -149,8 +149,10 @@ export default class Control extends React.Component<ControlProps, ControlState>
           horizontalPosition="right"
         >
           <Slider
+            displayMode={isDefaultMode ? "horizon" : "vertical"}
             style={{
-              width: isDefaultMode ? 240 : 42
+              width: isDefaultMode ? 240 : 24,
+              height: isDefaultMode ? 24 : 120
             }}
             onChangeValue={onChangeVolume}
             initValue={volume}
@@ -294,23 +296,24 @@ function getStyles(mock: Control): {
 } {
   const {
     context: { theme },
-    props: { style }
+    props: { displayMode, style }
   } = mock;
   const { prepareStyles } = theme;
+  const rootStyle: React.CSSProperties = {
+    fontSize: 14,
+    color: theme.baseHigh,
+    height: 96,
+    width: "100%",
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    backgroundImage: `linear-gradient(transparent, ${theme.altMedium})`,
+    transition: "all .75s",
+    ...style
+  };
 
   return {
-    root: prepareStyles({
-      position: "absolute",
-      height: 96,
-      left: 0,
-      bottom: 0,
-      width: "100%",
-      fontSize: 14,
-      color: theme.baseHigh,
-      backgroundImage: `linear-gradient(transparent, ${theme.altMedium})`,
-      transition: "all .75s ease-in-out",
-      ...style
-    }),
+    root: prepareStyles(rootStyle),
     sliderContainer: {
       overflow: "hidden",
       position: "relative",
@@ -320,7 +323,9 @@ function getStyles(mock: Control): {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      ...(displayMode !== "default" ? rootStyle : void 0),
+      height: 48
     })
   };
 }

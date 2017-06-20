@@ -101,7 +101,6 @@ The UI framework for Windows provides an extensive library of controls that supp
         <ListView />
         <Image />
         <FlipView />
-        <ColorPicker />
         <MediaPlayer />
         <NavigationView />
         <SplitView />

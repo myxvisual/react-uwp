@@ -9,7 +9,7 @@ export default class SimpleExample extends React.Component<{}, void> {
 
   render() {
     return (
-      <div style={{ margin: "10px 0" }}>
+      <div>
         <ColorPicker defaultColor="red" />
       </div>
     );

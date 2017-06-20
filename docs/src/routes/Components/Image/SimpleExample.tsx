@@ -8,7 +8,7 @@ const imageStyle: React.CSSProperties = {
   height: "auto",
   maxWidth: 320,
   maxHeight: 320,
-  marginRight: 10
+  margin: 10
 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };

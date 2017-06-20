@@ -10,7 +10,16 @@ export default class SimpleExample extends React.Component<any, void> {
   render() {
     const isPhoneScreen = window.innerHeight < 1024;
     return (
-      <div style={{ margin: "10px 0" }}>
+      <div
+        style={this.context.theme.prepareStyles({
+          margin: "10px 0",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center"
+        })}
+      >
         <MediaPlayer
           url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
           style={{ margin: 20 }}
