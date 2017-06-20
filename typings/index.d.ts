@@ -1,3 +1,12 @@
+/// <reference types="core-js" />
+/// <reference types="node" />
+/// <reference types="marked" />
+/// <reference types="prop-types" />
+/// <reference types="react" />
+/// <reference types="react-dom" />
+/// <reference types="react-transition-group" />
+/// <reference types="@types/tinycolor2" />
+
 export as namespace ReactUWP;
 
 export interface Window {
