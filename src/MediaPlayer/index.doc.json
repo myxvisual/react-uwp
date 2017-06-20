@@ -42,6 +42,12 @@
       "name": "DataProps",
       "members": [
         {
+          "name": "displayMode",
+          "documentation": "Set MediaPlayer display mode.",
+          "isRequired": false,
+          "type": "\"default\" | \"minimum\" | \"reset\""
+        },
+        {
           "name": "showControl",
           "documentation": "Control show the MediaPlayer controls.",
           "isRequired": false,
@@ -306,7 +312,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    width: 640,\n    height: 360,\n    loop: false,\n    showControl: true,\n    playing: false,\n    volume: 0.8,\n    playbackRate: 1.0,\n    onTouchStart: emptyFunc,\n    onMouseEnter: emptyFunc,\n    onMouseLeave: emptyFunc,\n    onMouseMove: emptyFunc\n  }",
+          "initializerText": " {\n    displayMode: \"default\",\n    width: 640,\n    height: 360,\n    loop: false,\n    showControl: true,\n    playing: false,\n    volume: 0.8,\n    playbackRate: 1.0,\n    onTouchStart: emptyFunc,\n    onMouseEnter: emptyFunc,\n    onMouseLeave: emptyFunc,\n    onMouseMove: emptyFunc\n  }",
           "documentation": "",
           "type": "MediaPlayerProps"
         },
@@ -439,7 +445,7 @@
         },
         {
           "name": "handleEnded",
-          "initializerText": " () => {\n    this.setState({ currPlaying: false });\n  }",
+          "initializerText": " () => {\n    setTimeout(() => {\n      this.setState({\n        currPlaying: false,\n        currShowControl: true,\n        played: 0\n      });\n    }, 1000);\n  }",
           "documentation": "",
           "type": "() => void"
         },

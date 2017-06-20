@@ -10,6 +10,7 @@ import FlyoutContent from "../FlyoutContent";
 import ListView from "../ListView";
 
 export interface DataProps {
+  displayMode?: "default" | "minimum" | "reset";
   playing?: boolean;
   played?: number;
   volume?: number;
@@ -34,6 +35,7 @@ export interface ControlState {
 const emptyFunc = () => {};
 export default class Control extends React.Component<ControlProps, ControlState> {
   static defaultProps: ControlProps = {
+    displayMode: "default",
     playOrPauseAction: emptyFunc,
     fullScreenAction: emptyFunc,
     skipBackAction: emptyFunc,
@@ -88,6 +90,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
 
   render() {
     let {
+      displayMode,
       playing,
       played,
       volume,
@@ -104,63 +107,162 @@ export default class Control extends React.Component<ControlProps, ControlState>
       ...attributes
     } = this.props;
     const { showPlaybackChoose, showVolumeSlider } = this.state;
+    const { theme } = this.context;
+
     played = played || 0;
     duration = duration || 0;
     const playedValue = played * duration;
-
-    const { theme } = this.context;
     const styles = getStyles(this);
+    const isDefaultMode = displayMode === "default";
 
-    return (
+    const playButton = <IconButton onClick={playOrPauseAction}>{playing ? "Pause" : "Play"}</IconButton>;
+    const playSlider = (
+      <Slider
+        style={{ width: "100%", padding: "0 16px" }}
+        initValue={played || 0}
+        minValue={0}
+        maxValue={1}
+        controllerWidth={16}
+        customControllerStyle={{
+          width: 16,
+          height: 16,
+          marginTop: 4
+        }}
+        transition="all .25s"
+        onChangeValue={(value) => {
+          onChangeSeek(Number(value.toFixed(1)));
+        }}
+      />
+    );
+    const volumeButton = (
+      <Flyout>
+        <IconButton onClick={this.toggleShowVolumeSlider}>
+          Volume
+        </IconButton>
+        <FlyoutContent
+          style={theme.prepareStyles({
+            width: void 0
+          })}
+          isControlled
+          show={showVolumeSlider}
+          verticalPosition="top"
+          horizontalPosition="right"
+        >
+          <Slider
+            style={{
+              width: isDefaultMode ? 240 : 42
+            }}
+            onChangeValue={onChangeVolume}
+            initValue={volume}
+          />
+        </FlyoutContent>
+      </Flyout>
+    );
+    const subtitleButton = (
+      <Tooltip content="Subtitles">
+        <IconButton>Subtitles</IconButton>
+      </Tooltip>
+    );
+    const moreLegacyButton = (
+      <Flyout>
+        <IconButton onClick={this.toggleShowPlaybackChoose}>
+          MoreLegacy
+        </IconButton>
+        <FlyoutContent
+          style={{ width: 120, cursor: "pointer", padding: 0 }}
+          isControlled
+          show={showPlaybackChoose}
+          verticalPosition="top"
+          horizontalPosition="left"
+        >
+          <Tooltip
+            style={{ height: "auto", padding: 0, border: "none"}}
+            margin={0}
+            horizontalPosition="left"
+            background={theme.chromeLow}
+            contentNode={
+              <ListView
+                background={theme.chromeLow}
+                style={{ width: 80 }}
+                listSource={[{
+                  itemNode: "2x",
+                  onClick: () => {
+                    onChangePlaybackRate(2);
+                    this.toggleShowPlaybackChoose(false);
+                  }
+                }, {
+                  itemNode: "1.5x",
+                  onClick: () => {
+                    onChangePlaybackRate(1.5);
+                    this.toggleShowPlaybackChoose(false);
+                  }
+                }, {
+                  itemNode: "1.25x",
+                  onClick: () => {
+                    onChangePlaybackRate(1.25);
+                    this.toggleShowPlaybackChoose(false);
+                  }
+                }, {
+                  itemNode: "Normal",
+                  onClick: () => {
+                    onChangePlaybackRate(1);
+                    this.toggleShowPlaybackChoose(false);
+                  }
+                }, {
+                  itemNode: "0.75x",
+                  onClick: () => {
+                    onChangePlaybackRate(0.75);
+                    this.toggleShowPlaybackChoose(false);
+                  }
+                }, {
+                  itemNode: "0.5x",
+                  onClick: () => {
+                    onChangePlaybackRate(0.5);
+                    this.toggleShowPlaybackChoose(false);
+                  }
+                }]}
+              />
+          }>
+            <div style={{ padding: 8, width: 120 }}>
+              <span>
+                Playback Rate
+              </span>
+              <Icon>
+                ScrollChevronRightLegacy
+              </Icon>
+            </div>
+            <FlyoutContent
+              margin={0}
+              style={{ width: 60,  padding: 0 }}
+              verticalPosition="top"
+              horizontalPosition="left"
+            >
+            </FlyoutContent>
+          </Tooltip>
+        </FlyoutContent>
+      </Flyout>
+    );
+
+    return isDefaultMode ? (
       <div
         {...attributes}
         style={styles.root}
       >
         <div style={styles.sliderContainer}>
-          <Slider
-            style={{ width: "100%", padding: "0 16px" }}
-            initValue={played || 0}
-            minValue={0}
-            maxValue={1}
-            controllerWidth={16}
-            customControllerStyle={{
-              width: 16,
-              height: 16,
-              marginTop: 4
-            }}
-            transition="all .25s"
-            onChangeValue={(value) => {
-              onChangeSeek(Number(value.toFixed(1)));
-            }}
-          />
+          {playSlider}
           <span style={{ marginLeft: 16 }}>{this.second2HHMMSS(playedValue)}</span>
           <span style={{ float: "right", marginRight: 16 }}>{this.second2HHMMSS(duration)}</span>
         </div>
-        <div style={styles.controlsGroup2}>
+        <div style={styles.controlsGroup}>
           <div>
-            <Flyout>
-              <IconButton onClick={this.toggleShowVolumeSlider}>
-                Volume
-              </IconButton>
-              <FlyoutContent
-                style={{ width: void 0 }}
-                isControlled
-                show={showVolumeSlider}
-                verticalPosition="top"
-                horizontalPosition="right"
-              >
-                <Slider style={{ width: 240 }} onChangeValue={onChangeVolume} initValue={volume} />
-              </FlyoutContent>
-            </Flyout>
-            <Tooltip content="Subtitles">
-              <IconButton>Subtitles</IconButton>
-            </Tooltip>
+            {volumeButton}
+            {subtitleButton}
           </div>
           <div>
             <Tooltip content="Skip Back" background={theme.chromeLow}>
               <IconButton onClick={skipBackAction as any}>SkipBack10</IconButton>
             </Tooltip>
-            <IconButton onClick={playOrPauseAction}>{playing ? "Pause" : "Play"}</IconButton>
+            {playButton}
             <Tooltip content="Skip Forward" background={theme.chromeLow}>
               <IconButton onClick={skipForwardAction as any}>SkipForward30</IconButton>
             </Tooltip>
@@ -169,84 +271,17 @@ export default class Control extends React.Component<ControlProps, ControlState>
             <Tooltip content="Full Screen" background={theme.chromeLow}>
               <IconButton onClick={fullScreenAction}>FullScreen</IconButton>
             </Tooltip>
-            <Flyout>
-              <IconButton onClick={this.toggleShowPlaybackChoose}>
-                MoreLegacy
-              </IconButton>
-              <FlyoutContent
-                style={{ width: 120, cursor: "pointer", padding: 0 }}
-                isControlled
-                show={showPlaybackChoose}
-                verticalPosition="top"
-                horizontalPosition="left"
-              >
-                <Tooltip
-                  style={{ height: "auto", padding: 0, border: "none"}}
-                  margin={0}
-                  horizontalPosition="left"
-                  background={theme.chromeLow}
-                  contentNode={
-                    <ListView
-                      style={{ width: 80 }}
-                      listSource={[{
-                        itemNode: "2x",
-                        onClick: () => {
-                          onChangePlaybackRate(2);
-                          this.toggleShowPlaybackChoose(false);
-                        }
-                      }, {
-                        itemNode: "1.5x",
-                        onClick: () => {
-                          onChangePlaybackRate(1.5);
-                          this.toggleShowPlaybackChoose(false);
-                        }
-                      }, {
-                        itemNode: "1.25x",
-                        onClick: () => {
-                          onChangePlaybackRate(1.25);
-                          this.toggleShowPlaybackChoose(false);
-                        }
-                      }, {
-                        itemNode: "Normal",
-                        onClick: () => {
-                          onChangePlaybackRate(1);
-                          this.toggleShowPlaybackChoose(false);
-                        }
-                      }, {
-                        itemNode: "0.75x",
-                        onClick: () => {
-                          onChangePlaybackRate(0.75);
-                          this.toggleShowPlaybackChoose(false);
-                        }
-                      }, {
-                        itemNode: "0.5x",
-                        onClick: () => {
-                          onChangePlaybackRate(0.5);
-                          this.toggleShowPlaybackChoose(false);
-                        }
-                      }]}
-                    />
-                }>
-                  <div style={{ padding: 8, width: 120 }}>
-                    <span>
-                      Playback Rate
-                    </span>
-                    <Icon>
-                      ScrollChevronRightLegacy
-                    </Icon>
-                  </div>
-                  <FlyoutContent
-                    margin={0}
-                    style={{ width: 60,  padding: 0 }}
-                    verticalPosition="top"
-                    horizontalPosition="left"
-                  >
-                  </FlyoutContent>
-                </Tooltip>
-              </FlyoutContent>
-            </Flyout>
+            {moreLegacyButton}
           </div>
         </div>
+      </div>
+    ) : (
+      <div style={styles.controlsGroup}>
+        {playButton}
+        {playSlider}
+        {volumeButton}
+        {displayMode === "reset" ? subtitleButton : null}
+        {moreLegacyButton}
       </div>
     );
   }
@@ -255,7 +290,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
 function getStyles(mock: Control): {
   root?: React.CSSProperties;
   sliderContainer?: React.CSSProperties;
-  controlsGroup2?: React.CSSProperties;
+  controlsGroup?: React.CSSProperties;
 } {
   const {
     context: { theme },
@@ -281,9 +316,10 @@ function getStyles(mock: Control): {
       position: "relative",
       height: 48
     },
-    controlsGroup2: prepareStyles({
+    controlsGroup: prepareStyles({
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
       justifyContent: "space-between"
     })
   };

@@ -10,6 +10,10 @@ const ReactPlayer = RPlayer as any;
 
 export interface DataProps {
   /**
+   * Set MediaPlayer display mode.
+   */
+  displayMode?: "default" | "minimum" | "reset";
+  /**
    * Control show the MediaPlayer controls.
    */
   showControl?: boolean;
@@ -138,6 +142,7 @@ export interface MediaPlayerState {
 const emptyFunc = () => {};
 export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerState> {
   static defaultProps: MediaPlayerProps = {
+    displayMode: "default",
     width: 640,
     height: 360,
     loop: false,
@@ -337,6 +342,7 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
       onProgress,
 
       showControl,
+      displayMode,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -401,6 +407,7 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
         <Control
           duration={duration}
           played={played}
+          displayMode={displayMode}
           style={{
             opacity: currShowControl ? 1 : 0,
             zIndex: fullScreenMode ? theme.zIndex.mediaPlayer : void 0,
