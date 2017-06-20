@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import Slider from "react-uwp/Slider";
 
+const baseStyle: React.CSSProperties = { margin: 10 };
 export default class SimpleExample extends React.Component<{}, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -10,15 +11,17 @@ export default class SimpleExample extends React.Component<{}, void> {
   render() {
     return (
       <div style={{ margin: "10px 0" }}>
-        <Slider />
+        <Slider style={baseStyle} />
+        <Slider style={{ ...baseStyle, height: 120 }} displayMode="vertical" initValue={0.75} />
 
         <Slider
+          style={baseStyle}
           initValue={250}
           maxValue={500}
-          style={{ margin: 10 }}
         />
 
         <Slider
+          style={baseStyle}
           showValueInfo
           initValue={.8}
           numberToFixed={2}

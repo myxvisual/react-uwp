@@ -31,6 +31,12 @@
       "name": "DataProps",
       "members": [
         {
+          "name": "displayMode",
+          "documentation": "Set the Slider display mode.",
+          "isRequired": false,
+          "type": "\"vertical\" | \"horizon\""
+        },
+        {
           "name": "minValue",
           "documentation": "Set the Slider minValue.",
           "isRequired": false,
@@ -200,7 +206,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    minValue: 0,\n    maxValue: 1,\n    initValue: 0,\n    onChangeValue: emptyFunc,\n    onChangedValue: emptyFunc,\n    onChangeValueRatio: emptyFunc,\n    onChangedValueRatio: emptyFunc,\n    height: 24,\n    barHeight: 2,\n    controllerWidth: 8,\n    showValueInfo: false,\n    numberToFixed: 0,\n    unit: \"\",\n    transition: \"all 0.25s\",\n    throttleTimer: 120 / 1000\n  }",
+          "initializerText": " {\n    displayMode: \"horizon\",\n    minValue: 0,\n    maxValue: 1,\n    initValue: 0,\n    onChangeValue: emptyFunc,\n    onChangedValue: emptyFunc,\n    onChangeValueRatio: emptyFunc,\n    onChangedValueRatio: emptyFunc,\n    height: 24,\n    barHeight: 2,\n    controllerWidth: 8,\n    showValueInfo: false,\n    numberToFixed: 0,\n    unit: \"\",\n    transition: \"all 0.25s\",\n    throttleTimer: 120 / 1000\n  }",
           "documentation": "",
           "type": "SliderProps"
         },
@@ -302,19 +308,19 @@
         },
         {
           "name": "handelMouseDown",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setValueByEvent(e);\n    Object.assign(document.body.style, {\n      userSelect: \"none\",\n      msUserSelect: \"none\",\n      webkitUserSelect: \"none\",\n      cursor: \"default\"\n    });\n    window.addEventListener(\"mousemove\", this.setValueByEvent);\n    window.addEventListener(\"mouseup\", this.handelMouseUp);\n  }",
+          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    Object.assign(document.body.style, {\n      userSelect: \"none\",\n      msUserSelect: \"none\",\n      webkitUserSelect: \"none\",\n      cursor: \"default\"\n    });\n    window.addEventListener(\"mousemove\", this.setValueByEvent);\n    window.addEventListener(\"mouseup\", this.handelMouseUp);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handelMouseUp",
-          "initializerText": " (e: any) => {\n    Object.assign(document.body.style, {\n      userSelect: void 0,\n      msUserSelect: void 0,\n      webkitUserSelect: void 0,\n      cursor: void 0,\n      ...this.originBodyStyle\n    });\n    this.setState({ dragging: false });\n    window.removeEventListener(\"mousemove\", this.setValueByEvent);\n    window.removeEventListener(\"mouseup\", this.handelMouseUp);\n  }",
+          "initializerText": " (e: any) => {\n    Object.assign(document.body.style, {\n      userSelect: void 0,\n      msUserSelect: void 0,\n      webkitUserSelect: void 0,\n      cursor: void 0,\n      ...this.originBodyStyle\n    });\n    if (this.state.dragging) {\n      this.setState({ dragging: false });\n    }\n    window.removeEventListener(\"mousemove\", this.setValueByEvent);\n    window.removeEventListener(\"mouseup\", this.handelMouseUp);\n  }",
           "documentation": "",
           "type": "(e: any) => void"
         },
         {
           "name": "setValueByEvent",
-          "initializerText": " (e: any, type?: any) => {\n    clearTimeout(this.onChangedValueTimer);\n    if (e.type === \"mousemove\" && !this.state.dragging) {\n      this.setState({ dragging: true });\n    }\n    const nowTime = performance ? performance.now() : Date.now();\n    if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {\n      clearTimeout(this.throttleNowTimer);\n      this.throttleNow = nowTime;\n    } else {\n      this.throttleNowTimer = setTimeout(() => {\n        this.setValueByEvent(e, type);\n      }, this.props.throttleTimer);\n      return;\n    }\n    const {\n      maxValue,\n      minValue,\n      barBackground,\n      barBackgroundImage,\n      label,\n      numberToFixed,\n      unit,\n      onChangeValue,\n      onChangedValue,\n      onChangeValueRatio\n    } = this.props;\n    const useCustomBackground = barBackground || barBackgroundImage;\n    const { left, width } = this.rootElm.getBoundingClientRect();\n    const mouseLeft = e.clientX;\n    const controllerWidth = this.controllerElm.getBoundingClientRect().width;\n    let valueRatio = (mouseLeft - left) / (width - controllerWidth);\n    valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);\n    const currValue = minValue + (maxValue - minValue) * valueRatio;\n    this.state.currValue = currValue;\n    this.state.valueRatio = valueRatio;\n\n    if (!useCustomBackground) {\n      const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;\n      Object.assign(this.barElm.style, {\n        transform: barTransform,\n        webKitTransform: barTransform,\n        msTransform: barTransform,\n        mozTransform: barTransform\n      } as React.CSSProperties);\n    }\n\n    const transform = `translateX(${valueRatio * 100}%)`;\n    Object.assign(this.controllerWrapperElm.style, {\n      transform,\n      webKitTransform: transform,\n      msTransform: transform,\n      mozTransform: transform\n    } as React.CSSProperties);\n\n    if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;\n\n    if (e.type === \"mousedown\") {\n      this.setState({ currValue });\n    }\n    onChangeValue(currValue);\n    onChangeValueRatio(valueRatio);\n    this.state.currValue = currValue;\n    this.onChangedValueTimer = setTimeout(() => {\n      this.setState({ currValue });\n      onChangedValue(currValue);\n      onChangeValueRatio(valueRatio);\n    }, 500);\n  }",
+          "initializerText": " (e: any, type?: any) => {\n    clearTimeout(this.onChangedValueTimer);\n    if (e.type === \"mousemove\" && !this.state.dragging) {\n      this.setState({ dragging: true });\n    }\n\n    if (e.type === \"mousemove\") {\n      const nowTime = performance ? performance.now() : Date.now();\n      if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {\n        clearTimeout(this.throttleNowTimer);\n        this.throttleNow = nowTime;\n      } else {\n        this.throttleNowTimer = setTimeout(() => {\n          this.setValueByEvent(e, type);\n        }, this.props.throttleTimer);\n        return;\n      }\n    }\n\n    const {\n      displayMode,\n      maxValue,\n      minValue,\n      barBackground,\n      barBackgroundImage,\n      label,\n      numberToFixed,\n      unit,\n      onChangeValue,\n      onChangedValue,\n      onChangeValueRatio\n    } = this.props;\n    const isHorizonMode = displayMode === \"horizon\";\n    const useCustomBackground = barBackground || barBackgroundImage;\n    const { left, width, bottom, height } = this.rootElm.getBoundingClientRect();\n    const { clientX, clientY } = e;\n    const controllerClientRect = this.controllerElm.getBoundingClientRect();\n    const controllerWidth = controllerClientRect.width;\n    const controllerHeight = controllerClientRect.height;\n\n    let valueRatio = isHorizonMode ? (clientX - left) / (width - controllerWidth) : -(clientY - bottom) / (height - controllerHeight);\n    valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);\n    const currValue = minValue + (maxValue - minValue) * valueRatio;\n\n    this.state.currValue = currValue;\n    this.state.valueRatio = valueRatio;\n\n    if (e.type === \"click\") {\n      this.setState({ currValue });\n    } else {\n      if (!useCustomBackground) {\n        const barTransform = `translate${isHorizonMode ? \"X\" : \"Y\"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`;\n        Object.assign(this.barElm.style, {\n          transform: barTransform,\n          webKitTransform: barTransform,\n          msTransform: barTransform,\n          mozTransform: barTransform\n        } as React.CSSProperties);\n      }\n\n      const transform = `translate${isHorizonMode ? \"X\" : \"Y\"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`;\n      Object.assign(this.controllerWrapperElm.style, {\n        transform,\n        webKitTransform: transform,\n        msTransform: transform,\n        mozTransform: transform\n      } as React.CSSProperties);\n\n      if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;\n    }\n\n    onChangeValue(currValue);\n    onChangeValueRatio(valueRatio);\n\n    this.onChangedValueTimer = setTimeout(() => {\n      onChangedValue(currValue);\n      onChangeValueRatio(valueRatio);\n    }, 0);\n  }",
           "documentation": "",
           "type": "(e: any, type?: any) => void"
         },

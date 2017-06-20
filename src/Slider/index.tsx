@@ -3,6 +3,10 @@ import * as PropTypes from "prop-types";
 
 export interface DataProps {
   /**
+   * Set the Slider display mode.
+   */
+  displayMode?: "vertical" | "horizon";
+  /**
    * Set the Slider minValue.
    */
   minValue?: number;
@@ -88,6 +92,7 @@ export interface SliderState {
 const emptyFunc = () => {};
 export class Slider extends React.Component<SliderProps, SliderState> {
   static defaultProps: SliderProps = {
+    displayMode: "horizon",
     minValue: 0,
     maxValue: 1,
     initValue: 0,
@@ -190,6 +195,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     }
 
     const {
+      displayMode,
       maxValue,
       minValue,
       barBackground,
@@ -201,11 +207,15 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       onChangedValue,
       onChangeValueRatio
     } = this.props;
+    const isHorizonMode = displayMode === "horizon";
     const useCustomBackground = barBackground || barBackgroundImage;
-    const { left, width } = this.rootElm.getBoundingClientRect();
-    const mouseLeft = e.clientX;
-    const controllerWidth = this.controllerElm.getBoundingClientRect().width;
-    let valueRatio = (mouseLeft - left) / (width - controllerWidth);
+    const { left, width, bottom, height } = this.rootElm.getBoundingClientRect();
+    const { clientX, clientY } = e;
+    const controllerClientRect = this.controllerElm.getBoundingClientRect();
+    const controllerWidth = controllerClientRect.width;
+    const controllerHeight = controllerClientRect.height;
+
+    let valueRatio = isHorizonMode ? (clientX - left) / (width - controllerWidth) : -(clientY - bottom) / (height - controllerHeight);
     valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);
     const currValue = minValue + (maxValue - minValue) * valueRatio;
 
@@ -216,7 +226,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       this.setState({ currValue });
     } else {
       if (!useCustomBackground) {
-        const barTransform = `translateX(${(valueRatio - 1) * 100}%)`;
+        const barTransform = `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`;
         Object.assign(this.barElm.style, {
           transform: barTransform,
           webKitTransform: barTransform,
@@ -225,7 +235,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
         } as React.CSSProperties);
       }
 
-      const transform = `translateX(${valueRatio * 100}%)`;
+      const transform = `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`;
       Object.assign(this.controllerWrapperElm.style, {
         transform,
         webKitTransform: transform,
@@ -265,6 +275,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       customControllerStyle, //  tslint:disable-line:no-unused-variable
       transition,
       throttleTimer,
+      displayMode,
       ...attributes
     } = this.props;
     const { currValue } = this.state;
@@ -293,7 +304,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     return (
       <div {...attributes} style={styles.wrapper}>
         {showValueInfo ? (
-          <div style={theme.prepareStyles({ display: "flex", flexDirection: "row", alignItems: "center" })}>
+          <div style={theme.prepareStyles({ display: "flex", flexDirection: displayMode === "horizon" ? "row" : "column", alignItems: "center" })}>
             {normalRender}
             <span
               ref={labelElm => this.labelElm = labelElm}
@@ -330,7 +341,8 @@ function getStyles(slider: Slider): {
       barBackgroundImage,
       useSimpleController,
       customControllerStyle,
-      showValueInfo
+      showValueInfo,
+      displayMode
     },
     state: {
       currValue,
@@ -339,6 +351,7 @@ function getStyles(slider: Slider): {
     }
   } = slider;
   const { prepareStyles } = theme;
+  const isHorizonMode = displayMode === "horizon";
   const height2px: number = Number.parseFloat(height as any);
   const barHeight2px: number = Number.parseFloat(barHeight as any);
   const controllerWidth2px: number = Number.parseFloat(controllerWidth as any);
@@ -348,9 +361,10 @@ function getStyles(slider: Slider): {
 
   return {
     wrapper: prepareStyles({
-      width: 320,
+      width: isHorizonMode ? 320 : height2px,
+      height: isHorizonMode ? height2px : 320,
       display: "inline-block",
-      padding: showValueInfo ? `0 ${controllerWidth2px}px` : void 0,
+      padding: showValueInfo ? height2px : void 0,
       verticalAlign: "middle",
       ...style
     }),
@@ -359,19 +373,19 @@ function getStyles(slider: Slider): {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      width: "100%",
-      height: height2px,
+      width: isHorizonMode ? "100%" : height2px,
+      height: isHorizonMode ? height2px : "100%",
       cursor: "default",
       position: "relative"
     }),
     barContainer: {
       background: theme.baseLow,
       position: "absolute",
-      width: "100%",
+      width: isHorizonMode ? "100%" : barHeight,
+      height: isHorizonMode ? barHeight : "100%",
       overflow: "hidden",
-      height: barHeight,
-      left: 0,
-      top: `calc(50% - ${barHeight2px / 2}px)`
+      left: isHorizonMode ? 0 : `calc(50% - ${barHeight2px / 2}px)`,
+      top: isHorizonMode ? `calc(50% - ${barHeight2px / 2}px)` : 0
     },
     bar: prepareStyles({
       transition: currTransition,
@@ -379,8 +393,8 @@ function getStyles(slider: Slider): {
       backgroundImage: barBackgroundImage,
       position: "absolute",
       width: "100%",
-      transform: useCustomBackground ? void 0 : `translateX(${(valueRatio - 1) * 100}%)`,
       height: "100%",
+      transform: useCustomBackground ? void 0 : `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`,
       left: 0,
       top: 0
     }),
@@ -389,8 +403,8 @@ function getStyles(slider: Slider): {
       left: 0,
       top: 0,
       width: "100%",
-      height: 0,
-      transform: `translateX(${valueRatio * 100}%)`,
+      height: "100%",
+      transform: `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`,
       pointerEvents: "none",
       transition: currTransition
     }),
@@ -400,10 +414,10 @@ function getStyles(slider: Slider): {
       display: "inline-block",
       background: (useSimpleController || dragging || hovered) ? theme.baseHigh : theme.accent,
       borderRadius: controllerWidth2px / 2,
-      width: controllerWidth2px,
-      height: height2px,
+      width: isHorizonMode ? controllerWidth2px : height2px,
+      height: isHorizonMode ? height2px : controllerWidth2px,
       float: "left",
-      transform: `translate3d(-${controllerWidth2px / 2}px, 0, 0)`,
+      transform: `translate3d(${isHorizonMode ? -controllerWidth2px / 2 : 0}px, 0, 0)`,
       ...customControllerStyle
     }),
     label: {
