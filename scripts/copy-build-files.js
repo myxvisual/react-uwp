@@ -33,13 +33,13 @@ for (const copyFile of copyFiles) {
 }
 
 const assetsFiles = [
-  'styles/fonts/segoe-mdl2-assets/segoe-mdl2-assets.css',
-  'styles/fonts/segoe-mdl2-assets/segmdl2.svg',
-  'styles/fonts/segoe-mdl2-assets/segmdl2.ttf',
-  'styles/fonts/segoe-mdl2-assets/segmdl2.woff',
-  'styles/fonts/segoe-mdl2-assets/segmdl2.woff2',
-  'styles/fonts/segoe-mdl2-assets/segmdl2.eot',
-  '__assets__'
+  // 'styles/fonts/segoe-mdl2-assets/segoe-mdl2-assets.css',
+  // 'styles/fonts/segoe-mdl2-assets/segmdl2.svg',
+  // 'styles/fonts/segoe-mdl2-assets/segmdl2.ttf',
+  // 'styles/fonts/segoe-mdl2-assets/segmdl2.woff',
+  // 'styles/fonts/segoe-mdl2-assets/segmdl2.woff2',
+  // 'styles/fonts/segoe-mdl2-assets/segmdl2.eot',
+  // '__assets__'
 ]
 
 // copy assets to build path.
