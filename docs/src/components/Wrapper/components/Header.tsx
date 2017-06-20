@@ -1,4 +1,5 @@
 import * as React from "react";
+import { findDOMNode } from "react-dom";
 import * as PropTypes from "prop-types";
 import { Link } from "react-router";
 
@@ -34,6 +35,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  docsTreeView: DocsTreeView;
+  docsTreeViewElm: HTMLDivElement;
+  navButton: IconButton;
+  navButtonElm: HTMLDivElement;
 
   componentDidMount() {
     const self = this;
@@ -50,6 +55,23 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
     request.open("GET", url, true);
     request.send();
+    window.addEventListener("click", this.handleWindowClick);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("click", this.handleWindowClick);
+  }
+
+  handleWindowClick = (e: Event) => {
+    if (!this.docsTreeViewElm && this.docsTreeView) this.docsTreeViewElm = findDOMNode(this.docsTreeView) as HTMLDivElement;
+    if (!this.navButtonElm && this.navButton) this.navButtonElm = findDOMNode(this.navButton) as HTMLDivElement;
+    const { showDocsTreeView } = this.state;
+    const isOut = !this.docsTreeViewElm.contains(e.target as any) && !this.navButtonElm.contains(e.target as any);
+    if (isOut && showDocsTreeView) {
+      this.setState({
+        showDocsTreeView: !showDocsTreeView
+      });
+    }
   }
 
   handleChangeVersion = (version: string) => {
@@ -102,6 +124,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       <header style={{ width: "100%", height: headerHeight }}>
         {!isBigScreen ? (
           <DocsTreeView
+            ref={docsTreeView => this.docsTreeView = docsTreeView}
             style={{
               position: "fixed",
               top: headerHeight,
@@ -120,6 +143,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <div style={styles.content}>
             {!isBigScreen && (
               <IconButton
+                ref={navButton => this.navButton = navButton}
                 size={isPhoneScreen ? 48 : 60}
                 style={isPhoneScreen ? void 0 : { fontSize: 24 }}
                 onClick={this.toggleShowDocsTreeView}
