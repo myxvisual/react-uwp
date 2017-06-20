@@ -324,7 +324,10 @@ function getStyles(mock: Control): {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      ...(displayMode !== "default" ? rootStyle : void 0),
+      width: "100%",
+      ...(displayMode !== "default" ? {
+        background: theme.altHigh
+      } : void 0),
       height: 48
     })
   };
