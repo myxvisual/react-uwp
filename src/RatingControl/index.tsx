@@ -41,9 +41,9 @@ export interface DataProps {
    */
   isReadOnly?: boolean;
   /**
-   * Set each ratings padding size.
+   * Set each ratings padding size.(px)
    */
-  padding?: number;
+  iconPadding?: number;
 }
 
 export interface RatingControlProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -59,8 +59,9 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
     maxRating: 5,
     icon: "FavoriteStarFill",
     onChangeRating: emptyFunc,
-    padding: 10
+    iconPadding: 10
   };
+  rootElm: HTMLDivElement;
 
   state: RatingControlState = {
     currRating: this.props.defaultRating
@@ -78,25 +79,33 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
   }
 
   handleRationClick = (e: React.MouseEvent<HTMLSpanElement>, index: number) => {
-    const boundingClientRect = e.currentTarget.getBoundingClientRect();
-    const left = e.clientX - boundingClientRect.left;
-    const currRating = index + left / boundingClientRect.width;
+    const { iconPadding, maxRating } = this.props;
+    const lastIndex = maxRating - 1;
+    const clientRect = e.currentTarget.getBoundingClientRect();
+    const left = e.clientX - clientRect.left;
+    let offset = left / (index === lastIndex ? clientRect.width : clientRect.width - iconPadding);
+    if (offset > 1) offset = 1;
+    const currRating = index + offset;
     this.setState({ currRating });
     this.props.onChangeRating(currRating);
   }
 
   renderRatings = (notRated = true) => {
-    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly, padding } = this.props;
+    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;
     const { currRating } = this.state;
     const { theme } = this.context;
     const ratio = currRating / maxRating;
+    const fontSize = iconStyle ? (+Number(iconStyle.fontSize) || 24) : 24;
+    const width = fontSize * maxRating + iconPadding * (maxRating - 1);
+    const offset = Math.floor(currRating) * (fontSize + iconPadding) + (currRating % 1) * fontSize;
+    const lastIndex = maxRating - 1;
 
     const normalRatings = (
       <div
         style={{
           ...this.styles.ratingsGroup,
           ...(notRated ? void 0 : {
-            clipPath: `polygon(0% 0%, ${ratio * 100}% 0%, ${ratio * 100}% 100%, 0% 100%)`,
+            clipPath: `polygon(0% 0%, ${offset}px 0%, ${offset}px 100%, 0% 100%)`,
             color: theme.accent,
             position: "absolute",
             top: 0,
@@ -110,7 +119,7 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
             key={`${index}`}
             style={{
               fontSize: 24,
-              padding: (index === 0 || index === maxRating) ? 0 : "0 10px",
+              paddingRight: index === lastIndex ? 0 : iconPadding,
               ...iconStyle,
               ...(notRated ? void 0 : iconRatedStyle)
             }}
@@ -138,7 +147,7 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
       onChangeRating,
       label,
       isReadOnly,
-      padding,
+      iconPadding,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -156,7 +165,7 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
     );
 
     return label ? (
-      <div style={{ display: "inline-block" }}>
+      <div style={{ display: "inline-block" }} ref={rootElm => this.rootElm = rootElm}>
         <div
           style={theme.prepareStyles({
             display: "flex",
@@ -191,9 +200,7 @@ function getStyles(RatingControl: RatingControl): {
       ...style
     }),
     ratingsGroup: prepareStyles({
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
+      display: "inline-block",
       transition: "all .25s"
     })
   };

@@ -83,6 +83,12 @@
           "documentation": "Control Rating is can't be modified.",
           "isRequired": false,
           "type": "boolean"
+        },
+        {
+          "name": "iconPadding",
+          "documentation": "Set each ratings padding size.(px)",
+          "isRequired": false,
+          "type": "number"
         }
       ],
       "documentation": ""
@@ -128,7 +134,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    defaultRating: 2.5,\n    maxRating: 5,\n    icon: \"FavoriteStarFill\",\n    onChangeRating: emptyFunc\n  }",
+          "initializerText": " {\n    defaultRating: 2.5,\n    maxRating: 5,\n    icon: \"FavoriteStarFill\",\n    onChangeRating: emptyFunc,\n    iconPadding: 10\n  }",
           "documentation": "",
           "type": "RatingControlProps"
         },
@@ -140,6 +146,11 @@
         }
       ],
       "members": [
+        {
+          "name": "rootElm",
+          "documentation": "",
+          "type": "HTMLDivElement"
+        },
         {
           "name": "state",
           "initializerText": " {\n    currRating: this.props.defaultRating\n  }",
@@ -164,13 +175,13 @@
         },
         {
           "name": "handleRationClick",
-          "initializerText": " (e: React.MouseEvent<HTMLSpanElement>, index: number) => {\n    const boundingClientRect = e.currentTarget.getBoundingClientRect();\n    const left = e.clientX - boundingClientRect.left;\n    const currRating = index + left / boundingClientRect.width;\n    this.setState({ currRating });\n    this.props.onChangeRating(currRating);\n  }",
+          "initializerText": " (e: React.MouseEvent<HTMLSpanElement>, index: number) => {\n    const { iconPadding, maxRating } = this.props;\n    const lastIndex = maxRating - 1;\n    const clientRect = e.currentTarget.getBoundingClientRect();\n    const left = e.clientX - clientRect.left;\n    let offset = left / (index === lastIndex ? clientRect.width : clientRect.width - iconPadding);\n    if (offset > 1) offset = 1;\n    const currRating = index + offset;\n    this.setState({ currRating });\n    this.props.onChangeRating(currRating);\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLSpanElement>, index: number) => void"
         },
         {
           "name": "renderRatings",
-          "initializerText": " (notRated = true) => {\n    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly } = this.props;\n    const { currRating } = this.state;\n    const { theme } = this.context;\n    const ratio = currRating / maxRating;\n\n    const normalRatings = (\n      <div\n        style={{\n          ...this.styles.ratingsGroup,\n          ...(notRated ? void 0 : {\n            clipPath: `polygon(0% 0%, ${ratio * 100}% 0%, ${ratio * 100}% 100%, 0% 100%)`,\n            color: theme.accent,\n            position: \"absolute\",\n            top: 0,\n            left: 0\n          })\n        }}\n      >\n        {Array(maxRating).fill(0).map((zero, index) => (\n          iconNode || (\n            <Icon\n            key={`${index}`}\n            style={{\n              fontSize: 24,\n              padding: 10,\n              ...iconStyle,\n              ...(notRated ? void 0 : iconRatedStyle)\n            }}\n            onClick={isReadOnly ? void 0 : e => {\n              this.handleRationClick(e, index);\n            }}\n          >\n            {icon}\n          </Icon>\n          )\n        ))}\n      </div>\n    );\n    return normalRatings;\n  }",
+          "initializerText": " (notRated = true) => {\n    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;\n    const { currRating } = this.state;\n    const { theme } = this.context;\n    const ratio = currRating / maxRating;\n    const fontSize = iconStyle ? (+Number(iconStyle.fontSize) || 24) : 24;\n    const width = fontSize * maxRating + iconPadding * (maxRating - 1);\n    const offset = Math.floor(currRating) * (fontSize + iconPadding) + (currRating % 1) * fontSize;\n    const lastIndex = maxRating - 1;\n\n    const normalRatings = (\n      <div\n        style={{\n          ...this.styles.ratingsGroup,\n          ...(notRated ? void 0 : {\n            clipPath: `polygon(0% 0%, ${offset}px 0%, ${offset}px 100%, 0% 100%)`,\n            color: theme.accent,\n            position: \"absolute\",\n            top: 0,\n            left: 0\n          } as React.CSSProperties)\n        }}\n      >\n        {Array(maxRating).fill(0).map((zero, index) => (\n          iconNode || (\n            <Icon\n            key={`${index}`}\n            style={{\n              fontSize: 24,\n              paddingRight: index === lastIndex ? 0 : iconPadding,\n              ...iconStyle,\n              ...(notRated ? void 0 : iconRatedStyle)\n            }}\n            onClick={isReadOnly ? void 0 : e => {\n              this.handleRationClick(e, index);\n            }}\n          >\n            {icon}\n          </Icon>\n          )\n        ))}\n      </div>\n    );\n    return normalRatings;\n  }",
           "documentation": "",
           "type": "(notRated?: boolean) => Element"
         },
