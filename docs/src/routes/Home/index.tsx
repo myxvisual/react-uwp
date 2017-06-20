@@ -88,9 +88,14 @@ export default class Home extends React.Component<HomeProps, HomeState> {
           }}
         />
         <Banner renderContentWidth={renderContentWidth} />
-        <CustomTheme renderContentWidth={renderContentWidth} style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : `linear-gradient(90deg, ${theme.listLow}, transparent)` }} />
+        <CustomTheme
+          renderContentWidth={renderContentWidth}
+          screenType={screenType}
+          style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : `linear-gradient(90deg, ${theme.listLow}, transparent)` }}
+        />
         <div style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : void 0 }}>
           <MediaPlayer
+            displayMode={isPhoneScreen ? "minimum" : "default"}
             style={{ margin: "0 auto", width: isPhoneScreen ? window.innerWidth : renderContentWidth, display: "block" }}
             url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
             width={isPhoneScreen ? (window.innerWidth - 40) : (renderContentWidth as any - 40)}

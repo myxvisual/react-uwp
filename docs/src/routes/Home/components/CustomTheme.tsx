@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import getTheme from "react-uwp/styles/getTheme";
+import { WrapperState } from "components/Wrapper";
 import Icon from "react-uwp/Icon";
 import DropDownMenu from "react-uwp/DropDownMenu";
 import ColorPicker from "react-uwp/ColorPicker";
@@ -9,11 +10,9 @@ import CheckBox from "react-uwp/CheckBox";
 import TextBox from "react-uwp/TextBox";
 import ScrollReveal, { slideLeftInProps, slideBottomInProps, scaleInProps } from "react-uwp/ScrollReveal";
 
-export interface DataProps {
-  renderContentWidth?: number | string;
-}
+export interface DataProps {}
 
-export interface CustomThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface CustomThemeProps extends DataProps, WrapperState, React.HTMLAttributes<HTMLDivElement> {}
 
 export default class CustomTheme extends React.Component<CustomThemeProps, void> {
   static contextTypes = { theme: PropTypes.object };
@@ -24,6 +23,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps, void>
   render() {
     const {
       renderContentWidth,
+      screenType,
       ...attributes
     } = this.props;
     const { theme } = this.context;
