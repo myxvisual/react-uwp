@@ -17,10 +17,6 @@ export interface DataProps {
    */
   icon?: string;
   /**
-   * Control show custom `React.ReactNode`.
-   */
-  iconNode?: React.ReactNode;
-  /**
    * Control custom `Icon Style`.
    */
   iconStyle?: React.CSSProperties;
@@ -91,7 +87,7 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
   }
 
   renderRatings = (notRated = true) => {
-    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;
+    const { maxRating,  icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;
     const { currRating } = this.state;
     const { theme } = this.context;
     const ratio = currRating / maxRating;
@@ -114,8 +110,7 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
         }}
       >
         {Array(maxRating).fill(0).map((zero, index) => (
-          iconNode || (
-            <Icon
+          <Icon
             key={`${index}`}
             style={{
               fontSize: 24,
@@ -129,7 +124,6 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
           >
             {icon}
           </Icon>
-          )
         ))}
       </div>
     );
@@ -141,7 +135,6 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
       defaultRating,
       maxRating,
       icon,
-      iconNode,
       iconStyle,
       iconRatedStyle,
       onChangeRating,

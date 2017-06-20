@@ -49,12 +49,6 @@
           "type": "string"
         },
         {
-          "name": "iconNode",
-          "documentation": "Control show custom `React.ReactNode`.",
-          "isRequired": false,
-          "type": "ReactNode"
-        },
-        {
           "name": "iconStyle",
           "documentation": "Control custom `Icon Style`.",
           "isRequired": false,
@@ -181,7 +175,7 @@
         },
         {
           "name": "renderRatings",
-          "initializerText": " (notRated = true) => {\n    const { maxRating, iconNode, icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;\n    const { currRating } = this.state;\n    const { theme } = this.context;\n    const ratio = currRating / maxRating;\n    const fontSize = iconStyle ? (+Number(iconStyle.fontSize) || 24) : 24;\n    const width = fontSize * maxRating + iconPadding * (maxRating - 1);\n    const offset = Math.floor(currRating) * (fontSize + iconPadding) + (currRating % 1) * fontSize;\n    const lastIndex = maxRating - 1;\n\n    const normalRatings = (\n      <div\n        style={{\n          ...this.styles.ratingsGroup,\n          ...(notRated ? void 0 : {\n            clipPath: `polygon(0% 0%, ${offset}px 0%, ${offset}px 100%, 0% 100%)`,\n            color: theme.accent,\n            position: \"absolute\",\n            top: 0,\n            left: 0\n          } as React.CSSProperties)\n        }}\n      >\n        {Array(maxRating).fill(0).map((zero, index) => (\n          iconNode || (\n            <Icon\n            key={`${index}`}\n            style={{\n              fontSize: 24,\n              paddingRight: index === lastIndex ? 0 : iconPadding,\n              ...iconStyle,\n              ...(notRated ? void 0 : iconRatedStyle)\n            }}\n            onClick={isReadOnly ? void 0 : e => {\n              this.handleRationClick(e, index);\n            }}\n          >\n            {icon}\n          </Icon>\n          )\n        ))}\n      </div>\n    );\n    return normalRatings;\n  }",
+          "initializerText": " (notRated = true) => {\n    const { maxRating,  icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;\n    const { currRating } = this.state;\n    const { theme } = this.context;\n    const ratio = currRating / maxRating;\n    const fontSize = iconStyle ? (+Number(iconStyle.fontSize) || 24) : 24;\n    const width = fontSize * maxRating + iconPadding * (maxRating - 1);\n    const offset = Math.floor(currRating) * (fontSize + iconPadding) + (currRating % 1) * fontSize;\n    const lastIndex = maxRating - 1;\n\n    const normalRatings = (\n      <div\n        style={{\n          ...this.styles.ratingsGroup,\n          ...(notRated ? void 0 : {\n            clipPath: `polygon(0% 0%, ${offset}px 0%, ${offset}px 100%, 0% 100%)`,\n            color: theme.accent,\n            position: \"absolute\",\n            top: 0,\n            left: 0\n          } as React.CSSProperties)\n        }}\n      >\n        {Array(maxRating).fill(0).map((zero, index) => (\n          <Icon\n            key={`${index}`}\n            style={{\n              fontSize: 24,\n              paddingRight: index === lastIndex ? 0 : iconPadding,\n              ...iconStyle,\n              ...(notRated ? void 0 : iconRatedStyle)\n            }}\n            onClick={isReadOnly ? void 0 : e => {\n              this.handleRationClick(e, index);\n            }}\n          >\n            {icon}\n          </Icon>\n        ))}\n      </div>\n    );\n    return normalRatings;\n  }",
           "documentation": "",
           "type": "(notRated?: boolean) => Element"
         },
