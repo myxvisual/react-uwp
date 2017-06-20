@@ -66,7 +66,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     if (!this.docsTreeViewElm && this.docsTreeView) this.docsTreeViewElm = findDOMNode(this.docsTreeView) as HTMLDivElement;
     if (!this.navButtonElm && this.navButton) this.navButtonElm = findDOMNode(this.navButton) as HTMLDivElement;
     const { showDocsTreeView } = this.state;
-    const isOut = !this.docsTreeViewElm.contains(e.target as any) && !this.navButtonElm.contains(e.target as any);
+    const isOut = (this.docsTreeViewElm && this.navButtonElm) && !this.docsTreeViewElm.contains(e.target as any) && !this.navButtonElm.contains(e.target as any);
     if (isOut && showDocsTreeView) {
       this.setState({
         showDocsTreeView: !showDocsTreeView
