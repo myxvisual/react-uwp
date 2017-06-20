@@ -308,7 +308,7 @@ function getStyles(datePicker: DatePicker): {
       width: "100%",
       height: pickerItemHeight * 7,
       padding: `${pickerItemHeight * 3}px 0`,
-      overflowY: "auto",
+      overflowY: "inherit",
       overflowX: "hidden",
       flex: "1 1 auto"
     }),
