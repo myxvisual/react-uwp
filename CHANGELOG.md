@@ -1,3 +1,24 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/myxvisual/react-uwp/compare/v1.0.3...v1.0.4) (2017-06-20)
+
+
+### Bug Fixes
+
+* Fixed index export compoents ([ee8adef](https://github.com/myxvisual/react-uwp/commit/ee8adef))
+* **compoent:** Fixed CheckBox unsure status w style ([b0bd23e](https://github.com/myxvisual/react-uwp/commit/b0bd23e))
+* **component:** Fixed Tooltip background style ([f89f628](https://github.com/myxvisual/react-uwp/commit/f89f628))
+* **componet:** Fixed MediaPlayer Tooltip background style ([3909fb9](https://github.com/myxvisual/react-uwp/commit/3909fb9))
+* Fixed package.json dependencies ([51f48ae](https://github.com/myxvisual/react-uwp/commit/51f48ae))
+* Fixed package.json devDependencies modules ([589b1e4](https://github.com/myxvisual/react-uwp/commit/589b1e4))
+
+
+### Features
+
+* Add MediaPlayer display mode ([167e281](https://github.com/myxvisual/react-uwp/commit/167e281))
+* Add Slider support vertical display mode ([dcc0c20](https://github.com/myxvisual/react-uwp/commit/dcc0c20))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/myxvisual/react-uwp/compare/8b58710...v1.0.3) (2017-06-16)
 
