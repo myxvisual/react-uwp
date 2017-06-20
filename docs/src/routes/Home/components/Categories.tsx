@@ -117,7 +117,7 @@ function getStyles(categories: Categories): {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "space-between",
+      justifyContent: "center",
       flexWrap: "wrap",
       margin: "40px auto 0"
     })

@@ -23,7 +23,6 @@ import IconButton from "../IconButton/SimpleExample";
 import Image from "../Image/SimpleExample";
 import ListView from "../ListView/SimpleExample";
 import Menu from "../Menu/SimpleExample";
-import MediaPlayer from "../MediaPlayer/SimpleExample";
 import NavigationView from "../NavigationView/SimpleExample";
 import PasswordBox from "../PasswordBox/SimpleExample";
 import ProgressBar from "../ProgressBar/SimpleExample";
@@ -101,7 +100,6 @@ The UI framework for Windows provides an extensive library of controls that supp
         <ListView />
         <Image />
         <FlipView />
-        <MediaPlayer />
         <NavigationView />
         <SplitView />
       </div>

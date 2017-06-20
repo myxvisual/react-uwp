@@ -96,10 +96,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     const { theme } = this.context;
     const styles = getStyles(this);
     const isPhoneScreen = screenType === "phone";
+    const isBigScreen = screenType === "pc" || screenType === "laptop";
 
     return (
       <header style={{ width: "100%", height: headerHeight }}>
-        {isPhoneScreen ? (
+        {!isBigScreen ? (
           <DocsTreeView
             style={{
               position: "fixed",
@@ -117,11 +118,17 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           style={styles.root}
         >
           <div style={styles.content}>
-            {isPhoneScreen && (
-              <IconButton onClick={this.toggleShowDocsTreeView}>GlobalNavButton</IconButton>
+            {!isBigScreen && (
+              <IconButton
+                size={isPhoneScreen ? 48 : 60}
+                style={isPhoneScreen ? void 0 : { fontSize: 24 }}
+                onClick={this.toggleShowDocsTreeView}
+              >
+                GlobalNavButton
+              </IconButton>
             )}
             <Link style={styles.logo} to={`${docVersion}/`}>
-              <ReactIcon fill={theme.accent} />
+              <ReactIcon height={isPhoneScreen ? 36 : 48} fill={theme.accent} />
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </Link>
             <div style={styles.navContent}>
@@ -131,7 +138,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                     Get Started
                   </NavLink>
                   <NavLink headerHeight={headerHeight} to={`${docVersion}/components`}>
-                    Documentation
+                    Components
                   </NavLink>
                   <NavLink headerHeight={headerHeight} to={`${docVersion}/resources`}>
                     Resources
