@@ -30,12 +30,12 @@ function createMergeFuncs(staticFunc = () => {}) {
         func(...args);
       }
       cacheStaticFunc(...args);
-    };
+    }
     (resultFunc as any)["isMergedFunc"] = true;
     (resultFunc as any)["cacheFuncs"] = cacheFuncs;
     (resultFunc as any)["cacheStaticFunc"] = cacheStaticFunc;
     return resultFunc;
-  };
+  }
 
   if ((staticFunc as any)["isMergedFunc"]) {
     (mergeFuncs as any).cacheStaticFunc = (staticFunc as any)["cacheStaticFunc"];
