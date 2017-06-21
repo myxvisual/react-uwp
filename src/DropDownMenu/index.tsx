@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
+import AddBlurEvent from "../common/AddBlurEvent";
 
 export interface DataProps {
   /**
@@ -50,6 +51,8 @@ export interface DropDownMenuState {
   currentValues?: string[];
 }
 
+const addBlurEvent = new AddBlurEvent();
+
 const emptyFunc = () => {};
 export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
   static defaultProps: DropDownMenuProps = {
@@ -78,6 +81,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       return values;
     })()
   };
+  rootElm: HTMLDivElement;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -94,6 +98,26 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
         return values;
       })()
     });
+  }
+
+  componentDidUpdate() {
+    addBlurEvent.setConfig({
+      excludeElm: this.rootElm,
+      addListener: this.state.showList,
+      blurCallback: () => {
+        const { currentValue, currentValues } = this.state;
+        currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue as string), 1));
+        this.setState({
+          currentValue,
+          showList: false,
+          currentValues
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    addBlurEvent.cleanEvent();
   }
 
   toggleShowList = (e: React.SyntheticEvent<HTMLDivElement>) => {
@@ -147,6 +171,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           ...style,
           zIndex
         })}
+        ref={rootElm => this.rootElm = rootElm}
       >
         <div
           ref="container"
