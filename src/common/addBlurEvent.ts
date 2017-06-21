@@ -1,41 +1,67 @@
 export default class AddBlurEvent {
   constructor() {}
-  cacheListener: (e?: Event) => void;
+  clickListener: (e?: Event) => void;
+  keydownListener: (e?: KeyboardEvent) => void;
 
   cleanEvent = () => {
-    if (this.cacheListener) {
-      document.documentElement.removeEventListener("click", this.cacheListener);
-      this.cacheListener = null;
+    if (this.clickListener) {
+      document.documentElement.removeEventListener("click", this.clickListener);
+      this.clickListener = null;
+    }
+    if (this.keydownListener) {
+      document.documentElement.removeEventListener("keydown", this.keydownListener);
+      this.keydownListener = null;
     }
   }
 
   setConfig = (config?: {
     addListener: boolean;
     blurCallback: (e?: Event) => void;
-    excludeElm?: HTMLElement;
-    blurKeyCodes?: string[];
+    clickExcludeElm?: HTMLElement;
+    keydownCallback?: (e?: KeyboardEvent) => void;
+    blurKeyCodes?: number[];
   }) => {
-    const { addListener, blurCallback, excludeElm, blurKeyCodes } = config;
+    const {
+      addListener,
+      blurCallback,
+      clickExcludeElm,
+      blurKeyCodes
+    } = config;
 
-    if (addListener && (!this.cacheListener)) {
-      this.cacheListener = (e: Event) => {
-        if (excludeElm) {
-          if (excludeElm.contains(e.target as Node)) {
-            this.cleanEvent();
+    if (addListener) {
+      if (!this.clickListener) {
+        this.clickListener = (e: Event) => {
+          if (clickExcludeElm) {
+            if (clickExcludeElm.contains(e.target as Node)) {
+              this.cleanEvent();
+            } else {
+              this.cleanEvent();
+              blurCallback(e);
+            }
           } else {
             this.cleanEvent();
             blurCallback(e);
           }
-        } else {
-          this.cleanEvent();
-          blurCallback(e);
-        }
-      };
+        };
 
-      document.documentElement.addEventListener("click", this.cacheListener);
+        document.documentElement.addEventListener("click", this.clickListener);
+      }
+
+      if (!this.keydownListener && blurKeyCodes) {
+        this.keydownListener = (e: KeyboardEvent) => {
+          const { keyCode } = e;
+          if (blurKeyCodes.includes(keyCode)) {
+            blurCallback(e);
+            this.cleanEvent();
+          } else {
+            this.cleanEvent();
+          }
+        };
+        document.documentElement.addEventListener("keydown", this.keydownListener);
+      }
     }
 
-    if (!addListener && this.cacheListener) {
+    if (!addListener) {
       this.cleanEvent();
     }
   }

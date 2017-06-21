@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
 import Icon from "../Icon";
 import AddBlurEvent from "../common/AddBlurEvent";
@@ -102,8 +103,8 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
 
   componentDidUpdate() {
     addBlurEvent.setConfig({
-      excludeElm: this.rootElm,
       addListener: this.state.showList,
+      clickExcludeElm: this.rootElm,
       blurCallback: () => {
         const { currentValue, currentValues } = this.state;
         currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue as string), 1));
@@ -112,7 +113,8 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           showList: false,
           currentValues
         });
-      }
+      },
+      blurKeyCodes: [codes.esc]
     });
   }
 
