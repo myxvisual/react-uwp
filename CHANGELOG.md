@@ -1,3 +1,24 @@
+<a name="1.0.5"></a>
+## [1.0.5](https://github.com/myxvisual/react-uwp/compare/v1.0.4...v1.0.5) (2017-06-21)
+
+
+### Bug Fixes
+
+* Fixed MediaPlayer style ([3df1f62](https://github.com/myxvisual/react-uwp/commit/3df1f62))
+* **component:** Fixed RatingControl bugs. ([cf36477](https://github.com/myxvisual/react-uwp/commit/cf36477)), closes [#2](https://github.com/myxvisual/react-uwp/issues/2)
+* **component:** Fixed TimePicker wrong scroll style ([a6ffb6a](https://github.com/myxvisual/react-uwp/commit/a6ffb6a))
+
+
+### Features
+
+* **API:** Remove RatingControl iconNode props ([b76472d](https://github.com/myxvisual/react-uwp/commit/b76472d))
+* **common:** Add warning and blurEvent methods ([4c7f317](https://github.com/myxvisual/react-uwp/commit/4c7f317))
+* **common:** Update AddBlurEvent class and add blur envent for DropDownMenu ([d53f4a5](https://github.com/myxvisual/react-uwp/commit/d53f4a5))
+* **common:** Update AddBlurEvent support keydown ([582a7d3](https://github.com/myxvisual/react-uwp/commit/582a7d3))
+* **component:** Add all components blur event ([00333e0](https://github.com/myxvisual/react-uwp/commit/00333e0)), closes [#2](https://github.com/myxvisual/react-uwp/issues/2)
+
+
+
 <a name="1.0.4"></a>
 ## [1.0.4](https://github.com/myxvisual/react-uwp/compare/v1.0.3...v1.0.4) (2017-06-20)
 

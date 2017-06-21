@@ -1,6 +1,6 @@
 {
   "name": "react-uwp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "UWP Design Ui by React",
   "main": "index.js",
   "scripts": {

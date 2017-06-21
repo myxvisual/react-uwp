@@ -42,7 +42,7 @@ function saveVersionsFile() {
     versions.push(versionNumber)
     versions.sort()
     fs.writeFileSync(versionsFile, JSON.stringify(versions, null, 2), 'utf8')
-    execSyncWithLog(`git add ${versionsFile} && git commit -m "add ${versionNumber} to versions file"`)
+    execSyncWithLog(`git add ${versionsFile} && git commit -m "docs: Update ${versionNumber} to versions file"`)
   }
 }
 
