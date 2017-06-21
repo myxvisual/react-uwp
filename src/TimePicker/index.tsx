@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
+import AddBlurEvent from "../common/AddBlurEvent";
 import Separator from "../Separator";
 import IconButton from "../IconButton";
 import ElementState from "../ElementState";
@@ -63,6 +65,9 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
     currMinute: this.props.defaultMinute
   };
 
+  addBlurEvent = new AddBlurEvent();
+  elementState: ElementState;
+
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -90,11 +95,34 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
     }
   }
 
+  addBlurEventMethod = () => {
+    this.addBlurEvent.setConfig({
+      addListener: this.state.showPicker,
+      clickExcludeElm: this.elementState.rootElm,
+      blurCallback: () => {
+        this.setState({
+          showPicker: false
+        });
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
+
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
   componentDidUpdate() {
     const { pickerItemHeight } = this.props;
     scrollToYEasing(this.hourListView.rootElm, this.hourIndex * pickerItemHeight, 0.1);
     scrollToYEasing(this.minuteListView.rootElm, this.minuteIndex * pickerItemHeight, 0.1);
     scrollToYEasing(this.timeTypeListView.rootElm, this.timeTypeIndex * pickerItemHeight, 0.1);
+
+    this.addBlurEventMethod();
+  }
+
+  componentWillUnmount() {
+    this.addBlurEvent.cleanEvent();
   }
 
   toggleShowPicker = (showPicker?: any) => {
@@ -144,6 +172,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
         {...attributes as any}
         style={styles.root}
         hoverStyle={{ boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}` }}
+        ref={(elementState) => this.elementState = elementState}
       >
       <div>
         <div style={styles.pickerModal}>

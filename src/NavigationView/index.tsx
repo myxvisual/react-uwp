@@ -1,8 +1,9 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
+import AddBlurEvent from "../common/AddBlurEvent";
 import shallowEqual from "../common/shallowEqual";
-
 import SlideInOut from "../Animate/SlideInOut";
 import IconButton from "../IconButton";
 import SplitViewCommand from "../SplitViewCommand";
@@ -96,18 +97,39 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     currInitWidth: this.props.initWidth
   };
 
+  addBlurEvent = new AddBlurEvent();
+  paneElm: HTMLDivElement;
+
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+
+  componentWillMount() {
+    this.updateProps2State(this.props);
+  }
+
+  addBlurEventMethod = () => {
+    this.addBlurEvent.setConfig({
+      addListener: this.state.expanded,
+      clickExcludeElm: this.paneElm,
+      blurCallback: () => {
+        this.setState({
+          expanded: false
+        });
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
 
   componentDidMount() {
     if (this.props.autoResize) {
       this.autoResize();
       window.addEventListener("resize", this.autoResize);
     }
+    this.addBlurEventMethod();
   }
 
-  componentWillMount() {
-    this.updateProps2State(this.props);
+  componentDidUpdate() {
+    this.addBlurEventMethod();
   }
 
   shouldComponentUpdate(nextProps: NavigationViewProps, nextState: NavigationViewState, nextContext: { theme: ReactUWP.ThemeType }) {
@@ -118,6 +140,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     if (this.props.autoResize) {
       window.removeEventListener("resize", this.autoResize);
     }
+    this.addBlurEvent.cleanEvent();
   }
 
   autoResize = (e?: Event) => {
@@ -201,7 +224,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
           ...(isCompact ? void 0 : theme.prepareStyles(style))
         }}
       >
-        <div style={styles.paneParent}>
+        <div style={styles.paneParent} ref={paneElm => this.paneElm = paneElm}>
           <div style={styles.pane}>
             <div style={styles.paneTop}>
               <div style={styles.topIcon}>

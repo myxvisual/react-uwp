@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
+import AddBlurEvent from "../common/AddBlurEvent";
 import AppBarButton from "../AppBarButton";
 import AppBarSeparator from "../AppBarSeparator";
 import ListView from "../ListView";
@@ -70,12 +72,39 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  rootElm: HTMLDivElement;
+  addBlurEvent = new AddBlurEvent();
 
   componentWillReceiveProps(nextProps: CommandBarProps) {
     const { expanded } = nextProps;
     if (this.state.currExpanded !== expanded) {
       this.setState({ currExpanded: expanded });
     }
+  }
+
+  addBlurEventMethod = () => {
+    this.addBlurEvent.setConfig({
+      addListener: this.state.currExpanded,
+      clickExcludeElm: this.rootElm,
+      blurCallback: () => {
+        this.setState({
+          currExpanded: false
+        });
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
+
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
+  componentDidUpdate() {
+    this.addBlurEventMethod();
+  }
+
+  componentWillUnmount() {
+    this.addBlurEvent.cleanEvent();
   }
 
   toggleExpanded = (currExpanded?: any) => {
@@ -108,7 +137,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
     const expandedHeight = 72;
 
     return (
-      <div style={styles.wrapper}>
+      <div style={styles.wrapper} ref={rootElm => this.rootElm = rootElm}>
         <div {...attributes} style={styles.root}>
           {(content !== void 0 || contentNode !== void 0) && (
             <div style={styles.content}>{content || contentNode}</div>

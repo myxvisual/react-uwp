@@ -33,7 +33,7 @@ export default class AddBlurEvent {
         this.clickListener = (e: Event) => {
           if (clickExcludeElm) {
             if (clickExcludeElm.contains(e.target as Node)) {
-              this.cleanEvent();
+              return;
             } else {
               this.cleanEvent();
               blurCallback(e);

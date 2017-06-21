@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
+import AddBlurEvent from "../common/AddBlurEvent";
 import Icon from "../Icon";
 import TextBox from "../TextBox";
 import CalendarView from "../CalendarView";
@@ -53,9 +55,37 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
     isInit: true
   };
 
+  addBlurEvent = new AddBlurEvent();
+  rootElm: HTMLDivElement;
+  textBox: TextBox;
+
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
-  textBox: TextBox;
+
+  addBlurEventMethod = () => {
+    this.addBlurEvent.setConfig({
+      addListener: this.state.showCalendarView,
+      clickExcludeElm: this.rootElm,
+      blurCallback: () => {
+        this.setState({
+          showCalendarView: false
+        });
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
+
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
+  componentDidUpdate() {
+    this.addBlurEventMethod();
+  }
+
+  componentWillUnmount() {
+    this.addBlurEvent.cleanEvent();
+  }
 
   toggleShowCalendarView = (showCalendarView?: any) => {
     if (!this.textBox.rootElm.contains(showCalendarView.target)) return;
@@ -101,6 +131,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
       <div
         style={styles.root}
         onClick={this.toggleShowCalendarView}
+        ref={rootElm => this.rootElm = rootElm}
       >
         <TextBox
           {...attributes}

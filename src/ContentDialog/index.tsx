@@ -1,6 +1,9 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
+import AddBlurEvent from "../common/AddBlurEvent";
+import shallowEqual from "../common/shallowEqual";
 import Button from "../Button";
 import IconButton from "../IconButton";
 import RenderToBody from "../RenderToBody";
@@ -51,27 +54,74 @@ export interface DataProps {
    */
   secondaryButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   /**
+   * callback run end close dialog.
+   */
+  onCloseDialog?: () => void;
+  /**
    * Set custom background.
    */
   background?: string;
 }
 
 export interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ContentDialogState {
+  showDialog?: boolean;
+}
 
 const emptyFunc = () => {};
-
-export class ContentDialog extends React.Component<ContentDialogProps, void> {
+export class ContentDialog extends React.Component<ContentDialogProps, ContentDialogState> {
   static defaultProps: ContentDialogProps = {
     primaryButtonText: "Delete",
     secondaryButtonText: "Cancel",
     closeButtonAction: emptyFunc,
     primaryButtonAction: emptyFunc,
-    secondaryButtonAction: emptyFunc
+    secondaryButtonAction: emptyFunc,
+    onCloseDialog: emptyFunc
   };
-  refs: { renderToBody: RenderToBody };
+
+  state: ContentDialogState = {
+    showDialog: this.props.defaultShow
+  };
+  addBlurEvent = new AddBlurEvent();
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  renderToBody: RenderToBody;
+  rootElm: HTMLDivElement;
+
+  shouldComponentUpdate(nextProps: ContentDialogProps, nextState: ContentDialogState) {
+    const shouldUpdate = !shallowEqual(nextProps, this.props);
+    if (shouldUpdate) {
+      this.state.showDialog = nextProps.defaultShow;
+    }
+    return shouldUpdate;
+  }
+
+  addBlurEventMethod = () => {
+    this.addBlurEvent.setConfig({
+      addListener: this.state.showDialog,
+      clickExcludeElm: this.rootElm,
+      blurCallback: () => {
+        this.setState({
+          showDialog: false
+        });
+        this.props.onCloseDialog();
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
+
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
+  componentDidUpdate() {
+    this.addBlurEventMethod();
+  }
+
+  componentWillUnmount() {
+    this.addBlurEvent.cleanEvent();
+  }
 
   containerMouseEnterHandle = (e: React.MouseEvent<HTMLDivElement>) => {
     e.currentTarget.style.border = `1px solid ${this.context.theme.accent}`;
@@ -79,6 +129,11 @@ export class ContentDialog extends React.Component<ContentDialogProps, void> {
 
   containerMouseLeaveHandle = (e: React.MouseEvent<HTMLDivElement>) => {
     e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;
+  }
+
+  closeDialog = () => {
+    this.setState({ showDialog: false });
+    this.props.onCloseDialog();
   }
 
   render() {
@@ -94,6 +149,7 @@ export class ContentDialog extends React.Component<ContentDialogProps, void> {
       primaryButtonAction,
       secondaryButtonAction,
       closeButtonAction,
+      onCloseDialog,
       background,
       ...attributes
     } = this.props;
@@ -101,12 +157,13 @@ export class ContentDialog extends React.Component<ContentDialogProps, void> {
     const styles = getStyles(this);
 
     return (
-      <RenderToBody ref="renderToBody">
+      <RenderToBody ref={renderToBody => this.renderToBody = renderToBody}>
         <div
           {...attributes}
           style={styles.mask}
         >
           <div
+            ref={rootElm => this.rootElm = rootElm}
             style={styles.container}
             onMouseEnter={this.containerMouseEnterHandle}
             onMouseLeave={this.containerMouseLeaveHandle}
@@ -136,10 +193,16 @@ export class ContentDialog extends React.Component<ContentDialogProps, void> {
             {contentNode}
             <div style={styles.content}>
               <div style={styles.buttonGroup}>
-                <Button onClick={primaryButtonAction} style={styles.button}>
+                <Button
+                  onClick={e => { primaryButtonAction(e), this.closeDialog(); }}
+                  style={styles.button}
+                >
                   {primaryButtonText}
                 </Button>
-                <Button onClick={secondaryButtonAction} style={styles.button}>
+                <Button
+                  onClick={e => { secondaryButtonAction(e), this.closeDialog(); }}
+                  style={styles.button}
+                >
                   {secondaryButtonText}
                 </Button>
               </div>
@@ -161,7 +224,7 @@ function getStyles(contentDialog: ContentDialog): {
   buttonGroup?: React.CSSProperties;
   button?: React.CSSProperties;
 } {
-  const { context, props: { style, defaultShow, background } } = contentDialog;
+  const { context, props: { style, background }, state: { showDialog } } = contentDialog;
   const { theme } = context;
   const { prepareStyles } = theme;
 
@@ -171,8 +234,8 @@ function getStyles(contentDialog: ContentDialog): {
       margin: 0,
       padding: 0,
       zIndex: 2000,
-      opacity: defaultShow ? 1 : 0,
-      pointerEvents: defaultShow ? "all" : "none",
+      opacity: showDialog ? 1 : 0,
+      pointerEvents: showDialog ? "all" : "none",
       position: "fixed",
       top: 0,
       left: 0,
@@ -185,7 +248,7 @@ function getStyles(contentDialog: ContentDialog): {
       justifyContent: "center",
       color: theme.baseHigh,
       background: theme.altMediumHigh,
-      transition: `all .25s ${defaultShow ? 0 : 0.25}s ease-in-out`,
+      transition: `all .25s ${showDialog ? 0 : 0.25}s ease-in-out`,
       ...style
     }),
     container: prepareStyles({
@@ -195,9 +258,9 @@ function getStyles(contentDialog: ContentDialog): {
       width: "80%",
       maxWidth: 720,
       cursor: "default",
-      transform: `scale(${defaultShow ? 1 : 0})`,
-      opacity: defaultShow ? 1 : 0,
-      transition: `all .25s ${defaultShow ? 0.25 : 0}s ease-in-out`
+      transform: `scale(${showDialog ? 1 : 0})`,
+      opacity: showDialog ? 1 : 0,
+      transition: `all .25s ${showDialog ? 0.25 : 0}s ease-in-out`
     }),
     statusBarTitle: prepareStyles({
       color: "#fff",

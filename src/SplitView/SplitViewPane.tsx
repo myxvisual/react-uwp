@@ -8,6 +8,7 @@ export interface SplitViewPaneProps extends DataProps, React.HTMLAttributes<HTML
 export class SplitViewPane extends React.Component<SplitViewPaneProps, void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  rootElm: HTMLDivElement;
 
   render() {
     const { children, style, ...attributes } = this.props;
@@ -17,6 +18,7 @@ export class SplitViewPane extends React.Component<SplitViewPaneProps, void> {
       <div
         {...attributes}
         style={theme.prepareStyles(style)}
+        ref={rootElm => this.rootElm = rootElm}
       >
         {children}
       </div>

@@ -11,6 +11,10 @@
       "documentation": ""
     },
     {
+      "name": "ContentDialogState",
+      "documentation": ""
+    },
+    {
       "name": "ContentDialog",
       "documentation": ""
     },
@@ -91,6 +95,18 @@
           "documentation": "secondaryButton `click callback`.",
           "isRequired": false,
           "type": "(e: MouseEvent<HTMLButtonElement>) => void"
+        },
+        {
+          "name": "onCloseDialog",
+          "documentation": "callback run end close dialog.",
+          "isRequired": false,
+          "type": "() => void"
+        },
+        {
+          "name": "background",
+          "documentation": "Set custom background.",
+          "isRequired": false,
+          "type": "string"
         }
       ],
       "documentation": ""
@@ -102,6 +118,18 @@
         "DataProps",
         "HTMLAttributes"
       ]
+    },
+    {
+      "name": "ContentDialogState",
+      "members": [
+        {
+          "name": "showDialog",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
     },
     {
       "documentation": "",
@@ -124,7 +152,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    primaryButtonText: \"Delete\",\n    secondaryButtonText: \"Cancel\",\n    closeButtonAction: emptyFunc,\n    primaryButtonAction: emptyFunc,\n    secondaryButtonAction: emptyFunc\n  }",
+          "initializerText": " {\n    primaryButtonText: \"Delete\",\n    secondaryButtonText: \"Cancel\",\n    closeButtonAction: emptyFunc,\n    primaryButtonAction: emptyFunc,\n    secondaryButtonAction: emptyFunc,\n    onCloseDialog: emptyFunc\n  }",
           "documentation": "",
           "type": "ContentDialogProps"
         },
@@ -137,14 +165,46 @@
       ],
       "members": [
         {
-          "name": "refs",
+          "name": "state",
+          "initializerText": " {\n    showDialog: this.props.defaultShow\n  }",
           "documentation": "",
-          "type": "{ renderToBody: any; }"
+          "type": "ContentDialogState"
+        },
+        {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "documentation": "",
+          "type": "AddBlurEvent"
         },
         {
           "name": "context",
           "documentation": "",
           "type": "{ theme: any; }"
+        },
+        {
+          "name": "renderToBody",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "rootElm",
+          "documentation": "",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "shouldComponentUpdate",
+          "documentation": "",
+          "type": "(nextProps: ContentDialogProps, nextState: ContentDialogState) => boolean"
+        },
+        {
+          "name": "componentDidUpdate",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "documentation": "",
+          "type": "() => void"
         },
         {
           "name": "containerMouseEnterHandle",
@@ -157,6 +217,12 @@
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;\n  }",
           "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
+        },
+        {
+          "name": "closeDialog",
+          "initializerText": " () => {\n    this.setState({ showDialog: false });\n    this.props.onCloseDialog();\n  }",
+          "documentation": "",
+          "type": "() => void"
         },
         {
           "name": "render",

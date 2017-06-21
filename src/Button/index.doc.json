@@ -109,7 +109,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    borderSize: \"2px\",\n    children: \"Button\",\n    iconPosition: \"left\"\n  }",
+          "initializerText": " {\r\n    borderSize: \"2px\",\r\n    children: \"Button\",\r\n    iconPosition: \"left\"\r\n  }",
           "documentation": "",
           "type": "ButtonProps"
         },

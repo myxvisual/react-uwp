@@ -19,6 +19,10 @@
       "documentation": ""
     },
     {
+      "name": "SplitViewState",
+      "documentation": ""
+    },
+    {
       "name": "SplitView",
       "documentation": ""
     },
@@ -63,6 +67,12 @@
           "documentation": "",
           "isRequired": false,
           "type": "CSSProperties"
+        },
+        {
+          "name": "onClosePane",
+          "documentation": "",
+          "isRequired": false,
+          "type": "() => void"
         }
       ],
       "documentation": ""
@@ -76,6 +86,29 @@
       ]
     },
     {
+      "name": "SplitViewState",
+      "members": [
+        {
+          "name": "expanded",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
       "name": "SplitView",
       "exports": [
         {
@@ -85,7 +118,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    expandedWidth: 320,\n    displayMode: \"compact\",\n    panePosition: \"right\"\n  }",
+          "initializerText": " {\n    expandedWidth: 320,\n    displayMode: \"compact\",\n    panePosition: \"right\",\n    onClosePane: emptyFunc\n  }",
           "documentation": "",
           "type": "SplitViewProps"
         },
@@ -97,6 +130,49 @@
         }
       ],
       "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    expanded: this.props.defaultExpanded\n  }",
+          "documentation": "",
+          "type": "SplitViewState"
+        },
+        {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "documentation": "",
+          "type": "AddBlurEvent"
+        },
+        {
+          "name": "splitViewPaneElm",
+          "documentation": "",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: SplitViewProps) => void"
+        },
+        {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    this.addBlurEvent.setConfig({\n      addListener: this.state.expanded,\n      clickExcludeElm: this.splitViewPaneElm,\n      blurCallback: () => {\n        this.setState({\n          expanded: false\n        }, this.props.onClosePane);\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidUpdate",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "documentation": "",
+          "type": "() => void"
+        },
         {
           "name": "context",
           "documentation": "",

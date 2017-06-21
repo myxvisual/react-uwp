@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
+import AddBlurEvent from "../common/AddBlurEvent";
 import Icon from "../Icon";
 import ElementState from "../ElementState";
 
@@ -55,6 +57,9 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
     expanded: this.props.defaultExpanded
   };
 
+  addBlurEvent = new AddBlurEvent();
+  elementState: ElementState;
+
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -64,6 +69,31 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
     if (defaultExpanded !== void 0 && defaultExpanded !== expanded) {
       this.setState({ expanded: defaultExpanded });
     }
+  }
+
+  addBlurEventMethod = () => {
+    this.addBlurEvent.setConfig({
+      addListener: this.state.expanded,
+      clickExcludeElm: this.elementState.rootElm,
+      blurCallback: () => {
+        this.setState({
+          expanded: false
+        });
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
+
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
+  componentDidUpdate() {
+    this.addBlurEventMethod();
+  }
+
+  componentWillUnmount() {
+    this.addBlurEvent.cleanEvent();
   }
 
   toggleExpanded = (expanded?: any) => {
@@ -105,6 +135,7 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
         hoverStyle={hoverStyle || {
           background: theme.listLow
         }}
+        ref={(elementState) => this.elementState = elementState}
       >
       <div>
         <Icon {...iconProps}>

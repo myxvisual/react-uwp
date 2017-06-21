@@ -2,8 +2,8 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
 
-import Icon from "../Icon";
 import AddBlurEvent from "../common/AddBlurEvent";
+import Icon from "../Icon";
 
 export interface DataProps {
   /**
@@ -52,8 +52,6 @@ export interface DropDownMenuState {
   currentValues?: string[];
 }
 
-const addBlurEvent = new AddBlurEvent();
-
 const emptyFunc = () => {};
 export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
   static defaultProps: DropDownMenuProps = {
@@ -82,6 +80,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       return values;
     })()
   };
+  addBlurEvent = new AddBlurEvent();
   rootElm: HTMLDivElement;
 
   static contextTypes = { theme: PropTypes.object };
@@ -101,8 +100,8 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     });
   }
 
-  componentDidUpdate() {
-    addBlurEvent.setConfig({
+  addBlurEventMethod = () => {
+    this.addBlurEvent.setConfig({
       addListener: this.state.showList,
       clickExcludeElm: this.rootElm,
       blurCallback: () => {
@@ -118,8 +117,16 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     });
   }
 
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
+  componentDidUpdate() {
+    this.addBlurEventMethod();
+  }
+
   componentWillUnmount() {
-    addBlurEvent.cleanEvent();
+    this.addBlurEvent.cleanEvent();
   }
 
   toggleShowList = (e: React.SyntheticEvent<HTMLDivElement>) => {

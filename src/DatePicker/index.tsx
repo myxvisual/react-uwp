@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
 
+import AddBlurEvent from "../common/AddBlurEvent";
 import Separator from "../Separator";
 import IconButton from "../IconButton";
 import ElementState from "../ElementState";
@@ -62,10 +64,10 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
     currDate: this.props.defaultDate
   };
 
-  prevDate: Date = this.props.defaultDate;
+  addBlurEvent = new AddBlurEvent();
+  elementState: ElementState;
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
+  prevDate: Date = this.props.defaultDate;
 
   monthListView: ListView;
   dateListView: ListView;
@@ -75,17 +77,43 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
   dateIndex: number = 0;
   yearIndex: number = 0;
 
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ReactUWP.ThemeType };
+
   componentWillReceiveProps(nextProps: DatePickerProps) {
     if (nextProps.defaultDate !== this.state.currDate) {
       this.setState({ currDate: nextProps.defaultDate });
     }
   }
 
-  componentDidUpdate() {
+  addBlurEventMethod = () => {
     const { pickerItemHeight } = this.props;
     scrollToYEasing(this.monthListView.rootElm, this.monthIndex * pickerItemHeight, 0.1);
     scrollToYEasing(this.dateListView.rootElm, this.dateIndex * pickerItemHeight, 0.1);
     scrollToYEasing(this.yearListView.rootElm, this.yearIndex * pickerItemHeight, 0.1);
+
+    this.addBlurEvent.setConfig({
+      addListener: this.state.showPicker,
+      clickExcludeElm: this.elementState.rootElm,
+      blurCallback: () => {
+        this.setState({
+          showPicker: false
+        });
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
+
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
+  componentDidUpdate() {
+    this.addBlurEventMethod();
+  }
+
+  componentWillUnmount() {
+    this.addBlurEvent.cleanEvent();
   }
 
   toggleShowPicker = (showPicker?: any) => {
@@ -153,6 +181,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
         {...attributes as any}
         style={styles.root}
         hoverStyle={{ boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}` }}
+        ref={(elementState) => this.elementState = elementState}
       >
       <div>
         <div style={styles.pickerModal}>
