@@ -97,7 +97,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
           <MediaPlayer
             displayMode={isPhoneScreen ? "minimum" : "default"}
             style={{ margin: "0 auto", width: isPhoneScreen ? window.innerWidth : renderContentWidth, display: "block" }}
-            url="https://www.react-uwp.com/HEAD/static/viedo/Microsoft%20Fluent%20Design%20System.mp4"
+            url="https://www.youtube.com/watch?v=vcBGj4R7Fo0"
             width={isPhoneScreen ? (window.innerWidth - 40) : (renderContentWidth as any - 40)}
             height={((isPhoneScreen ? window.innerWidth : renderContentWidth) as any) / 2}
           />
