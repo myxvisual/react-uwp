@@ -111,6 +111,8 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     isDarkTheme: isDark,
     prepareStyles: prefixAll(),
 
+    toasts: [],
+
     typographyStyles: {
       header: {
         fontWeight: "lighter",
@@ -175,7 +177,8 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       flyout: 202,
       contentDialog: 300,
       header: 301,
-      mediaPlayer: 2147483647
+      mediaPlayer: 2147483647,
+      toast: 310
     }
   };
 }

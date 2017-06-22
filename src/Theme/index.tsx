@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import darkTheme from "../styles/darkTheme";
 import getTheme from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
+import ToastWrapper from "../Toast/ToastWrapper";
 import getBaseCSS from "./getBaseCSS";
 import generateAcrylicTexture from "../styles/generateAcrylicTexture";
 
@@ -51,6 +52,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   themeClassName = "react-uwp-theme-dark";
   cacheDarkAcrylicTextures: ReactUWP.ThemeType = {};
   cacheLightAcrylicTextures: ReactUWP.ThemeType = {};
+  toastWrapper: ToastWrapper;
 
   getDefaultTheme = () => {
     let theme: ReactUWP.ThemeType;
@@ -306,6 +308,18 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     );
   }
 
+  addToast = (toast: React.ReactNode) => {
+    this.toastWrapper.addToast(toast);
+  }
+
+  updateToast = (toastID: number, toast: React.ReactNode) => {
+    this.toastWrapper.updateToast(toastID, toast);
+  }
+
+  deleteToast = (toastID: number) => {
+    this.state.currTheme.toasts[toastID] = void 0;
+  }
+
   handleScrollReveal = (e?: Event) => {
     if (newWindow.__REACT_UWP__ && newWindow.__REACT_UWP__.scrollReveals) {
       for (const scrollReveal of newWindow.__REACT_UWP__.scrollReveals) {
@@ -364,7 +378,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     Object.assign(currTheme, {
       desktopBackground: `url(${currTheme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
       updateTheme: this.updateTheme,
-      saveTheme: this.saveTheme
+      saveTheme: this.saveTheme,
+      addToast: this.addToast,
+      updateToast: this.updateToast,
+      deleteToast: this.deleteToast
     } as ReactUWP.ThemeType);
 
     return (
@@ -399,6 +416,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
             }}
           />
         )}
+        <RenderToBody>
+          <ToastWrapper ref={toastWrapper => this.toastWrapper = toastWrapper} />
+        </RenderToBody>
         {children}
       </div>
     );

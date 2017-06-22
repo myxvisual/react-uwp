@@ -393,6 +393,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Tabs");
         }
       }, {
+        path: "Toast",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Toast").default);
+          }, "react-uwp-Components-Toast");
+        }
+      }, {
         path: "Theme",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

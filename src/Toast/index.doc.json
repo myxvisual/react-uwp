@@ -1,0 +1,174 @@
+{
+  "fileName": "D:/react-uwp/src/Toast/index.tsx",
+  "name": "\"D:/react-uwp/src/Toast/index\"",
+  "exports": [
+    {
+      "name": "DataProps",
+      "documentation": ""
+    },
+    {
+      "name": "ToastProps",
+      "documentation": ""
+    },
+    {
+      "name": "ToastState",
+      "documentation": ""
+    },
+    {
+      "name": "Toast",
+      "documentation": ""
+    },
+    {
+      "name": "default",
+      "documentation": "",
+      "extends": [
+        "Toast"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "defaultShow",
+          "documentation": "Set default show Toast.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "onToggleShowToast",
+          "documentation": "Set onChange show Toast status `callback`.",
+          "isRequired": false,
+          "type": "(showToast?: boolean) => void"
+        },
+        {
+          "name": "showCloseIcon",
+          "documentation": "Toggle show close `Icon`.",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "name": "ToastProps",
+      "documentation": "",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "ToastState",
+      "members": [
+        {
+          "name": "showToast",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ],
+      "documentation": ""
+    },
+    {
+      "documentation": "",
+      "name": "emptyFunc",
+      "type": "() => void",
+      "initializerText": " () => {}"
+    },
+    {
+      "name": "emptyFunc",
+      "documentation": "",
+      "type": "() => void"
+    },
+    {
+      "name": "Toast",
+      "exports": [
+        {
+          "name": "prototype",
+          "documentation": "",
+          "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    defaultShow: false,\n    onToggleShowToast: emptyFunc,\n    showCloseIcon: false\n  }",
+          "documentation": "",
+          "type": "ToastProps"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "documentation": "",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    showToast: this.props.defaultShow\n  }",
+          "documentation": "",
+          "type": "ToastState"
+        },
+        {
+          "name": "context",
+          "documentation": "",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "toastID",
+          "documentation": "",
+          "type": "number"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "documentation": "",
+          "type": "(nextProps: ToastProps) => void"
+        },
+        {
+          "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidUpdate",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "toggleShowToast",
+          "initializerText": " (showToast?: any) => {\n    const { onToggleShowToast } = this.props;\n    if (typeof showToast === \"boolean\") {\n      if (showToast !== this.state.showToast) {\n        this.setState({ showToast });\n        onToggleShowToast(showToast);\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        showToast = !prevState.showToast;\n        onToggleShowToast(showToast);\n        return { showToast };\n      });\n    }\n  }",
+          "documentation": "",
+          "type": "(showToast?: any) => void"
+        },
+        {
+          "name": "trueRender",
+          "initializerText": " () => {\n    const {\n      children,\n      defaultShow,\n      onToggleShowToast,\n      showCloseIcon,\n      ...attributes\n    } = this.props;\n    const { theme } = this.context;\n    const styles = getStyles(this);\n\n    return (\n      <CustomAnimate\n        {...slideRightInProps}\n        appearAnimate\n        wrapperStyle={{ display: \"inherit\" }}\n      >\n      <div\n        {...attributes}\n        style={styles.root}\n      >\n        {showCloseIcon && (\n          <Icon\n            style={styles.closeIcon}\n            hoverStyle={{ color: theme.baseHigh }}\n            onClick={() => this.toggleShowToast(false)}\n          >\n            ClearLegacy\n          </Icon>\n        )}\n        {children}\n      </div>\n      </CustomAnimate>\n    );\n  }",
+          "documentation": "",
+          "type": "() => Element"
+        },
+        {
+          "name": "render",
+          "documentation": "",
+          "type": "() => any"
+        }
+      ],
+      "documentation": "",
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "documentation": "",
+      "type": "(Toast: Toast) => { root?: CSSProperties; closeIcon?: CSSProperties; }"
+    }
+  ],
+  "documentation": "",
+  "type": "typeof \"D:/react-uwp/src/Toast/index\""
+}
