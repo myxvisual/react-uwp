@@ -128,7 +128,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             style={{
               position: "fixed",
               top: headerHeight,
-              height: "100%",
+              height: "calc(100vh - 48px)",
               left: 0,
               zIndex: theme.zIndex.header + 2,
               transition: "all .25s",
