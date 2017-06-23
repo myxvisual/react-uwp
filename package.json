@@ -67,7 +67,7 @@
   "dependencies": {
     "@types/core-js": "^0.9.41",
     "@types/marked": "0.0.28",
-    "@types/node": "^7.0.29",
+    "@types/node": "^8.0.1",
     "@types/prop-types": "^15.5.1",
     "@types/react": "^15.0.27",
     "@types/react-dom": "^15.5.0",
