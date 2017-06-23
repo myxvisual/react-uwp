@@ -37,6 +37,30 @@
           "type": "boolean"
         },
         {
+          "name": "logoNode",
+          "documentation": "Set custom `logo` with `ReactNode`.",
+          "isRequired": false,
+          "type": "ReactNode"
+        },
+        {
+          "name": "title",
+          "documentation": "Set Toast title.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "documentation": "Set Toast description.",
+          "isRequired": false,
+          "type": "string | string[]"
+        },
+        {
+          "name": "closeDelay",
+          "documentation": "Set Toast close after showed timeout.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
           "name": "onToggleShowToast",
           "documentation": "Set onChange show Toast status `callback`.",
           "isRequired": false,
@@ -121,12 +145,38 @@
           "type": "number"
         },
         {
+          "name": "hiddenTimer",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "closeTimer",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "customAnimate",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "customAnimateElm",
+          "documentation": "",
+          "type": "HTMLDivElement"
+        },
+        {
           "name": "componentWillReceiveProps",
           "documentation": "",
           "type": "(nextProps: ToastProps) => void"
         },
         {
           "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "addCloseDelay",
+          "initializerText": " () => {\n    clearTimeout(this.closeTimer);\n    const { closeDelay, onToggleShowToast } = this.props;\n    if (closeDelay === void 0) {\n      return;\n    } else {\n      this.closeTimer = setTimeout(() => {\n        this.setState({ showToast: false });\n        onToggleShowToast(false);\n      }, closeDelay);\n    }\n  }",
           "documentation": "",
           "type": "() => void"
         },
@@ -148,7 +198,7 @@
         },
         {
           "name": "trueRender",
-          "initializerText": " () => {\n    const {\n      children,\n      defaultShow,\n      onToggleShowToast,\n      showCloseIcon,\n      ...attributes\n    } = this.props;\n    const { theme } = this.context;\n    const styles = getStyles(this);\n\n    return (\n      <CustomAnimate\n        {...slideRightInProps}\n        appearAnimate\n        wrapperStyle={{ display: \"inherit\" }}\n      >\n      <div\n        {...attributes}\n        style={styles.root}\n      >\n        {showCloseIcon && (\n          <Icon\n            style={styles.closeIcon}\n            hoverStyle={{ color: theme.baseHigh }}\n            onClick={() => this.toggleShowToast(false)}\n          >\n            ClearLegacy\n          </Icon>\n        )}\n        {children}\n      </div>\n      </CustomAnimate>\n    );\n  }",
+          "initializerText": " () => {\n    const {\n      children,\n      defaultShow,\n      logoNode,\n      title,\n      description,\n      onToggleShowToast,\n      closeDelay,\n      showCloseIcon,\n      ...attributes\n    } = this.props;\n    const { theme } = this.context;\n    const styles = getStyles(this);\n\n    return (\n      <CustomAnimate\n        {...slideRightInProps}\n        leaveStyle={slideRightInProps}\n        appearAnimate={false}\n        wrapperStyle={styles.wrapper}\n        ref={customAnimate => this.customAnimate = customAnimate}\n      >\n      <div\n        {...attributes}\n        style={styles.root}\n      >\n        <div style={styles.card}>\n          {logoNode}\n          <span style={styles.descContent}>\n            <p style={styles.title}>{title}</p>\n            {typeof description === \"string\" ? (\n              <p style={styles.description}>{description}</p>\n            ) : (description && description.map((desc, index) => (\n              <p style={styles.description} key={`${index}`}>\n                {desc}\n              </p>\n            )))}\n          </span>\n        </div>\n        {showCloseIcon && (\n          <Icon\n            style={styles.closeIcon}\n            hoverStyle={{ color: theme.baseHigh }}\n            onClick={() => this.toggleShowToast(false)}\n          >\n            ClearLegacy\n          </Icon>\n        )}\n        {children}\n      </div>\n      </CustomAnimate>\n    );\n  }",
           "documentation": "",
           "type": "() => Element"
         },
@@ -166,7 +216,7 @@
     {
       "name": "getStyles",
       "documentation": "",
-      "type": "(Toast: Toast) => { root?: CSSProperties; closeIcon?: CSSProperties; }"
+      "type": "(Toast: Toast) => { wrapper?: CSSProperties; root?: CSSProperties; closeIcon?: CSSProperties; car..."
     }
   ],
   "documentation": "",

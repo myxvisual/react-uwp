@@ -44,7 +44,7 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
             right: 0,
             height: "100%",
             width: 360,
-            padding: "10px 0",
+            padding: "10px 4px",
             position: "fixed",
             display: "flex",
             flexDirection: "column-reverse",
