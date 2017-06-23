@@ -82,7 +82,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     const { closeDelay, onToggleShowToast } = this.props;
     if (closeDelay === void 0) {
       return;
-    } else {
+    } else if (this.state.showToast) {
       this.closeTimer = setTimeout(() => {
         this.setState({ showToast: false });
         onToggleShowToast(false);
@@ -220,7 +220,7 @@ function getStyles(Toast: Toast): {
     wrapper: {
       display: "inherit",
       overflow: "hidden",
-      transition: "transform .25s, opacity .25s",
+      transition: "transform .75s, opacity .75s",
       margin: "10px 0",
       opacity: showToast ? 1 : 0,
       transform: `translate3d(${showToast ? 0 : "100%"}, 0, 0)`

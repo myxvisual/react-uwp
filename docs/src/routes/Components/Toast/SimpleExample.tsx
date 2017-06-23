@@ -55,7 +55,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
         <Toast
           defaultShow={showToast1}
           onToggleShowToast={showToast1 => this.setState({ showToast1 })}
-          logoNode={<Image src={require("assets/images/icon-32x32.png")} />}
+          logoNode={<Image style={{ clipPath: "circle(16px at 16px 16px)" }} src={require("assets/images/icon-32x32.png")} />}
           title="Adaptive Tiles Meeting"
           description={["Conf Room 2001 / Building 135", "10:00 AM - 10:30 AM"]}
           showCloseIcon

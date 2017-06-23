@@ -20,15 +20,28 @@ export interface HomeProps extends DataProps, ReactRouter.RouteProps {
   id?: string;
   style?: React.CSSProperties;
 }
-export interface HomeState {}
+export interface HomeState {
+  showToast?: boolean;
+}
 
 export default class Home extends React.Component<HomeProps, HomeState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  showToastTimer: any;
 
   state: HomeState = {
-    showFocus: true
+    showToast: false
   };
+
+  componentDidMount() {
+    this.showToastTimer = setTimeout(() => {
+      this.setState({ showToast: true });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.showToastTimer);
+  }
 
   render() {
     const {
@@ -36,6 +49,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
       screenType
     } = this.props;
     const { theme } = this.context;
+    const { showToast } = this.state;
     const isPhoneScreen = screenType === "phone";
     const FLIP_HEIGHT = isPhoneScreen ? 240 : 500;
 
@@ -117,10 +131,10 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         />
 
         <Toast
-          defaultShow={true}
-          logoNode={<Image src={require("assets/images/icon-32x32.png")} />}
+          defaultShow={showToast}
+          logoNode={<Image style={{ clipPath: "circle(16px at 16px 16px)" }} src={require("assets/images/icon-32x32.png")} />}
           title="Welcome to React-UWP"
-          closeDelay={10000}
+          closeDelay={5000}
           description={["Thank you for supporting this project."]}
           showCloseIcon
         />
