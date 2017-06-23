@@ -31,7 +31,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
   showToastTimer: any;
 
   state: HomeState = {
-    showToast: newWindow.__REACT_UWP__.showedToast
+    showToast: false
   };
 
   componentDidMount() {
