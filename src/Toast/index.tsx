@@ -63,7 +63,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   customAnimateElm: HTMLDivElement;
 
   componentWillReceiveProps(nextProps: ToastProps) {
-    const { defaultShow } = nextProps;
+    const { defaultShow, closeDelay } = nextProps;
     if (defaultShow !== this.state.showToast) {
       this.setState({ showToast: defaultShow });
     }
@@ -222,7 +222,7 @@ function getStyles(Toast: Toast): {
       overflow: "hidden",
       transition: "transform .75s, opacity .75s",
       margin: "10px 0",
-      opacity: showToast ? 1 : 0,
+      opacity: showToast ? 1 : .5,
       transform: `translate3d(${showToast ? 0 : "100%"}, 0, 0)`
     },
     root: prepareStyles({

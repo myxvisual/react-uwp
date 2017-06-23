@@ -24,19 +24,27 @@ export interface HomeState {
   showToast?: boolean;
 }
 
+const newWindow = window as any;
 export default class Home extends React.Component<HomeProps, HomeState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
   showToastTimer: any;
 
   state: HomeState = {
-    showToast: false
+    showToast: newWindow.__REACT_UWP__.showedToast
   };
 
   componentDidMount() {
-    this.showToastTimer = setTimeout(() => {
-      this.setState({ showToast: true });
-    }, 1000);
+    if (!newWindow.__REACT_UWP__.showedToast) {
+      this.showToastTimer = setTimeout(() => {
+        newWindow.__REACT_UWP__.showedToast = true;
+        this.setState({ showToast: true });
+
+        this.showToastTimer = setTimeout(() => {
+          this.setState({ showToast: false });
+        }, 5750);
+      }, 1000);
+    }
   }
 
   componentWillUnmount() {
