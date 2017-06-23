@@ -1,3 +1,21 @@
+<a name="1.0.6"></a>
+## [1.0.6](https://github.com/myxvisual/react-uwp/compare/v1.0.5...v1.0.6) (2017-06-23)
+
+
+### Bug Fixes
+
+* **component:** Fixed MediaPlayer setTimeout bug ([75a094a](https://github.com/myxvisual/react-uwp/commit/75a094a))
+* Fixed FlipView setState run at the unMounted bug ([647190c](https://github.com/myxvisual/react-uwp/commit/647190c))
+* Fixed Swipe setTimeout function call bug ([39ee3f5](https://github.com/myxvisual/react-uwp/commit/39ee3f5))
+
+
+### Features
+
+* **component:** Add more API to Toast component ([6e09b6c](https://github.com/myxvisual/react-uwp/commit/6e09b6c))
+* **component:** Add new Toast component ([2a3d5fe](https://github.com/myxvisual/react-uwp/commit/2a3d5fe))
+
+
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://github.com/myxvisual/react-uwp/compare/v1.0.4...v1.0.5) (2017-06-21)
 
