@@ -211,7 +211,7 @@ function getStyles(Toast: Toast): {
 } {
   const {
     context: { theme },
-    props: { style },
+    props: { style, showCloseIcon },
     state: { showToast }
   } = Toast;
   const { prepareStyles } = theme;
@@ -256,6 +256,7 @@ function getStyles(Toast: Toast): {
     }),
     descContent: {
       marginLeft: 10,
+      marginRight: showCloseIcon ? 16 : 0,
       width: "100%"
     },
     title: {

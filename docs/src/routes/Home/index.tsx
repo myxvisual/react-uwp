@@ -119,7 +119,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <Toast
           defaultShow={true}
           logoNode={<Image src={require("assets/images/icon-32x32.png")} />}
-          title="Welcome to React-UWP docs website"
+          title="Welcome to React-UWP"
           closeDelay={10000}
           description={["Thank you for supporting this project."]}
           showCloseIcon
