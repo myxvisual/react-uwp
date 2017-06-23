@@ -2,6 +2,10 @@ import * as React from "react";
 import * as ReactRouter from "react-router";
 import * as PropTypes from "prop-types";
 
+import Image from "react-uwp/Image";
+import MediaPlayer from "react-uwp/MediaPlayer";
+import Toast from "react-uwp/Toast";
+
 import FlipView, { FlipViewProps } from "react-uwp/FlipView";
 import { WrapperState } from "components/Wrapper";
 import FlipViewItem from "./components/FlipViewItem";
@@ -9,7 +13,6 @@ import Categories from "./components/Categories";
 import Banner from "./components/Banner";
 import CustomTheme from "./components/CustomTheme";
 import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
-import MediaPlayer from "react-uwp/MediaPlayer";
 
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
@@ -17,15 +20,28 @@ export interface HomeProps extends DataProps, ReactRouter.RouteProps {
   id?: string;
   style?: React.CSSProperties;
 }
-export interface HomeState {}
+export interface HomeState {
+  showToast?: boolean;
+}
 
 export default class Home extends React.Component<HomeProps, HomeState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  showToastTimer: any;
 
   state: HomeState = {
-    showFocus: true
+    showToast: false
   };
+
+  componentDidMount() {
+    this.showToastTimer = setTimeout(() => {
+      this.setState({ showToast: true });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.showToastTimer);
+  }
 
   render() {
     const {
@@ -33,6 +49,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
       screenType
     } = this.props;
     const { theme } = this.context;
+    const { showToast } = this.state;
     const isPhoneScreen = screenType === "phone";
     const FLIP_HEIGHT = isPhoneScreen ? 240 : 500;
 
@@ -111,6 +128,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               theme.isDarkTheme ? "hsla(0, 0%, 3%, 1)" : "hsla(0, 0%, 97%, 1)"
             )
           }}
+        />
+
+        <Toast
+          defaultShow={showToast}
+          logoNode={<Image style={{ clipPath: "circle(16px at 16px 16px)" }} src={require("assets/images/icon-32x32.png")} />}
+          title="Welcome to React-UWP"
+          closeDelay={5000}
+          description={["Thank you for supporting this project."]}
+          showCloseIcon
         />
       </div>
     );

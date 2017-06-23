@@ -113,6 +113,8 @@ export default [{
     "titleNode": "TreeView"
   }, {
     "titleNode": "Theme"
+  }, {
+    "titleNode": "Toast"
   }]
 }, {
   "titleNode": "Resources"

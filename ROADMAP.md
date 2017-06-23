@@ -1,5 +1,4 @@
 # RoadMap
-Styling Components
 
 ### Commands
 - [x] CommandBar

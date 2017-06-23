@@ -181,6 +181,7 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
   rootElm: HTMLDivElement;
   showControlTimer: any = null;
   mouseMoveTimer: any = null;
+  endTimer: any = null;
   reactPlayer: any;
 
   static contextTypes = { theme: PropTypes.object };
@@ -202,6 +203,10 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
     document.removeEventListener("mozfullscreenchange", this.exitFullScreen, false);
     document.removeEventListener("fullscreenchange", this.exitFullScreen, false);
     document.removeEventListener("MSFullscreenChange", this.exitFullScreen, false);
+
+    clearTimeout(this.mouseMoveTimer);
+    clearTimeout(this.showControlTimer);
+    clearTimeout(this.endTimer);
   }
 
   componentWillUpdate() {
@@ -307,7 +312,7 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
   }
 
   handleEnded = () => {
-    setTimeout(() => {
+    this.endTimer = setTimeout(() => {
       this.setState({
         currPlaying: false,
         currShowControl: true,

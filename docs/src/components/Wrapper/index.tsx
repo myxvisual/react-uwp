@@ -129,7 +129,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
           {React.cloneElement(children as any, { renderContentWidth, screenType, renderContentHeight })}
         </div>
         <Footer footerHeight={FOOTER_HEIGHT} renderContentWidth={renderContentWidth} />
-        <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: 2000 }}>
+        <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: theme.zIndex.toast - 1 }}>
           <FloatNav
             topNode={
               <IconButton

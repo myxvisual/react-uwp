@@ -102,6 +102,12 @@ export interface ThemeType {
   isDarkTheme?: boolean;
   updateTheme?: (theme: ThemeType) => void;
   saveTheme?: (theme: ThemeType) => void;
+
+  toasts?: React.ReactNode[];
+  addToast?: (toast: React.ReactNode) => void;
+  updateToast?: (toastID: number, toast: React.ReactNode) => void;
+  deleteToast?: (toastID: number) => void;
+
   typographyStyles?: {
     header?: React.CSSProperties;
     subHeader?: React.CSSProperties;
@@ -127,5 +133,6 @@ export interface ThemeType {
     contentDialog?: number;
     mediaPlayer?: number;
     header?: number;
+    toast?: number;
   };
 }

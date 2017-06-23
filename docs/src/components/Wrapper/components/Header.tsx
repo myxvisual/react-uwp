@@ -48,7 +48,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     request.onreadystatechange = () => {
       if (request.readyState === 4 && request.status === 200) {
         this.setState({
-          currVersions: JSON.parse(request.responseText).concat(["HEAD"])
+          currVersions: JSON.parse(request.responseText).concat(["HEAD"]).reverse()
         });
       }
     };

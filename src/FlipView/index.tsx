@@ -77,6 +77,7 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
     currShowNavigation: this.props.showNavigation
   };
   context: { theme: ReactUWP.ThemeType };
+  mounted = false;
   rootElm: HTMLDivElement;
   swipe: Swipe;
 
@@ -88,13 +89,19 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
     this.swipe.swipeBackWord();
   }
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
   shouldComponentUpdate(nextProps: FlipViewProps, nextState: FlipViewState) {
     return nextProps !== this.props || nextState !== this.state;
   }
 
   handleChangeSwipe = (focusSwipeIndex: number) => {
     const count = React.Children.count(this.props.children);
-    this.setState({ focusSwipeIndex: focusSwipeIndex % count });
+    if (this.mounted) {
+      this.setState({ focusSwipeIndex: focusSwipeIndex % count });
+    }
   }
 
   toggleCanAutoSwipe = (currCanAutoSwipe?: any) => {

@@ -119,7 +119,7 @@ Serif fonts are good for presenting large amounts of text.
 <tr class="odd">
 <td align="left">Segoe MDL2 Assets</td>
 <td align="left">Regular</td>
-<td align="left">User-interface font for app icons. For more info, see the [Segoe MDL2 assets article](segoe-ui-symbol-font.md).</td>
+<td align="left">User-interface font for app icons. For more info, see the [Icons](/styles/icons).</td>
 </tr>
 <tr class="even">
 <td align="left">Segoe UI Emoji</td>
