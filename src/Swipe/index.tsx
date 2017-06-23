@@ -77,23 +77,25 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   }
 
   componentWillReceiveProps(nextProps: SwipeProps) {
-    this.updateState(nextProps);
+    this.updateState(nextProps, true);
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeoutId);
   }
 
-  updateState = (props: SwipeProps) => {
+  updateState = (props: SwipeProps, setToState = false) => {
     clearTimeout(this.timeoutId);
     const childrenLength = React.Children.count(props.children);
     const isSingleChildren = childrenLength === 1;
-    this.setState({
-      isHorizontal: props.direction === "horizontal",
-      childrenLength,
-      isSingleChildren,
-      currStopSwipe: !props.autoSwipe
-    });
+    if (setToState) {
+      this.setState({
+        isHorizontal: props.direction === "horizontal",
+        childrenLength,
+        isSingleChildren,
+        currStopSwipe: !props.autoSwipe
+      });
+    }
     if (props.autoSwipe && !isSingleChildren) {
       this.timeoutId = setTimeout(() => {
         this.swipeForward();
