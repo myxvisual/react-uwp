@@ -5,7 +5,7 @@ export interface DataProps {}
 
 export interface IconLayoutProps extends DataProps, React.HTMLAttributes<SVGElement> {}
 
-export default class IconLayout extends React.Component<IconLayoutProps, void> {
+export default class IconLayout extends React.Component<IconLayoutProps> {
   static defaultProps: IconLayoutProps = {
     width: 100
   };

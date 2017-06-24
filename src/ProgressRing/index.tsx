@@ -24,7 +24,7 @@ export interface DataProps {
 }
 export interface ProgressRingProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class ProgressRing extends React.Component<ProgressRingProps, void> {
+export class ProgressRing extends React.Component<ProgressRingProps> {
   static defaultProps: ProgressRingProps = {
     dotsNumber: 6,
     speed: 5000,

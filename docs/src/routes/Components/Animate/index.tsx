@@ -14,7 +14,7 @@ import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 import Animation from "../../Styles/Animation";
 import * as AnimationCode from "!raw!../../Styles/Animation";
 
-export default class CustomAnimate extends React.Component<any, void> {
+export default class CustomAnimate extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {

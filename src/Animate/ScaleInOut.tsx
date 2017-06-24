@@ -7,7 +7,7 @@ export interface DataProps extends CustomAnimateProps {
   maxScale?: number;
 }
 
-export class ScaleInOut extends React.Component<DataProps, void> {
+export class ScaleInOut extends React.Component<DataProps> {
   static defaultProps: DataProps = {
     leaveStyle: { transform: "scale(0)" },
     enterStyle: { transform: "scale(1)" }

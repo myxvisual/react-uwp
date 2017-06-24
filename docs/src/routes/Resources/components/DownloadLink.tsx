@@ -10,7 +10,7 @@ export interface DataProps {
 
 export interface DownloadLinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
-export default class DownloadLink extends React.Component<DownloadLinkProps, void> {
+export default class DownloadLink extends React.Component<DownloadLinkProps> {
   static defaultProps: DownloadLinkProps = {};
 
   static contextTypes = { theme: PropTypes.object };

@@ -25,7 +25,7 @@ export interface DataProps {
 
 export interface ComponentDescriptionProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class ComponentDescription extends React.Component<ComponentDescriptionProps, void> {
+export default class ComponentDescription extends React.Component<ComponentDescriptionProps> {
   static defaultProps: ComponentDescriptionProps = {
   };
 

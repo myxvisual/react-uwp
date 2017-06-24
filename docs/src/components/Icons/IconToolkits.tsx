@@ -5,7 +5,7 @@ export interface DataProps {}
 
 export interface IconToolkitsProps extends DataProps, React.HTMLAttributes<SVGElement> {}
 
-export default class IconToolkits extends React.Component<IconToolkitsProps, void> {
+export default class IconToolkits extends React.Component<IconToolkitsProps> {
   static defaultProps: IconToolkitsProps = {
     width: 100
   };

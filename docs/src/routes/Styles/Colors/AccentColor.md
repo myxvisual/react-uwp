@@ -11,7 +11,7 @@ import { red500 } from "react-uwp/styles/accentColors";
 
 accentColors.red500 === "#f44336" /// true
 
-export default class ThemeWrapper extends React.component<void, void> {
+export default class ThemeWrapper extends React.Component<void> {
   render() {
     return (
       <Theme theme={getTheme("Dark", accentColors.red500)}>

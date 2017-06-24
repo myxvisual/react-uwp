@@ -8,7 +8,7 @@ import * as readmeDoc from "!raw!./README.md";
 export interface DataProps {}
 
 export interface TypographyProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
-export default class Typography extends React.Component<TypographyProps, void> {
+export default class Typography extends React.Component<TypographyProps> {
   static defaultProps: TypographyProps = {
     style: {
       padding: 20

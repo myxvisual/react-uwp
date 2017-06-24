@@ -12,7 +12,7 @@ export interface DoubleThemeRenderProps extends React.HTMLAttributes<HTMLDivElem
   useSingleTheme?: boolean;
 }
 
-export default class DoubleThemeRender extends React.Component<DoubleThemeRenderProps, void> {
+export default class DoubleThemeRender extends React.Component<DoubleThemeRenderProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

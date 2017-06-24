@@ -5,7 +5,7 @@ import ComponentDetail from "components/ComponentDetail";
 import * as docEntry from "react-uwp/FlyoutContent/index.doc.json";
 import * as readmeText from "!raw!./README.md";
 
-export default class FlyoutContent extends React.Component<any, void> {
+export default class FlyoutContent extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {

@@ -11,7 +11,7 @@ export interface DataProps {
 
 export interface HyperLinkProps extends React.HTMLAttributes<HTMLAnchorElement> {}
 
-export class HyperLink extends React.Component<HyperLinkProps, void> {
+export class HyperLink extends React.Component<HyperLinkProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

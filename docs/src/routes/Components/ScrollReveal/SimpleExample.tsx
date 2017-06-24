@@ -5,7 +5,7 @@ import ScrollReveal from "react-uwp/ScrollReveal";
 import IconButton from "react-uwp/IconButton";
 import CheckBox from "react-uwp/CheckBox";
 
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

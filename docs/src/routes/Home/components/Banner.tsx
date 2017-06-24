@@ -10,7 +10,7 @@ export interface DataProps {
 
 export interface BannerProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Banner extends React.Component<BannerProps, void> {
+export default class Banner extends React.Component<BannerProps> {
   static defaultProps: BannerProps = {};
 
   static contextTypes = { theme: PropTypes.object };

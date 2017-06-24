@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import AppBarButton, { DataProps as AppBarButtonProps } from "react-uwp/AppBarButton";
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

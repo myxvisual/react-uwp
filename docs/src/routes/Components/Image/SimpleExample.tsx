@@ -10,7 +10,7 @@ const imageStyle: React.CSSProperties = {
   maxHeight: 320,
   margin: 10
 };
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

@@ -6,7 +6,7 @@ import CheckBoxSimpleExample from "../CheckBox/SimpleExample";
 import DatePickerExample from "../DatePickers/DatePicker/SimpleExample";
 import Theme, { getTheme } from "react-uwp/Theme";
 
-export class FluentDesignExample extends React.Component<{}, void> {
+export class FluentDesignExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -27,7 +27,7 @@ export class FluentDesignExample extends React.Component<{}, void> {
   }
 }
 
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

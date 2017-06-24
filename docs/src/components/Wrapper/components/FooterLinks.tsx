@@ -8,7 +8,7 @@ export interface DataProps {
 
 export interface FooterLinksProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class FooterLinks extends React.Component<FooterLinksProps, void> {
+export default class FooterLinks extends React.Component<FooterLinksProps> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };

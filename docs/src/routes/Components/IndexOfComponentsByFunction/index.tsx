@@ -39,7 +39,7 @@ import Toggle from "../Toggle/SimpleExample";
 import Tooltip from "../Tooltip/SimpleExample";
 import TreeView from "../TreeView/SimpleExample";
 
-export default class IndexOfComponentsByFunction extends React.Component<any, void> {
+export default class IndexOfComponentsByFunction extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

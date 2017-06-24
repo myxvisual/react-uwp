@@ -8,7 +8,7 @@ const baseStyle: React.CSSProperties = {
   display: "inline-block",
   verticalAlign: "middle"
 };
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

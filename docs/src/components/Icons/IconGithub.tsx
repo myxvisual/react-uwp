@@ -7,7 +7,7 @@ export interface DataProps {
 
 export interface IconGithubProps extends DataProps, React.HTMLAttributes<SVGElement> {}
 
-export default class IconGithub extends React.Component<IconGithubProps, void> {
+export default class IconGithub extends React.Component<IconGithubProps> {
   static defaultProps: IconGithubProps = {
     width: 100
   };

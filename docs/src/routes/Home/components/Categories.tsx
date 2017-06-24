@@ -19,7 +19,7 @@ const ICON_WIDTH = 180;
 const CATEGORY_STYLE: React.CSSProperties = {
   margin: 10
 };
-export default class Categories extends React.Component<CategoriesProps, void> {
+export default class Categories extends React.Component<CategoriesProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

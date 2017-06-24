@@ -7,7 +7,7 @@ import Icon from "react-uwp/Icon";
 const baseStyle: React.CSSProperties = {
   margin: "10px 0"
 };
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

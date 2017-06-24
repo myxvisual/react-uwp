@@ -16,7 +16,7 @@ export interface DataProps extends WrapperState {
 
 export interface FlipViewItemProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
-export default class FlipViewItem extends React.Component<FlipViewItemProps, void> {
+export default class FlipViewItem extends React.Component<FlipViewItemProps> {
   static defaultProps: FlipViewItemProps = {
     flipHeight: 500
   };

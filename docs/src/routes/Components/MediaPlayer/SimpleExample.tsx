@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import MediaPlayer from "react-uwp/MediaPlayer";
 
-export default class SimpleExample extends React.Component<any, void> {
+export default class SimpleExample extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

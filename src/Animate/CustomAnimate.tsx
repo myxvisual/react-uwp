@@ -66,7 +66,7 @@ function FirstChild(props: any) {
   const childrenArray = React.Children.toArray(props.children);
   return childrenArray[0] || null;
 }
-export class CustomAnimate extends React.Component<CustomAnimateProps, void> {
+export class CustomAnimate extends React.Component<CustomAnimateProps> {
   static defaultProps: CustomAnimateProps = {
     leaveStyle: { opacity: 0 },
     enterStyle: { opacity: 1 },

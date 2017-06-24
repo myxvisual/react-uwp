@@ -13,7 +13,7 @@ const imageNames = [
   "monkey-2320471_1280.jpg",
   "rest-2335341_1280.jpg"
 ];
-export default class SimpleExample extends React.Component<WrapperState, void> {
+export default class SimpleExample extends React.Component<WrapperState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

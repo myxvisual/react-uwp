@@ -12,7 +12,7 @@ export interface ComponentDetailProps {
   renderOtherTypes?: string[];
 }
 
-export default class ComponentDetail extends React.Component<ComponentDetailProps, void> {
+export default class ComponentDetail extends React.Component<ComponentDetailProps> {
   static defaultProps: ComponentDetailProps = {
     title: `${location.pathname.split("/").slice(-1)[0].split("-").map((str: string) => str[0].toUpperCase() + str.slice(1)).join(" ")} React-UWP App developer | Docs`
   };

@@ -5,7 +5,7 @@ import Separator from "react-uwp/Separator";
 import Icon from "react-uwp/Icon";
 import ListView from "react-uwp/ListView";
 
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

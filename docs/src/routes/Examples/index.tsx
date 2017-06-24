@@ -5,7 +5,7 @@ export interface DataProps {}
 
 export interface ExamplesProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Examples extends React.Component<ExamplesProps, void> {
+export default class Examples extends React.Component<ExamplesProps> {
   static defaultProps: ExamplesProps = {};
 
   static contextTypes = { theme: PropTypes.object };

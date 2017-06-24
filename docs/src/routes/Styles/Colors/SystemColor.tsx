@@ -65,7 +65,7 @@ const getColorInfos = (theme: ReactUWP.ThemeType) => {
   };
 };
 
-export default class SystemColor extends React.Component<SystemColorProps, void> {
+export default class SystemColor extends React.Component<SystemColorProps> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };

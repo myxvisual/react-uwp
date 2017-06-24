@@ -28,7 +28,7 @@ export interface DataProps {
 
 export interface SplitViewCommandProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class SplitViewCommand extends React.Component<SplitViewCommandProps, void> {
+export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
   static defaultProps: SplitViewCommandProps = {
     isTenFt: false
   };

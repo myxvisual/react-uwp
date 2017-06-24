@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import MarkdownRender from "react-uwp/MarkdownRender";
 import * as text from "!raw!./MarkdownExample.md";
 
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

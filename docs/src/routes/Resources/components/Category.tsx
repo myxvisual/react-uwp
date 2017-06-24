@@ -13,7 +13,7 @@ export interface DataProps {
 
 export interface CategoryProps extends DataProps, AnimateTitleProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Category extends React.Component<CategoryProps, void> {
+export default class Category extends React.Component<CategoryProps> {
   static defaultProps: CategoryProps = {};
 
   static contextTypes = { theme: PropTypes.object };

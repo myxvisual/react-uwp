@@ -6,7 +6,7 @@ You can get `theme` in your Component. example code:
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export default class ThemeChild extends React.component<void, void> {
+export default class ThemeChild extends React.Component<void> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

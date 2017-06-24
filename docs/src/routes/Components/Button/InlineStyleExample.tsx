@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Button from "react-uwp/Button";
 
-export default class InlineStyleExample extends React.Component<{}, void> {
+export default class InlineStyleExample extends React.Component {
   render() {
     const defaultBtnStyle: React.CSSProperties = {
       margin: 4

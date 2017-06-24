@@ -10,7 +10,7 @@ export interface DataProps {}
 
 export interface ResourcesProps extends DataProps, WrapperState, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Resources extends React.Component<ResourcesProps, void> {
+export default class Resources extends React.Component<ResourcesProps> {
   static defaultProps: ResourcesProps = {};
 
   static contextTypes = { theme: PropTypes.object };

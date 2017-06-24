@@ -14,7 +14,7 @@ export interface DataProps {}
 
 export interface CustomThemeProps extends DataProps, WrapperState, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class CustomTheme extends React.Component<CustomThemeProps, void> {
+export default class CustomTheme extends React.Component<CustomThemeProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

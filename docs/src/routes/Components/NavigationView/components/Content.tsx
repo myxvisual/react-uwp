@@ -5,7 +5,7 @@ export interface DataProps {}
 
 export interface ContentProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Content extends React.Component<ContentProps, void> {
+export default class Content extends React.Component<ContentProps> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };

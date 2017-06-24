@@ -7,7 +7,7 @@ import * as ReactDOM from "react-dom";
 import Theme as UWPThemeProvider, { getTheme } from "react-uwp/Theme";
 import MyComponent from "./MyComponent";
 
-class App extends React.Component<void, void> {
+class App extends React.Component<void> {
   render() {
     return (
       <UWPThemeProvider
@@ -33,7 +33,7 @@ import * as PropTypes from "prop-types";
 
 import AutoSuggestBox from "react-uwp/AutoSuggestBox";
 
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

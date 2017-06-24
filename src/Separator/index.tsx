@@ -7,7 +7,7 @@ export interface DataProps {
 
 export interface SeparatorProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class Separator extends React.Component<SeparatorProps, void> {
+export class Separator extends React.Component<SeparatorProps> {
   static defaultProps: SeparatorProps = {
     direction: "row"
   };

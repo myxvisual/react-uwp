@@ -12,7 +12,7 @@ export interface DataProps {
 
 export interface FadeInOutProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class FadeInOut extends React.Component<FadeInOutProps, void> {
+export default class FadeInOut extends React.Component<FadeInOutProps> {
   static defaultProps = {
     appearAnimate: true,
     enterDelay: 0,

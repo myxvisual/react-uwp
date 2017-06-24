@@ -7,7 +7,7 @@ import AppBarSeparator from "react-uwp/AppBarSeparator";
 const commandBarStyle: React.CSSProperties = {
   margin: "30px 0"
 };
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   render() {
     const secondaryCommands = [
       <p>Open with</p>,

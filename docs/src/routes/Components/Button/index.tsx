@@ -19,7 +19,7 @@ import InlineStyleExample from "./InlineStyleExample";
 import * as InlineStyleExampleCode from "!raw!./InlineStyleExample.tsx";
 import * as InlineStyleExampleDesc from "!raw!./InlineStyleExample.md";
 
-export default class Button extends React.Component<any, void> {
+export default class Button extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {

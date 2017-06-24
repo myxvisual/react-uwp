@@ -25,7 +25,7 @@ export interface DataProps {
 
 export interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 
-export class IconButton extends React.Component<IconButtonProps, void> {
+export class IconButton extends React.Component<IconButtonProps> {
   static defaultProps: IconButtonProps = {
     size: 48
   };

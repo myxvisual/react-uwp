@@ -62,15 +62,15 @@
     "tslint": "^5.2.0",
     "tslint-eslint-rules": "^4.0.0",
     "tslint-no-circular-imports": "^0.1.0",
-    "typescript": "^2.1.6"
+    "typescript": "^2.3.4"
   },
   "dependencies": {
     "@types/core-js": "^0.9.41",
     "@types/marked": "0.0.28",
     "@types/node": "^8.0.1",
     "@types/prop-types": "^15.5.1",
-    "@types/react": "^15.0.27",
-    "@types/react-dom": "^15.5.0",
+    "@types/react": "^15.0.31",
+    "@types/react-dom": "^15.5.1",
     "@types/react-transition-group": "^1.1.0",
     "@types/tinycolor2": "^1.1.1",
     "inline-style-prefixer": "^3.0.5",

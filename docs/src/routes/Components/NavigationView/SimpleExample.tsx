@@ -5,7 +5,7 @@ import NavigationView from "react-uwp/NavigationView";
 import SplitViewCommand from "react-uwp/SplitViewCommand";
 import Content from "./components/Content";
 
-export default class SimpleExample extends React.Component<React.HTMLAttributes<HTMLDivElement>, void> {
+export default class SimpleExample extends React.Component<React.HTMLAttributes<HTMLDivElement>> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

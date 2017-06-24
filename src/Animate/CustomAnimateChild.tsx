@@ -4,7 +4,7 @@ import { findDOMNode } from "react-dom";
 
 import { DataProps } from "./CustomAnimate";
 
-export default class CustomAnimateChild extends React.Component<DataProps, void> {
+export default class CustomAnimateChild extends React.Component<DataProps> {
   enterTimer: any;
   leaveTimer: any;
   displayStyleTimer: any;

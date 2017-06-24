@@ -48,7 +48,7 @@ export interface ScrollRevealProps extends DataProps {
   style?: React.CSSProperties;
 }
 
-export class ScrollReveal extends React.Component<ScrollRevealProps, void> {
+export class ScrollReveal extends React.Component<ScrollRevealProps> {
   static defaultProps: ScrollRevealProps = {
     leaveStyle: { transform: "scale(0)" },
     enterStyle: { transform: "scale(1)" },

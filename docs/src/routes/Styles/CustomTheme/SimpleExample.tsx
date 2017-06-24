@@ -8,7 +8,7 @@ import ColorPicker from "react-uwp/ColorPicker";
 import CheckBox from "react-uwp/CheckBox";
 import TextBox from "react-uwp/TextBox";
 
-export default class CustomTheme extends React.Component<any, void> {
+export default class CustomTheme extends React.Component<any> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };

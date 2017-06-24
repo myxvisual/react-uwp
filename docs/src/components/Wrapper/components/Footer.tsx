@@ -10,7 +10,7 @@ export interface DataProps {
 
 export interface FooterProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Footer extends React.Component<FooterProps, void> {
+export default class Footer extends React.Component<FooterProps> {
   static defaultProps: FooterProps = {
     footerHeight: 280
   };

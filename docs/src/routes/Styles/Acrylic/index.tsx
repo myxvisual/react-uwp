@@ -13,7 +13,7 @@ export interface DataProps {}
 
 export interface AcrylicProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Acrylic extends React.Component<AcrylicProps, void> {
+export default class Acrylic extends React.Component<AcrylicProps> {
   static defaultProps: AcrylicProps = {
     style: {
       padding: 20

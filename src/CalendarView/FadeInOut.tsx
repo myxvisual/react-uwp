@@ -18,7 +18,7 @@ export interface FadeInOutProps extends DataProps {
   speed?: number;
 }
 
-export default class FadeInOut extends React.Component<FadeInOutProps, void> {
+export default class FadeInOut extends React.Component<FadeInOutProps> {
   static defaultProps: FadeInOutProps = {
     appearAnimate: true,
     children: <div>FadeInOut</div>,

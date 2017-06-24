@@ -29,7 +29,7 @@ export interface DataProps {
 
 export interface AppBarButtonButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps, void> {
+export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps> {
   static defaultProps: AppBarButtonButtonProps = {
     labelPosition: "bottom"
   };

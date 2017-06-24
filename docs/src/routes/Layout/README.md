@@ -7,7 +7,7 @@ Front-end developers can simply learn to use this layout.
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export default class Mock extends React.Component<void, void> {
+export default class Mock extends React.Component<void> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {

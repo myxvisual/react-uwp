@@ -24,7 +24,7 @@ export interface DataProps {
 
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class MarkdownRender extends React.Component<MarkdownRenderProps, void> {
+export class MarkdownRender extends React.Component<MarkdownRenderProps> {
   static defaultProps = {
     text: ""
   };

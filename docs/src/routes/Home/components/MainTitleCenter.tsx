@@ -15,7 +15,7 @@ export interface DataProps {
 
 export interface MainTitleCenterProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class MainTitleCenter extends React.PureComponent<MainTitleCenterProps, void> {
+export default class MainTitleCenter extends React.PureComponent<MainTitleCenterProps> {
   static defaultProps: MainTitleCenterProps = {};
 
   static contextTypes = { theme: PropTypes.object };

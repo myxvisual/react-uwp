@@ -6,7 +6,7 @@ import SplitViewCommand from "react-uwp/SplitViewCommand";
 const baseStyle: React.CSSProperties = {
   width: 240
 };
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

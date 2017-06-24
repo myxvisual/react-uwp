@@ -47,7 +47,7 @@ const accentColorPluValues = [
   "A700"
 ];
 
-export default class AccentColor extends React.Component<AccentColorProps, void> {
+export default class AccentColor extends React.Component<AccentColorProps> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };

@@ -6,7 +6,7 @@ import FlyoutContent from "../FlyoutContent";
 export interface DataProps {}
 export interface FlyoutProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 
-export class Flyout extends React.Component<FlyoutProps, void> {
+export class Flyout extends React.Component<FlyoutProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

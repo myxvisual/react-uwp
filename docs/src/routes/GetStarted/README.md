@@ -38,7 +38,7 @@ import * as ReactDOM from "react-dom";
 import Theme as UWPThemeProvider, { getTheme } from "react-uwp/Theme";
 import MyComponent from "./MyComponent";
 
-class App extends React.Component<void, void> {
+class App extends React.Component<void> {
   render() {
     return (
       <UWPThemeProvider
@@ -66,7 +66,7 @@ ReactDOM.render(
 import * as React from "react";
 import Button from "react-uwp/Button";
 
-export default class MyComponent extends React.Component<void, void> {
+export default class MyComponent extends React.Component<void> {
   render() {
     return (
       <Button tooltip="Mini Tooltip" />

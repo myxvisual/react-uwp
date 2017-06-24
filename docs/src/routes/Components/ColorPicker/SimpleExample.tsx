@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import ColorPicker from "react-uwp/ColorPicker";
 
-export default class SimpleExample extends React.Component<{}, void> {
+export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

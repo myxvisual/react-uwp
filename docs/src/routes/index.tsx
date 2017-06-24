@@ -14,7 +14,7 @@ const useFluentDesign = true;
 const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 
-export class ThemeWrapper extends React.Component<{}, void> {
+export class ThemeWrapper extends React.Component {
   render() {
     const { children } = this.props;
     return (

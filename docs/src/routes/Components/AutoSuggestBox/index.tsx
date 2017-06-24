@@ -23,7 +23,7 @@ import SearchExample from "./SearchExample";
 import * as SearchExampleCode from "!raw!./SearchExample";
 import * as SearchExampleDesc from "!raw!./SearchExample.md";
 
-export default class AutoSuggestBox extends React.Component<any, void> {
+export default class AutoSuggestBox extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {

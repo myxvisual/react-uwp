@@ -13,7 +13,7 @@ import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
 import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
-export default class ListView extends React.Component<any, void> {
+export default class ListView extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
 
   render() {

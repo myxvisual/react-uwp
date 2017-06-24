@@ -7,7 +7,7 @@ export interface DataProps extends CustomAnimateProps {
   direction?: "top" | "bottom" | "left" | "right";
 }
 
-export class ScaleInOut extends React.Component<DataProps, void> {
+export class ScaleInOut extends React.Component<DataProps> {
   static defaultProps: DataProps = {
     position: "100%",
     direction: "bottom"
