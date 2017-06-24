@@ -173,7 +173,6 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     if (isClickEvent && e.type === "click") {
       onChangeColor(colorHexString);
       onChangedColor(colorHexString);
-      console.log("isClickEvent");
       this.setState({ h, s });
     } else {
       onChangeColor(colorHexString);
@@ -198,7 +197,6 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   }
 
   handleMouseMove = (e: any) => {
-    console.log("handleMouseMove");
     if (!this.state.dragging) {
       this.setState({ dragging: true });
     }
@@ -206,7 +204,6 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   }
 
   handleMouseUp = (e: any) => {
-    console.log("handleMouseUp");
     if (this.state.dragging) {
       this.setState({ dragging: false });
     }
