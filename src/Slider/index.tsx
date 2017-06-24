@@ -364,7 +364,6 @@ function getStyles(slider: Slider): {
       width: isHorizonMode ? 320 : height2px,
       height: isHorizonMode ? height2px : 320,
       display: "inline-block",
-      padding: showValueInfo ? height2px : void 0,
       verticalAlign: "middle",
       ...style
     }),
