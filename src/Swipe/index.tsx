@@ -60,6 +60,8 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   };
 
   private timeoutId: any;
+
+  private swipeTimer: any;
   refs: {
     container: HTMLDivElement;
     content: HTMLDivElement;
@@ -82,6 +84,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
   componentWillUnmount() {
     clearTimeout(this.timeoutId);
+    clearTimeout(this.swipeTimer);
   }
 
   updateState = (props: SwipeProps, setToState = false) => {
@@ -142,7 +145,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
         focusIndex: this.setRightFocusIndex(focusIndex + 1),
         haveAnimate: true
       }, () => {
-        this.timeoutId = setTimeout(() => {
+        this.swipeTimer = setTimeout(() => {
           this.setState({
             focusIndex: 1,
             haveAnimate: false
@@ -155,7 +158,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
         focusIndex: this.setRightFocusIndex(focusIndex + 1),
         haveAnimate: true
       });
-      this.timeoutId = setTimeout(() => {
+      this.swipeTimer = setTimeout(() => {
         this.state.swiping = false;
       }, this.props.speed);
     }
@@ -173,7 +176,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
         focusIndex: this.setRightFocusIndex(focusIndex - 1),
         haveAnimate: true
       }, () => {
-        this.timeoutId = setTimeout(() => {
+        this.swipeTimer = setTimeout(() => {
           this.setState({
             focusIndex: this.getItemsLength() - 2,
             haveAnimate: false
@@ -186,7 +189,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
         focusIndex: this.setRightFocusIndex(focusIndex - 1),
         haveAnimate: true
       });
-      this.timeoutId = setTimeout(() => {
+      this.swipeTimer = setTimeout(() => {
         this.state.swiping = false;
       }, this.props.speed);
     }
