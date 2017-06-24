@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Router from "react-router";
 import * as PropTypes from "prop-types";
+import Title from "react-title-component";
 
 import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 
@@ -98,6 +99,9 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
     const { theme } = this.context;
     const renderContentHeight = `calc(100vh - ${headerHeight + FOOTER_HEIGHT}px)`;
 
+    let title = window.location.pathname.split("/").slice(-1)[0].split("-").map((str: string) => (str ? str[0].toUpperCase() + str.slice(1) : "")).join(" ");
+    title = `${title ? `${title} - App Developer | Docs` : "React-UWP App Developer | Docs"}`;
+
     const iconButtonStyle: React.CSSProperties = {
       color: "#fff",
       background: theme.accent
@@ -112,6 +116,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
           ...style
         }) as any}
       >
+        <Title render={title} />
         <Header
           screenType={screenType}
           docVersion={getRootPath()}

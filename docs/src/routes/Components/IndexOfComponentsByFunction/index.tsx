@@ -57,7 +57,6 @@ export default class IndexOfComponentsByFunction extends React.Component<any> {
       margin: 10
     };
     const { theme } = this.context;
-
     return (
       <div {...attributes}>
         <MarkdownRender
