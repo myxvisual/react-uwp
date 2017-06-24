@@ -1,6 +1,6 @@
 {
-  "app.js": "js/app.c0c01.js",
-  "common.js": "js/common.c0c01.js",
+  "app.js": "js/app.ce18e.js",
+  "common.js": "js/common.ce18e.js",
   "images\\Tactile-13-1024x683.jpeg": "images/Tactile-13-1024x683.3m3YK.jpeg",
   "images\\acrylic.png": "images/acrylic.2UkDO.png",
   "images\\antcores.png": "images/antcores.ydU6A.png",
@@ -21,7 +21,7 @@
   "react-uwp-Components-AutoSuggestBox.js": "js/react-uwp-Components-AutoSuggestBox.b884d.js",
   "react-uwp-Components-Button.js": "js/react-uwp-Components-Button.333b7.js",
   "react-uwp-Components-CheckBox.js": "js/react-uwp-Components-CheckBox.6a941.js",
-  "react-uwp-Components-ColorPicker.js": "js/react-uwp-Components-ColorPicker.63ba2.js",
+  "react-uwp-Components-ColorPicker.js": "js/react-uwp-Components-ColorPicker.1a88e.js",
   "react-uwp-Components-CommandBar.js": "js/react-uwp-Components-CommandBar.d7e9d.js",
   "react-uwp-Components-ContentDialog.js": "js/react-uwp-Components-ContentDialog.e45d7.js",
   "react-uwp-Components-DatePickers-CalendarDatePicker.js": "js/react-uwp-Components-DatePickers-CalendarDatePicker.4d6e1.js",
@@ -66,11 +66,11 @@
   "react-uwp-Resources.js": "js/react-uwp-Resources.fcd39.js",
   "react-uwp-Styles-Animation.js": "js/react-uwp-Styles-Animation.8c3da.js",
   "react-uwp-Styles-Colors.js": "js/react-uwp-Styles-Colors.fabc6.js",
-  "react-uwp-Styles-CustomTheme.js": "js/react-uwp-Styles-CustomTheme.0f139.js",
+  "react-uwp-Styles-CustomTheme.js": "js/react-uwp-Styles-CustomTheme.03dfb.js",
   "react-uwp-Styles-Fonts.js": "js/react-uwp-Styles-Fonts.c443d.js",
   "react-uwp-Styles-StylingComponents.js": "js/react-uwp-Styles-StylingComponents.521d8.js",
   "react-uwp-Styles-Typography.js": "js/react-uwp-Styles-Typography.432bc.js",
-  "react-uwp-home.js": "js/react-uwp-home.69127.js",
+  "react-uwp-home.js": "js/react-uwp-home.79372.js",
   "react-uwp-style-Acrylic.js": "js/react-uwp-style-Acrylic.f62fc.js",
   "react-uwp-style-Icons.js": "js/react-uwp-style-Icons.1a9e7.js"
 }
