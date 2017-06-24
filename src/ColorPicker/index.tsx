@@ -32,6 +32,7 @@ export interface ColorPickerState {
   h?: number;
   s?: number;
   v?: number;
+  dragging?: boolean;
 }
 const emptyFunc = () => {};
 
@@ -172,6 +173,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     if (isClickEvent && e.type === "click") {
       onChangeColor(colorHexString);
       onChangedColor(colorHexString);
+      console.log("isClickEvent");
       this.setState({ h, s });
     } else {
       onChangeColor(colorHexString);
@@ -196,10 +198,18 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   }
 
   handleMouseMove = (e: any) => {
+    console.log("handleMouseMove");
+    if (!this.state.dragging) {
+      this.setState({ dragging: true });
+    }
     this.handleChooseColor(e, false);
   }
 
   handleMouseUp = (e: any) => {
+    console.log("handleMouseUp");
+    if (this.state.dragging) {
+      this.setState({ dragging: false });
+    }
     clearTimeout(this.moveColorTimer);
     Object.assign(document.body.style, {
       userSelect: void 0,
@@ -221,7 +231,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
       onChangedColorTimeout,
       ...attributes
     } = this.props;
-    const { h, s, v } = this.state;
+    const { h, s, v, dragging } = this.state;
     const { context: { theme } } = this;
     const styles = getStyles(this);
 
@@ -260,7 +270,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
                 background: "none",
                 boxShadow: `0 0 0 4px #fff`,
                 transform: `translate3d(${colorPickerBoardSize - mainBoardDotSize / 2}px, ${colorPickerBoardSize - mainBoardDotSize / 2}px, 0)`,
-                transition: "all .25s"
+                transition: dragging ? "all .1s" : "all .25s"
               })}
             />
           </div>
