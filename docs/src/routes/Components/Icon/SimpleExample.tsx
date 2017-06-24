@@ -16,7 +16,7 @@ export default class SimpleExample extends React.Component {
       cursor: "default"
     };
     const hoverStyle: React.CSSProperties = {
-      fontSize: 32,
+      transform: "scale(1.25)",
       color: theme.accent
     };
     return (
