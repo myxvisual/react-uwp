@@ -13,12 +13,9 @@ export interface ComponentDetailProps {
 }
 
 export default class ComponentDetail extends React.Component<ComponentDetailProps> {
-  static defaultProps: ComponentDetailProps = {
-    title: `${location.pathname.split("/").slice(-1)[0].split("-").map((str: string) => str[0].toUpperCase() + str.slice(1)).join(" ")} React-UWP App developer | Docs`
-  };
-
   render() {
-    const { title, docEntry, readmeText, children, renderOtherTypes, ...attributes } = this.props;
+    let { title, docEntry, readmeText, children, renderOtherTypes, ...attributes } = this.props;
+    title = title || `${location.pathname.split("/").slice(-1)[0].split("-").map((str: string) => str[0].toUpperCase() + str.slice(1)).join(" ")} React-UWP App developer | Docs`
     return (
       <div>
         <Title render={title} />
