@@ -59,7 +59,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             onChangeValue={(iconDirection: any) => this.setState({ iconDirection })}
           />
           <Slider
-            style={{ width: 120, ...baseStyle }}
+            style={{ width: 120, padding: 0, ...baseStyle }}
             minValue={0}
             maxValue={60}
             initValue={itemHeight}
