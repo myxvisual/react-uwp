@@ -1,3 +1,20 @@
+<a name="1.0.7"></a>
+## [1.0.7](https://github.com/myxvisual/react-uwp/compare/v1.0.6...v1.0.7) (2017-06-24)
+
+
+### Bug Fixes
+
+* **compoent:** Fixed FlipView swipe forward bug ([5ca2a0e](https://github.com/myxvisual/react-uwp/commit/5ca2a0e))
+* **component:** Remove Slider padding style ([390226c](https://github.com/myxvisual/react-uwp/commit/390226c))
+
+
+### Features
+
+* Add ColorPicker dragging status ([ac05f18](https://github.com/myxvisual/react-uwp/commit/ac05f18))
+* Update [@types](https://github.com/types)/react to version 15.0.31 ([2cbc3a9](https://github.com/myxvisual/react-uwp/commit/2cbc3a9))
+
+
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://github.com/myxvisual/react-uwp/compare/v1.0.5...v1.0.6) (2017-06-23)
 
