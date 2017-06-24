@@ -26,6 +26,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
       <SplitView
         defaultExpanded={expanded}
         displayMode={displayMode}
+        onClosePane={() => this.setState({ expanded: false })}
         style={{
           width: "85%",
           margin: "20px auto",
