@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 import { findDOMNode } from "react-dom";
 
 import CustomAnimate from "../Animate/CustomAnimate";
-const newWindow = window as ReactUWP.Window;
 
 export interface DataProps {
   /**
@@ -53,8 +52,8 @@ export class ScrollReveal extends React.Component<ScrollRevealProps> {
     leaveStyle: { transform: "scale(0)" },
     enterStyle: { transform: "scale(1)" },
     speed: 250,
-    topOffset: window.innerHeight / 16,
-    bottomOffset: window.innerHeight / 16,
+    topOffset: 0,
+    bottomOffset: 0,
     useWrapper: false
   };
 
@@ -65,21 +64,21 @@ export class ScrollReveal extends React.Component<ScrollRevealProps> {
   rootElm: HTMLElement = null;
   animated: boolean = false;
 
-  componentWillMount() {
+  componentDidMount() {
+    const newWindow = window as ReactUWP.Window;
     if (!newWindow.__REACT_UWP__) {
       newWindow.__REACT_UWP__ = {};
     }
     if (!newWindow.__REACT_UWP__.scrollReveals) {
       newWindow.__REACT_UWP__.scrollReveals = [];
     }
-  }
 
-  componentDidMount() {
     this.rootElm = findDOMNode(this) as HTMLElement;
     newWindow.__REACT_UWP__.scrollReveals.push(this as any);
   }
 
   componentWillUnmount() {
+    const newWindow = window as ReactUWP.Window;
     newWindow.__REACT_UWP__.scrollReveals.splice(newWindow.__REACT_UWP__.scrollReveals.indexOf(this as any), 1);
   }
 

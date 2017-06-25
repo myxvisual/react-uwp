@@ -1,7 +1,5 @@
 ## Mock
 
-----
-
 ///
 
 ### Examples

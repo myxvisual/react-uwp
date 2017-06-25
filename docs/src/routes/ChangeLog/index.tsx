@@ -2,13 +2,13 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import MarkdownRender from "react-uwp/MarkdownRender";
-import * as readMeText from "!raw!./README.md";
+import * as changeLogText from "!raw!../../../../CHANGELOG.md";
 
 export interface DataProps {}
 
-export interface GetStartedProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ChangeLogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class GetStarted extends React.Component<GetStartedProps> {
+export default class ChangeLog extends React.Component<ChangeLogProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -23,7 +23,7 @@ export default class GetStarted extends React.Component<GetStartedProps> {
       <MarkdownRender
         {...attributes}
         style={theme.prepareStyles({ ...style, padding: "0 20px" })}
-        text={readMeText as any}
+        text={changeLogText as any}
       />
     );
   }

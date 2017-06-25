@@ -1,33 +1,41 @@
 export interface PrefixAll {
-  (): (style: React.CSSProperties) => React.CSSProperties;
+  (userAgent?: string): (style: React.CSSProperties) => React.CSSProperties;
 }
 const Prefixer = require("inline-style-prefixer");
 
-const prefixAll = () => {
-  const { userAgent } = navigator || {} as any;
-  const isServer = window === void(0);
-  if (userAgent === void(0)) {
-    return (style?: React.CSSProperties) => {
-      if (!style) return {};
-      if (isServer) {
-        const stylePrefixed = Prefixer.prefixAll(style) as React.CSSProperties;
-        const isFlex = ["flex", "inline-flex"].includes(style.display);
+import IS_NODE_ENV from "./nodeJS/IS_NODE_ENV";
 
-        // We can't apply this join with react-dom:
-        // #https://github.com/facebook/react/issues/6467
-        if (isFlex) {
-          stylePrefixed.display = stylePrefixed.display.join("; display: ") + ";";
-        }
-        return stylePrefixed;
-      }
-    };
+const prefixAll = (userAgent?: string | false) => {
+  const isServer = IS_NODE_ENV;
+
+  if (userAgent === false) {
+    return (style?: React.CSSProperties) => style;
   }
 
-  const prefixer = new Prefixer({ userAgent });
-  return (style?: React.CSSProperties) => {
-    if (!style) return;
-    return prefixer.prefix(style) as React.CSSProperties;
-  };
+  if (!isServer && userAgent === void 0) {
+    userAgent = navigator.userAgent;
+  }
+
+  if (!isServer || (isServer && (userAgent !== void 0 && userAgent !== "all"))) {
+    const prefixer = new Prefixer({ userAgent });
+    return (style?: React.CSSProperties) => {
+      if (!style) return;
+      return prefixer.prefix(style) as React.CSSProperties;
+    };
+  } else {
+    return (style?: React.CSSProperties) => {
+      if (!style) return;
+      const stylePrefixed = Prefixer.prefixAll(style) as React.CSSProperties;
+      const isFlex = ["flex", "inline-flex"].includes(style.display);
+
+      // We can't apply this join with react-dom:
+      // #https://github.com/facebook/react/issues/6467
+      if (isFlex) {
+        stylePrefixed.display = stylePrefixed.display.join("; display: ") + ";";
+      }
+      return stylePrefixed;
+    };
+  }
 };
 
 export default prefixAll;

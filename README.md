@@ -54,7 +54,7 @@ import * as ReactDOM from "react-dom";
 import Theme as UWPThemeProvider from "react-uwp/Theme";
 import MyComponent from "./MyComponent";
 
-class App extends React.Component<void, void> {
+export class App extends React.Component<void, void> {
   render() {
     return (
       <UWPThemeProvider

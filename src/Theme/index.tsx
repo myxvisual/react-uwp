@@ -7,8 +7,8 @@ import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
 import getBaseCSS from "./getBaseCSS";
 import generateAcrylicTexture from "../styles/generateAcrylicTexture";
-
-const newWindow = window as ReactUWP.Window;
+import { setSegoeMDL2AssetsFonts } from "../styles/fonts/segoe-mdl2-assets";
+import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 
 export { getTheme };
 export interface DataProps {
@@ -36,7 +36,6 @@ export interface ThemeState {
   currTheme?: ReactUWP.ThemeType;
 }
 
-if (!newWindow.__REACT_UWP__) newWindow.__REACT_UWP__ = {};
 const customLocalStorageName = "__REACT_UWP__";
 const baseClassName = "react-uwp-theme";
 const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
@@ -55,12 +54,23 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   toastWrapper: ToastWrapper;
 
   getDefaultTheme = () => {
-    let theme: ReactUWP.ThemeType;
-    let defaultConfig: any = {};
+    let { theme, autoSaveTheme } = this.props;
 
-    theme = this.props.theme;
+    if (!IS_NODE_ENV && autoSaveTheme) {
+      theme = this.getLocalStorageTheme();
+    } else {
+      theme = theme || darkTheme;
+    }
+
+    return theme;
+  }
+
+  getLocalStorageTheme = () => {
+    let themeConfig: any = {};
+    let { theme } = this.props;
+
     if (theme) {
-      Object.assign(defaultConfig, {
+      Object.assign(themeConfig, {
         themeName: theme.themeName,
         accent: theme.accent,
         useFluentDesign: theme.useFluentDesign,
@@ -68,23 +78,19 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       });
     }
 
-    if (this.props.autoSaveTheme) {
-      const storageString = localStorage.getItem(customLocalStorageName);
-      if (storageString) {
-        let data: any = {};
-        try {
-          data = JSON.parse(storageString);
-          const { themeName, accent, useFluentDesign, desktopBackgroundImage } = data;
-          theme = getTheme({
-            themeName: themeName === void 0 ? defaultConfig.themeName : themeName,
-            accent: accent === void 0 ? defaultConfig.accent : accent,
-            useFluentDesign: useFluentDesign === void 0 ? defaultConfig.useFluentDesign : useFluentDesign,
-            desktopBackgroundImage: desktopBackgroundImage === void 0 ? defaultConfig.desktopBackgroundImage : desktopBackgroundImage
-          });
-        } catch (error) {
-          theme = this.props.theme || darkTheme;
-        }
-      } else {
+    const storageString = localStorage.getItem(customLocalStorageName);
+    if (storageString) {
+      let data: any = {};
+      try {
+        data = JSON.parse(storageString);
+        const { themeName, accent, useFluentDesign, desktopBackgroundImage } = data;
+        theme = getTheme({
+          themeName: themeName === void 0 ? themeConfig.themeName : themeName,
+          accent: accent === void 0 ? themeConfig.accent : accent,
+          useFluentDesign: useFluentDesign === void 0 ? themeConfig.useFluentDesign : useFluentDesign,
+          desktopBackgroundImage: desktopBackgroundImage === void 0 ? themeConfig.desktopBackgroundImage : desktopBackgroundImage
+        });
+      } catch (error) {
         theme = this.props.theme || darkTheme;
       }
     } else {
@@ -103,11 +109,26 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentDidMount() {
+    const newWindow = window as ReactUWP.Window;
+    if (!newWindow.__REACT_UWP__) newWindow.__REACT_UWP__ = {};
+    if (!newWindow.__REACT_UWP__.scrollReveals) {
+      newWindow.__REACT_UWP__.scrollReveals = [];
+    }
+
     const { currTheme } = this.state;
+
+    if (IS_NODE_ENV && this.props.autoSaveTheme) {
+      this.setState({ currTheme: this.getLocalStorageTheme() });
+    }
+
+    if (IS_NODE_ENV) setSegoeMDL2AssetsFonts();
+
     if (currTheme.useFluentDesign && currTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
       this.generateAcrylicTextures();
     }
+
     this.updateBaseCSS();
+
     window.addEventListener("scroll", this.handleScrollReveal);
   }
 
@@ -213,6 +234,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   updateBaseCSS = (init = false) => {
+    const newWindow = window as ReactUWP.Window;
+
     const styleSheetClassName = `.${this.themeClassName}-style-sheet`;
     let styleSheet = document.querySelector(styleSheetClassName);
     const CSSString = getBaseCSS(this.state.currTheme, this.themeClassName);
@@ -321,6 +344,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   handleScrollReveal = (e?: Event) => {
+    const newWindow = window as ReactUWP.Window;
     if (newWindow.__REACT_UWP__ && newWindow.__REACT_UWP__.scrollReveals) {
       for (const scrollReveal of newWindow.__REACT_UWP__.scrollReveals) {
         const {

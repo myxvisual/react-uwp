@@ -16,7 +16,7 @@ export default class ComponentDetail extends React.Component<ComponentDetailProp
     const { title, docEntry, readmeText, children, renderOtherTypes, ...attributes } = this.props;
     return (
       <div>
-        <div style={{ padding: 20 }}>
+        <div style={{ padding: "0 20px" }}>
           <MarkdownRender text={readmeText} />
           {children}
           {docEntry && (

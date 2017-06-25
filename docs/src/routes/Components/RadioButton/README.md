@@ -1,7 +1,5 @@
 ## RadioButton
 
-----
-
 `RadioButtons` let users select one option from two or more choices.
 
 Each option is represented by `one` `RadioButtons`.

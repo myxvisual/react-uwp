@@ -157,17 +157,27 @@ return (
 }
 
 .${className} a {
-  font-size: 15px;
+  font-size: inherit;
   color: ${theme.accent};
   font-weight: lighter;
+  text-decoration: none;
+  transition: all .25s;
 }
 
-.${className} h1 {
+.${className} a:hover {
+  text-decoration: underline;
+}
+
+.${className} h1, {
+  line-height: 2;
   font-size: 24px;
+  border-bottom: 2px solid ${theme.listAccentMedium};
 }
 
 .${className} h2 {
+  line-height: 2;
   font-size: 20px;
+  border-bottom: 2px solid ${theme.listAccentMedium};
 }
 
 
@@ -238,7 +248,7 @@ return (
   font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
   font-size: inherit;
   color: ${theme.accent};
-  padding: 1px 4px;
+  padding: 0px 4px;
   font-weight: inherit;
 }
 

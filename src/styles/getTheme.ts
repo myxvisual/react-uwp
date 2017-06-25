@@ -1,7 +1,11 @@
 import * as tinycolor from "tinycolor2";
-import "./fonts/segoe-mdl2-assets";
+import setSegoeMDL2AssetsFonts from "./fonts/segoe-mdl2-assets";
+import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 import prefixAll from "../common/prefixAll";
 
+if (!IS_NODE_ENV) {
+  setSegoeMDL2AssetsFonts();
+}
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l * (1 - coefficient);
@@ -18,6 +22,7 @@ export interface ThemeConfig {
 
   useFluentDesign?: boolean;
   desktopBackgroundImage?: string;
+  userAgent?: string;
 }
 
 export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType {
@@ -27,7 +32,8 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     accent,
 
     useFluentDesign,
-    desktopBackgroundImage
+    desktopBackgroundImage,
+    userAgent
   } = themeConfig;
 
   themeName = themeName || "dark";
@@ -109,7 +115,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     chromeWhite: "#fff",
 
     isDarkTheme: isDark,
-    prepareStyles: prefixAll(),
+    prepareStyles: prefixAll(userAgent),
 
     toasts: [],
 

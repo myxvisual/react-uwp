@@ -6,9 +6,9 @@ import * as readMeText from "!raw!./README.md";
 
 export interface DataProps {}
 
-export interface GetStartedProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ServerSideRenderingProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class GetStarted extends React.Component<GetStartedProps> {
+export default class ServerSideRendering extends React.Component<ServerSideRenderingProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

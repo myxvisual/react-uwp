@@ -1,12 +1,15 @@
+export default function setSegoeMDL2AssetsFonts() {
+  const linkElm = document.createElement("link");
+  Object.assign(linkElm, {
+    rel: "stylesheet",
+    href: "https://www.react-uwp.com/HEAD/static/css/segoe-mdl2-assets.css"
+  });
+  document.head.appendChild(linkElm);
+}
+
+export { setSegoeMDL2AssetsFonts };
+
 // import addCSSRule from "../../common/browser/addCSSRule";
-
-const linkElm = document.createElement("link");
-Object.assign(linkElm, {
-  rel: "stylesheet",
-  href: "https://www.react-uwp.com/HEAD/static/css/segoe-mdl2-assets.css"
-});
-document.head.appendChild(linkElm);
-
 // addCSSRule(
 // `@font-face {
 //   font-family: "Segoe MDL2 Assets";

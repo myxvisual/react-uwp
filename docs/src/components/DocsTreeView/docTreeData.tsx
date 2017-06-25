@@ -121,6 +121,10 @@ export default [{
 }, {
   "titleNode": "Examples"
 }, {
+  "titleNode": "Server Side Rendering"
+},  {
+  "titleNode": "ChangeLog"
+}, {
   "titleNode": "Fluent Design System",
   hidden: true,
   "expanded": true,

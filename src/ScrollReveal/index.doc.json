@@ -132,7 +132,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    leaveStyle: { transform: \"scale(0)\" },\n    enterStyle: { transform: \"scale(1)\" },\n    speed: 250,\n    topOffset: window.innerHeight / 16,\n    bottomOffset: window.innerHeight / 16,\n    useWrapper: false\n  }",
+          "initializerText": " {\n    leaveStyle: { transform: \"scale(0)\" },\n    enterStyle: { transform: \"scale(1)\" },\n    speed: 250,\n    topOffset: 0,\n    bottomOffset: 0,\n    useWrapper: false\n  }",
           "documentation": "",
           "type": "ScrollRevealProps"
         },
@@ -165,11 +165,6 @@
           "initializerText": " false",
           "documentation": "",
           "type": "boolean"
-        },
-        {
-          "name": "componentWillMount",
-          "documentation": "",
-          "type": "() => void"
         },
         {
           "name": "componentDidMount",

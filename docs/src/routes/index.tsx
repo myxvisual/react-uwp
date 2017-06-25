@@ -58,6 +58,26 @@ function getRoutes(path = "/") {
         }
       }
     }, {
+      path: "server-side-rendering",
+      component: CategoriesWrapper,
+      indexRoute: {
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./ServerSideRendering").default);
+          }, "react-uwp-ServerSideRendering");
+        }
+      }
+    }, {
+      path: "ChangeLog",
+      component: CategoriesWrapper,
+      indexRoute: {
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./ChangeLog").default);
+          }, "react-uwp-ChangeLog");
+        }
+      }
+    }, {
       path: "Layout",
       component: CategoriesWrapper,
       indexRoute: {
