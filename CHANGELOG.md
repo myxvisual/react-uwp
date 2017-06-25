@@ -1,3 +1,13 @@
+<a name="1.0.8"></a>
+## [1.0.8](https://github.com/myxvisual/react-uwp/compare/v1.0.7...v1.0.8) (2017-06-25)
+
+
+### Features
+
+* Add server side rendering support ([4056eca](https://github.com/myxvisual/react-uwp/commit/4056eca)), closes [#3](https://github.com/myxvisual/react-uwp/issues/3)
+
+
+
 <a name="1.0.7"></a>
 ## [1.0.7](https://github.com/myxvisual/react-uwp/compare/v1.0.6...v1.0.7) (2017-06-24)
 
