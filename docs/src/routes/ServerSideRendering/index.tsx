@@ -22,7 +22,7 @@ export default class ServerSideRendering extends React.Component<ServerSideRende
     return (
       <MarkdownRender
         {...attributes}
-        style={theme.prepareStyles({ ...style, padding: "0 20px" })}
+        style={theme.prepareStyles({ ...style, padding: "0 20px 60px" })}
         text={readMeText as any}
       />
     );
