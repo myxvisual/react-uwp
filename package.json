@@ -68,6 +68,7 @@
     "@types/core-js": "^0.9.41",
     "@types/marked": "0.0.28",
     "@types/node": "^8.0.1",
+    "@types/prismjs": "^1.6.2",
     "@types/prop-types": "^15.5.1",
     "@types/react": "^15.0.31",
     "@types/react-dom": "^15.5.1",

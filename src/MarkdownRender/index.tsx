@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-const Prism = require("prismjs");
-require("prismjs/components/prism-jsx.min.js");
+import * as Prism from "prismjs";
+import "prismjs/components/prism-jsx.min.js";
 import * as marked from "marked";
 import prismOkaidiaCSS from "./prismOkaidiaCSS";
 import prismCoyCSS from "./prismCoyCSS";
@@ -25,10 +25,6 @@ export interface DataProps {
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export class MarkdownRender extends React.Component<MarkdownRenderProps> {
-  static defaultProps = {
-    text: ""
-  };
-
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
