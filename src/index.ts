@@ -59,4 +59,3 @@ export * from "./Animate";
 
 import * as tinycolor from "tinycolor2";
 export { tinycolor };
-

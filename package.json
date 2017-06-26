@@ -1,7 +1,7 @@
 {
   "name": "react-uwp",
   "version": "1.0.8",
-  "description": "UWP Design Ui by React",
+  "description": "UWP Design & Fluent Design UiKit by React",
   "main": "index.js",
   "scripts": {
     "preprod": "cd docs && npm run preprod",
@@ -37,7 +37,7 @@
   "bugs": {
     "url": "https://github.com/myxvisual/react-uwp/issues"
   },
-  "homepage": "https://antcores.com/react-uwp/",
+  "homepage": "https://www.react-uwp.com",
   "peerDependencies": {
     "react": "^15.4.0",
     "react-dom": "^15.4.0"
