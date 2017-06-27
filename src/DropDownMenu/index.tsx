@@ -168,6 +168,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     const { isDarkTheme } = theme;
     const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
     const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
+    const haveWrapperStyle = wrapperAttributes && wrapperAttributes.style;
 
     return (
       <div
@@ -194,20 +195,20 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
             width: itemWidth,
             height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
             overflowX: "hidden",
-            overflowY: showList ? "auto" : "hidden",
             zIndex,
             padding: showList ? "6px 0" : 0,
             transition: "all .25s 0s ease-in-out",
             border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`,
-            ...(wrapperAttributes && wrapperAttributes.style ? wrapperAttributes.style : void 0)
+            ...(haveWrapperStyle ? wrapperAttributes.style : void 0),
+            overflowY: showList && haveWrapperStyle ? wrapperAttributes.style.overflowY : "hidden"
           })}
           onMouseEnter={!showList ? (e) => {
             e.currentTarget.style.border = `2px solid ${theme.baseHigh}`;
-            wrapperAttributes.onMouseEnter(e);
+            if (wrapperAttributes.onMouseEnter) wrapperAttributes.onMouseEnter(e);
           } : wrapperAttributes.onMouseEnter}
           onMouseLeave={!showList ? (e) => {
             e.currentTarget.style.border = `2px solid ${theme.baseLow}`;
-            wrapperAttributes.onMouseLeave(e);
+            if (wrapperAttributes.onMouseLeave) wrapperAttributes.onMouseLeave(e);
           } : wrapperAttributes.onMouseLeave}
         >
           {currentValues.map((value, index) => {
