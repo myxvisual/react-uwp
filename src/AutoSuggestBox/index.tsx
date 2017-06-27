@@ -59,13 +59,13 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
   inputTimer: any = null;
 
   componentDidMount() {
-    document.addEventListener("click", this.checkLayerClick);
-    document.addEventListener("keydown", this.checkLayerKeydown);
+    document.documentElement.addEventListener("click", this.checkLayerClick);
+    document.documentElement.addEventListener("keydown", this.checkLayerKeydown);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this.checkLayerClick);
-    document.removeEventListener("keydown", this.checkLayerKeydown);
+    document.documentElement.removeEventListener("click", this.checkLayerClick);
+    document.documentElement.removeEventListener("keydown", this.checkLayerKeydown);
   }
 
   checkLayerClick = (e: Event) => {

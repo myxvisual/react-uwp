@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 
 export interface DataProps {
   initialFocusIndex?: number;
@@ -71,7 +72,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   private startClientY: number;
   private endClientX: number;
   private endClientY: number;
-  originBodyStyle = { ...document.body.style };
+  originBodyStyle = IS_NODE_ENV ? void 0 : { ...document.body.style };
 
   componentDidMount() {
     this.containerDOM = this.refs.container;

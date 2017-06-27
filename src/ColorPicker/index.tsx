@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 
 import Slider from "../Slider";
 import * as tinycolor from "tinycolor2";
@@ -52,7 +53,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   canvas?: HTMLCanvasElement;
   ctx?: CanvasRenderingContext2D;
   moveColorTimer: any = null;
-  originBodyStyle = { ...document.body.style };
+  originBodyStyle = IS_NODE_ENV ? void 0 : { ...document.body.style };
   colorSelectorElm: HTMLDivElement;
   colorMainBarElm: HTMLDivElement;
 

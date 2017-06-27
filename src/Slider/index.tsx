@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 
 export interface DataProps {
   /**
@@ -109,7 +110,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     transition: "all 0.25s",
     throttleTimer: 120 / 1000
   };
-  originBodyStyle = { ...document.body.style };
+  originBodyStyle = IS_NODE_ENV ? void 0 : { ...document.body.style };
 
   state: SliderState = {
     currValue: this.props.initValue,

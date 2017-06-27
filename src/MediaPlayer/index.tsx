@@ -188,21 +188,21 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
   context: { theme: ReactUWP.ThemeType };
 
   componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
+    document.documentElement.addEventListener("keydown", this.handleKeyDown, false);
 
-    document.addEventListener("webkitfullscreenchange", this.exitFullScreen, false);
-    document.addEventListener("mozfullscreenchange", this.exitFullScreen, false);
-    document.addEventListener("fullscreenchange", this.exitFullScreen, false);
-    document.addEventListener("MSFullscreenChange", this.exitFullScreen, false);
+    document.documentElement.addEventListener("webkitfullscreenchange", this.exitFullScreen, false);
+    document.documentElement.addEventListener("mozfullscreenchange", this.exitFullScreen, false);
+    document.documentElement.addEventListener("fullscreenchange", this.exitFullScreen, false);
+    document.documentElement.addEventListener("MSFullscreenChange", this.exitFullScreen, false);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
+    document.documentElement.removeEventListener("keydown", this.handleKeyDown, false);
 
-    document.removeEventListener("webkitfullscreenchange", this.exitFullScreen, false);
-    document.removeEventListener("mozfullscreenchange", this.exitFullScreen, false);
-    document.removeEventListener("fullscreenchange", this.exitFullScreen, false);
-    document.removeEventListener("MSFullscreenChange", this.exitFullScreen, false);
+    document.documentElement.removeEventListener("webkitfullscreenchange", this.exitFullScreen, false);
+    document.documentElement.removeEventListener("mozfullscreenchange", this.exitFullScreen, false);
+    document.documentElement.removeEventListener("fullscreenchange", this.exitFullScreen, false);
+    document.documentElement.removeEventListener("MSFullscreenChange", this.exitFullScreen, false);
 
     clearTimeout(this.mouseMoveTimer);
     clearTimeout(this.showControlTimer);

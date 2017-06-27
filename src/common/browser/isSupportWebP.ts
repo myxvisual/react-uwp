@@ -1,2 +1,4 @@
-const elem = document.createElement("canvas");
-export default elem.toDataURL("image/webp").indexOf("data:image/webp") === 0;
+export default () => {
+  const elem = document.createElement("canvas");
+  return elem.toDataURL("image/webp").indexOf("data:image/webp") === 0;
+};
