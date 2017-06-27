@@ -1,3 +1,18 @@
+<a name="1.0.9"></a>
+## [1.0.9](https://github.com/myxvisual/react-uwp/compare/v1.0.8...v1.0.9) (2017-06-27)
+
+
+### Bug Fixes
+
+* Add All components support SSR ([6da91c8](https://github.com/myxvisual/react-uwp/commit/6da91c8))
+* Fixed missing index not export Toast component ([3ee8964](https://github.com/myxvisual/react-uwp/commit/3ee8964))
+* Fixed SSR common scrollToYEasing use window ([65e8480](https://github.com/myxvisual/react-uwp/commit/65e8480))
+* **component:** Fixe RadioButton cursor style ([31cc11a](https://github.com/myxvisual/react-uwp/commit/31cc11a))
+* **component:** Fixed DropDownMenu event handler bug ([53e0af4](https://github.com/myxvisual/react-uwp/commit/53e0af4))
+* **component:** Fixed FlipView style bug ([b2f3b98](https://github.com/myxvisual/react-uwp/commit/b2f3b98))
+
+
+
 <a name="1.0.8"></a>
 ## [1.0.8](https://github.com/myxvisual/react-uwp/compare/v1.0.7...v1.0.8) (2017-06-25)
 
