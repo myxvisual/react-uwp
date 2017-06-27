@@ -196,10 +196,8 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
             easy,
             direction,
             navigationIconSize,
-            supportPcDrag,
-            ...attributes
+            supportPcDrag
           }}
-          style={attributes.style}
         />
         {count > 1 && _showNavigation && (
           <IconButton

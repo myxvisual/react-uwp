@@ -119,7 +119,7 @@ export default [{
 }, {
   "titleNode": "Resources"
 }, {
-  "titleNode": "Examples"
+  "titleNode": "Showcase"
 }, {
   "titleNode": "Server Side Rendering"
 },  {

@@ -8,7 +8,7 @@ import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import getTheme from "react-uwp/styles/getTheme";
-import getRootPath from "../../common/getRootPath";
+import getRootPath from "common/getRootPath";
 import addCSSRule from "react-uwp/common/browser/addCSSRule";
 
 import IconButton from "react-uwp/IconButton";

@@ -3,10 +3,9 @@ import * as PropTypes from "prop-types";
 
 export interface DataProps {}
 
-export interface ExamplesProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ShowcaseProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export default class Examples extends React.Component<ExamplesProps> {
-  static defaultProps: ExamplesProps = {};
+export default class Showcase extends React.Component<ShowcaseProps> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -46,13 +45,13 @@ export default class Examples extends React.Component<ExamplesProps> {
   }
 }
 
-function getStyles(examples: Examples): {
+function getStyles(showcase: Showcase): {
   root?: React.CSSProperties;
 } {
   const {
     context: { theme },
     props: { style }
-  } = examples;
+  } = showcase;
   const { prepareStyles } = theme;
 
   return {

@@ -5,6 +5,7 @@ import * as PropTypes from "prop-types";
 import Image from "react-uwp/Image";
 import MediaPlayer from "react-uwp/MediaPlayer";
 import Toast from "react-uwp/Toast";
+import getRootPath from "common/getRootPath";
 
 import FlipView, { FlipViewProps } from "react-uwp/FlipView";
 import { WrapperState } from "components/Wrapper";
@@ -14,6 +15,7 @@ import Banner from "./components/Banner";
 import CustomTheme from "./components/CustomTheme";
 import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
 
+const docVersion = getRootPath();
 export interface DataProps extends WrapperState {}
 export interface HomeProps extends DataProps, ReactRouter.RouteProps {
   className?: string;
@@ -66,6 +68,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <div
           style={{
             width: "100%",
+            height: FLIP_HEIGHT,
             background: theme.useFluentDesign ? theme.acrylicTexture80.background : theme.listLow
           }}
         >
@@ -82,7 +85,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               title="Reveal"
               description="A new lighting effect brings focus to interactive elements."
               linkInfo="ENHANCE APP WITH REVEAL"
-              link="/styles"
+              link={`${docVersion}/styles`}
               image={require("../../assets/images/reveal.png")}
             />
             <FlipViewItem
@@ -90,7 +93,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               title="Acrylic material"
               description="Our first material brings depth to your designs. "
               linkInfo="ADD ACRYLIC TO YOUR APP"
-              link="/components"
+              link={`${docVersion}/styles/acrylic`}
               image={require("../../assets/images/acrylic.png")}
             />
             <FlipViewItem
@@ -98,7 +101,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               title="Design Toolkits"
               description="Templates and tools for designing UWP apps."
               linkInfo="GET THE TOOLKITS"
-              link="/resources"
+              link={`${docVersion}/resources`}
               image={require("../../assets/images/toolkits.png")}
             />
           </FlipView>

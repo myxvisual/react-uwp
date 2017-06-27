@@ -95,9 +95,8 @@ function getStyles(flipViewItem: FlipViewItem): {
       ...style
     }),
     desc: isPhoneScreen ? prepareStyles({
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
+      flex: "0 0 auto",
+      display: "inline-block",
       textAlign: "center"
     } as React.CSSProperties) : void 0,
     title: {

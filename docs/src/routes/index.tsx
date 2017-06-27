@@ -98,13 +98,13 @@ function getRoutes(path = "/") {
         }
       }
     }, {
-      path: "Examples",
+      path: "Showcase",
       component: CategoriesWrapper,
       indexRoute: {
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
-            cb(null, require<any>("./Examples").default);
-          }, "react-uwp-Examples");
+            cb(null, require<any>("./Showcase").default);
+          }, "react-uwp-Showcase");
         }
       }
     }, {
