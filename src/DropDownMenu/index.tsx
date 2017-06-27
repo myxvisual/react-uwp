@@ -82,6 +82,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
   };
   addBlurEvent = new AddBlurEvent();
   rootElm: HTMLDivElement;
+  wrapperElm: HTMLDivElement;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -183,7 +184,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
         ref={rootElm => this.rootElm = rootElm}
       >
         <div
-          ref="container"
+          ref={wrapperElm => this.wrapperElm = wrapperElm}
           style={theme.prepareStyles({
             position: "absolute",
             top: 0,
@@ -192,11 +193,13 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
             background: currBackground,
             width: itemWidth,
             height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
-            overflow: "hidden",
+            overflowX: "hidden",
+            overflowY: showList ? "auto" : "hidden",
             zIndex,
-            padding: showList ? "8px 0" : 0,
+            padding: showList ? "6px 0" : 0,
             transition: "all .25s 0s ease-in-out",
-            border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`
+            border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`,
+            ...(wrapperAttributes && wrapperAttributes.style ? wrapperAttributes.style : void 0)
           })}
           onMouseEnter={!showList ? (e) => {
             e.currentTarget.style.border = `2px solid ${theme.baseHigh}`;
@@ -213,7 +216,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
               <div
                 style={theme.prepareStyles({
                   width: itemWidth,
-                  height: itemHeight,
+                  height: (isCurrent || showList) ? itemHeight : 0,
                   background: (isCurrent && showList) ? theme.listAccentLow : "none",
                   display: "flex",
                   padding: "0 8px",
