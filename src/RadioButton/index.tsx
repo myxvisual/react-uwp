@@ -33,6 +33,11 @@ export interface RadioButtonState {
   mouseDowned?: boolean;
 }
 
+const rootStyle: React.CSSProperties = {
+  display: "inline-block",
+  verticalAlign: "middle",
+  cursor: "default"
+};
 const emptyFunc = () => {};
 export class RadioButton extends React.Component<RadioButtonProps, RadioButtonState> {
   static defaultProps: RadioButtonProps = {
@@ -136,7 +141,10 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
       <div
         ref={(rootElm => this.rootElm = rootElm)}
         {...attributes}
-        style={theme.prepareStyles({ display: "inline-block", verticalAlign: "middle", ...style})}
+        style={style ? theme.prepareStyles({
+          ...rootStyle,
+          ...style
+        }) : rootStyle}
       >
         {label ? (
           <div
@@ -153,7 +161,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
                 lineHeight: `${size}px`,
                 color: disabled ? theme.baseLow : theme.baseMediumHigh,
                 marginLeft: size / 4,
-                cursor: "default"
+                cursor: "text"
               }}
             >
               {label}
