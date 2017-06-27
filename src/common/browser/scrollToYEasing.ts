@@ -1,17 +1,20 @@
 // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 
-const oldWindow: any = window;
+import IS_NODE_ENV from "../nodeJS/IS_NODE_ENV";
 
-const requestAnimationFrame = (
-  oldWindow.requestAnimationFrame ||
-  oldWindow.webkitRequestAnimationFrame ||
-  oldWindow.mozRequestAnimationFrame ||
-  oldWindow.msRequestAnimationFrame ||
-  ((callback: FrameRequestCallback) => oldWindow.setTimeout(callback, 1000 / 60))
-);
-// const cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
-
-// const PI_D2 = Math.PI / 2;
+let requestAnimationFrame: (callback: FrameRequestCallback) => any;
+if (IS_NODE_ENV) {
+  requestAnimationFrame = (callback: FrameRequestCallback) => setTimeout(callback, 1000 / 60);
+} else {
+  const oldWindow: any = window;
+  requestAnimationFrame = (
+    oldWindow.requestAnimationFrame ||
+    oldWindow.webkitRequestAnimationFrame ||
+    oldWindow.mozRequestAnimationFrame ||
+    oldWindow.msRequestAnimationFrame ||
+    ((callback: FrameRequestCallback) => setTimeout(callback, 1000 / 60))
+  );
+}
 
 const easingEquations = {
   easeOutSine: (pos: number) =>  Math.sin(pos * (Math.PI / 2)),
