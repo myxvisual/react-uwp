@@ -2,6 +2,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "module": "commonjs",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "target": "es5",
     "sourceMap": true,
     "moduleResolution": "node",

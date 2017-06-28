@@ -29,6 +29,7 @@ export interface SwipeState {
   haveAnimate?: boolean;
   swiping?: boolean;
 }
+
 const emptyFunc = () => {};
 export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   static defaultProps: SwipeProps = {
@@ -228,7 +229,6 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       window.addEventListener("mousemove", this.mouseOrTouchMoveHandler);
       window.addEventListener("mouseup", this.mouseOrTouchUpHandler);
     }
-    const { childrenLength } = this.state;
     if (isToucheEvent) {
       if (isHorizontal) {
         this.startClientX = e.changedTouches[0].clientX;
@@ -253,7 +253,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       ...this.originBodyStyle
     });
     const isToucheEvent = this.checkIsToucheEvent(e);
-    const { childrenLength, focusIndex, isHorizontal } = this.state;
+    const { focusIndex, isHorizontal } = this.state;
     if (isToucheEvent) {
       if (isHorizontal) {
         this.endClientX = e.changedTouches[0].clientX;
@@ -345,7 +345,6 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       childrenLength,
       isSingleChildren
     } = this.state;
-    const { theme } = this.context;
     const styles = getStyles(this);
     const childrenArray = React.Children.toArray(children);
     const childrenSize = childrenArray.length;
