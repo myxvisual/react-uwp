@@ -13,7 +13,7 @@ import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 export { getTheme };
 export interface DataProps {
   /**
-   * Set theme object. [ThemeType](https://github.com/myxvisual/react-uwp/blob/master/typings/index.d.ts#L34), Usually use [getTheme](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L23) function to get it.
+   * Set theme object. [ThemeType](https://github.com/myxvisual/react-uwp/blob/master/typings/index.d.ts#L43), Usually use [getTheme](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L28) function to get it.
    */
   theme?: ReactUWP.ThemeType;
   /**
