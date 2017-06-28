@@ -52,14 +52,15 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
   isSingleChildren = React.Children.count(this.props.children) === 1;
 
-  state: SwipeState = {
+  state: SwipeState = (({ direction, initialFocusIndex, stopSwipe, children }: SwipeProps) => ({
+    isHorizontal: direction === "horizontal",
     isSingleChildren: this.isSingleChildren,
-    focusIndex: this.isSingleChildren ? this.props.initialFocusIndex : this.props.initialFocusIndex + 1,
-    currStopSwipe: this.props.stopSwipe,
-    childrenLength: 0,
+    focusIndex: this.isSingleChildren ? initialFocusIndex : initialFocusIndex + 1,
+    currStopSwipe: stopSwipe,
+    childrenLength: React.Children.count(children),
     haveAnimate: false,
     swiping: false
-  };
+  }))(this.props);
 
   private timeoutId: any;
 
@@ -137,7 +138,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
 
   swipeForward = () => {
     const { focusIndex, swiping, isSingleChildren } = this.state;
-    if (swiping || !this.props.autoSwipe) return;
+    if (swiping) return;
     if (!isSingleChildren) this.props.onChangeSwipe(focusIndex);
     this.state.swiping = true;
     const isLast = focusIndex === this.getItemsLength() - 2;
@@ -398,25 +399,25 @@ function getStyles(swipe: Swipe): {
 
   return {
     root: prepareStyles({
+      position: "relative",
       display: "flex",
       flexDirection: isHorizontal ? "row" : "column",
       alignItems: "center",
       justifyContent: "center",
-      position: "relative",
       width: "100%",
-      height: "auto",
+      height: "100%",
       overflow: "hidden",
       flex: "0 0 auto",
       ...style
     }),
     content: prepareStyles({
+      position: "relative",
       flex: "0 0 auto",
       display: "flex",
       flexDirection: isHorizontal ? "row" : "column",
       flexWrap: "nowrap",
       alignItems: "center",
       justifyContent: "center",
-      position: "relative",
       height: isHorizontal ? "100%" : `${childrenLength * 100}%`,
       width: isHorizontal ? `${childrenLength * 100}%` : "100%",
       transform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,

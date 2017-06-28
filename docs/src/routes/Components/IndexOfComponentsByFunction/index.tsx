@@ -98,7 +98,7 @@ The UI framework for Windows provides an extensive library of controls that supp
         <Menu />
         <ListView />
         <Image />
-        <FlipView />
+        {/*<FlipView />*/}
         <NavigationView />
         <SplitView />
       </div>
