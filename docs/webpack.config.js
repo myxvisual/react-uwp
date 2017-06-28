@@ -5,7 +5,7 @@ const WebpackMd5Hash = require('webpack-md5-hash')
 const WebpackBuildDllPlugin = require('webpack-build-dll-plugin')
 
 const __DEV__ = process.env.NODE_ENV !== 'production'
-const { outputPath, publicPath, hostName, port, entries } = require('./config')
+const { outputPath, publicPath, hostName, port } = require('./config')
 
 const rootPath = path.resolve('src')
 const hash = __DEV__ ? '' : '.[hash:base64:5]'
@@ -63,24 +63,6 @@ module.exports = {
         }
       }
     }, {
-      test: /\.(s?c|sa)ss$/,
-      use: [
-        'style',
-        `css?modules&importLoaders=1&localIdentName=${__DEV__ ? '[local]_' : ''}[hash:base64:5]&-autoprefixer`,
-        'postcss'
-      ],
-      include: [rootPath]
-    }, {
-      test: /\.(s?c|sa)ss$/,
-      use: [
-        'style',
-        'css'
-      ],
-      exclude: [rootPath]
-    }, {
-      test: /\.json$/,
-      loader: 'json'
-    }, {
       test: /\.(jpe?g|png|gif)$/i,
       loader: `${normalUrlLoader}name=images/[name]${hash}.[ext]`
     }, {
@@ -102,9 +84,6 @@ module.exports = {
       __DEV__,
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      },
-      '__ReactUWP__': {
-        version: process.env.REACT_UWP_VERSION
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({
