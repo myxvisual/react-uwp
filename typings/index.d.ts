@@ -133,6 +133,7 @@ export interface ThemeType {
   updateToast?: (toastID: number, toast: React.ReactNode) => void;
   deleteToast?: (toastID: number) => void;
 
+  language?: string;
   typographyStyles?: {
     header?: React.CSSProperties;
     subHeader?: React.CSSProperties;

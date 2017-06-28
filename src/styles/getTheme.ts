@@ -27,6 +27,7 @@ export interface ThemeConfig {
   desktopBackgroundImage?: string;
   userAgent?: string;
   useInlineStyle?: boolean;
+  language?: string;
 }
 
 export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType {
@@ -38,12 +39,14 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     useFluentDesign,
     desktopBackgroundImage,
     userAgent,
-    useInlineStyle
+    useInlineStyle,
+    language
   } = themeConfig;
 
   themeName = themeName || "dark";
   accent = accent || "#0078D7";
   useFluentDesign = useFluentDesign === void 0 ? false : useFluentDesign;
+  language = language || (IS_NODE_ENV ? "en" : (navigator.language || (navigator as any).userLanguage));
 
   const isDark = themeName === "dark";
   const baseHigh = isDark ? "#fff" : "#000";
@@ -160,6 +163,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
 
     toasts: [],
 
+    language,
     typographyStyles: {
       header: {
         fontWeight: "lighter",
