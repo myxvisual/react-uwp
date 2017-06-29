@@ -172,7 +172,10 @@ function getStyles(checkBox: CheckBox): {
     overflow: "hidden"
   });
   const iconParentHoverStyle = { border: `2px solid ${theme.baseHigh}` };
-  let iconParent: React.CSSProperties;
+  let iconParent: {
+    style: React.CSSProperties;
+    hoverStyle: React.CSSProperties;
+  };
 
   switch (checked) {
     case true: {

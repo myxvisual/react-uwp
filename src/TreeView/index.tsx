@@ -276,7 +276,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
                 transition: "all .25s"
               })}
             >
-              {expanded && children.map((item: TreeItem[], index: number) => renderList(item, index, true, indexArray))}
+              {expanded && children.map((item: TreeItem, index: number) => renderList(item, index, true, indexArray))}
             </div>
           )}
         </div>

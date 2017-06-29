@@ -71,7 +71,7 @@ export class Icon extends React.Component<IconProps, IconState> {
     } = this.props;
     const { theme } = this.context;
     const { hovered } = this.state;
-    return React.createElement(useSVGElement ? "text" : "span", {
+    return React.createElement(useSVGElement ? "text" as "span" : "span", {
       ...attributes,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,

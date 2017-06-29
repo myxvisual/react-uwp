@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import TreeView from "react-uwp/TreeView";
+import TreeView, { TreeItem } from "react-uwp/TreeView";
 import Icon from "react-uwp/Icon";
 import CheckBox from "react-uwp/CheckBox";
 import Toggle from "react-uwp/Toggle";
@@ -95,7 +95,7 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
           }, {
             title: "D",
             disabled: true
-          }]}
+          }] as TreeItem[]}
           showFocus
           background={theme.useFluentDesign ? (
             theme.acrylicTexture40.background
