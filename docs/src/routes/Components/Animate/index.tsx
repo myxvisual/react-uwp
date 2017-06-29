@@ -3,8 +3,8 @@ import * as PropTypes from "prop-types";
 
 import ComponentDetail from "components/ComponentDetail";
 import * as docEntry from "react-uwp/Animate/CustomAnimate.doc.json";
-import * as readmeText from "!raw!./README.md";
-import * as readmeText_zh_CN from "!raw!./README-zh_CN.md";
+import * as readme from "!raw!./README.md";
+import * as readme_zh_CN from "!raw!./README.zh-CN.md";
 
 import CodeExample from "components/CodeExample";
 
@@ -31,7 +31,7 @@ export default class CustomAnimate extends React.Component<any> {
 
     return (
       <ComponentDetail
-        readmeText={readmeText as any}
+        readmeText={{ "en-US": readme as any, "zh-CN": readme_zh_CN as any }}
         docEntry={docEntry}
       >
         <CodeExample
