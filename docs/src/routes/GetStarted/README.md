@@ -1,7 +1,7 @@
 ## Installation
 React-UWP is available as an [npm package](https://www.npmjs.org/package/react-uwp).
 
-Use NPM to get React-UWP components and core styling. All you need is node.js and gulp.
+Use `NPM` to get `React-UWP` components and core styling. All you need is `node.js`.
 
 ``` bash
 npm install --save react-uwp
@@ -9,9 +9,10 @@ npm install --save react-uwp
 
 ## Usage
 React-UWP components require a theme to be provided.
-The quickest way to get up and running is by using the `Theme` to inject the theme into your application context.then, you can use any of the components as demonstrated in documentation.
+The quickest way to get up and running is by using the `Theme` to inject the theme into your application context. then, you can use any of the components as demonstrated in documentation.
 
-> If you coding by Typescript, add `ReactUWP` namespace to `tsconfig.json`.
+> If you coding by TypeScript, suggest
+ add `ReactUWP` namespace to `tsconfig.json`.
 
 ``` js
 {
@@ -41,9 +42,9 @@ export class App extends React.Component {
     return (
       <UWPThemeProvider
         theme={getTheme({
-          themeName: "dark", // set custom theme
+          themeName: "dark", // set custom theme mode
           accent: "#0078D7", // set accent color
-          useFluentDesign: true, // sure you want use new fluent design.
+          useFluentDesign: true, // sure you want use new Fluent Design
           desktopBackgroundImage: "http://127.0.0.1:8092/static/images/jennifer-bailey-10753.jpg" // set global desktop background image
         })}
       >
