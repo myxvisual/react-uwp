@@ -34,8 +34,8 @@ module.exports = {
     modules: ['./node_modules', './src'],
     alias: {
       'react-uwp': path.resolve(__dirname, '../src'),
-      'marked': path.resolve(__dirname, './node_modules/marked'),
-      'prismjs': path.resolve(__dirname, './node_modules/prismjs'),
+      'marked': path.resolve(__dirname, '../node_modules/marked'),
+      'prismjs': path.resolve(__dirname, '../node_modules/prismjs'),
       'react': path.resolve(__dirname, './node_modules/react'),
       'react-dom': path.resolve(__dirname, './node_modules/react-dom')
     }

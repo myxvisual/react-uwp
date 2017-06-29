@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "preprod": "cd docs && npm run preprod",
+    "preinstall": "cd docs && npm install",
     "start": "cd docs && npm start",
     "test": "echo \"Error: no test specified\" && exit 0",
     "build": "npm-run-all build:copy build:source && node scripts/rewriteFile",
