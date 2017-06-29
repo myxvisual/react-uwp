@@ -5,8 +5,8 @@ import ComponentDescription from "./ComponentDescription";
 import MarkdownRender from "react-uwp/MarkdownRender";
 
 export interface ReadmeText {
-    en_US?: string;
-    zh_CN?: string;
+  "en-US"?: string;
+  "zh-CN"?: string;
 }
 
 export interface ComponentDetailProps {
@@ -28,7 +28,7 @@ export default class ComponentDetail extends React.Component<ComponentDetailProp
 
     const isMultipleLanguage = typeof readmeText === "object";
     const currReadmeText = isMultipleLanguage ? (
-      (readmeText as any)[(language as any)] || (readmeText as ReadmeText).en_US
+      (readmeText as any)[(language as any)] || (readmeText as ReadmeText)["en-US"]
     ) : readmeText;
 
     return (
