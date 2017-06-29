@@ -6,7 +6,6 @@ export interface DataProps {}
 export interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export default class Mock extends React.Component<MockProps> {
-
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

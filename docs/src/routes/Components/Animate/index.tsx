@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import ComponentDetail from "components/ComponentDetail";
 import * as docEntry from "react-uwp/Animate/CustomAnimate.doc.json";
 import * as readmeText from "!raw!./README.md";
-import * as readmeText_zh_CN from "!raw!./README.md";
+import * as readmeText_zh_CN from "!raw!./README-zh_CN.md";
 
 import CodeExample from "components/CodeExample";
 
