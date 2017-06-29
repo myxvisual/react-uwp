@@ -4,7 +4,7 @@
 ``` jsx
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import Theme as UWPThemeProvider, { getTheme } from "react-uwp/Theme";
+import { UWPThemeProvider, getTheme } from "react-uwp/Theme";
 import MyComponent from "./MyComponent";
 
 class App extends React.Component<void> {

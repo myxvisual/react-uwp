@@ -33,7 +33,7 @@ The quickest way to get up and running is by using the `Theme` to inject the the
 ```jsx
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import Theme as UWPThemeProvider, { getTheme } from "react-uwp/Theme";
+import { Theme as UWPThemeProvider, getTheme } from "react-uwp/Theme";
 import MyComponent from "./MyComponent";
 
 export class App extends React.Component {
