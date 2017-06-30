@@ -47,6 +47,7 @@ export default class AutoSuggestBox extends React.Component<any> {
           title="Simple Examples"
           code={SimpleExampleCode as any}
           description={SimpleExampleDesc as any}
+          useSingleTheme
         >
           <SimpleExample />
         </CodeExample>
@@ -55,6 +56,7 @@ export default class AutoSuggestBox extends React.Component<any> {
           title="ListSource Examples"
           code={ListSourceExampleCode as any}
           description={ListSourceExampleDesc as any}
+          useSingleTheme
         >
           <ListSourceExample />
         </CodeExample>
@@ -63,6 +65,7 @@ export default class AutoSuggestBox extends React.Component<any> {
           title="ListSource Complex Examples"
           code={ListSourceComplexExampleCode as any}
           description={ListSourceComplexExampleDesc as any}
+          useSingleTheme
         >
           <ListSourceComplexExample />
         </CodeExample>
@@ -71,6 +74,7 @@ export default class AutoSuggestBox extends React.Component<any> {
           title="Search Examples"
           code={SearchExampleCode as any}
           description={SearchExampleDesc as any}
+          useSingleTheme
         >
           <SearchExample />
         </CodeExample>

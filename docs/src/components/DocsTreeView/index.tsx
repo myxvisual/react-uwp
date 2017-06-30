@@ -152,7 +152,7 @@ export default class DocsTreeView extends React.Component<DocsTreeViewProps, Doc
         style={theme.prepareStyles({
           width: 320,
           padding: "10px 0",
-          background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow,
+          background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.chromeLow,
           ...style
         })}
         {...attributes}

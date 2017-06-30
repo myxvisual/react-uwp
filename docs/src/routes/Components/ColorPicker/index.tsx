@@ -35,6 +35,7 @@ export default class ColorPicker extends React.Component<any> {
           code={SimpleExampleCode as any}
           description={SimpleExampleDesc as any}
           doubleThemeStyle={{ padding: "40px 0" }}
+          useSingleTheme
         >
           <SimpleExample />
         </CodeExample>

@@ -8,13 +8,7 @@ export interface DataProps {}
 
 export interface LayoutProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface LayoutState {}
-
-export default class Layout extends React.Component<LayoutProps, LayoutState> {
-  static defaultProps: LayoutProps = {};
-
-  state: LayoutState = {};
-
+export default class Layout extends React.Component<LayoutProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 

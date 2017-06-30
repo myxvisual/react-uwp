@@ -142,7 +142,7 @@ export default class AccentColor extends React.Component<AccentColorProps> {
                 height: 70
               }}
             >
-              <span>black</span>
+              <span>white</span>
               <span style={{ float: "right" }}>#ffffff</span>
             </li>
           </ul>

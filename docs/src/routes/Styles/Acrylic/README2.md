@@ -1,5 +1,4 @@
 ### How to Generate Acrylic Textures ?
----
 
 ``` jsx
 import * as React from "react";

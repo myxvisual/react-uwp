@@ -10,7 +10,7 @@ export default class SimpleExample extends React.Component {
 
   render() {
     const baseStyle: React.CSSProperties = {
-      margin: "0 10px"
+      margin: 10
     };
     return (
       <div>

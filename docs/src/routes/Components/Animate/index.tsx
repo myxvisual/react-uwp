@@ -38,12 +38,14 @@ export default class CustomAnimate extends React.Component<any> {
           code={SimpleExampleCode as any}
           description={SimpleExampleDesc as any}
           doubleThemeStyle={{ padding: 20 }}
+          useSingleTheme
         >
           <SimpleExample />
         </CodeExample>
         <CodeExample
           title="Complex Example"
           code={AnimationCode as any}
+          useSingleTheme
         >
           <Animation />
         </CodeExample>

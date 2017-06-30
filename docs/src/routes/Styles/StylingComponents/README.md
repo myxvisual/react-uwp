@@ -1,7 +1,5 @@
 ## Styling Components
 
-----
-
 All React-UWP components construct by **inline-style**.
 
 ### Overriding with Inline Styles

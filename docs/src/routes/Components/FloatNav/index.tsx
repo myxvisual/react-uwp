@@ -37,6 +37,7 @@ export default class FloatNav extends React.Component<any> {
           description={SimpleExampleDesc as any}
           doubleThemeStyle={{ padding: 20 }}
           useChromeColor
+          useSingleTheme
         >
           <SimpleExample />
         </CodeExample>

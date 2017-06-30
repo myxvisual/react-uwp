@@ -9,8 +9,8 @@ export interface ListSourceExampleState {
 const colors = ["Blue", "Red", "Green", "Grey", "Black", "Yellow", "Purple", "Brown", "White", "Orange", "Pink", "Violet", "Olive", "Cyan", "Magenta", "Gold", "Lavender", "Indigo", "Maroon", "Turquoise", "Chartreuse", "Coral", "Beige", "Azure", "Lime", "Teal", "Sky Blue", "Forest Green", "Silver", "Tan", "Salmon (color)", "Midnight blue", "Cornflower blue", "Fuchsia", "Ivory", "Khaki", "Steel blue", "Aquamarine", "Goldenrod", "Crimson", "Royal blue", "Slate gray", "Plum", "Spring green", "Powder blue", "Alice blue", "Orchid", "Dodger blue", "Lemon chiffon", "Light blue", "Navajo white"];
 
 const autoSuggestBoxStyle: React.CSSProperties = {
-  width: "100%",
-  margin: "20px 0"
+  display: "block",
+  margin: "20px auto"
 };
 
 export default class ListSourceExample extends React.Component<{}, ListSourceExampleState> {

@@ -1,5 +1,3 @@
 ## Custom Theme
 
-----
-
 ### Examples
