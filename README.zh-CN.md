@@ -11,8 +11,9 @@
 
 [React](https://facebook.github.io/react/) 一套实现 [Microsoft's UWP Design](https://developer.microsoft.com/en-us/windows/apps/design) & [Fluent Design System](http://fluent.microsoft.com/) 的 UI 库.
 
+[英文 README](https://github.com/myxvisual/react-uwp/blob/master/README.md)
+
 # [在线文档](https://www.react-uwp.com/)
-## [英文 README] (https://github.com/myxvisual/react-uwp/blob/master/README.md)
 ![img](https://github.com/myxvisual/react-uwp/blob/master/images/doc-site.JPG)
 Visit [react-uwp.com](https://www.react-uwp.com/) 在线查看API，请参阅使用实时的组件。
 或者将文档编译到本地。

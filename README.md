@@ -12,8 +12,9 @@
 
 [React](https://facebook.github.io/react/) Components that Implement [Microsoft's UWP Design](https://developer.microsoft.com/en-us/windows/apps/design) & [Fluent Design System](http://fluent.microsoft.com/).
 
+[中文 README](https://github.com/myxvisual/react-uwp/blob/master/README.zh-CN.md)
+
 # [Online Documentation](https://www.react-uwp.com/)
-## [中文 README] (https://github.com/myxvisual/react-uwp/blob/master/README.zh-CN.md)
 ![img](https://github.com/myxvisual/react-uwp/blob/master/images/doc-site.JPG)
 Visit [react-uwp.com](https://www.react-uwp.com/) online to review the API, see the components in action with live.
 Or build the documentation to locally.
