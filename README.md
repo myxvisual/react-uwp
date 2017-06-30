@@ -13,6 +13,7 @@
 [React](https://facebook.github.io/react/) Components that Implement [Microsoft's UWP Design](https://developer.microsoft.com/en-us/windows/apps/design) & [Fluent Design System](http://fluent.microsoft.com/).
 
 # [Online Documentation](https://www.react-uwp.com/)
+## [中文 README] (https://github.com/myxvisual/react-uwp/blob/master/README.zh-CN.md)
 ![img](https://github.com/myxvisual/react-uwp/blob/master/images/doc-site.JPG)
 Visit [react-uwp.com](https://www.react-uwp.com/) online to review the API, see the components in action with live.
 Or build the documentation to locally.
@@ -114,5 +115,11 @@ This can be achieved in the following two ways:
 - [With the theme](https://www.react-uwp.com/styles/styling-components/custom-theme), you can use a custom theme to style components.
 - [With the inline style](https://www.react-uwp.com/styles/styling-components/use-inlinestyle-replace-the-default-style), you can override individual
 component styles via the style property.
+
+# Need a component?
+Please check the [React-UWP Trello](https://trello.com/b/lrDKBog2/react-uwp-requests) and vote up the request, or see the [ROADMAP.md](https://github.com/myxvisual/react-uwp/blob/master/ROADMAP.md).
+
+If you don’t see an existing card, please file an [issue](https://github.com/myxvisual/react-uwp/issues) in the repository.
+
 # Four Theme Style (Fluent Design & UWP Design)
 ![img](https://github.com/myxvisual/react-uwp/blob/master/images/four-theme-style.JPG)
