@@ -1,7 +1,7 @@
 ## 安装
-React-UWP 现在是发布了，以便于使用 [npm 包](https://www.npmjs.org/package/react-uwp)。
+React-UWP 现在发布方便使用的 [npm 包](https://www.npmjs.org/package/react-uwp)。
 
-使用 `NPM` 来获取 `React-UWP` 的所有组件和关键样式。你只需要的就是安装好了 `node.js`。
+使用 `NPM` 来获取 `React-UWP` 的所有组件和关键样式。你只需要的就是安装好 `node.js`即可。
 
 ``` bash
 npm install --save react-uwp
@@ -9,19 +9,19 @@ npm install --save react-uwp
 
 ## 使用
 React-UWP 的组件需要提供一个主题给它。
-最快方法是使用 `Theme` 组件将主题注入到难打应用程序上下文中。然后，你就可以使用任何在文档示例中的组件了.
-> 如果你是用 TypeScript 写代码, 建议添加 `ReactUWP` 命名空间到 `tsconfig.json`。
+最快方法是使用 `Theme` 组件将主题注入到你的应用程序上下文中。然后，你就可以使用任何在文档示例中的组件了.
+> 如果你是用 TypeScript 编写代码, 建议添加 `ReactUWP` 的命名空间添加到 `tsconfig.json`。
 
 ``` js
 {
   "compilerOptions": {
     "typeRoots": [
       "./node_modules/@types",
-      "./node_modules/react-uwp" // 舔加在这里
+      "./node_modules/react-uwp" // 添加在这里
     ],
     // ....
     "include": [
-      "./node_modules/react-uwp/index.d.ts" // 或者舔加在这里
+      "./node_modules/react-uwp/index.d.ts" // 或者添加在这里
     ]
   }
 }
@@ -83,7 +83,7 @@ import { Button } from "react-uwp";
 
 这样会让你的编译过程更加快和编译的体积更小。
 
-完整查阅所有组件 `import`，可以查看[`/src/index.ts`](https://github.com/myxvisual/react-uwp/blob/master/src/index.ts) 位于 React-UWP npm 包根目录下。
+完整查阅所有组件 `import`，可以查看 [`/src/index.ts`](https://github.com/myxvisual/react-uwp/blob/master/src/index.ts) 位于 React-UWP npm 包根目录下的源码。
 
 ### 自定义主题
 
