@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import shallowEqual from "../common/shallowEqual";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 
 export interface DataProps {
@@ -82,7 +83,9 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   }
 
   componentWillReceiveProps(nextProps: SwipeProps) {
-    this.updateState(nextProps, true);
+    if (!shallowEqual(nextProps, this.props)) {
+      this.updateState(nextProps, true);
+    }
   }
 
   componentWillUnmount() {
