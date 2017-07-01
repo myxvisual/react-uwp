@@ -40,7 +40,7 @@ export default class SimpleExample extends React.Component<WrapperState> {
             />
           ))}
         </FlipView>
-        {/*<FlipView style={flipViewStyle} direction="vertical">
+        <FlipView style={flipViewStyle} direction="vertical">
           {imageNames.slice(3).map((imageName, index) => (
             <img
               style={{
@@ -52,7 +52,7 @@ export default class SimpleExample extends React.Component<WrapperState> {
               key={`${index}`}
             />
           ))}
-        </FlipView>*/}
+        </FlipView>
       </div>
     );
   }
