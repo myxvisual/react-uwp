@@ -168,8 +168,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     const { v } = this.state;
     const clientReact = this.canvas.getBoundingClientRect();
     const colorPickerBoardSize = size * 0.8125 / 2;
-    const { clientX } = isTouchEvent ? (e as React.TouchEvent<HTMLCanvasElement>).changedTouches[0] : (e as React.MouseEvent<HTMLCanvasElement>);
-    const { clientY } = isTouchEvent ? (e as React.TouchEvent<HTMLCanvasElement>).changedTouches[0] : (e as React.MouseEvent<HTMLCanvasElement>);
+    const { clientX, clientY } = isTouchEvent ? (e as React.TouchEvent<HTMLCanvasElement>).changedTouches[0] : (e as React.MouseEvent<HTMLCanvasElement>);
     const x = clientX - clientReact.left - colorPickerBoardSize;
     const y = clientReact.top - clientY + colorPickerBoardSize;
     const r = Math.sqrt(x * x + y * y);
