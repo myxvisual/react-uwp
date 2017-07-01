@@ -165,12 +165,23 @@
           "type": "{ theme: any; }"
         },
         {
+          "name": "mounted",
+          "initializerText": " false",
+          "documentation": "",
+          "type": "boolean"
+        },
+        {
           "name": "rootElm",
           "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "swipe",
+          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "dots",
           "documentation": "",
           "type": "any"
         },
@@ -187,13 +198,18 @@
           "type": "() => void"
         },
         {
+          "name": "componentDidMount",
+          "documentation": "",
+          "type": "() => void"
+        },
+        {
           "name": "shouldComponentUpdate",
           "documentation": "",
           "type": "(nextProps: FlipViewProps, nextState: FlipViewState) => boolean"
         },
         {
           "name": "handleChangeSwipe",
-          "initializerText": " (focusSwipeIndex: number) => {\n    const count = React.Children.count(this.props.children);\n    this.setState({ focusSwipeIndex: focusSwipeIndex % count });\n  }",
+          "initializerText": " (focusSwipeIndex: number) => {\n    const count = React.Children.count(this.props.children);\n    if (this.mounted) {\n      this.setState({ focusSwipeIndex: focusSwipeIndex % count });\n    }\n  }",
           "documentation": "",
           "type": "(focusSwipeIndex: number) => void"
         },
