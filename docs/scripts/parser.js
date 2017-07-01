@@ -23,6 +23,7 @@ var Parser = (function () {
                 ts.forEachChild(_this.currSourceFile, _this.visit);
             }
             callback(_this.output);
+            console.log(fileName + " is compiled.");
             return _this.output;
         };
         this.parseHot = function (fileName, callback) {
@@ -30,7 +31,7 @@ var Parser = (function () {
             var fileNames = Array.isArray(fileName) ? fileName : [fileName];
             var _loop_1 = function (fileName_2) {
                 fs.watchFile(fileName_2, function (curr, prev) {
-                    console.log(fileName_2 + " is reWriting.");
+                    console.log(fileName_2 + " is hot compiling.");
                     _this.parse(fileName_2, callback);
                 });
             };
@@ -118,7 +119,8 @@ var Parser = (function () {
                         if (declaration) {
                             var docEntry = {};
                             symbol = _this.checker.getSymbolAtLocation(declaration.name);
-                            docEntry.documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+                            var documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+                            docEntry.documentation = documentation || void 0;
                             docEntry.name = symbol.getName();
                             docEntry.type = _this.checker.typeToString(_this.checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration));
                             if (declaration.initializer) {
@@ -170,7 +172,7 @@ var Parser = (function () {
             var name = symbol.flags !== ts.SymbolFlags.Interface ? symbol.getName() : symbol.name;
             var isRequired;
             var isSourceFile = symbol.flags === 512;
-            var documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+            var documentation = ts.displayPartsToString(symbol.getDocumentationComment()) || void 0;
             // console.log(name, symbol.flags);
             var newSymbol = symbol;
             var parentSymbol = newSymbol.parent;
@@ -253,7 +255,7 @@ var Parser = (function () {
         this.serializeSignature = function (signature) { return ({
             parameters: signature.parameters.map(function (symbol) { return _this.serializeSymbol(symbol); }),
             returnType: _this.checker.typeToString(signature.getReturnType()),
-            documentation: ts.displayPartsToString(signature.getDocumentationComment())
+            documentation: ts.displayPartsToString(signature.getDocumentationComment()) || void 0
         }); };
         this.serializeSourceFile = function (symbol) {
             var details = _this.serializeSymbol(symbol);
