@@ -4,9 +4,9 @@
   font-weight: 400;
   src:
     local("Segoe MDL2 Assets"),
-    url("../segmdl2.eot"),
-    url("../segmdl2.woff2") format("woff2"),
-    url("../segmdl2.woff") format("woff"),
-    url("../segmdl2.svg#SegoeMDL2Assets") format("svg"),
-    url("../segmdl2.ttf") format("truetype");
+    url("../fonts/segmdl2.eot"),
+    url("../fonts/segmdl2.woff2") format("woff2"),
+    url("../fonts/segmdl2.woff") format("woff"),
+    url("../fonts/segmdl2.svg#SegoeMDL2Assets") format("svg"),
+    url("../fonts/segmdl2.ttf") format("truetype");
 }
