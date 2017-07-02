@@ -2,6 +2,7 @@
 
 # [react-uwp](https://www.react-uwp.com/)
 
+[![cdnjs](https://img.shields.io/cdnjs/v/react-uwp.svg?style=flat-square)](https://cdnjs.com/libraries/react-uwp)
 [![npm package](https://img.shields.io/npm/v/react-uwp.svg?style=flat-square)](https://www.npmjs.org/package/react-uwp)
 [![Build Status](https://travis-ci.org/myxvisual/react-uwp.svg?branch=master)](https://travis-ci.org/myxvisual/react-uwp)
 
