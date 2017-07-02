@@ -5,12 +5,13 @@ import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/styles/getTheme";
 import Wrapper from "../components/Wrapper";
 import WrapperWithCategories from "../components/WrapperWithCategories";
+import setStaticAcrylicTexture from "common/setStaticAcrylicTexture";
 
 export interface RouterCallback {
   (error: any, component?: any): void;
 }
+
 const useFluentDesign = true;
-// const desktopBackgroundImage = require("assets/images/blurBackground/camera-1246655_1920.jpg");
 const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 
@@ -18,7 +19,7 @@ export class ThemeWrapper extends React.Component {
   render() {
     const { children } = this.props;
     return (
-      <Theme autoSaveTheme theme={theme} needGenerateAcrylic>
+      <Theme theme={theme} needGenerateAcrylic={false} themeWillUpdate={setStaticAcrylicTexture}>
         {children}
       </Theme>
     );
