@@ -2,7 +2,7 @@ export default function setSegoeMDL2AssetsFonts() {
   const linkElm = document.createElement("link");
   Object.assign(linkElm, {
     rel: "stylesheet",
-    href: "https://www.react-uwp.com/HEAD/static/css/segoe-mdl2-assets.css"
+    href: "https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css"
   });
   document.head.appendChild(linkElm);
 }
