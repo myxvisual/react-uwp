@@ -1,10 +1,12 @@
 const fs = require('fs')
 const path = require('path')
 const fse = require('fs-extra')
-const { execSync, spawnSync } = require('child_process')
+const { execSync } = require('child_process')
+const buildBowerRelease = require('./bower-release-build')
 
 process.chdir(__dirname)
 
+const rootDir = path.join('../../', __dirname)
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
 const versionsFile = './versions.json'
 const { publicPath } = require('../config')
@@ -74,6 +76,9 @@ function buildDocs() {
   fse.emptyDirSync('../build')
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   fse.copySync('../public', '../build', { overwrite: true })
+
+  buildBowerRelease(versionNumber)
+
   execSyncWithLog('git checkout gh-pages')
   fse.copySync('../build/README.md', '../../README.md', { overwrite: true })
   fse.copySync('../build/404.html', '../../404.html', { overwrite: true })
@@ -114,7 +119,6 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  const rootDir = path.join('../../', __dirname)
   const options = { cwd: rootDir, stdio: 'inherit' }
   execSync('git add -A', options)
   execSync(`git commit -m 'Update ${version}' Docs`, options)
