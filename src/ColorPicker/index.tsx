@@ -59,6 +59,8 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
 
   componentDidMount() {
     this.renderCanvas();
+    this.canvas.addEventListener("touchstart", this.handleChooseColor as any, false);
+    this.canvas.addEventListener("touchend", this.handleEnd as any, false);
   }
 
   componentDidUpdate() {
@@ -67,6 +69,8 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
 
   componentWillUnmount() {
     clearTimeout(this.moveColorTimer);
+    this.canvas.removeEventListener("touchstart", this.handleChooseColor as any, false);
+    this.canvas.removeEventListener("touchend", this.handleEnd as any, false);
   }
 
   renderCanvas() {
@@ -144,10 +148,15 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     this.setState({ v }, () => onChangedColor(colorHexString));
   }
 
-  handleChooseColor = (e: React.MouseEvent<HTMLCanvasElement>, isClickEvent = true) => {
-    if (isClickEvent && e.type === "mousedown") {
-      window.addEventListener("mousemove", this.handleMouseMove);
-      window.addEventListener("mouseup", this.handleMouseUp);
+  handleChooseColor = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>, isClickEvent = true) => {
+    e.preventDefault();
+    const isTouchEvent = e.type.includes("touch");
+
+    if (isClickEvent && (e.type === "mousedown" || e.type === "touchstart")) {
+      document.documentElement.addEventListener("mousemove", this.handleTouchMouseMove, false);
+      document.documentElement.addEventListener("mouseup", this.handleEnd);
+      this.canvas.addEventListener("touchmove", this.handleTouchMouseMove, false);
+      document.documentElement.addEventListener("touchend", this.handleEnd);
       Object.assign(document.body.style, {
         userSelect: "none",
         msUserSelect: "none",
@@ -159,8 +168,9 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     const { v } = this.state;
     const clientReact = this.canvas.getBoundingClientRect();
     const colorPickerBoardSize = size * 0.8125 / 2;
-    const x = e.clientX - clientReact.left - colorPickerBoardSize;
-    const y = clientReact.top - e.clientY + colorPickerBoardSize;
+    const { clientX, clientY } = isTouchEvent ? (e as React.TouchEvent<HTMLCanvasElement>).changedTouches[0] : (e as React.MouseEvent<HTMLCanvasElement>);
+    const x = clientX - clientReact.left - colorPickerBoardSize;
+    const y = clientReact.top - clientY + colorPickerBoardSize;
     const r = Math.sqrt(x * x + y * y);
     let h = Math.asin(y / r) / Math.PI * 180;
     if (x > 0 && y > 0) h = 360 - h;
@@ -197,14 +207,14 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     }
   }
 
-  handleMouseMove = (e: any) => {
+  handleTouchMouseMove = (e: any) => {
     if (!this.state.dragging) {
       this.setState({ dragging: true });
     }
     this.handleChooseColor(e, false);
   }
 
-  handleMouseUp = (e: any) => {
+  handleEnd = (e: any) => {
     if (this.state.dragging) {
       this.setState({ dragging: false });
     }
@@ -216,8 +226,10 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
       cursor: void 0,
       ...this.originBodyStyle
     });
-    window.removeEventListener("mousemove", this.handleMouseMove);
-    window.removeEventListener("mouseup", this.handleMouseUp);
+    document.documentElement.removeEventListener("mousemove", this.handleTouchMouseMove);
+    this.canvas.removeEventListener("touchmove", this.handleTouchMouseMove);
+    document.documentElement.removeEventListener("mouseup", this.handleEnd);
+    document.documentElement.removeEventListener("touchend", this.handleEnd);
   }
 
   render() {
@@ -248,9 +260,9 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
             <canvas
               style={styles.mainBoard}
               ref={canvas => this.canvas = canvas}
-              onMouseDown={this.handleChooseColor}
-              onMouseUp={this.handleMouseUp}
               onClick={this.handleChooseColor}
+              onMouseDown={this.handleChooseColor}
+              onMouseUp={this.handleEnd}
             >
               Your Browser not support canvas.
             </canvas>
@@ -267,8 +279,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
                 borderRadius: mainBoardDotSize,
                 background: "none",
                 boxShadow: `0 0 0 4px #fff`,
-                transform: `translate3d(${colorPickerBoardSize - mainBoardDotSize / 2}px, ${colorPickerBoardSize - mainBoardDotSize / 2}px, 0)`,
-                transition: dragging ? "all .1s" : "all .25s"
+                transform: `translate3d(${colorPickerBoardSize - mainBoardDotSize / 2}px, ${colorPickerBoardSize - mainBoardDotSize / 2}px, 0)`
               })}
             />
           </div>

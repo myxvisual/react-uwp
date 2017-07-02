@@ -57,6 +57,7 @@ export class Parser {
     }
 
     callback(this.output);
+    console.log(`${fileName} is compiled.`);
     return this.output;
   }
 
@@ -64,7 +65,7 @@ export class Parser {
     const fileNames = Array.isArray(fileName) ? fileName : [fileName];
     for (const fileName of fileNames) {
       fs.watchFile(fileName, (curr, prev) => {
-        console.log(`${fileName} is reWriting.`);
+        console.log(`${fileName} is hot compiling.`);
         this.parse(fileName, callback);
       });
     }
@@ -152,7 +153,8 @@ export class Parser {
           if (declaration) {
             const docEntry: DocEntry = {};
             symbol = this.checker.getSymbolAtLocation(declaration.name);
-            docEntry.documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+            let documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+            docEntry.documentation = documentation || void 0;
             docEntry.name = symbol.getName();
             docEntry.type = this.checker.typeToString(this.checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration));
             if (declaration.initializer) {
@@ -204,7 +206,7 @@ export class Parser {
     const name = symbol.flags !== ts.SymbolFlags.Interface ?  symbol.getName() : symbol.name;
     let isRequired: boolean;
     const isSourceFile = symbol.flags === 512;
-    const documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+    const documentation = ts.displayPartsToString(symbol.getDocumentationComment()) || void 0;
 
     // console.log(name, symbol.flags);
 
@@ -301,7 +303,7 @@ export class Parser {
   serializeSignature = (signature: ts.Signature) => ({
     parameters: signature.parameters.map(symbol => this.serializeSymbol(symbol)),
     returnType: this.checker.typeToString(signature.getReturnType()),
-    documentation: ts.displayPartsToString(signature.getDocumentationComment())
+    documentation: ts.displayPartsToString(signature.getDocumentationComment()) || void 0
   })
 
   serializeSourceFile = (symbol: ts.Symbol) => {

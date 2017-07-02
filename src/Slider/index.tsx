@@ -130,10 +130,16 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       this.setState({ currValue: nextProps.initValue });
     }
   }
+  componentDidMount() {
+    this.rootElm.addEventListener("touchstart", this.handleDraggingStart as any, false);
+    this.rootElm.addEventListener("touchend", this.handleDragged as any, false);
+  }
 
   componentWillUnmount() {
     clearTimeout(this.throttleNowTimer);
     clearTimeout(this.onChangedValueTimer);
+    this.rootElm.removeEventListener("touchstart", this.handleDraggingStart as any, false);
+    this.rootElm.removeEventListener("touchend", this.handleDragged as any, false);
   }
 
   static contextTypes = { theme: PropTypes.object };
@@ -150,18 +156,21 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     this.setValueByEvent(e);
   }
 
-  handelMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  handleDraggingStart = (e: any) => {
+    e.preventDefault();
     Object.assign(document.body.style, {
       userSelect: "none",
       msUserSelect: "none",
       webkitUserSelect: "none",
       cursor: "default"
     });
-    window.addEventListener("mousemove", this.setValueByEvent);
-    window.addEventListener("mouseup", this.handelMouseUp);
+    document.documentElement.addEventListener("mousemove", this.setValueByEvent);
+    document.documentElement.addEventListener("touchmove", this.setValueByEvent);
+    document.documentElement.addEventListener("mouseup", this.handleDragged);
+    document.documentElement.addEventListener("touchend", this.handleDragged);
   }
 
-  handelMouseUp = (e: any) => {
+  handleDragged = (e: any) => {
     Object.assign(document.body.style, {
       userSelect: void 0,
       msUserSelect: void 0,
@@ -172,17 +181,22 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     if (this.state.dragging) {
       this.setState({ dragging: false });
     }
-    window.removeEventListener("mousemove", this.setValueByEvent);
-    window.removeEventListener("mouseup", this.handelMouseUp);
+    document.documentElement.removeEventListener("mousemove", this.setValueByEvent);
+    document.documentElement.removeEventListener("touchmove", this.setValueByEvent);
+    document.documentElement.removeEventListener("mouseup", this.handleDragged);
+    document.documentElement.removeEventListener("touchend", this.handleDragged);
   }
 
   setValueByEvent = (e: any, type?: any) => {
+    const isTouchEvent = e.type.includes("touch");
     clearTimeout(this.onChangedValueTimer);
-    if (e.type === "mousemove" && !this.state.dragging) {
+    const isDraggingEvent = e.type === "mousemove" || e.type === "touchmove";
+    if (isDraggingEvent && !this.state.dragging) {
+      e.preventDefault();
       this.setState({ dragging: true });
     }
 
-    if (e.type === "mousemove") {
+    if (isDraggingEvent) {
       const nowTime = performance ? performance.now() : Date.now();
       if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {
         clearTimeout(this.throttleNowTimer);
@@ -211,7 +225,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     const isHorizonMode = displayMode === "horizon";
     const useCustomBackground = barBackground || barBackgroundImage;
     const { left, width, bottom, height } = this.rootElm.getBoundingClientRect();
-    const { clientX, clientY } = e;
+    const { clientX, clientY } = isTouchEvent ? e.changedTouches[0] : e;
     const controllerClientRect = this.controllerElm.getBoundingClientRect();
     const controllerWidth = controllerClientRect.width;
     const controllerHeight = controllerClientRect.height;
@@ -290,8 +304,8 @@ export class Slider extends React.Component<SliderProps, SliderState> {
         onMouseEnter={this.handelMouseEnter}
         onMouseLeave={this.handelMouseLeave}
         onClick={this.setValueByEvent}
-        onMouseDown={this.handelMouseDown}
-        onMouseUp={this.handelMouseUp}
+        onMouseDown={this.handleDraggingStart}
+        onMouseUp={this.handleDragged}
       >
         <div style={styles.barContainer}>
           <div style={styles.bar} ref={elm => this.barElm = elm} />

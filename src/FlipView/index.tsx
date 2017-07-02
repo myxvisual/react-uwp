@@ -2,8 +2,8 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import IconButton from "../IconButton";
-import Icon from "../Icon";
 import Swipe from "../Swipe";
+import Dots from "./Dots";
 
 export interface DataProps {
   /**
@@ -80,6 +80,7 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
   mounted = false;
   rootElm: HTMLDivElement;
   swipe: Swipe;
+  dots: Dots;
 
   swipeForward = () => {
     this.swipe.swipeForward();
@@ -186,7 +187,7 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
         )}
         <Swipe
           ref={swipe => this.swipe = swipe}
-          onChangeSwipe={this.handleChangeSwipe}
+          onChangeSwipe={index => this.dots.setFocusIndex(index)}
           {...{
             children,
             initialFocusIndex,
@@ -214,30 +215,20 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
             {isHorizontal ? "ChevronRight3Legacy" : "ScrollChevronDownLegacy"}
           </IconButton>
         )}
-        {count > 1 && showControl && (
-          <div style={styles.control}>
-            <div style={styles.controlContent}>
-              {Array(count).fill(0).map((numb, index) => (
-                <Icon
-                  style={styles.icon}
-                  onClick={() => {
-                    this.handleSwipeToIndex(index);
-                  }}
-                  key={`${index}`}
-                >
-                  {focusSwipeIndex === index ? "FullCircleMask" : "CircleRing"}
-                </Icon>
-              ))}
-            <IconButton
-              style={{ marginLeft: 2 }}
-              size={32}
-              onClick={this.toggleCanAutoSwipe}
-            >
-              {currCanAutoSwipe ? "Pause" : "Play"}
-            </IconButton>
-            </div>
-          </div>
-        )}
+        <Dots
+          ref={dots => this.dots = dots}
+          {...{
+            count,
+            showControl,
+            controlStyle: styles.control,
+            controlContentStyle: styles.controlContent,
+            iconStyle: styles.icon,
+            handleSwipeToIndex: this.handleSwipeToIndex,
+            defaultFocusSwipeIndex: focusSwipeIndex,
+            toggleCanAutoSwipe: this.toggleCanAutoSwipe,
+            currCanAutoSwipe: currCanAutoSwipe
+          }}
+        />
       </div>
     );
   }

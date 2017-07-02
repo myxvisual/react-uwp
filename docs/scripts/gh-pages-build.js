@@ -1,13 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 const fse = require('fs-extra')
-const { execSync } = require('child_process')
+const { execSync, spawnSync } = require('child_process')
 
 process.chdir(__dirname)
 
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
 const versionsFile = './versions.json'
-const { outputPath, publicPath } = require('../config')
+const { publicPath } = require('../config')
 
 const args = process.argv
 let version
@@ -42,7 +42,7 @@ function saveVersionsFile() {
     versions.push(versionNumber)
     versions.sort()
     fs.writeFileSync(versionsFile, JSON.stringify(versions, null, 2), 'utf8')
-    execSyncWithLog(`git add ${versionsFile} && git commit -m "docs: Update ${versionNumber} to versions file"`)
+    execSyncWithLog(`git add ${versionsFile} && git commit -m "docs: Update ${versionNumber} to versions file" && git push`)
   }
 }
 
@@ -114,11 +114,11 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  execSync('git add -A')
-  setTimeout(() => {
-    execSync(`git commit -m 'Update ${version}' Docs`)
-    execSync(`git push${useForcePush ? ' -f' : ''}`)
-  }, 1000)
+  const rootDir = path.join('../../', __dirname)
+  const options = { cwd: rootDir, stdio: 'inherit' }
+  execSync('git add -A', options)
+  execSync(`git commit -m 'Update ${version}' Docs`, options)
+  execSync(`git push${useForcePush ? ' -f' : ''}`, options)
 }
 
 function replaceWebpackPublicPath(versionNumb) {

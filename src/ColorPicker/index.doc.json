@@ -91,6 +91,12 @@
           "documentation": "",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "dragging",
+          "documentation": "",
+          "isRequired": false,
+          "type": "boolean"
         }
       ],
       "documentation": ""
@@ -157,9 +163,9 @@
         },
         {
           "name": "originBodyStyle",
-          "initializerText": " { ...document.body.style }",
+          "initializerText": " IS_NODE_ENV ? void 0 : { ...document.body.style }",
           "documentation": "",
-          "type": "{ [index: number]: string; alignContent: string; alignItems: string; alignSelf: string; alignment..."
+          "type": "{ [index: number]: string; alignContent: string; alignItems: string; alignmentBaseline: string; a..."
         },
         {
           "name": "colorSelectorElm",
@@ -205,19 +211,19 @@
         },
         {
           "name": "handleChooseColor",
-          "initializerText": " (e: React.MouseEvent<HTMLCanvasElement>, isClickEvent = true) => {\n    if (isClickEvent && e.type === \"mousedown\") {\n      window.addEventListener(\"mousemove\", this.handleMouseMove);\n      window.addEventListener(\"mouseup\", this.handleMouseUp);\n      Object.assign(document.body.style, {\n        userSelect: \"none\",\n        msUserSelect: \"none\",\n        webkitUserSelect: \"none\",\n        cursor: \"default\"\n      });\n    }\n    const { size, onChangeColor, onChangedColor, onChangedColorTimeout } = this.props;\n    const { v } = this.state;\n    const clientReact = this.canvas.getBoundingClientRect();\n    const colorPickerBoardSize = size * 0.8125 / 2;\n    const x = e.clientX - clientReact.left - colorPickerBoardSize;\n    const y = clientReact.top - e.clientY + colorPickerBoardSize;\n    const r = Math.sqrt(x * x + y * y);\n    let h = Math.asin(y / r) / Math.PI * 180;\n    if (x > 0 && y > 0) h = 360 - h;\n    if (x > 0 && y < 0) h = -h;\n    if (x < 0 && y < 0) h = 180 + h;\n    if (x < 0 && y > 0) h = 180 + h;\n    let s = r / colorPickerBoardSize;\n    if (s > 1) s = 1;\n\n    const colorHexString = tinycolor({ h, s, v }).toHexString();\n    if (isClickEvent && e.type === \"click\") {\n      onChangeColor(colorHexString);\n      onChangedColor(colorHexString);\n      this.setState({ h, s });\n    } else {\n      onChangeColor(colorHexString);\n      clearTimeout(this.moveColorTimer);\n      const r = colorPickerBoardSize * s;\n      const mainBoardDotSize = size / 25;\n      const x = Math.cos(h / 180 * Math.PI) * r;\n      const y = Math.sin(h / 180 * Math.PI) * r;\n\n      Object.assign(this.colorSelectorElm.style, {\n        top: `${y}px`,\n        left: `${x}px`\n      } as CSSStyleDeclaration);\n      if (this.colorMainBarElm) {\n        this.colorMainBarElm.style.background = colorHexString;\n      }\n      this.moveColorTimer = setTimeout(() => {\n        onChangedColor(colorHexString);\n        this.setState({ h, s });\n      }, onChangedColorTimeout);\n    }\n  }",
+          "initializerText": " (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>, isClickEvent = true) => {\n    e.preventDefault();\n    const isTouchEvent = e.type.includes(\"touch\");\n\n    if (isClickEvent && (e.type === \"mousedown\" || e.type === \"touchstart\")) {\n      document.documentElement.addEventListener(\"mousemove\", this.handleTouchMouseMove, false);\n      document.documentElement.addEventListener(\"mouseup\", this.handleEnd);\n      this.canvas.addEventListener(\"touchmove\", this.handleTouchMouseMove, false);\n      document.documentElement.addEventListener(\"touchend\", this.handleEnd);\n      Object.assign(document.body.style, {\n        userSelect: \"none\",\n        msUserSelect: \"none\",\n        webkitUserSelect: \"none\",\n        cursor: \"default\"\n      });\n    }\n    const { size, onChangeColor, onChangedColor, onChangedColorTimeout } = this.props;\n    const { v } = this.state;\n    const clientReact = this.canvas.getBoundingClientRect();\n    const colorPickerBoardSize = size * 0.8125 / 2;\n    const { clientX, clientY } = isTouchEvent ? (e as React.TouchEvent<HTMLCanvasElement>).changedTouches[0] : (e as React.MouseEvent<HTMLCanvasElement>);\n    const x = clientX - clientReact.left - colorPickerBoardSize;\n    const y = clientReact.top - clientY + colorPickerBoardSize;\n    const r = Math.sqrt(x * x + y * y);\n    let h = Math.asin(y / r) / Math.PI * 180;\n    if (x > 0 && y > 0) h = 360 - h;\n    if (x > 0 && y < 0) h = -h;\n    if (x < 0 && y < 0) h = 180 + h;\n    if (x < 0 && y > 0) h = 180 + h;\n    let s = r / colorPickerBoardSize;\n    if (s > 1) s = 1;\n\n    const colorHexString = tinycolor({ h, s, v }).toHexString();\n    if (isClickEvent && e.type === \"click\") {\n      onChangeColor(colorHexString);\n      onChangedColor(colorHexString);\n      this.setState({ h, s });\n    } else {\n      onChangeColor(colorHexString);\n      clearTimeout(this.moveColorTimer);\n      const r = colorPickerBoardSize * s;\n      const mainBoardDotSize = size / 25;\n      const x = Math.cos(h / 180 * Math.PI) * r;\n      const y = Math.sin(h / 180 * Math.PI) * r;\n\n      Object.assign(this.colorSelectorElm.style, {\n        top: `${y}px`,\n        left: `${x}px`\n      } as CSSStyleDeclaration);\n      if (this.colorMainBarElm) {\n        this.colorMainBarElm.style.background = colorHexString;\n      }\n      this.moveColorTimer = setTimeout(() => {\n        onChangedColor(colorHexString);\n        this.setState({ h, s });\n      }, onChangedColorTimeout);\n    }\n  }",
           "documentation": "",
-          "type": "(e: MouseEvent<HTMLCanvasElement>, isClickEvent?: boolean) => void"
+          "type": "(e: MouseEvent<HTMLCanvasElement> | TouchEvent<HTMLCanvasElement>, isClickEvent?: boolean) => void"
         },
         {
-          "name": "handleMouseMove",
-          "initializerText": " (e: any) => {\n    this.handleChooseColor(e, false);\n  }",
+          "name": "handleTouchMouseMove",
+          "initializerText": " (e: any) => {\n    if (!this.state.dragging) {\n      this.setState({ dragging: true });\n    }\n    this.handleChooseColor(e, false);\n  }",
           "documentation": "",
           "type": "(e: any) => void"
         },
         {
-          "name": "handleMouseUp",
-          "initializerText": " (e: any) => {\n    clearTimeout(this.moveColorTimer);\n    Object.assign(document.body.style, {\n      userSelect: void 0,\n      msUserSelect: void 0,\n      webkitUserSelect: void 0,\n      cursor: void 0,\n      ...this.originBodyStyle\n    });\n    window.removeEventListener(\"mousemove\", this.handleMouseMove);\n    window.removeEventListener(\"mouseup\", this.handleMouseUp);\n  }",
+          "name": "handleEnd",
+          "initializerText": " (e: any) => {\n    if (this.state.dragging) {\n      this.setState({ dragging: false });\n    }\n    clearTimeout(this.moveColorTimer);\n    Object.assign(document.body.style, {\n      userSelect: void 0,\n      msUserSelect: void 0,\n      webkitUserSelect: void 0,\n      cursor: void 0,\n      ...this.originBodyStyle\n    });\n    document.documentElement.removeEventListener(\"mousemove\", this.handleTouchMouseMove);\n    this.canvas.removeEventListener(\"touchmove\", this.handleTouchMouseMove);\n    document.documentElement.removeEventListener(\"mouseup\", this.handleEnd);\n    document.documentElement.removeEventListener(\"touchend\", this.handleEnd);\n  }",
           "documentation": "",
           "type": "(e: any) => void"
         },
