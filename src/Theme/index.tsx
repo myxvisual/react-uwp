@@ -21,6 +21,10 @@ export interface DataProps {
    */
   autoSaveTheme?: boolean;
   /**
+   * set theme will update callback.
+   */
+  themeWillUpdate?: (theme?: ReactUWP.ThemeType) => void;
+  /**
    * onGeneratedAcrylic callback, base acrylic textures is base64 url image, for production, you can set this callback, post image to your server, and update theme(use this callback will not auto update theme).
    */
   onGeneratedAcrylic?: (theme?: ReactUWP.ThemeType) => void;
@@ -42,7 +46,8 @@ const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
-    needGenerateAcrylic: true
+    needGenerateAcrylic: true,
+    themeWillUpdate: themeCallback
   };
   static childContextTypes = {
     theme: PropTypes.object
@@ -56,7 +61,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   getDefaultTheme = () => {
     let { theme, autoSaveTheme } = this.props;
 
-    if (!IS_NODE_ENV && autoSaveTheme) {
+    if (!IS_NODE_ENV && autoSaveTheme && !theme) {
       theme = this.getLocalStorageTheme();
     } else {
       theme = theme || darkTheme;
@@ -101,7 +106,11 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   state: ThemeState = {
-    currTheme: this.getDefaultTheme()
+    currTheme: (() => {
+      const theme = this.getDefaultTheme();
+      this.props.themeWillUpdate(theme);
+      return theme;
+    })()
   };
 
   getChildContext() {
@@ -118,7 +127,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     const { currTheme } = this.state;
 
     if (IS_NODE_ENV && this.props.autoSaveTheme) {
-      this.setState({ currTheme: this.getLocalStorageTheme() });
+      const currTheme = this.getLocalStorageTheme();
+      this.props.themeWillUpdate(currTheme);
+      this.setState({ currTheme });
     }
 
     if (IS_NODE_ENV) setSegoeMDL2AssetsFonts();
@@ -144,6 +155,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         theme.useFluentDesign !== currTheme.useFluentDesign ||
         theme.desktopBackgroundImage !== currTheme.desktopBackgroundImage
       ) {
+        this.props.themeWillUpdate(theme);
         this.setState({
           currTheme: theme
         }, () => {
@@ -173,6 +185,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
     const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
 
+    this.props.themeWillUpdate(newTheme);
     this.setState({
       currTheme: newTheme
     }, () => {
@@ -186,6 +199,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   updateTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
     const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
 
+    this.props.themeWillUpdate(newTheme);
     this.setState({
       currTheme: newTheme
     }, () => {
@@ -297,6 +311,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         if (onGeneratedAcrylic) {
           onGeneratedAcrylic(currTheme);
         } else {
+          this.props.themeWillUpdate(currTheme);
           this.setState({ currTheme });
         }
       }
@@ -394,6 +409,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       style,
       className,
       needGenerateAcrylic,
+      themeWillUpdate,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
