@@ -15,11 +15,17 @@ const useFluentDesign = true;
 const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 
+localStorage.setItem("__REACT_UWP__", "");
 export class ThemeWrapper extends React.Component {
   render() {
     const { children } = this.props;
     return (
-      <Theme theme={theme} needGenerateAcrylic={false} themeWillUpdate={setStaticAcrylicTexture}>
+      <Theme
+        theme={theme}
+        autoSaveTheme
+        needGenerateAcrylic={false}
+        themeWillUpdate={setStaticAcrylicTexture}
+      >
         {children}
       </Theme>
     );
