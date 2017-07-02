@@ -1,3 +1,31 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/myxvisual/react-uwp/compare/v1.0.9...v1.1.0) (2017-07-02)
+
+
+### Bug Fixes
+
+* Fixed components wrong type ([b5d02c8](https://github.com/myxvisual/react-uwp/commit/b5d02c8))
+* Fixed example codes have incorrect import ([664b91d](https://github.com/myxvisual/react-uwp/commit/664b91d)), closes [#5](https://github.com/myxvisual/react-uwp/issues/5)
+* Fixed segmdl2 css import wrong fonts path ([15b908b](https://github.com/myxvisual/react-uwp/commit/15b908b)), closes [#6](https://github.com/myxvisual/react-uwp/issues/6)
+* Fixed Swipe styles ([21a880d](https://github.com/myxvisual/react-uwp/commit/21a880d))
+
+
+### Features
+
+* Add Slider support touch event ([4ba820f](https://github.com/myxvisual/react-uwp/commit/4ba820f))
+* Add Swipe support touch event ([0b5579f](https://github.com/myxvisual/react-uwp/commit/0b5579f))
+* **API:** Add Theme support more API ([9d4bdec](https://github.com/myxvisual/react-uwp/commit/9d4bdec))
+* **API:** Add Theme support will update theme callback ([2fa4878](https://github.com/myxvisual/react-uwp/commit/2fa4878))
+* **component:** Add ColorPicker support touch event ([af62e4b](https://github.com/myxvisual/react-uwp/commit/af62e4b))
+* Transform segmdl2 fonts link to cdnjs ([83864db](https://github.com/myxvisual/react-uwp/commit/83864db))
+
+
+### Performance Improvements
+
+* Improve FlipView & Siwpe performance ([7e462e7](https://github.com/myxvisual/react-uwp/commit/7e462e7))
+
+
+
 <a name="1.0.9"></a>
 ## [1.0.9](https://github.com/myxvisual/react-uwp/compare/v1.0.8...v1.0.9) (2017-06-27)
 
