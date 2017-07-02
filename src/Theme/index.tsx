@@ -47,6 +47,7 @@ const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
     needGenerateAcrylic: true,
+    onGeneratedAcrylic: themeCallback,
     themeWillUpdate: themeCallback
   };
   static childContextTypes = {
@@ -105,10 +106,104 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return theme;
   }
 
+  generateAcrylicTextures = (currTheme: ReactUWP.ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => {
+    const { onGeneratedAcrylic } = this.props;
+    this.acrylicTextureCount = 0;
+    const baseConfig = {
+      blurSize: 24,
+      noiseSize: 1,
+      noiseOpacity: 0.2
+    };
+    let backgrounds: string[] = [];
+
+    const callback = (image: string, key: number) => {
+      if (key === 4) {
+        this.acrylicTextureCount += 1;
+        Object.assign(currTheme.acrylicTexture40, {
+          tintColor: currTheme.chromeMediumLow,
+          tintOpacity: 0.4,
+          background: `url(${image}) no-repeat fixed top left / cover`,
+          ...baseConfig
+        });
+      }
+      if (key === 6) {
+        this.acrylicTextureCount += 1;
+        Object.assign(currTheme.acrylicTexture60, {
+          tintColor: currTheme.chromeLow,
+          tintOpacity: 0.6,
+          background: `url(${image}) no-repeat fixed top left / cover`,
+          ...baseConfig
+        });
+      }
+      if (key === 8) {
+        this.acrylicTextureCount += 1;
+        Object.assign(currTheme.acrylicTexture80, {
+          tintColor: currTheme.chromeLow,
+          tintOpacity: 0.8,
+          background: `url(${image}) no-repeat fixed top left / cover`,
+          ...baseConfig
+        });
+      }
+
+      if (this.acrylicTextureCount === 3) {
+        currTheme.haveAcrylicTextures = true;
+        onGeneratedAcrylic(currTheme);
+        if (themeCallback) themeCallback(currTheme);
+        return currTheme;
+      }
+    };
+
+    generateAcrylicTexture(
+      currTheme.desktopBackgroundImage,
+      currTheme.chromeMediumLow,
+      0.4,
+      void 0,
+      void 0,
+      void 0,
+      image => callback(image, 4)
+    );
+    generateAcrylicTexture(
+      currTheme.desktopBackgroundImage,
+      currTheme.chromeLow,
+      0.6,
+      void 0,
+      void 0,
+      void 0,
+      image => callback(image, 6)
+    );
+    generateAcrylicTexture(
+      currTheme.desktopBackgroundImage,
+      currTheme.chromeLow,
+      0.8,
+      void 0,
+      void 0,
+      void 0,
+      image => callback(image, 8)
+    );
+  }
+
+  bindNewThemeMethods = (theme: ReactUWP.ThemeType) => {
+    Object.assign(theme, {
+      desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
+      updateTheme: this.updateTheme,
+      saveTheme: this.saveTheme,
+      addToast: this.addToast,
+      updateToast: this.updateToast,
+      deleteToast: this.deleteToast,
+      generateAcrylicTextures: this.generateAcrylicTextures,
+      forceUpdateTheme: this.forceUpdateTheme
+    } as ReactUWP.ThemeType);
+  }
+
+  handleNewTheme = (theme: ReactUWP.ThemeType) => {
+    this.bindNewThemeMethods(theme);
+    this.props.themeWillUpdate(theme);
+  }
+
   state: ThemeState = {
     currTheme: (() => {
       const theme = this.getDefaultTheme();
-      this.props.themeWillUpdate(theme);
+      this.handleNewTheme(theme);
       return theme;
     })()
   };
@@ -135,7 +230,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     if (IS_NODE_ENV) setSegoeMDL2AssetsFonts();
 
     if (currTheme.useFluentDesign && currTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
-      this.generateAcrylicTextures();
+      this.handleNewTheme(currTheme);
+      this.generateAcrylicTextures(currTheme, currTheme => this.setState({ currTheme }));
     }
 
     this.updateBaseCSS();
@@ -155,12 +251,13 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         theme.useFluentDesign !== currTheme.useFluentDesign ||
         theme.desktopBackgroundImage !== currTheme.desktopBackgroundImage
       ) {
-        this.props.themeWillUpdate(theme);
+        this.handleNewTheme(theme);
         this.setState({
           currTheme: theme
         }, () => {
           if (needGenerateAcrylic) {
-            this.generateAcrylicTextures();
+            this.handleNewTheme(theme);
+            this.generateAcrylicTextures(theme, currTheme => this.setState({ currTheme }));
           }
         });
       }
@@ -175,6 +272,23 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     window.removeEventListener("scroll", this.handleScrollReveal);
   }
 
+  updateTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
+    const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
+
+    this.handleNewTheme(newTheme);
+    this.setState({
+      currTheme: newTheme
+    }, () => {
+      callback(newTheme);
+      if (needGenerateAcrylic) {
+        this.handleNewTheme(newTheme);
+        this.generateAcrylicTextures(newTheme, currTheme => this.setState({ currTheme }));
+      }
+    });
+  }
+
+  forceUpdateTheme = (currTheme: ReactUWP.ThemeType) => this.setState({ currTheme });
+
   saveTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
     localStorage.setItem(customLocalStorageName, JSON.stringify({
       themeName: newTheme.themeName,
@@ -185,27 +299,14 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
     const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
 
-    this.props.themeWillUpdate(newTheme);
+    this.handleNewTheme(newTheme);
     this.setState({
       currTheme: newTheme
     }, () => {
       callback(newTheme);
       if (needGenerateAcrylic) {
-        this.generateAcrylicTextures();
-      }
-    });
-  }
-
-  updateTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
-    const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
-
-    this.props.themeWillUpdate(newTheme);
-    this.setState({
-      currTheme: newTheme
-    }, () => {
-      callback(newTheme);
-      if (needGenerateAcrylic) {
-        this.generateAcrylicTextures();
+        this.handleNewTheme(newTheme);
+        this.generateAcrylicTextures(newTheme, currTheme => this.setState({ currTheme }));
       }
     });
   }
@@ -243,7 +344,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         } as ReactUWP.ThemeType);
       }
     }
-    needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign;
+    needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign && this.props.needGenerateAcrylic;
     return needGenerateAcrylic;
   }
 
@@ -265,85 +366,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       document.head.appendChild(styleSheet);
       newWindow.__REACT_UWP__.baseCSSRequired = true;
     }
-  }
-
-  generateAcrylicTextures = (generateCallBack?: (theme?: ReactUWP.ThemeType) => void) => {
-    const { currTheme } = this.state;
-    const { onGeneratedAcrylic } = this.props;
-    this.acrylicTextureCount = 0;
-    const baseConfig = {
-      blurSize: 24,
-      noiseSize: 1,
-      noiseOpacity: 0.2
-    };
-    let backgrounds: string[] = [];
-
-    const callback = (image: string, key: number) => {
-      if (key === 4) {
-        this.acrylicTextureCount += 1;
-        currTheme.acrylicTexture40 = {
-          tintColor: currTheme.chromeMediumLow,
-          tintOpacity: 0.4,
-          background: `url(${image}) no-repeat fixed top left / cover`,
-          ...baseConfig
-        };
-      }
-      if (key === 6) {
-        this.acrylicTextureCount += 1;
-        currTheme.acrylicTexture60 = {
-          tintColor: currTheme.chromeLow,
-          tintOpacity: 0.6,
-          background: `url(${image}) no-repeat fixed top left / cover`,
-          ...baseConfig
-        };
-      }
-      if (key === 8) {
-        this.acrylicTextureCount += 1;
-        currTheme.acrylicTexture80 = {
-          tintColor: currTheme.chromeLow,
-          tintOpacity: 0.8,
-          background: `url(${image}) no-repeat fixed top left / cover`,
-          ...baseConfig
-        };
-      }
-
-      if (this.acrylicTextureCount === 3) {
-        if (onGeneratedAcrylic) {
-          onGeneratedAcrylic(currTheme);
-        } else {
-          this.props.themeWillUpdate(currTheme);
-          this.setState({ currTheme });
-        }
-      }
-    };
-
-    generateAcrylicTexture(
-      currTheme.desktopBackgroundImage,
-      currTheme.chromeMediumLow,
-      0.4,
-      void 0,
-      void 0,
-      void 0,
-      image => callback(image, 4)
-    );
-    generateAcrylicTexture(
-      currTheme.desktopBackgroundImage,
-      currTheme.chromeLow,
-      0.6,
-      void 0,
-      void 0,
-      void 0,
-      image => callback(image, 6)
-    );
-    generateAcrylicTexture(
-      currTheme.desktopBackgroundImage,
-      currTheme.chromeLow,
-      0.8,
-      void 0,
-      void 0,
-      void 0,
-      image => callback(image, 8)
-    );
   }
 
   addToast = (toast: React.ReactNode) => {
@@ -415,14 +437,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     const { currTheme } = this.state;
 
     this.themeClassName = `${baseClassName}-${currTheme.themeName}`;
-    Object.assign(currTheme, {
-      desktopBackground: `url(${currTheme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
-      updateTheme: this.updateTheme,
-      saveTheme: this.saveTheme,
-      addToast: this.addToast,
-      updateToast: this.updateToast,
-      deleteToast: this.deleteToast
-    } as ReactUWP.ThemeType);
+    this.bindNewThemeMethods(currTheme);
 
     return (
       <div

@@ -63,6 +63,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     desktopBackground: void 0,
     desktopBackgroundImage,
 
+    haveAcrylicTextures: false,
     acrylicTexture40: {
       background: altMediumLow
     },

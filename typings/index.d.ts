@@ -51,6 +51,7 @@ export interface ThemeType {
   desktopBackgroundImage?: string;
   desktopBackground?: string;
 
+  haveAcrylicTextures?: boolean;
   acrylicTexture40?: AcrylicTexture;
   acrylicTexture60?: AcrylicTexture;
   acrylicTexture80?: AcrylicTexture;
@@ -101,7 +102,9 @@ export interface ThemeType {
   prepareStyles?: (style?: React.CSSProperties) => React.CSSProperties;
   isDarkTheme?: boolean;
   updateTheme?: (theme: ThemeType) => void;
+  forceUpdateTheme?: (theme: ThemeType) => void;
   saveTheme?: (theme: ThemeType) => void;
+  generateAcrylicTextures?: (theme: ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => ThemeType;
 
   toasts?: React.ReactNode[];
   addToast?: (toast: React.ReactNode) => void;
