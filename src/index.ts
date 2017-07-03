@@ -3,7 +3,7 @@ export { default as AppBarSeparator, AppBarSeparatorProps } from "./AppBarSepara
 export { default as ArticleCard, ArticleCardProps, ArticleCardState } from "./ArticleCard";
 export { default as AutoSuggestBox, AutoSuggestBoxProps, AutoSuggestBoxState } from "./AutoSuggestBox";
 
-export { default as Button, ButtonProps, ButtonState } from "./Button";
+export { default as Button, ButtonProps } from "./Button";
 
 export { default as CalendarDatePicker, CalendarDatePickerProps, CalendarDatePickerState } from "./CalendarDatePicker";
 export { default as CalendarView, CalendarViewProps, CalendarViewState } from "./CalendarView";
