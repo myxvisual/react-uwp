@@ -4,7 +4,8 @@ import * as PropTypes from "prop-types";
 import ComponentDetail from "components/ComponentDetail";
 import MarkdownRender from "react-uwp/MarkdownRender";
 import * as docEntry from "react-uwp/ListView/index.doc.json";
-import * as readmeText from "!raw!./README.md";
+import * as readme from "!raw!./README.md";
+import * as readme_zh_CN from "!raw!./README.zh-CN.md";
 import * as itemTypeText from "!raw!./ListItemType.md";
 
 import CodeExample from "components/CodeExample";
@@ -29,7 +30,7 @@ export default class ListView extends React.Component<any> {
 
     return (
       <ComponentDetail
-        readmeText={readmeText as any}
+        readmeText={{ "en-US": readme as any, "zh-CN": readme_zh_CN as any }}
         docEntry={docEntry}
       >
         <CodeExample

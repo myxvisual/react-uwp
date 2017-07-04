@@ -5,7 +5,8 @@ import ComponentDetail from "../../../components/ComponentDetail";
 import CodeExample from "../../../components/CodeExample";
 
 import * as docEntry from "react-uwp/Button/index.doc.json";
-import * as readmeText from "!raw!./README.md";
+import * as readme from "!raw!./README.md";
+import * as readme_zh_CN from "!raw!./README.zh-CN.md";
 
 import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample.tsx";
@@ -34,7 +35,7 @@ export default class Button extends React.Component<any> {
 
     return (
       <ComponentDetail
-        readmeText={readmeText as any}
+        readmeText={{ "en-US": readme as any, "zh-CN": readme_zh_CN as any }}
         docEntry={docEntry}
       >
         <CodeExample

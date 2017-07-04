@@ -4,7 +4,8 @@ import FlyoutContent from "../FlyoutContent";
 
 import ComponentDetail from "components/ComponentDetail";
 import * as docEntry from "react-uwp/Flyout/index.doc.json";
-import * as readmeText from "!raw!./README.md";
+import * as readme from "!raw!./README.md";
+import * as readme_zh_CN from "!raw!./README.zh-CN.md";
 
 import CodeExample from "components/CodeExample";
 
@@ -29,7 +30,7 @@ export default class Flyout extends React.Component<any> {
     return (
       <div>
         <ComponentDetail
-          readmeText={readmeText as any}
+          readmeText={{ "en-US": readme as any, "zh-CN": readme_zh_CN as any }}
           docEntry={docEntry}
         >
           <CodeExample
