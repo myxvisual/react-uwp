@@ -6,7 +6,7 @@ const buildBowerRelease = require('./bower-release-build')
 
 process.chdir(__dirname)
 
-const rootDir = path.join('../../', __dirname)
+const rootDir = path.join('../../../', __dirname)
 const usage = '\nbuild <vn.n.n[-pre[.n]]> | <HEAD> [-p]\n'
 const versionsFile = './versions.json'
 const { publicPath } = require('../config')

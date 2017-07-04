@@ -16,6 +16,6 @@ module.exports = function buildBowerRelease(version) {
   }
 
   fse.copySync('../public/static', bowerDir, { overwrite: true })
-  execSync(`git add -A && git commit --allow-empty -m ${version.slice(1) || 'Update bower files'} && git tag ${version} && git push origin --tags`, bowerDirOptions)
+  execSync(`git add -A && git commit --allow-empty -m ${(version && version.slice(1)) || 'Update bower files'} && git tag ${version} && git push origin --tags`, bowerDirOptions)
   console.log('bower-release is finished')
 }

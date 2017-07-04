@@ -46,12 +46,9 @@ export interface DataProps {
 
 export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 
-export interface ButtonState {}
-
-export class Button extends React.Component<ButtonProps, {}> {
+export class Button extends React.Component<ButtonProps> {
   static defaultProps: ButtonProps = {
     borderSize: "2px",
-    children: "Button",
     iconPosition: "left"
   };
 
