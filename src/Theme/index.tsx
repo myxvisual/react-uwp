@@ -55,8 +55,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   };
   acrylicTextureCount = 0;
   themeClassName = "react-uwp-theme-dark";
-  cacheDarkAcrylicTextures: ReactUWP.ThemeType = {};
-  cacheLightAcrylicTextures: ReactUWP.ThemeType = {};
+  cacheDarkAcrylicTextures: ReactUWP.ThemeType;
+  cacheLightAcrylicTextures: ReactUWP.ThemeType;
   toastWrapper: ToastWrapper;
 
   getDefaultTheme = () => {
