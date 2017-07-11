@@ -2,20 +2,24 @@ import * as tinycolor from "tinycolor2";
 import setSegoeMDL2AssetsFonts from "./fonts/segoe-mdl2-assets";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 import prefixAll from "../common/prefixAll";
+import StyleManager from "./StyleManager";
 
 if (!IS_NODE_ENV) {
   setSegoeMDL2AssetsFonts();
 }
+
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l * (1 - coefficient);
   return tinycolor(hsl).toRgbString();
 }
+
 export function lighten(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l + (100 - hsl.l) * coefficient;
   return tinycolor(hsl).toRgbString();
 }
+
 export interface ThemeConfig {
   themeName?: "dark" | "light";
   accent?: string;
@@ -52,7 +56,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
   const altMedium = altHighColor.setAlpha(0.6).toRgbString();
   const altMediumHigh = altHighColor.setAlpha(0.8).toRgbString();
 
-  return {
+  const theme: ReactUWP.ThemeType = {
     themeName,
     fonts: {
       sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
@@ -188,4 +192,6 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       toast: 310
     }
   };
+  theme.styleManager = new StyleManager(theme);
+  return theme;
 }
