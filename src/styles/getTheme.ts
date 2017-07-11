@@ -63,6 +63,8 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       segoeMDL2Assets: "Segoe MDL2 Assets"
     },
 
+    styleManager: {},
+
     useFluentDesign,
     desktopBackground: void 0,
     desktopBackgroundImage,
@@ -191,7 +193,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       mediaPlayer: 2147483647,
       toast: 310
     }
-  };
+  } as ReactUWP.ThemeType;
   theme.styleManager = new StyleManager(theme);
   return theme;
 }

@@ -46,7 +46,7 @@ export interface ThemeType {
     sansSerifFonts?: string;
     segoeMDL2Assets?: string;
   };
-  styleManager: any;
+  styleManager?: any;
 
   useFluentDesign?: boolean;
   desktopBackgroundImage?: string;
