@@ -12,8 +12,7 @@ export class StyleManager {
 
   constructor(theme: ReactUWP.ThemeType) {
     this.setupTheme(theme);
-    this.addSheet({}, "text");
-    this.renderToDOM();
+    this.updateSheetsToDOM();
   }
 
   setupTheme = (theme: ReactUWP.ThemeType) => {
@@ -28,15 +27,12 @@ export class StyleManager {
   updateTheme = () => {};
 
   addSheet = (style: React.CSSProperties, className = "") => {
-    style = {
-      borderTop: 2,
-      fontSize: 12,
-      lineHeight: 2
-    };
     let CSSText = Object.keys(style).map(key => `  ${replace2Dashes(key)}: ${getStyleValue(key, style[key])};`).join("\n");
     const id = createHash(`.${className} {\n${CSSText}\n}`);
-    CSSText = `.${className}-${id} {\n${CSSText}\n}`;
-    this.sheets[id] = { CSSText };
+    const classNameWithHash = `${className}-${id}`;
+    CSSText = `.${classNameWithHash} {\n${CSSText}\n}`;
+    this.sheets[id] = { CSSText, classNameWithHash, id, className };
+    return this.sheets[id];
   }
 
   updateSheetByID = () => {};
@@ -45,7 +41,7 @@ export class StyleManager {
 
   removeSheetByID = () => {};
 
-  renderToDOM = () => {
+  updateSheetsToDOM = () => {
     this.styleElement = document.querySelector("[data-uwp-jss]") as HTMLStyleElement;
     const textContent = `\n${Object.keys(this.sheets).map(id => this.sheets[id].CSSText).join("\n")}\n`;
     if (!this.styleElement) {
