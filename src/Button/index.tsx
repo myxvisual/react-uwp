@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import ElementState from "../ElementState";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
+import { setStylesToManager } from "../styles/setStylesToManager";
 
 export interface DataProps {
   /**
@@ -80,52 +81,57 @@ export class Button extends React.Component<ButtonProps> {
       ...theme.prepareStyles(iconStyle)
     };
 
+    const styleWithClassName = setStylesToManager({
+      baseClassName: "button",
+      theme,
+      styleWithClassNames: {
+        root: {
+          style: {
+            display: "inline-block",
+            verticalAlign: "middle",
+            background: disabled ? theme.baseMedium : (background || theme.baseLow),
+            cursor: disabled ? "not-allowed" : "pointer",
+            color: disabled ? theme.baseMedium : theme.baseHigh,
+            outline: "none",
+            padding: "4px 16px",
+            border: `${borderSize} solid transparent`,
+            transition: "all ease-in-out .25s",
+            ...theme.prepareStyles(style),
+            hoverStyle: {
+              border: `2px solid ${theme.baseMediumLow}`
+            },
+            activeStyle: {
+              background: theme.baseMediumLow
+            }
+          }
+        }
+      }
+    }).root;
+
     const normalRender =  (
-      <ElementState
-        style={{
-          display: "inline-block",
-          verticalAlign: "middle",
-          background: disabled ? theme.baseMedium : (background || theme.baseLow),
-          cursor: disabled ? "not-allowed" : "pointer",
-          color: disabled ? theme.baseMedium : theme.baseHigh,
-          outline: "none",
-          padding: "4px 16px",
-          border: `${borderSize} solid transparent`,
-          transition: "all ease-in-out .25s",
-          ...theme.prepareStyles(style)
-        }}
-        hoverStyle={disabled ? void 0 : hoverStyle || {
-          border: `2px solid ${theme.baseMediumLow}`
-        }}
-        activeStyle={disabled ? void 0 : activeStyle || {
-          background: theme.baseMediumLow
-        }}
-        {...attributes}
-      >
-        {icon ? (iconPosition === "right" ? (
-            <button>
-              <span style={{ verticalAlign: "middle" }}>
-                {children}
-              </span>
-              <Icon style={currIconStyle}>
-                {icon}
-              </Icon>
-            </button>
-          ) : (
-            <button>
-              <Icon style={currIconStyle}>
-                {icon}
-              </Icon>
-              <span style={{ verticalAlign: "middle" }}>
-                {children}
-              </span>
-            </button>
-          )) : (
-          <button>
+      icon ? (iconPosition === "right" ? (
+        <button {...styleWithClassName}>
+          <span style={{ verticalAlign: "middle" }}>
             {children}
-          </button>
-        )}
-      </ElementState>
+          </span>
+          <Icon style={currIconStyle}>
+            {icon}
+          </Icon>
+        </button>
+      ) : (
+        <button {...styleWithClassName}>
+          <Icon style={currIconStyle}>
+            {icon}
+          </Icon>
+          <span style={{ verticalAlign: "middle" }}>
+            {children}
+          </span>
+        </button>
+      )) : (
+        <button {...styleWithClassName}>
+          {children}
+        </button>
+      )
     );
 
     return tooltip ? (
