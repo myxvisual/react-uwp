@@ -1,14 +1,14 @@
 import { CustomCSSProperties } from "./StyleManager";
 
-export interface StyleWithClassName {
+export interface StyleWithClass {
   style?: CustomCSSProperties;
-  inlineStyle?: React.CSSProperties;
+  dynamicStyle?: React.CSSProperties;
   className?: string;
 }
 
 export function setStylesToManager(config?: {
-  baseClassName?: string;
-  styleWithClassNames: { [key: string]: StyleWithClassName };
+  className?: string;
+  styles: { [key: string]: StyleWithClass | CustomCSSProperties };
   theme: ReactUWP.ThemeType;
 }) {
   const newStyles: {
@@ -17,36 +17,47 @@ export function setStylesToManager(config?: {
       style?: React.CSSProperties;
     }
   } = {};
-  let { baseClassName, styleWithClassNames, theme } = config;
-  baseClassName = baseClassName || "";
-  const keys = Object.keys(styleWithClassNames);
+  let { className, styles, theme } = config;
+  className = className || "";
+  const keys = Object.keys(styles);
+
   for (const key of keys) {
-    let className = styleWithClassNames[key].className;
-    className = className ? `-${className}` : "";
-    className = `-${key}${className}`;
+    let styleItem: StyleWithClass = styles[key] as StyleWithClass;
+    const isStyleWithClass = styleItem.className || styleItem.style || styleItem.dynamicStyle;
+    let secondClassName: string = `-${key}`;
+
+    if (isStyleWithClass) {
+      secondClassName = styleItem.className;
+      secondClassName = secondClassName ? `-${secondClassName}` : "";
+      secondClassName = `-${key}${secondClassName}`;
+    }
+
     newStyles[key] = {
-      className: theme.styleManager.addSheetWithUpdate(styleWithClassNames[key].style, `${baseClassName}${className}`).classNameWithHash,
-      style: styleWithClassNames[key].inlineStyle
+      className: theme.styleManager.addSheetWithUpdate(
+        isStyleWithClass ? styleItem.style : styleItem,
+        `${className}${secondClassName}`
+      ).classNameWithHash,
+      style: isStyleWithClass ? styleItem.dynamicStyle : void 0
     };
   }
   return newStyles;
 }
 
 export function setStyleToManager(config?: {
-  style: CustomCSSProperties;
-  inlineStyle?: React.CSSProperties;
-  className: string;
   theme?: ReactUWP.ThemeType;
+  style: CustomCSSProperties;
+  className: string;
+  dynamicStyle?: React.CSSProperties;
 }) {
   let newStyles:  {
     className?: string;
-    style?: React.CSSProperties;
+    style?: CustomCSSProperties;
   } = {};
-  let { style, inlineStyle, className, theme } = config;
+  let { style, dynamicStyle, className, theme } = config;
   className = className || "";
   newStyles = {
-    className: theme.styleManager.addSheet(style, className).classNameWithHash,
-    style: inlineStyle
+    className: theme.styleManager.addSheetWithUpdate(style, className).classNameWithHash,
+    style: dynamicStyle
   };
   return newStyles;
 }

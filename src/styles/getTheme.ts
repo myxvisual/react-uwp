@@ -194,6 +194,6 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       toast: 310
     }
   } as ReactUWP.ThemeType;
-  theme.styleManager = new StyleManager(theme);
+  theme.styleManager = new StyleManager(theme, "uwp");
   return theme;
 }

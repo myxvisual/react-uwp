@@ -11,12 +11,14 @@ export interface CustomCSSProperties extends React.CSSProperties {
 }
 
 export class StyleManager {
+  globalClassName: string;
   theme: ReactUWP.ThemeType;
   themeId: number;
   styleElement: HTMLStyleElement = null;
   sheets: any = {};
 
-  constructor(theme: ReactUWP.ThemeType) {
+  constructor(theme: ReactUWP.ThemeType, globalClassName?: string) {
+    this.globalClassName = globalClassName ? `${globalClassName}-` : "";
     this.setupTheme(theme);
     this.updateSheetsToDOM();
   }
@@ -36,7 +38,7 @@ export class StyleManager {
     const { hoverStyle, activeStyle, ...originStyle } = style;
     let CSSText = style2CSSText(originStyle);
     const id = createHash(`.${className} {\n${CSSText}\n}`);
-    const classNameWithHash = `${className}-${id}`;
+    const classNameWithHash = `${this.globalClassName}${className}-${id}`;
     CSSText = `.${classNameWithHash} {\n${CSSText}\n}\n`;
 
     if (hoverStyle) {
