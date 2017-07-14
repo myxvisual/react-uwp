@@ -2,7 +2,6 @@ import * as tinycolor from "tinycolor2";
 import setSegoeMDL2AssetsFonts from "./fonts/segoe-mdl2-assets";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 import prefixAll from "../common/prefixAll";
-import StyleManager from "./StyleManager";
 
 if (!IS_NODE_ENV) {
   setSegoeMDL2AssetsFonts();
@@ -194,6 +193,5 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       toast: 310
     }
   } as ReactUWP.ThemeType;
-  theme.styleManager = new StyleManager(theme, "uwp");
   return theme;
 }

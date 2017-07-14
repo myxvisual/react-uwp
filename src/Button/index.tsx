@@ -88,19 +88,24 @@ export class Button extends React.Component<ButtonProps> {
         root: {
           display: "inline-block",
           verticalAlign: "middle",
-          background: disabled ? theme.baseMedium : (background || theme.baseLow),
-          cursor: disabled ? "not-allowed" : "pointer",
-          color: disabled ? theme.baseMedium : theme.baseHigh,
+          cursor: "pointer",
+          color: theme.baseHigh,
           outline: "none",
           padding: "4px 16px",
+          transition: "all .25s",
           border: `${borderSize} solid transparent`,
-          transition: "all ease-in-out .25s",
+          background: background || theme.baseLow,
           ...theme.prepareStyles(style),
-          hoverStyle: disabled ? void 0 : {
+          "&:hover": disabled ? void 0 : {
             border: `2px solid ${theme.baseMediumLow}`
           },
-          activeStyle: disabled ? void 0 : {
+          "&:active": disabled ? void 0 : {
             background: theme.baseMediumLow
+          },
+          "&:disabled": {
+            background: theme.baseMedium,
+            cursor: "not-allowed",
+            color: theme.baseMedium
           }
         },
         icon: {
@@ -113,7 +118,7 @@ export class Button extends React.Component<ButtonProps> {
 
     const normalRender = (
       icon ? (iconPosition === "right" ? (
-        <button {...styles.root}>
+        <button {...attributes} disabled={disabled} {...styles.root}>
           <span style={{ verticalAlign: "middle" }}>
             {children}
           </span>
@@ -122,7 +127,7 @@ export class Button extends React.Component<ButtonProps> {
           </Icon>
         </button>
       ) : (
-        <button {...styles.root}>
+        <button {...attributes} disabled={disabled} {...styles.root}>
           <Icon {...styles.icon}>
             {icon}
           </Icon>
@@ -131,7 +136,7 @@ export class Button extends React.Component<ButtonProps> {
           </span>
         </button>
       )) : (
-        <button {...styles.root}>
+        <button {...attributes as any} disabled={disabled} {...styles.root}>
           {children}
         </button>
       )

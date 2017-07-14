@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import StyleManager from "../styles/StyleManager";
 import darkTheme from "../styles/darkTheme";
 import getTheme from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
@@ -193,10 +194,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       generateAcrylicTextures: this.generateAcrylicTextures,
       forceUpdateTheme: this.forceUpdateTheme
     } as ReactUWP.ThemeType);
+    theme.styleManager = new StyleManager(theme);
   }
 
   handleNewTheme = (theme: ReactUWP.ThemeType) => {
-    this.bindNewThemeMethods(theme);
     this.props.themeWillUpdate(theme);
   }
 
