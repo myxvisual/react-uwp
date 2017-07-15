@@ -24,8 +24,17 @@ export class StyleManager {
   themeId = 0;
   styleElement: HTMLStyleElement = null;
   sheets: any = {};
+  styleNode: HTMLStyleElement;
+  sheetsDidUpdate: () => void;
+  CSSText = "";
 
-  constructor(theme: ReactUWP.ThemeType, globalClassName?: string) {
+  constructor(config: {
+    theme: ReactUWP.ThemeType;
+    globalClassName?: string;
+    sheetsDidUpdate?: () => void;
+  }) {
+    const { globalClassName, theme, sheetsDidUpdate } = config;
+    this.sheetsDidUpdate = sheetsDidUpdate || (() => {});
     this.globalClassName = globalClassName ? `${globalClassName}-` : "";
     this.setupTheme(theme);
   }
@@ -33,6 +42,14 @@ export class StyleManager {
   setupTheme = (theme: ReactUWP.ThemeType) => {
     this.theme = theme;
     this.themeId = createHash([theme.accent, theme.themeName, theme.useFluentDesign].join(", "));
+  }
+
+  cleanStyleSheet = () => {
+    if (this.styleElement) document.head.removeChild(this.styleElement);
+    this.theme = null;
+    this.sheets = {};
+    this.CSSText = "";
+    this.styleElement = null;
   }
 
   style2CSSText = (style: React.CSSProperties) => style ? Object.keys(style).map(key => (
@@ -76,17 +93,25 @@ export class StyleManager {
     return this.addSheet(style, className, this.updateSheetsToDOM);
   }
 
-  updateSheetByID = () => {};
+  addCSSText = (CSSText: string) => this.CSSText += CSSText;
 
-  updateAllSheets = () => {};
+  addCSSTextWithUpdate = (CSSText: string) => {
+    this.addCSSText(CSSText);
+    if (this.styleElement) {
+      this.updateStyleTextContent(this.styleElement.textContent += CSSText);
+    }
+  }
 
   removeSheetByID = () => {};
 
   updateSheetsToDOM = () => {
-    const name = `data-uwp-jss-${this.themeId}`;
-    this.styleElement = document.querySelector(`[${name}]`) as HTMLStyleElement;
-    const textContent = this.sheetsToString();
+    let textContent = this.sheetsToString();
+    textContent += this.CSSText;
+    this.updateStyleTextContent(textContent);
+  }
 
+  updateStyleTextContent = (textContent: string) => {
+    const name = `data-uwp-jss-${this.themeId}`;
     if (!this.styleElement) {
       this.styleElement = document.createElement("style");
       this.styleElement.setAttribute(name, "");
@@ -95,6 +120,7 @@ export class StyleManager {
     } else {
       this.styleElement.textContent = textContent;
     }
+    this.sheetsDidUpdate();
   }
 }
 
