@@ -27,6 +27,9 @@ export class StyleManager {
   styleNode: HTMLStyleElement;
   sheetsDidUpdate: () => void;
   CSSText = "";
+  addedCSSText: {
+    [key: string]: boolean;
+  } = {};
 
   constructor(config: {
     theme: ReactUWP.ThemeType;
@@ -37,11 +40,21 @@ export class StyleManager {
     this.sheetsDidUpdate = sheetsDidUpdate || (() => {});
     this.globalClassName = globalClassName ? `${globalClassName}-` : "";
     this.setupTheme(theme);
+    this.initStyleElement();
   }
 
   setupTheme = (theme: ReactUWP.ThemeType) => {
     this.theme = theme;
     this.themeId = createHash([theme.accent, theme.themeName, theme.useFluentDesign].join(", "));
+  }
+
+  initStyleElement = () => {
+    const name = `data-uwp-jss-${this.themeId}`;
+    if (!this.styleElement) {
+      this.styleElement = document.createElement("style");
+      this.styleElement.setAttribute(name, "");
+      document.head.appendChild(this.styleElement);
+    }
   }
 
   cleanStyleSheet = () => {
@@ -93,13 +106,21 @@ export class StyleManager {
     return this.addSheet(style, className, this.updateSheetsToDOM);
   }
 
-  addCSSText = (CSSText: string) => this.CSSText += CSSText;
+  addCSSText = (CSSText: string, callback = () => {}) => {
+    const hash = createHash(CSSText);
+    if (!this.addedCSSText[hash]) {
+      this.addedCSSText[hash] = true;
+      this.CSSText += CSSText;
+      callback();
+    }
+  }
 
   addCSSTextWithUpdate = (CSSText: string) => {
-    this.addCSSText(CSSText);
-    if (this.styleElement) {
-      this.updateStyleTextContent(this.styleElement.textContent += CSSText);
-    }
+    this.addCSSText(CSSText, () => {
+      if (this.styleElement) {
+        this.updateStyleTextContent(this.styleElement.textContent += CSSText);
+      }
+    });
   }
 
   removeSheetByID = () => {};
@@ -112,15 +133,10 @@ export class StyleManager {
 
   updateStyleTextContent = (textContent: string) => {
     const name = `data-uwp-jss-${this.themeId}`;
-    if (!this.styleElement) {
-      this.styleElement = document.createElement("style");
-      this.styleElement.setAttribute(name, "");
+    if (this.styleElement) {
       this.styleElement.textContent = textContent;
-      document.head.appendChild(this.styleElement);
-    } else {
-      this.styleElement.textContent = textContent;
+      this.sheetsDidUpdate();
     }
-    this.sheetsDidUpdate();
   }
 }
 
