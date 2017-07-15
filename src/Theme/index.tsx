@@ -6,7 +6,7 @@ import darkTheme from "../styles/darkTheme";
 import getTheme from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
-import getBaseCSS from "./getBaseCSS";
+import getBaseCSSText from "./getBaseCSSText";
 import generateAcrylicTexture from "../styles/generateAcrylicTexture";
 import { setSegoeMDL2AssetsFonts } from "../styles/fonts/segoe-mdl2-assets";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
@@ -59,6 +59,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   cacheDarkAcrylicTextures: ReactUWP.ThemeType;
   cacheLightAcrylicTextures: ReactUWP.ThemeType;
   toastWrapper: ToastWrapper;
+  prevStyleManager: StyleManager = null;
 
   getDefaultTheme = () => {
     let { theme, autoSaveTheme } = this.props;
@@ -184,6 +185,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   bindNewThemeMethods = (theme: ReactUWP.ThemeType) => {
+    const styleManager =  new StyleManager({ theme });
+    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme));
     Object.assign(theme, {
       desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
       updateTheme: this.updateTheme,
@@ -192,9 +195,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       updateToast: this.updateToast,
       deleteToast: this.deleteToast,
       generateAcrylicTextures: this.generateAcrylicTextures,
-      forceUpdateTheme: this.forceUpdateTheme
+      forceUpdateTheme: this.forceUpdateTheme,
+      styleManager
     } as ReactUWP.ThemeType);
-    theme.styleManager = new StyleManager(theme);
   }
 
   handleNewTheme = (theme: ReactUWP.ThemeType) => {
@@ -235,8 +238,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       this.generateAcrylicTextures(currTheme, currTheme => this.setState({ currTheme }));
     }
 
-    this.updateBaseCSS();
-
     window.addEventListener("scroll", this.handleScrollReveal);
   }
 
@@ -265,11 +266,17 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
+  componentWillUpdate(nextProps: ThemeProps, nextState: ThemeState) {
+    this.prevStyleManager = this.state.currTheme.styleManager;
+  }
+
   componentDidUpdate() {
-    this.updateBaseCSS();
+    this.prevStyleManager.cleanStyleSheet();
+    this.prevStyleManager = null;
   }
 
   componentWillUnmount() {
+    this.state.currTheme.styleManager.cleanStyleSheet();
     window.removeEventListener("scroll", this.handleScrollReveal);
   }
 
@@ -347,26 +354,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     }
     needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign && this.props.needGenerateAcrylic;
     return needGenerateAcrylic;
-  }
-
-  updateBaseCSS = (init = false) => {
-    const newWindow = window as ReactUWP.Window;
-
-    const styleSheetClassName = `.${this.themeClassName}-style-sheet`;
-    let styleSheet = document.querySelector(styleSheetClassName);
-    const CSSString = getBaseCSS(this.state.currTheme, this.themeClassName);
-    if (!newWindow.__REACT_UWP__) newWindow.__REACT_UWP__ = {};
-    if (styleSheet || newWindow.__REACT_UWP__.baseCSSRequired) {
-      if (styleSheet) {
-        styleSheet.innerHTML = CSSString;
-      } else return;
-    } else {
-      styleSheet = document.createElement("style");
-      styleSheet.className = styleSheetClassName;
-      styleSheet.innerHTML = CSSString;
-      document.head.appendChild(styleSheet);
-      newWindow.__REACT_UWP__.baseCSSRequired = true;
-    }
   }
 
   addToast = (toast: React.ReactNode) => {
