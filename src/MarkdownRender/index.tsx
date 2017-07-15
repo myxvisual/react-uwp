@@ -80,17 +80,8 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
       markdownStyleString = lightThemeCSSString || prismCoyCSS;
     }
 
-    const className = `react-uwp-markdown-style-sheet`;
-    let styleSheet = document.querySelector(`.${className}`);
-    const cssString = getCSSString(theme, `react-uwp-markdown`) + "\n" + markdownStyleString;
-    if (!styleSheet) {
-      styleSheet = document.createElement("style");
-      styleSheet.className = className;
-      styleSheet.innerHTML = cssString;
-      document.head.appendChild(styleSheet);
-    } else {
-      styleSheet.innerHTML = cssString;
-    }
+    const CSSText = getCSSText(theme, `react-uwp-markdown`) + "\n" + markdownStyleString;
+    theme.styleManager.addCSSTextWithUpdate(CSSText);
   }
 
   render() {
@@ -111,7 +102,7 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
 
 export default MarkdownRender;
 
-function getCSSString(theme: ReactUWP.ThemeType, className: string) {
+function getCSSText(theme: ReactUWP.ThemeType, className: string) {
 return (
 `.${className} {
   /** background: ${theme.chromeMedium}; **/
