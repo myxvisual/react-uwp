@@ -1,17 +1,18 @@
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 import isUnitlessNumber from "../common/react/isUnitlessNumber";
 
-const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
-const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !(isUnitlessNumber as any)[key]) ? `${value}px` : value);
+export const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
+export const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !(isUnitlessNumber as any)[key]) ? `${value}px` : value);
 
 export interface CustomCSSProperties extends React.CSSProperties {
   "&:hover"?: React.CSSProperties;
   "&:active"?: React.CSSProperties;
   "&:focus"?: React.CSSProperties;
   "&:disabled"?: React.CSSProperties;
+  dynamicStyle?: React.CSSProperties;
 }
 
-const extendsStyleKeys: any = {
+export const extendsStyleKeys: any = {
   "&:hover": true,
   "&:active": true,
   "&:focus": true,
