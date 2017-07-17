@@ -25,6 +25,7 @@ export interface DataProps {
   onMouseUp?: (e?: any) => void;
   onClick?: (e?: any) => void;
 }
+
 export interface Attributes {
   [key: string]: any;
 }
@@ -148,7 +149,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
       ...attributes
     } = this.props;
 
-    return React.cloneElement(children as any, {
+    return React.cloneElement(children as React.ReactElement<any>, {
       ...attributes,
       style: this.context.theme.prepareStyles({
         transition: "all .25s",
