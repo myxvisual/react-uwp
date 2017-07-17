@@ -81,44 +81,46 @@ export class Button extends React.Component<ButtonProps> {
       ...theme.prepareStyles(iconStyle)
     };
 
-    const styles = setStylesToManager({
-      className: "button",
+    const rootAttributes = setStyleToManager({
+      className: "button-root",
       theme,
-      styles: {
-        root: {
-          display: "inline-block",
-          verticalAlign: "middle",
-          cursor: "pointer",
-          color: theme.baseHigh,
-          outline: "none",
-          padding: "4px 16px",
-          transition: "all .25s",
-          border: `${borderSize} solid transparent`,
-          background: background || theme.baseLow,
-          ...theme.prepareStyles(style),
-          "&:hover": disabled ? void 0 : {
-            border: `2px solid ${theme.baseMediumLow}`
-          },
-          "&:active": disabled ? void 0 : {
-            background: theme.baseMediumLow
-          },
-          "&:disabled": {
-            background: theme.baseMedium,
-            cursor: "not-allowed",
-            color: theme.baseMedium
-          }
+      style: {
+        display: "inline-block",
+        verticalAlign: "middle",
+        cursor: "pointer",
+        color: theme.baseHigh,
+        outline: "none",
+        padding: "4px 16px",
+        transition: "all .25s",
+        border: `${borderSize} solid transparent`,
+        background: background || theme.baseLow,
+        ...theme.prepareStyles(style),
+        "&:hover": disabled ? void 0 : {
+          border: `2px solid ${theme.baseMediumLow}`
         },
-        icon: {
-          padding: "0 4px",
-          display: "inline-block",
-          ...theme.prepareStyles(iconStyle)
+        "&:active": disabled ? void 0 : {
+          background: theme.baseMediumLow
+        },
+        "&:disabled": {
+          background: theme.baseMedium,
+          cursor: "not-allowed",
+          color: theme.baseMedium
         }
+      }
+    });
+    const iconAttributes = setStyleToManager({
+      className: "button-icon",
+      theme,
+      style: {
+        padding: "0 4px",
+        display: "inline-block",
+        ...theme.prepareStyles(iconStyle)
       }
     });
 
     const normalRender = (
       icon ? (iconPosition === "right" ? (
-        <button {...attributes} disabled={disabled} {...styles.root}>
+        <button {...attributes} disabled={disabled} {...rootAttributes}>
           <span style={{ verticalAlign: "middle" }}>
             {children}
           </span>
@@ -127,8 +129,8 @@ export class Button extends React.Component<ButtonProps> {
           </Icon>
         </button>
       ) : (
-        <button {...attributes} disabled={disabled} {...styles.root}>
-          <Icon {...styles.icon}>
+        <button {...attributes} disabled={disabled} {...rootAttributes}>
+          <Icon {...iconAttributes}>
             {icon}
           </Icon>
           <span style={{ verticalAlign: "middle" }}>
@@ -136,7 +138,7 @@ export class Button extends React.Component<ButtonProps> {
           </span>
         </button>
       )) : (
-        <button {...attributes as any} disabled={disabled} {...styles.root}>
+        <button {...attributes as any} disabled={disabled} {...rootAttributes}>
           {children}
         </button>
       )
