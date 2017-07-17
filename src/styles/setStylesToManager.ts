@@ -2,7 +2,6 @@ import { CustomCSSProperties } from "./StyleManager";
 
 export interface StyleWithClass {
   style?: CustomCSSProperties;
-  dynamicStyle?: React.CSSProperties;
   className?: string;
 }
 
@@ -26,7 +25,7 @@ export function setStylesToManager(config?: {
   let CSSText = "";
   for (const key of keys) {
     let styleItem: StyleWithClass = styles[key] as StyleWithClass;
-    const isStyleWithClass = styleItem.className || styleItem.style || styleItem.dynamicStyle;
+    const isStyleWithClass = styleItem.className || styleItem.style;
     let secondClassName: string = `-${key}`;
 
     if (isStyleWithClass) {
@@ -35,13 +34,14 @@ export function setStylesToManager(config?: {
       secondClassName = `-${key}${secondClassName}`;
     }
 
+    const { dynamicStyle, ...styleProperties } = isStyleWithClass ? styleItem.style : styleItem;
     const sheet = theme.styleManager.addSheetWithUpdate(
-      isStyleWithClass ? styleItem.style : styleItem,
+      styleProperties,
       `${className}${secondClassName}`
     );
     newStyles[key] = {
       className: sheet.classNameWithHash,
-      style: isStyleWithClass ? styleItem.dynamicStyle : void 0
+      style: dynamicStyle
     };
     CSSText += `${sheet.CSSText}\n`;
   }
@@ -54,15 +54,15 @@ export function setStyleToManager(config?: {
   theme?: ReactUWP.ThemeType;
   style: CustomCSSProperties;
   className: string;
-  dynamicStyle?: React.CSSProperties;
 }, callback: (CSSText?: string) => void = emptyFunc) {
   let newStyles:  {
     className?: string;
     style?: CustomCSSProperties;
   } = {};
-  let { style, dynamicStyle, className, theme } = config;
+  let { style, className, theme } = config;
+  const { dynamicStyle, ...styleProperties } = style;
   className = className || "";
-  const sheet = theme.styleManager.addSheetWithUpdate(style, className);
+  const sheet = theme.styleManager.addSheetWithUpdate(styleProperties, className);
   newStyles = {
     className: sheet.classNameWithHash,
     style: dynamicStyle
