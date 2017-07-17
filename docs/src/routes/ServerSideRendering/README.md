@@ -16,7 +16,7 @@ For instance, you can provide it like this:
 ``` jsx
 import * as React from "react";
 
-import { UWPThemeProvider, getTheme } from "react-uwp/Theme";
+import { Theme as UWPThemeProvider, getTheme } from "react-uwp/Theme";
 import Button from "react-uwp/Button";
 
 const theme = getTheme({
