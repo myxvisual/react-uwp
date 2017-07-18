@@ -26,6 +26,7 @@ export interface ThemeConfig {
   useFluentDesign?: boolean;
   desktopBackgroundImage?: string;
   userAgent?: string;
+  useInlineStyle?: boolean;
 }
 
 export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType {
@@ -36,7 +37,8 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
 
     useFluentDesign,
     desktopBackgroundImage,
-    userAgent
+    userAgent,
+    useInlineStyle
   } = themeConfig;
 
   themeName = themeName || "dark";
@@ -61,6 +63,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
       segoeMDL2Assets: "Segoe MDL2 Assets"
     },
+    useInlineStyle,
 
     styleManager: {},
 
