@@ -51,6 +51,7 @@ export interface ThemeType {
   useFluentDesign?: boolean;
   desktopBackgroundImage?: string;
   desktopBackground?: string;
+  useInlineStyle?: boolean;
 
   haveAcrylicTextures?: boolean;
   acrylicTexture40?: AcrylicTexture;
