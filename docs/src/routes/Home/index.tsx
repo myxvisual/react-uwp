@@ -37,9 +37,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
   };
 
   componentDidMount() {
-    if (!newWindow.__REACT_UWP__.showedToast) {
+    if (!newWindow.__REACT_UWP__showedToast) {
       this.showToastTimer = setTimeout(() => {
-        newWindow.__REACT_UWP__.showedToast = true;
+        newWindow.__REACT_UWP__showedToast = true;
         this.setState({ showToast: true });
 
         this.showToastTimer = setTimeout(() => {

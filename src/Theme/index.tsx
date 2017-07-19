@@ -194,6 +194,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       addToast: this.addToast,
       updateToast: this.updateToast,
       deleteToast: this.deleteToast,
+      scrollRevealListener: this.handleScrollReveal,
       generateAcrylicTextures: this.generateAcrylicTextures,
       forceUpdateTheme: this.forceUpdateTheme,
       styleManager
@@ -217,12 +218,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentDidMount() {
-    const newWindow = window as ReactUWP.Window;
-    if (!newWindow.__REACT_UWP__) newWindow.__REACT_UWP__ = {};
-    if (!newWindow.__REACT_UWP__.scrollReveals) {
-      newWindow.__REACT_UWP__.scrollReveals = [];
-    }
-
     const { currTheme } = this.state;
 
     if (IS_NODE_ENV && this.props.autoSaveTheme) {
@@ -369,38 +364,37 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   handleScrollReveal = (e?: Event) => {
-    const newWindow = window as ReactUWP.Window;
-    if (newWindow.__REACT_UWP__ && newWindow.__REACT_UWP__.scrollReveals) {
-      for (const scrollReveal of newWindow.__REACT_UWP__.scrollReveals) {
-        const {
-          rootElm,
-          animated,
-          setEnterStyle,
-          setLeaveStyle,
-          props: {
-            topOffset,
-            bottomOffset
-          }
-        } = scrollReveal;
-        const { top, height } = rootElm.getBoundingClientRect();
-        const { innerHeight } = window;
-
-        let isIn = false;
-        if (height > innerHeight) {
-          isIn = top < innerHeight - height * height && top > - height * 0.5;
-        } else {
-          isIn = top > 0 + topOffset && top + height + bottomOffset < innerHeight;
+    const { currTheme } = this.state;
+    for (const scrollReveal of currTheme.scrollReveals) {
+      const {
+        rootElm,
+        animated,
+        setEnterStyle,
+        setLeaveStyle,
+        props: {
+          topOffset,
+          bottomOffset
         }
-        if (isIn) {
-          if (!animated) {
-            setEnterStyle();
-            scrollReveal.animated = true;
-          }
-        } else {
-          if (animated) {
-            setLeaveStyle();
-            scrollReveal.animated = false;
-          }
+      } = scrollReveal;
+      if (!rootElm) return;
+      const { top, height } = rootElm.getBoundingClientRect();
+      const { innerHeight } = window;
+
+      let isIn = false;
+      if (height > innerHeight) {
+        isIn = top < innerHeight - height * height && top > - height * 0.5;
+      } else {
+        isIn = top > 0 + topOffset && top + height + bottomOffset < innerHeight;
+      }
+      if (isIn) {
+        if (!animated) {
+          setEnterStyle();
+          scrollReveal.animated = true;
+        }
+      } else {
+        if (animated) {
+          setLeaveStyle();
+          scrollReveal.animated = false;
         }
       }
     }

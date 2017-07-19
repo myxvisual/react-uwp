@@ -65,21 +65,13 @@ export class ScrollReveal extends React.Component<ScrollRevealProps> {
   animated: boolean = false;
 
   componentDidMount() {
-    const newWindow = window as ReactUWP.Window;
-    if (!newWindow.__REACT_UWP__) {
-      newWindow.__REACT_UWP__ = {};
-    }
-    if (!newWindow.__REACT_UWP__.scrollReveals) {
-      newWindow.__REACT_UWP__.scrollReveals = [];
-    }
-
-    this.rootElm = findDOMNode(this) as HTMLElement;
-    newWindow.__REACT_UWP__.scrollReveals.push(this as any);
+    this.rootElm = findDOMNode(this);
+    this.context.theme.scrollReveals.push(this as any);
   }
 
   componentWillUnmount() {
-    const newWindow = window as ReactUWP.Window;
-    newWindow.__REACT_UWP__.scrollReveals.splice(newWindow.__REACT_UWP__.scrollReveals.indexOf(this as any), 1);
+    const { scrollReveals } = this.context.theme;
+    scrollReveals.splice(scrollReveals.indexOf(this as any), 1);
   }
 
   setEnterStyle = () => {

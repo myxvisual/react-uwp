@@ -82,6 +82,9 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       background: altMediumHigh
     },
 
+    scrollReveals: [],
+    scrollRevealListener: void 0,
+
     accent,
     accentLighter1: lighten(accentColor.toHexString(), 0.5),
     accentLighter2: lighten(accentColor.toHexString(), 0.7),
