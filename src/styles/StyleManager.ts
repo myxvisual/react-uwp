@@ -12,6 +12,11 @@ export interface CustomCSSProperties extends React.CSSProperties {
   dynamicStyle?: React.CSSProperties;
 }
 
+export interface StyleWithClass {
+  style?: CustomCSSProperties;
+  className?: string;
+}
+
 export const extendsStyleKeys: any = {
   "&:hover": true,
   "&:active": true,
@@ -24,32 +29,38 @@ export class StyleManager {
   theme: ReactUWP.ThemeType;
   themeId = 0;
   styleElement: HTMLStyleElement = null;
-  sheets: any = {};
-  styleNode: HTMLStyleElement;
-  sheetsDidUpdate: () => void;
+  sheets: {
+    [key: string]: {
+      CSSText?: string;
+      className?: string;
+      classNameWithHash?: string;
+      id?: number;
+    }
+  } = {};
+  styleDidUpdate: () => void;
   CSSText = "";
   addedCSSText: {
     [key: string]: boolean;
   } = {};
 
   constructor(config: {
-    theme: ReactUWP.ThemeType;
+    theme?: ReactUWP.ThemeType;
     globalClassName?: string;
-    sheetsDidUpdate?: () => void;
+    styleDidUpdate?: () => void;
   }) {
-    const { globalClassName, theme, sheetsDidUpdate } = config;
-    this.sheetsDidUpdate = sheetsDidUpdate || (() => {});
+    const { globalClassName, theme, styleDidUpdate } = config;
+    this.styleDidUpdate = styleDidUpdate || (() => {});
     this.globalClassName = globalClassName ? `${globalClassName}-` : "";
     this.setupTheme(theme);
-    this.initStyleElement();
+    this.setupStyleElement();
   }
 
-  setupTheme = (theme: ReactUWP.ThemeType) => {
+  setupTheme = (theme?: ReactUWP.ThemeType) => {
     this.theme = theme;
     this.themeId = createHash([theme.accent, theme.themeName, theme.useFluentDesign].join(", "));
   }
 
-  initStyleElement = () => {
+  setupStyleElement = () => {
     const name = `data-uwp-jss-${this.themeId}`;
     if (!this.styleElement) {
       this.styleElement = document.createElement("style");
@@ -70,13 +81,9 @@ export class StyleManager {
     `  ${replace2Dashes(key)}: ${getStyleValue(key, style[key])};`
   )).join("\n") : void 0
 
-  renderSheets = () => {};
-
   sheetsToString = () => `\n${Object.keys(this.sheets).map(id => this.sheets[id].CSSText).join("")}`;
 
-  updateTheme = () => {};
-
-  addSheet = (style: CustomCSSProperties, className = "", callback = () => {}) => {
+  addStyle = (style: CustomCSSProperties, className = "", callback = () => {}) => {
     const id = createHash(`${this.themeId}: ${JSON.stringify(style)}`);
     const classNameWithHash = `${this.globalClassName}${className}-${id}`;
     const styleKeys = Object.keys(style);
@@ -103,8 +110,8 @@ export class StyleManager {
     return this.sheets[id];
   }
 
-  addSheetWithUpdate = (style: CustomCSSProperties, className = "") => {
-    return this.addSheet(style, className, this.updateSheetsToDOM);
+  addStyleWithUpdate = (style: CustomCSSProperties, className = "") => {
+    return this.addStyle(style, className, this.renderSheets);
   }
 
   addCSSText = (CSSText: string, callback = () => {}) => {
@@ -119,24 +126,83 @@ export class StyleManager {
   addCSSTextWithUpdate = (CSSText: string) => {
     this.addCSSText(CSSText, () => {
       if (this.styleElement) {
-        this.updateStyleTextContent(this.styleElement.textContent += CSSText);
+        this.updateStyleElement(this.styleElement.textContent += CSSText);
       }
     });
   }
 
-  removeSheetByID = () => {};
+  setStyleToManager(config?: {
+    style?: CustomCSSProperties;
+    className?: string;
+  }, callback?: (theme?: ReactUWP.ThemeType) => StyleWithClass): StyleWithClass {
+    let newStyles: StyleWithClass = {};
+    let { style, className } = config || {} as StyleWithClass;
+    if (callback) style = callback(this.theme);
 
-  updateSheetsToDOM = () => {
-    let textContent = this.sheetsToString();
-    textContent += this.CSSText;
-    this.updateStyleTextContent(textContent);
+    const { dynamicStyle, ...styleProperties } = style;
+    className = className || "";
+    const sheet = this.addStyleWithUpdate(styleProperties, className);
+    newStyles = {
+      className: sheet.classNameWithHash,
+      style: dynamicStyle
+    };
+
+    return newStyles;
   }
 
-  updateStyleTextContent = (textContent: string) => {
+  setStylesToManager(config?: {
+    styles: { [key: string]: StyleWithClass | CustomCSSProperties };
+    className?: string;
+  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleWithClass }): { [key: string]: StyleWithClass } {
+  const newStyles: {
+    [key: string]: {
+      className?: string;
+      style?: React.CSSProperties;
+    }
+  } = {};
+  let { className, styles } = config;
+  if (callback) styles = callback(this.theme);
+  className = className || "";
+  const keys = Object.keys(styles);
+
+  let CSSText = "";
+  for (const key of keys) {
+    let styleItem: StyleWithClass = styles[key] as StyleWithClass;
+    const isStyleWithClass = styleItem.className || styleItem.style;
+    let secondClassName: string = `-${key}`;
+
+    if (isStyleWithClass) {
+      secondClassName = styleItem.className;
+      secondClassName = secondClassName ? `-${secondClassName}` : "";
+      secondClassName = `-${key}${secondClassName}`;
+    }
+
+    const { dynamicStyle, ...styleProperties } = isStyleWithClass ? styleItem.style : styleItem;
+    const sheet = this.addStyleWithUpdate(
+      styleProperties,
+      `${className}${secondClassName}`
+    );
+    newStyles[key] = {
+      className: sheet.classNameWithHash,
+      style: dynamicStyle
+    };
+    CSSText += `${sheet.CSSText}\n`;
+  }
+
+  return newStyles;
+}
+
+  renderSheets = () => {
+    let textContent = this.sheetsToString();
+    textContent += this.CSSText;
+    this.updateStyleElement(textContent);
+  }
+
+  updateStyleElement = (textContent: string) => {
     const name = `data-uwp-jss-${this.themeId}`;
     if (this.styleElement) {
       this.styleElement.textContent = textContent;
-      this.sheetsDidUpdate();
+      this.styleDidUpdate();
     }
   }
 }

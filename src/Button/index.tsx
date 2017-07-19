@@ -4,7 +4,6 @@ import * as PropTypes from "prop-types";
 import ElementState from "../ElementState";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
-import { setStylesToManager, setStyleToManager } from "../styles/setStylesToManager";
 
 export interface DataProps {
   /**
@@ -75,13 +74,7 @@ export class Button extends React.Component<ButtonProps> {
     } = this.props;
     const { theme } = this.context;
 
-    const currIconStyle: React.CSSProperties = {
-      padding: "0 4px",
-      display: "inline",
-      ...theme.prepareStyles(iconStyle)
-    };
-
-    const rootAttributes = setStyleToManager({
+    const rootAttributes = theme.styleManager.setStyleToManager({
       className: "button-root",
       theme,
       style: {
@@ -108,7 +101,8 @@ export class Button extends React.Component<ButtonProps> {
         }
       }
     });
-    const iconAttributes = setStyleToManager({
+
+    const iconAttributes = theme.styleManager.setStyleToManager({
       className: "button-icon",
       theme,
       style: {
@@ -124,7 +118,7 @@ export class Button extends React.Component<ButtonProps> {
           <span style={{ verticalAlign: "middle" }}>
             {children}
           </span>
-          <Icon style={currIconStyle}>
+          <Icon {...iconAttributes}>
             {icon}
           </Icon>
         </button>
