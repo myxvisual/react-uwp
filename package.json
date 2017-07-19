@@ -64,7 +64,7 @@
     "tslint": "^5.2.0",
     "tslint-eslint-rules": "^4.1.1",
     "tslint-no-circular-imports": "^0.1.0",
-    "typescript": "^2.3.4"
+    "typescript": "^2.4.1"
   },
   "dependencies": {
     "@types/core-js": "^0.9.41",

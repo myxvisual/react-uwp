@@ -9,26 +9,18 @@
 
 export as namespace ReactUWP;
 
-export interface Window {
-  __REACT_UWP__?: {
-    baseCSSRequired?: boolean;
-    version?: string;
-    docRootPath?: string;
-    scrollReveals?: {
-      rootElm?: HTMLElement;
-      animated?: boolean;
-      setEnterStyle?: () => void;
-      setLeaveStyle: () => void;
-      props: {
-        speed?: number;
-        style?: React.CSSProperties;
-        animatedStyle?: React.CSSProperties;
-        children?: React.ReactElement<any>;
-        topOffset?: number;
-        bottomOffset?: number;
-      }
-    }[];
-    scrollRevealListener?: (e?: Event) => void;
+export interface ScrollReveal {
+  rootElm?: HTMLElement;
+  animated?: boolean;
+  setEnterStyle?: () => void;
+  setLeaveStyle: () => void;
+  props: {
+    speed?: number;
+    style?: React.CSSProperties;
+    animatedStyle?: React.CSSProperties;
+    children?: React.ReactElement<any>;
+    topOffset?: number;
+    bottomOffset?: number;
   }
 }
 
@@ -40,6 +32,7 @@ export interface AcrylicTexture {
   noiseOpacity?: number;
   background?: string;
 }
+
 export interface ThemeType {
   themeName?: "dark" | "light";
   fonts?: {
@@ -47,6 +40,8 @@ export interface ThemeType {
     segoeMDL2Assets?: string;
   };
   styleManager?: any;
+  scrollReveals?: ScrollReveal[];
+  scrollRevealListener?: (e?: Event) => void;
 
   useFluentDesign?: boolean;
   desktopBackgroundImage?: string;
