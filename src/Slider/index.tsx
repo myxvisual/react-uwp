@@ -319,7 +319,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     return (
       <div {...attributes} style={styles.wrapper}>
         {showValueInfo ? (
-          <div style={theme.prepareStyles({ display: "flex", flexDirection: displayMode === "horizon" ? "row" : "column", alignItems: "center" })}>
+          <div style={theme.prefixStyle({ display: "flex", flexDirection: displayMode === "horizon" ? "row" : "column", alignItems: "center" })}>
             {normalRender}
             <span
               ref={labelElm => this.labelElm = labelElm}
@@ -365,7 +365,7 @@ function getStyles(slider: Slider): {
       hovered
     }
   } = slider;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const isHorizonMode = displayMode === "horizon";
   const height2px: number = Number.parseFloat(height as any);
   const barHeight2px: number = Number.parseFloat(barHeight as any);
@@ -375,14 +375,14 @@ function getStyles(slider: Slider): {
   const valueRatio = currValue / maxValue;
 
   return {
-    wrapper: prepareStyles({
+    wrapper: prefixStyle({
       width: isHorizonMode ? 320 : height2px,
       height: isHorizonMode ? height2px : 320,
       display: "inline-block",
       verticalAlign: "middle",
       ...style
     }),
-    root: prepareStyles({
+    root: prefixStyle({
       flex: showValueInfo ? "0 0 auto" : void 0,
       display: "flex",
       flexDirection: "row",
@@ -401,7 +401,7 @@ function getStyles(slider: Slider): {
       left: isHorizonMode ? 0 : `calc(50% - ${barHeight2px / 2}px)`,
       top: isHorizonMode ? `calc(50% - ${barHeight2px / 2}px)` : 0
     },
-    bar: prepareStyles({
+    bar: prefixStyle({
       transition: currTransition,
       background: useCustomBackground ? barBackground : theme.listAccentLow,
       backgroundImage: barBackgroundImage,
@@ -412,7 +412,7 @@ function getStyles(slider: Slider): {
       left: 0,
       top: 0
     }),
-    controllerWrapper: prepareStyles({
+    controllerWrapper: prefixStyle({
       position: "absolute",
       left: 0,
       top: 0,
@@ -422,7 +422,7 @@ function getStyles(slider: Slider): {
       pointerEvents: "none",
       transition: currTransition
     }),
-    controller: prepareStyles({
+    controller: prefixStyle({
       pointerEvents: "none",
       transition: currTransition,
       display: "inline-block",

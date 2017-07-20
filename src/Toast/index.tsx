@@ -214,7 +214,7 @@ function getStyles(Toast: Toast): {
     props: { style, showCloseIcon },
     state: { showToast }
   } = Toast;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
     wrapper: {
@@ -225,7 +225,7 @@ function getStyles(Toast: Toast): {
       opacity: showToast ? 1 : .5,
       transform: `translate3d(${showToast ? 0 : "100%"}, 0, 0)`
     },
-    root: prepareStyles({
+    root: prefixStyle({
       width: 320,
       padding: 10,
       position: "relative",
@@ -246,7 +246,7 @@ function getStyles(Toast: Toast): {
       right: 10,
       cursor: "pointer"
     },
-    card: prepareStyles({
+    card: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "flex-start",

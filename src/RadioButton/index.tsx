@@ -103,7 +103,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
         onMouseLeave={disabled ? void 0 : this.handleMouseLeave}
         onMouseDown={disabled ? void 0 : this.handleMouseDown}
         onMouseUp={disabled ? void 0 : this.handleMouseUp}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           position: "relative",
           display: "inline-block",
           borderRadius: size,
@@ -118,7 +118,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
         })}
       >
         <div
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             position: "absolute",
             top: 0,
             left: 0,
@@ -141,14 +141,14 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
       <div
         ref={(rootElm => this.rootElm = rootElm)}
         {...attributes}
-        style={style ? theme.prepareStyles({
+        style={style ? theme.prefixStyle({
           ...rootStyle,
           ...style
         }) : rootStyle}
       >
         {label ? (
           <div
-            style={theme.prepareStyles({
+            style={theme.prefixStyle({
               display: "flex",
               flexDirection: "row",
               alignItems: "center"

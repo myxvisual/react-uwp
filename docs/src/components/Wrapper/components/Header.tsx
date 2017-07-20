@@ -211,11 +211,11 @@ function getStyles(header: Header): {
     context: { theme },
     props: { style, renderContentWidth, screenType, headerHeight }
   } = header;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const isPhoneScreen = screenType === "phone";
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseHigh,
       background: theme.useFluentDesign ? (
@@ -236,7 +236,7 @@ function getStyles(header: Header): {
       zIndex: theme.zIndex.header,
       ...style
     }),
-    content: prepareStyles({
+    content: prefixStyle({
       display: "flex",
       flexDirection: "row",
       justifyContent: isPhoneScreen ? "space-between" : void 0,
@@ -245,7 +245,7 @@ function getStyles(header: Header): {
       overflow: "auto",
       flexWrap: "nowrap"
     }),
-    logo: prepareStyles({
+    logo: prefixStyle({
       display: "flex",
       flex: "0 0 auto",
       flexDirection: "row",
@@ -256,7 +256,7 @@ function getStyles(header: Header): {
       height: headerHeight,
       textDecoration: "none"
     }),
-    navContent: prepareStyles({
+    navContent: prefixStyle({
       width: isPhoneScreen ? void 0 : "100%",
       marginLeft: 20,
       height: "100%",
@@ -264,7 +264,7 @@ function getStyles(header: Header): {
       alignItems: "center",
       justifyContent: "space-between"
     }),
-    links: prepareStyles({
+    links: prefixStyle({
       color: "inherit",
       height: "100%",
       overflow: "hidden"

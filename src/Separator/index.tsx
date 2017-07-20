@@ -36,11 +36,11 @@ function getStyles(separator: Separator): {
 } {
   const { context, props: { direction, style } } = separator;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const isColumn = direction === "column";
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "inline-block",
       flex: "0 0 auto",
       width: isColumn ? 1 : "100%",

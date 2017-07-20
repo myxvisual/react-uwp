@@ -117,7 +117,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
     } = this.props;
     const { theme } = this.context;
     const { currFocusItemIndex, hoverItem, hoverIndexArray } = this.state;
-    const itemStyle = theme.prepareStyles({
+    const itemStyle = theme.prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -134,7 +134,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
     return (
       <div
         {...attributes}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           width: 48,
           background: theme.altHigh,
           ...attributes.style
@@ -142,7 +142,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
       >
         <div
           {...attributes}
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             width: initWidth,
             display: "flex",
             flexDirection: "column",
@@ -153,7 +153,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
           {React.Children.map(topNode, (child: React.ReactElement<any>, index) => (
             <div
               key={`${index}`}
-              style={theme.prepareStyles({
+              style={theme.prefixStyle({
                 ...itemStyle,
                 width: initWidth,
                 height: initWidth
@@ -180,7 +180,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
                 }}
                 href={href}
                 onClick={e => { onFocusItem(index); if (onClick) onClick(e); }}
-                style={theme.prepareStyles({
+                style={theme.prefixStyle({
                   overflow: "hidden",
                   display: "flex",
                   flexDirection: isFloatRight ? "row" : "row-reverse",
@@ -208,7 +208,7 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
           {React.Children.map(bottomNode, (child: React.ReactElement<any>, index) => (
             <div
               key={`${index}`}
-              style={theme.prepareStyles({
+              style={theme.prefixStyle({
                 ...itemStyle,
                 width: initWidth,
                 height: initWidth

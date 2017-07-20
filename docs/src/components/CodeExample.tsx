@@ -109,16 +109,16 @@ function getStyles(codeExample: CodeExample): {
     props: { style },
     state: { showCode }
   } = codeExample;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
       margin: "36px 0",
       ...style
     }),
-    title: prepareStyles({
+    title: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -131,7 +131,7 @@ function getStyles(codeExample: CodeExample): {
       padding: "10px 8px",
       ...style
     }),
-    code: prepareStyles({
+    code: prefixStyle({
       maxHeight: showCode ? 400 : 0,
       overflow: "auto",
       width: "100%",
@@ -139,13 +139,13 @@ function getStyles(codeExample: CodeExample): {
       padding: "0px 4px",
       ...style
     }),
-    desc: prepareStyles({
+    desc: prefixStyle({
       boxSizing: "border-box",
       margin: "8px 0",
       padding: "4px 0",
       ...style
     }),
-    icon: prepareStyles({
+    icon: prefixStyle({
       transform: `rotateZ(${showCode ? "-180deg" : "0deg"})`,
       color: "inherit",
       cursor: "pointer",

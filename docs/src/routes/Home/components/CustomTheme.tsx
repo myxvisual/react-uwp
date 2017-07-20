@@ -164,11 +164,11 @@ function getStyles(customTheme: CustomTheme): {
     context: { theme },
     props: { style, renderContentWidth }
   } = customTheme;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles(style),
-    content: prepareStyles({
+    root: prefixStyle(style),
+    content: prefixStyle({
       padding: 20,
       width: renderContentWidth,
       margin: "0 auto",

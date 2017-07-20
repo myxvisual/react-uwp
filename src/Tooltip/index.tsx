@@ -99,7 +99,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   getStyle = (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {
     const { context: { theme }, props: { style, background } } = this;
-    return theme.prepareStyles({
+    return theme.prefixStyle({
       height: 28,
       overflow: "hidden",
       textOverflow: "ellipsis",

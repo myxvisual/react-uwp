@@ -62,10 +62,10 @@ function getStyles(semanticZoom: SemanticZoom): {
     context: { theme },
     props: { style }
   } = semanticZoom;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: theme.altMediumHigh,

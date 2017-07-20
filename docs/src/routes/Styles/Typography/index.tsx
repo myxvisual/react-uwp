@@ -20,13 +20,13 @@ export default class Typography extends React.Component<TypographyProps> {
 
   renderTypographyItem = (name: string, style: React.CSSProperties) => {
     const { theme } = this.context;
-    const itemStyle: React.CSSProperties = theme.prepareStyles({
+    const itemStyle: React.CSSProperties = theme.prefixStyle({
       flex: "1 1 auto",
       minWidth: "25%",
       textAlign: "left"
     });
     return <div
-      style={theme.prepareStyles({
+      style={theme.prefixStyle({
         ...style,
         display: "flex",
         margin: "20px 0",

@@ -164,10 +164,10 @@ function getStyles(accentColor: AccentColor): {
     context: { theme },
     props: { style }
   } = accentColor;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles(style),
+    root: prefixStyle(style),
     colorContainer: {
       float: "left",
       display: "inline-block",

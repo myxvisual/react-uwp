@@ -133,7 +133,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
 
   renderTree = (): React.ReactNode => {
     const { theme } = this.context;
-    const { prepareStyles } = theme;
+    const { prefixStyle } = theme;
     const {
       iconDirection,
       showFocus,
@@ -190,7 +190,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
           key={`${index}`}
         >
           <div
-            style={theme.prepareStyles({
+            style={theme.prefixStyle({
               color: disabled ? theme.baseLow : void 0,
               ...styles.title
             })}
@@ -233,7 +233,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
                 onClick={disabled ? void 0 : (e) => {
                   this.setChooseItem(item);
                 }}
-                style={prepareStyles({
+                style={prefixStyle({
                   cursor: disabled ? "not-allowed" : "pointer",
                   color: disabled ? theme.baseLow : void 0,
                   fontSize: itemHeight / 2,
@@ -253,7 +253,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
                 this.setChooseItem(item);
                 if (onClick) onClick(e as any);
               }}
-              style={prepareStyles({
+              style={prefixStyle({
                 cursor: disabled ? "not-allowed" : "pointer",
                 transition: "all 0.25s",
                 zIndex: 0,
@@ -267,7 +267,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
           </div>
           {haveChild && (
             <div
-              style={theme.prepareStyles({
+              style={theme.prefixStyle({
                 height: "auto",
                 overflow: expanded ? void 0 : "hidden",
                 opacity: expanded ? 1 : 0,
@@ -320,9 +320,9 @@ function getStyles(treeView: TreeView): {
   const { context, props: { iconDirection, itemHeight, style, background } } = treeView;
   const isRight = iconDirection === "right";
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       overflowX: "hidden",
       overflowY: "auto",
@@ -332,7 +332,7 @@ function getStyles(treeView: TreeView): {
       padding: "0 16px",
       ...style
     }),
-    title: prepareStyles({
+    title: prefixStyle({
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       width: "100%",
@@ -345,7 +345,7 @@ function getStyles(treeView: TreeView): {
       justifyContent: isRight ? "space-between" : "flex-end",
       transition: "all .25s 0s ease-in-out"
     }),
-    titleNode: prepareStyles({
+    titleNode: prefixStyle({
       color: "inherit",
       zIndex: 1,
       width: "100%",

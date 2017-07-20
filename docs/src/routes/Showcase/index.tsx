@@ -52,10 +52,10 @@ function getStyles(showcase: Showcase): {
     context: { theme },
     props: { style }
   } = showcase;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",

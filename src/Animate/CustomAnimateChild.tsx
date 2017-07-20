@@ -78,7 +78,7 @@ export default class CustomAnimateChild extends React.Component<DataProps> {
 
     const style = this.getRootElmOrComponentStyle(this.rootElm);
 
-    Object.assign(style, this.context.theme.prepareStyles(enterStyle));
+    Object.assign(style, this.context.theme.prefixStyle(enterStyle));
 
     this.enterTimer = setTimeout(callback, speed + enterDelay);
   }
@@ -88,7 +88,7 @@ export default class CustomAnimateChild extends React.Component<DataProps> {
 
     const style = this.getRootElmOrComponentStyle(this.rootElm);
 
-    Object.assign(style, this.context.theme.prepareStyles(this.props.leaveStyle));
+    Object.assign(style, this.context.theme.prefixStyle(this.props.leaveStyle));
     callback();
   }
 
@@ -124,7 +124,7 @@ export default class CustomAnimateChild extends React.Component<DataProps> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const currStyle = theme.prepareStyles({
+    const currStyle = theme.prefixStyle({
       transition: `all ${speed}ms${transitionTimingFunction ? ` ${transitionTimingFunction}` : ""}`,
       ...style,
       ...(children as any).props.style,

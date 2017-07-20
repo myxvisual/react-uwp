@@ -95,10 +95,10 @@ function getStyles(monthPicker: MonthPicker): {
     context: { theme },
     props: { style }
   } = monthPicker;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       width: 296,
       height: 292,
       display: "flex",

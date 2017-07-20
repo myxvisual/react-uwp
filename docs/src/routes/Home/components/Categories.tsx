@@ -106,13 +106,13 @@ function getStyles(categories: Categories): {
     context: { theme },
     props: { style, renderContentWidth }
   } = categories;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       ...style
     }),
-    categories: prepareStyles({
+    categories: prefixStyle({
       width: renderContentWidth,
       display: "flex",
       flexDirection: "row",

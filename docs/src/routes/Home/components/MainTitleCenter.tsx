@@ -44,7 +44,7 @@ export default class MainTitleCenter extends React.PureComponent<MainTitleCenter
             <span>
               {linkInfo}
             </span>
-            <Icon style={theme.prepareStyles({ marginLeft: 4, transition: styles.link.transition })}>
+            <Icon style={theme.prefixStyle({ marginLeft: 4, transition: styles.link.transition })}>
               ScrollChevronRightLegacy
             </Icon>
           </Link>
@@ -64,10 +64,10 @@ function getStyles(mainTitleCenter: MainTitleCenter): {
     context: { theme },
     props: { style }
   } = mainTitleCenter;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       ...style,
       display: "flex",
       flexDirection: "column",
@@ -85,7 +85,7 @@ function getStyles(mainTitleCenter: MainTitleCenter): {
       fontSize: 13,
       fontWeight: "lighter"
     },
-    link: theme.prepareStyles({
+    link: theme.prefixStyle({
       transition: "all .25s ease-in-out",
       display: "flex",
       flexDirection: "row",

@@ -39,7 +39,7 @@ export default class SimpleExample extends React.Component {
     };
     return (
       <div
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",

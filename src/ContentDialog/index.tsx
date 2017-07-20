@@ -226,10 +226,10 @@ function getStyles(contentDialog: ContentDialog): {
 } {
   const { context, props: { style, background }, state: { showDialog } } = contentDialog;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    mask: prepareStyles({
+    mask: prefixStyle({
       lineHeight: 1.6,
       margin: 0,
       padding: 0,
@@ -251,7 +251,7 @@ function getStyles(contentDialog: ContentDialog): {
       transition: `all .25s ${showDialog ? 0 : 0.25}s ease-in-out`,
       ...style
     }),
-    container: prepareStyles({
+    container: prefixStyle({
       background: background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh),
       border: `1px solid ${theme.baseLow}`,
       flex: "0 0 auto",
@@ -262,7 +262,7 @@ function getStyles(contentDialog: ContentDialog): {
       opacity: showDialog ? 1 : 0,
       transition: `all .25s ${showDialog ? 0.25 : 0}s ease-in-out`
     }),
-    statusBarTitle: prepareStyles({
+    statusBarTitle: prefixStyle({
       color: "#fff",
       background: theme.accent,
       height: 28,
@@ -272,7 +272,7 @@ function getStyles(contentDialog: ContentDialog): {
       justifyContent: "space-between",
       paddingLeft: 18
     }),
-    iconButton: prepareStyles({
+    iconButton: prefixStyle({
       color: "#fff",
       display: "flex",
       alignSelf: "flex-start",
@@ -283,7 +283,7 @@ function getStyles(contentDialog: ContentDialog): {
       lineHeight: "28px",
       height: 28
     }),
-    content: prepareStyles({
+    content: prefixStyle({
       boxSizing: "border-box",
       width: "100%",
       padding: 16,
@@ -297,7 +297,7 @@ function getStyles(contentDialog: ContentDialog): {
       fontSize: 18,
       margin: 0
     },
-    buttonGroup: prepareStyles({
+    buttonGroup: prefixStyle({
       width: "100%",
       display: "flex",
       flexDirection: "row",

@@ -133,24 +133,24 @@ function getStyles(Tabs: Tabs): {
       style
     }
   } = Tabs;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       color: theme.baseMediumHigh,
       display: "inline-block",
       verticalAlign: "middle",
       overflow: "hidden",
       ...style
     }),
-    titles: prepareStyles({
+    titles: prefixStyle({
       display: "flex",
       flexDirection: "row",
       flexWrap: "nowrap",
       width: "100%",
       overflow: "auto"
     }),
-    title: prepareStyles({
+    title: prefixStyle({
       color: theme.baseHigh,
       borderBottom: `1px solid transparent`,
       fontWeight: "lighter",
@@ -161,11 +161,11 @@ function getStyles(Tabs: Tabs): {
       transition: "all .25s",
       ...tabTitleStyle
     }),
-    titleFocus: prepareStyles({
+    titleFocus: prefixStyle({
       borderBottom: `2px solid ${theme.accent}`,
       ...tabTitleFocusStyle
     }),
-    tabStyle: prepareStyles({
+    tabStyle: prefixStyle({
       width: "100%",
       height: "100%",
       ...tabStyle

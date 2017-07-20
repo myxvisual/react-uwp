@@ -59,10 +59,10 @@ function getStyles(dialog: Dialog): {
 } {
   const { context, state: { showDialog }, props: { style, contentAttributes } } = dialog;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       color: theme.baseMediumHigh,
       background: theme.altMediumHigh,
       position: "fixed",
@@ -75,7 +75,7 @@ function getStyles(dialog: Dialog): {
       visibility: showDialog ? "visible" : "hidden",
       opacity: showDialog ? 1 : 0
     }),
-    content: prepareStyles({
+    content: prefixStyle({
       transition: "all .25s 0s ease-in-out",
       transform: `scale(${showDialog ? 1 : 0})`,
       ...contentAttributes.style

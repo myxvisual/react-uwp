@@ -17,7 +17,7 @@ export default class SimpleExample extends React.Component {
           listSource={[0, <Separator disabled />, 1]}
         />
         <div
-          style={this.context.theme.prepareStyles({
+          style={this.context.theme.prefixStyle({
             display: "flex",
             flexDirection: "row",
             alignItems: "center",

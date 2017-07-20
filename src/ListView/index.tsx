@@ -73,7 +73,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     const clickBG = isFocus ? theme.accent : theme.chromeHigh;
     return (
       <div
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           background: defaultBG,
           color: disabled ? theme.baseLow : theme.baseHigh,
           ...styles.item,
@@ -129,7 +129,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
         {...attributes}
         style={{
           ...styles.root,
-          ...theme.prepareStyles(attributes.style)
+          ...theme.prefixStyle(attributes.style)
         }}
       >
         {listSourceAny && listSourceAny.map((listItem: any, index: number) => {
@@ -157,7 +157,7 @@ function getStyles(listView: ListView): {
 } {
   const { context, props: { listItemStyle, background } } = listView;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
     root: {

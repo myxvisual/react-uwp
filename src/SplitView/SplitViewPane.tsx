@@ -17,7 +17,7 @@ export class SplitViewPane extends React.Component<SplitViewPaneProps> {
     return (
       <div
         {...attributes}
-        style={theme.prepareStyles(style)}
+        style={theme.prefixStyle(style)}
         ref={rootElm => this.rootElm = rootElm}
       >
         {children}

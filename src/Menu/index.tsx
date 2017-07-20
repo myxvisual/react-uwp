@@ -108,10 +108,10 @@ function getStyles(menu: Menu): {
     context: { theme },
     props: { style }
   } = menu;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       width: 240,
       color: theme.baseHigh,
       background: theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow,

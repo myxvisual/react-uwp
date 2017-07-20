@@ -22,7 +22,7 @@ export default class ChangeLog extends React.Component<ChangeLogProps> {
     return (
       <MarkdownRender
         {...attributes}
-        style={theme.prepareStyles({ ...style, padding: "0 20px 60px" })}
+        style={theme.prefixStyle({ ...style, padding: "0 20px 60px" })}
         text={changeLogText as any}
       />
     );

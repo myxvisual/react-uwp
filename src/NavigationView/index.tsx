@@ -221,7 +221,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
         {...(isCompact ? void 0 : attributes)}
         style={{
           ...styles.root,
-          ...(isCompact ? void 0 : theme.prepareStyles(style))
+          ...(isCompact ? void 0 : theme.prefixStyle(style))
         }}
       >
         <div style={styles.paneParent} ref={paneElm => this.paneElm = paneElm}>
@@ -306,10 +306,10 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     return isCompact ? (
       <div
         {...attributes}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           display: "inline-block",
           background: background || theme.altHigh,
-          ...theme.prepareStyles(style)
+          ...theme.prefixStyle(style)
         })}
       >
         {renderContent}
@@ -338,7 +338,7 @@ function getStyles(NavigationView: NavigationView): {
   const isMinimal = currDisplayMode === "minimal";
   const isCompact = currDisplayMode === "compact";
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   let minHeight = isMinimal ? 0 : 48;
   if (navigationTopNodes) minHeight += 48 * navigationTopNodes.length;
   if (navigationBottomNodes) minHeight += 48 * navigationBottomNodes.length;
@@ -346,14 +346,14 @@ function getStyles(NavigationView: NavigationView): {
   const transition = "width .25s ease-in-out";
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: isCompact ? "flex" : "inline-block",
       fontSize: 16,
       color: theme.baseHigh,
       height: isCompact ? "100%" : void 0,
       position: "relative"
     }),
-    topIcon: prepareStyles({
+    topIcon: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -363,7 +363,7 @@ function getStyles(NavigationView: NavigationView): {
       flex: "0 0 auto",
       zIndex: 1
     }),
-    pageTitle: prepareStyles({
+    pageTitle: prefixStyle({
       paddingLeft: 2,
       opacity: (expanded || isMinimal) ? 1 : 0,
       width: isMinimal ? expandedWidth : "100%",
@@ -372,7 +372,7 @@ function getStyles(NavigationView: NavigationView): {
       overflow: isMinimal ? void 0 : "hidden",
       textOverflow: "ellipsis"
     }),
-    paneParent: prepareStyles({
+    paneParent: prefixStyle({
       display: "inline-block",
       verticalAlign: "top",
       width: isMinimal ? "100%" : (isOverLay ? currInitWidth : (expanded ? expandedWidth : currInitWidth)),
@@ -383,7 +383,7 @@ function getStyles(NavigationView: NavigationView): {
       background: isMinimal ? currBackground : void 0,
       transition
     }),
-    pane: prepareStyles({
+    pane: prefixStyle({
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
@@ -399,15 +399,15 @@ function getStyles(NavigationView: NavigationView): {
       } as React.CSSProperties : void 0),
       height: "100%",
       transition,
-      ...prepareStyles(paneStyle)
+      ...prefixStyle(paneStyle)
     }),
-    paneTop: prepareStyles({
+    paneTop: prefixStyle({
       display: "flex",
       flexDirection: "column",
       width: "100%",
       flex: "0 0 auto"
     }),
-    paneTopIcons: prepareStyles({
+    paneTopIcons: prefixStyle({
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
@@ -415,7 +415,7 @@ function getStyles(NavigationView: NavigationView): {
       flex: "0 0 auto",
       zIndex: 1
     }),
-    paneBottomIcons: prepareStyles({
+    paneBottomIcons: prefixStyle({
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",

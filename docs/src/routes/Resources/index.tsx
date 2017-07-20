@@ -81,10 +81,10 @@ function getStyles(resources: Resources): {
     context: { theme },
     props: { style }
   } = resources;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       padding: 20,
       height: "100%",
       display: "flex",

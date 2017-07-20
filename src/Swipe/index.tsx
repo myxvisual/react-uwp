@@ -398,10 +398,10 @@ function getStyles(swipe: Swipe): {
     isSingleChildren,
     haveAnimate
   } = swipe.state;
-  const { theme: { prepareStyles } } = swipe.context;
+  const { theme: { prefixStyle } } = swipe.context;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       position: "relative",
       display: "flex",
       flexDirection: isHorizontal ? "row" : "column",
@@ -413,7 +413,7 @@ function getStyles(swipe: Swipe): {
       flex: "0 0 auto",
       ...style
     }),
-    content: prepareStyles({
+    content: prefixStyle({
       position: "relative",
       flex: "0 0 auto",
       display: "flex",
@@ -428,7 +428,7 @@ function getStyles(swipe: Swipe): {
       top: isHorizontal ? void 0 : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
       transition: haveAnimate ? transition : void 0
     }),
-    item: prepareStyles({
+    item: prefixStyle({
       position: "relative",
       overflow: "hidden",
       width: isHorizontal ? `${100 / childrenLength}%` : "100%",

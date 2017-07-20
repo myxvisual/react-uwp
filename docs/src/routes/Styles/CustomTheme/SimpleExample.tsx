@@ -137,10 +137,10 @@ function getStyles(customTheme: CustomTheme): {
   const {
     context: { theme }
   } = customTheme;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    content: prepareStyles({
+    content: prefixStyle({
       padding: 20,
       margin: "0 auto",
       display: "flex",

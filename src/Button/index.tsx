@@ -90,7 +90,7 @@ export class Button extends React.Component<ButtonProps> {
         transition: "all .25s",
         border: `${borderSize} solid transparent`,
         background: background || theme.baseLow,
-        ...theme.prepareStyles(style),
+        ...theme.prefixStyle(style),
         "&:hover": disabled ? void 0 : {
           border: `2px solid ${theme.baseMediumLow}`
         },
@@ -111,7 +111,7 @@ export class Button extends React.Component<ButtonProps> {
       style: {
         padding: "0 4px",
         display: "inline-block",
-        ...theme.prepareStyles(iconStyle)
+        ...theme.prefixStyle(iconStyle)
       }
     });
 

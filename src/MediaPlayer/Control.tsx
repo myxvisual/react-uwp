@@ -140,7 +140,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
           Volume
         </IconButton>
         <FlyoutContent
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             width: isDefaultMode ? void 0 : 30
           })}
           isControlled
@@ -298,7 +298,7 @@ function getStyles(mock: Control): {
     context: { theme },
     props: { displayMode, style }
   } = mock;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const rootStyle: React.CSSProperties = {
     fontSize: 14,
     color: theme.baseHigh,
@@ -313,13 +313,13 @@ function getStyles(mock: Control): {
   };
 
   return {
-    root: prepareStyles(rootStyle),
+    root: prefixStyle(rootStyle),
     sliderContainer: {
       overflow: "hidden",
       position: "relative",
       height: 48
     },
-    controlsGroup: prepareStyles({
+    controlsGroup: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",

@@ -40,7 +40,7 @@ export default class Colors extends React.Component<ColorsProps, ColorsState> {
     return (
       <div
         {...{ className, id }}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           padding: 20,
           minHeight: "100%",
           fontSize: 13,

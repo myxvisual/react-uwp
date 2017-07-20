@@ -50,7 +50,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
     return (
       <Wrapper onChangeRenderContentWidth={this.handleChangeRenderContentWidth}>
         <div
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             display: "flex",
             flexDirection: "row",
             width: renderContentWidth,
@@ -60,7 +60,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
         >
           {notPhoneTablet ? <DocsTreeView path={path} /> : null}
           <div
-            style={theme.prepareStyles({
+            style={theme.prefixStyle({
               background: theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh,
               width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
               ...(theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent")),
@@ -82,10 +82,10 @@ function getStyles(wrapperWithCategories: WrapperWithCategories): {
     context: { theme },
     props: { style }
   } = wrapperWithCategories;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: theme.altMediumHigh,

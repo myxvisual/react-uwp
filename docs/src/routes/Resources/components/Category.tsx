@@ -65,10 +65,10 @@ function getStyles(category: Category): {
     context: { theme },
     props: { style }
   } = category;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "flex",
       flexDirection: "column",
       alignItems: "center",

@@ -85,10 +85,10 @@ function getStyles(footer: Footer): {
     context: { theme },
     props: { footerHeight, renderContentWidth, style }
   } = footer;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       zIndex: theme.zIndex.header,
       fontSize: 14,
       color: theme.baseHigh,
@@ -100,7 +100,7 @@ function getStyles(footer: Footer): {
       minHeight: footerHeight,
       ...style
     }),
-    content: prepareStyles({
+    content: prefixStyle({
       width: renderContentWidth,
       margin: "0 auto",
       padding: "10px 0",

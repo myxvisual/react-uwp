@@ -39,7 +39,7 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
       toasts && toasts.length > 0 ? (
         <div
           {...attributes}
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             top: 0,
             right: 0,
             height: "100%",

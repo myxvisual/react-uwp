@@ -173,10 +173,10 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
     }
   } = calendarDatePicker;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "inline-block",
       verticalAlign: "middle",
       position: "relative",

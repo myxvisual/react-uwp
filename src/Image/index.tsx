@@ -60,7 +60,7 @@ class Placeholder extends React.Component<React.HTMLAttributes<HTMLImageElement>
     return (
       <div
         {...attributes as any}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           background: theme.chromeMedium,
           padding: 20,
           display: "inline-block",
@@ -116,7 +116,7 @@ export class Image extends React.Component<ImageProps, ImageState> {
     } = this.props;
     const { theme } = this.context;
     const currPlaceholder = (placeholder || <Placeholder style={style} {...attributes as any} />) as any;
-    const baseStyle: React.CSSProperties = theme.prepareStyles({
+    const baseStyle: React.CSSProperties = theme.prefixStyle({
         background: `url(${attributes.src}) no-repeat center center / cover`,
       display: "inline-block",
       verticalAlign: "middle",

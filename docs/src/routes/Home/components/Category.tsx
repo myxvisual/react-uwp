@@ -55,10 +55,10 @@ function getStyles(Category: Category): {
     context: { theme },
     props: { style }
   } = Category;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       width: 320,
       display: "flex",
       flexDirection: "column",
@@ -75,7 +75,7 @@ function getStyles(Category: Category): {
       fontWeight: "lighter",
       lineHeight: 1.6
     },
-    iconContainer: prepareStyles({
+    iconContainer: prefixStyle({
       height: 160,
       width: "100%",
       display: "flex",

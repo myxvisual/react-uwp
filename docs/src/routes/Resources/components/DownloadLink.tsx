@@ -50,10 +50,10 @@ function getStyles(downloadLink: DownloadLink): {
     context: { theme },
     props: { style }
   } = downloadLink;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "inline-block",
       fontSize: 12,
       color: theme.accent,

@@ -109,7 +109,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
       <div
         {...attributes}
         className={`${className} ${attributes.className || ""}`}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           display: "inline-block",
           ...style,
           width: size,
@@ -123,7 +123,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
             <div
               key={`${index}`}
               className={`${className}-item-${index}`}
-              style={theme.prepareStyles({
+              style={theme.prefixStyle({
                 background: theme.accent,
                 ...dotsStyle,
                 position: "absolute",

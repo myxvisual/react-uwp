@@ -22,7 +22,7 @@ export default class GetStarted extends React.Component<GetStartedProps> {
     return (
       <MarkdownRender
         {...attributes}
-        style={theme.prepareStyles({ ...style, padding: "0 20px 60px" })}
+        style={theme.prefixStyle({ ...style, padding: "0 20px 60px" })}
         text={readMeText as any}
       />
     );

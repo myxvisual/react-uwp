@@ -93,10 +93,10 @@ function getStyles(YearPicker: YearPicker): {
     context: { theme },
     props: { style }
   } = YearPicker;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       width: 296,
       height: 292,
       display: "flex",

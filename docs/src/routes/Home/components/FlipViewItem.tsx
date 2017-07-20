@@ -75,11 +75,11 @@ function getStyles(flipViewItem: FlipViewItem): {
     context: { theme },
     props: { style, image, flipHeight, screenType }
   } = flipViewItem;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
     const isPhoneScreen = screenType === "phone";
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       WebkitUserDrag: "none",
       position: "relative",
       display: "flex",
@@ -94,7 +94,7 @@ function getStyles(flipViewItem: FlipViewItem): {
       textDecoration: "none",
       ...style
     }),
-    desc: isPhoneScreen ? prepareStyles({
+    desc: isPhoneScreen ? prefixStyle({
       flex: "0 0 auto",
       display: "inline-block",
       textAlign: "center"
@@ -119,7 +119,7 @@ function getStyles(flipViewItem: FlipViewItem): {
     icon: {
       marginLeft: 10
     },
-    image: prepareStyles({
+    image: prefixStyle({
       maxHeight: isPhoneScreen ? "100%" : "75%",
       ...(isPhoneScreen ? {
         height: "100%",

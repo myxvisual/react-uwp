@@ -286,11 +286,11 @@ function getStyles(datePicker: DatePicker): {
       showPicker
     }
   } = datePicker;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       width: 320,
       flex: "0 0 auto",
       display: "flex",
@@ -305,7 +305,7 @@ function getStyles(datePicker: DatePicker): {
       transition: "all .25s ease-in-out",
       ...style
     }),
-    pickerModal: prepareStyles({
+    pickerModal: prefixStyle({
       overflow: "hidden",
       flex: "0 0 auto",
       display: "flex",
@@ -322,7 +322,7 @@ function getStyles(datePicker: DatePicker): {
       zIndex: theme.zIndex.flyout,
       transition: "all .25s ease-in-out"
     }),
-    listViews: prepareStyles({
+    listViews: prefixStyle({
       border: `1px solid ${theme.listLow}`,
       flex: "0 0 auto",
       width: "100%",
@@ -330,7 +330,7 @@ function getStyles(datePicker: DatePicker): {
       display: "flex",
       flexDirection: "row"
     }),
-    listView: prepareStyles({
+    listView: prefixStyle({
       userSelect: "none",
       border: "none",
       borderLeft: `1px solid ${theme.listLow}`,
