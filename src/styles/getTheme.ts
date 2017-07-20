@@ -128,6 +128,32 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
 
     isDarkTheme: isDark,
     prefixStyle: prefixAll(userAgent),
+    prepareStyle(config, callback) {
+      const { extendsClassName, ...managerConfig } = config;
+      if (this.useInlineStyle) {
+        managerConfig.className += extendsClassName ? ` ${extendsClassName}` : "";
+        return managerConfig;
+      } else {
+        const styleWithClasses = this.styleManager.setStyleToManager(managerConfig, callback);
+        styleWithClasses.className += extendsClassName ? ` ${extendsClassName}` : "";
+        return styleWithClasses;
+      }
+    },
+    prepareStyles(config, callback) {
+      if (this.useInlineStyle) {
+        const { styles } = config;
+        for (let key in styles) {
+          styles[key] = { style: styles[key] };
+        }
+        return config.styles;
+      } else {
+        const styleWithClasses = this.styleManager.setStylesToManager(config, callback);
+        return styleWithClasses;
+      }
+    },
+    classNames(...classNames) {
+      return classNames.reduce((prev, curr) => (prev || "") + curr ? ` ${curr}` : "");
+    },
 
     toasts: [],
 

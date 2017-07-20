@@ -9,6 +9,20 @@
 
 export as namespace ReactUWP;
 
+export interface CustomCSSProperties extends React.CSSProperties {
+  "&:hover"?: React.CSSProperties;
+  "&:active"?: React.CSSProperties;
+  "&:visited"?: React.CSSProperties;
+  "&:focus"?: React.CSSProperties;
+  "&:disabled"?: React.CSSProperties;
+  dynamicStyle?: React.CSSProperties;
+}
+
+export interface StyleWithClasses {
+  style?: CustomCSSProperties;
+  className?: string;
+}
+
 export interface ScrollReveal {
   rootElm?: HTMLElement;
   animated?: boolean;
@@ -97,6 +111,18 @@ export interface ThemeType {
   chromeWhite?: string;
 
   prefixStyle?: (style?: React.CSSProperties) => React.CSSProperties;
+  prepareStyle?: (config?: {
+    style?: CustomCSSProperties;
+    className?: string;
+    extendsClassName?: string;
+  }, callback?: (theme?: ReactUWP.ThemeType) => StyleWithClasses) => StyleWithClasses ;
+  prepareStyles?: (config?: {
+    styles: { [key: string]: StyleWithClasses | CustomCSSProperties };
+    className?: string;
+    extendsClassName?: string;
+  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleWithClasses }) => { [key: string]: StyleWithClasses };
+  classNames?: (...classNames: string[]) => string;
+
   isDarkTheme?: boolean;
   updateTheme?: (theme: ThemeType) => void;
   forceUpdateTheme?: (theme: ThemeType) => void;

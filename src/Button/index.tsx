@@ -64,6 +64,7 @@ export class Button extends React.Component<ButtonProps> {
     const {
       borderSize,
       style,
+      className,
       hoverStyle,
       children,
       icon,
@@ -77,9 +78,8 @@ export class Button extends React.Component<ButtonProps> {
     } = this.props;
     const { theme } = this.context;
 
-    const rootAttributes = theme.styleManager.setStyleToManager({
+    const rootAttributes = theme.prepareStyle({
       className: "button-root",
-      theme,
       style: {
         display: "inline-block",
         verticalAlign: "middle",
@@ -102,12 +102,12 @@ export class Button extends React.Component<ButtonProps> {
           cursor: "not-allowed",
           color: theme.baseMedium
         }
-      }
+      },
+      extendsClassName: className
     });
 
-    const iconAttributes = theme.styleManager.setStyleToManager({
+    const iconAttributes = theme.prepareStyle({
       className: "button-icon",
-      theme,
       style: {
         padding: "0 4px",
         display: "inline-block",

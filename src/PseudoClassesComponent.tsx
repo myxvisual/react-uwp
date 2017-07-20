@@ -14,7 +14,7 @@ export class PseudoClassesComponent extends React.Component<any> {
     const { style, children, ...attributes } = this.props;
 
     if (style) {
-      const { primaryObject, secondaryObject } = spreadObject(this.props, pseudoClassesNames);
+      const { primaryObject, secondaryObject } = spreadObject(style, pseudoClassesNames);
       return (
         <ElementState
           {...attributes}

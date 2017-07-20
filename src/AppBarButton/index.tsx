@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ElementState from "../ElementState";
+import PseudoClassesComponent from "../PseudoClassesComponent";
 import Icon from "../Icon";
 
 export interface DataProps {
@@ -42,30 +42,37 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
       iconStyle,
       hoverStyle,
       label,
+      className,
       labelPosition,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
 
-    return (
-      <ElementState
-        {...attributes as any}
-        style={styles.root}
-        hoverStyle={hoverStyle || {
-          background: theme.listAccentLow
-        }}
-      >
-        <div>
-          <Icon style={styles.icon}>
-            {icon}
-          </Icon>
-          {labelPosition !== "collapsed" && <p style={styles.label}>
-            {label}
-          </p>}
-        </div>
-      </ElementState>
+    const styles = theme.prepareStyles({
+      styles: getStyles(this),
+      className: "app-bar-button"
+    });
+
+    const rootProps = {
+      ...attributes,
+      style: styles.root.style,
+      className: theme.classNames(className, styles.root.className)
+    };
+    const normalRender = (
+      <div {...rootProps}>
+        <Icon {...styles.icon}>
+          {icon}
+        </Icon>
+        {labelPosition !== "collapsed" && <p {...styles.label}>
+          {label}
+        </p>}
+      </div>
     );
+    return theme.useInlineStyle ? (
+      <PseudoClassesComponent {...rootProps}>
+        {normalRender}
+      </PseudoClassesComponent>
+    ) : normalRender;
   }
 }
 
@@ -74,7 +81,15 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
   icon?: React.CSSProperties;
   label?: React.CSSProperties;
 } {
-  const { context, props: { labelPosition, style, iconStyle } } = AppBarButtonButton;
+  const {
+    context,
+    props: {
+      labelPosition,
+      style,
+      iconStyle,
+      hoverStyle
+    }
+  } = AppBarButtonButton;
   const { theme } = context;
   const { prefixStyle } = theme;
   const flexDirection: any = {
@@ -99,6 +114,9 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
       maxWidth: isRight ? 120 : 72,
       cursor: "default",
       transition: "all .25s",
+      "&:hover": hoverStyle || {
+        background: theme.listAccentLow
+      },
       ...style
     }),
     label: {

@@ -5,7 +5,7 @@ export function spreadObject(obj: any, keys: string[]) {
   const symbols = canCheckObjectSymbol ? Object.getOwnPropertySymbols(obj) : null;
   const symbolsSize = canCheckObjectSymbol ? symbols.length : 0;
 
-  for (let property of obj) {
+  for (let property in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, property) && keys.indexOf(property) < 0) {
       primaryObject[property] = obj[property];
     } else {
