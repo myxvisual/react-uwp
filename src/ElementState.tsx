@@ -11,6 +11,7 @@ export interface DataProps {
   focusStyle?: React.CSSProperties;
   activeStyle?: React.CSSProperties;
   visitedStyle?: React.CSSProperties;
+  disabledStyle?: React.CSSProperties;
   onHover?: (e?: any) => void;
   onFocus?: (e?: any) => void;
   onActive?: (e?: any) => void;
@@ -131,6 +132,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
       focusStyle,
       activeStyle,
       visitedStyle,
+      disabledStyle,
       onMouseEnter,
       onMouseLeave,
       onMouseDown,
@@ -146,6 +148,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
       unVisited, // tslint:disable-line:no-unused-variable
       visited, // tslint:disable-line:no-unused-variable
       children,
+      disabled,
       ...attributes
     } = this.props;
 
@@ -153,6 +156,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
       ...attributes,
       style: this.context.theme.prepareStyles({
         transition: "all .25s",
+        ...(disabled ? disabledStyle : void 0),
         ...style
       }),
       onMouseEnter: hoverStyle ? this.hover : onMouseEnter,
