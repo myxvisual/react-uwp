@@ -70,7 +70,7 @@ export default class AnimateTitle extends React.Component<AnimateTitleProps, Ani
         onMouseLeave={this.handleMouseLeave}
       >
         <div
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             position: "absolute",
             top: 0,
             ...topPosition,
@@ -132,10 +132,10 @@ function getStyles(animateTitle: AnimateTitle): {
     context: { theme },
     props: { style }
   } = animateTitle;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       position: "relative",
       padding: "20px 40px",
       ...style

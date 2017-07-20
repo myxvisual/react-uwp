@@ -19,10 +19,10 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
   render() {
     const { children, direction, themeStyle, useBorder, useChromeColor, useSingleTheme, ...attributes } = this.props;
     const darkTheme = getTheme({ themeName: "dark", accent: this.context.theme.accent });
-    const { prepareStyles } = darkTheme;
+    const { prefixStyle } = darkTheme;
     const lightTheme = getTheme({ themeName: "light", accent: this.context.theme.accent });
     const isColumn = direction === "column";
-    const currThemeStyle: React.CSSProperties = prepareStyles({
+    const currThemeStyle: React.CSSProperties = prefixStyle({
       width: "50%",
       minHeight: 240,
       display: "flex",
@@ -35,7 +35,7 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
 
     return  useSingleTheme || theme.useFluentDesign ? (
       <div
-        style={prepareStyles({
+        style={prefixStyle({
           width: "100%",
           minHeight: 240,
           display: "flex",
@@ -48,7 +48,7 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
     ) : (
       <div
         {...attributes}
-        style={prepareStyles({
+        style={prefixStyle({
           display: "flex",
           flexDirection: isColumn ? "column" : "row",
           border: useBorder ? `1px solid ${darkTheme.listAccentLow}` : void 0,
@@ -57,11 +57,11 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
       >
         <Theme
           theme={darkTheme}
-          style={prepareStyles({
+          style={prefixStyle({
             background: theme.useFluentDesign ? void 0 : (
               useChromeColor ? darkTheme.chromeLow : darkTheme.altHigh
             ),
-            ...prepareStyles({
+            ...prefixStyle({
               width: "50%",
               padding: "0 4px",
               minHeight: 240,
@@ -76,7 +76,7 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
         </Theme>
         <Theme
           theme={lightTheme}
-          style={prepareStyles({
+          style={prefixStyle({
             background: theme.useFluentDesign ? void 0 : (
               useChromeColor ? lightTheme.chromeLow : lightTheme.altHigh
             ),

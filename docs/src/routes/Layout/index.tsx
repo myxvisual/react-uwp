@@ -37,10 +37,10 @@ function getStyles(layout: Layout): {
     context:  { theme },
     props: { style }
   } = layout;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root:  prepareStyles({
+    root:  prefixStyle({
       padding: 20,
       ...style
     })

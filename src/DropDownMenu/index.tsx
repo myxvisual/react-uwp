@@ -173,7 +173,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     return (
       <div
         {...attributes}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           position: "relative",
           display: "inline-block",
           verticalAlign: "middle",
@@ -186,7 +186,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       >
         <div
           ref={wrapperElm => this.wrapperElm = wrapperElm}
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             position: "absolute",
             top: 0,
             left: 0,
@@ -215,7 +215,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
             const isCurrent = currentValue === value;
             return (
               <div
-                style={theme.prepareStyles({
+                style={theme.prefixStyle({
                   width: itemWidth,
                   height: (isCurrent || showList) ? itemHeight : 0,
                   background: (isCurrent && showList) ? theme.listAccentLow : "none",

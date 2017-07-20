@@ -120,7 +120,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
   getStyle = (showFlyoutContent = this.state.showFlyoutContent, positionStyle = {}): React.CSSProperties => {
     const { context: { theme }, props: { style } } = this;
     const enterDelay = showFlyoutContent ? this.props.enterDelay : 0;
-    return theme.prepareStyles({
+    return theme.prefixStyle({
       width: 280,
 
       boxSizing: "content-box",

@@ -19,7 +19,7 @@ export class Tab extends React.Component<TabProps> {
         style={{
           display: "inline-block",
           verticalAlign: "middle",
-          ...theme.prepareStyles(style)
+          ...theme.prefixStyle(style)
         }}
       >
         {children}

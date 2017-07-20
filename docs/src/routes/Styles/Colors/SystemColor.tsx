@@ -131,10 +131,10 @@ function getStyles(systemColor: SystemColor): {
     context: { theme },
     props: { style }
   } = systemColor;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles(style),
+    root: prefixStyle(style),
     head: {
       color: theme.baseHigh,
       width: "33%",
@@ -143,7 +143,7 @@ function getStyles(systemColor: SystemColor): {
       padding: "20px 0",
       textDecoration: "underline"
     },
-    rowItem: prepareStyles({
+    rowItem: prefixStyle({
       display: "flex",
       flexDirection: "row"
     }),

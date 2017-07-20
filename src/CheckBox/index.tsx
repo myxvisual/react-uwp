@@ -119,7 +119,7 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           display: "inline-block",
           verticalAlign: "middle",
           ...style
@@ -157,7 +157,7 @@ function getStyles(checkBox: CheckBox): {
   const { theme } = context;
   const checkedIsNull = checked === null;
 
-  const iconParentBaseStyle: React.CSSProperties = theme.prepareStyles({
+  const iconParentBaseStyle: React.CSSProperties = theme.prefixStyle({
     transition: "all .25s",
     userSelect: "none",
     display: "flex",
@@ -218,7 +218,7 @@ function getStyles(checkBox: CheckBox): {
   const leftLabelPosition = labelPosition === "left";
 
   return {
-    root: theme.prepareStyles({
+    root: theme.prefixStyle({
       display: "flex",
       flex: "0 0 auto",
       justifyContent: leftLabelPosition ? "flex-end" : "flex-start",
@@ -226,7 +226,7 @@ function getStyles(checkBox: CheckBox): {
       alignItems: "center"
     }),
     iconParent,
-    icon: theme.prepareStyles({
+    icon: theme.prefixStyle({
       transition: "all .25s",
       color: disabled ? (
         checkedIsNull ? "transparent" : theme.baseLow
@@ -244,7 +244,7 @@ function getStyles(checkBox: CheckBox): {
       ),
       background: disabled ? (checkedIsNull ? theme.baseLow : void 0) : theme.accent
     }),
-    label: theme.prepareStyles({
+    label: theme.prefixStyle({
       color: disabled ? theme.baseLow : theme.baseMediumHigh,
       [`margin${leftLabelPosition ? "Right" : "Left"}`]: 8
     })

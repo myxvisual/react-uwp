@@ -76,7 +76,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
 } {
   const { context, props: { labelPosition, style, iconStyle } } = AppBarButtonButton;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const flexDirection: any = {
     "bottom": "column",
     "right": "row",
@@ -85,7 +85,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
   const isRight = labelPosition === "right";
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: "none",
@@ -110,7 +110,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
       textOverflow: "ellipsis",
       overflow: "hidden"
     },
-    icon: prepareStyles({
+    icon: prefixStyle({
       width: 48,
       height: 48,
       lineHeight: "48px",

@@ -209,10 +209,10 @@ function getStyles(componentDescription: ComponentDescription): {
     context: { theme },
     props: { style }
   } = componentDescription;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
       ...style

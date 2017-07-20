@@ -209,10 +209,10 @@ function getStyles(animation: Animation): {
     context: { theme },
     props: { style }
   } = animation;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       width: "100%",
       padding: 20,
       display: "flex",
@@ -222,7 +222,7 @@ function getStyles(animation: Animation): {
       textAlign: "center",
       ...style
     }),
-    animate: prepareStyles({
+    animate: prefixStyle({
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -257,7 +257,7 @@ function getStyles(animation: Animation): {
       fontSize: 100,
       fontWeight: "lighter"
     },
-    countControls: prepareStyles({
+    countControls: prefixStyle({
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",

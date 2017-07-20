@@ -87,7 +87,7 @@ export class PasswordBox extends React.Component<PasswordBoxProps, PasswordBoxSt
         }}
         rightNode={<Icon
           onClick={this.toggleShowPassword}
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             width: passwordBoxHeight,
             height: passwordBoxHeight,
             fontSize: passwordBoxHeight / 2,
@@ -118,7 +118,7 @@ function getStyles(passwordBox: PasswordBox): {
   const { theme } = context;
 
   return {
-    root: theme.prepareStyles({
+    root: theme.prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",

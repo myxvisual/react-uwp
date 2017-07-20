@@ -131,7 +131,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       <input
         ref={inputElm => this.inputElm = inputElm}
         {...attributes as any}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           ...(haveChild ? {
             paddingLeft: rightNode ? 8 : void 0,
             paddingRight: leftNode ? 8 : void 0,
@@ -161,7 +161,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
         onMouseEnter={this.handleHover}
         onMouseLeave={this.handleUnHover}
         ref={rootElm => this.rootElm = rootElm}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           ...rootWrapperStyle,
           ...style
         })}

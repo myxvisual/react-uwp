@@ -70,7 +70,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
   setStyle = (style: React.CSSProperties) => {
     setStyleToElement(
       this.rootElm,
-      this.context.theme.prepareStyles({ ...this.props.style, ...style })
+      this.context.theme.prefixStyle({ ...this.props.style, ...style })
     );
   }
 
@@ -154,7 +154,7 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
 
     return React.cloneElement(children as React.ReactElement<any>, {
       ...attributes,
-      style: this.context.theme.prepareStyles({
+      style: this.context.theme.prefixStyle({
         transition: "all .25s",
         ...(disabled ? disabledStyle : void 0),
         ...style

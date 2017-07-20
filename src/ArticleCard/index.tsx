@@ -92,7 +92,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
         onMouseLeave={this.handleMouseLeave as any}
         style={{
           ...styles.container,
-          ...theme.prepareStyles(attributes.style)
+          ...theme.prefixStyle(attributes.style)
         }}
       >
         {image && (
@@ -119,7 +119,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
           />
         )}
         <div style={{ ...styles.content, background: isHovered ? "transparent" : (image ? normalColor : theme.listAccentMedium) }}>
-          <p style={theme.prepareStyles({ fontSize: 12, color: "#fff", textAlign: "left", opacity: (isHovered && image) ? 0 : 1, transition: "all .5s 0s ease-in-out" })}>
+          <p style={theme.prefixStyle({ fontSize: 12, color: "#fff", textAlign: "left", opacity: (isHovered && image) ? 0 : 1, transition: "all .5s 0s ease-in-out" })}>
             {title}
           </p>
         </div>
@@ -139,10 +139,10 @@ function getStyles(instance: ArticleCard): {
   const { isHovered } = instance.state;
   const { context } = instance;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    container: prepareStyles({
+    container: prefixStyle({
       position: "relative",
       color: theme.baseMediumHigh,
       background: theme.chromeMedium,
@@ -158,7 +158,7 @@ function getStyles(instance: ArticleCard): {
       justifyContent: "center",
       textDecoration: "none"
     }),
-    image: prepareStyles({
+    image: prefixStyle({
       width: "100%",
       height: "100%",
       display: "flex",
@@ -167,7 +167,7 @@ function getStyles(instance: ArticleCard): {
       justifyContent: "center",
       backgroundSize: "cover"
     }),
-    imagePlaceholder: prepareStyles({
+    imagePlaceholder: prefixStyle({
       width: "100%",
       height: "100%",
       display: "flex",
@@ -175,7 +175,7 @@ function getStyles(instance: ArticleCard): {
       alignItems: "center",
       justifyContent: "center"
     }),
-    content: prepareStyles({
+    content: prefixStyle({
       position: "absolute",
       top: 0,
       left: 0,

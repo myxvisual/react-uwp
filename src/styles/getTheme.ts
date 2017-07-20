@@ -127,7 +127,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     chromeWhite: "#fff",
 
     isDarkTheme: isDark,
-    prepareStyles: prefixAll(userAgent),
+    prefixStyle: prefixAll(userAgent),
 
     toasts: [],
 

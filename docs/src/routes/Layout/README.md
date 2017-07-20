@@ -12,7 +12,7 @@ export default class Mock extends React.Component<void> {
 
   render() {
     const { theme } = this.context;
-    const rootStyles = theme.prepareStyles({
+    const rootStyles = theme.prefixStyle({
         display: "flex",
         flexDirection: "row",
         alignItems: "center"
@@ -27,7 +27,7 @@ export default class Mock extends React.Component<void> {
 }
 ```
 
-In the above example, we use `theme.prepareStyles` adds all available vendor prefixes.
+In the above example, we use `theme.prefixStyle` adds all available vendor prefixes.
 
 Based on the powerful open source [inline-style-prefixer](https://github.com/rofrischmann/inline-style-prefixer).
 

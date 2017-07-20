@@ -56,10 +56,10 @@ function getStyles(link: Link): {
 } {
   const { context, props: { style }, state: { hover } } = link;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: theme.prepareStyles({
+    root: theme.prefixStyle({
       fontSize: 14,
       color: hover ? theme.baseMedium : theme.accent,
       cursor: "pointer",

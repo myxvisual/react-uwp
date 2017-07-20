@@ -89,9 +89,9 @@ export default class Icons extends React.Component<void, IconsState> {
 
   render() {
     const { context: { theme }, state: { currIconNames } } = this;
-    rootStyle = theme.prepareStyles(rootStyle);
+    rootStyle = theme.prefixStyle(rootStyle);
 
-    const itemWrapperStyle = theme.prepareStyles({
+    const itemWrapperStyle = theme.prefixStyle({
       cursor: "default",
       width: "100%",
       display: "flex",

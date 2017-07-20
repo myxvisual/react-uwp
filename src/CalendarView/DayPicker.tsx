@@ -148,10 +148,10 @@ function getStyles(dayPicker: DayPicker): {
     context: { theme },
     props: { style }
   } = dayPicker;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    container: prepareStyles({
+    container: prefixStyle({
       height: 292,
       display: "flex",
       flexDirection: "column",
@@ -159,7 +159,7 @@ function getStyles(dayPicker: DayPicker): {
       justifyContent: "space-between",
       flexGrow: 0
     }),
-    root: prepareStyles({
+    root: prefixStyle({
       width: 296,
       height: 292 / 7 * 6 - 2,
       display: "flex",
@@ -167,7 +167,7 @@ function getStyles(dayPicker: DayPicker): {
       flexWrap: "wrap",
       ...style
     }),
-    weeklyHead: prepareStyles({
+    weeklyHead: prefixStyle({
       display: "flex",
       flexDirection: "row"
     }),

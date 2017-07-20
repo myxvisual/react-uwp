@@ -78,7 +78,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     return (
       <div
         {...attributes}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           display: "inline-block",
           verticalAlign: "middle",
           cursor: "default",
@@ -90,7 +90,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
           onClick={this.toggleToggle}
         >
           <div
-            style={theme.prepareStyles({
+            style={theme.prefixStyle({
               ...styles.button,
               ...styles.button
             })}
@@ -116,7 +116,7 @@ function getStyles(toggle: Toggle): {
   const { currToggled } = toggle.state;
 
   return {
-    root: theme.prepareStyles({
+    root: theme.prefixStyle({
       userSelect: "none",
       position: "relative",
       display: "inline-block",
@@ -129,7 +129,7 @@ function getStyles(toggle: Toggle): {
       borderRadius: size * 2,
       transition: "all .25s ease-in-out"
     }),
-    button: theme.prepareStyles({
+    button: theme.prefixStyle({
       transform: `translateX(${currToggled ? size * 2.5 - size / 1.5 - size / 9 : size / 4.5}px)`,
       flex: "0 0 auto",
       position: "absolute",

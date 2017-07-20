@@ -38,10 +38,10 @@ function getStyles(mock: Mock): {
     context: { theme },
     props: { style }
   } = mock;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: theme.altMediumHigh,

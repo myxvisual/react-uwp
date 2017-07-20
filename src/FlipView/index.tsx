@@ -165,7 +165,7 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
         ref={element => this.rootElm = element}
         style={{
           ...styles.root,
-          ...theme.prepareStyles(attributes.style)
+          ...theme.prefixStyle(attributes.style)
         }}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -244,7 +244,7 @@ function getStyles(flipView: FlipView): {
 } {
   const { navigationIconSize, direction } = flipView.props;
   const { theme } = flipView.context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const isHorizontal = direction === "horizontal";
 
   const baseIconStyle: React.CSSProperties = {
@@ -258,7 +258,7 @@ function getStyles(flipView: FlipView): {
   };
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -297,7 +297,7 @@ function getStyles(flipView: FlipView): {
         right: 4
       } as React.CSSProperties)
     },
-    controlContent: prepareStyles({
+    controlContent: prefixStyle({
       display: "flex",
       flexDirection: isHorizontal ? "row" : "column",
       alignItems: "center",

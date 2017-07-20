@@ -69,10 +69,10 @@ function getStyles(navLink: NavLink): {
     props: { style, headerHeight },
     state: { hovered }
   } = navLink;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "inline-block",
       lineHeight: `${headerHeight}px`,
       fontSize: 15,

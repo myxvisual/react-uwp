@@ -57,10 +57,10 @@ function getStyles(notFound: NotFound): {
     context: { theme },
     props: { style, renderContentWidth, renderContentHeight }
   } = notFound;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       ...getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
       fontSize: 14,
       color: theme.baseMediumHigh,

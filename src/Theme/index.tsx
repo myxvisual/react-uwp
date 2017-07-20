@@ -425,7 +425,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       <div
         {...attributes}
         className={className ? `${this.themeClassName} ${className}` : this.themeClassName}
-        style={darkTheme.prepareStyles({
+        style={darkTheme.prefixStyle({
           fontSize: 14,
           fontFamily: currTheme.fonts.sansSerifFonts,
           color: currTheme.baseHigh,

@@ -209,7 +209,7 @@ function getStyles(commandBar: CommandBar): {
     },
     state: { currExpanded }
   } = commandBar;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const inBottom = verticalPosition !== "top";
   const notChangeHeight = labelPosition !== "bottom";
   const haveContent = content || contentNode;
@@ -224,13 +224,13 @@ function getStyles(commandBar: CommandBar): {
     changedHeight = (currExpanded && !notChangeHeight && primaryCommands) ? expandedHeight : defaultHeight;
   }
   return {
-    wrapper: theme.prepareStyles({
+    wrapper: theme.prefixStyle({
       height: inBottom ? "auto" : defaultHeight,
       display: "block",
       zIndex: currExpanded ? theme.zIndex.commandBar : void 0,
       ...style
     }),
-    root: prepareStyles({
+    root: prefixStyle({
       position: "relative",
       display: "flex",
       flexDirection: flowDirection || (haveContent ? "row" : "row-reverse"),
@@ -242,20 +242,20 @@ function getStyles(commandBar: CommandBar): {
       height: changedHeight,
       transition
     }),
-    content: prepareStyles({
+    content: prefixStyle({
       height: defaultHeight,
       lineHeight: `${defaultHeight}px`,
       paddingLeft: 10,
       paddingRight: 10,
       ...contentStyle
     }),
-    commands: prepareStyles({
+    commands: prefixStyle({
       display: "flex",
       flexDirection: flowDirection,
       alignItems: "flex-start",
       height: "100%"
     }),
-    moreLegacy: theme.prepareStyles({
+    moreLegacy: theme.prefixStyle({
       height: changedHeight,
       transition
     }),

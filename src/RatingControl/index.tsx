@@ -160,7 +160,7 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
     return label ? (
       <div style={{ display: "inline-block" }} ref={rootElm => this.rootElm = rootElm}>
         <div
-          style={theme.prepareStyles({
+          style={theme.prefixStyle({
             display: "flex",
             flexDirection: "row",
             alignItems: "center"
@@ -182,17 +182,17 @@ function getStyles(RatingControl: RatingControl): {
     context: { theme },
     props: { style }
   } = RatingControl;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       color: theme.baseHigh,
       display: "inline-block",
       position: "relative",
       cursor: "default",
       ...style
     }),
-    ratingsGroup: prepareStyles({
+    ratingsGroup: prefixStyle({
       display: "inline-block",
       transition: "all .25s"
     })

@@ -96,7 +96,7 @@ export interface ThemeType {
 
   chromeWhite?: string;
 
-  prepareStyles?: (style?: React.CSSProperties) => React.CSSProperties;
+  prefixStyle?: (style?: React.CSSProperties) => React.CSSProperties;
   isDarkTheme?: boolean;
   updateTheme?: (theme: ThemeType) => void;
   forceUpdateTheme?: (theme: ThemeType) => void;

@@ -11,7 +11,7 @@ export default class SimpleExample extends React.Component<any> {
     const isPhoneScreen = window.innerHeight < 1024;
     return (
       <div
-        style={this.context.theme.prepareStyles({
+        style={this.context.theme.prefixStyle({
           margin: "10px 0",
           display: "flex",
           flexDirection: "row",

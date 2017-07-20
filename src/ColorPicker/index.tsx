@@ -268,7 +268,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
             </canvas>
             <div
               ref={colorSelectorElm => this.colorSelectorElm = colorSelectorElm}
-              style={theme.prepareStyles({
+              style={theme.prefixStyle({
                 pointerEvents: "none",
                 userDrag: "none",
                 position: "absolute",
@@ -318,18 +318,18 @@ function getStyles(colorPicker: ColorPicker): {
     },
     state: { h, s, v }
   } = colorPicker;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const currColor = tinycolor({ h, s, v }).toHslString();
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "inline-block",
       verticalAlign: "middle",
       width: size,
       flexDirection: "column",
       ...style
     }),
-    board: prepareStyles({
+    board: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",

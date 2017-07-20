@@ -101,7 +101,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes ProgressBar {
             <div
               key={`${index}`}
               className={`${className}-item-${index}`}
-              style={theme.prepareStyles({
+              style={theme.prefixStyle({
                 background: theme.listAccentHigh,
                 position: "absolute",
                 top: 0,
@@ -126,10 +126,10 @@ function getStyles(progressBar: ProgressBar): {
     context: { theme },
     props: { style, barWidth, barHeight, isIndeterminate, defaultProgressValue }
   } = progressBar;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "inline-block",
       verticalAlign: "middle",
       background: isIndeterminate ? void 0 : theme.chromeLow,
@@ -138,7 +138,7 @@ function getStyles(progressBar: ProgressBar): {
       height: barHeight,
       ...style
     }),
-    bar: prepareStyles({
+    bar: prefixStyle({
       overflow: "hidden",
       background: isIndeterminate ? void 0 : theme.accent,
       position: "relative",

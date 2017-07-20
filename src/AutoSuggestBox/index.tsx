@@ -267,13 +267,13 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
   const { theme } = context;
 
   return {
-    root: theme.prepareStyles({
+    root: theme.prefixStyle({
       display: "inline-block",
       verticalAlign: "middle",
       ...style,
       position: "relative"
     }),
-    listView: theme.prepareStyles({
+    listView: theme.prefixStyle({
       position: "absolute",
       width: "100%",
       top: "100%",

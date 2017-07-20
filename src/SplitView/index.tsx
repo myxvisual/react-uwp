@@ -111,7 +111,7 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
         {...attributes}
         style={{
           ...styles.root,
-          ...theme.prepareStyles(attributes.style)
+          ...theme.prefixStyle(attributes.style)
         }}
       >
         {childView.length > 0 && childView}
@@ -139,14 +139,14 @@ function getStyles(splitView: SplitView): {
     }
   } = splitView;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
   const isCompact = displayMode === "compact";
   const isOverlay = displayMode === "overlay";
   const panePositionIsRight = panePosition === "right";
   const transition = "all .25s ease-in-out";
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       color: theme.baseHigh,
       background: theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow,
       display: "inline-block",
@@ -169,7 +169,7 @@ function getStyles(splitView: SplitView): {
       } as React.CSSProperties : void 0),
       overflow: "hidden"
     }),
-    pane: prepareStyles({
+    pane: prefixStyle({
       background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.altHigh,
       transition,
       boxShadow: theme.useFluentDesign ? `rgba(0, 0, 0, 0.34) 0px 4px 24px` : void 0,

@@ -54,10 +54,10 @@ function getStyles(footerLinks: FooterLinks): {
     context: { theme },
     props: { style }
   } = footerLinks;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: "inherit",
       ...style

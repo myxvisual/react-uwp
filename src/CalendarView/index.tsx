@@ -221,7 +221,7 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
               height: 24
             }}
             childAttributes={{
-              style: theme.prepareStyles({
+              style: theme.prefixStyle({
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
@@ -237,7 +237,7 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
               {title}
             </p>
           </FadeInOut>
-          <div style={theme.prepareStyles({ display: "flex", flexDirection: "row" })}>
+          <div style={theme.prefixStyle({ display: "flex", flexDirection: "row" })}>
             <Icon
               style={styles.titleIcon}
               onClick={this.prevAction}
@@ -298,10 +298,10 @@ function getStyles(calendarView: CalendarView): {
 } {
   const { context, props: { style, background } } = calendarView;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "inline-block",
       verticalAlign: "middle",
       fontSize: 14,
@@ -311,7 +311,7 @@ function getStyles(calendarView: CalendarView): {
       border: `2px solid ${theme.baseLow}`,
       ...style
     }),
-    title: prepareStyles({
+    title: prefixStyle({
       fontSize: 14,
       height: 42,
       padding: "0 16px",
@@ -326,7 +326,7 @@ function getStyles(calendarView: CalendarView): {
       paddingLeft: 8,
       cursor: "pointer"
     },
-    body: prepareStyles({
+    body: prefixStyle({
       width: 296,
       height: 292
     })

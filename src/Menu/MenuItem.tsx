@@ -181,10 +181,10 @@ function getStyles(menuItem: MenuItem): {
     },
     state: { expanded }
   } = menuItem;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -203,7 +203,7 @@ function getStyles(menuItem: MenuItem): {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis"
     },
-    child: prepareStyles({
+    child: prefixStyle({
       transform: `translate3d(${expanded ? 0 : `-${itemHeight}px`}, 0, 0)`,
       opacity: expanded ? 1 : 0,
       pointerEvents: expanded ? "all" : "none",

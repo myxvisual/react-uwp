@@ -453,10 +453,10 @@ function getStyles(mock: MediaPlayer): {
     props: { style },
     state: { fullScreenMode }
   } = mock;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles(fullScreenMode ? {
+    root: prefixStyle(fullScreenMode ? {
       pointerEvents: "all",
       position: "fixed",
       display: "inline-block",

@@ -110,7 +110,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
       <div
         className={className}
         id={id}
-        style={theme.prepareStyles({
+        style={theme.prefixStyle({
           display: "flex",
           flexDirection: "column",
           ...style

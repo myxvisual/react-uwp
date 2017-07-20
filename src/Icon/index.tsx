@@ -75,7 +75,7 @@ export class Icon extends React.Component<IconProps, IconState> {
       ...attributes,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
-      style: theme.prepareStyles({
+      style: theme.prefixStyle({
         display: "inline-block",
         textAlign: "center",
         verticalAlign: "middle",

@@ -49,10 +49,10 @@ function getStyles(banner: Banner): {
     context: { theme },
     props: { style, renderContentWidth }
   } = banner;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       color: "#fff",
       background: theme.listAccentHigh,
       ...style

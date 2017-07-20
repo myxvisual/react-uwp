@@ -57,7 +57,7 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
         {...attributes}
         style={{
           ...styles.root,
-          ...theme.prepareStyles(attributes.style)
+          ...theme.prefixStyle(attributes.style)
         }}
         onMouseEnter={e => {
           e.currentTarget.style.background = isTenFt ? theme.accent : theme.baseLow
@@ -95,10 +95,10 @@ function getStyles(splitViewCommand: SplitViewCommand): {
 } {
   const { context, props: { style, iconStyle, visited, isTenFt } } = splitViewCommand;
   const { theme } = context;
-  const { prepareStyles } = theme;
+  const { prefixStyle } = theme;
 
   return {
-    root: prepareStyles({
+    root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: isTenFt ? (visited ? theme.listAccentLow : "none") : "none",
@@ -118,7 +118,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
       top: "25%",
       position: "absolute"
     },
-    icon: prepareStyles({
+    icon: prefixStyle({
       cursor: "default",
       flex: "0 0 auto",
       width: 48,
