@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ElementState from "../ElementState";
+import PseudoClassesComponent from "../PseudoClassesComponent";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
 
@@ -46,6 +46,9 @@ export interface DataProps {
 
 export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 
+const labelStyle: React.CSSProperties = {
+  verticalAlign: "middle"
+};
 export class Button extends React.Component<ButtonProps> {
   static defaultProps: ButtonProps = {
     borderSize: "2px",
@@ -112,10 +115,16 @@ export class Button extends React.Component<ButtonProps> {
       }
     });
 
-    const normalRender = (
+    const rootProps = {
+      ...attributes,
+      disabled,
+      ...rootAttributes
+    };
+
+    let normalRender = (
       icon ? (iconPosition === "right" ? (
-        <button {...attributes} disabled={disabled} {...rootAttributes}>
-          <span style={{ verticalAlign: "middle" }}>
+        <button {...(theme.useInlineStyle ? void 0 : rootProps)}>
+          <span style={labelStyle}>
             {children}
           </span>
           <Icon {...iconAttributes}>
@@ -123,20 +132,28 @@ export class Button extends React.Component<ButtonProps> {
           </Icon>
         </button>
       ) : (
-        <button {...attributes} disabled={disabled} {...rootAttributes}>
+        <button {...(theme.useInlineStyle ? void 0 : rootProps)}>
           <Icon {...iconAttributes}>
             {icon}
           </Icon>
-          <span style={{ verticalAlign: "middle" }}>
+          <span style={labelStyle}>
             {children}
           </span>
         </button>
       )) : (
-        <button {...attributes as any} disabled={disabled} {...rootAttributes}>
+        <button {...(theme.useInlineStyle ? void 0 : rootProps)}>
           {children}
         </button>
       )
     );
+
+    if (theme.useInlineStyle) {
+      normalRender = (
+        <PseudoClassesComponent {...(theme.useInlineStyle ? rootProps : void 0)}>
+          {normalRender}
+        </PseudoClassesComponent>
+      );
+    }
 
     return tooltip ? (
       <Tooltip contentNode={tooltip}>

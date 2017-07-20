@@ -7,12 +7,13 @@ export const getStyleValue = (key: string, value: string) => ((typeof value === 
 export interface CustomCSSProperties extends React.CSSProperties {
   "&:hover"?: React.CSSProperties;
   "&:active"?: React.CSSProperties;
+  "&:visited"?: React.CSSProperties;
   "&:focus"?: React.CSSProperties;
   "&:disabled"?: React.CSSProperties;
   dynamicStyle?: React.CSSProperties;
 }
 
-export interface StyleWithClass {
+export interface StyleWithClasses {
   style?: CustomCSSProperties;
   className?: string;
 }
@@ -134,9 +135,9 @@ export class StyleManager {
   setStyleToManager(config?: {
     style?: CustomCSSProperties;
     className?: string;
-  }, callback?: (theme?: ReactUWP.ThemeType) => StyleWithClass): StyleWithClass {
-    let newStyles: StyleWithClass = {};
-    let { style, className } = config || {} as StyleWithClass;
+  }, callback?: (theme?: ReactUWP.ThemeType) => StyleWithClasses): StyleWithClasses {
+    let newStyles: StyleWithClasses = {};
+    let { style, className } = config || {} as StyleWithClasses;
     if (callback) style = callback(this.theme);
 
     const { dynamicStyle, ...styleProperties } = style;
@@ -151,9 +152,9 @@ export class StyleManager {
   }
 
   setStylesToManager(config?: {
-    styles: { [key: string]: StyleWithClass | CustomCSSProperties };
+    styles: { [key: string]: StyleWithClasses | CustomCSSProperties };
     className?: string;
-  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleWithClass }): { [key: string]: StyleWithClass } {
+  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleWithClasses }): { [key: string]: StyleWithClasses } {
   const newStyles: {
     [key: string]: {
       className?: string;
@@ -167,17 +168,17 @@ export class StyleManager {
 
   let CSSText = "";
   for (const key of keys) {
-    let styleItem: StyleWithClass = styles[key] as StyleWithClass;
-    const isStyleWithClass = styleItem.className || styleItem.style;
+    let styleItem: StyleWithClasses = styles[key] as StyleWithClasses;
+    const isStyleWithClasses = styleItem.className || styleItem.style;
     let secondClassName: string = `-${key}`;
 
-    if (isStyleWithClass) {
+    if (isStyleWithClasses) {
       secondClassName = styleItem.className;
       secondClassName = secondClassName ? `-${secondClassName}` : "";
       secondClassName = `-${key}${secondClassName}`;
     }
 
-    const { dynamicStyle, ...styleProperties } = isStyleWithClass ? styleItem.style : styleItem;
+    const { dynamicStyle, ...styleProperties } = isStyleWithClasses ? styleItem.style : styleItem;
     const sheet = this.addStyleWithUpdate(
       styleProperties,
       `${className}${secondClassName}`
