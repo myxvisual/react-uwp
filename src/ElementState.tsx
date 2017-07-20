@@ -156,8 +156,8 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
       ...attributes,
       style: this.context.theme.prefixStyle({
         transition: "all .25s",
-        ...(disabled ? disabledStyle : void 0),
-        ...style
+        ...style,
+        ...(disabled ? disabledStyle : void 0)
       }),
       onMouseEnter: hoverStyle ? this.hover : onMouseEnter,
       onMouseLeave: hoverStyle ? this.unHover : onMouseLeave,
