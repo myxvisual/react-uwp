@@ -1,4 +1,4 @@
-function spreadObject(obj: any, keys: string[]) {
+export function spreadObject(obj: any, keys: string[]) {
   const primaryObject: any = {};
   const secondaryObject: any = {};
   const canCheckObjectSymbol = obj !== null && typeof Object.getOwnPropertySymbols === "function";
@@ -24,3 +24,5 @@ function spreadObject(obj: any, keys: string[]) {
 
   return { primaryObject, secondaryObject };
 }
+
+export default spreadObject;
