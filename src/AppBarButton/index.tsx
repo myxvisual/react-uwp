@@ -58,8 +58,9 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
       style: styles.root.style,
       className: theme.classNames(className, styles.root.className)
     };
-    const normalRender = (
-      <div {...rootProps}>
+
+    const getNormalRender = (props?: any) => (
+      <div {...props}>
         <Icon {...styles.icon}>
           {icon}
         </Icon>
@@ -68,11 +69,12 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
         </p>}
       </div>
     );
+
     return theme.useInlineStyle ? (
       <PseudoClassesComponent {...rootProps}>
-        {normalRender}
+        {getNormalRender()}
       </PseudoClassesComponent>
-    ) : normalRender;
+    ) : getNormalRender(rootProps);
   }
 }
 
