@@ -206,6 +206,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       listSource, // tslint:disable-line:no-unused-variable
       iconSize, // tslint:disable-line:no-unused-variable
       children, // tslint:disable-line:no-unused-variable
+      className,
       background,
       ...attributes
     } = this.props;
@@ -213,13 +214,23 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       typing,
       focusListSourceIndex
     } = this.state;
-    const styles = getStyles(this);
+    const { theme } = this.context;
+
+    const styles = theme.prepareStyles({
+      styles: getStyles(this),
+      className: "autosuggest-box"
+    });
+
+    const rootProps = {
+      ...attributes,
+      style: styles.root.style,
+      className: theme.classNames(className, styles.root.className)
+    };
 
     return (
       <TextBox
-        {...attributes}
+        {...rootProps}
         ref={textBox => this.textBox = textBox}
-        style={styles.root}
         onClick={this.showListSource}
         onKeyDown={this.handleInputKeyDown}
         rightNode={(
@@ -236,7 +247,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
         {listSource && listSource.length > 0 && (
           <ListView
             ref={listView => this.listView = listView}
-            style={styles.listView}
+            {...styles.listView}
             listSource={listSource.map((itemNode, index) => ({
               itemNode,
               focus: index === focusListSourceIndex
@@ -255,10 +266,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 function getStyles(autoSuggestBox: AutoSuggestBox): {
   root?: React.CSSProperties;
   listView?: React.CSSProperties;
-  iconsStyles?: {
-    style?: React.CSSProperties;
-    hoverStyle?: React.CSSProperties;
-  }
+  iconsStyles?: React.CSSProperties;
 } {
   const { context, props: {
     style,
@@ -286,16 +294,14 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
       transition: "all .25s"
     }),
     iconsStyles: {
-      style: {
-        position: "absolute",
-        top: 0,
-        right: 0,
-        cursor: "pointer",
-        height: iconSize,
-        width: iconSize,
-        color: "#a9a9a9"
-      },
-      hoverStyle: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      cursor: "pointer",
+      height: iconSize,
+      width: iconSize,
+      color: "#a9a9a9",
+      "&:hover": {
         color: theme.accent
       }
     }
