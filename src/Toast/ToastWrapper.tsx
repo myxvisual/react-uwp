@@ -31,36 +31,40 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
   }
 
   render() {
-    const { style, ...attributes } = this.props;
+    const { style, className, ...attributes } = this.props;
     const { toasts } = this.state;
     const { theme } = this.context;
 
+    const rootStyleWithClassName = theme.prepareStyle({
+      className: "toast-wrapper",
+      style: theme.prefixStyle({
+        top: 0,
+        right: 0,
+        height: "100%",
+        width: 360,
+        padding: "10px 4px",
+        position: "fixed",
+        display: "flex",
+        flexDirection: "column-reverse",
+        alignItems: "flex-end",
+        justifyContent: "flex-start",
+        pointerEvents: "none",
+        overflowY: "auto",
+        overflowX: "hidden",
+        zIndex: theme.zIndex.toast,
+        ...style
+      }),
+      extendsClassName: className
+    });
+
     return (
       toasts && toasts.length > 0 ? (
-        <div
-          {...attributes}
-          style={theme.prefixStyle({
-            top: 0,
-            right: 0,
-            height: "100%",
-            width: 360,
-            padding: "10px 4px",
-            position: "fixed",
-            display: "flex",
-            flexDirection: "column-reverse",
-            alignItems: "flex-end",
-            justifyContent: "flex-start",
-            pointerEvents: "none",
-            overflowY: "auto",
-            overflowX: "hidden",
-            zIndex: theme.zIndex.toast,
-            ...style
-          })}
-        >
+        <div {...attributes} {...rootStyleWithClassName}>
           {[toasts]}
         </div>
       ) : null
     );
   }
 }
+
 export default ToastWrapper;

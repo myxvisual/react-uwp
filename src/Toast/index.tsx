@@ -150,31 +150,38 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       onToggleShowToast,
       closeDelay,
       showCloseIcon,
+      className,
       ...attributes
     } = this.props;
     const { theme } = this.context;
+
     const styles = getStyles(this);
+    const styleWithClassNames = theme.prepareStyles({
+      className: "toast",
+      styles
+    });
 
     return (
       <CustomAnimate
         {...slideRightInProps}
         leaveStyle={slideRightInProps}
         appearAnimate={false}
-        wrapperStyle={styles.wrapper}
+        wrapperStyle={styles.root}
         ref={customAnimate => this.customAnimate = customAnimate}
       >
       <div
         {...attributes}
-        style={styles.root}
+        style={styleWithClassNames.wrapper.style}
+        className={theme.classNames(styleWithClassNames.wrapper.className, className)}
       >
-        <div style={styles.card}>
+        <div {...styleWithClassNames.card}>
           {logoNode}
-          <span style={styles.descContent}>
-            <p style={styles.title}>{title}</p>
+          <span {...styleWithClassNames.descContent}>
+            <p {...styleWithClassNames.title}>{title}</p>
             {typeof description === "string" ? (
-              <p style={styles.description}>{description}</p>
+              <p {...styleWithClassNames.description}>{description}</p>
             ) : (description && description.map((desc, index) => (
-              <p style={styles.description} key={`${index}`}>
+              <p {...styleWithClassNames.description} key={`${index}`}>
                 {desc}
               </p>
             )))}
@@ -201,8 +208,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 }
 
 function getStyles(Toast: Toast): {
-  wrapper?: React.CSSProperties;
   root?: React.CSSProperties;
+  wrapper?: React.CSSProperties;
   closeIcon?: React.CSSProperties;
   card?: React.CSSProperties;
   descContent?: React.CSSProperties;
@@ -217,7 +224,7 @@ function getStyles(Toast: Toast): {
   const { prefixStyle } = theme;
 
   return {
-    wrapper: {
+    root: {
       display: "inherit",
       overflow: "hidden",
       transition: "transform .75s, opacity .75s",
@@ -225,7 +232,7 @@ function getStyles(Toast: Toast): {
       opacity: showToast ? 1 : .5,
       transform: `translate3d(${showToast ? 0 : "100%"}, 0, 0)`
     },
-    root: prefixStyle({
+    wrapper: prefixStyle({
       width: 320,
       padding: 10,
       position: "relative",
