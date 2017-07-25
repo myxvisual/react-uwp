@@ -198,8 +198,8 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
         onMouseLeave={this.unShowTooltip}
       >
         <span
-          {...attributes}
           ref={tooltipElm => this.tooltipElm = tooltipElm}
+          {...attributes}
           {...theme.prepareStyle({
             className: "tooltip",
             style: this.getTooltipStyle(),

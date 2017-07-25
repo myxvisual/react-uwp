@@ -152,7 +152,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       }
     },
     classNames(...classNames) {
-      return classNames.reduce((prev, curr) => (prev || "") + curr ? ` ${curr}` : "");
+      return classNames.reduce((prev, curr) => (prev || "") + (curr ? ` ${curr}` : ""));
     },
 
     toasts: [],

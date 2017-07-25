@@ -310,12 +310,21 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
       background,
       headerIcon,
       itemIcon,
+      className,
+      style,
       ...attributes
     } = this.props;
     const styles = getStyles(this);
 
     return (
-      <div {...attributes} style={styles.root}>
+      <div
+        {...attributes}
+        {...this.context.theme.prepareStyle({
+          style: styles.root,
+          className: "tree-view",
+          extendsClassName: className
+        })}
+      >
         {listSource ? this.renderTree() : null}
       </div>
     );

@@ -47,6 +47,7 @@ body {
 .${themeClassName} input, .${themeClassName} textarea {
   box-shadow: none;
   border-radius: none;
-}`;
+}
+`;
 
 export default getBaseCSS;
