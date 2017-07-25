@@ -61,4 +61,4 @@ export default function setStyleToElement(elm: HTMLElement, style: React.CSSProp
     }
     Object.assign(elm.style, style);
   }
-};
+}

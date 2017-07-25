@@ -5,6 +5,7 @@ import { codes } from "keycode";
 import Icon from "../Icon";
 import TextBox from "../TextBox";
 import ListView from "../ListView";
+import PseudoClassesComponent from "../PseudoClassesComponent";
 
 export interface DataProps {
   /**
@@ -226,6 +227,16 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       style: styles.root.style,
       className: theme.classNames(className, styles.root.className)
     };
+    const iconProps = {
+      ...styles.icon,
+      onClick: this.handleButtonAction
+    };
+
+    const getIcon = (props?: any) => (
+      <Icon {...props}>
+        {typing ? "CancelLegacy" : "Search"}
+      </Icon>
+    );
 
     return (
       <TextBox
@@ -233,14 +244,11 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
         ref={textBox => this.textBox = textBox}
         onClick={this.showListSource}
         onKeyDown={this.handleInputKeyDown}
-        rightNode={(
-          <Icon
-            {...styles.iconsStyles}
-            onClick={this.handleButtonAction}
-          >
-            {typing ? "CancelLegacy" : "Search"}
-          </Icon>
-        )}
+        rightNode={theme.useInlineStyle ? (
+          <PseudoClassesComponent {...iconProps}>
+            {getIcon()}
+          </PseudoClassesComponent>
+        ) : getIcon(iconProps)}
         background={background}
         onChange={this.handleChange}
       >
@@ -266,7 +274,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 function getStyles(autoSuggestBox: AutoSuggestBox): {
   root?: React.CSSProperties;
   listView?: React.CSSProperties;
-  iconsStyles?: React.CSSProperties;
+  icon?: React.CSSProperties;
 } {
   const { context, props: {
     style,
@@ -293,11 +301,11 @@ function getStyles(autoSuggestBox: AutoSuggestBox): {
       pointerEvents: showListSource ? void 0 : "none",
       transition: "all .25s"
     }),
-    iconsStyles: {
+    icon: {
       position: "absolute",
       top: 0,
       right: 0,
-      cursor: "pointer",
+      cursor: "pointer !important",
       height: iconSize,
       width: iconSize,
       color: "#a9a9a9",
