@@ -184,6 +184,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       contentNode,
       closeDelay,
       background,
+      className,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -199,8 +200,12 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
         <span
           {...attributes}
           ref={tooltipElm => this.tooltipElm = tooltipElm}
-          style={this.getTooltipStyle()}
-        >
+          {...theme.prepareStyle({
+            className: "tooltip",
+            style: this.getTooltipStyle(),
+            extendsClassName: className
+            })}
+          >
           {content || contentNode}
         </span>
         {children}
