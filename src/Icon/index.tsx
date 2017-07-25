@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import ElementState from "../ElementState";
+import PseudoClassesComponent from "../PseudoClassesComponent";
 
 import iconsType from "./icons";
 const icons: {
@@ -63,6 +63,7 @@ export class Icon extends React.Component<IconProps, IconState> {
   render() {
     const {
       size,
+      className,
       style,
       hoverStyle,
       children,
@@ -71,10 +72,9 @@ export class Icon extends React.Component<IconProps, IconState> {
     } = this.props;
     const { theme } = this.context;
     const { hovered } = this.state;
-    return React.createElement(useSVGElement ? "text" as "span" : "span", {
-      ...attributes,
-      onMouseEnter: this.handleMouseEnter,
-      onMouseLeave: this.handleMouseLeave,
+
+    const styleWithClasses = theme.prepareStyle({
+      className: "icon",
       style: theme.prefixStyle({
         display: "inline-block",
         textAlign: "center",
@@ -88,12 +88,25 @@ export class Icon extends React.Component<IconProps, IconState> {
         height: size,
         lineHeight: size ? `${size}px` : "inherit",
         fontSize: size || "inherit",
-        cursor: "inherit",
         color: "inherit",
         ...style,
-        ...(hovered ? hoverStyle : void 0)
-      })
-    }, icons[children as any] || children);
+        "&:hover": hovered ? hoverStyle : void 0
+      }),
+      extendsClassName: className
+    });
+
+    const props = {
+      ...attributes,
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave,
+      ...styleWithClasses
+    };
+    const getIcon = (props?: any) => React.createElement(useSVGElement ? "text" as "span" : "span", props, icons[children as any] || children);
+    return theme.useInlineStyle ? (
+      <PseudoClassesComponent {...props}>
+        {getIcon()}
+      </PseudoClassesComponent>
+    ) : getIcon(props);
   }
 }
 
