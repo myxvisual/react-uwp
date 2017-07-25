@@ -86,6 +86,8 @@ export class StyleManager {
 
   addStyle = (style: CustomCSSProperties, className = "", callback = () => {}) => {
     const id = createHash(`${this.themeId}: ${JSON.stringify(style)}`);
+    if (this.sheets[id]) return this.sheets[id];
+
     const classNameWithHash = `${this.globalClassName}${className}-${id}`;
     const styleKeys = Object.keys(style);
     let CSSText = "";
@@ -115,18 +117,19 @@ export class StyleManager {
     return this.addStyle(style, className, this.renderSheets);
   }
 
-  addCSSText = (CSSText: string, callback = () => {}) => {
+  addCSSText = (CSSText: string, callback: (shouldUpdate?: boolean) => void = () => {}) => {
     const hash = createHash(CSSText);
-    if (!this.addedCSSText[hash]) {
+    const shouldUpdate = !this.addedCSSText[hash];
+    if (shouldUpdate) {
       this.addedCSSText[hash] = true;
       this.CSSText += CSSText;
-      callback();
     }
+    callback(shouldUpdate);
   }
 
   addCSSTextWithUpdate = (CSSText: string) => {
-    this.addCSSText(CSSText, () => {
-      if (this.styleElement) {
+    this.addCSSText(CSSText, shouldUpdate => {
+      if (this.styleElement && shouldUpdate) {
         this.updateStyleElement(this.styleElement.textContent += CSSText);
       }
     });
