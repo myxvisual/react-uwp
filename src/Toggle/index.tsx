@@ -65,6 +65,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   render() {
     const {
       style,
+      className,
       defaultToggled,
       onToggle,
       label,
@@ -73,31 +74,25 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     } = this.props;
     const { currToggled } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const styles = theme.prepareStyles({
+      styles: getStyles(this),
+      className: "toggle"
+    });
 
     return (
       <div
         {...attributes}
-        style={theme.prefixStyle({
-          display: "inline-block",
-          verticalAlign: "middle",
-          cursor: "default",
-           ...style
-          })}
-        >
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
+      >
         <div
-          style={styles.root}
+          {...styles.wrapper}
           onClick={this.toggleToggle}
         >
-          <div
-            style={theme.prefixStyle({
-              ...styles.button,
-              ...styles.button
-            })}
-          />
+          <div {...styles.button} />
         </div>
         {label && (
-          <span style={styles.label}>
+          <span {...styles.label}>
             {label}
           </span>
         )}
@@ -108,15 +103,22 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
 function getStyles(toggle: Toggle): {
   root?: React.CSSProperties;
+  wrapper?: React.CSSProperties;
   button?: React.CSSProperties;
   label?: React.CSSProperties;
 } {
-  const { size, background } = toggle.props;
+  const { size, background, style } = toggle.props;
   const { theme } = toggle.context;
   const { currToggled } = toggle.state;
 
   return {
     root: theme.prefixStyle({
+      display: "inline-block",
+      verticalAlign: "middle",
+      cursor: "default",
+        ...style
+    }),
+    wrapper: theme.prefixStyle({
       userSelect: "none",
       position: "relative",
       display: "inline-block",
