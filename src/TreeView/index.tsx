@@ -178,104 +178,116 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
         hoverStyle
       } = item;
       titleNode = title || titleNode;
+      let behindElm: HTMLDivElement = null;
       const haveChild = Array.isArray(children) && children.length !== 0;
       const isRight = iconDirection === "right";
       const isVisited = (visited && !haveChild) || (visited && init);
 
+      const listStyles = hidden ? null : theme.prepareStyles({
+        className: "tree-view",
+        styles: {
+          root: {
+            paddingLeft: isChild ? (isRight ? itemHeight / 2.8 : itemPadding || itemHeight * 2 / 3) : void 0
+          } as React.CSSProperties,
+          title: {
+            color: disabled ? theme.baseLow : void 0,
+            ...styles.title
+          },
+          titleNode: {
+            cursor: disabled ? "not-allowed" : "pointer",
+            pointerEvents: disabled ? "none" : void 0,
+            paddingLeft: isRight ? 0 : (haveChild ? iconPadding : itemHeight / 8),
+            fontSize: itemHeight / 2.25,
+            height: "100%",
+            lineHeight: `${itemHeight}px`,
+            ...styles.titleNode,
+            ...style
+          },
+          icon: {
+            cursor: disabled ? "not-allowed" : "pointer",
+            color: disabled ? theme.baseLow : void 0,
+            fontSize: itemHeight / 2,
+            lineHeight: `${itemHeight / 2}px`,
+            width: itemHeight / 2,
+            height: itemHeight / 2,
+            flex: "0 0 auto",
+            zIndex: 1,
+            transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`
+          },
+          behindBG: {
+            cursor: disabled ? "not-allowed" : "pointer",
+            transition: "all 0.25s",
+            zIndex: 0,
+            background: (focus && showFocus) ? theme.accent : (
+              isVisited ? theme.listAccentLow : "none"
+            ),
+            ...styles.behindBG
+          },
+          child: haveChild ? theme.prefixStyle({
+            height: "auto",
+            overflow: expanded ? void 0 : "hidden",
+            opacity: expanded ? 1 : 0,
+            transform: `translateY(${expanded ? 0 : -10 }px)`,
+            transformOrigin: "top",
+            transition: "all .25s"
+          }) : void 0
+        }
+      });
+
       return hidden ? null : (
         <div
-          style={{
-            paddingLeft: isChild ? (isRight ? itemHeight / 2.8 : itemPadding || itemHeight * 2 / 3) : void 0
-          }}
+          {...listStyles.root}
           key={`${index}`}
         >
           <div
-            style={theme.prefixStyle({
-              color: disabled ? theme.baseLow : void 0,
-              ...styles.title
-            })}
+            {...listStyles.title}
             onMouseEnter={disabled ? void 0 : e => {
-              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, hoverStyle);
-              const bgNode = e.currentTarget.parentElement.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
-              Object.assign(bgNode.style, {
-                background: isVisited ? theme.accent : theme.baseLow
-              } as CSSStyleDeclaration);
+              if (behindElm) {
+                Object.assign(behindElm.style, {
+                  background: isVisited ? theme.accent : theme.baseLow,
+                  ...(hoverStyle as any)
+                } as CSSStyleDeclaration);
+              }
             }}
             onMouseLeave={disabled ? void 0 : e => {
-              Object.assign((e.currentTarget.children[0] as HTMLDivElement).style, style);
-              const bgNode = e.currentTarget.parentElement.querySelector(".react-uwp-tree-view-bg") as HTMLDivElement;
-              Object.assign(bgNode.style, {
-                background: isVisited ? theme.listAccentLow : "none"
-              } as CSSStyleDeclaration);
+              if (behindElm) {
+                Object.assign(behindElm.style, {
+                  background: isVisited ? theme.listAccentLow : "none"
+                } as CSSStyleDeclaration);
+              }
             }}
           >
             <div
-              onClick={disabled ? void 0 : (e) => {
+              onClick={disabled ? void 0 : e => {
                 this.setChooseItem(item);
                 if (onClick) onClick(e as any);
               }}
-              style={{
-                cursor: disabled ? "not-allowed" : "pointer",
-                pointerEvents: disabled ? "none" : void 0,
-                paddingLeft: isRight ? 0 : (haveChild ? iconPadding : itemHeight / 8),
-                fontSize: itemHeight / 2.25,
-                height: "100%",
-                lineHeight: `${itemHeight}px`,
-                ...styles.titleNode,
-                ...style
-              }}
+              {...listStyles.titleNode}
             >
               {titleNode}
             </div>
             {haveChild ? headerIcon : itemIcon}
             {(headerIcon || itemIcon ? (headerIcon && itemIcon) : true) && haveChild && (
               <Icon
-                onClick={disabled ? void 0 : (e) => {
+                onClick={disabled ? void 0 : e => {
                   this.setChooseItem(item);
                 }}
-                style={prefixStyle({
-                  cursor: disabled ? "not-allowed" : "pointer",
-                  color: disabled ? theme.baseLow : void 0,
-                  fontSize: itemHeight / 2,
-                  lineHeight: `${itemHeight / 2}px`,
-                  width: itemHeight / 2,
-                  height: itemHeight / 2,
-                  flex: "0 0 auto",
-                  zIndex: 1,
-                  transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`
-                })}
+                {...listStyles.icon}
               >
                 ScrollChevronDownLegacy
               </Icon>
             )}
             <div
-              onClick={disabled ? void 0 : (e) => {
+              onClick={disabled ? void 0 : e => {
                 this.setChooseItem(item);
                 if (onClick) onClick(e as any);
               }}
-              style={prefixStyle({
-                cursor: disabled ? "not-allowed" : "pointer",
-                transition: "all 0.25s",
-                zIndex: 0,
-                background: (focus && showFocus) ? theme.accent : (
-                  isVisited ? theme.listAccentLow : "none"
-                ),
-                ...styles.bg
-              } as any)}
-              className="react-uwp-tree-view-bg"
+              {...listStyles.behindBG}
+              ref={elm => behindElm = elm}
             />
           </div>
           {haveChild && (
-            <div
-              style={theme.prefixStyle({
-                height: "auto",
-                overflow: expanded ? void 0 : "hidden",
-                opacity: expanded ? 1 : 0,
-                transform: `translateY(${expanded ? 0 : -10 }px)`,
-                transformOrigin: "top",
-                transition: "all .25s"
-              })}
-            >
+            <div {...listStyles.child}>
               {expanded && children.map((item: TreeItem, index: number) => renderList(item, index, true, indexArray))}
             </div>
           )}
@@ -315,7 +327,7 @@ function getStyles(treeView: TreeView): {
   title?: React.CSSProperties;
   titleNode?: React.CSSProperties;
   icon?: React.CSSProperties;
-  bg?: React.CSSProperties;
+  behindBG?: React.CSSProperties;
 } {
   const { context, props: { iconDirection, itemHeight, style, background } } = treeView;
   const isRight = iconDirection === "right";
@@ -353,7 +365,7 @@ function getStyles(treeView: TreeView): {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis"
     }),
-    bg: {
+    behindBG: {
       position: "absolute",
       top: 0,
       left: "-100%",
