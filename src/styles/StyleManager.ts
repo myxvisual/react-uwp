@@ -172,6 +172,8 @@ export class StyleManager {
   let CSSText = "";
   for (const key of keys) {
     let styleItem: StyleWithClasses = styles[key] as StyleWithClasses;
+    if (!styleItem) continue;
+
     const isStyleWithClasses = styleItem.className || styleItem.style;
     let secondClassName: string = `-${key}`;
 
