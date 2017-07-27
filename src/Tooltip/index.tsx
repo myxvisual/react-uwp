@@ -189,6 +189,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     } = this.props;
     const { theme } = this.context;
 
+    const tooltipStyle = this.getTooltipStyle();
     return (
       <div
         style={{ position: "relative", display: "inline-block" }}
@@ -202,10 +203,10 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
           {...attributes}
           {...theme.prepareStyle({
             className: "tooltip",
-            style: this.getTooltipStyle(),
+            style: tooltipStyle,
             extendsClassName: className
-            })}
-          >
+          })}
+        >
           {content || contentNode}
         </span>
         {children}

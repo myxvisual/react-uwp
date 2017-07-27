@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import PseudoClassesComponent from "../PseudoClassesComponent";
+import PseudoClasses from "../PseudoClasses";
 
 import iconsType from "./icons";
 const icons: {
@@ -103,9 +103,9 @@ export class Icon extends React.Component<IconProps, IconState> {
     };
     const getIcon = (props?: any) => React.createElement(useSVGElement ? "text" as "span" : "span", props, icons[children as any] || children);
     return theme.useInlineStyle ? (
-      <PseudoClassesComponent {...props}>
+      <PseudoClasses {...props}>
         {getIcon()}
-      </PseudoClassesComponent>
+      </PseudoClasses>
     ) : getIcon(props);
   }
 }

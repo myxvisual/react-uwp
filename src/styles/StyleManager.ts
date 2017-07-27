@@ -101,7 +101,7 @@ export class StyleManager {
           extendsCSSText += `.${classNameWithHash}${styleKey.slice(1)} {\n${this.style2CSSText(extendsStyle)}\n}\n`;
         }
       } else {
-        if (style[styleKey]) {
+        if (style[styleKey] !== void 0) {
           contentCSSText += `  ${replace2Dashes(styleKey)}: ${getStyleValue(styleKey, style[styleKey])};\n`;
         }
       }

@@ -100,6 +100,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       leftNode,
       rightNode,
       style,
+      className,
       textBoxStyle,
       onChange,
       onChangeValue,
@@ -111,6 +112,11 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
     const haveChild = leftNode || rightNode || children;
     const { theme } = this.context;
     const currBackground = (background === void 0 ? theme.altHigh : background);
+
+    const hoverProps = {
+      onMouseEnter: this.handleHover,
+      onMouseLeave: this.handleUnHover
+    };
 
     const rootWrapperStyle: React.CSSProperties = {
       lineHeight: "32px",
@@ -127,44 +133,58 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       border: "none",
       transition: "all .25s"
     };
+
+    const inlineStyles = {
+      root: haveChild ? theme.prefixStyle({
+        ...rootWrapperStyle,
+        ...style
+      }) : {} as React.CSSProperties,
+      input: theme.prefixStyle({
+        ...(haveChild ? {
+          paddingLeft: rightNode ? 8 : void 0,
+          paddingRight: leftNode ? 8 : void 0,
+          width: "100%",
+          height: "100%",
+          background: "none",
+          border: "none",
+          outline: "none",
+          color: "inherit",
+          transition: "all .25s"
+        } : rootWrapperStyle),
+        ...(haveChild ? void 0 : style),
+        ...textBoxStyle
+      }) as React.CSSProperties
+    };
+    const styles = theme.prepareStyles({
+      className: "text-box",
+      styles: inlineStyles
+    });
+
     const normalRender = (
       <input
-        ref={inputElm => this.inputElm = inputElm}
+        ref={inputElm => {
+          this.inputElm = inputElm;
+          if (!haveChild) this.rootElm = inputElm as any;
+        }}
         {...attributes as any}
-        style={theme.prefixStyle({
-          ...(haveChild ? {
-            paddingLeft: rightNode ? 8 : void 0,
-            paddingRight: leftNode ? 8 : void 0,
-            width: "100%",
-            height: "100%",
-            background: "none",
-            border: "none",
-            outline: "none",
-            color: "inherit",
-            transition: "all .25s"
-          } : rootWrapperStyle),
-          ...(haveChild ? void 0 : style),
-          ...textBoxStyle
-        })}
+        style={styles.input.style}
+        className={theme.classNames(className, styles.input.className)}
         onChange={(e) => {
           onChangeValue(e.currentTarget.value);
           onChange(e as any);
         }}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
+        {...(haveChild ? void 0 : hoverProps)}
       />
     );
 
     return haveChild ? (
       <div
-        {...attributes as any}
-        onMouseEnter={this.handleHover}
-        onMouseLeave={this.handleUnHover}
         ref={rootElm => this.rootElm = rootElm}
-        style={theme.prefixStyle({
-          ...rootWrapperStyle,
-          ...style
-        })}
+        {...attributes as any}
+        {...hoverProps}
+        {...styles.root}
         onClick={this.handleClick}
       >
         {leftNode}

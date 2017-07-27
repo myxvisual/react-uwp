@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import PseudoClassesComponent from "../PseudoClassesComponent";
+import PseudoClasses from "../PseudoClasses";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
 
@@ -149,9 +149,9 @@ export class Button extends React.Component<ButtonProps> {
 
     if (theme.useInlineStyle) {
       normalRender = (
-        <PseudoClassesComponent {...(theme.useInlineStyle ? rootProps : void 0)}>
+        <PseudoClasses {...(theme.useInlineStyle ? rootProps : void 0)}>
           {normalRender}
-        </PseudoClassesComponent>
+        </PseudoClasses>
       );
     }
 

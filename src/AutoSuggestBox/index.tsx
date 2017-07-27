@@ -5,7 +5,7 @@ import { codes } from "keycode";
 import Icon from "../Icon";
 import TextBox from "../TextBox";
 import ListView from "../ListView";
-import PseudoClassesComponent from "../PseudoClassesComponent";
+import PseudoClasses from "../PseudoClasses";
 
 export interface DataProps {
   /**
@@ -217,8 +217,9 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
     } = this.state;
     const { theme } = this.context;
 
+    const inlineStyles = getStyles(this);
     const styles = theme.prepareStyles({
-      styles: getStyles(this),
+      styles: inlineStyles,
       className: "autosuggest-box"
     });
 
@@ -228,7 +229,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       className: theme.classNames(className, styles.root.className)
     };
     const iconProps = {
-      ...styles.icon,
+      style: inlineStyles.icon,
       onClick: this.handleButtonAction
     };
 
@@ -245,9 +246,9 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
         onClick={this.showListSource}
         onKeyDown={this.handleInputKeyDown}
         rightNode={theme.useInlineStyle ? (
-          <PseudoClassesComponent {...iconProps}>
+          <PseudoClasses {...iconProps}>
             {getIcon()}
-          </PseudoClassesComponent>
+          </PseudoClasses>
         ) : getIcon(iconProps)}
         background={background}
         onChange={this.handleChange}
@@ -255,7 +256,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
         {listSource && listSource.length > 0 && (
           <ListView
             ref={listView => this.listView = listView}
-            {...styles.listView}
+            style={inlineStyles.listView}
             listSource={listSource.map((itemNode, index) => ({
               itemNode,
               focus: index === focusListSourceIndex
