@@ -10,6 +10,8 @@ export class PseudoClasses extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
+  rootElm: HTMLElement;
+
   render () {
     const { style, children, ...attributes } = this.props;
 
@@ -18,6 +20,7 @@ export class PseudoClasses extends React.Component<any> {
       return (
         <ElementState
           {...attributes}
+          ref={elementState => this.rootElm = elementState.rootElm}
           style={primaryObject}
           {...{
             hoverStyle: secondaryObject["&:hover"],
