@@ -5,7 +5,7 @@ import { codes } from "keycode";
 import AddBlurEvent from "../common/AddBlurEvent";
 import Separator from "../Separator";
 import IconButton from "../IconButton";
-import ElementState from "../ElementState";
+import PseudoClasses from "../PseudoClasses";
 import ListView from "../ListView";
 import scrollToYEasing from "../common/browser/scrollToYEasing";
 import { dayList, monthList, getLastDayOfMonth } from "../common/date.utils";
@@ -65,7 +65,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
   };
 
   addBlurEvent = new AddBlurEvent();
-  elementState: ElementState;
+  pseudoClasses: PseudoClasses;
 
   prevDate: Date = this.props.defaultDate;
 
@@ -94,7 +94,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 
     this.addBlurEvent.setConfig({
       addListener: this.state.showPicker,
-      clickExcludeElm: this.elementState.rootElm,
+      clickExcludeElm: this.pseudoClasses.rootElm,
       blurCallback: () => {
         this.setState({
           showPicker: false
@@ -153,6 +153,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
       inputItemHeight,
       pickerItemHeight,
       background,
+      className,
       ...attributes
     } = this.props;
     const {
@@ -160,7 +161,11 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
       showPicker
     } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "date-picker",
+      styles: inlineStyles
+    });
 
     const separator = <Separator direction="column" style={{ margin: 0 }} />;
 
@@ -176,19 +181,22 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
     this.dateIndex = dateArray.indexOf(currDateNumb);
     this.yearIndex = yearArray.indexOf(currYear);
 
-    return (
-      <ElementState
-        {...attributes as any}
-        style={styles.root}
-        hoverStyle={{ boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}` }}
-        ref={(elementState) => this.elementState = elementState}
+    const normalRender = (
+      <div
+        {...attributes}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
+        ref={rootElm => {
+          if (!theme.useInlineStyle) {
+            this.pseudoClasses = { rootElm } as any;
+          }
+        }}
       >
-      <div>
-        <div style={styles.pickerModal}>
-          <div style={styles.listViews}>
+        <div {...styles.pickerModal}>
+          <div {...styles.listViews}>
             <ListView
               ref={monthListView => this.monthListView = monthListView}
-              style={styles.listView}
+              style={inlineStyles.listView}
               listItemStyle={styles.listItem}
               defaultFocusListIndex={currMonth}
               listSource={monthArray}
@@ -198,7 +206,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
             />
             <ListView
               ref={dateListView => this.dateListView = dateListView}
-              style={styles.listView}
+              style={inlineStyles.listView}
               listItemStyle={styles.listItem}
               defaultFocusListIndex={this.dateIndex}
               listSource={dateArray}
@@ -208,7 +216,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
             />
             <ListView
               ref={yearListView => this.yearListView = yearListView}
-              style={styles.listView}
+              style={inlineStyles.listView}
               listItemStyle={styles.listItem}
               defaultFocusListIndex={this.yearIndex}
               listSource={yearArray}
@@ -219,7 +227,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
           </div>
           <div style={{ boxShadow: `inset 0 0 0 1px ${theme.baseLow}`, zIndex: theme.zIndex.flyout + 1 }}>
             <IconButton
-              style={styles.iconButton}
+              style={inlineStyles.iconButton}
               size={pickerItemHeight}
               onClick={() => {
                 onChangeDate(currDate);
@@ -229,7 +237,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
               AcceptLegacy
             </IconButton>
             <IconButton
-              style={styles.iconButton}
+              style={inlineStyles.iconButton}
               size={pickerItemHeight}
               onClick={() => {
                 this.setState({ currDate: this.prevDate, showPicker: false });
@@ -240,28 +248,36 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
           </div>
         </div>
         <span
-          style={styles.button}
+          {...styles.button}
           onClick={this.toggleShowPicker}
         >
           {monthList[currMonth]}
         </span>
         {separator}
         <span
-          style={styles.button}
+          {...styles.button}
           onClick={this.toggleShowPicker}
         >
           {currDateNumb}
         </span>
         {separator}
         <span
-          style={styles.button}
+          {...styles.button}
           onClick={this.toggleShowPicker}
         >
           {currYear}
         </span>
       </div>
-      </ElementState>
     );
+    return theme.useInlineStyle ? (
+      <PseudoClasses
+        {...attributes as any}
+        {...inlineStyles.root}
+        ref={(pseudoClasses: PseudoClasses) => this.pseudoClasses = pseudoClasses}
+      >
+        {normalRender}
+      </PseudoClasses>
+    ) : normalRender;
   }
 }
 
@@ -303,6 +319,9 @@ function getStyles(datePicker: DatePicker): {
       lineHeight: `${inputItemHeight}px`,
       position: "relative",
       transition: "all .25s ease-in-out",
+      "&:hover": {
+        boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}`
+      },
       ...style
     }),
     pickerModal: prefixStyle({
