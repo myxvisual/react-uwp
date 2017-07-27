@@ -17,39 +17,34 @@ export class Separator extends React.Component<SeparatorProps> {
   render() {
     const {
       direction,
+      style,
+      className,
       ...attributes
     } = this.props;
+    const isColumn = direction === "column";
     const { theme } = this.context;
-    const styles = getStyles(this);
+
+    const styleWithClassName = theme.prepareStyle({
+      style: theme.prefixStyle({
+        display: "inline-block",
+        flex: "0 0 auto",
+        width: isColumn ? 1 : "100%",
+        height: isColumn ? "100%" : 1,
+        background: theme.baseLow,
+        margin: "0 auto",
+        ...style
+      }),
+      className: "separator",
+      extendsClassName: className
+    });
 
     return (
       <span
         {...attributes}
-        style={styles.root}
+        {...styleWithClassName}
       />
     );
   }
-}
-
-function getStyles(separator: Separator): {
-  root?: React.CSSProperties;
-} {
-  const { context, props: { direction, style } } = separator;
-  const { theme } = context;
-  const { prefixStyle } = theme;
-  const isColumn = direction === "column";
-
-  return {
-    root: prefixStyle({
-      display: "inline-block",
-      flex: "0 0 auto",
-      width: isColumn ? 1 : "100%",
-      height: isColumn ? "100%" : 1,
-      background: theme.baseLow,
-      margin: "0 auto",
-      ...style
-    })
-  };
 }
 
 export default Separator;
