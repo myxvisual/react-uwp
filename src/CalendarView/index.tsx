@@ -200,18 +200,31 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
   }
 
   render() {
-    const { defaultDate, pickerMode, onChangeDate, selectSingleDay, background, ...attributes } = this.props;
+    const {
+      defaultDate,
+      pickerMode,
+      onChangeDate,
+      selectSingleDay,
+      background,
+      className,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
-    const {  viewDate, direction, chooseISODates, currPickerMode } = this.state;
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "calendar-view",
+      styles: inlineStyles
+    });
+    const { viewDate, direction, chooseISODates, currPickerMode } = this.state;
     const title = this.getTitle();
 
     return (
       <div
         {...attributes}
-        style={styles.root}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
       >
-        <div style={styles.title}>
+        <div {...styles.title}>
           <FadeInOut
             appearAnimate={false}
             speed={250}
@@ -239,14 +252,14 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
           </FadeInOut>
           <div style={theme.prefixStyle({ display: "flex", flexDirection: "row" })}>
             <Icon
-              style={styles.titleIcon}
+              {...styles.titleIcon}
               onClick={this.prevAction}
               hoverStyle={{ color: theme.baseMedium }}
             >
               ChevronUp
             </Icon>
             <Icon
-              style={styles.titleIcon}
+              {...styles.titleIcon}
               onClick={this.nextAction}
               hoverStyle={{ color: theme.baseMedium }}
             >
@@ -256,7 +269,7 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
         </div>
         <ScaleInOut
           appearAnimate={false}
-          style={styles.body}
+          {...styles.body}
           mode="both"
           minScale={0.4}
           speed={250}

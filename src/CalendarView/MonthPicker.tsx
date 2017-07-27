@@ -42,14 +42,18 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
   render() {
     const { date, direction, onChooseMonth, ...attributes } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "calendar-view-month",
+      styles: inlineStyles
+    });
 
     const months = this.getMonthsArray();
 
     return (
       <SlideInOut
         {...(attributes as any)}
-        style={styles.root}
+        style={inlineStyles.root}
         mode="both"
         speed={350}
         direction={direction}
@@ -65,7 +69,7 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
               onMouseEnter={(e) => this.handleMouseEnter(e, isNow)}
               onMouseLeave={(e) => this.handleMouseLeave(e, isNow)}
               style={{
-                ...styles.monthItem,
+                ...styles.monthItem.style,
                 background: isNow ? theme.accent : (
                   theme.useFluentDesign ? (
                     isCurrYear ? theme.altLow : theme.listLow
@@ -75,6 +79,7 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
                 ),
                 border: "2px solid transparent"
               }}
+              className={styles.monthItem.className}
               onClick={() => onChooseMonth(index)}
               key={`${index}`}
             >
