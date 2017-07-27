@@ -6,7 +6,7 @@ import spreadObject from "./common/spreadObject";
 
 const pseudoClassesNames = ["&:hover", "&:active", "&:visited", "&:focus", "&:disabled"];
 
-export class PseudoClassesComponent extends React.Component<any> {
+export class PseudoClasses extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -40,4 +40,4 @@ export class PseudoClassesComponent extends React.Component<any> {
   }
 }
 
-export default PseudoClassesComponent;
+export default PseudoClasses;

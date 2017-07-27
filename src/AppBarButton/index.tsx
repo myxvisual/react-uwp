@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import PseudoClassesComponent from "../PseudoClassesComponent";
+import PseudoClasses from "../PseudoClasses";
 import Icon from "../Icon";
 
 export interface DataProps {
@@ -48,8 +48,9 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
     } = this.props;
     const { theme } = this.context;
 
+    const inlineStyles = getStyles(this);
     const styles = theme.prepareStyles({
-      styles: getStyles(this),
+      styles: inlineStyles,
       className: "app-bar-button"
     });
 
@@ -61,7 +62,7 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
 
     const getNormalRender = (props?: any) => (
       <div {...props}>
-        <Icon {...styles.icon}>
+        <Icon style={inlineStyles.icon}>
           {icon}
         </Icon>
         {labelPosition !== "collapsed" && <p {...styles.label}>
@@ -71,9 +72,9 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
     );
 
     return theme.useInlineStyle ? (
-      <PseudoClassesComponent {...rootProps}>
+      <PseudoClasses {...rootProps}>
         {getNormalRender()}
-      </PseudoClassesComponent>
+      </PseudoClasses>
     ) : getNormalRender(rootProps);
   }
 }

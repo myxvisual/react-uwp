@@ -120,7 +120,12 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
       showCalendarView
     } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      styles: inlineStyles,
+      className: "calendar-picker"
+    });
+
     let day: string | number = currDate.getDate();
     let month: string | number = currDate.getMonth() + 1;
     if (day < 10) day = `0${day}`;
@@ -129,24 +134,24 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
 
     return (
       <div
-        style={styles.root}
+        {...styles.root}
         onClick={this.toggleShowCalendarView}
         ref={rootElm => this.rootElm = rootElm}
       >
         <TextBox
           {...attributes}
           ref={textBox => this.textBox = textBox}
-          style={styles.input}
+          style={inlineStyles.input}
           placeholder={isInit ? placeholder : mmddyy }
           disabled
           rightNode={
-            <Icon style={styles.icon}>
+            <Icon style={inlineStyles.icon}>
               Calendar
             </Icon>
           }
         />
         <CalendarView
-          style={styles.calendarView}
+          style={inlineStyles.calendarView}
           defaultDate={defaultDate}
           onChangeDate={this.handleChangeDate}
         />

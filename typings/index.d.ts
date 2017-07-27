@@ -119,7 +119,6 @@ export interface ThemeType {
   prepareStyles?: (config?: {
     styles: { [key: string]: StyleWithClasses | CustomCSSProperties };
     className?: string;
-    extendsClassName?: string;
   }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleWithClasses }) => { [key: string]: StyleWithClasses };
   classNames?: (...classNames: string[]) => string;
 
