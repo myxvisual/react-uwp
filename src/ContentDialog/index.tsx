@@ -61,6 +61,10 @@ export interface DataProps {
    * Set custom background.
    */
   background?: string;
+  /**
+   * Set ContentDialog inside padding.
+   */
+  padding?: number;
 }
 
 export interface ContentDialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -69,6 +73,8 @@ export interface ContentDialogState {
 }
 
 const emptyFunc = () => {};
+const iconButtonHoverStyle = { background: "#d00f2a", color: "#fff" };
+
 export class ContentDialog extends React.Component<ContentDialogProps, ContentDialogState> {
   static defaultProps: ContentDialogProps = {
     primaryButtonText: "Delete",
@@ -76,7 +82,8 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
     closeButtonAction: emptyFunc,
     primaryButtonAction: emptyFunc,
     secondaryButtonAction: emptyFunc,
-    onCloseDialog: emptyFunc
+    onCloseDialog: emptyFunc,
+    padding: 16
   };
 
   state: ContentDialogState = {
@@ -151,25 +158,31 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
       closeButtonAction,
       onCloseDialog,
       background,
+      padding,
+      className,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "content-dialog",
+      styles: inlineStyles
+    });
 
     return (
       <RenderToBody ref={renderToBody => this.renderToBody = renderToBody}>
         <div
           {...attributes}
-          style={styles.mask}
+          {...styles.mask}
         >
           <div
             ref={rootElm => this.rootElm = rootElm}
-            style={styles.container}
+            {...styles.container}
             onMouseEnter={this.containerMouseEnterHandle}
             onMouseLeave={this.containerMouseLeaveHandle}
           >
-            {statusBarTitle && <div style={styles.statusBarTitle}>
-              <p style={{ fontSize: 12, lineHeight: "28x" }}>
+            {statusBarTitle && <div {...styles.statusBar}>
+              <p {...styles.statusBarTitle}>
                 {statusBarTitle}
               </p>
               {showCloseButton
@@ -177,31 +190,31 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
                 <IconButton
                   onClick={closeButtonAction}
                   size={24}
-                  style={styles.iconButton}
-                  hoverStyle={{ background: "#d00f2a", color: "#fff" }}
-                  activeStyle={{ background: "#d00f2a", color: "#fff" }}
+                  style={inlineStyles.iconButton}
+                  hoverStyle={iconButtonHoverStyle}
+                  activeStyle={iconButtonHoverStyle}
                 >
                   {"\uE894"}
                 </IconButton>
                 : null
               }
             </div>}
-            <div style={{ padding: 16, minHeight: 160 }}>
-              {title ? <h5 style={styles.title}>{title}</h5> : null}
-              {content && <p style={{ margin: 0 }}>{content}</p>}
+            <div {...styles.titleWrapper}>
+              {title ? <h5 {...styles.title}>{title}</h5> : null}
+              {content && <p>{content}</p>}
             </div>
             {contentNode}
-            <div style={styles.content}>
-              <div style={styles.buttonGroup}>
+            <div {...styles.content}>
+              <div {...styles.buttonGroup}>
                 <Button
                   onClick={e => { primaryButtonAction(e), this.closeDialog(); }}
-                  style={styles.button}
+                  style={inlineStyles.button}
                 >
                   {primaryButtonText}
                 </Button>
                 <Button
                   onClick={e => { secondaryButtonAction(e), this.closeDialog(); }}
-                  style={styles.button}
+                  style={inlineStyles.button}
                 >
                   {secondaryButtonText}
                 </Button>
@@ -217,14 +230,20 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
 function getStyles(contentDialog: ContentDialog): {
   mask?: React.CSSProperties;
   container?: React.CSSProperties;
+  statusBar?: React.CSSProperties;
   statusBarTitle?: React.CSSProperties;
   iconButton?: React.CSSProperties;
+  titleWrapper?: React.CSSProperties;
   title?: React.CSSProperties;
   content?: React.CSSProperties;
   buttonGroup?: React.CSSProperties;
   button?: React.CSSProperties;
 } {
-  const { context, props: { style, background }, state: { showDialog } } = contentDialog;
+  const { context, props: {
+    style,
+    background,
+    padding
+  }, state: { showDialog } } = contentDialog;
   const { theme } = context;
   const { prefixStyle } = theme;
 
@@ -262,7 +281,7 @@ function getStyles(contentDialog: ContentDialog): {
       opacity: showDialog ? 1 : 0,
       transition: `all .25s ${showDialog ? 0.25 : 0}s ease-in-out`
     }),
-    statusBarTitle: prefixStyle({
+    statusBar: prefixStyle({
       color: "#fff",
       background: theme.accent,
       height: 28,
@@ -272,6 +291,10 @@ function getStyles(contentDialog: ContentDialog): {
       justifyContent: "space-between",
       paddingLeft: 18
     }),
+    statusBarTitle: {
+      fontSize: 12,
+      lineHeight: "28x"
+    },
     iconButton: prefixStyle({
       color: "#fff",
       display: "flex",
@@ -286,12 +309,16 @@ function getStyles(contentDialog: ContentDialog): {
     content: prefixStyle({
       boxSizing: "border-box",
       width: "100%",
-      padding: 16,
+      padding,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "space-between"
     }),
+    titleWrapper: {
+      padding,
+      minHeight: 160
+    },
     title: {
       fontWeight: 500,
       fontSize: 18,
