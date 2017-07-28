@@ -173,7 +173,8 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
       <RenderToBody ref={renderToBody => this.renderToBody = renderToBody}>
         <div
           {...attributes}
-          {...styles.mask}
+          style={styles.mask.style}
+          className={theme.classNames(styles.mask.className, className)}
         >
           <div
             ref={rootElm => this.rootElm = rootElm}

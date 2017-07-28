@@ -45,7 +45,7 @@ export class IconButton extends React.Component<IconButtonProps> {
     const { theme } = this.context;
 
     return (
-      <PseudoClasses
+      <Icon
         {...attributes}
         style={{
           display: "inline-block",
@@ -65,19 +65,19 @@ export class IconButton extends React.Component<IconButtonProps> {
           flexShrink: 0,
           lineHeight: `${size}px`,
           transition: "background .25s ease-in-out",
-          "&:hover": disabled ? void 0 : hoverStyle || {
-            background: theme.listLow
-          },
-          "&:active": disabled ? void 0 : activeStyle || {
-            background: theme.baseLow
-          },
           ...style
         }}
+        hoverStyle={disabled ? void 0 : hoverStyle || {
+          background: theme.listLow
+        }}
+        activeStyle={
+          disabled ? void 0 : activeStyle || {
+            background: theme.baseLow
+          }
+        }
       >
-        <Icon>
-          {children}
-        </Icon>
-      </PseudoClasses>
+        {children}
+      </Icon>
     );
   }
 }
