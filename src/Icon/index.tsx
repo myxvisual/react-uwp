@@ -18,6 +18,10 @@ export interface DataProps {
    */
   hoverStyle?: React.CSSProperties;
   /**
+   * The Icon `onMouseDown` will applied to `rootElm.style`.
+   */
+  activeStyle?: React.CSSProperties;
+  /**
    * `ReactNode`, Paste unicode or string or `IconName`.
    */
   children?: React.ReactNode;
@@ -66,6 +70,7 @@ export class Icon extends React.Component<IconProps, IconState> {
       className,
       style,
       hoverStyle,
+      activeStyle,
       children,
       useSVGElement,
       ...attributes
@@ -88,7 +93,8 @@ export class Icon extends React.Component<IconProps, IconState> {
       fontSize: size || "inherit",
       color: "inherit",
       ...style,
-      "&:hover": hovered ? hoverStyle : void 0
+      "&:hover": hovered ? hoverStyle : void 0,
+      "&:active": activeStyle
     });
 
     const styleWithClasses = theme.prepareStyle({
