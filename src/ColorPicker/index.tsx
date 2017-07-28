@@ -151,6 +151,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   handleChooseColor = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>, isClickEvent = true) => {
     e.preventDefault();
     const isTouchEvent = e.type.includes("touch");
+    const { prefixStyle } = this.context.theme;
 
     if (isClickEvent && (e.type === "mousedown" || e.type === "touchstart")) {
       document.documentElement.addEventListener("mousemove", this.handleTouchMouseMove, false);
@@ -193,10 +194,9 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
       const x = Math.cos(h / 180 * Math.PI) * r;
       const y = Math.sin(h / 180 * Math.PI) * r;
 
-      Object.assign(this.colorSelectorElm.style, {
-        top: `${y}px`,
-        left: `${x}px`
-      } as CSSStyleDeclaration);
+      Object.assign(this.colorSelectorElm.style, prefixStyle({
+        transform: `translate3d(${x}px, ${y}px, 0)`
+      }));
       if (this.colorMainBarElm) {
         this.colorMainBarElm.style.background = colorHexString;
       }
@@ -239,11 +239,11 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
       onChangeColor,
       onChangedColor,
       onChangedColorTimeout,
+      className,
       ...attributes
     } = this.props;
     const { h, s, v, dragging } = this.state;
     const { context: { theme } } = this;
-    const styles = getStyles(this);
 
     const color = tinycolor({ h, s, v });
     const halfLightColor = tinycolor({ h, s, v: 1 });
@@ -252,13 +252,30 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     const mainBoardDotSize = size / 25;
     const x = Math.cos(h / 180 * Math.PI) * r;
     const y = Math.sin(h / 180 * Math.PI) * r;
+    const selectorSize = colorPickerBoardSize - mainBoardDotSize / 2;
+
+    const inlineStyles = getStyles(this);
+    inlineStyles.colorSelector = {
+      ...inlineStyles.colorSelector,
+      top: selectorSize,
+      left: selectorSize,
+      width: mainBoardDotSize,
+      height: mainBoardDotSize,
+      borderRadius: mainBoardDotSize,
+      background: "none",
+      boxShadow: `0 0 0 4px #fff`
+    };
+    const styles = theme.prepareStyles({
+      className: "color-picker",
+      styles: inlineStyles
+    });
 
     return (
-      <div style={styles.root} {...attributes}>
-        <div style={styles.board}>
+      <div {...attributes} style={styles.root.style} className={theme.classNames(styles.root.className, className)}>
+        <div {...styles.board}>
           <div style={{ position: "relative" }}>
             <canvas
-              style={styles.mainBoard}
+              {...styles.mainBoard}
               ref={canvas => this.canvas = canvas}
               onClick={this.handleChooseColor}
               onMouseDown={this.handleChooseColor}
@@ -268,23 +285,15 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
             </canvas>
             <div
               ref={colorSelectorElm => this.colorSelectorElm = colorSelectorElm}
+              className={styles.colorSelector.className}
               style={theme.prefixStyle({
-                pointerEvents: "none",
-                userDrag: "none",
-                position: "absolute",
-                top: y,
-                left: x,
-                width: mainBoardDotSize,
-                height: mainBoardDotSize,
-                borderRadius: mainBoardDotSize,
-                background: "none",
-                boxShadow: `0 0 0 4px #fff`,
-                transform: `translate3d(${colorPickerBoardSize - mainBoardDotSize / 2}px, ${colorPickerBoardSize - mainBoardDotSize / 2}px, 0)`
+                ...styles.colorSelector.style,
+                transform: `translate3d(${x}px, ${y}px, 0)`
               })}
             />
           </div>
           <div
-            style={styles.colorMainBar}
+            {...styles.colorMainBar}
             ref={colorMainBarElm => this.colorMainBarElm = colorMainBarElm}
           />
         </div>
@@ -308,6 +317,7 @@ function getStyles(colorPicker: ColorPicker): {
   board?: React.CSSProperties;
   mainBoard?: React.CSSProperties;
   colorMainBar?: React.CSSProperties;
+  colorSelector?: React.CSSProperties;
 } {
   const {
     context: { theme },
@@ -345,6 +355,11 @@ function getStyles(colorPicker: ColorPicker): {
       marginLeft: size * 0.025,
       width: size * 0.125,
       background: currColor
+    },
+    colorSelector: {
+      pointerEvents: "none",
+      userDrag: "none",
+      position: "absolute"
     }
   };
 }
