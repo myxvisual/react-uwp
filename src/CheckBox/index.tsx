@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
+import PseudoClasses from "../PseudoClasses";
 
 export interface DataProps {
   /**
@@ -17,7 +18,7 @@ export interface DataProps {
    */
   labelPosition?: "left" | "right";
   /**
-   * Set custom background to CheckBbox.
+   * Set custom background to CheckBox.
    */
   background?: string;
 }
@@ -26,7 +27,6 @@ export interface CheckBoxProps extends DataProps, React.HTMLAttributes<HTMLDivEl
 
 export interface CheckBoxState {
   checked?: boolean;
-  hovered?: boolean;
 }
 
 const emptyFunc = () => {};
@@ -76,60 +76,50 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
     onClick(e);
   }
 
-  handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({ hovered: true });
-  }
-
-  handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({ hovered: false });
-  }
-
   render() {
     const {
-      defaultChecked, // tslint:disable-line:no-unused-variable
-      onCheck, // tslint:disable-line:no-unused-variable
+      defaultChecked,
+      onCheck,
       label,
-      labelPosition, // tslint:disable-line:no-unused-variable
-      disabled, // tslint:disable-line:no-unused-variable
+      labelPosition,
+      disabled,
       background,
       style,
       ...attributes
     } = this.props;
-    const { checked, hovered } = this.state;
+    const { checked } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "checkbox",
+      styles: inlineStyles
+    });
     const haveLabel = label !== void 0;
+
     const checkbox = (
-      <div
-        style={hovered ? {
-          ...styles.iconParent.style,
-          ...styles.iconParent.hoverStyle
-        } : styles.iconParent.style}
-        ref={rootElm => this.rootElm = rootElm}
+      <PseudoClasses
+        {...styles.iconParent}
+        disabled={disabled}
       >
-        <Icon style={styles.icon}>
+      <div ref={rootElm => this.rootElm = rootElm}>
+        <Icon style={inlineStyles.icon}>
           CheckMarkZeroWidthLegacy
         </Icon>
       </div>
+      </PseudoClasses>
     );
 
     return (
       <div
         {...attributes}
         onClick={this.handleClick}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        style={theme.prefixStyle({
-          display: "inline-block",
-          verticalAlign: "middle",
-          ...style
-        })}
+        {...styles.wrapper}
       >
         {haveLabel ? (
-          <div style={styles.root}>
+          <div {...styles.root}>
             {checkbox}
             {label !== void 0 && (
-              <span style={styles.label}>
+              <span {...styles.label}>
                 {label}
               </span>
             )}
@@ -141,23 +131,21 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
 }
 
 function getStyles(checkBox: CheckBox): {
+  wrapper?: React.CSSProperties;
   root?: React.CSSProperties;
-  iconParent?: {
-    style?: React.CSSProperties;
-    hoverStyle?: React.CSSProperties;
-  };
+  iconParent?: React.CSSProperties;
   icon?: React.CSSProperties;
   label?: React.CSSProperties;
 } {
   const {
     context,
-    props: { size, disabled, labelPosition, background },
-    state: { checked, hovered }
+    props: { style, size, disabled, labelPosition, background },
+    state: { checked }
   } = checkBox;
   const { theme } = context;
   const checkedIsNull = checked === null;
 
-  const iconParentBaseStyle: React.CSSProperties = theme.prefixStyle({
+  const iconParentBase: React.CSSProperties = theme.prefixStyle({
     transition: "all .25s",
     userSelect: "none",
     display: "flex",
@@ -171,42 +159,41 @@ function getStyles(checkBox: CheckBox): {
     cursor: "default",
     overflow: "hidden"
   });
-  const iconParentHoverStyle = { border: `2px solid ${theme.baseHigh}` };
-  let iconParent: {
-    style: React.CSSProperties;
-    hoverStyle: React.CSSProperties;
-  };
+
+  const iconParentHover = { border: `2px solid ${theme.baseHigh}` };
+  let iconParent: React.CSSProperties;
 
   switch (checked) {
     case true: {
       iconParent = {
-        style: {
-          ...iconParentBaseStyle,
-          border: disabled ? `2px solid ${theme.baseLow}` : (
-            hovered ? `2px solid ${disabled ? theme.baseLow : theme.baseMediumHigh}` : "none"
-          )
-        },
-        hoverStyle: disabled ? void 0 : iconParentHoverStyle
+        ...iconParentBase,
+        border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${theme.accent}`,
+        "&:hover": disabled ? void 0 : iconParentHover,
+        "&:disabled": {
+          border: `2px solid ${theme.baseLow}`
+        }
       };
       break;
     }
     case false: {
-      iconParent =  {
-        style: {
-          ...iconParentBaseStyle,
-          border: `2px solid ${disabled ? theme.baseLow : theme.baseMediumHigh}`
-        },
-        hoverStyle: disabled ? void 0 : iconParentHoverStyle
+      iconParent = {
+        ...iconParentBase,
+        border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${theme.baseMediumHigh}`,
+        "&:hover": disabled ? void 0 : iconParentHover,
+        "&:disabled": {
+          border: `2px solid ${theme.baseLow}`
+        }
       };
       break;
     }
     case null: {
-      iconParent =  {
-        style: {
-          ...iconParentBaseStyle,
-          border: `2px solid ${disabled ? theme.baseLow : theme.baseMediumHigh}`
-        },
-        hoverStyle: disabled ? void 0 : iconParentHoverStyle
+      iconParent = {
+        ...iconParentBase,
+        border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${theme.baseMediumHigh}`,
+        "&:hover": disabled ? void 0 : iconParentHover,
+        "&:disabled": {
+          border: `2px solid ${theme.baseLow}`
+        }
       };
       break;
     }
@@ -218,6 +205,11 @@ function getStyles(checkBox: CheckBox): {
   const leftLabelPosition = labelPosition === "left";
 
   return {
+    wrapper: theme.prefixStyle({
+      display: "inline-block",
+      verticalAlign: "middle",
+      ...style
+    }),
     root: theme.prefixStyle({
       display: "flex",
       flex: "0 0 auto",
