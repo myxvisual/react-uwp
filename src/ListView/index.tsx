@@ -1,10 +1,8 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import PseudoClasses from "../PseudoClasses";
 import vendors from "../common/browser/vendors";
-
-vendors.pop();
-vendors.map(vendor => vendor[0].toUpperCase() + vendor.slice(1));
 
 export interface ListItem {
   itemNode?: React.ReactNode;
@@ -13,6 +11,7 @@ export interface ListItem {
   style?: React.CSSProperties;
   onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
 }
+
 export interface DataProps {
   /**
    * ListSource Data.
@@ -55,6 +54,10 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
   rootElm: HTMLDivElement;
+  inlineStyles: {
+    [key: string]: React.CSSProperties;
+  } = null;
+
   componentWillReceiveProps(nextProps: ListViewProps) {
     if (nextProps.defaultFocusListIndex !== this.state.focusIndex) {
       this.setState({ focusIndex: nextProps.defaultFocusListIndex });
@@ -62,7 +65,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
   }
 
   getItemNode = (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {
-    const styles = getStyles(this);
+    const { inlineStyles } = this;
     const { theme } = this.context;
     const { onChooseItem, background } = this.props;
     const { focusIndex } = this.state;
@@ -71,66 +74,62 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     const defaultBG = isFocus ? theme.listAccentLow : "none";
     const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow);
     const clickBG = isFocus ? theme.accent : theme.chromeHigh;
+
+    const itemStyles = theme.prepareStyle({
+      className: "list-view-item",
+      style: theme.prefixStyle({
+        background: defaultBG,
+        color: disabled ? theme.baseLow : theme.baseHigh,
+        "&:hover": {
+          background: focusBG
+        },
+        "&:active": {
+          transform: "scale(0.99)"
+        },
+        ...inlineStyles.item,
+        ...style
+      })
+    });
+
     return (
-      <div
-        style={theme.prefixStyle({
-          background: defaultBG,
-          color: disabled ? theme.baseLow : theme.baseHigh,
-          ...styles.item,
-          ...style
-        })}
-        key={`${index}`}
-        onClick={onClick}
-        onMouseEnter={disabled ? void(0) : (e) => {
-          e.currentTarget.style.background = focusBG;
-        }}
-        onMouseLeave={disabled ? void(0) : (e) => {
-          e.currentTarget.style.background = defaultBG;
-        }}
-        onMouseDown={disabled ? void(0) : (e) => {
-          this.setState({ focusIndex: index });
-          for (const vendor of vendors) {
-            e.currentTarget.style[`${vendor}Transform` as any] = "scale(0.99)";
-          }
-          onChooseItem(index);
-          e.currentTarget.style.transform = "scale(0.99)";
-          e.currentTarget.style.background = clickBG;
-        }}
-        onMouseUp={disabled ? void(0) : (e) => {
-          for (const vendor of vendors) {
-            e.currentTarget.style[`${vendor}Transform` as any] = "scale(1)";
-          }
-          e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.background = defaultBG;
-        }}
-      >
-        {itemNode}
-      </div>
+      <PseudoClasses {...itemStyles}>
+        <div
+          key={`${index}`}
+          onClick={onClick}
+          onMouseDown={disabled ? void 0 : e => {
+            onChooseItem(index);
+          }}
+        >
+          {itemNode}
+        </div>
+      </PseudoClasses>
     );
   }
 
   render() {
     const {
-      listSource, // tslint:disable-line:no-unused-variable
-      listItemStyle, // tslint:disable-line:no-unused-variable
+      listSource,
+      listItemStyle,
       onChooseItem,
       background,
       defaultFocusListIndex,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "list-view",
+      styles: inlineStyles
+    });
+    this.inlineStyles = inlineStyles;
 
-    let listSourceAny: any = listSource;
+    const listSourceAny: any = listSource;
 
     return (
       <div
         ref={rootElm => this.rootElm = rootElm}
         {...attributes}
-        style={{
-          ...styles.root,
-          ...theme.prefixStyle(attributes.style)
-        }}
+        {...styles.root}
       >
         {listSourceAny && listSourceAny.map((listItem: any, index: number) => {
           if (React.isValidElement(listItem)) {
@@ -155,12 +154,12 @@ function getStyles(listView: ListView): {
   root?: React.CSSProperties;
   item?: React.CSSProperties;
 } {
-  const { context, props: { listItemStyle, background } } = listView;
+  const { context, props: { listItemStyle, background, style } } = listView;
   const { theme } = context;
   const { prefixStyle } = theme;
 
   return {
-    root: {
+    root: theme.prefixStyle({
       width: 320,
       display: "inline-block",
       verticalAlign: "middle",
@@ -169,15 +168,16 @@ function getStyles(listView: ListView): {
       color: theme.baseMediumHigh,
       border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.altHigh}`,
       background: background || (theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow),
-      transition: "all .25s"
-    },
-    item: {
+      transition: "all .25s",
+      ...style
+    }),
+    item: theme.prefixStyle({
       cursor: "default",
       padding: 8,
       width: "100%",
       transition: "all 0.25s",
       ...listItemStyle
-    }
+    })
   };
 }
 

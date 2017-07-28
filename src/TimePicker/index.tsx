@@ -5,7 +5,7 @@ import { codes } from "keycode";
 import AddBlurEvent from "../common/AddBlurEvent";
 import Separator from "../Separator";
 import IconButton from "../IconButton";
-import ElementState from "../ElementState";
+import PseudoClasses from "../PseudoClasses";
 import ListView from "../ListView";
 import scrollToYEasing from "../common/browser/scrollToYEasing";
 
@@ -66,7 +66,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
   };
 
   addBlurEvent = new AddBlurEvent();
-  elementState: ElementState;
+  rootElm: HTMLDivElement = null;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -98,7 +98,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
   addBlurEventMethod = () => {
     this.addBlurEvent.setConfig({
       addListener: this.state.showPicker,
-      clickExcludeElm: this.elementState.rootElm,
+      clickExcludeElm: this.rootElm,
       blurCallback: () => {
         this.setState({
           showPicker: false
@@ -140,13 +140,14 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
 
   render() {
     const {
-    defaultShowPicker,
-    defaultHour,
-    defaultMinute,
-    onChangeTime,
-    inputItemHeight,
-    pickerItemHeight,
-    background,
+      className,
+      defaultShowPicker,
+      defaultHour,
+      defaultMinute,
+      onChangeTime,
+      inputItemHeight,
+      pickerItemHeight,
+      background,
       ...attributes
     } = this.props;
     let {
@@ -155,7 +156,11 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
       showPicker
     } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "date-picker",
+      styles: inlineStyles
+    });
 
     const separator = <Separator direction="column" style={{ margin: 0 }} />;
     const currTimeType = currHour < 13 ? "AM" : "PM";
@@ -168,29 +173,32 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
     this.timeTypeIndex = timeTypeArray.indexOf(currTimeType);
 
     return (
-      <ElementState
+      <PseudoClasses
         {...attributes as any}
-        style={styles.root}
-        hoverStyle={{ boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}` }}
-        ref={(elementState) => this.elementState = elementState}
+        {...styles.root}
       >
-      <div>
-        <div style={styles.pickerModal}>
-          <div style={styles.listViews}>
+      <div
+        {...attributes}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
+        ref={rootElm => this.rootElm = rootElm}
+        >
+        <div {...styles.pickerModal}>
+          <div {...styles.listViews}>
             <ListView
               ref={hourListView => this.hourListView = hourListView}
-              style={styles.listView}
-              listItemStyle={styles.listItem}
+              style={inlineStyles.listView}
+              listItemStyle={inlineStyles.listItem}
               defaultFocusListIndex={this.hourIndex}
               listSource={hourArray}
               onChooseItem={hourIndex => {
-                this.setState({ currHour: currHour > 12 ? 13 + hourIndex : hourIndex + 1});
+                this.setState({ currHour: currHour > 12 ? 13 + hourIndex : hourIndex + 1 });
               }}
             />
             <ListView
               ref={minuteListView => this.minuteListView = minuteListView}
-              style={styles.listView}
-              listItemStyle={styles.listItem}
+              style={inlineStyles.listView}
+              listItemStyle={inlineStyles.listItem}
               defaultFocusListIndex={this.minuteIndex}
               listSource={minuteArray}
               onChooseItem={minuteIndex => {
@@ -199,8 +207,8 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
             />
             <ListView
               ref={timeTypeListView => this.timeTypeListView = timeTypeListView}
-              style={styles.listView}
-              listItemStyle={styles.listItem}
+              style={inlineStyles.listView}
+              listItemStyle={inlineStyles.listItem}
               defaultFocusListIndex={this.timeTypeIndex}
               listSource={timeTypeArray}
               onChooseItem={timeTypeIndex => {
@@ -213,9 +221,9 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
               }}
             />
           </div>
-          <div style={{ boxShadow: `inset 0 0 0 1px ${theme.baseLow}` }}>
+          <div {...styles.iconButtonGroup}>
             <IconButton
-              style={styles.iconButton}
+              style={inlineStyles.iconButton}
               size={pickerItemHeight}
               onClick={() => {
                 this.setState({ showPicker: false });
@@ -225,7 +233,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
               AcceptLegacy
             </IconButton>
             <IconButton
-              style={styles.iconButton}
+              style={inlineStyles.iconButton}
               size={pickerItemHeight}
               onClick={() => {
                 const { currHour, currMinute } = this.prevState;
@@ -238,27 +246,27 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
           </div>
         </div>
         <span
-          style={styles.button}
+          {...styles.button}
           onClick={this.toggleShowPicker}
         >
           {currHour > 12 ? currHour - 12 : currHour}
         </span>
         {separator}
         <span
-          style={styles.button}
+          {...styles.button}
           onClick={this.toggleShowPicker}
         >
           {currMinute}
         </span>
         {separator}
         <span
-          style={styles.button}
+          {...styles.button}
           onClick={this.toggleShowPicker}
         >
           {currTimeType}
         </span>
       </div>
-      </ElementState>
+      </PseudoClasses>
     );
   }
 }
@@ -270,6 +278,7 @@ function getStyles(TimePicker: TimePicker): {
   listViews?: React.CSSProperties;
   listView?: React.CSSProperties;
   listItem?: React.CSSProperties;
+  iconButtonGroup?: React.CSSProperties;
   iconButton?: React.CSSProperties;
 } {
   const {
@@ -301,6 +310,9 @@ function getStyles(TimePicker: TimePicker): {
       lineHeight: `${inputItemHeight}px`,
       position: "relative",
       transition: "all .25s ease-in-out",
+      "&:hover": {
+        boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}`
+      },
       ...style
     }),
     pickerModal: prefixStyle({
@@ -354,6 +366,10 @@ function getStyles(TimePicker: TimePicker): {
       height: inputItemHeight - 4,
       lineHeight: `${inputItemHeight - 4}px`,
       padding: `0 ${inputItemHeight - 4}px`
+    },
+    iconButtonGroup: {
+      boxShadow: `inset 0 0 0 1px ${theme.baseLow}`,
+      zIndex: theme.zIndex.flyout + 1
     },
     iconButton: {
       verticalAlign: "top",

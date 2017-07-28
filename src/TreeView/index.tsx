@@ -183,55 +183,56 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
       const isRight = iconDirection === "right";
       const isVisited = (visited && !haveChild) || (visited && init);
 
+      const inlineStyles = hidden ? null : {
+        root: {
+          paddingLeft: isChild ? (isRight ? itemHeight / 2.8 : itemPadding || itemHeight * 2 / 3) : void 0
+        } as React.CSSProperties,
+        title: {
+          color: disabled ? theme.baseLow : void 0,
+          ...styles.title
+        },
+        titleNode: {
+          cursor: disabled ? "not-allowed" : "pointer",
+          pointerEvents: disabled ? "none" : void 0,
+          paddingLeft: isRight ? 0 : (haveChild ? iconPadding : itemHeight / 8),
+          fontSize: itemHeight / 2.25,
+          height: "100%",
+          lineHeight: `${itemHeight}px`,
+          ...styles.titleNode,
+          ...style
+        },
+        icon: {
+          cursor: disabled ? "not-allowed" : "pointer",
+          color: disabled ? theme.baseLow : void 0,
+          fontSize: itemHeight / 2,
+          lineHeight: `${itemHeight / 2}px`,
+          width: itemHeight / 2,
+          height: itemHeight / 2,
+          flex: "0 0 auto",
+          zIndex: 1,
+          transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`
+        },
+        behindBG: {
+          cursor: disabled ? "not-allowed" : "pointer",
+          transition: "all 0.25s",
+          zIndex: 0,
+          background: (focus && showFocus) ? theme.accent : (
+            isVisited ? theme.listAccentLow : "none"
+          ),
+          ...styles.behindBG
+        },
+        child: haveChild ? theme.prefixStyle({
+          height: "auto",
+          overflow: expanded ? void 0 : "hidden",
+          opacity: expanded ? 1 : 0,
+          transform: `translateY(${expanded ? 0 : -10 }px)`,
+          transformOrigin: "top",
+          transition: "all .25s"
+        }) : void 0
+      };
       const listStyles = hidden ? null : theme.prepareStyles({
         className: "tree-view",
-        styles: {
-          root: {
-            paddingLeft: isChild ? (isRight ? itemHeight / 2.8 : itemPadding || itemHeight * 2 / 3) : void 0
-          } as React.CSSProperties,
-          title: {
-            color: disabled ? theme.baseLow : void 0,
-            ...styles.title
-          },
-          titleNode: {
-            cursor: disabled ? "not-allowed" : "pointer",
-            pointerEvents: disabled ? "none" : void 0,
-            paddingLeft: isRight ? 0 : (haveChild ? iconPadding : itemHeight / 8),
-            fontSize: itemHeight / 2.25,
-            height: "100%",
-            lineHeight: `${itemHeight}px`,
-            ...styles.titleNode,
-            ...style
-          },
-          icon: {
-            cursor: disabled ? "not-allowed" : "pointer",
-            color: disabled ? theme.baseLow : void 0,
-            fontSize: itemHeight / 2,
-            lineHeight: `${itemHeight / 2}px`,
-            width: itemHeight / 2,
-            height: itemHeight / 2,
-            flex: "0 0 auto",
-            zIndex: 1,
-            transform: `rotateZ(${expanded ? "-180deg" : (isRight ? "0deg" : "-90deg")})`
-          },
-          behindBG: {
-            cursor: disabled ? "not-allowed" : "pointer",
-            transition: "all 0.25s",
-            zIndex: 0,
-            background: (focus && showFocus) ? theme.accent : (
-              isVisited ? theme.listAccentLow : "none"
-            ),
-            ...styles.behindBG
-          },
-          child: haveChild ? theme.prefixStyle({
-            height: "auto",
-            overflow: expanded ? void 0 : "hidden",
-            opacity: expanded ? 1 : 0,
-            transform: `translateY(${expanded ? 0 : -10 }px)`,
-            transformOrigin: "top",
-            transition: "all .25s"
-          }) : void 0
-        }
+        styles: inlineStyles
       });
 
       return hidden ? null : (
@@ -282,7 +283,13 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
                 this.setChooseItem(item);
                 if (onClick) onClick(e as any);
               }}
-              {...listStyles.behindBG}
+              className={listStyles.behindBG.className}
+              style={{
+                ...listStyles.behindBG.style,
+                background: (focus && showFocus) ? theme.accent : (
+                  isVisited ? theme.listAccentLow : "none"
+                )
+              }}
               ref={elm => behindElm = elm}
             />
           </div>

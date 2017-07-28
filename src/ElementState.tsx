@@ -138,15 +138,15 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
       onMouseDown,
       onMouseUp,
       onClick,
-      onHover, // tslint:disable-line:no-unused-variable
+      onHover,
       onFocus,
-      onActive, // tslint:disable-line:no-unused-variable
-      onVisited, // tslint:disable-line:no-unused-variable
-      unHover, // tslint:disable-line:no-unused-variable
-      unFocus, // tslint:disable-line:no-unused-variable
-      unActive, // tslint:disable-line:no-unused-variable
-      unVisited, // tslint:disable-line:no-unused-variable
-      visited, // tslint:disable-line:no-unused-variable
+      onActive,
+      onVisited,
+      unHover,
+      unFocus,
+      unActive,
+      unVisited,
+      visited,
       children,
       disabled,
       ...attributes
@@ -159,12 +159,12 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
         ...style,
         ...(disabled ? disabledStyle : void 0)
       }),
-      onMouseEnter: hoverStyle ? this.hover : onMouseEnter,
-      onMouseLeave: hoverStyle ? this.unHover : onMouseLeave,
-      onMouseDown: activeStyle ? this.active : onMouseDown,
-      onMouseUp: activeStyle ? this.unActive : onMouseUp,
-      onClick: visitedStyle ? this.visited : onClick,
-      onFocus: focusStyle ? this.focus : onFocus
+      onMouseEnter: (hoverStyle && !disabled) ? this.hover : onMouseEnter,
+      onMouseLeave: (hoverStyle && !disabled) ? this.unHover : onMouseLeave,
+      onMouseDown: (activeStyle && !disabled) ? this.active : onMouseDown,
+      onMouseUp: (activeStyle && !disabled) ? this.unActive : onMouseUp,
+      onClick: (visitedStyle && !disabled) ? this.visited : onClick,
+      onFocus: (focusStyle && !disabled) ? this.focus : onFocus
     });
   }
 }

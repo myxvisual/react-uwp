@@ -65,7 +65,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
   };
 
   addBlurEvent = new AddBlurEvent();
-  pseudoClasses: PseudoClasses;
+  rootElm: HTMLDivElement = null;
 
   prevDate: Date = this.props.defaultDate;
 
@@ -94,7 +94,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 
     this.addBlurEvent.setConfig({
       addListener: this.state.showPicker,
-      clickExcludeElm: this.pseudoClasses.rootElm,
+      clickExcludeElm: this.rootElm,
       blurCallback: () => {
         this.setState({
           showPicker: false
@@ -181,103 +181,95 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
     this.dateIndex = dateArray.indexOf(currDateNumb);
     this.yearIndex = yearArray.indexOf(currYear);
 
-    const normalRender = (
-      <div
-        {...attributes}
-        style={styles.root.style}
-        className={theme.classNames(styles.root.className, className)}
-        ref={rootElm => {
-          if (!theme.useInlineStyle) {
-            this.pseudoClasses = { rootElm } as any;
-          }
-        }}
-      >
-        <div {...styles.pickerModal}>
-          <div {...styles.listViews}>
-            <ListView
-              ref={monthListView => this.monthListView = monthListView}
-              style={inlineStyles.listView}
-              listItemStyle={styles.listItem}
-              defaultFocusListIndex={currMonth}
-              listSource={monthArray}
-              onChooseItem={month => {
-                this.setDate(void 0, month, void 0);
-              }}
-            />
-            <ListView
-              ref={dateListView => this.dateListView = dateListView}
-              style={inlineStyles.listView}
-              listItemStyle={styles.listItem}
-              defaultFocusListIndex={this.dateIndex}
-              listSource={dateArray}
-              onChooseItem={dayIndex => {
-                this.setDate(dayIndex + 1, void 0, void 0);
-              }}
-            />
-            <ListView
-              ref={yearListView => this.yearListView = yearListView}
-              style={inlineStyles.listView}
-              listItemStyle={styles.listItem}
-              defaultFocusListIndex={this.yearIndex}
-              listSource={yearArray}
-              onChooseItem={yearIndex => {
-                this.setDate(void 0, void 0, minYear + yearIndex);
-              }}
-            />
-          </div>
-          <div style={{ boxShadow: `inset 0 0 0 1px ${theme.baseLow}`, zIndex: theme.zIndex.flyout + 1 }}>
-            <IconButton
-              style={inlineStyles.iconButton}
-              size={pickerItemHeight}
-              onClick={() => {
-                onChangeDate(currDate);
-                this.setState({ showPicker: false });
-              }}
-            >
-              AcceptLegacy
-            </IconButton>
-            <IconButton
-              style={inlineStyles.iconButton}
-              size={pickerItemHeight}
-              onClick={() => {
-                this.setState({ currDate: this.prevDate, showPicker: false });
-              }}
-            >
-              ClearLegacy
-            </IconButton>
-          </div>
-        </div>
-        <span
-          {...styles.button}
-          onClick={this.toggleShowPicker}
-        >
-          {monthList[currMonth]}
-        </span>
-        {separator}
-        <span
-          {...styles.button}
-          onClick={this.toggleShowPicker}
-        >
-          {currDateNumb}
-        </span>
-        {separator}
-        <span
-          {...styles.button}
-          onClick={this.toggleShowPicker}
-        >
-          {currYear}
-        </span>
-      </div>
-    );
-    return theme.useInlineStyle ? (
+    return (
       <PseudoClasses
         {...attributes as any}
-        {...inlineStyles.root}
-        ref={(pseudoClasses: PseudoClasses) => this.pseudoClasses = pseudoClasses}
+        {...styles.root}
       >
-        {normalRender}
+        <div
+          {...attributes}
+          style={styles.root.style}
+          className={theme.classNames(styles.root.className, className)}
+        ref={rootElm => this.rootElm = rootElm}
+        >
+          <div {...styles.pickerModal}>
+            <div {...styles.listViews}>
+              <ListView
+                ref={monthListView => this.monthListView = monthListView}
+                style={inlineStyles.listView}
+                listItemStyle={inlineStyles.listItem}
+                defaultFocusListIndex={currMonth}
+                listSource={monthArray}
+                onChooseItem={month => {
+                  this.setDate(void 0, month, void 0);
+                }}
+              />
+              <ListView
+                ref={dateListView => this.dateListView = dateListView}
+                style={inlineStyles.listView}
+                listItemStyle={inlineStyles.listItem}
+                defaultFocusListIndex={this.dateIndex}
+                listSource={dateArray}
+                onChooseItem={dayIndex => {
+                  this.setDate(dayIndex + 1, void 0, void 0);
+                }}
+              />
+              <ListView
+                ref={yearListView => this.yearListView = yearListView}
+                style={inlineStyles.listView}
+                listItemStyle={inlineStyles.listItem}
+                defaultFocusListIndex={this.yearIndex}
+                listSource={yearArray}
+                onChooseItem={yearIndex => {
+                  this.setDate(void 0, void 0, minYear + yearIndex);
+                }}
+              />
+            </div>
+            <div {...styles.iconButtonGroup}>
+              <IconButton
+                style={inlineStyles.iconButton}
+                size={pickerItemHeight}
+                onClick={() => {
+                  onChangeDate(currDate);
+                  this.setState({ showPicker: false });
+                }}
+              >
+                AcceptLegacy
+              </IconButton>
+              <IconButton
+                style={inlineStyles.iconButton}
+                size={pickerItemHeight}
+                onClick={() => {
+                  this.setState({ currDate: this.prevDate, showPicker: false });
+                }}
+              >
+                ClearLegacy
+              </IconButton>
+            </div>
+          </div>
+          <span
+            {...styles.button}
+            onClick={this.toggleShowPicker}
+          >
+            {monthList[currMonth]}
+          </span>
+          {separator}
+          <span
+            {...styles.button}
+            onClick={this.toggleShowPicker}
+          >
+            {currDateNumb}
+          </span>
+          {separator}
+          <span
+            {...styles.button}
+            onClick={this.toggleShowPicker}
+          >
+            {currYear}
+          </span>
+        </div>
       </PseudoClasses>
-    ) : normalRender;
+    );
   }
 }
 
@@ -288,6 +280,7 @@ function getStyles(datePicker: DatePicker): {
   listViews?: React.CSSProperties;
   listView?: React.CSSProperties;
   listItem?: React.CSSProperties;
+  iconButtonGroup?: React.CSSProperties;
   iconButton?: React.CSSProperties;
 } {
   const {
@@ -375,6 +368,10 @@ function getStyles(datePicker: DatePicker): {
       height: inputItemHeight - 4,
       lineHeight: `${inputItemHeight - 4}px`,
       padding: `0 ${inputItemHeight - 4}px`
+    },
+    iconButtonGroup: {
+      boxShadow: `inset 0 0 0 1px ${theme.baseLow}`,
+      zIndex: theme.zIndex.flyout + 1
     },
     iconButton: {
       verticalAlign: "top",

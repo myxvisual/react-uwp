@@ -60,22 +60,22 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
       className: theme.classNames(className, styles.root.className)
     };
 
-    const getNormalRender = (props?: any) => (
-      <div {...props}>
-        <Icon style={inlineStyles.icon}>
-          {icon}
-        </Icon>
-        {labelPosition !== "collapsed" && <p {...styles.label}>
-          {label}
-        </p>}
-      </div>
-    );
-
-    return theme.useInlineStyle ? (
-      <PseudoClasses {...rootProps}>
-        {getNormalRender()}
+    return (
+      <PseudoClasses
+        {...attributes}
+        style={styles.root.style}
+        className={theme.classNames(className, styles.root.className)}
+      >
+        <div>
+          <Icon style={inlineStyles.icon}>
+            {icon}
+          </Icon>
+          {labelPosition !== "collapsed" && <p {...styles.label}>
+            {label}
+          </p>}
+        </div>
       </PseudoClasses>
-    ) : getNormalRender(rootProps);
+    );
   }
 }
 

@@ -73,40 +73,40 @@ export class Icon extends React.Component<IconProps, IconState> {
     const { theme } = this.context;
     const { hovered } = this.state;
 
+    const inlineStyle = theme.prefixStyle({
+      display: "inline-block",
+      textAlign: "center",
+      verticalAlign: "middle",
+      fontFamily: theme.fonts.segoeMDL2Assets,
+      transition: "all .25s",
+      border: "none",
+      outline: "none",
+      userSelect: "none",
+      width: size,
+      height: size,
+      lineHeight: size ? `${size}px` : "inherit",
+      fontSize: size || "inherit",
+      color: "inherit",
+      ...style,
+      "&:hover": hovered ? hoverStyle : void 0
+    });
+
     const styleWithClasses = theme.prepareStyle({
       className: "icon",
-      style: theme.prefixStyle({
-        display: "inline-block",
-        textAlign: "center",
-        verticalAlign: "middle",
-        fontFamily: theme.fonts.segoeMDL2Assets,
-        transition: "all .25s",
-        border: "none",
-        outline: "none",
-        userSelect: "none",
-        width: size,
-        height: size,
-        lineHeight: size ? `${size}px` : "inherit",
-        fontSize: size || "inherit",
-        color: "inherit",
-        ...style,
-        "&:hover": hovered ? hoverStyle : void 0
-      }),
+      style: inlineStyle,
       extendsClassName: className
     });
 
-    const props = {
-      ...attributes,
-      onMouseEnter: this.handleMouseEnter,
-      onMouseLeave: this.handleMouseLeave,
-      ...styleWithClasses
-    };
-    const getIcon = (props?: any) => React.createElement(useSVGElement ? "text" as "span" : "span", props, icons[children as any] || children);
-    return theme.useInlineStyle ? (
-      <PseudoClasses {...props}>
-        {getIcon()}
+    return (
+      <PseudoClasses
+        {...attributes}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        {...styleWithClasses}
+      >
+        {React.createElement(useSVGElement ? "text" as "span" : "span", {}, icons[children as any] || children)}
       </PseudoClasses>
-    ) : getIcon(props);
+    );
   }
 }
 
