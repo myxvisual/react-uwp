@@ -166,92 +166,64 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     const { showList, currentValue, currentValues } = this.state;
     const { theme } = this.context;
     const { isDarkTheme } = theme;
-    const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
-    const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
-    const haveWrapperStyle = wrapperAttributes && wrapperAttributes.style;
+
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "dropDownMenu",
+      styles: inlineStyles
+    });
 
     return (
       <div
         {...attributes}
-        style={theme.prefixStyle({
-          position: "relative",
-          display: "inline-block",
-          verticalAlign: "middle",
-          width: itemWidth,
-          height: itemHeight + padding,
-          ...style,
-          zIndex
-        })}
+        {...styles.root}
         ref={rootElm => this.rootElm = rootElm}
       >
         <div
           ref={wrapperElm => this.wrapperElm = wrapperElm}
-          style={theme.prefixStyle({
-            position: "absolute",
-            top: 0,
-            left: 0,
-            color: theme.baseMediumHigh,
-            background: currBackground,
-            width: itemWidth,
-            height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
-            overflowX: "hidden",
-            zIndex,
-            padding: showList ? "6px 0" : 0,
-            transition: "all .25s 0s ease-in-out",
-            border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`,
-            ...(haveWrapperStyle ? wrapperAttributes.style : void 0),
-            overflowY: showList && haveWrapperStyle ? wrapperAttributes.style.overflowY : "hidden"
-          })}
-          onMouseEnter={!showList ? (e) => {
-            e.currentTarget.style.border = `2px solid ${theme.baseHigh}`;
+          style={{
+            ...styles.wrapper.style,
+            border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`
+          }}
+          className={styles.wrapper.className}
+          onMouseEnter={(e) => {
+            if (!showList) e.currentTarget.style.border = `2px solid ${showList ? theme.baseLow : theme.baseHigh}`;
             if (wrapperAttributes.onMouseEnter) wrapperAttributes.onMouseEnter(e);
-          } : wrapperAttributes.onMouseEnter}
-          onMouseLeave={!showList ? (e) => {
-            e.currentTarget.style.border = `2px solid ${theme.baseLow}`;
+          }}
+          onMouseLeave={(e) => {
+            if (!showList) e.currentTarget.style.border = `2px solid ${theme.baseLow}`;
             if (wrapperAttributes.onMouseLeave) wrapperAttributes.onMouseLeave(e);
-          } : wrapperAttributes.onMouseLeave}
+          }}
         >
           {currentValues.map((value, index) => {
             const isCurrent = currentValue === value;
             return (
               <div
-                style={theme.prefixStyle({
-                  width: itemWidth,
+                className={styles.value.className}
+                style={{
+                  ...styles.value.style,
                   height: (isCurrent || showList) ? itemHeight : 0,
-                  background: (isCurrent && showList) ? theme.listAccentLow : "none",
-                  display: "flex",
-                  padding: "0 8px",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between"
-                })}
+                  background: (isCurrent && showList) ? theme.listAccentLow : "none"
+                }}
                 onClick={this.toggleShowList}
                 onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
                   e.currentTarget.style.background = isCurrent ? theme.listAccentMedium : theme.useFluentDesign ? theme.listLow : theme.chromeMedium;
                   itemAttributes.onMouseEnter(e);
                 }}
                 onMouseLeave={!showList ? itemAttributes.onMouseLeave : (e) => {
-                  e.currentTarget.style.background = isCurrent ? theme.listAccentLow : currBackground;
+                  e.currentTarget.style.background = isCurrent ? theme.listAccentLow : "transparent";
                   itemAttributes.onMouseLeave(e);
                 }}
                 key={`${index}`}
               >
-                <p
-                  style={{
-                    textAlign: "left",
-                    cursor: "default",
-                    height: "100%",
-                    width: "100%",
-                    overflow: "hidden",
-                    wordWrap: "normal",
-                    whiteSpace: "nowrap",
-                    lineHeight: "28px",
-                    textOverflow: "ellipsis"
-                  }}
-                >
+                <p {...styles.content}>
                   {value}
                 </p>
-                {!showList && isCurrent ? <Icon style={{ fontSize: itemHeight / 2 }}>ChevronDown4Legacy</Icon> : null}
+                {!showList && isCurrent ? (
+                  <Icon style={{ fontSize: itemHeight / 2 }}>
+                    ChevronDown4Legacy
+                  </Icon>
+                ) : null}
               </div>
             );
           })}
@@ -262,3 +234,71 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
 }
 
 export default DropDownMenu;
+
+
+function getStyles(dropDownMenu: DropDownMenu) {
+  const {
+    context: { theme },
+    props: {
+      style,
+      itemHeight,
+      itemWidth,
+      padding,
+      wrapperAttributes,
+      background,
+      values
+    },
+    state: { showList }
+  } = dropDownMenu;
+  const { prefixStyle } = theme;
+
+  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
+  const haveWrapperStyle = wrapperAttributes && wrapperAttributes.style;
+  const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
+
+  return {
+    root: prefixStyle({
+      position: "relative",
+      display: "inline-block",
+      verticalAlign: "middle",
+      width: itemWidth,
+      height: itemHeight + padding,
+      ...style,
+      zIndex
+    }) as React.CSSProperties,
+    wrapper: prefixStyle({
+      position: "absolute",
+      top: 0,
+      left: 0,
+      color: theme.baseMediumHigh,
+      background: currBackground,
+      width: itemWidth,
+      height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
+      overflowX: "hidden",
+      zIndex,
+      padding: showList ? "6px 0" : 0,
+      transition: "all .25s 0s ease-in-out",
+      ...(haveWrapperStyle ? wrapperAttributes.style : void 0),
+      overflowY: showList && haveWrapperStyle ? wrapperAttributes.style.overflowY : "hidden"
+    }),
+    value: prefixStyle({
+      width: itemWidth,
+      display: "flex",
+      padding: "0 8px",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between"
+    }),
+    content: {
+      textAlign: "left",
+      cursor: "default",
+      height: "100%",
+      width: "100%",
+      overflow: "hidden",
+      wordWrap: "normal",
+      whiteSpace: "nowrap",
+      lineHeight: "28px",
+      textOverflow: "ellipsis"
+    } as React.CSSProperties
+  };
+}
