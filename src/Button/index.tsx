@@ -78,7 +78,7 @@ export class Button extends React.Component<ButtonProps> {
     } = this.props;
     const { theme } = this.context;
 
-    const rootAttributes = theme.prepareStyle({
+    const buttonStyles = theme.prepareStyle({
       className: "button-root",
       style: {
         display: "inline-block",
@@ -106,7 +106,7 @@ export class Button extends React.Component<ButtonProps> {
       extendsClassName: className
     });
 
-    const iconAttributes = theme.prepareStyle({
+    const iconStyles = theme.prepareStyle({
       className: "button-icon",
       style: {
         padding: "0 4px",
@@ -115,45 +115,35 @@ export class Button extends React.Component<ButtonProps> {
       }
     });
 
-    const rootProps = {
-      ...attributes,
-      disabled,
-      ...rootAttributes
-    };
-
-    let normalRender = (
-      icon ? (iconPosition === "right" ? (
-        <button {...(theme.useInlineStyle ? void 0 : rootProps)}>
-          <span style={labelStyle}>
-            {children}
-          </span>
-          <Icon {...iconAttributes}>
-            {icon}
-          </Icon>
-        </button>
-      ) : (
-        <button {...(theme.useInlineStyle ? void 0 : rootProps)}>
-          <Icon {...iconAttributes}>
-            {icon}
-          </Icon>
-          <span style={labelStyle}>
-            {children}
-          </span>
-        </button>
-      )) : (
-        <button {...(theme.useInlineStyle ? void 0 : rootProps)}>
-          {children}
-        </button>
-      )
+    const normalRender = (
+      <PseudoClasses {...attributes} disabled={disabled} {...buttonStyles}>
+        {(
+          icon ? (iconPosition === "right" ? (
+            <button>
+              <span style={labelStyle}>
+                {children}
+              </span>
+              <Icon {...iconStyles}>
+                {icon}
+              </Icon>
+            </button>
+          ) : (
+            <button>
+              <Icon {...iconStyles}>
+                {icon}
+              </Icon>
+              <span style={labelStyle}>
+                {children}
+              </span>
+            </button>
+          )) : (
+            <button>
+              {children}
+            </button>
+          )
+        )}
+      </PseudoClasses>
     );
-
-    if (theme.useInlineStyle) {
-      normalRender = (
-        <PseudoClasses {...(theme.useInlineStyle ? rootProps : void 0)}>
-          {normalRender}
-        </PseudoClasses>
-      );
-    }
 
     return tooltip ? (
       <Tooltip contentNode={tooltip}>

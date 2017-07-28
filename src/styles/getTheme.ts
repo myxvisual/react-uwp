@@ -142,10 +142,11 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     prepareStyles(config, callback) {
       if (this.useInlineStyle) {
         const { styles } = config;
+        const result: any = {};
         for (let key in styles) {
-          styles[key] = { style: styles[key] };
+          result[key] = { style: styles[key] };
         }
-        return config.styles;
+        return result;
       } else {
         const styleWithClasses = this.styleManager.setStylesToManager(config, callback);
         return styleWithClasses;

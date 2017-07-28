@@ -223,33 +223,21 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       className: "autosuggest-box"
     });
 
-    const rootProps = {
-      ...attributes,
-      style: styles.root.style,
-      className: theme.classNames(className, styles.root.className)
-    };
-    const iconProps = {
-      style: inlineStyles.icon,
-      onClick: this.handleButtonAction
-    };
-
-    const getIcon = (props?: any) => (
-      <Icon {...props}>
-        {typing ? "CancelLegacy" : "Search"}
-      </Icon>
-    );
-
     return (
       <TextBox
-        {...rootProps}
+        {...attributes}
+        style={inlineStyles.root}
+        className={theme.classNames(className, styles.root.className)}
         ref={textBox => this.textBox = textBox}
         onClick={this.showListSource}
         onKeyDown={this.handleInputKeyDown}
-        rightNode={theme.useInlineStyle ? (
-          <PseudoClasses {...iconProps}>
-            {getIcon()}
+        rightNode={
+          <PseudoClasses style={inlineStyles.icon} onClick={this.handleButtonAction}>
+            <Icon>
+              {typing ? "CancelLegacy" : "Search"}
+            </Icon>
           </PseudoClasses>
-        ) : getIcon(iconProps)}
+        }
         background={background}
         onChange={this.handleChange}
       >
