@@ -1,4 +1,6 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
+
 import IconButton from "../IconButton";
 import Icon from "../Icon";
 
@@ -20,6 +22,8 @@ export interface DotsState {
 }
 
 export class Dots extends React.Component<DotsProps, DotsState> {
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ReactUWP.ThemeType };
   state: DotsState = {
     focusSwipeIndex: this.props.defaultFocusSwipeIndex
   };
@@ -39,10 +43,20 @@ export class Dots extends React.Component<DotsProps, DotsState> {
       currCanAutoSwipe
     } = this.props;
     const { focusSwipeIndex } = this.state;
+    const { theme } = this.context;
+
+    const styles = theme.prepareStyles({
+      className: "flip-view-control",
+      styles: {
+        controlStyle,
+        controlContentStyle
+      }
+    });
+
     return (
       count > 1 && showControl && (
-        <div style={controlStyle}>
-          <div style={controlContentStyle}>
+        <div {...styles.controlStyle}>
+          <div {...styles.controlContentStyle}>
             {Array(count).fill(0).map((numb, index) => (
               <Icon
                 style={iconStyle}

@@ -327,6 +327,7 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
   render() {
     const {
       children,
+      className,
       initialFocusIndex,
       showIcon,
       animate,
@@ -347,21 +348,31 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
       focusIndex,
       currStopSwipe,
       childrenLength,
-      isSingleChildren
+      isSingleChildren,
+      isHorizontal,
+      haveAnimate
     } = this.state;
-    const styles = getStyles(this);
+    const { theme } = this.context;
     const childrenArray = React.Children.toArray(children);
     const childrenSize = childrenArray.length;
     if (childrenSize > 1) {
       childrenArray.push(childrenArray[0]);
       childrenArray.unshift(childrenArray[childrenSize - 1]);
     }
+  const transition = `transform ${speed}ms 0s ${transitionTimingFunction}`;
+
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "swipe",
+      styles: inlineStyles
+    });
 
     return (
       <div
         {...attributes}
         ref="container"
-        style={styles.root}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
       >
         <div
           onMouseDown={
@@ -371,10 +382,15 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
             (!stopSwipe && !isSingleChildren) ? this.mouseOrTouchDownHandler : void 0
           }
           ref="content"
-          style={styles.content}
+          style={{
+            ...styles.content.style,
+            transform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
+            transition: haveAnimate ? transition : void 0
+          }}
+          className={styles.content.className}
         >
           {childrenArray.map((child, index) => (
-            <div data-index={index} style={styles.item} key={`${index}`}>
+            <div data-index={index} {...styles.item} key={`${index}`}>
               {child}
             </div>
           ))}
@@ -423,10 +439,8 @@ function getStyles(swipe: Swipe): {
       justifyContent: "center",
       height: isHorizontal ? "100%" : `${childrenLength * 100}%`,
       width: isHorizontal ? `${childrenLength * 100}%` : "100%",
-      transform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
       left: (isHorizontal && !isSingleChildren) ? `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%` : void 0,
-      top: isHorizontal ? void 0 : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`,
-      transition: haveAnimate ? transition : void 0
+      top: isHorizontal ? void 0 : `${((isSingleChildren ? 0 : 2 + childrenLength) / 2 - 0.5) * 100}%`
     }),
     item: prefixStyle({
       position: "relative",
