@@ -132,17 +132,21 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
     } = this.props;
     const { currExpanded } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
     const defaultHeight = isMinimal ? 24 : 48;
     const expandedHeight = 72;
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "command-bar",
+      styles: inlineStyles
+    });
 
     return (
-      <div style={styles.wrapper} ref={rootElm => this.rootElm = rootElm}>
-        <div {...attributes} style={styles.root}>
+      <div {...styles.wrapper} ref={rootElm => this.rootElm = rootElm}>
+        <div {...attributes} {...styles.root}>
           {(content !== void 0 || contentNode !== void 0) && (
-            <div style={styles.content}>{content || contentNode}</div>
+            <div {...styles.content}>{content || contentNode}</div>
           )}
-          <div style={styles.commands}>
+          <div {...styles.commands}>
             {(isMinimal && !currExpanded) || React.Children.toArray(primaryCommands).filter((child: any) => (
               child.type === AppBarButton || child.type === AppBarSeparator
             )).map((child: any, index: number) => (
@@ -156,7 +160,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
             ))}
             <AppBarButton
               labelPosition="bottom"
-              style={styles.moreLegacy}
+              style={inlineStyles.moreLegacy}
               iconStyle={{
                 maxWidth: defaultHeight,
                 height: defaultHeight,
@@ -168,7 +172,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
             />
             {secondaryCommands && (
               <ListView
-                style={styles.secondaryCommands}
+                style={inlineStyles.secondaryCommands}
                 listSource={secondaryCommands.map(itemNode => {
                   if (itemNode.type === AppBarSeparator) {
                     itemNode = React.cloneElement(itemNode, { direction: "row" });
