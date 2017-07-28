@@ -71,12 +71,12 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
     stopSwipe: false
   };
   static contextTypes = { theme: PropTypes.object };
+  context: { theme: ReactUWP.ThemeType };
   state: FlipViewState = {
     focusSwipeIndex: 0,
     currCanAutoSwipe: this.props.autoSwipe,
     currShowNavigation: this.props.showNavigation
   };
-  context: { theme: ReactUWP.ThemeType };
   mounted = false;
   rootElm: HTMLDivElement;
   swipe: Swipe;
@@ -139,6 +139,7 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
 
   render() {
     const {
+      className,
       children,
       showNavigation,
       initialFocusIndex,
@@ -159,21 +160,24 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
     const isHorizontal = direction === "horizontal";
     const _showNavigation = controlledNavigation ? showNavigation : currShowNavigation;
 
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "flip-view",
+      styles: inlineStyles
+    });
+
     return (
       <div
         ref={element => this.rootElm = element}
-        style={{
-          ...styles.root,
-          ...theme.prefixStyle(attributes.style)
-        }}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
         {count > 1 && _showNavigation && (
           <IconButton
             onClick={this.swipeBackWord}
-            style={styles.iconLeft}
+            style={inlineStyles.iconLeft}
             hoverStyle={{
               background: theme.baseLow
             }}
@@ -203,7 +207,7 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
         {count > 1 && _showNavigation && (
           <IconButton
             onClick={this.swipeForward}
-            style={styles.iconRight}
+            style={inlineStyles.iconRight}
             hoverStyle={{
               background: theme.baseLow
             }}
@@ -220,9 +224,9 @@ export class FlipView extends React.Component<FlipViewProps, FlipViewState> {
           {...{
             count,
             showControl,
-            controlStyle: styles.control,
-            controlContentStyle: styles.controlContent,
-            iconStyle: styles.icon,
+            controlStyle: inlineStyles.control,
+            controlContentStyle: inlineStyles.controlContent,
+            iconStyle: inlineStyles.icon,
             handleSwipeToIndex: this.handleSwipeToIndex,
             defaultFocusSwipeIndex: focusSwipeIndex,
             toggleCanAutoSwipe: this.toggleCanAutoSwipe,
@@ -242,7 +246,7 @@ function getStyles(flipView: FlipView): {
   controlContent?: React.CSSProperties;
   icon?: React.CSSProperties;
 } {
-  const { navigationIconSize, direction } = flipView.props;
+  const { navigationIconSize, direction, style } = flipView.props;
   const { theme } = flipView.context;
   const { prefixStyle } = theme;
   const isHorizontal = direction === "horizontal";
@@ -268,7 +272,8 @@ function getStyles(flipView: FlipView): {
       width: "100%",
       background: theme.chromeLow,
       height: "auto",
-      minHeight: baseIconStyle.height
+      minHeight: baseIconStyle.height,
+      ...style
     }),
     iconLeft: {
       ...baseIconStyle,
