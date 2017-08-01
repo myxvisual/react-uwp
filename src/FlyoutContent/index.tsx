@@ -72,7 +72,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
   }
 
   componentDidMount() {
-    Object.assign(this.rootElm.style, this.getPositionStyle("px"));
+    Object.assign(this.rootElm.style, this.getDynamicStyle("px"));
     if (!this.props.isControlled) {
       this.rootElm.parentElement.addEventListener("mouseenter", this.showFlyoutContent);
       this.rootElm.parentElement.addEventListener("mouseleave", this.hideFlyoutContent);
@@ -117,7 +117,7 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     }
   }
 
-  getStyle = (showFlyoutContent = this.state.showFlyoutContent, positionStyle = {}): React.CSSProperties => {
+  getStaticStyle = (showFlyoutContent = this.state.showFlyoutContent): React.CSSProperties => {
     const { context: { theme }, props: { style } } = this;
     const enterDelay = showFlyoutContent ? this.props.enterDelay : 0;
     return theme.prefixStyle({
@@ -134,21 +134,14 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
       position: "absolute",
       zIndex: theme.zIndex.flyout,
       transition: `transform .25s ${ enterDelay}ms ease-in-out, opacity .25s ${enterDelay}ms ease-in-out, border ${enterDelay}ms .25s ease-in-out`,
-      ...positionStyle,
       ...style
     });
   }
 
-  getFlyoutContentStyle = (): React.CSSProperties => {
-    const { rootElm } = this;
-    const { showFlyoutContent } = this.state;
-    if (!rootElm) return this.getStyle();
-    return this.getStyle(showFlyoutContent, this.getPositionStyle());
-  }
 
-
-  getPositionStyle = (unit = "") => {
+  getDynamicStyle = (unit = "") => {
     const { rootElm } = this;
+    if (!rootElm) return;
     let parentElement: any = rootElm.parentElement;
     const { verticalPosition, horizontalPosition, margin } = this.props;
     const { showFlyoutContent } = this.state;
@@ -228,13 +221,21 @@ class FlyoutContent extends React.Component<FlyoutContentProps, FlyoutContentSta
     } = this.props;
     const { theme } = this.context;
 
+    const staticStyle = this.getStaticStyle();
+    const stylesClasses = theme.prepareStyle({
+      className: "flyout-content",
+      style: staticStyle
+    });
+    const dynamicStyle = this.getDynamicStyle();
+
     return (
       <div
         {...attributes}
         onMouseEnter={this.handelMouseEnter}
         onMouseLeave={this.handelMouseLeave}
         ref={rootElm => this.rootElm = rootElm}
-        style={this.getFlyoutContentStyle()}
+        style={dynamicStyle ? { ...stylesClasses.style, ...dynamicStyle } : stylesClasses.style}
+        className={stylesClasses.className}
       >
         {children}
       </div>
