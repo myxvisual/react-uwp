@@ -50,7 +50,7 @@ export class ProgressBar extends React.Component<ProgressBarProps, ProgressBarSt
     return `react-uwp-progress-bar_${speed}`;
   }
 
-  getInnerCSS = (className?: string) => {
+  getCSSText = (className?: string) => {
     const { speed, barHeight, barWidth } = this.props;
     return (
 `.${className} {
@@ -84,32 +84,30 @@ ${vendorPrefixes.map(str => `@${str}keyframes ProgressBar {
       speed,
       barWidth,
       barHeight,
+      className,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
-    const className = this.getOnlyClassName();
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "progress-bar",
+      styles: inlineStyles
+    });
+    const onlyClassName = this.getOnlyClassName();
+    theme.styleManager.addCSSTextWithUpdate(this.getCSSText(onlyClassName));
 
     return (
       <div
         {...attributes}
-        style={styles.root}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
       >
-        <style type="text/css" dangerouslySetInnerHTML={{ __html: this.getInnerCSS(className) }} />
-        <div style={styles.bar}>
+        <div {...styles.bar}>
           {isIndeterminate ? Array(5).fill(0).map((numb, index) => (
             <div
               key={`${index}`}
-              className={`${className}-item-${index}`}
-              style={theme.prefixStyle({
-                background: theme.listAccentHigh,
-                position: "absolute",
-                top: 0,
-                left: -barHeight,
-                width: barHeight,
-                height: barHeight,
-                borderRadius: barHeight
-              })}
+              className={theme.classNames(styles.item.className, `${onlyClassName}-item-${index}`)}
+              style={styles.item.style}
             />
           )) : null}
         </div>
@@ -121,6 +119,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes ProgressBar {
 function getStyles(progressBar: ProgressBar): {
   root?: React.CSSProperties;
   bar?: React.CSSProperties;
+  item?: React.CSSProperties;
 } {
   const {
     context: { theme },
@@ -145,7 +144,16 @@ function getStyles(progressBar: ProgressBar): {
       width: "100%",
       height: "100%",
       transform: isIndeterminate ? void 0 : `translate3d(-${(1 - defaultProgressValue) * 100}%, 0, 0)`
-    })
+    }),
+    item: {
+      background: theme.listAccentHigh,
+      position: "absolute",
+      top: 0,
+      left: -barHeight,
+      width: barHeight,
+      height: barHeight,
+      borderRadius: barHeight
+    }
   };
 }
 

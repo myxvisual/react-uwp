@@ -39,6 +39,10 @@ export interface DataProps {
    */
   topIcon?: React.ReactElement<any>;
   /**
+   * Set NavigationView to controlled component.
+   */
+  isControlled?: boolean;
+  /**
    * Normal usage `SplitViewCommand[]`, different status use `{ default?: React.ReactNode, expanded?: React.ReactNode }`.
    */
   navigationTopNodes?: Array<NavigationNode | NavigationComplexNode>;
@@ -207,46 +211,50 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
       background,
       isTenFt,
       autoResize,
+      isControlled,
       focusNavigationNodeIndex,
+      className,
       ...attributes
     } = this.props;
     const { theme } = this.context;
     const { expanded, focusNodeIndex, currDisplayMode } = this.state;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "navigation-view",
+      styles: inlineStyles
+    });
     let nodeIndex: number = -1;
     const isCompact = currDisplayMode === "compact";
 
     const renderContent =  (
       <div
         {...(isCompact ? void 0 : attributes)}
-        style={{
-          ...styles.root,
-          ...(isCompact ? void 0 : theme.prefixStyle(style))
-        }}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
       >
-        <div style={styles.paneParent} ref={paneElm => this.paneElm = paneElm}>
-          <div style={styles.pane}>
-            <div style={styles.paneTop}>
-              <div style={styles.topIcon}>
+        <div {...styles.paneParent} ref={paneElm => this.paneElm = paneElm}>
+          <div {...styles.pane}>
+            <div {...styles.paneTop}>
+              <div {...styles.topIcon}>
                 {React.cloneElement(topIcon || (
                   <IconButton
-                    style={styles.iconButton}
+                    style={inlineStyles.iconButton}
                     hoverStyle={{ background: theme.baseLow }}
                     activeStyle={{ background: theme.baseMediumLow }}
                   >
                     GlobalNavButton
                   </IconButton>
-                ), {
+                ), isControlled ? void 0 : {
                   onClick: (e: any) => {
                     this.toggleExpanded();
                     if (topIcon && topIcon.props.onClick) topIcon.props.onclick(e);
                   }
                 })}
-                <p style={styles.pageTitle}>
+                <p {...styles.pageTitle}>
                   {pageTitle}
                 </p>
               </div>
-              <div style={styles.paneTopIcons}>
+              <div {...styles.paneTopIcons}>
                 {navigationTopNodes && navigationTopNodes.map((node: any, index) => {
                   let currNode = node as any;
                   const haveExpandedNode = "expanded" in node;
@@ -267,7 +275,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
                 })}
               </div>
             </div>
-            <div style={styles.paneBottomIcons}>
+            <div {...styles.paneBottomIcons}>
               {navigationBottomNodes && navigationBottomNodes.map((node: any, index) => {
                 let currNode = node as any;
                 const haveExpandedNode = "expanded" in node;
@@ -331,7 +339,7 @@ function getStyles(NavigationView: NavigationView): {
 } {
   const {
     context,
-    props: { expandedWidth, paneStyle, background, navigationTopNodes, navigationBottomNodes },
+    props: { expandedWidth, style, paneStyle, background, navigationTopNodes, navigationBottomNodes },
     state: { currInitWidth, expanded, currDisplayMode }
   } = NavigationView;
   const isOverLay = currDisplayMode === "overlay";
@@ -351,7 +359,8 @@ function getStyles(NavigationView: NavigationView): {
       fontSize: 16,
       color: theme.baseHigh,
       height: isCompact ? "100%" : void 0,
-      position: "relative"
+      position: "relative",
+      ...style
     }),
     topIcon: prefixStyle({
       display: "flex",
@@ -376,6 +385,7 @@ function getStyles(NavigationView: NavigationView): {
       display: "inline-block",
       verticalAlign: "top",
       width: isMinimal ? "100%" : (isOverLay ? currInitWidth : (expanded ? expandedWidth : currInitWidth)),
+      flex: "0 0 auto",
       height: isMinimal ? currInitWidth : "100%",
       zIndex: isOverLay || isMinimal ? 1 : void 0,
       position: isOverLay ? "absolute" : void 0,
