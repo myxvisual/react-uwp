@@ -104,6 +104,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
       onChangePlaybackRate,
       onChangeVolume,
       onChangeSeek,
+      className,
       ...attributes
     } = this.props;
     const { showPlaybackChoose, showVolumeSlider } = this.state;
@@ -112,8 +113,12 @@ export default class Control extends React.Component<ControlProps, ControlState>
     played = played || 0;
     duration = duration || 0;
     const playedValue = played * duration;
-    const styles = getStyles(this);
     const isDefaultMode = displayMode === "default";
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "media-player-control",
+      styles: inlineStyles
+    });
 
     const playButton = <IconButton onClick={playOrPauseAction}>{playing ? "Pause" : "Play"}</IconButton>;
     const playSlider = (
@@ -178,7 +183,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
           horizontalPosition="left"
         >
           <Tooltip
-            style={{ height: "auto", padding: 0, border: "none"}}
+            style={{ height: "auto", padding: 0, border: "none" }}
             margin={0}
             horizontalPosition="left"
             background={theme.chromeLow}
@@ -248,14 +253,15 @@ export default class Control extends React.Component<ControlProps, ControlState>
     return isDefaultMode ? (
       <div
         {...attributes}
-        style={styles.root}
+        className={theme.classNames(styles.root.className, className)}
+        style={styles.root.style}
       >
-        <div style={styles.sliderContainer}>
+        <div {...styles.sliderContainer}>
           {playSlider}
           <span style={{ marginLeft: 16 }}>{this.second2HHMMSS(playedValue)}</span>
           <span style={{ float: "right", marginRight: 16 }}>{this.second2HHMMSS(duration)}</span>
         </div>
-        <div style={styles.controlsGroup}>
+        <div {...styles.controlsGroup}>
           <div>
             {volumeButton}
             {subtitleButton}
@@ -278,7 +284,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
         </div>
       </div>
     ) : (
-      <div style={styles.controlsGroup}>
+      <div {...styles.controlsGroup}>
         {playButton}
         {playSlider}
         {volumeButton}

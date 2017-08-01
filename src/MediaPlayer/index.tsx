@@ -117,6 +117,7 @@ export interface DataProps {
    */
   onProgress?: React.ReactEventHandler<HTMLDivElement>;
 
+  className?: string;
   style?: React.CSSProperties;
   onTouchStart?: React.ReactEventHandler<HTMLDivElement>;
   onMouseEnter?: React.ReactEventHandler<HTMLDivElement>;
@@ -348,10 +349,9 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
 
       showControl,
       displayMode,
+      className,
       ...attributes
     } = this.props;
-    const { theme } = this.context;
-    const styles = getStyles(this);
     const {
       currShowControl,
       currPlaying,
@@ -363,6 +363,13 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
       played,
       fullScreenMode
     } = this.state;
+    const { theme } = this.context;
+    const styles = getStyles(this);
+    const styleClasses = theme.prepareStyle({
+      className: "media-player",
+      style: styles.root,
+      extendsClassName: className
+    });
 
     return (
       <div
@@ -372,7 +379,7 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
         onMouseMove={this.handleMouseMove}
         onMouseLeave={this.handleMouseLeave}
         onTouchStart={this.handleTouchStart}
-        style={styles.root}
+        {...styleClasses}
       >
         <ReactPlayer
           {...{
