@@ -79,15 +79,21 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       menuItemHeight,
       menuItemHoverStyle,
       children,
+      className,
       ...attributes
     } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const styleClasses = theme.prepareStyle({
+      className: "menu",
+      style: styles.root,
+      extendsClassName: className
+    });
 
     return (
       <div
         {...attributes}
-        style={styles.root}
+        {...styleClasses}
       >
         {children && React.Children.map(children, (child: any, index) => (
           child.type === Menu ? React.cloneElement(child, {

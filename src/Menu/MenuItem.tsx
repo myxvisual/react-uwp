@@ -4,7 +4,7 @@ import { codes } from "keycode";
 
 import AddBlurEvent from "../common/AddBlurEvent";
 import Icon from "../Icon";
-import ElementState from "../ElementState";
+import PseudoClasses from "../PseudoClasses";
 
 export interface DataProps {
   /**
@@ -58,7 +58,7 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
   };
 
   addBlurEvent = new AddBlurEvent();
-  elementState: ElementState;
+  rootElm: HTMLDivElement;
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -74,7 +74,7 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
   addBlurEventMethod = () => {
     this.addBlurEvent.setConfig({
       addListener: this.state.expanded,
-      clickExcludeElm: this.elementState.rootElm,
+      clickExcludeElm: this.rootElm,
       blurCallback: () => {
         this.setState({
           expanded: false
@@ -116,12 +116,17 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
       itemHeight,
       children,
       defaultExpanded,
+      className,
       hoverStyle,
       ...attributes
     } = this.props;
     const { theme } = this.context;
     const { expanded } = this.state;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "menu",
+      styles: inlineStyles
+    });
 
     const iconProps = {
       size: itemHeight,
@@ -129,19 +134,16 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
     };
 
     return (
-      <ElementState
+      <PseudoClasses
         {...attributes}
-        style={styles.root}
-        hoverStyle={hoverStyle || {
-          background: theme.listLow
-        }}
-        ref={(elementState) => this.elementState = elementState}
+        className={theme.classNames(styles.root.className, className)}
+        style={styles.root.style}
       >
-      <div>
+      <div ref={rootElm => this.rootElm = rootElm}>
         <Icon {...iconProps}>
           {icon}
         </Icon>
-        <span style={styles.label}>{label}</span>
+        <span {...styles.label}>{label}</span>
         {children && (
           <Icon
             {...iconProps}
@@ -156,12 +158,12 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
           </Icon>
         )}
         {children && (
-          <div style={styles.child}>
+          <div {...styles.child}>
             {children}
           </div>
         )}
       </div>
-      </ElementState>
+      </PseudoClasses>
     );
   }
 }
@@ -174,6 +176,7 @@ function getStyles(menuItem: MenuItem): {
   const {
     context: { theme },
     props: {
+      hoverStyle,
       children,
       style,
       itemWidth,
@@ -194,6 +197,9 @@ function getStyles(menuItem: MenuItem): {
       lineHeight: `${itemHeight}px`,
       width: "100%",
       position: children ? "relative" : void 0,
+      "&:hover": hoverStyle || {
+        background: theme.listLow
+      },
       ...style
     }),
     label: {
