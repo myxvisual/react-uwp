@@ -51,6 +51,7 @@ export interface DataProps {
    */
   navigationIconSize?: number;
 }
+
 export interface FlipViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface FlipViewState {
