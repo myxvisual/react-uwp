@@ -41,7 +41,7 @@ export class ProgressRing extends React.Component<ProgressRingProps> {
     return `react-uwp-progress-ring_${dotsNumber}_${speed}`;
   }
 
-  getInnerCSS = (className?: string) => {
+  getCSSText = (className?: string) => {
     const { dotsNumber, speed } = this.props;
     return (
 `.${className} {
@@ -99,48 +99,72 @@ ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
       speed,
       dotsStyle,
       style,
+      className,
       ...attributes
     } = this.props;
-    const dotsSize = size / 12;
     const { theme } = this.context;
-    const className = this.getOnlyClassName();
+    const onlyClassName = this.getOnlyClassName();
+    theme.styleManager.addCSSTextWithUpdate(this.getCSSText(onlyClassName));
+
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "progress-ring",
+      styles: inlineStyles
+    });
+
 
     return (
       <div
         {...attributes}
-        className={`${className} ${attributes.className || ""}`}
-        style={theme.prefixStyle({
-          display: "inline-block",
-          ...style,
-          width: size,
-          height: size,
-          position: "relative"
-        })}
+        className={theme.classNames(styles.root.className, className)}
+        style={styles.root.style}
       >
-        <style type="text/css" dangerouslySetInnerHTML={{ __html: this.getInnerCSS(className) }} />
         <div>
           {Array(dotsNumber).fill(0).map((numb, index) => (
             <div
               key={`${index}`}
-              className={`${className}-item-${index}`}
-              style={theme.prefixStyle({
-                background: theme.accent,
-                ...dotsStyle,
-                position: "absolute",
-                top: 0,
-                left: size / 2,
-                width: dotsSize,
-                height: dotsSize,
-                opacity: 0,
-                transformOrigin: `0px ${size / 2}px`,
-                borderRadius: dotsSize
-              })}
+              className={theme.classNames(`${onlyClassName}-item-${index}`, styles.item.className)}
+              style={styles.item.style}
             />
           ))}
         </div>
       </div>
     );
   }
+}
+
+function getStyles(progressRing: ProgressRing) {
+  const {
+    props: {
+      style,
+      dotsStyle,
+      size
+    },
+    context: { theme }
+  } = progressRing;
+  const dotsSize = size / 12;
+
+  return {
+    root: theme.prefixStyle({
+      display: "inline-block",
+      ...style,
+      width: size,
+      height: size,
+      position: "relative"
+    }),
+    item: theme.prefixStyle({
+      background: theme.accent,
+      ...dotsStyle,
+      position: "absolute",
+      top: 0,
+      left: size / 2,
+      width: dotsSize,
+      height: dotsSize,
+      opacity: 0,
+      transformOrigin: `0px ${size / 2}px`,
+      borderRadius: dotsSize
+    })
+  };
 }
 
 export default ProgressRing;
