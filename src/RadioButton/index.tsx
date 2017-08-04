@@ -30,7 +30,6 @@ export interface RadioButtonProps extends DataProps, React.HTMLAttributes<HTMLSp
 export interface RadioButtonState {
   currChecked?: boolean;
   hovered?: boolean;
-  mouseDowned?: boolean;
 }
 
 const rootStyle: React.CSSProperties = {
@@ -75,14 +74,6 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
     this.setState({ hovered: false });
   }
 
-  handleMouseDown = (e?: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({ mouseDowned: true });
-  }
-
-  handleMouseUp = (e?: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({ mouseDowned: false });
-  }
-
   render() {
     const {
       defaultChecked,
@@ -91,49 +82,25 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
       size,
       disabled,
       label,
+      className,
       ...attributes
     } = this.props;
-    const { currChecked, hovered, mouseDowned } = this.state;
-    const dotSize = size / 2.5;
+    const { currChecked, hovered } = this.state;
     const { theme } = this.context;
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "radio-button",
+      styles: inlineStyles
+    });
+
     const normalRender = (
       <div
         onClick={disabled ? void 0 : this.handleClick}
         onMouseEnter={disabled ? void 0 : this.handleMouseEnter}
         onMouseLeave={disabled ? void 0 : this.handleMouseLeave}
-        onMouseDown={disabled ? void 0 : this.handleMouseDown}
-        onMouseUp={disabled ? void 0 : this.handleMouseUp}
-        style={theme.prefixStyle({
-          position: "relative",
-          display: "inline-block",
-          borderRadius: size,
-          color: theme.altHigh,
-          border: disabled ? `${size / 12}px solid ${theme.baseLow}` : `${size / 12}px solid ${currChecked ? theme.accent : (
-            hovered ? theme.baseHigh : theme.baseMediumHigh
-          )}`,
-          width: size,
-          height: size,
-          overflow: "hidden",
-          transition: "all .25s ease-in-out"
-        })}
+        {...styles.wrapper}
       >
-        <div
-          style={theme.prefixStyle({
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            margin: "auto",
-            background: disabled ? theme.baseLow : (
-              hovered ? theme.baseHigh : theme.baseMediumHigh
-            ),
-            borderRadius: dotSize,
-            width: dotSize,
-            height: dotSize,
-            transform: `scale(${currChecked ? 1 : 0})`
-          })}
-        />
+        <div {...styles.content} />
       </div>
     );
 
@@ -141,29 +108,13 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
       <div
         ref={(rootElm => this.rootElm = rootElm)}
         {...attributes}
-        style={style ? theme.prefixStyle({
-          ...rootStyle,
-          ...style
-        }) : rootStyle}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
       >
         {label ? (
-          <div
-            style={theme.prefixStyle({
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center"
-            })}
-          >
+          <div {...styles.label}>
             {normalRender}
-            <span
-              style={{
-                fontSize: size / 2,
-                lineHeight: `${size}px`,
-                color: disabled ? theme.baseLow : theme.baseMediumHigh,
-                marginLeft: size / 4,
-                cursor: "text"
-              }}
-            >
+            <span {...styles.labelText}>
               {label}
             </span>
           </div>
@@ -171,6 +122,71 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
       </div>
     );
   }
+}
+
+function getStyles(radioButton: RadioButton) {
+  const {
+    props: {
+      style,
+      size,
+      disabled
+    },
+    state: {
+      currChecked,
+      hovered
+    },
+    context: { theme }
+  } = radioButton;
+  const dotSize = size / 2.5;
+
+  return {
+    root: style ? theme.prefixStyle({
+      ...rootStyle,
+      ...style
+    }) : rootStyle,
+    wrapper: theme.prefixStyle({
+      position: "relative",
+      flex: "0 0 auto",
+      display: "inline-block",
+      borderRadius: size,
+      color: theme.altHigh,
+      border: disabled ? `${size / 12}px solid ${theme.baseLow}` : `${size / 12}px solid ${currChecked ? theme.accent : (
+        hovered ? theme.baseHigh : theme.baseMediumHigh
+      )}`,
+      width: size,
+      height: size,
+      overflow: "hidden",
+      transition: "all .25s ease-in-out"
+    }),
+    content: theme.prefixStyle({
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      margin: "auto",
+      background: disabled ? theme.baseLow : (
+        hovered ? theme.baseHigh : theme.baseMediumHigh
+      ),
+      transition: "all .25s",
+      borderRadius: dotSize,
+      width: dotSize,
+      height: dotSize,
+      transform: `scale(${currChecked ? 1 : 0})`
+    }),
+    label: theme.prefixStyle({
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center"
+    }),
+    labelText: {
+      fontSize: size / 2,
+      lineHeight: `${size}px`,
+      color: disabled ? theme.baseLow : theme.baseMediumHigh,
+      marginLeft: size / 4,
+      cursor: "text"
+    }
+  };
 }
 
 export default RadioButton;
