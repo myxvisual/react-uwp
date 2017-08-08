@@ -27,6 +27,26 @@ export interface DataProps {
    * Custom set render `Tab Title` method.
    */
   renderTitle?: (title?: string) => React.ReactNode;
+  /**
+   * If true, will add animate to tabs in out.
+   */
+  useAnimate?: boolean;
+  /**
+   * Set tabs animate mode.
+   */
+  animateMode?: "in" | "out" | "in-out";
+  /**
+   * Set tabs animate speed.
+   */
+  animateSpeed?: number;
+  /**
+   * Set tab animate enter style.
+   */
+  animateEnterStyle?: React.CSSProperties;
+  /**
+   * Set tab animate leave style.
+   */
+  animateLeaveStyle?: React.CSSProperties;
 }
 
 export interface TabsProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -37,7 +57,18 @@ export interface TabsState {
 
 export class Tabs extends React.Component<TabsProps, TabsState> {
   static defaultProps: TabsProps = {
-    renderTitle: (title: string) => title
+    renderTitle: (title: string) => title,
+    useAnimate: true,
+    animateMode: "in",
+    animateSpeed: 500,
+    animateEnterStyle: {
+      transform: "translateX(0)",
+      opacity: 1
+    },
+    animateLeaveStyle: {
+      transform: "translateX(100%)",
+      opacity: 0
+    }
   };
 
   state: TabsState = {
@@ -65,11 +96,17 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
       children,
       tabStyle,
       renderTitle,
+      useAnimate,
+      animateMode,
+      animateSpeed,
+      animateEnterStyle,
+      animateLeaveStyle,
+      className,
+      style,
       ...attributes
     } = this.props;
     const { theme } = this.context;
     const { tabFocusIndex } = this.state;
-    const styles = getStyles(this);
 
     const childrenArray = React.Children.toArray(children);
     const isAvailableArray = childrenArray && childrenArray.length > 0;
@@ -77,18 +114,28 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     const currTab: Tab | false = tabs && tabs[tabFocusIndex] as any;
     const tabTitle = currTab && currTab.props.title;
 
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "tabs",
+      styles: inlineStyles
+    });
+
+    const normalRender = (
+      <div key={`${tabFocusIndex}`} {...styles.tabStyle}>
+        {currTab}
+      </div>
+    );
+
     return (
       <div
         {...attributes}
-        style={styles.root}
+        style={styles.root.style}
+        className={styles.root.className}
       >
-        <div style={styles.titles}>
+        <div {...styles.titles}>
           {tabs && tabs.map((tab, index) => (
             <span
-              style={index === tabFocusIndex ? {
-                ...styles.title,
-                ...styles.titleFocus
-              } : styles.title}
+              {...(index === tabFocusIndex ? styles.titleFocus : styles.title)}
               key={`${index}`}
               onClick={() => this.setState({ tabFocusIndex: index })}
             >
@@ -96,22 +143,18 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
             </span>
           ))}
         </div>
-        <CustomAnimate
-          leaveStyle={{
-            transform: "translateX(100%)",
-            opacity: 1
-          }}
-          enterStyle={{
-            transform: "translateX(0)",
-            opacity: 1
-          }}
-          wrapperStyle={{ width: "100%", height: "100%" }}
-          appearAnimate={false}
-        >
-        <div key={`${tabFocusIndex}`} style={styles.tabStyle}>
-          {currTab}
-        </div>
-        </CustomAnimate>
+        {useAnimate ? (
+          <CustomAnimate
+            mode={animateMode}
+            speed={animateSpeed}
+            enterStyle={animateEnterStyle}
+            leaveStyle={animateLeaveStyle}
+            wrapperStyle={{ width: "100%", height: "100%" }}
+            appearAnimate={false}
+          >
+            {normalRender}
+          </CustomAnimate>
+        ) : normalRender}
       </div>
     );
   }
@@ -156,12 +199,18 @@ function getStyles(Tabs: Tabs): {
       fontWeight: "lighter",
       cursor: "pointer",
       fontSize: 18,
-      padding: 4,
-      marginRight: 4,
+      padding: "4px 12px",
       transition: "all .25s",
       ...tabTitleStyle
     }),
     titleFocus: prefixStyle({
+      color: theme.baseHigh,
+      fontWeight: "lighter",
+      cursor: "pointer",
+      fontSize: 18,
+      padding: "4px 12px",
+      transition: "all .25s",
+      ...tabTitleStyle,
       borderBottom: `2px solid ${theme.accent}`,
       ...tabTitleFocusStyle
     }),
