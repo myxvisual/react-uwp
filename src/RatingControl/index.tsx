@@ -63,8 +63,6 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
     currRating: this.props.defaultRating
   };
 
-  styles = getStyles(this);
-
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -86,28 +84,43 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
     this.props.onChangeRating(currRating);
   }
 
-  renderRatings = (notRated = true) => {
-    const { maxRating,  icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;
-    const { currRating } = this.state;
+  render() {
+    const {
+      defaultRating,
+      maxRating,
+      icon,
+      iconStyle,
+      iconRatedStyle,
+      onChangeRating,
+      label,
+      isReadOnly,
+      iconPadding,
+      ...attributes
+    } = this.props;
     const { theme } = this.context;
+    const { currRating } = this.state;
+
     const ratio = currRating / maxRating;
     const fontSize = iconStyle ? (+Number(iconStyle.fontSize) || 24) : 24;
     const width = fontSize * maxRating + iconPadding * (maxRating - 1);
     const offset = Math.floor(currRating) * (fontSize + iconPadding) + (currRating % 1) * fontSize;
     const lastIndex = maxRating - 1;
 
-    const normalRatings = (
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "rating-control",
+      styles: inlineStyles
+    });
+
+    const renderRatings = (notRated = true) => (
       <div
         style={{
-          ...this.styles.ratingsGroup,
+          ...(notRated ? styles.group.style : styles.groupMask.style),
           ...(notRated ? void 0 : {
             clipPath: `polygon(0% 0%, ${offset}px 0%, ${offset}px 100%, 0% 100%)`,
-            color: theme.accent,
-            position: "absolute",
-            top: 0,
-            left: 0
           } as React.CSSProperties)
         }}
+        className={notRated ? styles.group.className : styles.groupMask.className}
       >
         {Array(maxRating).fill(0).map((zero, index) => (
           <Icon
@@ -127,57 +140,32 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
         ))}
       </div>
     );
-    return normalRatings;
-  }
 
-  render() {
-    const {
-      defaultRating,
-      maxRating,
-      icon,
-      iconStyle,
-      iconRatedStyle,
-      onChangeRating,
-      label,
-      isReadOnly,
-      iconPadding,
-      ...attributes
-    } = this.props;
-    const { theme } = this.context;
-    const styles = getStyles(this);
-    this.styles = styles;
 
     const normalRender = (
       <div
         {...attributes}
-        style={styles.root}
+        {...styles.root}
       >
-        {this.renderRatings()}
-        {this.renderRatings(false)}
+        {renderRatings()}
+        {renderRatings(false)}
       </div>
     );
 
     return label ? (
       <div style={{ display: "inline-block" }} ref={rootElm => this.rootElm = rootElm}>
-        <div
-          style={theme.prefixStyle({
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center"
-          })}
-        >
+        <div {...styles.labelWrapper}>
           {normalRender}
-          <span style={{ color: theme.baseMediumHigh }}>{label}</span>
+          <span>
+            {label}
+          </span>
         </div>
       </div>
     ) : normalRender;
   }
 }
 
-function getStyles(RatingControl: RatingControl): {
-  root?: React.CSSProperties;
-  ratingsGroup?: React.CSSProperties;
-} {
+function getStyles(RatingControl: RatingControl) {
   const {
     context: { theme },
     props: { style }
@@ -186,15 +174,28 @@ function getStyles(RatingControl: RatingControl): {
 
   return {
     root: prefixStyle({
-      color: theme.baseHigh,
+      color: theme.baseMediumHigh,
       display: "inline-block",
       position: "relative",
       cursor: "default",
       ...style
     }),
-    ratingsGroup: prefixStyle({
+    group: prefixStyle({
       display: "inline-block",
       transition: "all .25s"
+    }),
+    groupMask: prefixStyle({
+      display: "inline-block",
+      transition: "all .25s",
+      color: theme.accent,
+      position: "absolute",
+      top: 0,
+      left: 0
+    }),
+    labelWrapper: prefixStyle({
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center"
     })
   };
 }
