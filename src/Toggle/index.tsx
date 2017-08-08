@@ -44,18 +44,21 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: ToggleProps) {
-    this.setState({ currToggled: nextProps.defaultToggled });
+    const { defaultToggled } = nextProps;
+    if (this.state.currToggled !== defaultToggled) {
+      this.setState({ currToggled: defaultToggled });
+    }
   }
 
   toggleToggle = (currToggled?: any) => {
     if (typeof currToggled === "boolean") {
       if (currToggled !== this.state.currToggled) {
-        this.setState({ currToggled });
         this.props.onToggle(currToggled);
+        this.setState({ currToggled });
       }
     } else {
       this.setState((prevState, prevProps) => {
-        const currToggled = !prevState.currToggled;
+        currToggled = !prevState.currToggled;
         this.props.onToggle(currToggled);
         return { currToggled };
       });

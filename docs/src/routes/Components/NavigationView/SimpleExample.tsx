@@ -56,6 +56,7 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
 
         <div>
           <NavigationView
+            isControlled
             style={{ width: 640, height: 640, ...baseStyle }}
             pageTitle="San Francisco"
             displayMode="compact"

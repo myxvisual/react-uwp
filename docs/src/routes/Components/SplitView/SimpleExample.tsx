@@ -26,7 +26,9 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
       <SplitView
         defaultExpanded={expanded}
         displayMode={displayMode}
-        onClosePane={() => this.setState({ expanded: false })}
+        onClosePane={() => {
+          this.setState({ expanded: false });
+        }}
         style={{
           width: "85%",
           margin: "20px auto",
@@ -39,7 +41,10 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             defaultToggled={expanded}
             background="none"
             style={{ margin: 20 }}
-            onToggle={expanded => { this.setState({ expanded }); }}
+            onToggle={nextExpanded => {
+              console.log(nextExpanded)
+              this.setState({ expanded: nextExpanded });
+            }}
           />
         </div>
 

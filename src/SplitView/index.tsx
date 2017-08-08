@@ -13,6 +13,7 @@ export interface DataProps {
   panePosition?: "left" | "right";
   paneStyle?: React.CSSProperties;
   onClosePane?: () => void;
+  clickExcludeElms?: HTMLDivElement[];
 }
 
 export interface SplitViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -33,7 +34,7 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
   };
 
   addBlurEvent = new AddBlurEvent();
-  splitViewPaneElm: HTMLDivElement;
+  rootElm: HTMLDivElement;
 
   componentWillReceiveProps(nextProps: SplitViewProps) {
     const { defaultExpanded } = nextProps;
@@ -45,9 +46,10 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
   }
 
   addBlurEventMethod = () => {
+    const { clickExcludeElms } = this.props;
     this.addBlurEvent.setConfig({
       addListener: this.state.expanded,
-      clickExcludeElm: this.splitViewPaneElm,
+      clickExcludeElm: clickExcludeElms ? [...clickExcludeElms, this.rootElm] : this.rootElm,
       blurCallback: () => {
         this.setState({
           expanded: false
@@ -82,6 +84,7 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
       paneStyle,
       onClosePane,
       className,
+      clickExcludeElms,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -100,11 +103,6 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
           splitViewPanes.push(React.cloneElement(child, {
             style: { ...styles.pane.style, ...child.props.style },
             className: styles.pane.className,
-            ref: (splitViewPane: SplitViewPane) => {
-              if (splitViewPane) {
-                this.splitViewPaneElm = splitViewPane.rootElm;
-              }
-            },
             key: index.toString()
           }));
         } else {
@@ -117,6 +115,7 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
       <div
         {...attributes}
         style={styles.root.style}
+        ref={rootElm => this.rootElm = rootElm}
         className={theme.classNames(styles.root.className, className)}
       >
         {childView.length > 0 && childView}
