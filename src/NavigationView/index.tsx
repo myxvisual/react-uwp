@@ -129,11 +129,11 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
       this.autoResize();
       window.addEventListener("resize", this.autoResize);
     }
-    this.addBlurEventMethod();
+    if (!this.props.isControlled) this.addBlurEventMethod();
   }
 
   componentDidUpdate() {
-    this.addBlurEventMethod();
+    if (!this.props.isControlled) this.addBlurEventMethod();
   }
 
   shouldComponentUpdate(nextProps: NavigationViewProps, nextState: NavigationViewState, nextContext: { theme: ReactUWP.ThemeType }) {
