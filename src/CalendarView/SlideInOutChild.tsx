@@ -95,13 +95,13 @@ export default class SlideInChild extends React.Component<SlideInChildProps, {}>
 
   render() {
     const {
-      appearAnimate, // tslint:disable-line:no-unused-variable
+      appearAnimate,
       children,
-      direction, // tslint:disable-line:no-unused-variable
-      distance, // tslint:disable-line:no-unused-variable
-      enterDelay, // tslint:disable-line:no-unused-variable
-      leaveDelay, // tslint:disable-line:no-unused-variable
-      mode, // tslint:disable-line:no-unused-variable
+      direction,
+      distance,
+      enterDelay,
+      leaveDelay,
+      mode,
       speed,
       style,
       ...attributes

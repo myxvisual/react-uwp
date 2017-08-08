@@ -92,7 +92,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
       className,
       id,
       style,
-      path, // tslint:disable-line:no-unused-variable
+      path,
       children
     } = this.props;
     const { renderContentWidth, screenType, headerHeight } = this.state;

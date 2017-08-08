@@ -118,12 +118,12 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
   render() {
     const {
       content,
-      contentStyle, // tslint:disable-line:no-unused-variable
+      contentStyle,
       contentNode,
       labelPosition,
       primaryCommands,
       secondaryCommands,
-      flowDirection, // tslint:disable-line:no-unused-variable
+      flowDirection,
       expanded,
       isMinimal,
       verticalPosition,

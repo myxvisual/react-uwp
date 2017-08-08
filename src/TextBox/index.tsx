@@ -95,8 +95,8 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
 
   render() {
     const {
-      hoverStyle, // tslint:disable-line:no-unused-variable
-      focusStyle, // tslint:disable-line:no-unused-variable
+      hoverStyle,
+      focusStyle,
       leftNode,
       rightNode,
       style,

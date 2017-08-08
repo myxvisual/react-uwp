@@ -35,7 +35,7 @@ export default class SlideInOut extends React.Component<SlideInOutProps, SlideIn
 
   render() {
     const {
-      appearAnimate, // tslint:disable-line:no-unused-variable
+      appearAnimate,
       childAttributes,
       children,
       direction,
@@ -44,7 +44,7 @@ export default class SlideInOut extends React.Component<SlideInOutProps, SlideIn
       leaveDelay,
       mode,
       speed,
-      style, // tslint:disable-line:no-unused-variable
+      style,
       ...others
     } = this.props;
     const styles = getStyles(this);

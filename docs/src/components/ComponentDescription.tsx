@@ -164,7 +164,7 @@ ${planeText}
 
   render() {
     const {
-      docEntry, // tslint:disable-line:no-unused-variable
+      docEntry,
       renderOtherTypes,
       ...attributes
     } = this.props;

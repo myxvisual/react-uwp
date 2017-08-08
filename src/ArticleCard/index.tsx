@@ -77,7 +77,7 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
       title,
       image,
       href,
-      size, // tslint:disable-line:no-unused-variable
+      size,
       ...attributes
     } = this.props;
     const { theme } = this.context;

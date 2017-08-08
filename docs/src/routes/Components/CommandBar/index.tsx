@@ -16,12 +16,12 @@ export default class CommandBar extends React.Component<any> {
 
   render() {
     const {
-      location, // tslint:disable-line:no-unused-variable
-      params, // tslint:disable-line:no-unused-variable
-      route, // tslint:disable-line:no-unused-variable
-      router, // tslint:disable-line:no-unused-variable
-      routeParams, // tslint:disable-line:no-unused-variable
-      routes // tslint:disable-line:no-unused-variable
+      location,
+      params,
+      route,
+      router,
+      routeParams,
+      routes
     } = this.props;
 
     return (

@@ -112,7 +112,7 @@ export default class ScrollBar extends React.Component<ScrollBarProps, ScrollBar
       scrollSpeed,
       iconNode,
       children,
-      autoHide, // tslint:disable-line:no-unused-variable
+      autoHide,
       ...attributes
     } = this.props;
     const styles = getStyles(this);

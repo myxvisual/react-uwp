@@ -97,12 +97,12 @@ export default class ScaleInOutChild extends React.Component<ScaleInOutChildProp
 
   render() {
     const {
-      appearAnimate, // tslint:disable-line:no-unused-variable
+      appearAnimate,
       children,
-      enterDelay, // tslint:disable-line:no-unused-variable
-      leaveDelay, // tslint:disable-line:no-unused-variable
-      maxScale, // tslint:disable-line:no-unused-variable
-      minScale, // tslint:disable-line:no-unused-variable
+      enterDelay,
+      leaveDelay,
+      maxScale,
+      minScale,
       speed,
       style,
       mode,

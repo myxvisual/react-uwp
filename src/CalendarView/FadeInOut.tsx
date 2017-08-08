@@ -32,7 +32,7 @@ export default class FadeInOut extends React.Component<FadeInOutProps> {
 
   render() {
     const {
-      appearAnimate, // tslint:disable-line:no-unused-variable
+      appearAnimate,
       childAttributes,
       children,
       enterDelay,
@@ -41,7 +41,7 @@ export default class FadeInOut extends React.Component<FadeInOutProps> {
       minValue,
       mode,
       speed,
-      style, // tslint:disable-line:no-unused-variable
+      style,
       ...others
     } = this.props;
     const styles = getStyles(this);

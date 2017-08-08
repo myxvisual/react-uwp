@@ -202,11 +202,11 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 
   render() {
     const {
-      onChangeValue, // tslint:disable-line:no-unused-variable
-      searchAction, // tslint:disable-line:no-unused-variable
-      listSource, // tslint:disable-line:no-unused-variable
-      iconSize, // tslint:disable-line:no-unused-variable
-      children, // tslint:disable-line:no-unused-variable
+      onChangeValue,
+      searchAction,
+      listSource,
+      iconSize,
+      children,
       className,
       background,
       ...attributes

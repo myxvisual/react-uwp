@@ -33,7 +33,7 @@ export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleIn
 
   render() {
     const {
-      appearAnimate, // tslint:disable-line:no-unused-variable
+      appearAnimate,
       childAttributes,
       children,
       enterDelay,
@@ -42,7 +42,7 @@ export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleIn
       minScale,
       mode,
       speed,
-      style, // tslint:disable-line:no-unused-variable
+      style,
       ...others
     } = this.props;
     const styles = getStyles(this);
