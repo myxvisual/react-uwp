@@ -356,7 +356,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   updateToast = (toastID: number, toast: React.ReactNode) => {
-    this.toastWrapper && this.toastWrapper.updateToast(toastID, toast);
+    if (this.toastWrapper) this.toastWrapper.updateToast(toastID, toast);
   }
 
   deleteToast = (toastID: number) => {

@@ -311,18 +311,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
       </div>
     );
 
-    return isCompact ? (
-      <div
-        {...attributes}
-        style={theme.prefixStyle({
-          display: "inline-block",
-          background: background || theme.altHigh,
-          ...theme.prefixStyle(style)
-        })}
-      >
-        {renderContent}
-      </div>
-    ) : renderContent;
+    return renderContent;
   }
 }
 
