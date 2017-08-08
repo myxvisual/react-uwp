@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
+import PseudoClasses from "../PseudoClasses";
 
 export interface DataProps {
   /**
@@ -40,6 +41,8 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
 
   render() {
     const {
+      style,
+      className,
       label,
       icon,
       visited,
@@ -50,49 +53,48 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+
+    const rootStyleClasses = theme.prepareStyle({
+      className: "split-view-command",
+      style: inlineStyles.root,
+      extendsClassName: className
+    });
+    const iconStyleClasses = theme.prepareStyle({
+      className: "split-view-command-icon",
+      style: inlineStyles.icon,
+      extendsClassName: className
+    });
+    const labelStyleClasses = theme.prepareStyle({
+      className: "split-view-command-label",
+      style: inlineStyles.label,
+      extendsClassName: className
+    });
+    const visitedBorderStyleClasses = theme.prepareStyle({
+      className: "split-view-command-border",
+      style: inlineStyles.visitedBorder,
+      extendsClassName: className
+    });
 
     return (
-      <div
-        {...attributes}
-        style={{
-          ...styles.root,
-          ...theme.prefixStyle(attributes.style)
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.background = isTenFt ? theme.accent : theme.baseLow
-          ;
-          if (onMouseEnter) onMouseEnter(e);
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.background = (visited && isTenFt) ? theme.listAccentLow : "none";
-          if (onMouseLeave) onMouseLeave(e);
-        }}
-      >
-        {(visited && !isTenFt) ? <div style={styles.visitedBorder} /> : null}
-        <Icon style={styles.icon}>
+      <PseudoClasses {...rootStyleClasses}>
+      <div {...attributes}>
+        {(visited && !isTenFt) ? <div {...visitedBorderStyleClasses}/> : null}
+        <Icon {...iconStyleClasses}>
           {icon}
         </Icon>
         {label && (
-          <div
-            style={{
-              color: isTenFt ? void(0) : (visited ? theme.accent : theme.baseHigh),
-              cursor: "default"
-            }}
-          >
+          <div  {...labelStyleClasses}>
             {label}
           </div>
         )}
       </div>
+      </PseudoClasses>
     );
   }
 }
 
-function getStyles(splitViewCommand: SplitViewCommand): {
-  root?: React.CSSProperties;
-  icon?: React.CSSProperties;
-  visitedBorder?: React.CSSProperties;
-} {
+function getStyles(splitViewCommand: SplitViewCommand) {
   const { context, props: { style, iconStyle, visited, isTenFt } } = splitViewCommand;
   const { theme } = context;
   const { prefixStyle } = theme;
@@ -108,6 +110,9 @@ function getStyles(splitViewCommand: SplitViewCommand): {
       alignItems: "center",
       position: "relative",
       transition: "all .25s 0s ease-in-out",
+      "&:hover": {
+        background: isTenFt ? theme.accent : theme.baseLow
+      },
       ...style
     }),
     visitedBorder: {
@@ -117,7 +122,7 @@ function getStyles(splitViewCommand: SplitViewCommand): {
       left: 0,
       top: "25%",
       position: "absolute"
-    },
+    } as React.CSSProperties,
     icon: prefixStyle({
       cursor: "default",
       flex: "0 0 auto",
@@ -127,7 +132,11 @@ function getStyles(splitViewCommand: SplitViewCommand): {
       color: isTenFt ? void 0 : (visited ? theme.accent : theme.baseHigh),
       fontSize: 16,
       ...iconStyle
-    })
+    }),
+    label: {
+      color: isTenFt ? void 0 : (visited ? theme.accent : theme.baseHigh),
+      cursor: "default"
+    }
   };
 }
 
