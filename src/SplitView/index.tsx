@@ -81,18 +81,25 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
       children,
       paneStyle,
       onClosePane,
+      className,
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
     const splitViewPanes: any[] = [];
     const childView: any[] = [];
+
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "split-view",
+      styles: inlineStyles
+    });
 
     if (children) {
       React.Children.forEach(children, (child: any, index) => {
         if (child.type === SplitViewPane) {
           splitViewPanes.push(React.cloneElement(child, {
-            style: { ...styles.pane, ...child.props.style },
+            style: { ...styles.pane.style, ...child.props.style },
+            className: styles.pane.className,
             ref: (splitViewPane: SplitViewPane) => {
               if (splitViewPane) {
                 this.splitViewPaneElm = splitViewPane.rootElm;
@@ -109,10 +116,8 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
     return (
       <div
         {...attributes}
-        style={{
-          ...styles.root,
-          ...theme.prefixStyle(attributes.style)
-        }}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
       >
         {childView.length > 0 && childView}
         {splitViewPanes.length > 0 && splitViewPanes}
@@ -154,7 +159,6 @@ function getStyles(splitView: SplitView): {
       margin: 0,
       padding: 0,
       transition,
-      ...style,
       ...(isCompact ? {
         flex: "0 0 auto",
         display: "flex",
@@ -167,6 +171,7 @@ function getStyles(splitView: SplitView): {
       ...(isOverlay ? {
         width: "100%"
       } as React.CSSProperties : void 0),
+      ...style,
       overflow: "hidden"
     }),
     pane: prefixStyle({
