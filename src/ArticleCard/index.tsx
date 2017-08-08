@@ -17,6 +17,7 @@ export interface DataProps {
   image?: string;
   href?: string;
   size?: number;
+  target?: string;
 }
 
 export interface ArticleCardProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
@@ -100,7 +101,6 @@ export default class ArticleCard extends React.Component<ArticleCardProps, Artic
             useLazyLoad
             useDivContainer
             src={image}
-            alt="Work Show"
             style={styles.image}
             placeholder={
               <div style={styles.imagePlaceholder}>

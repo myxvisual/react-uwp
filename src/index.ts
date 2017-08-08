@@ -27,7 +27,7 @@ export { default as Icon, IconProps, IconState } from "./Icon";
 export { default as IconButton, IconButtonProps } from "./IconButton";
 
 export { default as Image, ImageProps } from "./Image";
-export { default as Link, LinkProps, LinkState } from "./Link";
+export { default as Link, LinkProps } from "./Link";
 export { default as ListView, ListViewProps, ListViewState } from "./ListView";
 export { default as MarkdownRender, MarkdownRenderProps } from "./MarkdownRender";
 export { default as MediaPlayer, MediaPlayerProps, MediaPlayerState } from "./MediaPlayer";
