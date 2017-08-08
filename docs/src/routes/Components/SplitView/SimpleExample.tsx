@@ -42,7 +42,6 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             background="none"
             style={{ margin: 20 }}
             onToggle={nextExpanded => {
-              console.log(nextExpanded)
               this.setState({ expanded: nextExpanded });
             }}
           />

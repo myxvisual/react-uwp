@@ -95,10 +95,13 @@ function getStyles(flipViewItem: FlipViewItem): {
       ...style
     }),
     desc: isPhoneScreen ? prefixStyle({
+      width: "100%",
       flex: "0 0 auto",
       display: "inline-block",
       textAlign: "center"
-    } as React.CSSProperties) : void 0,
+    } as React.CSSProperties) : {
+      width: "100%"
+    },
     title: {
       fontSize: 42,
       lineHeight: 1.8
