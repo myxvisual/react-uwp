@@ -61,7 +61,8 @@ export class Parser {
     return this.output;
   }
 
-  parseHot =  (fileName: string | string[], callback = (result?: DocEntry) => {}) => {
+  parseHot = (fileName: string | string[], callback = (result?: DocEntry) => {}) => {
+    console.log(`${fileName} is hot compiling.`);
     const fileNames = Array.isArray(fileName) ? fileName : [fileName];
     for (const fileName of fileNames) {
       fs.watchFile(fileName, (curr, prev) => {
@@ -370,18 +371,3 @@ export class Parser {
     "106500": "ClassMember"
   };
 }
-
-const parser = new Parser();
-
-
-const buildComponentName = process.argv[2] || "Button";
-let fileName = `../../src/${buildComponentName}.tsx`;
-
-if (!fs.existsSync(fileName)) {
-  fileName = `../../src/${buildComponentName}/index.tsx`;
-}
-
-const result = parser.parseHot(
-  path.resolve(__dirname, fileName),
-  (result: DocEntry) => fs.writeFileSync(result.fileName.replace(/\.tsx?/, ".doc.json"), JSON.stringify(result, null, 2))
-);

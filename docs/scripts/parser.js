@@ -1,7 +1,6 @@
 "use strict";
 exports.__esModule = true;
 var ts = require("typescript");
-var path = require("path");
 var fs = require("fs");
 process.chdir(__dirname);
 process.chdir(__dirname);
@@ -28,6 +27,7 @@ var Parser = (function () {
         };
         this.parseHot = function (fileName, callback) {
             if (callback === void 0) { callback = function (result) { }; }
+            console.log(fileName + " is hot compiling.");
             var fileNames = Array.isArray(fileName) ? fileName : [fileName];
             var _loop_1 = function (fileName_2) {
                 fs.watchFile(fileName_2, function (curr, prev) {
@@ -147,17 +147,17 @@ var Parser = (function () {
                 }
             }
             if (node.kind === ts.SyntaxKind.SourceFile) {
-                var result_1 = _this.serializeSymbol(symbol);
-                Object.assign(_this.output, result_1);
+                var result = _this.serializeSymbol(symbol);
+                Object.assign(_this.output, result);
             }
             else {
-                var result_2 = _this.serializeSymbol(symbol);
+                var result = _this.serializeSymbol(symbol);
                 if (_this.getResultCallback) {
-                    _this.getResultCallback(result_2);
+                    _this.getResultCallback(result);
                     _this.getResultCallback = void 0;
                 }
-                if (result_2) {
-                    _this.output.members = (_this.output.members || []).concat([result_2]);
+                if (result) {
+                    _this.output.members = (_this.output.members || []).concat([result]);
                 }
             }
         };
@@ -211,8 +211,8 @@ var Parser = (function () {
                 exportsDocEntry = [];
                 var values = symbol.exports.values();
                 for (var i = 0; i < symbol.exports.size; i++) {
-                    var result_3 = values.next();
-                    exportsDocEntry.push(_this.serializeSymbol(result_3.value, isSourceFile ? false : true));
+                    var result = values.next();
+                    exportsDocEntry.push(_this.serializeSymbol(result.value, isSourceFile ? false : true));
                 }
             }
             var membersDocEntry;
@@ -220,8 +220,8 @@ var Parser = (function () {
                 membersDocEntry = [];
                 var values = symbol.members.values();
                 for (var i = 0; i < symbol.members.size; i++) {
-                    var result_4 = values.next();
-                    membersDocEntry.push(_this.serializeSymbol(result_4.value, isSourceFile ? false : true));
+                    var result = values.next();
+                    membersDocEntry.push(_this.serializeSymbol(result.value, isSourceFile ? false : true));
                 }
             }
             if (symbol.flags === ts.SymbolFlags.Interface || symbol.flags === ts.SymbolFlags.Class) {
@@ -329,10 +329,3 @@ var Parser = (function () {
     return Parser;
 }());
 exports.Parser = Parser;
-var parser = new Parser();
-var buildComponentName = process.argv[2] || "Button";
-var fileName = "../../src/" + buildComponentName + ".tsx";
-if (!fs.existsSync(fileName)) {
-    fileName = "../../src/" + buildComponentName + "/index.tsx";
-}
-var result = parser.parseHot(path.resolve(__dirname, fileName), function (result) { return fs.writeFileSync(result.fileName.replace(/\.tsx?/, ".doc.json"), JSON.stringify(result, null, 2)); });
