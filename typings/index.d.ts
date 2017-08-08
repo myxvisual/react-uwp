@@ -18,7 +18,7 @@ export interface CustomCSSProperties extends React.CSSProperties {
   dynamicStyle?: React.CSSProperties;
 }
 
-export interface StyleWithClasses {
+export interface StyleClasses {
   style?: CustomCSSProperties;
   className?: string;
 }
@@ -115,11 +115,11 @@ export interface ThemeType {
     style?: CustomCSSProperties;
     className?: string;
     extendsClassName?: string;
-  }, callback?: (theme?: ReactUWP.ThemeType) => StyleWithClasses) => StyleWithClasses ;
+  }, callback?: (theme?: ReactUWP.ThemeType) => StyleClasses) => StyleClasses ;
   prepareStyles?: (config?: {
-    styles: { [key: string]: StyleWithClasses | CustomCSSProperties };
+    styles: { [key: string]: StyleClasses | CustomCSSProperties };
     className?: string;
-  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleWithClasses }) => { [key: string]: StyleWithClasses };
+  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleClasses }) => { [key: string]: StyleClasses };
   classNames?: (...classNames: string[]) => string;
 
   isDarkTheme?: boolean;

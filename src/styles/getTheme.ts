@@ -134,9 +134,9 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
         managerConfig.className += extendsClassName ? ` ${extendsClassName}` : "";
         return managerConfig;
       } else {
-        const styleWithClasses = this.styleManager.setStyleToManager(managerConfig, callback);
-        styleWithClasses.className += extendsClassName ? ` ${extendsClassName}` : "";
-        return styleWithClasses;
+        const styleClasses = this.styleManager.setStyleToManager(managerConfig, callback);
+        styleClasses.className += extendsClassName ? ` ${extendsClassName}` : "";
+        return styleClasses;
       }
     },
     prepareStyles(config, callback) {
@@ -148,8 +148,8 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
         }
         return result;
       } else {
-        const styleWithClasses = this.styleManager.setStylesToManager(config, callback);
-        return styleWithClasses;
+        const styleClasses = this.styleManager.setStylesToManager(config, callback);
+        return styleClasses;
       }
     },
     classNames(...classNames) {

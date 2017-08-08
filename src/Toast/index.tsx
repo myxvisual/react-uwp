@@ -156,7 +156,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     const { theme } = this.context;
 
     const styles = getStyles(this);
-    const styleWithClassNames = theme.prepareStyles({
+    const styleClasses = theme.prepareStyles({
       className: "toast",
       styles
     });
@@ -171,17 +171,17 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       >
       <div
         {...attributes}
-        style={styleWithClassNames.wrapper.style}
-        className={theme.classNames(styleWithClassNames.wrapper.className, className)}
+        style={styleClasses.wrapper.style}
+        className={theme.classNames(styleClasses.wrapper.className, className)}
       >
-        <div {...styleWithClassNames.card}>
+        <div {...styleClasses.card}>
           {logoNode}
-          <span {...styleWithClassNames.descContent}>
-            <p {...styleWithClassNames.title}>{title}</p>
+          <span {...styleClasses.descContent}>
+            <p {...styleClasses.title}>{title}</p>
             {typeof description === "string" ? (
-              <p {...styleWithClassNames.description}>{description}</p>
+              <p {...styleClasses.description}>{description}</p>
             ) : (description && description.map((desc, index) => (
-              <p {...styleWithClassNames.description} key={`${index}`}>
+              <p {...styleClasses.description} key={`${index}`}>
                 {desc}
               </p>
             )))}

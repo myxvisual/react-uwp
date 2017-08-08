@@ -24,7 +24,7 @@ export class Separator extends React.Component<SeparatorProps> {
     const isColumn = direction === "column";
     const { theme } = this.context;
 
-    const styleWithClassName = theme.prepareStyle({
+    const styleClasses = theme.prepareStyle({
       style: theme.prefixStyle({
         display: "inline-block",
         flex: "0 0 auto",
@@ -41,7 +41,7 @@ export class Separator extends React.Component<SeparatorProps> {
     return (
       <span
         {...attributes}
-        {...styleWithClassName}
+        {...styleClasses}
       />
     );
   }

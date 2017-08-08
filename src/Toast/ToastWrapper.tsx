@@ -35,7 +35,7 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
     const { toasts } = this.state;
     const { theme } = this.context;
 
-    const rootStyleWithClassName = theme.prepareStyle({
+    const rootStyleClasses = theme.prepareStyle({
       className: "toast-wrapper",
       style: theme.prefixStyle({
         top: 0,
@@ -59,7 +59,7 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
 
     return (
       toasts && toasts.length > 0 ? (
-        <div {...attributes} {...rootStyleWithClassName}>
+        <div {...attributes} {...rootStyleClasses}>
           {[toasts]}
         </div>
       ) : null

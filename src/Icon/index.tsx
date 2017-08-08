@@ -97,7 +97,7 @@ export class Icon extends React.Component<IconProps, IconState> {
       "&:active": activeStyle
     });
 
-    const styleWithClasses = theme.prepareStyle({
+    const styleClasses = theme.prepareStyle({
       className: "icon",
       style: inlineStyle,
       extendsClassName: className
@@ -108,7 +108,7 @@ export class Icon extends React.Component<IconProps, IconState> {
         {...attributes}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        {...styleWithClasses}
+        {...styleClasses}
       >
         {React.createElement(useSVGElement ? "text" as "span" : "span", {}, icons[children as any] || children)}
       </PseudoClasses>
