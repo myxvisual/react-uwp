@@ -17,6 +17,7 @@
       "./node_modules/@types",
       "../node_modules/@types"
     ],
+    "declarationDir": "./build-ts/typings",
     "paths": {
       "react-uwp": ["../src"],
       "react-uwp/*": ["../src/*"],
