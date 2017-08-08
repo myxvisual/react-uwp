@@ -6,7 +6,7 @@ import * as RPlayer from "react-player";
 
 import Control from "./Control";
 
-const ReactPlayer = RPlayer as any;
+const ReactPlayer = RPlayer.default as any;
 
 export interface DataProps {
   /**
