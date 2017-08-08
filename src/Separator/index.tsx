@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 export interface DataProps {
   direction?: "row" | "column";
+  disabled?: boolean;
 }
 
 export interface SeparatorProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}

@@ -21,6 +21,9 @@ export interface DataProps {
    * Set custom background to CheckBox.
    */
   background?: string;
+  size?: string | number;
+  label?: string;
+  disabled?: boolean | string;
 }
 
 export interface CheckBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}

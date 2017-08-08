@@ -2,6 +2,8 @@ import * as React from "react";
 
 export interface DataProps {
   fill?: string;
+  width?: string | number;
+  height?: string | number;
 }
 
 export interface ReactIconProps extends DataProps, React.HTMLAttributes<SVGElement> {}

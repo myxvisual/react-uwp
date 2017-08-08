@@ -22,6 +22,7 @@ export interface DataProps {
    * Set custom Toggle `background`.
    */
   background?: string;
+  checked?: boolean;
 }
 export interface ToggleProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 

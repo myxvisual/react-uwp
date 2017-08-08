@@ -42,6 +42,9 @@ export interface DataProps {
    * If you prefer `throttle` rather than `debounce`, you can set this props to `true` or provide a specific number.
    */
   throttle?: boolean | number;
+  placeholder?: React.ReactElement<any> | React.ReactNode;
+  src?: string;
+  height?: string | number;
 }
 
 export interface ImageProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}

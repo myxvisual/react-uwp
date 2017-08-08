@@ -15,7 +15,7 @@ const itemStyle: React.CSSProperties = {
 };
 
 const colors = ["Blue", "Red", "Green", "Grey", "Black", "Yellow", "Purple", "Brown", "White", "Orange", "Pink", "Violet", "Olive", "Cyan", "Magenta", "Gold", "Lavender", "Indigo", "Maroon", "Turquoise", "Chartreuse", "Coral", "Beige", "Azure", "Lime", "Teal", "Sky Blue", "Forest Green", "Silver", "Tan", "Salmon (color)", "Midnight blue", "Cornflower blue", "Fuchsia", "Ivory", "Khaki", "Steel blue", "Aquamarine", "Goldenrod", "Crimson", "Royal blue", "Slate gray", "Plum", "Spring green", "Powder blue", "Alice blue", "Orchid", "Dodger blue", "Lemon chiffon", "Light blue", "Navajo white"].map((color, index) => (
-  <div style={itemStyle} key={`${index}`} value={color}>
+  <div style={itemStyle} key={`${index}`} {...{ value: color }}>
     {color}
     <Icon>HeartFillLegacy</Icon>
   </div>

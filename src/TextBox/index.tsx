@@ -29,7 +29,10 @@ export interface DataProps {
   /**
    * Set TextBox `background`.
    */
+  placeholder?: string;
+  disabled?: string | boolean;
   background?: string;
+  type?: string;
 }
 
 type Attributes = React.HTMLAttributes<HTMLDivElement> | React.HTMLAttributes<HTMLInputElement>;

@@ -28,6 +28,7 @@ export interface DataProps {
    * Control component `background` style.
    */
   background?: string;
+  placeholder?: string;
 }
 
 export interface AutoSuggestBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}

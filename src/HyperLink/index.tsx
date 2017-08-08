@@ -7,9 +7,11 @@ export interface DataProps {
    * `ref` to link, other attributes is applied to `HTMLAnchorElement`.
    */
   ref?: string;
+  href?: string;
+  target?: string;
 }
 
-export interface HyperLinkProps extends React.HTMLAttributes<HTMLAnchorElement> {}
+export interface HyperLinkProps extends DataProps, React.HTMLAttributes<HTMLAnchorElement> {}
 
 export class HyperLink extends React.Component<HyperLinkProps> {
   static contextTypes = { theme: PropTypes.object };

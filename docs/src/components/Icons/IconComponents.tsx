@@ -1,7 +1,10 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-export interface DataProps {}
+export interface DataProps {
+  width?: string | number;
+  height?: string | number;
+}
 
 export interface IconComponentsProps extends DataProps, React.HTMLAttributes<SVGElement> {}
 

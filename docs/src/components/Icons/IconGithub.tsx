@@ -3,6 +3,8 @@ import * as PropTypes from "prop-types";
 
 export interface DataProps {
   fill?: string;
+  width?: string | number;
+  height?: string | number;
 }
 
 export interface IconGithubProps extends DataProps, React.HTMLAttributes<SVGElement> {}

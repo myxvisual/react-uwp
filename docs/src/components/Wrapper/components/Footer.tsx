@@ -51,7 +51,7 @@ export default class Footer extends React.Component<FooterProps> {
               }, {
                 children: "Fabric",
                 href: "https://dev.office.com/fabric"
-              }] as React.HTMLAttributes<HTMLAnchorElement>[]}
+              }]}
             />
             <FooterLinks
               style={styles.links}
@@ -59,7 +59,7 @@ export default class Footer extends React.Component<FooterProps> {
               links={[{
                 children: "Github",
                 href: "https://github.com/myxvisual/react-uwp"
-              }] as React.HTMLAttributes<HTMLAnchorElement>[]}
+              }]}
             />
           </div>
           <a

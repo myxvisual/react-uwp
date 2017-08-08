@@ -3,7 +3,10 @@ import * as PropTypes from "prop-types";
 
 export interface DataProps {
   title?: string;
-  links?: React.HTMLAttributes<HTMLAnchorElement>[];
+  links?: {
+    children?: React.ReactNode;
+    href?: string
+  }[];
 }
 
 export interface FooterLinksProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}

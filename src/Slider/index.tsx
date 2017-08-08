@@ -79,6 +79,9 @@ export interface DataProps {
    * How many time call onChange callback.
    */
   throttleTimer?: number;
+  width?: string | number;
+  height?: string | number;
+  label?: string;
 }
 
 export interface SliderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}

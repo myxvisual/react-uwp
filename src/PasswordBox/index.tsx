@@ -17,6 +17,7 @@ export interface DataProps {
    * Control PasswordBox `height` and `icon size`.
    */
   passwordBoxHeight?: number;
+  placeholder?: string;
 }
 
 export interface PasswordBoxProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
