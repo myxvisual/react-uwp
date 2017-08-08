@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/DatePicker/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "DatePickerProps",
-      "documentation": ""
+      "name": "DatePickerProps"
     },
     {
-      "name": "DatePickerState",
-      "documentation": ""
+      "name": "DatePickerState"
     },
     {
-      "name": "DatePicker",
-      "documentation": ""
+      "name": "DatePicker"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "DatePicker"
       ]
@@ -72,12 +67,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "DatePickerProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -88,28 +81,23 @@
       "members": [
         {
           "name": "showPicker",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "currDate",
-          "documentation": "",
           "isRequired": false,
           "type": "Date"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -117,19 +105,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    inputItemHeight: 28,\n    pickerItemHeight: 44,\n    onChangeDate: emptyFunc,\n    defaultDate: new Date(),\n    maxYear: new Date().getFullYear() + 50,\n    minYear: new Date().getFullYear() - 50\n  }",
-          "documentation": "",
           "type": "DatePickerProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -137,92 +122,98 @@
         {
           "name": "state",
           "initializerText": " {\n    showPicker: false,\n    currDate: this.props.defaultDate\n  }",
-          "documentation": "",
           "type": "DatePickerState"
+        },
+        {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "type": "AddBlurEvent"
+        },
+        {
+          "name": "rootElm",
+          "initializerText": " null",
+          "type": "HTMLDivElement"
         },
         {
           "name": "prevDate",
           "initializerText": " this.props.defaultDate",
-          "documentation": "",
           "type": "Date"
         },
         {
-          "name": "context",
-          "documentation": "",
-          "type": "{ theme: any; }"
-        },
-        {
           "name": "monthListView",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "dateListView",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "yearListView",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "monthIndex",
           "initializerText": " 0",
-          "documentation": "",
           "type": "number"
         },
         {
           "name": "dateIndex",
           "initializerText": " 0",
-          "documentation": "",
           "type": "number"
         },
         {
           "name": "yearIndex",
           "initializerText": " 0",
-          "documentation": "",
           "type": "number"
         },
         {
+          "name": "context",
+          "type": "{ theme: any; }"
+        },
+        {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: DatePickerProps) => void"
         },
         {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    const { pickerItemHeight } = this.props;\n    scrollToYEasing(this.monthListView.rootElm, this.monthIndex * pickerItemHeight, 0.1);\n    scrollToYEasing(this.dateListView.rootElm, this.dateIndex * pickerItemHeight, 0.1);\n    scrollToYEasing(this.yearListView.rootElm, this.yearIndex * pickerItemHeight, 0.1);\n\n    this.addBlurEvent.setConfig({\n      addListener: this.state.showPicker,\n      clickExcludeElm: this.rootElm,\n      blurCallback: () => {\n        this.setState({\n          showPicker: false\n        });\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
           "name": "componentDidUpdate",
-          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
           "type": "() => void"
         },
         {
           "name": "toggleShowPicker",
           "initializerText": " (showPicker?: any) => {\n    const { currDate } = this.state;\n    if (typeof showPicker === \"boolean\") {\n      if (showPicker !== this.state.showPicker) {\n        this.setState({ showPicker });\n        if (showPicker) {\n          this.prevDate = currDate;\n        }\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        const showPicker = !prevState.showPicker;\n        if (showPicker) {\n          this.prevDate = currDate;\n        }\n        return { showPicker };\n      });\n    }\n  }",
-          "documentation": "",
           "type": "(showPicker?: any) => void"
         },
         {
           "name": "setDate",
           "initializerText": " (date?: number, month?: number, year?: number) => {\n    const { currDate } = this.state;\n    const currDateNumb = date === void 0 ? currDate.getDate() : date;\n    const currMonth = month === void 0 ? currDate.getMonth() : month;\n    const currYear = year === void 0 ? currDate.getFullYear() : year;\n    this.setState({ currDate: new Date(currYear, currMonth, currDateNumb) });\n  }",
-          "documentation": "",
           "type": "(date?: number, month?: number, year?: number) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(datePicker: DatePicker) => { root?: CSSProperties; button?: CSSProperties; pickerModal?: CSSProp..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/DatePicker/index\""
 }

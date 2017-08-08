@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/CommandBar/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "CommandBarProps",
-      "documentation": ""
+      "name": "CommandBarProps"
     },
     {
-      "name": "CommandBarState",
-      "documentation": ""
+      "name": "CommandBarState"
     },
     {
-      "name": "CommandBar",
-      "documentation": ""
+      "name": "CommandBar"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "CommandBar"
       ]
@@ -96,12 +91,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "CommandBarProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -112,31 +105,26 @@
       "members": [
         {
           "name": "currExpanded",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "CommandBar",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    labelPosition: \"bottom\",\n    verticalPosition: \"top\"\n  }",
-          "documentation": "",
           "type": "CommandBarProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -144,42 +132,60 @@
         {
           "name": "state",
           "initializerText": " {\n    currExpanded: this.props.expanded\n  }",
-          "documentation": "",
           "type": "CommandBarState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
+          "name": "rootElm",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "type": "AddBlurEvent"
+        },
+        {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: CommandBarProps) => void"
+        },
+        {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    this.addBlurEvent.setConfig({\n      addListener: this.state.currExpanded,\n      clickExcludeElm: this.rootElm,\n      blurCallback: () => {\n        this.setState({\n          currExpanded: false\n        });\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidUpdate",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "type": "() => void"
         },
         {
           "name": "toggleExpanded",
           "initializerText": " (currExpanded?: any) => {\n    if (typeof currExpanded === \"boolean\") {\n      if (currExpanded !== this.state.currExpanded) this.setState({ currExpanded });\n    } else {\n      this.setState((prevState, prevProps) => ({ currExpanded: !prevState.currExpanded }));\n    }\n  }",
-          "documentation": "",
           "type": "(currExpanded?: any) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(commandBar: CommandBar) => { wrapper?: CSSProperties; root?: CSSProperties; content?: CSSPropert..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/CommandBar/index\""
 }

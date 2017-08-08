@@ -3,20 +3,16 @@
   "name": "\"D:/react-uwp/src/SplitViewCommand/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "SplitViewCommandProps",
-      "documentation": ""
+      "name": "SplitViewCommandProps"
     },
     {
-      "name": "SplitViewCommand",
-      "documentation": ""
+      "name": "SplitViewCommand"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "SplitViewCommand"
       ]
@@ -56,12 +52,10 @@
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "SplitViewCommandProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -72,50 +66,41 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    isTenFt: false\n  }",
-          "documentation": "",
           "type": "SplitViewCommandProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "displayName",
-          "documentation": "",
           "type": "\"SplitViewCommand\""
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(splitViewCommand: SplitViewCommand) => { root?: CSSProperties; icon?: CSSProperties; visitedBord..."
+      "type": "(splitViewCommand: SplitViewCommand) => { root: any; visitedBorder: CSSProperties; icon: any; lab..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/SplitViewCommand/index\""
 }

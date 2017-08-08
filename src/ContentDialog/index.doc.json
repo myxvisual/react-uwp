@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/ContentDialog/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "ContentDialogProps",
-      "documentation": ""
+      "name": "ContentDialogProps"
     },
     {
-      "name": "ContentDialogState",
-      "documentation": ""
+      "name": "ContentDialogState"
     },
     {
-      "name": "ContentDialog",
-      "documentation": ""
+      "name": "ContentDialog"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "ContentDialog"
       ]
@@ -107,13 +102,17 @@
           "documentation": "Set custom background.",
           "isRequired": false,
           "type": "string"
+        },
+        {
+          "name": "padding",
+          "documentation": "Set ContentDialog inside padding.",
+          "isRequired": false,
+          "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "ContentDialogProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -124,42 +123,44 @@
       "members": [
         {
           "name": "showDialog",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
+    },
+    {
+      "name": "iconButtonHoverStyle",
+      "type": "{ background: string; color: string; }",
+      "initializerText": " { background: \"#d00f2a\", color: \"#fff\" }"
+    },
+    {
+      "name": "iconButtonHoverStyle",
+      "type": "{ background: string; color: string; }"
     },
     {
       "name": "ContentDialog",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    primaryButtonText: \"Delete\",\n    secondaryButtonText: \"Cancel\",\n    closeButtonAction: emptyFunc,\n    primaryButtonAction: emptyFunc,\n    secondaryButtonAction: emptyFunc,\n    onCloseDialog: emptyFunc\n  }",
-          "documentation": "",
+          "initializerText": " {\n    primaryButtonText: \"Delete\",\n    secondaryButtonText: \"Cancel\",\n    closeButtonAction: emptyFunc,\n    primaryButtonAction: emptyFunc,\n    secondaryButtonAction: emptyFunc,\n    onCloseDialog: emptyFunc,\n    padding: 16\n  }",
           "type": "ContentDialogProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -167,80 +168,74 @@
         {
           "name": "state",
           "initializerText": " {\n    showDialog: this.props.defaultShow\n  }",
-          "documentation": "",
           "type": "ContentDialogState"
         },
         {
           "name": "addBlurEvent",
           "initializerText": " new AddBlurEvent()",
-          "documentation": "",
           "type": "AddBlurEvent"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "renderToBody",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "shouldComponentUpdate",
-          "documentation": "",
           "type": "(nextProps: ContentDialogProps, nextState: ContentDialogState) => boolean"
         },
         {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    this.addBlurEvent.setConfig({\n      addListener: this.state.showDialog,\n      clickExcludeElm: this.rootElm,\n      blurCallback: () => {\n        this.setState({\n          showDialog: false\n        });\n        this.props.onCloseDialog();\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
           "name": "componentDidUpdate",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "componentWillUnmount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "containerMouseEnterHandle",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.border = `1px solid ${this.context.theme.accent}`;\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "containerMouseLeaveHandle",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    e.currentTarget.style.border = `1px solid ${this.context.theme.baseLow}`;\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "closeDialog",
           "initializerText": " () => {\n    this.setState({ showDialog: false });\n    this.props.onCloseDialog();\n  }",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(contentDialog: ContentDialog) => { mask?: CSSProperties; container?: CSSProperties; statusBarTit..."
+      "type": "(contentDialog: ContentDialog) => { mask?: CSSProperties; container?: CSSProperties; statusBar?: ..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/ContentDialog/index\""
 }

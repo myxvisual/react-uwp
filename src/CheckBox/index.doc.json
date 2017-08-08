@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/CheckBox/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "CheckBoxProps",
-      "documentation": ""
+      "name": "CheckBoxProps"
     },
     {
-      "name": "CheckBoxState",
-      "documentation": ""
+      "name": "CheckBoxState"
     },
     {
-      "name": "CheckBox",
-      "documentation": ""
+      "name": "CheckBox"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "CheckBox"
       ]
@@ -50,16 +45,14 @@
         },
         {
           "name": "background",
-          "documentation": "Set custom background to CheckBbox.",
+          "documentation": "Set custom background to CheckBox.",
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "CheckBoxProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -70,28 +63,18 @@
       "members": [
         {
           "name": "checked",
-          "documentation": "",
-          "isRequired": false,
-          "type": "boolean"
-        },
-        {
-          "name": "hovered",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -99,19 +82,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    defaultChecked: null,\n    onCheck: emptyFunc,\n    onClick: emptyFunc,\n    size: 20,\n    labelPosition: \"right\",\n    label: void 0\n  }",
-          "documentation": "",
           "type": "CheckBoxProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -119,12 +99,10 @@
         {
           "name": "state",
           "initializerText": " {\n    checked: this.props.defaultChecked\n  }",
-          "documentation": "",
           "type": "CheckBoxState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
@@ -134,7 +112,6 @@
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: CheckBoxProps) => void"
         },
         {
@@ -146,38 +123,21 @@
         {
           "name": "handleClick",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    const { disabled, onClick } = this.props;\n    if (!disabled) this.toggleChecked(e);\n    onClick(e);\n  }",
-          "documentation": "",
-          "type": "(e: MouseEvent<HTMLDivElement>) => void"
-        },
-        {
-          "name": "handleMouseEnter",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: true });\n  }",
-          "documentation": "",
-          "type": "(e: MouseEvent<HTMLDivElement>) => void"
-        },
-        {
-          "name": "handleMouseLeave",
-          "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: false });\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(checkBox: CheckBox) => { root?: CSSProperties; iconParent?: { style?: CSSProperties; hoverStyle?..."
+      "type": "(checkBox: CheckBox) => { wrapper?: CSSProperties; root?: CSSProperties; iconParent?: CSSProperti..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/CheckBox/index\""
 }

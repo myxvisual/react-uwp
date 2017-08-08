@@ -1,26 +1,21 @@
 {
-  "fileName": "D:/react-uwp/src/ToolTip/index.tsx",
-  "name": "\"D:/react-uwp/src/ToolTip/index\"",
+  "fileName": "D:/react-uwp/src/Tooltip/index.tsx",
+  "name": "\"D:/react-uwp/src/Tooltip/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "TooltipProps",
-      "documentation": ""
+      "name": "TooltipProps"
     },
     {
-      "name": "TooltipState",
-      "documentation": ""
+      "name": "TooltipState"
     },
     {
-      "name": "Tooltip",
-      "documentation": ""
+      "name": "Tooltip"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Tooltip"
       ]
@@ -84,12 +79,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "TooltipProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -100,31 +93,26 @@
       "members": [
         {
           "name": "showTooltip",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "Tooltip",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    verticalPosition: \"top\",\n    horizontalPosition: \"center\",\n    margin: 4,\n    autoClose: false,\n    autoCloseTimeout: 750,\n    closeDelay: 0\n  }",
-          "documentation": "",
           "type": "TooltipProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -132,77 +120,63 @@
         {
           "name": "state",
           "initializerText": " {\n    showTooltip: false\n  }",
-          "documentation": "",
           "type": "TooltipState"
         },
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "tooltipElm",
-          "documentation": "",
           "type": "HTMLSpanElement"
         },
         {
           "name": "timer",
           "initializerText": " null",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "unShowTimer",
           "initializerText": " null",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "componentWillUnmount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "showTooltip",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    clearTimeout(this.unShowTimer);\n    const show = () => {\n      this.setState({\n        showTooltip: true\n      });\n    };\n    if (this.props.autoClose) {\n      show();\n      this.timer = setTimeout(() => {\n        this.setState({\n          showTooltip: false\n        });\n      }, this.props.autoCloseTimeout);\n    } else {\n      show();\n    }\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "unShowTooltip",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.timer = setTimeout(() => {\n      this.setState({\n        showTooltip: false\n      });\n    }, this.props.closeDelay);\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "getStyle",
-          "initializerText": " (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {\n    const { context: { theme }, props: { style, background } } = this;\n    return theme.prefixStyle({\n      height: 28,\n      overflow: \"hidden\",\n      textOverflow: \"ellipsis\",\n      whiteSpace: \"nowrap\",\n      padding: \"4px 8px\",\n      transition: \"all .25s 0s ease-in-out\",\n      border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: background || (theme.useFluentDesign ? theme.listLow : theme.chromeMedium),\n      opacity: showTooltip ? 1 : 0,\n      transform: `translateY(${showTooltip ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      fontSize: 14,\n      pointerEvents: showTooltip ? \"all\" : \"none\",\n      zIndex: theme.zIndex.tooltip,\n      ...style,\n      ...positionStyle\n    });\n  }",
-          "documentation": "",
+          "initializerText": " (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {\n    const { context: { theme }, props: { style, background } } = this;\n    return theme.prefixStyle({\n      height: 28,\n      overflow: \"hidden\",\n      textOverflow: \"ellipsis\",\n      whiteSpace: \"nowrap\",\n      padding: \"4px 8px\",\n      transition: \"all .25s 0s ease-in-out\",\n      border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,\n      color: theme.baseMediumHigh,\n      background: background || theme.chromeMedium,\n      opacity: showTooltip ? 1 : 0,\n      transform: `translateY(${showTooltip ? \"0px\" : \"10px\"})`,\n      position: \"absolute\",\n      fontSize: 14,\n      pointerEvents: showTooltip ? \"all\" : \"none\",\n      zIndex: theme.zIndex.tooltip,\n      ...style,\n      ...positionStyle\n    });\n  }",
           "type": "(showTooltip?: boolean, positionStyle?: {}) => CSSProperties"
         },
         {
           "name": "getTooltipStyle",
           "initializerText": " (): React.CSSProperties => {\n    const { rootElm, tooltipElm } = this;\n    if (!(rootElm && tooltipElm)) return this.getStyle();\n\n    const { theme } = this.context;\n    const { verticalPosition, horizontalPosition, margin } = this.props;\n    const { width, height } = rootElm.getBoundingClientRect();\n    const containerWidth = tooltipElm.getBoundingClientRect().width;\n    const containerHeight = tooltipElm.getBoundingClientRect().height;\n    const { showTooltip } = this.state;\n    const positionStyle: React.CSSProperties = {};\n    const isVerticalCenter = verticalPosition === \"center\";\n\n    if (width !== void(0) && height !== void(0)) {\n      switch (horizontalPosition) {\n        case \"left\": {\n          positionStyle.right = isVerticalCenter ? (width + margin) : 0;\n          break;\n        }\n        case \"center\": {\n          positionStyle.left = (width - containerWidth) / 2;\n          break;\n        }\n        case \"right\": {\n          positionStyle.left = isVerticalCenter ? (-width - margin) : 0;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n      switch (verticalPosition) {\n        case \"top\": {\n          positionStyle.top = -containerHeight - margin;\n          break;\n        }\n        case \"center\": {\n          positionStyle.top = (height - containerHeight) / 2;\n          break;\n        }\n        case \"bottom\": {\n          positionStyle.top = height + margin;\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    }\n    return this.getStyle(showTooltip, positionStyle);\n  }",
-          "documentation": "",
           "type": "() => CSSProperties"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     }
   ],
-  "documentation": "",
-  "type": "typeof \"D:/react-uwp/src/ToolTip/index\""
+  "type": "typeof \"D:/react-uwp/src/Tooltip/index\""
 }

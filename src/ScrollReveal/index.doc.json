@@ -3,47 +3,37 @@
   "name": "\"D:/react-uwp/src/ScrollReveal/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "ScrollRevealProps",
-      "documentation": ""
+      "name": "ScrollRevealProps"
     },
     {
-      "name": "ScrollReveal",
-      "documentation": ""
+      "name": "ScrollReveal"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "ScrollReveal"
       ]
     },
     {
-      "name": "fadeInProps",
-      "documentation": ""
+      "name": "fadeInProps"
     },
     {
-      "name": "scaleInProps",
-      "documentation": ""
+      "name": "scaleInProps"
     },
     {
-      "name": "slideTopInProps",
-      "documentation": ""
+      "name": "slideTopInProps"
     },
     {
-      "name": "slideBottomInProps",
-      "documentation": ""
+      "name": "slideBottomInProps"
     },
     {
-      "name": "slideLeftInProps",
-      "documentation": ""
+      "name": "slideLeftInProps"
     },
     {
-      "name": "slideRightInProps",
-      "documentation": ""
+      "name": "slideRightInProps"
     }
   ],
   "members": [
@@ -104,20 +94,17 @@
           "isRequired": false,
           "type": "CSSProperties"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "ScrollRevealProps",
       "members": [
         {
           "name": "style",
-          "documentation": "",
           "isRequired": false,
           "type": "CSSProperties"
         }
       ],
-      "documentation": "",
       "extends": [
         "DataProps"
       ]
@@ -127,79 +114,65 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    leaveStyle: { transform: \"scale(0)\" },\n    enterStyle: { transform: \"scale(1)\" },\n    speed: 250,\n    topOffset: 0,\n    bottomOffset: 0,\n    useWrapper: false\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    leaveStyle: { transform: \"scale(0)\" },\r\n    enterStyle: { transform: \"scale(1)\" },\r\n    speed: 250,\r\n    topOffset: 0,\r\n    bottomOffset: 0,\r\n    useWrapper: false\r\n  }",
           "type": "ScrollRevealProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "customAnimate",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "rootElm",
           "initializerText": " null",
-          "documentation": "",
           "type": "HTMLElement"
         },
         {
           "name": "animated",
           "initializerText": " false",
-          "documentation": "",
           "type": "boolean"
         },
         {
           "name": "componentDidMount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "componentWillUnmount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "setEnterStyle",
-          "initializerText": " () => {\n    this.customAnimate.setEnterStyle();\n  }",
-          "documentation": "",
+          "initializerText": " () => {\r\n    this.customAnimate.setEnterStyle();\r\n  }",
           "type": "() => void"
         },
         {
           "name": "setLeaveStyle",
-          "initializerText": " () => {\n    this.customAnimate.setLeaveStyle();\n  }",
-          "documentation": "",
+          "initializerText": " () => {\r\n    this.customAnimate.setLeaveStyle();\r\n  }",
           "type": "() => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/ScrollReveal/index\""
 }

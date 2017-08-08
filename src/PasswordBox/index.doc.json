@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/PasswordBox/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "PasswordBoxProps",
-      "documentation": ""
+      "name": "PasswordBoxProps"
     },
     {
-      "name": "PasswordBoxState",
-      "documentation": ""
+      "name": "PasswordBoxState"
     },
     {
-      "name": "PasswordBox",
-      "documentation": ""
+      "name": "PasswordBox"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "PasswordBox"
       ]
@@ -48,12 +43,10 @@
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "PasswordBoxProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -64,22 +57,18 @@
       "members": [
         {
           "name": "showPassword",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -87,80 +76,66 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    passwordBoxHeight: 32,\n    defaultShowPassword: false,\n    onChangeValue: emptyFunc\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    passwordBoxHeight: 32,\r\n    defaultShowPassword: false,\r\n    onChangeValue: emptyFunc\r\n  }",
           "type": "PasswordBoxProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    showPassword: this.props.defaultShowPassword\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    showPassword: this.props.defaultShowPassword\r\n  }",
           "type": "PasswordBoxState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "textBox",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "handleChange",
-          "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\n    let event: React.SyntheticEvent<HTMLInputElement>;\n    event = e;\n    this.props.onChangeValue(event.currentTarget.value);\n  }",
-          "documentation": "",
+          "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\r\n    let event: React.SyntheticEvent<HTMLInputElement>;\r\n    event = e;\r\n    this.props.onChangeValue(event.currentTarget.value);\r\n  }",
           "type": "(e?: any) => void"
         },
         {
           "name": "getValue",
           "initializerText": " () => this.textBox.getValue()",
-          "documentation": "",
           "type": "() => any"
         },
         {
           "name": "setValue",
           "initializerText": " (value: string) => this.textBox.setValue(value)",
-          "documentation": "",
           "type": "(value: string) => any"
         },
         {
           "name": "toggleShowPassword",
-          "initializerText": " (showPassword?: any) => {\n    if (typeof showPassword === \"boolean\") {\n      if (showPassword !== this.state.showPassword) {\n        this.setState({ showPassword });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        showPassword: !prevState.showPassword\n      }));\n    }\n  }",
-          "documentation": "",
+          "initializerText": " (showPassword?: any) => {\r\n    if (typeof showPassword === \"boolean\") {\r\n      if (showPassword !== this.state.showPassword) {\r\n        this.setState({ showPassword });\r\n      }\r\n    } else {\r\n      this.setState((prevState, prevProps) => {\r\n        showPassword = !prevState.showPassword;\r\n        return { showPassword };\r\n      });\r\n    }\r\n  }",
           "type": "(showPassword?: any) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(passwordBox: PasswordBox) => { root?: CSSProperties; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/PasswordBox/index\""
 }

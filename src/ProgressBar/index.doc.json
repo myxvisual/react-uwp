@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/ProgressBar/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "ProgressBarProps",
-      "documentation": ""
+      "name": "ProgressBarProps"
     },
     {
-      "name": "ProgressBarState",
-      "documentation": ""
+      "name": "ProgressBarState"
     },
     {
-      "name": "ProgressBar",
-      "documentation": ""
+      "name": "ProgressBar"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "ProgressBar"
       ]
@@ -28,14 +23,12 @@
   ],
   "members": [
     {
-      "documentation": "",
       "name": "vendorPrefixes",
       "type": "string[]",
       "initializerText": " vendors.map(str => str ? `-${str}-` : str)"
     },
     {
       "name": "vendorPrefixes",
-      "documentation": "",
       "type": "string[]"
     },
     {
@@ -71,39 +64,33 @@
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "ProgressBarProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
       ]
     },
     {
-      "name": "ProgressBarState",
-      "documentation": ""
+      "name": "ProgressBarState"
     },
     {
       "name": "ProgressBar",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    speed: 4000,\n    barWidth: 320,\n    barHeight: 4,\n    isIndeterminate: false,\n    defaultProgressValue: 0.5\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    speed: 4000,\r\n    barWidth: 320,\r\n    barHeight: 4,\r\n    isIndeterminate: false,\r\n    defaultProgressValue: 0.5\r\n  }",
           "type": "ProgressBarProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -111,43 +98,35 @@
         {
           "name": "state",
           "initializerText": " {}",
-          "documentation": "",
           "type": "ProgressBarState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "getOnlyClassName",
-          "initializerText": " () => {\n    const { speed } = this.props;\n    return `react-uwp-progress-bar_${speed}`;\n  }",
-          "documentation": "",
+          "initializerText": " () => {\r\n    const { speed } = this.props;\r\n    return `react-uwp-progress-bar_${speed}`;\r\n  }",
           "type": "() => string"
         },
         {
-          "name": "getInnerCSS",
-          "initializerText": " (className?: string) => {\n    const { speed, barHeight, barWidth } = this.props;\n    return (\n`.${className} {\n}\n${Array(5).fill(0).map((name, index) => (\n  [`.${className}-item-` + index + \" {\",\n  vendorPrefixes.map(str => (`    ${str}animation: ProgressBar ${speed}ms ${index * barHeight * barWidth * speed / 5 / 10e3}ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards;`)).join(\"\\n\"),\n  \"  }\"].join(\"\")\n)).join(\"\")}\n\n${vendorPrefixes.map(str => `@${str}keyframes ProgressBar {\n  0% {\n    left: -${barHeight}px;\n  }\n  15% {\n    left: -${barHeight}px;\n  }\n  85% {\n    left: ${barWidth + barHeight}px;\n  }\n  100% {\n    left: ${barWidth + barHeight}px;\n  }\n}`)}.join(\"\")`);\n  }",
-          "documentation": "",
+          "name": "getCSSText",
+          "initializerText": " (className?: string) => {\r\n    const { speed, barHeight, barWidth } = this.props;\r\n    return (\r\n`.${className} {\r\n}\r\n${Array(5).fill(0).map((name, index) => (\r\n  [`.${className}-item-` + index + \" {\",\r\n  vendorPrefixes.map(str => (`    ${str}animation: ProgressBar ${speed}ms ${index * barHeight * barWidth * speed / 5 / 10e3}ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards;`)).join(\"\\n\"),\r\n  \"  }\"].join(\"\")\r\n)).join(\"\")}\r\n\r\n${vendorPrefixes.map(str => `@${str}keyframes ProgressBar {\r\n  0% {\r\n    left: -${barHeight}px;\r\n  }\r\n  15% {\r\n    left: -${barHeight}px;\r\n  }\r\n  85% {\r\n    left: ${barWidth + barHeight}px;\r\n  }\r\n  100% {\r\n    left: ${barWidth + barHeight}px;\r\n  }\r\n}`)}.join(\"\")`);\r\n  }",
           "type": "(className?: string) => string"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(progressBar: ProgressBar) => { root?: CSSProperties; bar?: CSSProperties; }"
+      "type": "(progressBar: ProgressBar) => { root?: CSSProperties; bar?: CSSProperties; item?: CSSProperties; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/ProgressBar/index\""
 }

@@ -3,28 +3,22 @@
   "name": "\"D:/react-uwp/src/Icon/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "IconProps",
-      "documentation": ""
+      "name": "IconProps"
     },
     {
-      "name": "IconState",
-      "documentation": ""
+      "name": "IconState"
     },
     {
-      "name": "Icon",
-      "documentation": ""
+      "name": "Icon"
     },
     {
-      "name": "icons",
-      "documentation": ""
+      "name": "icons"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Icon"
       ]
@@ -32,22 +26,32 @@
   ],
   "members": [
     {
-      "documentation": "",
       "name": "icons",
       "type": "{ [key: string]: string; }",
       "initializerText": " iconsType"
     },
     {
       "name": "icons",
-      "documentation": "",
       "type": "{ [key: string]: string; }"
     },
     {
       "name": "DataProps",
       "members": [
         {
+          "name": "size",
+          "documentation": "Set custom Icon size.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
           "name": "hoverStyle",
           "documentation": "The Icon `onMouseEnter` will applied to `rootElm.style`.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "activeStyle",
+          "documentation": "The Icon `onMouseDown` will applied to `rootElm.style`.",
           "isRequired": false,
           "type": "CSSProperties"
         },
@@ -63,12 +67,10 @@
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "IconProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -79,22 +81,18 @@
       "members": [
         {
           "name": "hovered",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -102,19 +100,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    useSVGElement: false,\n    onMouseEnter: emptyFunc,\n    onMouseLeave: emptyFunc\n  }",
-          "documentation": "",
           "type": "IconProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -122,38 +117,31 @@
         {
           "name": "state",
           "initializerText": " {\n    hovered: false\n  }",
-          "documentation": "",
           "type": "IconState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "handleMouseEnter",
           "initializerText": " (e: React.MouseEvent<HTMLSpanElement>) => {\n    this.props.onMouseEnter(e);\n    this.setState({\n      hovered: true\n    });\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLSpanElement>) => void"
         },
         {
           "name": "handleMouseLeave",
           "initializerText": " (e: React.MouseEvent<HTMLSpanElement>) => {\n    this.props.onMouseLeave(e);\n    this.setState({\n      hovered: false\n    });\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLSpanElement>) => void"
         },
         {
           "name": "render",
-          "documentation": "",
-          "type": "() => DOMElement<{ onMouseEnter: (e: MouseEvent<HTMLSpanElement>) => void; onMouseLeave: (e: Mous..."
+          "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Icon/index\""
 }

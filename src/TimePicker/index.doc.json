@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/TimePicker/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "TimePickerProps",
-      "documentation": ""
+      "name": "TimePickerProps"
     },
     {
-      "name": "TimePickerState",
-      "documentation": ""
+      "name": "TimePickerState"
     },
     {
-      "name": "TimePicker",
-      "documentation": ""
+      "name": "TimePicker"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "TimePicker"
       ]
@@ -72,12 +67,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "TimePickerProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -88,34 +81,28 @@
       "members": [
         {
           "name": "showPicker",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "currHour",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "currMinute",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -123,19 +110,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    defaultShowPicker: false,\n    inputItemHeight: 28,\n    pickerItemHeight: 44,\n    defaultHour: 12,\n    defaultMinute: 30,\n    onChangeTime: emptyFunc\n  }",
-          "documentation": "",
           "type": "TimePickerProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -143,83 +127,90 @@
         {
           "name": "state",
           "initializerText": " {\n    showPicker: this.props.defaultShowPicker,\n    currHour: this.props.defaultHour,\n    currMinute: this.props.defaultMinute\n  }",
-          "documentation": "",
           "type": "TimePickerState"
         },
         {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "type": "AddBlurEvent"
+        },
+        {
+          "name": "rootElm",
+          "initializerText": " null",
+          "type": "HTMLDivElement"
+        },
+        {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "prevState",
           "initializerText": " {\n    currHour: this.props.defaultHour,\n    currMinute: this.props.defaultMinute\n  }",
-          "documentation": "",
           "type": "{ currHour: number; currMinute: number; }"
         },
         {
           "name": "hourListView",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "minuteListView",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "timeTypeListView",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "hourIndex",
-          "documentation": "",
           "type": "number"
         },
         {
           "name": "minuteIndex",
-          "documentation": "",
           "type": "number"
         },
         {
           "name": "timeTypeIndex",
-          "documentation": "",
           "type": "number"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: TimePickerProps) => void"
         },
         {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    this.addBlurEvent.setConfig({\n      addListener: this.state.showPicker,\n      clickExcludeElm: this.rootElm,\n      blurCallback: () => {\n        this.setState({\n          showPicker: false\n        });\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
           "name": "componentDidUpdate",
-          "documentation": "",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
           "type": "() => void"
         },
         {
           "name": "toggleShowPicker",
           "initializerText": " (showPicker?: any) => {\n    if (typeof showPicker === \"boolean\") {\n      if (showPicker !== this.state.showPicker) {\n        this.setState({ showPicker });\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        const showPicker = !prevState.showPicker;\n        return { showPicker };\n      });\n    }\n  }",
-          "documentation": "",
           "type": "(showPicker?: any) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(TimePicker: TimePicker) => { root?: CSSProperties; button?: CSSProperties; pickerModal?: CSSProp..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/TimePicker/index\""
 }

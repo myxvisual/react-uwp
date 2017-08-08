@@ -3,30 +3,34 @@
   "name": "\"D:/react-uwp/src/Image/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "ImageProps",
-      "documentation": ""
+      "name": "ImageProps"
     },
     {
-      "name": "ImageState",
-      "documentation": ""
+      "name": "ImageState"
     },
     {
-      "name": "Image",
-      "documentation": ""
+      "name": "Image"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Image"
       ]
     }
   ],
   "members": [
+    {
+      "name": "ReactLazyLoad",
+      "type": "any",
+      "initializerText": " require(\"react-lazyload\").default"
+    },
+    {
+      "name": "ReactLazyLoad",
+      "type": "any"
+    },
     {
       "name": "DataProps",
       "members": [
@@ -84,12 +88,10 @@
           "isRequired": false,
           "type": "number | boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "ImageProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -100,41 +102,34 @@
       "members": [
         {
           "name": "showEmptyImage",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "Placeholder",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
@@ -144,52 +139,43 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    useLazyLoad: false,\n    useDivContainer: false,\n    once: true,\n    offset: 0,\n    scroll: true,\n    overflow: false,\n    throttle: 60\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    useLazyLoad: false,\r\n    useDivContainer: false,\r\n    once: true,\r\n    offset: 0,\r\n    scroll: true,\r\n    overflow: false,\r\n    throttle: 60\r\n  }",
           "type": "ImageProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "state",
-          "initializerText": " {\n    showEmptyImage: false\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    showEmptyImage: false\r\n  }",
           "type": "ImageState"
         },
         {
           "name": "errorHandler",
           "initializerText": " (e: any) => this.setState({ showEmptyImage: true })",
-          "documentation": "",
           "type": "(e: any) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => any"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Image/index\""
 }

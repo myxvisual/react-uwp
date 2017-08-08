@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/CalendarDatePicker/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "CalendarDatePickerProps",
-      "documentation": ""
+      "name": "CalendarDatePickerProps"
     },
     {
-      "name": "CalendarDatePickerState",
-      "documentation": ""
+      "name": "CalendarDatePickerState"
     },
     {
-      "name": "CalendarDatePicker",
-      "documentation": ""
+      "name": "CalendarDatePicker"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "CalendarDatePicker"
       ]
@@ -60,12 +55,10 @@
           "isRequired": false,
           "type": "(date?: Date) => void"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "CalendarDatePickerProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -76,34 +69,28 @@
       "members": [
         {
           "name": "currDate",
-          "documentation": "",
           "isRequired": false,
           "type": "Date"
         },
         {
           "name": "isInit",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "showCalendarView",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -111,19 +98,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    defaultDate: new Date(),\n    placeholder: \"mm/dd/yyyy\",\n    width: 296,\n    height: 32,\n    onClick: emptyFunc,\n    onChangeDate: emptyFunc\n  }",
-          "documentation": "",
           "type": "CalendarDatePickerProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -131,43 +115,65 @@
         {
           "name": "state",
           "initializerText": " {\n    currDate: this.props.defaultDate,\n    isInit: true\n  }",
-          "documentation": "",
           "type": "CalendarDatePickerState"
         },
         {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "type": "AddBlurEvent"
+        },
+        {
+          "name": "rootElm",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "textBox",
+          "type": "any"
+        },
+        {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    this.addBlurEvent.setConfig({\n      addListener: this.state.showCalendarView,\n      clickExcludeElm: this.rootElm,\n      blurCallback: () => {\n        this.setState({\n          showCalendarView: false\n        });\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidUpdate",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "type": "() => void"
+        },
+        {
           "name": "toggleShowCalendarView",
-          "initializerText": " (showCalendarView?: any) => {\n    this.props.onClick(showCalendarView);\n    if (typeof showCalendarView === \"boolean\") {\n      if (showCalendarView !== this.state.showCalendarView) {\n        this.setState({ showCalendarView });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        showCalendarView: !prevState.showCalendarView\n      }));\n    }\n  }",
-          "documentation": "",
+          "initializerText": " (showCalendarView?: any) => {\n    if (!this.textBox.rootElm.contains(showCalendarView.target)) return;\n    this.props.onClick(showCalendarView);\n    if (typeof showCalendarView === \"boolean\") {\n      if (showCalendarView !== this.state.showCalendarView) {\n        this.setState({ showCalendarView });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        showCalendarView: !prevState.showCalendarView\n      }));\n    }\n  }",
           "type": "(showCalendarView?: any) => void"
         },
         {
           "name": "handleChangeDate",
-          "initializerText": " (date: Date) => {\n    this.state.currDate = date;\n    this.state.isInit = false;\n    this.props.onChangeDate(date);\n\n    this.toggleShowCalendarView();\n  }",
-          "documentation": "",
+          "initializerText": " (date: Date) => {\n    this.state.currDate = date;\n    this.state.isInit = false;\n    this.props.onChangeDate(date);\n  }",
           "type": "(date: Date) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(calendarDatePicker: CalendarDatePicker) => { root?: CSSProperties; input?: CSSProperties; icon?:..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/CalendarDatePicker/index\""
 }

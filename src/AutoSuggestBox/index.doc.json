@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/AutoSuggestBox/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "AutoSuggestBoxProps",
-      "documentation": ""
+      "name": "AutoSuggestBoxProps"
     },
     {
-      "name": "AutoSuggestBoxState",
-      "documentation": ""
+      "name": "AutoSuggestBoxState"
     },
     {
-      "name": "AutoSuggestBox",
-      "documentation": ""
+      "name": "AutoSuggestBox"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "AutoSuggestBox"
       ]
@@ -31,16 +26,16 @@
       "name": "DataProps",
       "members": [
         {
-          "name": "onChangeValue",
-          "documentation": "`AutoSuggestBox` onChange callback.",
-          "isRequired": false,
-          "type": "(value: string) => void"
-        },
-        {
           "name": "listSource",
           "documentation": "Array of strings or nodes used to populate the list.",
           "isRequired": false,
           "type": "ReactNode[]"
+        },
+        {
+          "name": "onChangeValue",
+          "documentation": "`AutoSuggestBox` onChange callback.",
+          "isRequired": false,
+          "type": "(value: string) => void"
         },
         {
           "name": "searchAction",
@@ -60,12 +55,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "AutoSuggestBoxProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -75,41 +68,29 @@
       "name": "AutoSuggestBoxState",
       "members": [
         {
-          "name": "currListSource",
-          "documentation": "",
-          "isRequired": false,
-          "type": "ReactNode[]"
-        },
-        {
           "name": "typing",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "showListSource",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "focusListSourceIndex",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -117,32 +98,27 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    background: \"none\",\n    onChangeValue: emptyFunc,\n    searchAction: emptyFunc,\n    iconSize: 32\n  }",
-          "documentation": "",
           "type": "AutoSuggestBoxProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    currListSource: this.props.listSource\n  }",
-          "documentation": "",
+          "initializerText": " {}",
           "type": "AutoSuggestBoxState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
@@ -152,58 +128,44 @@
         },
         {
           "name": "listView",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "inputTimer",
           "initializerText": " null",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "componentDidMount",
-          "documentation": "",
           "type": "() => void"
         },
         {
-          "name": "componentWillReceiveProps",
-          "documentation": "",
-          "type": "(nextProps: AutoSuggestBoxProps) => void"
-        },
-        {
           "name": "componentWillUnmount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "checkLayerClick",
           "initializerText": " (e: Event) => {\n    const { typing } = this.state;\n    if (!this.textBox.rootElm.contains(e.target as Node)) {\n      this.setState({ showListSource: false });\n    }\n  }",
-          "documentation": "",
           "type": "(e: Event) => void"
         },
         {
           "name": "checkLayerKeydown",
           "initializerText": " (e: KeyboardEvent) => {\n    const { keyCode } = e;\n    const { typing } = this.state;\n    if (this.textBox.inputElm.matches(\":focus\") && keyCode === 27) {\n      this.setState({ showListSource: false });\n    }\n  }",
-          "documentation": "",
           "type": "(e: KeyboardEvent) => void"
         },
         {
           "name": "toggleShowListSource",
           "initializerText": " (showListSource?: any) => {\n    if (typeof showListSource === \"boolean\") {\n      if (showListSource !== this.state.showListSource) {\n        this.setState({ showListSource });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        showListSource: !prevState.showListSource\n      }));\n    }\n  }",
-          "documentation": "",
           "type": "(showListSource?: any) => void"
         },
         {
           "name": "showListSource",
           "initializerText": " () => this.setState({ showListSource: true })",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "handleChange",
           "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\n    let event: React.SyntheticEvent<HTMLInputElement>;\n    event = e;\n    const { currentTarget: { value } } = event;\n    this.props.onChangeValue(value);\n\n    clearTimeout(this.inputTimer);\n    this.inputTimer = setTimeout(() => {\n      if (value) {\n        this.setState({ typing: true, showListSource: true });\n      } else {\n        this.setState({ typing: false, showListSource: false });\n      }\n    }, 150);\n  }",
-          "documentation": "",
           "type": "(e?: any) => void"
         },
         {
@@ -220,39 +182,33 @@
         },
         {
           "name": "handleButtonAction",
-          "initializerText": " (e: React.MouseEvent<HTMLInputElement>) => {\n    if (this.state.typing) {\n      this.setValue(\"\");\n      this.setState({\n        typing: false,\n        showListSource: false\n      });\n      this.textBox.inputElm.focus();\n    } else {\n      this.props.searchAction(this.getValue());\n    }\n  }",
+          "initializerText": " (e: React.MouseEvent<HTMLInputElement>) => {\n    if (this.state.typing) {\n      this.setValue(\"\");\n      this.props.onChangeValue(\"\");\n      this.setState({\n        typing: false,\n        showListSource: false\n      });\n      this.textBox.inputElm.focus();\n    } else {\n      const value = this.getValue();\n      this.props.searchAction(value);\n      this.props.onChangeValue(value);\n    }\n  }",
           "documentation": "`Reset` input value method.",
           "type": "(e: MouseEvent<HTMLInputElement>) => void"
         },
         {
           "name": "handleChooseItem",
           "initializerText": " (index: number) => {\n    const chooseTimer = setTimeout(() => {\n      this.toggleShowListSource(false);\n      clearTimeout(chooseTimer);\n    }, 250);\n    const item: any = this.props.listSource[index];\n    this.setValue(typeof item === \"object\" ? item.props.value : item);\n  }",
-          "documentation": "",
           "type": "(index: number) => void"
         },
         {
           "name": "handleInputKeyDown",
-          "initializerText": " (e: React.KeyboardEvent<HTMLDivElement>) => {\n    const { keyCode } = e;\n    let { focusListSourceIndex, currListSource, showListSource } = this.state;\n    const { searchAction } = this.props;\n    let listSourceSize: number;\n    if (currListSource && (listSourceSize = currListSource.length) && showListSource) {\n      switch (keyCode) {\n        case 38: {\n          if (focusListSourceIndex === void 0) {\n            this.setState({ focusListSourceIndex: listSourceSize - 1 });\n          } else {\n            focusListSourceIndex = focusListSourceIndex - 1;\n            if (focusListSourceIndex < 0) focusListSourceIndex = focusListSourceIndex + listSourceSize;\n            this.setState({ focusListSourceIndex: focusListSourceIndex % listSourceSize });\n          }\n          break;\n        }\n        case 40: {\n          if (focusListSourceIndex === void 0) {\n            this.setState({ focusListSourceIndex: 0 });\n          } else {\n            focusListSourceIndex = focusListSourceIndex + 1;\n            if (focusListSourceIndex > listSourceSize) focusListSourceIndex = focusListSourceIndex - listSourceSize;\n            this.setState({ focusListSourceIndex: focusListSourceIndex % listSourceSize });\n          }\n          break;\n        }\n        case 13: {\n          if (focusListSourceIndex === void 0) {\n            searchAction(this.getValue());\n            this.setState({ showListSource: false });\n          } else {\n            this.handleChooseItem(focusListSourceIndex);\n            this.setState({ focusListSourceIndex: void 0 });\n          }\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    } else {\n      if (keyCode === 13) {\n        searchAction(this.getValue());\n      }\n    }\n  }",
-          "documentation": "",
+          "initializerText": " (e: React.KeyboardEvent<HTMLDivElement>) => {\n    const { keyCode } = e;\n    let { focusListSourceIndex, showListSource } = this.state;\n    const { searchAction } = this.props;\n    let listSourceSize: number;\n    if (listSourceSize && showListSource) {\n      switch (keyCode) {\n        case 38: {\n          if (focusListSourceIndex === void 0) {\n            this.setState({ focusListSourceIndex: listSourceSize - 1 });\n          } else {\n            focusListSourceIndex = focusListSourceIndex - 1;\n            if (focusListSourceIndex < 0) focusListSourceIndex = focusListSourceIndex + listSourceSize;\n            this.setState({ focusListSourceIndex: focusListSourceIndex % listSourceSize });\n          }\n          break;\n        }\n        case 40: {\n          if (focusListSourceIndex === void 0) {\n            this.setState({ focusListSourceIndex: 0 });\n          } else {\n            focusListSourceIndex = focusListSourceIndex + 1;\n            if (focusListSourceIndex > listSourceSize) focusListSourceIndex = focusListSourceIndex - listSourceSize;\n            this.setState({ focusListSourceIndex: focusListSourceIndex % listSourceSize });\n          }\n          break;\n        }\n        case 13: {\n          if (focusListSourceIndex === void 0) {\n            searchAction(this.getValue());\n            this.setState({ showListSource: false });\n          } else {\n            this.handleChooseItem(focusListSourceIndex);\n            this.setState({ focusListSourceIndex: void 0 });\n          }\n          break;\n        }\n        default: {\n          break;\n        }\n      }\n    } else {\n      if (keyCode === 13) {\n        searchAction(this.getValue());\n      }\n    }\n  }",
           "type": "(e: KeyboardEvent<HTMLDivElement>) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(autoSuggestBox: AutoSuggestBox) => { root?: CSSProperties; listView?: CSSProperties; iconsStyles..."
+      "type": "(autoSuggestBox: AutoSuggestBox) => { root?: CSSProperties; listView?: CSSProperties; icon?: CSSP..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/AutoSuggestBox/index\""
 }

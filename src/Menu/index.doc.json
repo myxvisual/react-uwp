@@ -3,36 +3,28 @@
   "name": "\"D:/react-uwp/src/Menu/index\"",
   "exports": [
     {
-      "name": "MenuItem",
-      "documentation": ""
+      "name": "MenuItem"
     },
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "MenuItemProps",
-      "documentation": ""
+      "name": "MenuItemProps"
     },
     {
-      "name": "AnyAttributes",
-      "documentation": ""
+      "name": "AnyAttributes"
     },
     {
-      "name": "MenuProps",
-      "documentation": ""
+      "name": "MenuProps"
     },
     {
-      "name": "MenuState",
-      "documentation": ""
+      "name": "MenuState"
     },
     {
-      "name": "Menu",
-      "documentation": ""
+      "name": "Menu"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Menu"
       ]
@@ -66,8 +58,7 @@
           "isRequired": false,
           "type": "CSSProperties"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "MenuItemProps",
@@ -91,8 +82,8 @@
           "type": "any"
         },
         {
-          "name": "defaultShowChild",
-          "documentation": "",
+          "name": "defaultExpanded",
+          "documentation": "Set default expanded children.",
           "isRequired": false,
           "type": "boolean"
         },
@@ -114,51 +105,43 @@
           "isRequired": false,
           "type": "CSSProperties"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "AnyAttributes",
       "members": [
         {
           "name": "__index",
-          "documentation": "",
           "isRequired": false,
           "type": "any"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "MenuProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "AnyAttributes"
       ]
     },
     {
-      "name": "MenuState",
-      "documentation": ""
+      "name": "MenuState"
     },
     {
       "name": "Menu",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    menuItemHeight: 44,\n    menuItemWidth: 240\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    menuItemHeight: 44,\r\n    menuItemWidth: 240\r\n  }",
           "type": "MenuProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -166,31 +149,25 @@
         {
           "name": "state",
           "initializerText": " {}",
-          "documentation": "",
           "type": "MenuState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(menu: Menu) => { root?: CSSProperties; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Menu/index\""
 }

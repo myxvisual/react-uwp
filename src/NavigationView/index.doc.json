@@ -3,36 +3,28 @@
   "name": "\"D:/react-uwp/src/NavigationView/index\"",
   "exports": [
     {
-      "name": "SplitViewCommand",
-      "documentation": ""
+      "name": "SplitViewCommand"
     },
     {
-      "name": "NavigationComplexNode",
-      "documentation": ""
+      "name": "NavigationComplexNode"
     },
     {
-      "name": "NavigationNode",
-      "documentation": ""
+      "name": "NavigationNode"
     },
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "NavigationViewProps",
-      "documentation": ""
+      "name": "NavigationViewProps"
     },
     {
-      "name": "NavigationViewState",
-      "documentation": ""
+      "name": "NavigationViewState"
     },
     {
-      "name": "NavigationView",
-      "documentation": ""
+      "name": "NavigationView"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "NavigationView"
       ]
@@ -44,18 +36,15 @@
       "members": [
         {
           "name": "default",
-          "documentation": "",
           "isRequired": false,
           "type": "ReactNode"
         },
         {
           "name": "expanded",
-          "documentation": "",
           "isRequired": false,
           "type": "ReactNode"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "DataProps",
@@ -89,6 +78,12 @@
           "documentation": "Replace TopIcon, default is NavButton.",
           "isRequired": false,
           "type": "ReactElement<any>"
+        },
+        {
+          "name": "isControlled",
+          "documentation": "Set NavigationView to controlled component.",
+          "isRequired": false,
+          "type": "boolean"
         },
         {
           "name": "navigationTopNodes",
@@ -138,12 +133,10 @@
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "NavigationViewProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -154,131 +147,121 @@
       "members": [
         {
           "name": "expanded",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "focusNodeIndex",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "currDisplayMode",
-          "documentation": "",
           "isRequired": false,
           "type": "\"overlay\" | \"compact\" | \"minimal\""
         },
         {
           "name": "currInitWidth",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "NavigationView",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    isTenFt: false,\n    autoResize: true,\n    initWidth: 48,\n    expandedWidth: 320,\n    displayMode: \"compact\"\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    isTenFt: false,\r\n    autoResize: true,\r\n    initWidth: 48,\r\n    expandedWidth: 320,\r\n    displayMode: \"compact\"\r\n  }",
           "type": "NavigationViewProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    expanded: false,\n    focusNodeIndex: this.props.focusNavigationNodeIndex,\n    currDisplayMode: this.props.displayMode,\n    currInitWidth: this.props.initWidth\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    expanded: false,\r\n    focusNodeIndex: this.props.focusNavigationNodeIndex,\r\n    currDisplayMode: this.props.displayMode,\r\n    currInitWidth: this.props.initWidth\r\n  }",
           "type": "NavigationViewState"
         },
         {
-          "name": "SplitViewCommands",
-          "initializerText": " []",
-          "documentation": "",
-          "type": "any[]"
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "type": "AddBlurEvent"
+        },
+        {
+          "name": "paneElm",
+          "type": "HTMLDivElement"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
-          "name": "componentDidMount",
-          "documentation": "",
+          "name": "componentWillMount",
           "type": "() => void"
         },
         {
-          "name": "componentWillMount",
-          "documentation": "",
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\r\n    this.addBlurEvent.setConfig({\r\n      addListener: this.state.expanded,\r\n      clickExcludeElm: this.paneElm,\r\n      blurCallback: () => {\r\n        this.setState({\r\n          expanded: false\r\n        });\r\n      },\r\n      blurKeyCodes: [codes.esc]\r\n    });\r\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidUpdate",
           "type": "() => void"
         },
         {
           "name": "shouldComponentUpdate",
-          "documentation": "",
           "type": "(nextProps: NavigationViewProps, nextState: NavigationViewState, nextContext: { theme: any; }) =>..."
         },
         {
           "name": "componentWillUnmount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "autoResize",
-          "initializerText": " (e?: Event) => {\n    if (window.innerWidth < 1280) {\n      if (this.state.currDisplayMode !== \"compact\") {\n        this.setState({\n          currDisplayMode: \"compact\",\n          currInitWidth: 0\n        });\n      }\n    } else {\n      if (this.state.currDisplayMode === \"compact\") {\n        this.setState({\n          currDisplayMode: \"minimal\",\n          currInitWidth: 48\n        });\n      }\n    }\n  }",
-          "documentation": "",
+          "initializerText": " (e?: Event) => {\r\n    if (window.innerWidth < 1280) {\r\n      if (this.state.currDisplayMode !== \"compact\") {\r\n        this.setState({\r\n          currDisplayMode: \"compact\",\r\n          currInitWidth: 0\r\n        });\r\n      }\r\n    } else {\r\n      if (this.state.currDisplayMode === \"compact\") {\r\n        this.setState({\r\n          currDisplayMode: \"minimal\",\r\n          currInitWidth: 48\r\n        });\r\n      }\r\n    }\r\n  }",
           "type": "(e?: Event) => void"
         },
         {
           "name": "updateProps2State",
-          "initializerText": " ({ defaultExpanded }: NavigationViewProps) => {\n    if (defaultExpanded !== this.state.expanded) {\n      this.setState({ expanded: defaultExpanded });\n    }\n  }",
-          "documentation": "",
-          "type": "({defaultExpanded}: NavigationViewProps) => void"
+          "initializerText": " ({ defaultExpanded }: NavigationViewProps) => {\r\n    if (defaultExpanded !== this.state.expanded) {\r\n      this.setState({ expanded: defaultExpanded });\r\n    }\r\n  }",
+          "type": "({ defaultExpanded }: NavigationViewProps) => void"
         },
         {
           "name": "toggleExpanded",
-          "initializerText": " (expanded?: boolean) => {\n    if (typeof expanded === \"boolean\" && expanded !== this.state.expanded) {\n      this.setState({ expanded });\n    } else {\n      this.setState((prevState, prevProps) => ({  expanded: !prevState.expanded }));\n    }\n  }",
-          "documentation": "",
+          "initializerText": " (expanded?: boolean) => {\r\n    if (typeof expanded === \"boolean\" && expanded !== this.state.expanded) {\r\n      this.setState({ expanded });\r\n    } else {\r\n      this.setState((prevState, prevProps) => ({  expanded: !prevState.expanded }));\r\n    }\r\n  }",
           "type": "(expanded?: boolean) => void"
         },
         {
           "name": "getNewNodeProps",
-          "initializerText": " (currNode: any, index: number, expanded?: boolean, haveExpandedNode?: boolean) => {\n    const { onClick } = currNode.props;\n    const { focusNodeIndex } = this.state;\n    return {\n      key: `${index} ${expanded}`,\n      visited: focusNodeIndex === void(0) ? void(0) : focusNodeIndex === index,\n      onClick: (e: any) => {\n        this.setState({\n          focusNodeIndex: index,\n          expanded: haveExpandedNode ? true : this.state.expanded\n        });\n        if (onClick) onClick(e);\n      }\n    };\n  }",
-          "documentation": "",
+          "initializerText": " (currNode: any, index: number, expanded?: boolean, haveExpandedNode?: boolean) => {\r\n    const { onClick } = currNode.props;\r\n    const { focusNodeIndex } = this.state;\r\n    return {\r\n      key: `${index} ${expanded}`,\r\n      visited: focusNodeIndex === void 0 ? void 0 : focusNodeIndex === index,\r\n      onClick: (e: any) => {\r\n        this.setState({\r\n          focusNodeIndex: index,\r\n          expanded: haveExpandedNode ? true : this.state.expanded\r\n        });\r\n        if (onClick) onClick(e);\r\n      }\r\n    };\r\n  }",
           "type": "(currNode: any, index: number, expanded?: boolean, haveExpandedNode?: boolean) => { key: string; ..."
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(NavigationView: NavigationView) => { root?: CSSProperties; pageTitle?: CSSProperties; paneParent..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/NavigationView/index\""
 }

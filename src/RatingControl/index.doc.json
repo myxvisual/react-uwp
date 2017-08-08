@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/RatingControl/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "RatingControlProps",
-      "documentation": ""
+      "name": "RatingControlProps"
     },
     {
-      "name": "RatingControlState",
-      "documentation": ""
+      "name": "RatingControlState"
     },
     {
-      "name": "RatingControl",
-      "documentation": ""
+      "name": "RatingControl"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "RatingControl"
       ]
@@ -84,12 +79,10 @@
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "RatingControlProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -100,22 +93,18 @@
       "members": [
         {
           "name": "currRating",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -123,79 +112,55 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    defaultRating: 2.5,\n    maxRating: 5,\n    icon: \"FavoriteStarFill\",\n    onChangeRating: emptyFunc,\n    iconPadding: 10\n  }",
-          "documentation": "",
           "type": "RatingControlProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "state",
           "initializerText": " {\n    currRating: this.props.defaultRating\n  }",
-          "documentation": "",
           "type": "RatingControlState"
         },
         {
-          "name": "styles",
-          "initializerText": " getStyles(this)",
-          "documentation": "",
-          "type": "{ root?: CSSProperties; ratingsGroup?: CSSProperties; }"
-        },
-        {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: RatingControlProps) => void"
         },
         {
           "name": "handleRationClick",
           "initializerText": " (e: React.MouseEvent<HTMLSpanElement>, index: number) => {\n    const { iconPadding, maxRating } = this.props;\n    const lastIndex = maxRating - 1;\n    const clientRect = e.currentTarget.getBoundingClientRect();\n    const left = e.clientX - clientRect.left;\n    let offset = left / (index === lastIndex ? clientRect.width : clientRect.width - iconPadding);\n    if (offset > 1) offset = 1;\n    const currRating = index + offset;\n    this.setState({ currRating });\n    this.props.onChangeRating(currRating);\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLSpanElement>, index: number) => void"
         },
         {
-          "name": "renderRatings",
-          "initializerText": " (notRated = true) => {\n    const { maxRating,  icon, iconStyle, iconRatedStyle, isReadOnly, iconPadding } = this.props;\n    const { currRating } = this.state;\n    const { theme } = this.context;\n    const ratio = currRating / maxRating;\n    const fontSize = iconStyle ? (+Number(iconStyle.fontSize) || 24) : 24;\n    const width = fontSize * maxRating + iconPadding * (maxRating - 1);\n    const offset = Math.floor(currRating) * (fontSize + iconPadding) + (currRating % 1) * fontSize;\n    const lastIndex = maxRating - 1;\n\n    const normalRatings = (\n      <div\n        style={{\n          ...this.styles.ratingsGroup,\n          ...(notRated ? void 0 : {\n            clipPath: `polygon(0% 0%, ${offset}px 0%, ${offset}px 100%, 0% 100%)`,\n            color: theme.accent,\n            position: \"absolute\",\n            top: 0,\n            left: 0\n          } as React.CSSProperties)\n        }}\n      >\n        {Array(maxRating).fill(0).map((zero, index) => (\n          <Icon\n            key={`${index}`}\n            style={{\n              fontSize: 24,\n              paddingRight: index === lastIndex ? 0 : iconPadding,\n              ...iconStyle,\n              ...(notRated ? void 0 : iconRatedStyle)\n            }}\n            onClick={isReadOnly ? void 0 : e => {\n              this.handleRationClick(e, index);\n            }}\n          >\n            {icon}\n          </Icon>\n        ))}\n      </div>\n    );\n    return normalRatings;\n  }",
-          "documentation": "",
-          "type": "(notRated?: boolean) => Element"
-        },
-        {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(RatingControl: RatingControl) => { root?: CSSProperties; ratingsGroup?: CSSProperties; }"
+      "type": "(RatingControl: RatingControl) => { root: any; group: any; groupMask: any; labelWrapper: any; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/RatingControl/index\""
 }

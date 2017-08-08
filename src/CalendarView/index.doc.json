@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/CalendarView/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "CalendarViewProps",
-      "documentation": ""
+      "name": "CalendarViewProps"
     },
     {
-      "name": "CalendarViewState",
-      "documentation": ""
+      "name": "CalendarViewState"
     },
     {
-      "name": "CalendarView",
-      "documentation": ""
+      "name": "CalendarView"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "CalendarView"
       ]
@@ -60,12 +55,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "CalendarViewProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -76,40 +69,33 @@
       "members": [
         {
           "name": "viewDate",
-          "documentation": "",
           "isRequired": false,
           "type": "Date"
         },
         {
           "name": "direction",
-          "documentation": "",
           "isRequired": false,
           "type": "\"bottom\" | \"top\""
         },
         {
           "name": "chooseISODates",
-          "documentation": "",
           "isRequired": false,
           "type": "string[]"
         },
         {
           "name": "currPickerMode",
-          "documentation": "",
           "isRequired": false,
           "type": "\"year\" | \"month\" | \"day\""
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -117,19 +103,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    defaultDate: new Date(),\n    pickerMode: \"day\",\n    onChangeDate: emptyFunc,\n    selectSingleDay: true\n  }",
-          "documentation": "",
           "type": "CalendarViewProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -137,73 +120,60 @@
         {
           "name": "state",
           "initializerText": " {\n    viewDate: new Date(),\n    direction: \"bottom\",\n    chooseISODates: [],\n    currPickerMode: this.props.pickerMode\n  }",
-          "documentation": "",
           "type": "CalendarViewState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "nextAction",
           "initializerText": " () => {\n    const { viewDate, currPickerMode } = this.state;\n    switch (currPickerMode) {\n      case \"day\": {\n        this.setState({\n          viewDate: dateUtils.addMonths(viewDate, 1),\n          direction: \"bottom\"\n        });\n        break;\n      }\n      case \"month\": {\n        this.setState({\n          viewDate: dateUtils.addYears(viewDate, 1),\n          direction: \"bottom\"\n        });\n        break;\n      }\n      case \"year\": {\n        this.setState({\n          viewDate: dateUtils.addYears(viewDate, 10),\n          direction: \"bottom\"\n        });\n        break;\n      }\n      default: {\n        break;\n      }\n    }\n  }",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "prevAction",
           "initializerText": " () => {\n    const { viewDate, currPickerMode } = this.state;\n    switch (currPickerMode) {\n      case \"day\": {\n        this.setState({\n          viewDate: dateUtils.addMonths(viewDate, -1),\n          direction: \"top\"\n        });\n        break;\n      }\n      case \"month\": {\n        this.setState({\n          viewDate: dateUtils.addYears(viewDate, -1),\n          direction: \"top\"\n        });\n        break;\n      }\n      case \"year\": {\n        this.setState({\n          viewDate: dateUtils.addYears(viewDate, -10),\n          direction: \"top\"\n        });\n        break;\n      }\n      default: {\n        break;\n      }\n    }\n  }",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "handleChooseDay",
           "initializerText": " (date: Date) => {\n    let { chooseISODates, viewDate } = this.state;\n    const { selectSingleDay } = this.props;\n    const dateISOString = date.toISOString();\n    const index = chooseISODates.indexOf(dateISOString);\n    index > -1 ? chooseISODates.splice(index, 1) : (chooseISODates = selectSingleDay ? [dateISOString] : [...chooseISODates, dateISOString]);\n    if (viewDate.getMonth() === date.getMonth()) {\n      this.setState({ chooseISODates });\n    } else {\n      this.setState({ chooseISODates, viewDate: date });\n    }\n    this.props.onChangeDate(date);\n  }",
-          "documentation": "",
           "type": "(date: Date) => void"
         },
         {
           "name": "onChooseMonth",
           "initializerText": " (month: number) => {\n    const { viewDate } = this.state;\n    const newDate = new Date(viewDate.getFullYear(), month, viewDate.getDate());\n    this.setState({\n      viewDate: new Date(viewDate.getFullYear(), month, viewDate.getDate()),\n      currPickerMode: \"day\"\n    });\n    this.props.onChangeDate(newDate);\n  }",
-          "documentation": "",
           "type": "(month: number) => void"
         },
         {
           "name": "onChooseYear",
           "initializerText": " (year: number) => {\n    const { viewDate } = this.state;\n    const newDate = new Date(year, viewDate.getMonth(), viewDate.getDate());\n    this.setState({\n      viewDate: newDate,\n      currPickerMode: \"month\"\n    });\n    this.props.onChangeDate(newDate);\n  }",
-          "documentation": "",
           "type": "(year: number) => void"
         },
         {
           "name": "getTitle",
           "initializerText": " () => {\n    const { viewDate, currPickerMode } = this.state;\n    switch (currPickerMode) {\n      case \"day\": {\n        return `${dateUtils.monthList[viewDate.getMonth()]} ${viewDate.getFullYear()}`;\n      }\n      case \"month\": {\n        const year = viewDate.getFullYear();\n        return `${year} Year`;\n      }\n      case \"year\": {\n        const year = viewDate.getFullYear();\n        const minYearOfTen = Math.floor(year / 10) * 10;\n        const maxYearOfTen = Math.ceil(year / 10) * 10;\n        return `${minYearOfTen}-${maxYearOfTen}`;\n      }\n      default: {\n        break;\n      }\n    }\n  }",
-          "documentation": "",
           "type": "() => string"
         },
         {
           "name": "togglePickerMode",
           "initializerText": " (e: React.MouseEvent<HTMLParagraphElement> | \"Year\" | \"Month\" | \"Day\") => {\n    if (typeof e === \"string\") {\n      this.setState({ currPickerMode: e as any });\n    }\n    switch (this.state.currPickerMode) {\n      case \"day\": {\n        this.setState({ currPickerMode: \"month\" });\n        break;\n      }\n      case \"month\": {\n        this.setState({ currPickerMode: \"year\" });\n        break;\n      }\n      case \"year\": {\n        break;\n      }\n      default: {\n        break;\n      }\n    }\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLParagraphElement> | \"Year\" | \"Month\" | \"Day\") => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(calendarView: CalendarView) => { root?: CSSProperties; title?: CSSProperties; titleIcon?: CSSPro..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/CalendarView/index\""
 }

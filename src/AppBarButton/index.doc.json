@@ -3,20 +3,16 @@
   "name": "\"D:/react-uwp/src/AppBarButton/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "AppBarButtonButtonProps",
-      "documentation": ""
+      "name": "AppBarButtonButtonProps"
     },
     {
-      "name": "AppBarButtonButton",
-      "documentation": ""
+      "name": "AppBarButtonButton"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "AppBarButtonButton"
       ]
@@ -56,12 +52,10 @@
           "isRequired": false,
           "type": "\"right\" | \"bottom\" | \"collapsed\""
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "AppBarButtonButtonProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -72,45 +66,37 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    labelPosition: \"bottom\"\n  }",
-          "documentation": "",
           "type": "AppBarButtonButtonProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(AppBarButtonButton: AppBarButtonButton) => { root?: CSSProperties; icon?: CSSProperties; label?:..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/AppBarButton/index\""
 }

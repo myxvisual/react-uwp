@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/Toggle/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "ToggleProps",
-      "documentation": ""
+      "name": "ToggleProps"
     },
     {
-      "name": "ToggleState",
-      "documentation": ""
+      "name": "ToggleState"
     },
     {
-      "name": "Toggle",
-      "documentation": ""
+      "name": "Toggle"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Toggle"
       ]
@@ -60,12 +55,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "ToggleProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -76,22 +69,18 @@
       "members": [
         {
           "name": "currToggled",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -99,62 +88,51 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    size: 18,\n    onToggle: emptyFunc\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    size: 18,\r\n    onToggle: emptyFunc\r\n  }",
           "type": "ToggleProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "state",
-          "initializerText": " {\n    currToggled: this.props.defaultToggled\n  }",
-          "documentation": "",
+          "initializerText": " {\r\n    currToggled: this.props.defaultToggled\r\n  }",
           "type": "ToggleState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: ToggleProps) => void"
         },
         {
           "name": "toggleToggle",
-          "initializerText": " (currToggled?: any) => {\n    if (typeof currToggled === \"boolean\") {\n      if (currToggled !== this.state.currToggled) {\n        this.setState({ currToggled });\n        this.props.onToggle(currToggled);\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        const currToggled = !prevState.currToggled;\n        this.props.onToggle(currToggled);\n        return { currToggled };\n      });\n    }\n  }",
-          "documentation": "",
+          "initializerText": " (currToggled?: any) => {\r\n    if (typeof currToggled === \"boolean\") {\r\n      if (currToggled !== this.state.currToggled) {\r\n        this.setState({ currToggled });\r\n        this.props.onToggle(currToggled);\r\n      }\r\n    } else {\r\n      this.setState((prevState, prevProps) => {\r\n        const currToggled = !prevState.currToggled;\r\n        this.props.onToggle(currToggled);\r\n        return { currToggled };\r\n      });\r\n    }\r\n  }",
           "type": "(currToggled?: any) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(toggle: Toggle) => { root?: CSSProperties; button?: CSSProperties; label?: CSSProperties; }"
+      "type": "(toggle: Toggle) => { root?: CSSProperties; wrapper?: CSSProperties; button?: CSSProperties; labe..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Toggle/index\""
 }

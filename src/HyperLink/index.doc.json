@@ -3,27 +3,16 @@
   "name": "\"D:/react-uwp/src/HyperLink/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "members": [
-        {
-          "name": "ref",
-          "documentation": "`ref` to link, other attributes is applied to `HTMLAnchorElement`.",
-          "isRequired": false,
-          "type": "string"
-        }
-      ]
+      "name": "DataProps"
     },
     {
-      "name": "LinkProps",
-      "documentation": ""
+      "name": "HyperLinkProps"
     },
     {
-      "name": "HyperLink",
-      "documentation": ""
+      "name": "HyperLink"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "HyperLink"
       ]
@@ -39,12 +28,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "name": "LinkProps",
-      "documentation": "",
+      "name": "HyperLinkProps",
       "extends": [
         "HTMLAttributes"
       ]
@@ -54,34 +41,28 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/HyperLink/index\""
 }

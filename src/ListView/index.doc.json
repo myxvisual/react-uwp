@@ -3,28 +3,22 @@
   "name": "\"D:/react-uwp/src/ListView/index\"",
   "exports": [
     {
-      "name": "ListItem",
-      "documentation": ""
+      "name": "ListItem"
     },
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "ListViewProps",
-      "documentation": ""
+      "name": "ListViewProps"
     },
     {
-      "name": "ListViewState",
-      "documentation": ""
+      "name": "ListViewState"
     },
     {
-      "name": "ListView",
-      "documentation": ""
+      "name": "ListView"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "ListView"
       ]
@@ -36,36 +30,30 @@
       "members": [
         {
           "name": "itemNode",
-          "documentation": "",
           "isRequired": false,
           "type": "ReactNode"
         },
         {
           "name": "disabled",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "focus",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "style",
-          "documentation": "",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
           "name": "onClick",
-          "documentation": "",
           "isRequired": false,
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "DataProps",
@@ -100,12 +88,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "ListViewProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -116,22 +102,18 @@
       "members": [
         {
           "name": "focusIndex",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -139,19 +121,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    onChooseItem: emptyFunc\n  }",
-          "documentation": "",
           "type": "ListViewProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -159,47 +138,43 @@
         {
           "name": "state",
           "initializerText": " {\n    focusIndex: this.props.defaultFocusListIndex\n  }",
-          "documentation": "",
           "type": "ListViewState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
+          "name": "inlineStyles",
+          "initializerText": " null",
+          "type": "{ [key: string]: CSSProperties; }"
+        },
+        {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: ListViewProps) => void"
         },
         {
           "name": "getItemNode",
-          "initializerText": " (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {\n    const styles = getStyles(this);\n    const { theme } = this.context;\n    const { onChooseItem, background } = this.props;\n    const { focusIndex } = this.state;\n    const { isDarkTheme } = theme;\n    const isFocus = focus || focusIndex === index;\n    const defaultBG = isFocus ? theme.listAccentLow : \"none\";\n    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow);\n    const clickBG = isFocus ? theme.accent : theme.chromeHigh;\n    return (\n      <div\n        style={theme.prefixStyle({\n          background: defaultBG,\n          color: disabled ? theme.baseLow : theme.baseHigh,\n          ...styles.item,\n          ...style\n        })}\n        key={`${index}`}\n        onClick={onClick}\n        onMouseEnter={disabled ? void(0) : (e) => {\n          e.currentTarget.style.background = focusBG;\n        }}\n        onMouseLeave={disabled ? void(0) : (e) => {\n          e.currentTarget.style.background = defaultBG;\n        }}\n        onMouseDown={disabled ? void(0) : (e) => {\n          this.setState({ focusIndex: index });\n          for (const vendor of vendors) {\n            e.currentTarget.style[`${vendor}Transform` as any] = \"scale(0.99)\";\n          }\n          onChooseItem(index);\n          e.currentTarget.style.transform = \"scale(0.99)\";\n          e.currentTarget.style.background = clickBG;\n        }}\n        onMouseUp={disabled ? void(0) : (e) => {\n          for (const vendor of vendors) {\n            e.currentTarget.style[`${vendor}Transform` as any] = \"scale(1)\";\n          }\n          e.currentTarget.style.transform = \"scale(1)\";\n          e.currentTarget.style.background = defaultBG;\n        }}\n      >\n        {itemNode}\n      </div>\n    );\n  }",
-          "documentation": "",
+          "initializerText": " (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {\n    const { inlineStyles } = this;\n    const { theme } = this.context;\n    const { onChooseItem, background } = this.props;\n    const { focusIndex } = this.state;\n    const { isDarkTheme } = theme;\n    const isFocus = focus || focusIndex === index;\n    const defaultBG = isFocus ? theme.listAccentLow : \"none\";\n    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow);\n    const clickBG = isFocus ? theme.accent : theme.chromeHigh;\n\n    const itemStyles = theme.prepareStyle({\n      className: \"list-view-item\",\n      style: theme.prefixStyle({\n        background: defaultBG,\n        color: disabled ? theme.baseLow : theme.baseHigh,\n        \"&:hover\": {\n          background: focusBG\n        },\n        \"&:active\": {\n          transform: \"scale(0.99)\"\n        },\n        ...inlineStyles.item,\n        ...style\n      })\n    });\n\n    return (\n      <PseudoClasses {...itemStyles}>\n        <div\n          key={`${index}`}\n          onClick={onClick}\n          onMouseDown={disabled ? void 0 : e => {\n            onChooseItem(index);\n          }}\n        >\n          {itemNode}\n        </div>\n      </PseudoClasses>\n    );\n  }",
           "type": "(itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: CSSProperties, onClic..."
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(listView: ListView) => { root?: CSSProperties; item?: CSSProperties; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/ListView/index\""
 }

@@ -3,20 +3,16 @@
   "name": "\"D:/react-uwp/src/MarkdownRender/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "MarkdownRenderProps",
-      "documentation": ""
+      "name": "MarkdownRenderProps"
     },
     {
-      "name": "MarkdownRender",
-      "documentation": ""
+      "name": "MarkdownRender"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "MarkdownRender"
       ]
@@ -44,12 +40,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "MarkdownRenderProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -60,66 +54,49 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
-        },
-        {
-          "name": "defaultProps",
-          "initializerText": " {\n    text: \"\"\n  }",
-          "documentation": "",
-          "type": "{ text: string; }"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "componentWillMount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "componentDidMount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "componentDidUpdate",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "updateThemeStyle",
-          "initializerText": " () => {\n    const { darkThemeCSSString, lightThemeCSSString } = this.props;\n    const { theme } = this.context;\n    let markdownStyleString: any;\n    if (theme.isDarkTheme) {\n      markdownStyleString = darkThemeCSSString || prismOkaidiaCSS;\n    } else {\n      markdownStyleString = lightThemeCSSString || prismCoyCSS;\n    }\n\n    const className = `react-uwp-markdown-style-sheet-${theme.themeName}`;\n    let styleSheet = document.querySelector(`.${className}`);\n    const cssString = getCSSString(theme, `react-uwp-markdown-${theme.themeName}`) + \"\\n\" + markdownStyleString;\n    if (!styleSheet) {\n      styleSheet = document.createElement(\"style\");\n      styleSheet.className = className;\n      styleSheet.innerHTML = cssString;\n      document.head.appendChild(styleSheet);\n    } else {\n      styleSheet.innerHTML = cssString;\n    }\n  }",
-          "documentation": "",
+          "initializerText": " () => {\r\n    const { darkThemeCSSString, lightThemeCSSString } = this.props;\r\n    const { theme } = this.context;\r\n    let markdownStyleString: any;\r\n    if (theme.isDarkTheme) {\r\n      markdownStyleString = darkThemeCSSString || prismOkaidiaCSS;\r\n    } else {\r\n      markdownStyleString = lightThemeCSSString || prismCoyCSS;\r\n    }\r\n\r\n    const CSSText = getCSSText(theme, `react-uwp-markdown`) + \"\\n\" + markdownStyleString;\r\n    theme.styleManager.addCSSTextWithUpdate(CSSText);\r\n  }",
           "type": "() => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
-      "name": "getCSSString",
-      "documentation": "",
+      "name": "getCSSText",
       "type": "(theme: any, className: string) => string"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/MarkdownRender/index\""
 }

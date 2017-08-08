@@ -3,32 +3,25 @@
   "name": "\"D:/react-uwp/src/Tabs/index\"",
   "exports": [
     {
-      "name": "Tab",
-      "documentation": ""
+      "name": "Tab"
     },
     {
-      "name": "TabProps",
-      "documentation": ""
+      "name": "TabProps"
     },
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "TabsProps",
-      "documentation": ""
+      "name": "TabsProps"
     },
     {
-      "name": "TabsState",
-      "documentation": ""
+      "name": "TabsState"
     },
     {
-      "name": "Tabs",
-      "documentation": ""
+      "name": "Tabs"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Tabs"
       ]
@@ -67,13 +60,41 @@
           "documentation": "Custom set render `Tab Title` method.",
           "isRequired": false,
           "type": "(title?: string) => ReactNode"
+        },
+        {
+          "name": "useAnimate",
+          "documentation": "If true, will add animate to tabs in out.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "animateMode",
+          "documentation": "Set tabs animate mode.",
+          "isRequired": false,
+          "type": "\"in\" | \"out\" | \"in-out\""
+        },
+        {
+          "name": "animateSpeed",
+          "documentation": "Set tabs animate speed.",
+          "isRequired": false,
+          "type": "number"
+        },
+        {
+          "name": "animateEnterStyle",
+          "documentation": "Set tab animate enter style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "animateLeaveStyle",
+          "documentation": "Set tab animate leave style.",
+          "isRequired": false,
+          "type": "CSSProperties"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "TabsProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -84,31 +105,26 @@
       "members": [
         {
           "name": "tabFocusIndex",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "Tabs",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    renderTitle: (title: string) => title\n  }",
-          "documentation": "",
+          "initializerText": " {\n    renderTitle: (title: string) => title,\n    useAnimate: true,\n    animateMode: \"in\",\n    animateSpeed: 500,\n    animateEnterStyle: {\n      transform: \"translateX(0)\",\n      opacity: 1\n    },\n    animateLeaveStyle: {\n      transform: \"translateX(100%)\",\n      opacity: 0\n    }\n  }",
           "type": "TabsProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -116,36 +132,29 @@
         {
           "name": "state",
           "initializerText": " {\n    tabFocusIndex: this.props.defaultFocusTabIndex || 0\n  }",
-          "documentation": "",
           "type": "TabsState"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: TabsProps) => void"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(Tabs: Tabs) => { root?: CSSProperties; titles?: CSSProperties; title?: CSSProperties; titleFocus..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Tabs/index\""
 }

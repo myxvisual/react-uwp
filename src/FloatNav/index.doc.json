@@ -3,28 +3,22 @@
   "name": "\"D:/react-uwp/src/FloatNav/index\"",
   "exports": [
     {
-      "name": "ExpandedItem",
-      "documentation": ""
+      "name": "ExpandedItem"
     },
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "FloatNavProps",
-      "documentation": ""
+      "name": "FloatNavProps"
     },
     {
-      "name": "FloatNavState",
-      "documentation": ""
+      "name": "FloatNavState"
     },
     {
-      "name": "FloatNav",
-      "documentation": ""
+      "name": "FloatNav"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "FloatNav"
       ]
@@ -64,8 +58,7 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "DataProps",
@@ -118,12 +111,10 @@
           "isRequired": false,
           "type": "(itemIndex?: number) => void"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "FloatNavProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -134,34 +125,28 @@
       "members": [
         {
           "name": "currFocusItemIndex",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "hoverItem",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "hoverIndexArray",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean[]"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -169,19 +154,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    onFocusItem: emptyFunc,\n    expandedItems: [],\n    initWidth: 48,\n    isFloatRight: true,\n    expandedWidth: 240\n  }",
-          "documentation": "",
           "type": "FloatNavProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -189,54 +171,48 @@
         {
           "name": "state",
           "initializerText": " {\n    currFocusItemIndex: this.props.focusItemIndex,\n    hoverItem: null,\n    hoverIndexArray: []\n  }",
-          "documentation": "",
           "type": "FloatNavState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: FloatNavProps) => void"
         },
         {
           "name": "shouldComponentUpdate",
-          "documentation": "",
           "type": "(nextProps: FloatNavProps, nextState: FloatNavState) => boolean"
         },
         {
           "name": "focusIndex",
           "initializerText": " (currFocusItemIndex: number) => this.setState({ currFocusItemIndex })",
-          "documentation": "",
           "type": "(currFocusItemIndex: number) => void"
         },
         {
           "name": "getFocusIndex",
           "initializerText": " () => this.state.currFocusItemIndex",
-          "documentation": "",
           "type": "() => number"
         },
         {
           "name": "getItems",
           "initializerText": " () => this.props.expandedItems",
-          "documentation": "",
           "type": "() => ExpandedItem[]"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
+    },
+    {
+      "name": "getStyles",
+      "type": "(floatNav: FloatNav) => { root: CSSProperties; wrapper: any; button: CSSProperties; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/FloatNav/index\""
 }

@@ -3,24 +3,16 @@
   "name": "\"D:/react-uwp/src/Button/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "ButtonProps",
-      "documentation": ""
+      "name": "ButtonProps"
     },
     {
-      "name": "ButtonState",
-      "documentation": ""
-    },
-    {
-      "name": "Button",
-      "documentation": ""
+      "name": "Button"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Button"
       ]
@@ -84,65 +76,60 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "ButtonProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
       ]
     },
     {
-      "name": "ButtonState",
-      "documentation": ""
+      "name": "labelStyle",
+      "type": "CSSProperties",
+      "initializerText": " {\n  verticalAlign: \"middle\"\n}"
+    },
+    {
+      "name": "labelStyle",
+      "type": "CSSProperties"
     },
     {
       "name": "Button",
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    borderSize: \"2px\",\r\n    children: \"Button\",\r\n    iconPosition: \"left\"\r\n  }",
-          "documentation": "",
+          "initializerText": " {\n    borderSize: \"2px\",\n    iconPosition: \"left\"\n  }",
           "type": "ButtonProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "refs",
-          "documentation": "",
           "type": "{ container: HTMLButtonElement; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Button/index\""
 }

@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/TextBox/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "TextBoxProps",
-      "documentation": ""
+      "name": "TextBoxProps"
     },
     {
-      "name": "TextBoxState",
-      "documentation": ""
+      "name": "TextBoxState"
     },
     {
-      "name": "TextBox",
-      "documentation": ""
+      "name": "TextBox"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "TextBox"
       ]
@@ -72,12 +67,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "TextBoxProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -88,28 +81,23 @@
       "members": [
         {
           "name": "hovered",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "focused",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -117,19 +105,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    textBoxStyle: {\n      fontSize: \"inherit\",\n      outline: \"none\",\n      transition: \"all .25s\"\n    },\n    onFocus: emptyFunc,\n    onBlur: emptyFunc,\n    onChange: emptyFunc,\n    onChangeValue: emptyFunc\n  }",
-          "documentation": "",
+          "initializerText": " {\n    background: \"none\",\n    textBoxStyle: {\n      fontSize: \"inherit\",\n      outline: \"none\",\n      transition: \"all .25s\"\n    },\n    onFocus: emptyFunc,\n    onBlur: emptyFunc,\n    onChange: emptyFunc,\n    onChangeValue: emptyFunc\n  }",
           "type": "TextBoxProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -137,78 +122,64 @@
         {
           "name": "state",
           "initializerText": " {}",
-          "documentation": "",
           "type": "TextBoxState"
         },
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "inputElm",
-          "documentation": "",
           "type": "HTMLInputElement"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "handleClick",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: false });\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleHover",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: true });\n    this.handleBlur = () => {};\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleUnHover",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: false });\n    this.handleBlur = (e?: React.FocusEvent<HTMLInputElement>) => {\n      this.setState({ focused: false });\n      this.props.onBlur(e as any);\n    };\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleFocus",
           "initializerText": " (e?: React.FocusEvent<HTMLInputElement>) => {\n    this.setState({ focused: true });\n    this.props.onFocus(e as any);\n  }",
-          "documentation": "",
           "type": "(e?: FocusEvent<HTMLInputElement>) => void"
         },
         {
           "name": "handleBlur",
           "initializerText": " (e?: React.FocusEvent<HTMLInputElement>) => {\n    this.setState({ focused: false });\n    this.props.onBlur(e as any);\n  }",
-          "documentation": "",
           "type": "(e?: FocusEvent<HTMLInputElement>) => void"
         },
         {
           "name": "setValue",
           "initializerText": " (value: string) => this.inputElm.value = value",
-          "documentation": "",
           "type": "(value: string) => string"
         },
         {
           "name": "getValue",
           "initializerText": " () => this.inputElm.value",
-          "documentation": "",
           "type": "() => string"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/TextBox/index\""
 }

@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/DropDownMenu/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "DropDownMenuProps",
-      "documentation": ""
+      "name": "DropDownMenuProps"
     },
     {
-      "name": "DropDownMenuState",
-      "documentation": ""
+      "name": "DropDownMenuState"
     },
     {
-      "name": "DropDownMenu",
-      "documentation": ""
+      "name": "DropDownMenu"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "DropDownMenu"
       ]
@@ -84,12 +79,10 @@
           "isRequired": false,
           "type": "HTMLAttributes<HTMLDivElement>"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "DropDownMenuProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -100,34 +93,28 @@
       "members": [
         {
           "name": "showList",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "currentValue",
-          "documentation": "",
           "isRequired": false,
           "type": "string | string[]"
         },
         {
           "name": "currentValues",
-          "documentation": "",
           "isRequired": false,
           "type": "string[]"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -135,19 +122,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    itemWidth: 132,\n    padding: 4,\n    itemHeight: 28,\n    onChangeValue: emptyFunc,\n    wrapperAttributes: {\n      onMouseEnter: emptyFunc,\n      onMouseLeave: emptyFunc\n    },\n    itemAttributes: {\n      onMouseEnter: emptyFunc,\n      onMouseLeave: emptyFunc\n    }\n  }",
-          "documentation": "",
           "type": "DropDownMenuProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -155,43 +139,69 @@
         {
           "name": "state",
           "initializerText": " {\n    currentValue: this.props.defaultValue || Array.isArray(this.props.values) && this.props.values[0],\n    currentValues: (() => {\n      let { values, defaultValue } = this.props;\n      if (!Array.isArray(values)) return [];\n      values = [...values];\n      defaultValue = (defaultValue || values[0]) as string;\n      values.unshift(...values.splice(values.indexOf(defaultValue), 1));\n      return values;\n    })()\n  }",
-          "documentation": "",
           "type": "DropDownMenuState"
         },
         {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "type": "AddBlurEvent"
+        },
+        {
+          "name": "rootElm",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "wrapperElm",
+          "type": "HTMLDivElement"
+        },
+        {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: DropDownMenuProps) => void"
+        },
+        {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    this.addBlurEvent.setConfig({\n      addListener: this.state.showList,\n      clickExcludeElm: this.rootElm,\n      blurCallback: () => {\n        const { currentValue, currentValues } = this.state;\n        currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue as string), 1));\n        this.setState({\n          currentValue,\n          showList: false,\n          currentValues\n        });\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidUpdate",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "type": "() => void"
         },
         {
           "name": "toggleShowList",
           "initializerText": " (e: React.SyntheticEvent<HTMLDivElement>) => {\n    const { currentValues, showList } = this.state;\n    const valueNode = e.currentTarget.children[0] as any;\n    const currentValue = valueNode.innerText;\n    if (showList) {\n      currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));\n    }\n    if (currentValue !== this.state.currentValue) {\n      this.props.onChangeValue(currentValue);\n    }\n    this.setState({\n      currentValue,\n      showList: !showList,\n      currentValues: showList ? currentValues : [...this.props.values]\n    });\n  }",
-          "documentation": "",
           "type": "(e: SyntheticEvent<HTMLDivElement>) => void"
         },
         {
           "name": "getValue",
           "initializerText": " () => this.state.currentValue",
-          "documentation": "",
           "type": "() => string | string[]"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
+    },
+    {
+      "name": "getStyles",
+      "type": "(dropDownMenu: DropDownMenu) => { root: CSSProperties; wrapper: any; value: any; content: CSSProp..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/DropDownMenu/index\""
 }

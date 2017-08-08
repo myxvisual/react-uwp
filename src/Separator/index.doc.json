@@ -3,20 +3,16 @@
   "name": "\"D:/react-uwp/src/Separator/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "SeparatorProps",
-      "documentation": ""
+      "name": "SeparatorProps"
     },
     {
-      "name": "Separator",
-      "documentation": ""
+      "name": "Separator"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Separator"
       ]
@@ -28,16 +24,13 @@
       "members": [
         {
           "name": "direction",
-          "documentation": "",
           "isRequired": false,
           "type": "\"row\" | \"column\""
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "SeparatorProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -48,39 +41,33 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    direction: \"row\"\n  }",
+          "type": "SeparatorProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
       "members": [
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
-    },
-    {
-      "name": "getStyles",
-      "documentation": "",
-      "type": "(separator: Separator) => { root?: CSSProperties; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Separator/index\""
 }

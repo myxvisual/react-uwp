@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/Slider/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "SliderProps",
-      "documentation": ""
+      "name": "SliderProps"
     },
     {
-      "name": "SliderState",
-      "documentation": ""
+      "name": "SliderState"
     },
     {
-      "name": "Slider",
-      "documentation": ""
+      "name": "Slider"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "Slider"
       ]
@@ -144,12 +139,10 @@
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "SliderProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -160,40 +153,33 @@
       "members": [
         {
           "name": "currValue",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "valueRatio",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "hovered",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "dragging",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -201,19 +187,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    displayMode: \"horizon\",\n    minValue: 0,\n    maxValue: 1,\n    initValue: 0,\n    onChangeValue: emptyFunc,\n    onChangedValue: emptyFunc,\n    onChangeValueRatio: emptyFunc,\n    onChangedValueRatio: emptyFunc,\n    height: 24,\n    barHeight: 2,\n    controllerWidth: 8,\n    showValueInfo: false,\n    numberToFixed: 0,\n    unit: \"\",\n    transition: \"all 0.25s\",\n    throttleTimer: 120 / 1000\n  }",
-          "documentation": "",
           "type": "SliderProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -221,131 +204,107 @@
         {
           "name": "originBodyStyle",
           "initializerText": " IS_NODE_ENV ? void 0 : { ...document.body.style }",
-          "documentation": "",
           "type": "{ [index: number]: string; alignContent: string; alignItems: string; alignmentBaseline: string; a..."
         },
         {
           "name": "state",
           "initializerText": " {\n    currValue: this.props.initValue,\n    valueRatio: this.props.initValue / (this.props.maxValue - this.props.minValue)\n  }",
-          "documentation": "",
           "type": "SliderState"
         },
         {
           "name": "throttleNow",
           "initializerText": " null",
-          "documentation": "",
           "type": "number"
         },
         {
           "name": "throttleNowTimer",
           "initializerText": " null",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "onChangedValueTimer",
           "initializerText": " null",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "labelElm",
-          "documentation": "",
           "type": "HTMLSpanElement"
         },
         {
           "name": "controllerWrapperElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "controllerElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "barElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: SliderProps) => void"
         },
         {
           "name": "componentDidMount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "componentWillUnmount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "handelMouseEnter",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: true });\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handelMouseLeave",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: false });\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handelOnClick",
           "initializerText": " (e: React.MouseEvent<HTMLDivElement>) => {\n    this.setValueByEvent(e);\n  }",
-          "documentation": "",
           "type": "(e: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleDraggingStart",
           "initializerText": " (e: any) => {\n    e.preventDefault();\n    Object.assign(document.body.style, {\n      userSelect: \"none\",\n      msUserSelect: \"none\",\n      webkitUserSelect: \"none\",\n      cursor: \"default\"\n    });\n    document.documentElement.addEventListener(\"mousemove\", this.setValueByEvent);\n    document.documentElement.addEventListener(\"touchmove\", this.setValueByEvent);\n    document.documentElement.addEventListener(\"mouseup\", this.handleDragged);\n    document.documentElement.addEventListener(\"touchend\", this.handleDragged);\n  }",
-          "documentation": "",
           "type": "(e: any) => void"
         },
         {
           "name": "handleDragged",
           "initializerText": " (e: any) => {\n    Object.assign(document.body.style, {\n      userSelect: void 0,\n      msUserSelect: void 0,\n      webkitUserSelect: void 0,\n      cursor: void 0,\n      ...this.originBodyStyle\n    });\n    if (this.state.dragging) {\n      this.setState({ dragging: false });\n    }\n    document.documentElement.removeEventListener(\"mousemove\", this.setValueByEvent);\n    document.documentElement.removeEventListener(\"touchmove\", this.setValueByEvent);\n    document.documentElement.removeEventListener(\"mouseup\", this.handleDragged);\n    document.documentElement.removeEventListener(\"touchend\", this.handleDragged);\n  }",
-          "documentation": "",
           "type": "(e: any) => void"
         },
         {
           "name": "setValueByEvent",
-          "initializerText": " (e: any, type?: any) => {\n    const isTouchEvent = e.type.includes(\"touch\");\n    clearTimeout(this.onChangedValueTimer);\n    const isDraggingEvent = e.type === \"mousemove\" || e.type === \"touchmove\";\n    if (isDraggingEvent && !this.state.dragging) {\n      e.preventDefault();\n      this.setState({ dragging: true });\n    }\n\n    if (isDraggingEvent) {\n      const nowTime = performance ? performance.now() : Date.now();\n      if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {\n        clearTimeout(this.throttleNowTimer);\n        this.throttleNow = nowTime;\n      } else {\n        this.throttleNowTimer = setTimeout(() => {\n          this.setValueByEvent(e, type);\n        }, this.props.throttleTimer);\n        return;\n      }\n    }\n\n    const {\n      displayMode,\n      maxValue,\n      minValue,\n      barBackground,\n      barBackgroundImage,\n      label,\n      numberToFixed,\n      unit,\n      onChangeValue,\n      onChangedValue,\n      onChangeValueRatio\n    } = this.props;\n    const isHorizonMode = displayMode === \"horizon\";\n    const useCustomBackground = barBackground || barBackgroundImage;\n    const { left, width, bottom, height } = this.rootElm.getBoundingClientRect();\n    const { clientX, clientY } = isTouchEvent ? e.changedTouches[0] : e;\n    const controllerClientRect = this.controllerElm.getBoundingClientRect();\n    const controllerWidth = controllerClientRect.width;\n    const controllerHeight = controllerClientRect.height;\n\n    let valueRatio = isHorizonMode ? (clientX - left) / (width - controllerWidth) : -(clientY - bottom) / (height - controllerHeight);\n    valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);\n    const currValue = minValue + (maxValue - minValue) * valueRatio;\n\n    this.state.currValue = currValue;\n    this.state.valueRatio = valueRatio;\n\n    if (e.type === \"click\") {\n      this.setState({ currValue });\n    } else {\n      if (!useCustomBackground) {\n        const barTransform = `translate${isHorizonMode ? \"X\" : \"Y\"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`;\n        Object.assign(this.barElm.style, {\n          transform: barTransform,\n          webKitTransform: barTransform,\n          msTransform: barTransform,\n          mozTransform: barTransform\n        } as React.CSSProperties);\n      }\n\n      const transform = `translate${isHorizonMode ? \"X\" : \"Y\"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`;\n      Object.assign(this.controllerWrapperElm.style, {\n        transform,\n        webKitTransform: transform,\n        msTransform: transform,\n        mozTransform: transform\n      } as React.CSSProperties);\n\n      if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;\n    }\n\n    onChangeValue(currValue);\n    onChangeValueRatio(valueRatio);\n\n    this.onChangedValueTimer = setTimeout(() => {\n      onChangedValue(currValue);\n      onChangeValueRatio(valueRatio);\n    }, 0);\n  }",
-          "documentation": "",
+          "initializerText": " (e: any, type?: any) => {\n    const isTouchEvent = e.type.includes(\"touch\");\n    clearTimeout(this.onChangedValueTimer);\n    const isDraggingEvent = e.type === \"mousemove\" || e.type === \"touchmove\";\n    if (isDraggingEvent && !this.state.dragging) {\n      e.preventDefault();\n      this.setState({ dragging: true });\n    }\n\n    if (isDraggingEvent) {\n      const nowTime = performance ? performance.now() : Date.now();\n      if (!this.throttleNow || (nowTime - this.throttleNow > this.props.throttleTimer)) {\n        clearTimeout(this.throttleNowTimer);\n        this.throttleNow = nowTime;\n      } else {\n        this.throttleNowTimer = setTimeout(() => {\n          this.setValueByEvent(e, type);\n        }, this.props.throttleTimer);\n        return;\n      }\n    }\n\n    const {\n      displayMode,\n      maxValue,\n      minValue,\n      barBackground,\n      barBackgroundImage,\n      label,\n      numberToFixed,\n      unit,\n      onChangeValue,\n      onChangedValue,\n      onChangeValueRatio\n    } = this.props;\n    const isHorizonMode = displayMode === \"horizon\";\n    const useCustomBackground = barBackground || barBackgroundImage;\n    const { left, width, bottom, height } = this.rootElm.getBoundingClientRect();\n    const { clientX, clientY } = isTouchEvent ? e.changedTouches[0] : e;\n    const controllerClientRect = this.controllerElm.getBoundingClientRect();\n    const controllerWidth = controllerClientRect.width;\n    const controllerHeight = controllerClientRect.height;\n\n    let valueRatio = isHorizonMode ? (clientX - left) / (width - controllerWidth) : -(clientY - bottom) / (height - controllerHeight);\n    valueRatio = valueRatio < 0 ? 0 : (valueRatio > 1 ? 1 : valueRatio);\n    const currValue = minValue + (maxValue - minValue) * valueRatio;\n\n    this.state.currValue = currValue;\n    this.state.valueRatio = valueRatio;\n\n    if (e.type === \"click\" || e.type === \"touchstart\") {\n      this.setState({ currValue });\n    } else {\n      if (!useCustomBackground) {\n        const barTransform = `translate${isHorizonMode ? \"X\" : \"Y\"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`;\n        Object.assign(this.barElm.style, {\n          transform: barTransform,\n          webKitTransform: barTransform,\n          msTransform: barTransform,\n          mozTransform: barTransform\n        } as React.CSSProperties);\n      }\n\n      const transform = `translate${isHorizonMode ? \"X\" : \"Y\"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`;\n      Object.assign(this.controllerWrapperElm.style, {\n        transform,\n        webKitTransform: transform,\n        msTransform: transform,\n        mozTransform: transform\n      } as React.CSSProperties);\n\n      if (label) this.labelElm.innerText = `${currValue.toFixed(numberToFixed)}${unit}`;\n    }\n\n    onChangeValue(currValue);\n    onChangeValueRatio(valueRatio);\n\n    this.onChangedValueTimer = setTimeout(() => {\n      onChangedValue(currValue);\n      onChangeValueRatio(valueRatio);\n    }, 0);\n  }",
           "type": "(e: any, type?: any) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
-      "type": "(slider: Slider) => { wrapper?: CSSProperties; root?: CSSProperties; barContainer?: CSSProperties..."
+      "type": "(slider: Slider) => { wrapper?: CSSProperties; root?: CSSProperties; infoWrapper?: CSSProperties;..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/Slider/index\""
 }

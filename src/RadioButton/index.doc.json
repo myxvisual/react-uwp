@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/RadioButton/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "RadioButtonProps",
-      "documentation": ""
+      "name": "RadioButtonProps"
     },
     {
-      "name": "RadioButtonState",
-      "documentation": ""
+      "name": "RadioButtonState"
     },
     {
-      "name": "RadioButton",
-      "documentation": ""
+      "name": "RadioButton"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "RadioButton"
       ]
@@ -60,12 +55,10 @@
           "isRequired": false,
           "type": "string"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "RadioButtonProps",
-      "documentation": "",
       "extends": [
         "DataProps",
         "HTMLAttributes"
@@ -76,34 +69,32 @@
       "members": [
         {
           "name": "currChecked",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "hovered",
-          "documentation": "",
-          "isRequired": false,
-          "type": "boolean"
-        },
-        {
-          "name": "mouseDowned",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
+      "name": "rootStyle",
+      "type": "CSSProperties",
+      "initializerText": " {\n  display: \"inline-block\",\n  verticalAlign: \"middle\",\n  cursor: \"default\"\n}"
+    },
+    {
+      "name": "rootStyle",
+      "type": "CSSProperties"
+    },
+    {
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -111,19 +102,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    size: 24,\n    onCheck: emptyFunc\n  }",
-          "documentation": "",
           "type": "RadioButtonProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -131,66 +119,48 @@
         {
           "name": "state",
           "initializerText": " {\n    currChecked: this.props.defaultChecked\n  }",
-          "documentation": "",
           "type": "RadioButtonState"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLSpanElement"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: RadioButtonProps) => void"
         },
         {
           "name": "handleClick",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    const { currChecked } = this.state;\n    if (!currChecked) {\n      this.setState({ currChecked: true });\n    }\n    this.props.onCheck(true);\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleMouseEnter",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: true });\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleMouseLeave",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ hovered: false });\n  }",
-          "documentation": "",
-          "type": "(e?: MouseEvent<HTMLDivElement>) => void"
-        },
-        {
-          "name": "handleMouseDown",
-          "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ mouseDowned: true });\n  }",
-          "documentation": "",
-          "type": "(e?: MouseEvent<HTMLDivElement>) => void"
-        },
-        {
-          "name": "handleMouseUp",
-          "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.setState({ mouseDowned: false });\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
+    },
+    {
+      "name": "getStyles",
+      "type": "(radioButton: RadioButton) => { root: any; wrapper: any; content: any; label: any; labelText: { f..."
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/RadioButton/index\""
 }

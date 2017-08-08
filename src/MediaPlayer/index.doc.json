@@ -3,24 +3,19 @@
   "name": "\"D:/react-uwp/src/MediaPlayer/index\"",
   "exports": [
     {
-      "name": "DataProps",
-      "documentation": ""
+      "name": "DataProps"
     },
     {
-      "name": "MediaPlayerProps",
-      "documentation": ""
+      "name": "MediaPlayerProps"
     },
     {
-      "name": "MediaPlayerState",
-      "documentation": ""
+      "name": "MediaPlayerState"
     },
     {
-      "name": "MediaPlayer",
-      "documentation": ""
+      "name": "MediaPlayer"
     },
     {
       "name": "default",
-      "documentation": "",
       "extends": [
         "MediaPlayer"
       ]
@@ -28,14 +23,12 @@
   ],
   "members": [
     {
-      "documentation": "",
       "name": "ReactPlayer",
       "type": "any",
       "initializerText": " RPlayer as any"
     },
     {
       "name": "ReactPlayer",
-      "documentation": "",
       "type": "any"
     },
     {
@@ -186,41 +179,39 @@
           "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
         },
         {
+          "name": "className",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
           "name": "style",
-          "documentation": "",
           "isRequired": false,
           "type": "CSSProperties"
         },
         {
           "name": "onTouchStart",
-          "documentation": "",
           "isRequired": false,
           "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
         },
         {
           "name": "onMouseEnter",
-          "documentation": "",
           "isRequired": false,
           "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
         },
         {
           "name": "onMouseLeave",
-          "documentation": "",
           "isRequired": false,
           "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
         },
         {
           "name": "onMouseMove",
-          "documentation": "",
           "isRequired": false,
           "type": "EventHandler<SyntheticEvent<HTMLDivElement>>"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
       "name": "MediaPlayerProps",
-      "documentation": "",
       "extends": [
         "DataProps"
       ]
@@ -230,76 +221,63 @@
       "members": [
         {
           "name": "currShowControl",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "currPlaying",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "currVolume",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "currPlayed",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "currLoaded",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "currPlaybackRate",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "fullScreenMode",
-          "documentation": "",
           "isRequired": false,
           "type": "boolean"
         },
         {
           "name": "duration",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "played",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         },
         {
           "name": "loaded",
-          "documentation": "",
           "isRequired": false,
           "type": "number"
         }
-      ],
-      "documentation": ""
+      ]
     },
     {
-      "documentation": "",
       "name": "emptyFunc",
       "type": "() => void",
       "initializerText": " () => {}"
     },
     {
       "name": "emptyFunc",
-      "documentation": "",
       "type": "() => void"
     },
     {
@@ -307,19 +285,16 @@
       "exports": [
         {
           "name": "prototype",
-          "documentation": "",
           "type": "prototype"
         },
         {
           "name": "defaultProps",
           "initializerText": " {\n    displayMode: \"default\",\n    width: 640,\n    height: 360,\n    loop: false,\n    showControl: true,\n    playing: false,\n    volume: 0.8,\n    playbackRate: 1.0,\n    onTouchStart: emptyFunc,\n    onMouseEnter: emptyFunc,\n    onMouseLeave: emptyFunc,\n    onMouseMove: emptyFunc\n  }",
-          "documentation": "",
           "type": "MediaPlayerProps"
         },
         {
           "name": "contextTypes",
           "initializerText": " { theme: PropTypes.object }",
-          "documentation": "",
           "type": "{ theme: Requireable<any>; }"
         }
       ],
@@ -327,145 +302,124 @@
         {
           "name": "getProps2State",
           "initializerText": " (props: MediaPlayerProps): MediaPlayerState => ({\n    currShowControl: props.showControl,\n    currPlaying: props.playing,\n    currVolume: props.volume,\n    currPlaybackRate: props.playbackRate\n  })",
-          "documentation": "",
           "type": "(props: MediaPlayerProps) => MediaPlayerState"
         },
         {
           "name": "state",
           "initializerText": " Object.assign({\n    currShowControl: false,\n    currPlaying: false,\n    currVolume: 0.8,\n    currPlayed: 0,\n    currLoaded: 0,\n    currPlaybackRate: 1.0\n  }, this.getProps2State(this.props))",
-          "documentation": "",
           "type": "MediaPlayerState"
         },
         {
           "name": "componentWillReceiveProps",
-          "documentation": "",
           "type": "(nextProps: MediaPlayerProps) => void"
         },
         {
           "name": "rootElm",
-          "documentation": "",
           "type": "HTMLDivElement"
         },
         {
           "name": "showControlTimer",
           "initializerText": " null",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "mouseMoveTimer",
           "initializerText": " null",
-          "documentation": "",
+          "type": "any"
+        },
+        {
+          "name": "endTimer",
+          "initializerText": " null",
           "type": "any"
         },
         {
           "name": "reactPlayer",
-          "documentation": "",
           "type": "any"
         },
         {
           "name": "context",
-          "documentation": "",
           "type": "{ theme: any; }"
         },
         {
           "name": "componentDidMount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "componentWillUnmount",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "componentWillUpdate",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "handleMouseEnter",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    clearTimeout(this.showControlTimer);\n    this.toggleShowControl(true);\n    this.props.onMouseEnter(e);\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleMouseLeave",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    this.showControlTimer = setTimeout(() => {\n      this.toggleShowControl(false);\n    }, 3500);\n    this.props.onMouseLeave(e);\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleMouseMove",
           "initializerText": " (e?: React.MouseEvent<HTMLDivElement>) => {\n    clearTimeout(this.mouseMoveTimer);\n    clearTimeout(this.showControlTimer);\n    this.mouseMoveTimer = setTimeout(() => {\n      this.toggleShowControl(true);\n    }, 200);\n    this.showControlTimer = setTimeout(() => {\n      this.toggleShowControl(false);\n    }, 3500);\n    this.props.onMouseMove(e);\n  }",
-          "documentation": "",
           "type": "(e?: MouseEvent<HTMLDivElement>) => void"
         },
         {
           "name": "handleTouchStart",
           "initializerText": " (e?: React.TouchEvent<HTMLDivElement>) => {\n    this.toggleShowControl(true);\n    this.props.onTouchStart(e);\n  }",
-          "documentation": "",
           "type": "(e?: TouchEvent<HTMLDivElement>) => void"
         },
         {
           "name": "toggleShowControl",
           "initializerText": " (currShowControl?: any) => {\n    if (typeof currShowControl === \"boolean\") {\n      if (currShowControl !== this.state.currShowControl) {\n        this.setState({ currShowControl });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        currShowControl: !prevState.currShowControl\n      }));\n    }\n  }",
-          "documentation": "",
           "type": "(currShowControl?: any) => void"
         },
         {
           "name": "togglePlaying",
           "initializerText": " (currPlaying?: any) => {\n    if (typeof currPlaying === \"boolean\") {\n      if (currPlaying !== this.state.currPlaying) {\n        this.setState({ currPlaying });\n      }\n    } else {\n      this.setState((prevState, prevProps) => ({\n        currPlaying: !prevState.currPlaying\n      }));\n    }\n  }",
-          "documentation": "",
           "type": "(currPlaying?: any) => void"
         },
         {
           "name": "handleFullScreenAction",
           "initializerText": " () => {\n    if (this.state.fullScreenMode) {\n      this.existFullscreen();\n    }\n    const rootElm: any = findDOMNode(this.reactPlayer).children[0];\n    if (rootElm.requestFullscreen) {\n      rootElm.requestFullscreen();\n    } else if (rootElm.msRequestFullscreen) {\n      rootElm.msRequestFullscreen();\n    } else if (rootElm.mozRequestFullScreen) {\n      rootElm.mozRequestFullScreen();\n    } else if (rootElm.webkitRequestFullscreen) {\n      rootElm.webkitRequestFullscreen();\n    }\n    this.setState({ currShowControl: true });\n  }",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "existFullscreen",
           "initializerText": " () => {\n    let document: any = window.document;\n    if (document.exitFullscreen) {\n      document.exitFullscreen();\n    } else if (document.msExitFullscreen) {\n      document.msExitFullscreen();\n    } else if (document.mozCancelFullScreen) {\n      document.mozCancelFullScreen();\n    } else if (document.webkitExitFullscreen) {\n      document.webkitExitFullscreen();\n    }\n  }",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "handleKeyDown",
           "initializerText": " (e: KeyboardEvent) => {\n    if (e.keyCode === 13 || e.keyCode === 27) {\n      this.existFullscreen();\n    }\n  }",
-          "documentation": "",
           "type": "(e: KeyboardEvent) => void"
         },
         {
           "name": "exitFullScreen",
           "initializerText": " () => {\n    let document: any = window.document;\n    const haveFullScreenElm = document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement !== null;\n    if (haveFullScreenElm) {\n      this.setState((prevState, prevProps) => ({ fullScreenMode: !this.state.fullScreenMode }));\n    }\n  }",
-          "documentation": "",
           "type": "() => void"
         },
         {
           "name": "handleEnded",
-          "initializerText": " () => {\n    setTimeout(() => {\n      this.setState({\n        currPlaying: false,\n        currShowControl: true,\n        played: 0\n      });\n    }, 1000);\n  }",
-          "documentation": "",
+          "initializerText": " () => {\n    this.endTimer = setTimeout(() => {\n      this.setState({\n        currPlaying: false,\n        currShowControl: true,\n        played: 0\n      });\n    }, 1000);\n  }",
           "type": "() => void"
         },
         {
           "name": "render",
-          "documentation": "",
           "type": "() => Element"
         }
       ],
-      "documentation": "",
       "extends": [
         "Component"
       ]
     },
     {
       "name": "getStyles",
-      "documentation": "",
       "type": "(mock: MediaPlayer) => { root?: CSSProperties; }"
     }
   ],
-  "documentation": "",
   "type": "typeof \"D:/react-uwp/src/MediaPlayer/index\""
 }
