@@ -237,7 +237,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     this.state.currValue = currValue;
     this.state.valueRatio = valueRatio;
 
-    if (e.type === "click") {
+    if (e.type === "click" || e.type === "touchstart") {
       this.setState({ currValue });
     } else {
       if (!useCustomBackground) {
@@ -272,22 +272,22 @@ export class Slider extends React.Component<SliderProps, SliderState> {
 
   render() {
     const {
-      minValue, // tslint:disable-line:no-unused-variable
-      maxValue, // tslint:disable-line:no-unused-variable
-      initValue, // tslint:disable-line:no-unused-variable
-      onChangeValue, // tslint:disable-line:no-unused-variable
-      onChangeValueRatio, // tslint:disable-line:no-unused-variable
-      onChangedValue, // tslint:disable-line:no-unused-variable
-      onChangedValueRatio, // tslint:disable-line:no-unused-variable
-      barHeight, // tslint:disable-line:no-unused-variable
-      controllerWidth, // tslint:disable-line:no-unused-variable
-      barBackground, // tslint:disable-line:no-unused-variable
-      barBackgroundImage, // tslint:disable-line:no-unused-variable
-      useSimpleController, // tslint:disable-line:no-unused-variable
-      showValueInfo, // tslint:disable-line:no-unused-variable
-      numberToFixed, // tslint:disable-line:no-unused-variable
-      unit, // tslint:disable-line:no-unused-variable
-      customControllerStyle, //  tslint:disable-line:no-unused-variable
+      minValue,
+      maxValue,
+      initValue,
+      onChangeValue,
+      onChangeValueRatio,
+      onChangedValue,
+      onChangedValueRatio,
+      barHeight,
+      controllerWidth,
+      barBackground,
+      barBackgroundImage,
+      useSimpleController,
+      showValueInfo,
+      numberToFixed,
+      unit,
+      customControllerStyle,
       transition,
       throttleTimer,
       displayMode,
@@ -295,35 +295,40 @@ export class Slider extends React.Component<SliderProps, SliderState> {
     } = this.props;
     const { currValue } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "slider",
+      styles: inlineStyles
+    });
 
     const normalRender = (
       <div
         ref={elm => this.rootElm = elm}
-        style={styles.root}
+        {...styles.root}
         onMouseEnter={this.handelMouseEnter}
         onMouseLeave={this.handelMouseLeave}
         onClick={this.setValueByEvent}
+        onTouchStart={this.setValueByEvent}
         onMouseDown={this.handleDraggingStart}
         onMouseUp={this.handleDragged}
       >
-        <div style={styles.barContainer}>
-          <div style={styles.bar} ref={elm => this.barElm = elm} />
+        <div {...styles.barContainer}>
+          <div {...styles.bar} ref={elm => this.barElm = elm} />
         </div>
-        <div style={styles.controllerWrapper} ref={controllerWrapperElm => this.controllerWrapperElm = controllerWrapperElm}>
-          <div style={styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
+        <div {...styles.controllerWrapper} ref={controllerWrapperElm => this.controllerWrapperElm = controllerWrapperElm}>
+          <div {...styles.controller} ref={controllerElm => this.controllerElm = controllerElm} />
         </div>
       </div>
     );
 
     return (
-      <div {...attributes} style={styles.wrapper}>
+      <div {...attributes} {...styles.wrapper}>
         {showValueInfo ? (
-          <div style={theme.prefixStyle({ display: "flex", flexDirection: displayMode === "horizon" ? "row" : "column", alignItems: "center" })}>
+          <div {...styles.infoWrapper}>
             {normalRender}
             <span
               ref={labelElm => this.labelElm = labelElm}
-              style={styles.label}
+              {...styles.label}
             >
               {`${currValue.toFixed(numberToFixed)}${unit}`}
             </span>
@@ -337,6 +342,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
 function getStyles(slider: Slider): {
   wrapper?: React.CSSProperties;
   root?: React.CSSProperties;
+  infoWrapper?: React.CSSProperties;
   barContainer?: React.CSSProperties;
   bar?: React.CSSProperties;
   controllerWrapper?: React.CSSProperties;
@@ -401,6 +407,11 @@ function getStyles(slider: Slider): {
       left: isHorizonMode ? 0 : `calc(50% - ${barHeight2px / 2}px)`,
       top: isHorizonMode ? `calc(50% - ${barHeight2px / 2}px)` : 0
     },
+    infoWrapper: prefixStyle({
+      display: "flex",
+      flexDirection: displayMode === "horizon" ? "row" : "column",
+      alignItems: "center"
+    }),
     bar: prefixStyle({
       transition: currTransition,
       background: useCustomBackground ? barBackground : theme.listAccentLow,
@@ -408,9 +419,11 @@ function getStyles(slider: Slider): {
       position: "absolute",
       width: "100%",
       height: "100%",
-      transform: useCustomBackground ? void 0 : `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`,
       left: 0,
-      top: 0
+      top: 0,
+      dynamicStyle: {
+        transform: useCustomBackground ? void 0 : `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`
+      }
     }),
     controllerWrapper: prefixStyle({
       position: "absolute",
@@ -418,9 +431,11 @@ function getStyles(slider: Slider): {
       top: 0,
       width: "100%",
       height: "100%",
-      transform: `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`,
       pointerEvents: "none",
-      transition: currTransition
+      transition: currTransition,
+      dynamicStyle: {
+        transform: `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`
+      }
     }),
     controller: prefixStyle({
       pointerEvents: "none",
