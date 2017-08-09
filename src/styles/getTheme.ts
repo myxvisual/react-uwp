@@ -65,7 +65,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     },
     useInlineStyle: Boolean(useInlineStyle),
 
-    styleManager: {},
+    styleManager: void 0,
 
     useFluentDesign,
     desktopBackground: void 0,
@@ -129,6 +129,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     isDarkTheme: isDark,
     prefixStyle: prefixAll(userAgent),
     prepareStyle(config, callback) {
+      if (!this.styleManager) return;
       const { extendsClassName, ...managerConfig } = config;
       if (this.useInlineStyle) {
         managerConfig.className += extendsClassName ? ` ${extendsClassName}` : "";
@@ -140,6 +141,7 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
       }
     },
     prepareStyles(config, callback) {
+      if (!this.styleManager) return;
       if (this.useInlineStyle) {
         const { styles } = config;
         const result: any = {};

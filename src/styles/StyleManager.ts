@@ -1,4 +1,5 @@
 import * as createHash from "murmurhash-js/murmurhash3_gc";
+import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 import isUnitlessNumber from "../common/react/isUnitlessNumber";
 
 export const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
@@ -62,8 +63,9 @@ export class StyleManager {
   }
 
   setupStyleElement = () => {
-    const name = `data-uwp-jss-${this.themeId}`;
+    if (IS_NODE_ENV) return;
     if (!this.styleElement) {
+      const name = `data-uwp-jss-${this.themeId}`;
       this.styleElement = document.createElement("style");
       this.styleElement.setAttribute(name, "");
       document.head.appendChild(this.styleElement);
