@@ -92,9 +92,8 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     });
 
     return (
-      <PseudoClasses {...itemStyles}>
+      <PseudoClasses {...itemStyles} key={`${index}`}>
         <div
-          key={`${index}`}
           onClick={onClick}
           onMouseDown={disabled ? void 0 : e => {
             onChooseItem(index);
