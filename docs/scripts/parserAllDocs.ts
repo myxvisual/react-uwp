@@ -53,6 +53,12 @@ files.push("../../src/Animate/CustomAnimate.tsx");
 for (const file of files) {
   parser.parse(
     path.resolve(__dirname, file),
-    result => fs.writeFileSync(result.fileName.replace(/\.tsx?/, ".doc.json"), JSON.stringify(result, null, 2))
+    result => {
+      const fileName = result.fileName.replace(/\.tsx?/, ".doc.json");
+      result.fileName = void 0;
+      result.name = void 0;
+      const data = JSON.stringify(result, null, 2);
+      fs.writeFileSync(fileName, data);
+    }
   );
 }

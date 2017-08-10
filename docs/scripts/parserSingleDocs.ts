@@ -6,13 +6,19 @@ const parser = new Parser();
 
 
 const buildComponentName = process.argv[2] || "Button";
-let fileName = `../../src/${buildComponentName}.tsx`;
+let file = `../../src/${buildComponentName}.tsx`;
 
-if (!fs.existsSync(fileName)) {
-  fileName = `../../src/${buildComponentName}/index.tsx`;
+if (!fs.existsSync(file)) {
+  file = `../../src/${buildComponentName}/index.tsx`;
 }
 
 const result = parser.parseHot(
-  path.resolve(__dirname, fileName),
-  result => fs.writeFileSync(result.fileName.replace(/\.tsx?/, ".doc.json"), JSON.stringify(result, null, 2))
+  path.resolve(__dirname, file),
+  result => {
+    const fileName = result.fileName.replace(/\.tsx?/, ".doc.json");
+    result.fileName = void 0;
+    result.name = void 0;
+    const data = JSON.stringify(result, null, 2);
+    fs.writeFileSync(fileName, data);
+  }
 );
