@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import IS_NODE_ENV from "./common/nodeJS/IS_NODE_ENV";
 
 export interface RenderToBodyProps {
   style?: React.CSSProperties;
@@ -8,8 +9,10 @@ export interface RenderToBodyProps {
 }
 
 export default class RenderToBody extends React.Component<RenderToBodyProps> {
-  rootElm = document.createElement("div");
+  rootElm = IS_NODE_ENV ? null : document.createElement("div");
+
   componentDidMount() {
+    if (IS_NODE_ENV) this.rootElm = document.createElement("div");
     const { style, className } = this.props;
     Object.assign(this.rootElm.style, style);
     if (className) this.rootElm.setAttribute("class", className);
