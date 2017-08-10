@@ -3,15 +3,15 @@ import * as ReactDOM from "react-dom";
 
 export interface RenderToBodyProps {
   style?: React.CSSProperties;
+  className?: string;
   children?: React.ReactElement<any>;
 }
 
 export default class RenderToBody extends React.Component<RenderToBodyProps> {
-  rootElm?: HTMLDivElement;
-
+  rootElm = document.createElement("div");
   componentDidMount() {
-    this.rootElm = document.createElement("div");
-    Object.assign(this.rootElm.style, this.props.style);
+    const { style, className } = this.props;
+    Object.assign(this.rootElm, { style, className });
 
     document.body.appendChild(this.rootElm);
     this.renderComponent();
@@ -19,7 +19,8 @@ export default class RenderToBody extends React.Component<RenderToBodyProps> {
 
   componentDidUpdate() {
     this.renderComponent();
-    Object.assign(this.rootElm.style, this.props.style);
+    const { style, className } = this.props;
+    Object.assign(this.rootElm, { style, className });
   }
 
   componentWillUnmount() {
