@@ -56,6 +56,8 @@ export default [{
       "titleNode": "TimePicker"
     }]
   }, {
+    "titleNode": "Dialog"
+  }, {
     "titleNode": "DropDownMenu"
   }, {
     "titleNode": "FlipView"

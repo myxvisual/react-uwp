@@ -4,7 +4,6 @@ import * as path from "path";
 
 const parser = new Parser();
 
-
 const buildComponentName = process.argv[2] || "Button";
 let file = `../../src/${buildComponentName}.tsx`;
 

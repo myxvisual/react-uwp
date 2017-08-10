@@ -1,9 +1,27 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { codes } from "keycode";
+
+import AddBlurEvent from "../common/AddBlurEvent";
+import RenderToBody from "../RenderToBody";
 
 export interface DataProps {
-  show?: boolean;
-  contentAttributes?: React.HTMLAttributes<HTMLDivElement>;
+  /**
+   * Set Dialog show status.
+   */
+  defaultShow?: boolean;
+  /**
+   * If set true, click the mask background will not close dialog.
+   */
+  isControlled?: boolean;
+  /**
+   * Set custom content style.
+   */
+  contentStyle?: React.CSSProperties;
+  /**
+   * Set onCloseDialog callback.
+   */
+  onCloseDialog?: () => void;
 }
 export interface DialogProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
@@ -11,21 +29,33 @@ export interface DialogState {
   showDialog?: boolean;
 }
 
-export default class Dialog extends React.Component<DialogProps, DialogState> {
+export class Dialog extends React.Component<DialogProps, DialogState> {
   state: DialogState = {
-    showDialog: this.props.show
+    showDialog: this.props.defaultShow
   };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  rootElm: HTMLDivElement;
+  addBlurEvent = new AddBlurEvent();
 
   componentWillReceiveProps(nextProps: DialogProps) {
-    const { show } = nextProps;
-    this.setState({ showDialog: show });
+    const { defaultShow } = nextProps;
+    if (this.state.showDialog !== defaultShow) {
+      this.setState({ showDialog: defaultShow });
+    }
   }
 
-  shouldComponentUpdate(nextProps: DialogProps, nextState: DialogState) {
-    return nextProps !== this.props || nextState !== this.state;
+  componentDidMount() {
+    this.addBlurEventMethod();
+  }
+
+  componentDidUpdate() {
+    this.addBlurEventMethod();
+  }
+
+  componentWillUnmount() {
+    this.addBlurEvent.cleanEvent();
   }
 
   toggleShow = (showDialog?: boolean) => {
@@ -38,26 +68,56 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
   }
 
+  addBlurEventMethod = () => {
+    const { onCloseDialog, isControlled } = this.props;
+    this.addBlurEvent.setConfig({
+      addListener: this.state.showDialog,
+      clickExcludeElm: this.rootElm,
+      blurCallback: () => {
+        if (isControlled) return;
+        this.setState({
+          showDialog: false
+        });
+        if (onCloseDialog) onCloseDialog();
+      },
+      blurKeyCodes: [codes.esc]
+    });
+  }
+
   render() {
-    // tslint:disable-next-line:no-unused-variable
-    const { contentAttributes, show, children, ...attributes } = this.props;
-    const styles = getStyles(this);
+    const {
+      contentStyle,
+      defaultShow,
+      children,
+      onCloseDialog,
+      isControlled,
+      style,
+      className,
+      ...attributes
+    } = this.props;
+    const { theme } = this.context;
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      className: "dialog",
+      styles: inlineStyles
+    });
 
     return (
-      <div {...attributes} style={styles.root}>
-        <div {...contentAttributes} style={contentAttributes.style}>
+      <RenderToBody
+        {...attributes}
+        style={styles.root.style}
+        className={theme.classNames(styles.root.className, className)}
+      >
+        <div ref={rootElm => this.rootElm = rootElm} {...styles.content}>
           {children}
         </div>
-      </div>
+      </RenderToBody>
     );
   }
 }
 
-function getStyles(dialog: Dialog): {
-  root?: React.CSSProperties;
-  content?: React.CSSProperties;
-} {
-  const { context, state: { showDialog }, props: { style, contentAttributes } } = dialog;
+function getStyles(dialog: Dialog) {
+  const { context, state: { showDialog }, props: { style, contentStyle } } = dialog;
   const { theme } = context;
   const { prefixStyle } = theme;
 
@@ -65,21 +125,28 @@ function getStyles(dialog: Dialog): {
     root: prefixStyle({
       color: theme.baseMediumHigh,
       background: theme.altMediumHigh,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      transition: "all .25s",
       position: "fixed",
       width: "100%",
       height: "100%",
       top: 0,
       left: 0,
-      pointerEvents: "all",
+      zIndex: theme.zIndex.contentDialog,
       ...style,
-      visibility: showDialog ? "visible" : "hidden",
+      pointerEvents: showDialog ? "all" : "none",
       opacity: showDialog ? 1 : 0
     }),
     content: prefixStyle({
-      transition: "all .25s 0s ease-in-out",
+      display: "inline-block",
+      transition: "all .25s",
       transform: `scale(${showDialog ? 1 : 0})`,
-      ...contentAttributes.style
+      ...contentStyle
     })
   };
 }
 
+export default Dialog;

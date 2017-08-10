@@ -256,6 +256,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-ColorPicker");
         }
       }, {
+        path: "Dialog",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/Dialog").default);
+          }, "react-uwp-Components-Dialog");
+        }
+      }, {
         path: "DropDownMenu",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

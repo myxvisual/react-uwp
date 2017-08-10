@@ -1,0 +1,142 @@
+{
+  "exports": [
+    {
+      "name": "DataProps"
+    },
+    {
+      "name": "DialogProps"
+    },
+    {
+      "name": "DialogState"
+    },
+    {
+      "name": "Dialog"
+    },
+    {
+      "name": "default",
+      "extends": [
+        "Dialog"
+      ]
+    }
+  ],
+  "members": [
+    {
+      "name": "DataProps",
+      "members": [
+        {
+          "name": "defaultShow",
+          "documentation": "Set Dialog show status.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "isControlled",
+          "documentation": "If set true, click the mask background will not close dialog.",
+          "isRequired": false,
+          "type": "boolean"
+        },
+        {
+          "name": "contentStyle",
+          "documentation": "Set custom content style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "onCloseDialog",
+          "documentation": "Set onCloseDialog callback.",
+          "isRequired": false,
+          "type": "() => void"
+        }
+      ]
+    },
+    {
+      "name": "DialogProps",
+      "extends": [
+        "DataProps",
+        "HTMLAttributes"
+      ]
+    },
+    {
+      "name": "DialogState",
+      "members": [
+        {
+          "name": "showDialog",
+          "isRequired": false,
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Dialog",
+      "exports": [
+        {
+          "name": "prototype",
+          "type": "prototype"
+        },
+        {
+          "name": "contextTypes",
+          "initializerText": " { theme: PropTypes.object }",
+          "type": "{ theme: Requireable<any>; }"
+        }
+      ],
+      "members": [
+        {
+          "name": "state",
+          "initializerText": " {\n    showDialog: this.props.defaultShow\n  }",
+          "type": "DialogState"
+        },
+        {
+          "name": "context",
+          "type": "{ theme: any; }"
+        },
+        {
+          "name": "rootElm",
+          "type": "HTMLDivElement"
+        },
+        {
+          "name": "addBlurEvent",
+          "initializerText": " new AddBlurEvent()",
+          "type": "AddBlurEvent"
+        },
+        {
+          "name": "componentWillReceiveProps",
+          "type": "(nextProps: DialogProps) => void"
+        },
+        {
+          "name": "componentDidMount",
+          "type": "() => void"
+        },
+        {
+          "name": "componentDidUpdate",
+          "type": "() => void"
+        },
+        {
+          "name": "componentWillUnmount",
+          "type": "() => void"
+        },
+        {
+          "name": "toggleShow",
+          "initializerText": " (showDialog?: boolean) => {\n    if (typeof showDialog === \"undefined\") {\n      this.setState((prevState, prevProps) => ({\n        showDialog: prevState.showDialog\n      }));\n    } else {\n      if (showDialog !== this.state.showDialog) this.setState({ showDialog });\n    }\n  }",
+          "type": "(showDialog?: boolean) => void"
+        },
+        {
+          "name": "addBlurEventMethod",
+          "initializerText": " () => {\n    const { onCloseDialog, isControlled } = this.props;\n    this.addBlurEvent.setConfig({\n      addListener: this.state.showDialog,\n      clickExcludeElm: this.rootElm,\n      blurCallback: () => {\n        if (isControlled) return;\n        this.setState({\n          showDialog: false\n        });\n        if (onCloseDialog) onCloseDialog();\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "type": "() => void"
+        },
+        {
+          "name": "render",
+          "type": "() => Element"
+        }
+      ],
+      "extends": [
+        "Component"
+      ]
+    },
+    {
+      "name": "getStyles",
+      "type": "(dialog: Dialog) => { root: any; content: any; }"
+    }
+  ],
+  "type": "typeof \"D:/react-uwp/src/Dialog/index\""
+}
