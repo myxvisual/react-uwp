@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/Slider/index.tsx",
-  "name": "\"D:/react-uwp/src/Slider/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -138,6 +136,21 @@
           "documentation": "How many time call onChange callback.",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "width",
+          "isRequired": false,
+          "type": "string | number"
+        },
+        {
+          "name": "height",
+          "isRequired": false,
+          "type": "string | number"
+        },
+        {
+          "name": "label",
+          "isRequired": false,
+          "type": "string"
         }
       ]
     },

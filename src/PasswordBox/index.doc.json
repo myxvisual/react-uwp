@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/PasswordBox/index.tsx",
-  "name": "\"D:/react-uwp/src/PasswordBox/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -42,6 +40,11 @@
           "documentation": "Control PasswordBox `height` and `icon size`.",
           "isRequired": false,
           "type": "number"
+        },
+        {
+          "name": "placeholder",
+          "isRequired": false,
+          "type": "string"
         }
       ]
     },
@@ -80,7 +83,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    passwordBoxHeight: 32,\r\n    defaultShowPassword: false,\r\n    onChangeValue: emptyFunc\r\n  }",
+          "initializerText": " {\n    passwordBoxHeight: 32,\n    defaultShowPassword: false,\n    onChangeValue: emptyFunc\n  }",
           "type": "PasswordBoxProps"
         },
         {
@@ -92,7 +95,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\r\n    showPassword: this.props.defaultShowPassword\r\n  }",
+          "initializerText": " {\n    showPassword: this.props.defaultShowPassword\n  }",
           "type": "PasswordBoxState"
         },
         {
@@ -105,7 +108,7 @@
         },
         {
           "name": "handleChange",
-          "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\r\n    let event: React.SyntheticEvent<HTMLInputElement>;\r\n    event = e;\r\n    this.props.onChangeValue(event.currentTarget.value);\r\n  }",
+          "initializerText": " (e?: any | React.SyntheticEvent<HTMLInputElement>) => {\n    let event: React.SyntheticEvent<HTMLInputElement>;\n    event = e;\n    this.props.onChangeValue(event.currentTarget.value);\n  }",
           "type": "(e?: any) => void"
         },
         {
@@ -120,7 +123,7 @@
         },
         {
           "name": "toggleShowPassword",
-          "initializerText": " (showPassword?: any) => {\r\n    if (typeof showPassword === \"boolean\") {\r\n      if (showPassword !== this.state.showPassword) {\r\n        this.setState({ showPassword });\r\n      }\r\n    } else {\r\n      this.setState((prevState, prevProps) => {\r\n        showPassword = !prevState.showPassword;\r\n        return { showPassword };\r\n      });\r\n    }\r\n  }",
+          "initializerText": " (showPassword?: any) => {\n    if (typeof showPassword === \"boolean\") {\n      if (showPassword !== this.state.showPassword) {\n        this.setState({ showPassword });\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        showPassword = !prevState.showPassword;\n        return { showPassword };\n      });\n    }\n  }",
           "type": "(showPassword?: any) => void"
         },
         {

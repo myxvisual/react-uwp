@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/Image/index.tsx",
-  "name": "\"D:/react-uwp/src/Image/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -87,6 +85,21 @@
           "documentation": "If you prefer `throttle` rather than `debounce`, you can set this props to `true` or provide a specific number.",
           "isRequired": false,
           "type": "number | boolean"
+        },
+        {
+          "name": "placeholder",
+          "isRequired": false,
+          "type": "ReactNode"
+        },
+        {
+          "name": "src",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "height",
+          "isRequired": false,
+          "type": "ReactText"
         }
       ]
     },
@@ -143,7 +156,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    useLazyLoad: false,\r\n    useDivContainer: false,\r\n    once: true,\r\n    offset: 0,\r\n    scroll: true,\r\n    overflow: false,\r\n    throttle: 60\r\n  }",
+          "initializerText": " {\n    useLazyLoad: false,\n    useDivContainer: false,\n    once: true,\n    offset: 0,\n    scroll: true,\n    overflow: false,\n    throttle: 60\n  }",
           "type": "ImageProps"
         },
         {
@@ -159,7 +172,7 @@
         },
         {
           "name": "state",
-          "initializerText": " {\r\n    showEmptyImage: false\r\n  }",
+          "initializerText": " {\n    showEmptyImage: false\n  }",
           "type": "ImageState"
         },
         {

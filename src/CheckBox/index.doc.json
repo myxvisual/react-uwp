@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/CheckBox/index.tsx",
-  "name": "\"D:/react-uwp/src/CheckBox/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -48,6 +46,21 @@
           "documentation": "Set custom background to CheckBox.",
           "isRequired": false,
           "type": "string"
+        },
+        {
+          "name": "size",
+          "isRequired": false,
+          "type": "string | number"
+        },
+        {
+          "name": "label",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "disabled",
+          "isRequired": false,
+          "type": "string | boolean"
         }
       ]
     },

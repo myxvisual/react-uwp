@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/ProgressRing/index.tsx",
-  "name": "\"D:/react-uwp/src/ProgressRing/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -73,7 +71,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    dotsNumber: 6,\r\n    speed: 5000,\r\n    size: 100\r\n  }",
+          "initializerText": " {\n    dotsNumber: 6,\n    speed: 5000,\n    size: 100\n  }",
           "type": "ProgressRingProps"
         },
         {
@@ -89,12 +87,12 @@
         },
         {
           "name": "getOnlyClassName",
-          "initializerText": " () => {\r\n    const {\r\n      dotsNumber,\r\n      speed\r\n    } = this.props;\r\n    return `react-uwp-progress-ring_${dotsNumber}_${speed}`;\r\n  }",
+          "initializerText": " () => {\n    const {\n      dotsNumber,\n      speed\n    } = this.props;\n    return `react-uwp-progress-ring_${dotsNumber}_${speed}`;\n  }",
           "type": "() => string"
         },
         {
           "name": "getCSSText",
-          "initializerText": " (className?: string) => {\r\n    const { dotsNumber, speed } = this.props;\r\n    return (\r\n`.${className} {\r\n}\r\n${Array(dotsNumber).fill(0).map((name, index) => (\r\n  [`.${className}-item-` + index + \" {\",\r\n  vendorPrefixes.map(str => (`    ${str}animation: CircleLoopFade ${speed}ms ${index * speed / 40}ms linear infinite normal forwards;`)).join(\"\\n\"),\r\n  \"  }\"].join(\"\")\r\n)).join(\"\")}\r\n\r\n${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {\r\n  0% {\r\n    transform: rotateZ(0deg);\r\n    opacity: 1;\r\n  }\r\n  12.5% {\r\n    transform: rotateZ(180deg);\r\n    opacity: 0.8;\r\n  }\r\n  25% {\r\n    transform: rotateZ(270deg);\r\n    opacity: 0.8;\r\n  }\r\n  37.5% {\r\n    transform: rotateZ(300deg);\r\n    opacity: 0.8;\r\n  }\r\n  50% {\r\n    transform: rotateZ(360deg);\r\n    opacity: 1;\r\n  }\r\n  62.5% {\r\n    transform: rotateZ(540deg);\r\n    opacity: 0;\r\n  }\r\n  75% {\r\n    transform: rotateZ(630deg);\r\n    opacity: 0;\r\n  }\r\n  87.5% {\r\n    transform: rotateZ(660deg);\r\n    opacity: 0;\r\n  }\r\n  100% {\r\n    transform: rotateZ(720deg);\r\n    opacity: 1;\r\n  }\r\n}`)}.join(\"\")`);\r\n  }",
+          "initializerText": " (className?: string) => {\n    const { dotsNumber, speed } = this.props;\n    return (\n`.${className} {\n}\n${Array(dotsNumber).fill(0).map((name, index) => (\n  [`.${className}-item-` + index + \" {\",\n  vendorPrefixes.map(str => (`    ${str}animation: CircleLoopFade ${speed}ms ${index * speed / 40}ms linear infinite normal forwards;`)).join(\"\\n\"),\n  \"  }\"].join(\"\")\n)).join(\"\")}\n\n${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {\n  0% {\n    transform: rotateZ(0deg);\n    opacity: 1;\n  }\n  12.5% {\n    transform: rotateZ(180deg);\n    opacity: 0.8;\n  }\n  25% {\n    transform: rotateZ(270deg);\n    opacity: 0.8;\n  }\n  37.5% {\n    transform: rotateZ(300deg);\n    opacity: 0.8;\n  }\n  50% {\n    transform: rotateZ(360deg);\n    opacity: 1;\n  }\n  62.5% {\n    transform: rotateZ(540deg);\n    opacity: 0;\n  }\n  75% {\n    transform: rotateZ(630deg);\n    opacity: 0;\n  }\n  87.5% {\n    transform: rotateZ(660deg);\n    opacity: 0;\n  }\n  100% {\n    transform: rotateZ(720deg);\n    opacity: 1;\n  }\n}`)}.join(\"\")`);\n  }",
           "type": "(className?: string) => string"
         },
         {

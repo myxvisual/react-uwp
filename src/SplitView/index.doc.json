@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/SplitView/index.tsx",
-  "name": "\"D:/react-uwp/src/SplitView/index\"",
   "exports": [
     {
       "name": "SplitViewPane"
@@ -60,6 +58,11 @@
           "name": "onClosePane",
           "isRequired": false,
           "type": "() => void"
+        },
+        {
+          "name": "clickExcludeElms",
+          "isRequired": false,
+          "type": "HTMLDivElement[]"
         }
       ]
     },
@@ -119,7 +122,7 @@
           "type": "AddBlurEvent"
         },
         {
-          "name": "splitViewPaneElm",
+          "name": "rootElm",
           "type": "HTMLDivElement"
         },
         {
@@ -128,7 +131,7 @@
         },
         {
           "name": "addBlurEventMethod",
-          "initializerText": " () => {\n    this.addBlurEvent.setConfig({\n      addListener: this.state.expanded,\n      clickExcludeElm: this.splitViewPaneElm,\n      blurCallback: () => {\n        this.setState({\n          expanded: false\n        }, this.props.onClosePane);\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
+          "initializerText": " () => {\n    const { clickExcludeElms } = this.props;\n    this.addBlurEvent.setConfig({\n      addListener: this.state.expanded,\n      clickExcludeElm: clickExcludeElms ? [...clickExcludeElms, this.rootElm] : this.rootElm,\n      blurCallback: () => {\n        this.setState({\n          expanded: false\n        }, this.props.onClosePane);\n      },\n      blurKeyCodes: [codes.esc]\n    });\n  }",
           "type": "() => void"
         },
         {

@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/Menu/index.tsx",
-  "name": "\"D:/react-uwp/src/Menu/index\"",
   "exports": [
     {
       "name": "MenuItem"
@@ -136,7 +134,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    menuItemHeight: 44,\r\n    menuItemWidth: 240\r\n  }",
+          "initializerText": " {\n    menuItemHeight: 44,\n    menuItemWidth: 240\n  }",
           "type": "MenuProps"
         },
         {

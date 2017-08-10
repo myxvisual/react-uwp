@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/ListView/index.tsx",
-  "name": "\"D:/react-uwp/src/ListView/index\"",
   "exports": [
     {
       "name": "ListItem"
@@ -159,7 +157,7 @@
         },
         {
           "name": "getItemNode",
-          "initializerText": " (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {\n    const { inlineStyles } = this;\n    const { theme } = this.context;\n    const { onChooseItem, background } = this.props;\n    const { focusIndex } = this.state;\n    const { isDarkTheme } = theme;\n    const isFocus = focus || focusIndex === index;\n    const defaultBG = isFocus ? theme.listAccentLow : \"none\";\n    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow);\n    const clickBG = isFocus ? theme.accent : theme.chromeHigh;\n\n    const itemStyles = theme.prepareStyle({\n      className: \"list-view-item\",\n      style: theme.prefixStyle({\n        background: defaultBG,\n        color: disabled ? theme.baseLow : theme.baseHigh,\n        \"&:hover\": {\n          background: focusBG\n        },\n        \"&:active\": {\n          transform: \"scale(0.99)\"\n        },\n        ...inlineStyles.item,\n        ...style\n      })\n    });\n\n    return (\n      <PseudoClasses {...itemStyles}>\n        <div\n          key={`${index}`}\n          onClick={onClick}\n          onMouseDown={disabled ? void 0 : e => {\n            onChooseItem(index);\n          }}\n        >\n          {itemNode}\n        </div>\n      </PseudoClasses>\n    );\n  }",
+          "initializerText": " (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {\n    const { inlineStyles } = this;\n    const { theme } = this.context;\n    const { onChooseItem, background } = this.props;\n    const { focusIndex } = this.state;\n    const { isDarkTheme } = theme;\n    const isFocus = focus || focusIndex === index;\n    const defaultBG = isFocus ? theme.listAccentLow : \"none\";\n    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow);\n    const clickBG = isFocus ? theme.accent : theme.chromeHigh;\n\n    const itemStyles = theme.prepareStyle({\n      className: \"list-view-item\",\n      style: theme.prefixStyle({\n        background: defaultBG,\n        color: disabled ? theme.baseLow : theme.baseHigh,\n        \"&:hover\": {\n          background: focusBG\n        },\n        \"&:active\": {\n          transform: \"scale(0.99)\"\n        },\n        ...inlineStyles.item,\n        ...style\n      })\n    });\n\n    return (\n      <PseudoClasses {...itemStyles} key={`${index}`}>\n        <div\n          onClick={onClick}\n          onMouseDown={disabled ? void 0 : e => {\n            onChooseItem(index);\n          }}\n        >\n          {itemNode}\n        </div>\n      </PseudoClasses>\n    );\n  }",
           "type": "(itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: CSSProperties, onClic..."
         },
         {

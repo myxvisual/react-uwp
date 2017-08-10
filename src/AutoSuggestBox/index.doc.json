@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/AutoSuggestBox/index.tsx",
-  "name": "\"D:/react-uwp/src/AutoSuggestBox/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -52,6 +50,11 @@
         {
           "name": "background",
           "documentation": "Control component `background` style.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "placeholder",
           "isRequired": false,
           "type": "string"
         }

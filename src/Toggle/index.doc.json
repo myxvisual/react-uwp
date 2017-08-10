@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/Toggle/index.tsx",
-  "name": "\"D:/react-uwp/src/Toggle/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -54,6 +52,11 @@
           "documentation": "Set custom Toggle `background`.",
           "isRequired": false,
           "type": "string"
+        },
+        {
+          "name": "checked",
+          "isRequired": false,
+          "type": "boolean"
         }
       ]
     },
@@ -92,7 +95,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    size: 18,\r\n    onToggle: emptyFunc\r\n  }",
+          "initializerText": " {\n    size: 18,\n    onToggle: emptyFunc\n  }",
           "type": "ToggleProps"
         },
         {
@@ -104,7 +107,7 @@
       "members": [
         {
           "name": "state",
-          "initializerText": " {\r\n    currToggled: this.props.defaultToggled\r\n  }",
+          "initializerText": " {\n    currToggled: this.props.defaultToggled\n  }",
           "type": "ToggleState"
         },
         {
@@ -117,7 +120,7 @@
         },
         {
           "name": "toggleToggle",
-          "initializerText": " (currToggled?: any) => {\r\n    if (typeof currToggled === \"boolean\") {\r\n      if (currToggled !== this.state.currToggled) {\r\n        this.setState({ currToggled });\r\n        this.props.onToggle(currToggled);\r\n      }\r\n    } else {\r\n      this.setState((prevState, prevProps) => {\r\n        const currToggled = !prevState.currToggled;\r\n        this.props.onToggle(currToggled);\r\n        return { currToggled };\r\n      });\r\n    }\r\n  }",
+          "initializerText": " (currToggled?: any) => {\n    if (typeof currToggled === \"boolean\") {\n      if (currToggled !== this.state.currToggled) {\n        this.props.onToggle(currToggled);\n        this.setState({ currToggled });\n      }\n    } else {\n      this.setState((prevState, prevProps) => {\n        currToggled = !prevState.currToggled;\n        this.props.onToggle(currToggled);\n        return { currToggled };\n      });\n    }\n  }",
           "type": "(currToggled?: any) => void"
         },
         {

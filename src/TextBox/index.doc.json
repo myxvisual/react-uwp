@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/TextBox/index.tsx",
-  "name": "\"D:/react-uwp/src/TextBox/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -62,8 +60,23 @@
           "type": "ReactNode"
         },
         {
-          "name": "background",
+          "name": "placeholder",
           "documentation": "Set TextBox `background`.",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "disabled",
+          "isRequired": false,
+          "type": "string | boolean"
+        },
+        {
+          "name": "background",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "type",
           "isRequired": false,
           "type": "string"
         }

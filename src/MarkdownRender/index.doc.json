@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/MarkdownRender/index.tsx",
-  "name": "\"D:/react-uwp/src/MarkdownRender/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -81,7 +79,7 @@
         },
         {
           "name": "updateThemeStyle",
-          "initializerText": " () => {\r\n    const { darkThemeCSSString, lightThemeCSSString } = this.props;\r\n    const { theme } = this.context;\r\n    let markdownStyleString: any;\r\n    if (theme.isDarkTheme) {\r\n      markdownStyleString = darkThemeCSSString || prismOkaidiaCSS;\r\n    } else {\r\n      markdownStyleString = lightThemeCSSString || prismCoyCSS;\r\n    }\r\n\r\n    const CSSText = getCSSText(theme, `react-uwp-markdown`) + \"\\n\" + markdownStyleString;\r\n    theme.styleManager.addCSSTextWithUpdate(CSSText);\r\n  }",
+          "initializerText": " () => {\n    const { darkThemeCSSString, lightThemeCSSString } = this.props;\n    const { theme } = this.context;\n    let markdownStyleString: any;\n    if (theme.isDarkTheme) {\n      markdownStyleString = darkThemeCSSString || prismOkaidiaCSS;\n    } else {\n      markdownStyleString = lightThemeCSSString || prismCoyCSS;\n    }\n\n    const CSSText = getCSSText(theme, `react-uwp-markdown`) + \"\\n\" + markdownStyleString;\n    theme.styleManager.addCSSTextWithUpdate(CSSText);\n  }",
           "type": "() => void"
         },
         {

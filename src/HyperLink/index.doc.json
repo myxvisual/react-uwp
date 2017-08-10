@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/HyperLink/index.tsx",
-  "name": "\"D:/react-uwp/src/HyperLink/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -27,12 +25,23 @@
           "documentation": "`ref` to link, other attributes is applied to `HTMLAnchorElement`.",
           "isRequired": false,
           "type": "string"
+        },
+        {
+          "name": "href",
+          "isRequired": false,
+          "type": "string"
+        },
+        {
+          "name": "target",
+          "isRequired": false,
+          "type": "string"
         }
       ]
     },
     {
       "name": "HyperLinkProps",
       "extends": [
+        "DataProps",
         "HTMLAttributes"
       ]
     },

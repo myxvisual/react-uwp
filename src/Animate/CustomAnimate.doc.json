@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/Animate/CustomAnimate.tsx",
-  "name": "\"D:/react-uwp/src/Animate/CustomAnimate\"",
   "exports": [
     {
       "name": "DataProps"
@@ -123,7 +121,7 @@
     {
       "name": "baseStyle",
       "type": "{ display: string; verticalAlign: string; }",
-      "initializerText": " {\r\n  display: \"inline-block\",\r\n  verticalAlign: \"middle\"\r\n}"
+      "initializerText": " {\n  display: \"inline-block\",\n  verticalAlign: \"middle\"\n}"
     },
     {
       "name": "baseStyle",
@@ -142,7 +140,7 @@
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\r\n    leaveStyle: { opacity: 0 },\r\n    enterStyle: { opacity: 1 },\r\n    appearAnimate: true,\r\n    enterDelay: 0,\r\n    leaveDelay: 0,\r\n    mode: \"in-out\",\r\n    speed: 500,\r\n    component: \"span\",\r\n    useWrapper: true\r\n  }",
+          "initializerText": " {\n    leaveStyle: { opacity: 0 },\n    enterStyle: { opacity: 1 },\n    appearAnimate: true,\n    enterDelay: 0,\n    leaveDelay: 0,\n    mode: \"in-out\",\n    speed: 500,\n    component: \"span\",\n    useWrapper: true\n  }",
           "type": "CustomAnimateProps"
         },
         {
@@ -163,12 +161,12 @@
         },
         {
           "name": "setLeaveStyle",
-          "initializerText": " () => {\r\n    for (const customAnimateChild of this.customAnimateChildArray) {\r\n      customAnimateChild.setLeaveStyle();\r\n    }\r\n  }",
+          "initializerText": " () => {\n    for (const customAnimateChild of this.customAnimateChildArray) {\n      customAnimateChild.setLeaveStyle();\n    }\n  }",
           "type": "() => void"
         },
         {
           "name": "setEnterStyle",
-          "initializerText": " () => {\r\n    for (const customAnimateChild of this.customAnimateChildArray) {\r\n      customAnimateChild.setEnterStyle();\r\n    }\r\n  }",
+          "initializerText": " () => {\n    for (const customAnimateChild of this.customAnimateChildArray) {\n      customAnimateChild.setEnterStyle();\n    }\n  }",
           "type": "() => void"
         },
         {
@@ -183,7 +181,7 @@
     {
       "name": "slideBottomInProps",
       "type": "CustomAnimateProps",
-      "initializerText": " {\r\n  leaveStyle: {\r\n    transform: \"translateY(100%)\",\r\n    opacity: 0\r\n  },\r\n  enterStyle: {\r\n    transform: \"translateY(0)\",\r\n    opacity: 1\r\n  },\r\n  wrapperStyle: { overflow: \"hidden\" },\r\n  speed: 500,\r\n  useWrapper: true\r\n} as CustomAnimateProps"
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateY(100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateY(0)\",\n    opacity: 1\n  },\n  wrapperStyle: { overflow: \"hidden\" },\n  speed: 500,\n  useWrapper: true\n} as CustomAnimateProps"
     },
     {
       "name": "slideBottomInProps",
@@ -192,7 +190,7 @@
     {
       "name": "slideTopInProps",
       "type": "CustomAnimateProps",
-      "initializerText": " {\r\n  leaveStyle: {\r\n    transform: \"translateY(-100%)\",\r\n    opacity: 0\r\n  },\r\n  enterStyle: {\r\n    transform: \"translateY(0)\",\r\n    opacity: 1\r\n  },\r\n  wrapperStyle: { overflow: \"hidden\" },\r\n  speed: 500,\r\n  useWrapper: true\r\n} as CustomAnimateProps"
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateY(-100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateY(0)\",\n    opacity: 1\n  },\n  wrapperStyle: { overflow: \"hidden\" },\n  speed: 500,\n  useWrapper: true\n} as CustomAnimateProps"
     },
     {
       "name": "slideTopInProps",
@@ -201,7 +199,7 @@
     {
       "name": "slideLeftInProps",
       "type": "CustomAnimateProps",
-      "initializerText": " {\r\n  leaveStyle: {\r\n    transform: \"translateX(-100%)\",\r\n    opacity: 0\r\n  },\r\n  enterStyle: {\r\n    transform: \"translateX(0)\",\r\n    opacity: 1\r\n  },\r\n  wrapperStyle: { overflow: \"hidden\" },\r\n  speed: 500,\r\n  useWrapper: true\r\n}"
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateX(-100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateX(0)\",\n    opacity: 1\n  },\n  wrapperStyle: { overflow: \"hidden\" },\n  speed: 500,\n  useWrapper: true\n}"
     },
     {
       "name": "slideLeftInProps",
@@ -210,7 +208,7 @@
     {
       "name": "slideRightInProps",
       "type": "CustomAnimateProps",
-      "initializerText": " {\r\n  leaveStyle: {\r\n    transform: \"translateX(100%)\",\r\n    opacity: 0\r\n  },\r\n  enterStyle: {\r\n    transform: \"translateX(0)\",\r\n    opacity: 1\r\n  },\r\n  wrapperStyle: { overflow: \"hidden\" },\r\n  appearAnimate: true,\r\n  speed: 500,\r\n  useWrapper: true\r\n}"
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"translateX(100%)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"translateX(0)\",\n    opacity: 1\n  },\n  wrapperStyle: { overflow: \"hidden\" },\n  appearAnimate: true,\n  speed: 500,\n  useWrapper: true\n}"
     },
     {
       "name": "slideRightInProps",
@@ -219,7 +217,7 @@
     {
       "name": "scaleInProps",
       "type": "CustomAnimateProps",
-      "initializerText": " {\r\n  leaveStyle: {\r\n    transform: \"scale(0)\",\r\n    opacity: 0\r\n  },\r\n  enterStyle: {\r\n    transform: \"scale(1)\",\r\n    opacity: 1\r\n  },\r\n  appearAnimate: true,\r\n  speed: 500,\r\n  useWrapper: true\r\n}"
+      "initializerText": " {\n  leaveStyle: {\n    transform: \"scale(0)\",\n    opacity: 0\n  },\n  enterStyle: {\n    transform: \"scale(1)\",\n    opacity: 1\n  },\n  appearAnimate: true,\n  speed: 500,\n  useWrapper: true\n}"
     },
     {
       "name": "scaleInProps",
@@ -228,7 +226,7 @@
     {
       "name": "fadeInProps",
       "type": "CustomAnimateProps",
-      "initializerText": " {\r\n  leaveStyle: {\r\n    opacity: 0\r\n  },\r\n  enterStyle: {\r\n    opacity: 1\r\n  },\r\n  appearAnimate: true,\r\n  speed: 500,\r\n  useWrapper: true\r\n}"
+      "initializerText": " {\n  leaveStyle: {\n    opacity: 0\n  },\n  enterStyle: {\n    opacity: 1\n  },\n  appearAnimate: true,\n  speed: 500,\n  useWrapper: true\n}"
     },
     {
       "name": "fadeInProps",

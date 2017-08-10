@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/Separator/index.tsx",
-  "name": "\"D:/react-uwp/src/Separator/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -26,6 +24,11 @@
           "name": "direction",
           "isRequired": false,
           "type": "\"row\" | \"column\""
+        },
+        {
+          "name": "disabled",
+          "isRequired": false,
+          "type": "boolean"
         }
       ]
     },

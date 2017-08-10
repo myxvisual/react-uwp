@@ -1,6 +1,4 @@
 {
-  "fileName": "D:/react-uwp/src/MediaPlayer/index.tsx",
-  "name": "\"D:/react-uwp/src/MediaPlayer/index\"",
   "exports": [
     {
       "name": "DataProps"
@@ -25,7 +23,7 @@
     {
       "name": "ReactPlayer",
       "type": "any",
-      "initializerText": " RPlayer as any"
+      "initializerText": " RPlayer.default as any"
     },
     {
       "name": "ReactPlayer",
