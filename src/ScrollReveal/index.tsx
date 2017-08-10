@@ -69,6 +69,12 @@ export class ScrollReveal extends React.Component<ScrollRevealProps> {
     this.context.theme.scrollReveals.push(this as any);
   }
 
+  componentDidUpdate() {
+    if (!this.context.theme.scrollReveals.includes(this as any)) {
+      this.context.theme.scrollReveals.push(this as any);
+    }
+  }
+
   componentWillUnmount() {
     const { scrollReveals } = this.context.theme;
     scrollReveals.splice(scrollReveals.indexOf(this as any), 1);
