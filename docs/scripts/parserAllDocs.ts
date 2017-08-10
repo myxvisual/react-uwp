@@ -58,7 +58,7 @@ for (const file of files) {
       result.fileName = void 0;
       result.name = void 0;
       const data = JSON.stringify(result, null, 2);
-      fs.writeFileSync(fileName, data);
+      fs.writeFileSync(fileName, data.replace(/\\r\\n/g, "\\n"));
     }
   );
 }
