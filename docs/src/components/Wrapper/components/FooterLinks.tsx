@@ -71,7 +71,7 @@ function getStyles(footerLinks: FooterLinks): {
       color: "inherit"
     },
     link: {
-      display: "block",
+      display: "inline-block",
       fontSize: 12,
       margin: "12px 0",
       fontWeight: "lighter",
