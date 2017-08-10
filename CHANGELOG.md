@@ -1,3 +1,26 @@
+<a name="1.1.2"></a>
+## [1.1.2](https://github.com/myxvisual/react-uwp/compare/v1.1.1...v1.1.2) (2017-08-10)
+
+
+### Bug Fixes
+
+* Disabled Navigation controlled event ([7212886](https://github.com/myxvisual/react-uwp/commit/7212886))
+* Fixed ListView items missing key props ([c4109fa](https://github.com/myxvisual/react-uwp/commit/c4109fa))
+* Fixed MediaPlayer support react-player v0.20.0 ([131d497](https://github.com/myxvisual/react-uwp/commit/131d497))
+* Fixed ScrollReveal not working at theme after update ([12d6c86](https://github.com/myxvisual/react-uwp/commit/12d6c86))
+* Fixed styleManager create element in ssr bug ([44cc7ca](https://github.com/myxvisual/react-uwp/commit/44cc7ca)), closes [#16](https://github.com/myxvisual/react-uwp/issues/16)
+* react-uwp not export LinkState ([d38629c](https://github.com/myxvisual/react-uwp/commit/d38629c))
+
+
+### Features
+
+* Add Dialog component to source and docs ([e9bda35](https://github.com/myxvisual/react-uwp/commit/e9bda35)), closes [#11](https://github.com/myxvisual/react-uwp/issues/11)
+* Add RenderToBody support ssr ([7f1d563](https://github.com/myxvisual/react-uwp/commit/7f1d563))
+* Fixed RenderToBody wrong attribute name ([e4abeb0](https://github.com/myxvisual/react-uwp/commit/e4abeb0))
+* Update RenderToBody support className ([b97ba6b](https://github.com/myxvisual/react-uwp/commit/b97ba6b))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/myxvisual/react-uwp/compare/v1.1.0...v1.1.1) (2017-08-08)
 
