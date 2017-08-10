@@ -11,7 +11,8 @@ export default class RenderToBody extends React.Component<RenderToBodyProps> {
   rootElm = document.createElement("div");
   componentDidMount() {
     const { style, className } = this.props;
-    Object.assign(this.rootElm, className ? { style, className } : { style });
+    Object.assign(this.rootElm.style, style);
+    if (className) this.rootElm.setAttribute("class", className);
 
     document.body.appendChild(this.rootElm);
     this.renderComponent();
@@ -20,7 +21,8 @@ export default class RenderToBody extends React.Component<RenderToBodyProps> {
   componentDidUpdate() {
     this.renderComponent();
     const { style, className } = this.props;
-    Object.assign(this.rootElm, className ? { style, className } : { style });
+    Object.assign(this.rootElm.style, style);
+    if (className) this.rootElm.setAttribute("class", className);
   }
 
   componentWillUnmount() {

@@ -109,9 +109,7 @@ function getStyles(categories: Categories): {
   const { prefixStyle } = theme;
 
   return {
-    root: prefixStyle({
-      ...style
-    }),
+    root: prefixStyle(style),
     categories: prefixStyle({
       width: renderContentWidth,
       display: "flex",
