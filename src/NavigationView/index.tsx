@@ -389,7 +389,7 @@ function getStyles(NavigationView: NavigationView): {
       justifyContent: "space-between",
       background: currBackground,
       overflow: isMinimal ? void 0 : "hidden",
-      width: expanded ? expandedWidth : (isMinimal ? 0 : 48),
+      width: expanded ? expandedWidth : (isMinimal ? 0 : currInitWidth),
       ...(isMinimal ? {
         position: "absolute",
         top: 0,
