@@ -33,8 +33,8 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
           pageTitle="San Francisco"
           displayMode="overlay"
           autoResize={false}
-          background="none"
-          initWidth={0}
+          background={theme.listLow}
+          initWidth={48}
           navigationTopNodes={navigationTopNodes}
           navigationBottomNodes={navigationBottomNode}
           focusNavigationNodeIndex={3}
