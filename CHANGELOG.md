@@ -1,10 +1,13 @@
-<a name="1.1.2"></a>
-## [1.1.2](https://github.com/myxvisual/react-uwp/compare/v1.1.1...v1.1.2) (2017-08-10)
+<a name="1.1.3"></a>
+## [1.1.3](https://github.com/myxvisual/react-uwp/compare/v1.1.1...v1.1.3) (2017-08-16)
 
 
 ### Bug Fixes
 
 * Disabled Navigation controlled event ([7212886](https://github.com/myxvisual/react-uwp/commit/7212886))
+* Fall back react-transition-group version ([a34e46c](https://github.com/myxvisual/react-uwp/commit/a34e46c))
+* Fixed DropDownMenu onChangeValue callback error ([8b953aa](https://github.com/myxvisual/react-uwp/commit/8b953aa))
+* Fixed initWidth not working in NavigationView ([8189635](https://github.com/myxvisual/react-uwp/commit/8189635)), closes [#17](https://github.com/myxvisual/react-uwp/issues/17)
 * Fixed ListView items missing key props ([c4109fa](https://github.com/myxvisual/react-uwp/commit/c4109fa))
 * Fixed MediaPlayer support react-player v0.20.0 ([131d497](https://github.com/myxvisual/react-uwp/commit/131d497))
 * Fixed ScrollReveal not working at theme after update ([12d6c86](https://github.com/myxvisual/react-uwp/commit/12d6c86))
