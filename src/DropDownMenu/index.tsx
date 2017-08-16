@@ -130,10 +130,8 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     this.addBlurEvent.cleanEvent();
   }
 
-  toggleShowList = (e: React.SyntheticEvent<HTMLDivElement>) => {
+  toggleShowList = (currentValue: string) => {
     const { currentValues, showList } = this.state;
-    const valueNode = e.currentTarget.children[0] as any;
-    const currentValue = valueNode.innerText;
     if (showList) {
       currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));
     }
@@ -205,7 +203,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
                   height: (isCurrent || showList) ? itemHeight : 0,
                   background: (isCurrent && showList) ? theme.listAccentLow : "none"
                 }}
-                onClick={this.toggleShowList}
+                onClick={() => this.toggleShowList(value)}
                 onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
                   e.currentTarget.style.background = isCurrent ? theme.listAccentMedium : theme.useFluentDesign ? theme.listLow : theme.chromeMedium;
                   itemAttributes.onMouseEnter(e);
