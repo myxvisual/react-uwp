@@ -70,6 +70,23 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
           </NavigationView>
         </div>
 
+        <div>
+          <NavigationView
+            isControlled={false}
+            style={{ width: 640, height: 640, ...baseStyle }}
+            pageTitle="San Francisco"
+            displayMode="compact"
+            autoResize={false}
+            initWidth={120}
+            expandedWidth={480}
+            defaultExpanded={false}
+            navigationTopNodes={navigationTopNodes}
+            navigationBottomNodes={navigationBottomNode}
+            focusNavigationNodeIndex={2}
+          >
+            <img src={require("./components/images/golden-gate-bridge-2037990_1280.jpg")} height="100%" style={{ objectFit: "cover" }} />
+          </NavigationView>
+        </div>
       </div>
     );
   }

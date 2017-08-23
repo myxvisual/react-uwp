@@ -25,13 +25,18 @@ export interface DataProps {
    * Use 10ft Design mode.
    */
   isTenFt?: boolean;
+  /**
+   * Set show label text.
+   */
+  showLabel?: boolean;
 }
 
 export interface SplitViewCommandProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
   static defaultProps: SplitViewCommandProps = {
-    isTenFt: false
+    isTenFt: false,
+    showLabel: true
   };
 
   displayName: "SplitViewCommand";
@@ -50,6 +55,7 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
       onMouseLeave,
       isTenFt,
       iconStyle,
+      showLabel,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -95,7 +101,16 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
 }
 
 function getStyles(splitViewCommand: SplitViewCommand) {
-  const { context, props: { style, iconStyle, visited, isTenFt } } = splitViewCommand;
+  const {
+    context,
+    props: {
+      style,
+      iconStyle,
+      visited,
+      isTenFt,
+      showLabel
+    }
+  } = splitViewCommand;
   const { theme } = context;
   const { prefixStyle } = theme;
 
@@ -135,7 +150,9 @@ function getStyles(splitViewCommand: SplitViewCommand) {
     }),
     label: {
       color: isTenFt ? void 0 : (visited ? theme.accent : theme.baseHigh),
-      cursor: "default"
+      cursor: "default",
+      opacity: showLabel ? 1 : 0,
+      transition: "opacity .25s"
     }
   };
 }
