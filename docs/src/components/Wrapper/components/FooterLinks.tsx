@@ -31,7 +31,7 @@ export default class FooterLinks extends React.Component<FooterLinksProps> {
         style={styles.root}
       >
         <p style={styles.title}>{title}</p>
-        <div style={{ margin: "8px 0" }}>
+        <div style={styles.links}>
           {links.map((link, index) => (
             <a
               style={styles.link}
@@ -48,11 +48,7 @@ export default class FooterLinks extends React.Component<FooterLinksProps> {
   }
 }
 
-function getStyles(footerLinks: FooterLinks): {
-  root?: React.CSSProperties;
-  title?: React.CSSProperties;
-  link?: React.CSSProperties;
-} {
+function getStyles(footerLinks: FooterLinks) {
   const {
     context: { theme },
     props: { style }
@@ -69,7 +65,12 @@ function getStyles(footerLinks: FooterLinks): {
       fontSize: 20,
       fontWeight: "lighter",
       color: "inherit"
-    },
+    } as React.CSSProperties,
+    links: prefixStyle({
+      margin: "8px 0",
+      display: "flex",
+      flexDirection: "column"
+    }),
     link: {
       display: "inline-block",
       fontSize: 12,
@@ -77,6 +78,6 @@ function getStyles(footerLinks: FooterLinks): {
       fontWeight: "lighter",
       color: "inherit",
       textDecoration: "none"
-    }
+    } as React.CSSProperties
   };
 }
