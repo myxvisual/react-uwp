@@ -462,6 +462,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-Components-Tooltip");
         }
       }, {
+        path: "TransformCard",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require<any>("./Components/TransformCard").default);
+          }, "react-uwp-Components-TransformCard");
+        }
+      }, {
         path: "TextBox",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {

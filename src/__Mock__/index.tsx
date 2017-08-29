@@ -31,9 +31,7 @@ export class Mock extends React.Component<MockProps, MockState> {
   }
 }
 
-function getStyles(mock: Mock): {
-  root?: React.CSSProperties;
-} {
+function getStyles(mock: Mock) {
   const {
     context: { theme },
     props: { style }

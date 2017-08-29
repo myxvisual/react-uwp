@@ -112,6 +112,8 @@ export default [{
   }, {
     "titleNode": "Tooltip"
   }, {
+    "titleNode": "TransformCard"
+  }, {
     "titleNode": "TreeView"
   }, {
     "titleNode": "Theme"
