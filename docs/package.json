@@ -52,7 +52,6 @@
     "serve-static": "^1.12.2",
     "source-map-loader": "^0.1.5",
     "ts-loader": "^2.0.3",
-    "ts-node": "^3.0.2",
     "typescript": "^2.2.0",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.2",
