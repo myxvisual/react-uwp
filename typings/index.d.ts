@@ -23,7 +23,7 @@ export interface StyleClasses {
   className?: string;
 }
 
-export interface ScrollReveal {
+export interface ScrollRevealType {
   rootElm?: HTMLElement;
   animated?: boolean;
   setEnterStyle?: () => void;
@@ -54,7 +54,7 @@ export interface ThemeType {
     segoeMDL2Assets?: string;
   };
   styleManager?: any;
-  scrollReveals?: ScrollReveal[];
+  scrollReveals?: ScrollRevealType[];
   scrollRevealListener?: (e?: Event) => void;
 
   useFluentDesign?: boolean;
