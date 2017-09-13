@@ -1,3 +1,20 @@
+<a name="1.1.5"></a>
+## [1.1.5](https://github.com/myxvisual/react-uwp/compare/v1.1.4...v1.1.5) (2017-09-13)
+
+
+### Bug Fixes
+
+* Fixed package.json repeated reference dependency ([e54b162](https://github.com/myxvisual/react-uwp/commit/e54b162))
+* Fixed same name export in the compiled files ([e6f6a36](https://github.com/myxvisual/react-uwp/commit/e6f6a36))
+
+
+### Features
+
+* Update Dialog content supoort custom animation ([1640b0a](https://github.com/myxvisual/react-uwp/commit/1640b0a))
+* Update Dialog support custom animation ([fbdfae2](https://github.com/myxvisual/react-uwp/commit/fbdfae2))
+
+
+
 <a name="1.1.4"></a>
 ## [1.1.4](https://github.com/myxvisual/react-uwp/compare/v1.1.3...v1.1.4) (2017-08-29)
 
