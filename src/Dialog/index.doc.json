@@ -27,25 +27,37 @@
           "name": "defaultShow",
           "documentation": "Set Dialog show status.",
           "isRequired": false,
-          "type": "boolean"
+          "type": "prototype"
         },
         {
           "name": "isControlled",
           "documentation": "If set true, click the mask background will not close dialog.",
           "isRequired": false,
-          "type": "boolean"
+          "type": "prototype"
         },
         {
           "name": "contentStyle",
           "documentation": "Set custom content style.",
           "isRequired": false,
-          "type": "CSSProperties"
+          "type": "prototype"
+        },
+        {
+          "name": "contentEnterStyle",
+          "documentation": "Set custom content enter style.",
+          "isRequired": false,
+          "type": "prototype"
+        },
+        {
+          "name": "contentLeaveStyle",
+          "documentation": "Set custom content leave style.",
+          "isRequired": false,
+          "type": "prototype"
         },
         {
           "name": "onCloseDialog",
           "documentation": "Set onCloseDialog callback.",
           "isRequired": false,
-          "type": "() => void"
+          "type": "prototype"
         }
       ]
     },
@@ -62,7 +74,7 @@
         {
           "name": "showDialog",
           "isRequired": false,
-          "type": "boolean"
+          "type": "prototype"
         }
       ]
     },
@@ -71,7 +83,12 @@
       "exports": [
         {
           "name": "prototype",
-          "type": "prototype"
+          "type": "any"
+        },
+        {
+          "name": "defaultProps",
+          "initializerText": " {\n    contentEnterStyle: { transform: \"scale(1)\" },\n    contentLeaveStyle: { transform: \"scale(0)\" }\n  }",
+          "type": "DialogProps"
         },
         {
           "name": "contextTypes",

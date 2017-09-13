@@ -19,6 +19,14 @@ export interface DataProps {
    */
   contentStyle?: React.CSSProperties;
   /**
+   * Set custom content enter style.
+   */
+  contentEnterStyle?: React.CSSProperties;
+  /**
+   * Set custom content leave style.
+   */
+  contentLeaveStyle?: React.CSSProperties;
+  /**
    * Set onCloseDialog callback.
    */
   onCloseDialog?: () => void;
@@ -30,6 +38,10 @@ export interface DialogState {
 }
 
 export class Dialog extends React.Component<DialogProps, DialogState> {
+  static defaultProps: DialogProps = {
+    contentEnterStyle: { transform: "scale(1)" },
+    contentLeaveStyle: { transform: "scale(0)" }
+  }
   state: DialogState = {
     showDialog: this.props.defaultShow
   };
@@ -87,6 +99,8 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
   render() {
     const {
       contentStyle,
+      contentEnterStyle,
+      contentLeaveStyle,
       defaultShow,
       children,
       onCloseDialog,
@@ -117,7 +131,16 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
 }
 
 function getStyles(dialog: Dialog) {
-  const { context, state: { showDialog }, props: { style, contentStyle } } = dialog;
+  const {
+    context,
+    state: { showDialog },
+    props: {
+      style,
+      contentStyle,
+      contentEnterStyle,
+      contentLeaveStyle
+    }
+  } = dialog;
   const { theme } = context;
   const { prefixStyle } = theme;
 
@@ -143,8 +166,8 @@ function getStyles(dialog: Dialog) {
     content: prefixStyle({
       display: "inline-block",
       transition: "all .25s",
-      transform: `scale(${showDialog ? 1 : 0})`,
-      ...contentStyle
+      ...contentStyle,
+      ...(showDialog ? contentEnterStyle : contentLeaveStyle)
     })
   };
 }
