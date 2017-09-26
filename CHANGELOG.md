@@ -1,3 +1,14 @@
+<a name="1.1.6"></a>
+## [1.1.6](https://github.com/myxvisual/react-uwp/compare/v1.1.5...v1.1.6) (2017-09-26)
+
+
+### Features
+
+* Add scrollBar style selector to theme ([20a4c7b](https://github.com/myxvisual/react-uwp/commit/20a4c7b)), closes [#21](https://github.com/myxvisual/react-uwp/issues/21)
+* Use blob url instead image data url ([f83bc5e](https://github.com/myxvisual/react-uwp/commit/f83bc5e)), closes [#20](https://github.com/myxvisual/react-uwp/issues/20)
+
+
+
 <a name="1.1.5"></a>
 ## [1.1.5](https://github.com/myxvisual/react-uwp/compare/v1.1.4...v1.1.5) (2017-09-13)
 
