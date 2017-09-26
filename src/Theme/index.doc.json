@@ -30,31 +30,37 @@
           "name": "theme",
           "documentation": "Set theme object. [ThemeType](https://github.com/myxvisual/react-uwp/blob/master/typings/index.d.ts#L43), Usually use [getTheme](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L28) function to get it.",
           "isRequired": false,
-          "type": "any"
+          "type": "prototype"
         },
         {
           "name": "autoSaveTheme",
           "documentation": "For simple development, autoSaveTheme can read and save theme to `localStorage`. use global context `theme.saveTheme` method to save.",
           "isRequired": false,
-          "type": "boolean"
+          "type": "prototype"
         },
         {
           "name": "themeWillUpdate",
           "documentation": "set theme will update callback.",
           "isRequired": false,
-          "type": "(theme?: any) => void"
+          "type": "prototype"
         },
         {
           "name": "onGeneratedAcrylic",
           "documentation": "onGeneratedAcrylic callback, base acrylic textures is base64 url image, for production, you can set this callback, post image to your server, and update theme(use this callback will not auto update theme).",
           "isRequired": false,
-          "type": "(theme?: any) => void"
+          "type": "prototype"
         },
         {
           "name": "needGenerateAcrylic",
           "documentation": "for production if you have generated acrylic textures, you can disabled generation acrylic textures.",
           "isRequired": false,
-          "type": "boolean"
+          "type": "prototype"
+        },
+        {
+          "name": "scrollBarStyleSelector",
+          "documentation": "default is \"*\", set all element scroll bar style to uwp style.",
+          "isRequired": false,
+          "type": "prototype"
         }
       ]
     },
@@ -71,7 +77,7 @@
         {
           "name": "currTheme",
           "isRequired": false,
-          "type": "any"
+          "type": "prototype"
         }
       ]
     },
@@ -107,11 +113,11 @@
       "exports": [
         {
           "name": "prototype",
-          "type": "prototype"
+          "type": "any"
         },
         {
           "name": "defaultProps",
-          "initializerText": " {\n    needGenerateAcrylic: true,\n    onGeneratedAcrylic: themeCallback,\n    themeWillUpdate: themeCallback\n  }",
+          "initializerText": " {\n    needGenerateAcrylic: true,\n    onGeneratedAcrylic: themeCallback,\n    themeWillUpdate: themeCallback,\n    scrollBarStyleSelector: \"*\"\n  }",
           "type": "ThemeProps"
         },
         {
@@ -165,7 +171,7 @@
         },
         {
           "name": "bindNewThemeMethods",
-          "initializerText": " (theme: ReactUWP.ThemeType) => {\n    const styleManager =  new StyleManager({ theme });\n    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme));\n    Object.assign(theme, {\n      desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,\n      updateTheme: this.updateTheme,\n      saveTheme: this.saveTheme,\n      addToast: this.addToast,\n      updateToast: this.updateToast,\n      deleteToast: this.deleteToast,\n      scrollRevealListener: this.handleScrollReveal,\n      generateAcrylicTextures: this.generateAcrylicTextures,\n      forceUpdateTheme: this.forceUpdateTheme,\n      styleManager\n    } as ReactUWP.ThemeType);\n  }",
+          "initializerText": " (theme: ReactUWP.ThemeType) => {\n    const { scrollBarStyleSelector } = this.props;\n    const styleManager =  new StyleManager({ theme });\n    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme, \"uwp-base\", scrollBarStyleSelector));\n    Object.assign(theme, {\n      desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,\n      updateTheme: this.updateTheme,\n      saveTheme: this.saveTheme,\n      addToast: this.addToast,\n      updateToast: this.updateToast,\n      deleteToast: this.deleteToast,\n      scrollRevealListener: this.handleScrollReveal,\n      generateAcrylicTextures: this.generateAcrylicTextures,\n      forceUpdateTheme: this.forceUpdateTheme,\n      styleManager\n    } as ReactUWP.ThemeType);\n  }",
           "type": "(theme: any) => void"
         },
         {

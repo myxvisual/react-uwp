@@ -1,5 +1,5 @@
 
-const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName = "uwp-base") => `* {
+const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName = "uwp-base", scrollBarStyleSelector = "*") => `* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -13,23 +13,23 @@ body {
   margin: 0;
 }
 
-*::-webkit-scrollbar-track {
+${scrollBarStyleSelector}::-webkit-scrollbar-track {
   background-color: ${theme.chromeLow};
 }
 
-*::-webkit-scrollbar-thumb {
+${scrollBarStyleSelector}::-webkit-scrollbar-thumb {
   background-color: ${theme.useFluentDesign ? theme.baseLow : theme.baseMediumLow};
 }
 
-*::-webkit-scrollbar:vertical {
+${scrollBarStyleSelector}::-webkit-scrollbar:vertical {
   width: 6px;
 }
 
-*::-webkit-scrollbar:horizontal {
+${scrollBarStyleSelector}::-webkit-scrollbar:horizontal {
   height: 6px
 }
 
-*::-webkit-scrollbar {
+${scrollBarStyleSelector}::-webkit-scrollbar {
   -webkit-appearance: none
 }
 

@@ -46,8 +46,12 @@ export default function generateAcrylicTexture(
     // const noiseWidth = 40;
     // const noiseHeight = 40;
     // const noiseImageDate = generateNoise(canvas, context, noiseWidth, noiseHeight, noiseSize, noiseOpacity);
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      callback(url);
+    });
 
-    callback(canvas.toDataURL("image/jpg"));
+    // callback(canvas.toDataURL("image/jpg"));
   };
   imageNode.src = image;
 }
