@@ -271,6 +271,16 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentWillUnmount() {
+    const {
+      currTheme: {
+        acrylicTexture40,
+        acrylicTexture60,
+        acrylicTexture80
+      }
+    } = this.state;
+    URL.revokeObjectURL(acrylicTexture40.background);
+    URL.revokeObjectURL(acrylicTexture60.background);
+    URL.revokeObjectURL(acrylicTexture80.background);
     this.state.currTheme.styleManager.cleanStyleSheet();
     window.removeEventListener("scroll", this.handleScrollReveal);
   }
