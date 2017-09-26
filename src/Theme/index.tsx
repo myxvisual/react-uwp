@@ -33,6 +33,10 @@ export interface DataProps {
    * for production if you have generated acrylic textures, you can disabled generation acrylic textures.
    */
   needGenerateAcrylic?: boolean;
+  /**
+   * default is "*", set all element scroll bar style to uwp style.
+   */
+  scrollBarStyleSelector?: string;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -49,7 +53,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
     needGenerateAcrylic: true,
     onGeneratedAcrylic: themeCallback,
-    themeWillUpdate: themeCallback
+    themeWillUpdate: themeCallback,
+    scrollBarStyleSelector: "*"
   };
   static childContextTypes = {
     theme: PropTypes.object
@@ -185,8 +190,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   bindNewThemeMethods = (theme: ReactUWP.ThemeType) => {
+    const { scrollBarStyleSelector } = this.props;
     const styleManager =  new StyleManager({ theme });
-    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme));
+    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme, "uwp-base", scrollBarStyleSelector));
     Object.assign(theme, {
       desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
       updateTheme: this.updateTheme,
@@ -424,6 +430,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       className,
       needGenerateAcrylic,
       themeWillUpdate,
+      scrollBarStyleSelector,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
