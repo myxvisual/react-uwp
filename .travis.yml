@@ -3,7 +3,7 @@ sudo: required
 node_js:
   - "6"
 install:
-  npm install
+  yarn install --ignore-engines
 before_install: npm install mocha
 notifications:
   email:
