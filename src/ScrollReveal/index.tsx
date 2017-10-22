@@ -61,7 +61,7 @@ export class ScrollReveal extends React.Component<ScrollRevealProps> {
   context: { theme: ReactUWP.ThemeType };
   customAnimate: CustomAnimate;
 
-  rootElm: HTMLElement = null;
+  rootElm: Element = null;
   animated: boolean = false;
 
   componentDidMount() {

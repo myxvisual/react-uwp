@@ -11,7 +11,7 @@ export class PseudoClasses extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  rootElm: HTMLElement = null;
+  rootElm: Element = null;
 
   componentDidMount() {
     const { context: { theme }, props: { style, children } } = this;
