@@ -46,12 +46,19 @@ export default function generateAcrylicTexture(
     // const noiseWidth = 40;
     // const noiseHeight = 40;
     // const noiseImageDate = generateNoise(canvas, context, noiseWidth, noiseHeight, noiseSize, noiseOpacity);
-    canvas.toBlob((blob) => {
+
+    if (HTMLCanvasElement.prototype.toBlob) {
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        callback(url);
+      });
+    } else if (HTMLCanvasElement.prototype.msToBlob) {
+      const blob = canvas.msToBlob();
       const url = URL.createObjectURL(blob);
       callback(url);
-    });
-
-    // callback(canvas.toDataURL("image/jpg"));
+    } else {
+      callback(canvas.toDataURL("image/jpg"));
+    }
   };
   imageNode.src = image;
 }
