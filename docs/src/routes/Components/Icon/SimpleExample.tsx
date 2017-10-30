@@ -21,9 +21,9 @@ export default class SimpleExample extends React.Component {
     };
     return (
       <div style={{ margin: "10px 0" }}>
-        <Icon {...{ style, hoverStyle }}>HeartFillLegacy</Icon>
-        <Icon {...{ style, hoverStyle }}>{"\uE001"}</Icon>
-        <Icon {...{ style, hoverStyle }} useSVGElement>&#xE10F;</Icon>
+        <Icon key="0" {...{ style, hoverStyle }}>HeartFillLegacy</Icon>
+        <Icon key="1" {...{ style, hoverStyle }}>{"\uE001"}</Icon>
+        <Icon key="2" {...{ style, hoverStyle }} useSVGElement>&#xE10F;</Icon>
       </div>
     );
   }

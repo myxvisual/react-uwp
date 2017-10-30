@@ -41,7 +41,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
   }
 
   render() {
-    const { path, children, ...attributes } = this.props;
+    const { path, children } = this.props;
     const { renderContentWidth, screenType } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);

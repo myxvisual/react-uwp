@@ -368,7 +368,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   addToast = (toast: React.ReactNode) => {
-    this.toastWrapper.addToast(toast);
+    if (this.toastWrapper) this.toastWrapper.addToast(toast);
   }
 
   updateToast = (toastID: number, toast: React.ReactNode) => {

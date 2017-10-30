@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "preprod": "cd docs && npm run preprod",
-    "preinstall": "cd docs && yarn install --ignore-engines",
+    "preinstall": "cd docs && npm install",
     "start": "cd docs && npm start",
     "test": "echo \"Error: no test specified\" && exit 0",
     "build": "npm-run-all build:copy build:source && node scripts/rewriteFile",
@@ -84,6 +84,7 @@
     "prop-types": "^15.5.8",
     "react-lazyload": "^2.2.7",
     "react-player": "^0.20.0",
+    "react-title-component": "^1.0.1",
     "react-transition-group": "^1.1.3",
     "stackblur-canvas": "^1.4.0",
     "tinycolor2": "^1.4.1",
