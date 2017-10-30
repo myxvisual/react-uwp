@@ -41,7 +41,7 @@ function setListItemsUrl(path = "/") {
     let title: string;
     let titleNode: any = listData.titleNode;
     title = convert2string(titleNode);
-    title = title.toLowerCase().replace(/\s/gim, "-");
+    title = title.replace(/\s/gim, "-");
 
     if (names.includes(title)) {
       listData.expanded = true;
