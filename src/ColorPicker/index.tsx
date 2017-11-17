@@ -254,9 +254,9 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     const y = Math.sin(h / 180 * Math.PI) * r;
     const selectorSize = colorPickerBoardSize - mainBoardDotSize / 2;
 
-    const inlineStyles = getStyles(this);
-    inlineStyles.colorSelector = {
-      ...inlineStyles.colorSelector,
+    const styles = getStyles(this);
+    styles.colorSelector = {
+      ...styles.colorSelector,
       top: selectorSize,
       left: selectorSize,
       width: mainBoardDotSize,
@@ -265,17 +265,17 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
       background: "none",
       boxShadow: `0 0 0 4px #fff`
     };
-    const styles = theme.prepareStyles({
+    const classes = theme.prepareStyles({
       className: "color-picker",
-      styles: inlineStyles
+      styles
     });
 
     return (
-      <div {...attributes} style={styles.root.style} className={theme.classNames(styles.root.className, className)}>
-        <div {...styles.board}>
+      <div {...attributes} style={classes.root.style} className={theme.classNames(classes.root.className, className)}>
+        <div {...classes.board}>
           <div style={{ position: "relative" }}>
             <canvas
-              {...styles.mainBoard}
+              {...classes.mainBoard}
               ref={canvas => this.canvas = canvas}
               onClick={this.handleChooseColor}
               onMouseDown={this.handleChooseColor}
@@ -285,15 +285,15 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
             </canvas>
             <div
               ref={colorSelectorElm => this.colorSelectorElm = colorSelectorElm}
-              className={styles.colorSelector.className}
+              className={classes.colorSelector.className}
               style={theme.prefixStyle({
-                ...styles.colorSelector.style,
+                ...classes.colorSelector.style,
                 transform: `translate3d(${x}px, ${y}px, 0)`
               })}
             />
           </div>
           <div
-            {...styles.colorMainBar}
+            {...classes.colorMainBar}
             ref={colorMainBarElm => this.colorMainBarElm = colorMainBarElm}
           />
         </div>
