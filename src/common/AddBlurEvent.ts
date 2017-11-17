@@ -17,6 +17,7 @@ export default class AddBlurEvent {
   setConfig = (config?: {
     addListener: boolean;
     blurCallback: (e?: Event) => void;
+    clickIncludeElm?: HTMLElement | HTMLElement[];
     clickExcludeElm?: HTMLElement | HTMLElement[];
     keydownCallback?: (e?: KeyboardEvent) => void;
     blurKeyCodes?: number[];
@@ -24,6 +25,7 @@ export default class AddBlurEvent {
     const {
       addListener,
       blurCallback,
+      clickIncludeElm,
       clickExcludeElm,
       blurKeyCodes
     } = config;
@@ -31,6 +33,14 @@ export default class AddBlurEvent {
     if (addListener) {
       if (!this.clickListener) {
         this.clickListener = (e: Event) => {
+          if (clickIncludeElm) {
+            if (Array.isArray(clickIncludeElm) ? clickIncludeElm.some(elm => elm === e.target) : clickIncludeElm === e.target) {
+              this.cleanEvent();
+              blurCallback(e);
+            }
+            return;
+          }
+
           if (clickExcludeElm) {
             if (Array.isArray(clickExcludeElm) ? clickExcludeElm.some(elm => elm.contains(e.target as Node)) : clickExcludeElm.contains(e.target as Node)) {
               return;
@@ -38,9 +48,6 @@ export default class AddBlurEvent {
               this.cleanEvent();
               blurCallback(e);
             }
-          } else {
-            this.cleanEvent();
-            blurCallback(e);
           }
         };
 
