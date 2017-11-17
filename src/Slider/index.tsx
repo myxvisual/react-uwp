@@ -225,6 +225,7 @@ export class Slider extends React.Component<SliderProps, SliderState> {
       onChangedValue,
       onChangeValueRatio
     } = this.props;
+
     const isHorizonMode = displayMode === "horizon";
     const useCustomBackground = barBackground || barBackgroundImage;
     const { left, width, bottom, height } = this.rootElm.getBoundingClientRect();

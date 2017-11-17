@@ -41,13 +41,14 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
   static defaultProps: DialogProps = {
     contentEnterStyle: { transform: "scale(1)" },
     contentLeaveStyle: { transform: "scale(0)" }
-  }
+  };
   state: DialogState = {
     showDialog: this.props.defaultShow
   };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
+  renderToBody: RenderToBody;
   rootElm: HTMLDivElement;
   addBlurEvent = new AddBlurEvent();
 
@@ -84,7 +85,7 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
     const { onCloseDialog, isControlled } = this.props;
     this.addBlurEvent.setConfig({
       addListener: this.state.showDialog,
-      clickExcludeElm: this.rootElm,
+      clickIncludeElm: this.renderToBody.rootElm,
       blurCallback: () => {
         if (isControlled) return;
         this.setState({
@@ -120,6 +121,7 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
       <RenderToBody
         {...attributes}
         style={styles.root.style}
+        ref={renderToBody => this.renderToBody = renderToBody}
         className={theme.classNames(styles.root.className, className)}
       >
         <div ref={rootElm => this.rootElm = rootElm} {...styles.content}>
