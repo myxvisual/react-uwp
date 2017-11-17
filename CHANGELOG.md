@@ -1,3 +1,21 @@
+<a name="1.1.7"></a>
+## [1.1.7](https://github.com/myxvisual/react-uwp/compare/v1.1.6...v1.1.7) (2017-11-17)
+
+
+### Bug Fixes
+
+* Add generateAcrylicTexture support DataURL and edge ([a875812](https://github.com/myxvisual/react-uwp/commit/a875812)), closes [#23](https://github.com/myxvisual/react-uwp/issues/23)
+* Fixed the wrong LICENSE title ([ca592ec](https://github.com/myxvisual/react-uwp/commit/ca592ec)), closes [#26](https://github.com/myxvisual/react-uwp/issues/26)
+
+
+### Features
+
+* AddBlurEvent support include elment config ([4f428f8](https://github.com/myxvisual/react-uwp/commit/4f428f8))
+* Dialog blur event callback suopport clickIncludeElm ([695ab87](https://github.com/myxvisual/react-uwp/commit/695ab87))
+* Update ColorPicker support classes style ([74f5a1a](https://github.com/myxvisual/react-uwp/commit/74f5a1a))
+
+
+
 <a name="1.1.6"></a>
 ## [1.1.6](https://github.com/myxvisual/react-uwp/compare/v1.1.5...v1.1.6) (2017-09-26)
 
