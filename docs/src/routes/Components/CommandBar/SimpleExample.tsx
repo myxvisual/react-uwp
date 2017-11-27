@@ -22,6 +22,7 @@ export default class SimpleExample extends React.Component {
     return (
       <div>
         <CommandBar
+          background="transparent"
           content="Now Playing..."
           primaryCommands={[
             <AppBarButton icon="Shuffle" label="Shuffle" />,

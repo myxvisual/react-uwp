@@ -242,7 +242,7 @@ function getStyles(commandBar: CommandBar): {
       justifyContent: haveContent ? "space-between" : "flex-start",
       fontSize: 14,
       color: theme.baseMediumHigh,
-      background: theme.useFluentDesign ? theme.listLow : background || theme.altHigh,
+      background: background || (theme.useFluentDesign ? theme.listLow :  theme.altHigh),
       height: changedHeight,
       transition
     }),
