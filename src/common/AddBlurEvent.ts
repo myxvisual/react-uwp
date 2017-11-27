@@ -59,16 +59,12 @@ export default class AddBlurEvent {
           const { keyCode } = e;
           if (blurKeyCodes.includes(keyCode)) {
             blurCallback(e);
-            this.cleanEvent();
-          } else {
-            this.cleanEvent();
           }
+          this.cleanEvent();
         };
         document.documentElement.addEventListener("keydown", this.keydownListener);
       }
-    }
-
-    if (!addListener) {
+    } else {
       this.cleanEvent();
     }
   }
