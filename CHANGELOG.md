@@ -1,3 +1,13 @@
+<a name="1.1.8"></a>
+## [1.1.8](https://github.com/myxvisual/react-uwp/compare/v1.1.7...v1.1.8) (2017-11-27)
+
+
+### Bug Fixes
+
+* Fixed CommandBar not support custom background ([b51b0e7](https://github.com/myxvisual/react-uwp/commit/b51b0e7)), closes [#29](https://github.com/myxvisual/react-uwp/issues/29)
+
+
+
 <a name="1.1.7"></a>
 ## [1.1.7](https://github.com/myxvisual/react-uwp/compare/v1.1.6...v1.1.7) (2017-11-17)
 
