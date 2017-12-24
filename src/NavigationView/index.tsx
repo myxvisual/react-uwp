@@ -184,9 +184,8 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
     const isSplitViewCommand = currNode && currNode.type === SplitViewCommand;
     const { focusNodeIndex } = this.state;
 
-    return {
+    const props: any = {
       key: `${index} ${expanded}`,
-      showLabel: isSplitViewCommand ? this.state.expanded : void 0,
       visited: focusNodeIndex === void 0 ? void 0 : focusNodeIndex === index,
       onClick: (e: any) => {
         this.setState({
@@ -196,6 +195,10 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
         if (onClick) onClick(e);
       }
     };
+    if (isSplitViewCommand) {
+      props.showLabel = this.state.expanded;
+    }
+    return props;
   }
 
   render() {
