@@ -17,12 +17,14 @@ The quickest way to get up and running is by using the `Theme` to inject the the
 {
   "compilerOptions": {
     "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/react-uwp" // add to here.
+      "./node_modules/@types"
     ],
-    // ....
-    "include": [
-      "./node_modules/react-uwp/index.d.ts" // or add to here.
+    "filesGlob": [
+      "**/*.ts",
+      "**/*.tsx"
+    ],
+    "files": [
+      "node_modules/react-uwp/index.d.ts" // add to here.
     ]
   }
 }
