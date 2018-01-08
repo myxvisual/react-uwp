@@ -116,10 +116,13 @@ export interface ThemeType {
     className?: string;
     extendsClassName?: string;
   }, callback?: (theme?: ReactUWP.ThemeType) => StyleClasses) => StyleClasses ;
-  prepareStyles?: (config?: {
-    styles: { [key: string]: StyleClasses | CustomCSSProperties };
-    className?: string;
-  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleClasses }) => { [key: string]: StyleClasses };
+  prepareStyles<T>(
+    config?: {
+      styles: T;
+      className?: string;
+    },
+    callback?: (theme?: ReactUWP.ThemeType) => { [P in keyof T]: StyleClasses }
+  ) : { [P in keyof T]: StyleClasses };
   classNames?: (...classNames: string[]) => string;
 
   isDarkTheme?: boolean;
