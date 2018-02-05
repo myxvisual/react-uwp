@@ -47,13 +47,73 @@ export interface AcrylicTexture {
   background?: string;
 }
 
+export interface Sheet {
+  CSSText?: string;
+  className?: string;
+  classNameWithHash?: string;
+  id?: number;
+}
+
+export class StyleManager {
+  globalClassName?: string;
+  theme?: ReactUWP.ThemeType;
+  themeId?: number;
+  styleElement?: HTMLStyleElement;
+  sheets?: {
+    [key: string]: Sheet
+  };
+  styleDidUpdate?: () => void;
+  CSSText?: string;
+  addedCSSText?: {
+    [key: string]: boolean;
+  };
+
+  constructor(config: {
+    theme?: ReactUWP.ThemeType;
+    globalClassName?: string;
+    styleDidUpdate?: () => void;
+  })
+
+  setupTheme(theme?: ThemeType): void;
+
+  setupStyleElement(): void;
+
+  cleanStyleSheet(): void;
+
+  style2CSSText(style: React.CSSProperties): string;
+
+  sheetsToString(): string;
+
+  addStyle(style: CustomCSSProperties, className?: string, callback?: () => void): Sheet;
+
+  addStyleWithUpdate(style: CustomCSSProperties, className?: string): Sheet;
+
+  addCSSText(CSSText: string, callback?: (shouldUpdate?: boolean) => void ): void;
+
+  addCSSTextWithUpdate(CSSText: string): void;
+
+  setStyleToManager(config?: {
+    style?: CustomCSSProperties;
+    className?: string;
+  }, callback?: (theme?: ReactUWP.ThemeType) => StyleClasses): StyleClasses;
+
+  setStylesToManager<T>(config?: {
+    styles: T;
+    className?: string;
+  }, callback?: (theme?: ReactUWP.ThemeType) => { [P in keyof T]: StyleClasses }): { [P in keyof T]: StyleClasses };
+
+  renderSheets(): void;
+
+  updateStyleElement(textContent: string): void;
+}
+
 export interface ThemeType {
   themeName?: "dark" | "light";
   fonts?: {
     sansSerifFonts?: string;
     segoeMDL2Assets?: string;
   };
-  styleManager?: any;
+  styleManager?: StyleManager;
   scrollReveals?: ScrollRevealType[];
   scrollRevealListener?: (e?: Event) => void;
 

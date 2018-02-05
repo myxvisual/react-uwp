@@ -19,28 +19,30 @@ export interface StyleClasses {
   className?: string;
 }
 
+export interface Sheet {
+  CSSText?: string;
+  className?: string;
+  classNameWithHash?: string;
+  id?: number;
+}
+
 export const extendsStyleKeys: any = {
   "&:hover": true,
   "&:active": true,
   "&:focus": true,
   "&:disabled": true
 };
-
-export class StyleManager {
+let StyleManager: ReactUWP.StyleManager;
+StyleManager = class {
   globalClassName: string;
   theme: ReactUWP.ThemeType;
-  themeId = 0;
+  themeId: number = 0;
   styleElement: HTMLStyleElement = null;
   sheets: {
-    [key: string]: {
-      CSSText?: string;
-      className?: string;
-      classNameWithHash?: string;
-      id?: number;
-    }
+    [key: string]: Sheet
   } = {};
   styleDidUpdate: () => void;
-  CSSText = "";
+  CSSText: string = "";
   addedCSSText: {
     [key: string]: boolean;
   } = {};
@@ -57,12 +59,12 @@ export class StyleManager {
     this.setupStyleElement();
   }
 
-  setupTheme = (theme?: ReactUWP.ThemeType) => {
+  setupTheme = (theme?: ReactUWP.ThemeType): void => {
     this.theme = theme;
     this.themeId = createHash([theme.accent, theme.themeName, theme.useFluentDesign].join(", "));
   }
 
-  setupStyleElement = () => {
+  setupStyleElement = (): void => {
     if (IS_NODE_ENV) return;
     if (!this.styleElement) {
       const name = `data-uwp-jss-${this.themeId}`;
@@ -72,7 +74,7 @@ export class StyleManager {
     }
   }
 
-  cleanStyleSheet = () => {
+  cleanStyleSheet = (): void => {
     if (this.styleElement) document.head.removeChild(this.styleElement);
     this.theme = null;
     this.sheets = {};
@@ -80,13 +82,13 @@ export class StyleManager {
     this.styleElement = null;
   }
 
-  style2CSSText = (style: React.CSSProperties) => style ? Object.keys(style).map(key => (
+  style2CSSText = (style: React.CSSProperties): string => style ? Object.keys(style).map(key => (
     `  ${replace2Dashes(key)}: ${getStyleValue(key, style[key])};`
   )).join("\n") : void 0
 
-  sheetsToString = () => `\n${Object.keys(this.sheets).map(id => this.sheets[id].CSSText).join("")}`;
+  sheetsToString = (): string => `\n${Object.keys(this.sheets).map(id => this.sheets[id].CSSText).join("")}`;
 
-  addStyle = (style: CustomCSSProperties, className = "", callback = () => {}) => {
+  addStyle = (style: CustomCSSProperties, className = "", callback = () => {}): Sheet => {
     const id = createHash(`${this.themeId}: ${JSON.stringify(style)}`);
     if (this.sheets[id]) return this.sheets[id];
 
@@ -117,11 +119,11 @@ export class StyleManager {
     return this.sheets[id];
   }
 
-  addStyleWithUpdate = (style: CustomCSSProperties, className = "") => {
+  addStyleWithUpdate = (style: CustomCSSProperties, className = ""): Sheet => {
     return this.addStyle(style, className, this.renderSheets);
   }
 
-  addCSSText = (CSSText: string, callback: (shouldUpdate?: boolean) => void = () => {}) => {
+  addCSSText = (CSSText: string, callback: (shouldUpdate?: boolean) => void = () => {}): void => {
     const hash = createHash(CSSText);
     const shouldUpdate = !this.addedCSSText[hash];
     if (shouldUpdate) {
@@ -131,7 +133,7 @@ export class StyleManager {
     callback(shouldUpdate);
   }
 
-  addCSSTextWithUpdate = (CSSText: string) => {
+  addCSSTextWithUpdate = (CSSText: string): void => {
     this.addCSSText(CSSText, shouldUpdate => {
       if (this.styleElement && shouldUpdate) {
         this.updateStyleElement(this.styleElement.textContent += CSSText);
@@ -202,19 +204,19 @@ export class StyleManager {
   return newStyles;
 }
 
-  renderSheets = () => {
+  renderSheets = (): void => {
     let textContent = this.sheetsToString();
     textContent += this.CSSText;
     this.updateStyleElement(textContent);
   }
 
-  updateStyleElement = (textContent: string) => {
+  updateStyleElement = (textContent: string): void => {
     const name = `data-uwp-jss-${this.themeId}`;
     if (this.styleElement) {
       this.styleElement.textContent = textContent;
       this.styleDidUpdate();
     }
   }
-}
+} as any;
 
 export default StyleManager;
