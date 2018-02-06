@@ -39,8 +39,12 @@ export default class SimpleExample extends React.Component {
           style={baseStyle}
         />
         <ListView
-          listSource={Array(15).fill(0).map((numb, index) => (
-            <div key={`${index}`}>{Array(index + 1).fill(<Icon>RatingStarFillZeroWidthLegacy</Icon>)}</div>
+          listSource={Array(15).fill(0).map((zero, index) => (
+            <div key={`${index}`}>
+              {Array(index + 1).fill(0).map((zero, index) => (
+                <Icon key={index}>RatingStarFillZeroWidthLegacy</Icon>
+              ))}
+            </div>
           ))}
           style={baseStyle}
           listItemStyle={{ height: 40 }}

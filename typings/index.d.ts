@@ -191,10 +191,10 @@ export interface ThemeType {
   saveTheme?: (theme: ThemeType) => void;
   generateAcrylicTextures?: (theme: ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => ThemeType;
 
-  toasts?: React.ReactNode[];
-  addToast?: (toast: React.ReactNode) => void;
-  updateToast?: (toastID: number, toast: React.ReactNode) => void;
-  deleteToast?: (toastID: number) => void;
+  toasts?:React.ReactElement<any>[];
+  addToast?: (toast: React.ReactElement<any>, callback?: (toastId?: number) => void) => void;
+  updateToast?: (toastId: number, toast: React.ReactElement<any>) => void;
+  deleteToast?: (toastId: number) => void;
 
   typographyStyles?: {
     header?: React.CSSProperties;

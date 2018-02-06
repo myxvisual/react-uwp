@@ -64,7 +64,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   cacheDarkAcrylicTextures: ReactUWP.ThemeType;
   cacheLightAcrylicTextures: ReactUWP.ThemeType;
   toastWrapper: ToastWrapper;
-  prevStyleManager: StyleManager = null;
+  prevStyleManager: ReactUWP.StyleManager = null;
 
   getDefaultTheme = () => {
     let { theme, autoSaveTheme } = this.props;
@@ -191,7 +191,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
   bindNewThemeMethods = (theme: ReactUWP.ThemeType) => {
     const { scrollBarStyleSelector } = this.props;
-    const styleManager =  new StyleManager({ theme });
+    const styleManager: ReactUWP.StyleManager =  new StyleManager({ theme });
     styleManager.addCSSTextWithUpdate(getBaseCSSText(theme, "uwp-base", scrollBarStyleSelector));
     Object.assign(theme, {
       desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
@@ -367,16 +367,32 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return needGenerateAcrylic;
   }
 
-  addToast = (toast: React.ReactNode) => {
-    if (this.toastWrapper) this.toastWrapper.addToast(toast);
+  findToastNodeTimers: any[] = [];
+  toastId = -1;
+  addToast = (toast: React.ReactElement<any>, callback?: (toastId?: number) => void, increaseId = true, currToastId?: number) => {
+    let toastId = currToastId !== void 0 ? currToastId : this.toastId;
+    if (increaseId) {
+      toastId += 1;
+      this.toastId = toastId;
+    }
+
+    if (this.toastWrapper) {
+      clearTimeout(this.findToastNodeTimers[toastId]);
+      this.toastWrapper.addToast(toast);
+      if (callback) callback(toastId);
+    } else {
+      this.findToastNodeTimers[toastId] = setTimeout(() => {
+        this.addToast(toast, callback, false, toastId);
+      }, 100);
+    }
   }
 
-  updateToast = (toastID: number, toast: React.ReactNode) => {
-    if (this.toastWrapper) this.toastWrapper.updateToast(toastID, toast);
+  updateToast = (toastId: number, toast: React.ReactElement<any>) => {
+    if (this.toastWrapper) this.toastWrapper.updateToast(toastId, toast);
   }
 
-  deleteToast = (toastID: number) => {
-    this.state.currTheme.toasts[toastID] = void 0;
+  deleteToast = (toastId: number) => {
+    this.state.currTheme.toasts[toastId] = void 0;
   }
 
   handleScrollReveal = (e?: Event) => {
@@ -438,36 +454,45 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     this.themeClassName = `${baseClassName}-${currTheme.themeName}`;
     this.bindNewThemeMethods(currTheme);
 
+    const rootStyle = darkTheme.prefixStyle({
+      fontSize: 14,
+      fontFamily: currTheme.fonts.sansSerifFonts,
+      color: currTheme.baseHigh,
+      display: "inline-block",
+      verticalAlign: "middle",
+      background: currTheme.useFluentDesign ? (
+        this.acrylicTextureCount === 3 ? "none" : (needGenerateAcrylic ? currTheme.altMediumHigh : "none")
+      ) : currTheme.altHigh,
+      width: "100%",
+      height: "100%",
+      ...style
+    });
+    const backgroundStyle: React.CSSProperties = {
+      position: "fixed",
+      zIndex: -1,
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: currTheme.desktopBackground,
+      pointerEvents: "none"
+    };
+
     return (
       <div
         {...attributes}
-        className={className ? `${this.themeClassName} ${className}` : this.themeClassName}
-        style={darkTheme.prefixStyle({
-          fontSize: 14,
-          fontFamily: currTheme.fonts.sansSerifFonts,
-          color: currTheme.baseHigh,
-          display: "inline-block",
-          verticalAlign: "middle",
-          background: currTheme.useFluentDesign ? (
-            this.acrylicTextureCount === 3 ? "none" : (needGenerateAcrylic ? currTheme.altMediumHigh : "none")
-          ) : currTheme.altHigh,
-          width: "100%",
-          height: "100%",
-          ...style
+        {...theme.prepareStyle({
+          style: rootStyle,
+          className: "theme-root",
+          extendsClassName: className ? `${this.themeClassName} ${className}` : this.themeClassName
         })}
       >
         {currTheme.useFluentDesign && currTheme.desktopBackgroundImage && (
           <RenderToBody
-            style={{
-              position: "fixed",
-              zIndex: -1,
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: currTheme.desktopBackground,
-              pointerEvents: "none"
-            }}
+            {...theme.prepareStyle({
+              style: backgroundStyle,
+              className: "fluent-background"
+            })}
           />
         )}
         <RenderToBody>
@@ -478,5 +503,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     );
   }
 }
+
 
 export default Theme;

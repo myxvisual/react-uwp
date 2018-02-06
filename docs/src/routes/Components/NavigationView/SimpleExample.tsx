@@ -66,7 +66,11 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
             navigationBottomNodes={navigationBottomNode}
             focusNavigationNodeIndex={2}
           >
-            <img src={require("./components/images/golden-gate-bridge-2037990_1280.jpg")} height="100%" style={{ objectFit: "cover" }} />
+            <img
+              src={require("./components/images/golden-gate-bridge-2037990_1280.jpg")}
+              height="100%"
+              style={{ objectFit: "cover" }}
+            />
           </NavigationView>
         </div>
 
@@ -84,7 +88,11 @@ export default class SimpleExample extends React.Component<React.HTMLAttributes<
             navigationBottomNodes={navigationBottomNode}
             focusNavigationNodeIndex={2}
           >
-            <img src={require("./components/images/golden-gate-bridge-2037990_1280.jpg")} height="100%" style={{ objectFit: "cover" }} />
+            <img
+              src={require("./components/images/golden-gate-bridge-2037990_1280.jpg")}
+              height="100%"
+              style={{ objectFit: "cover" }}
+            />
           </NavigationView>
         </div>
       </div>

@@ -100,7 +100,7 @@
         },
         {
           "name": "soundcloudConfig",
-          "documentation": "Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.",
+          "documentation": "Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client Id](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.",
           "isRequired": false,
           "type": "{ clientId: string; showArtwork: boolean; }"
         },

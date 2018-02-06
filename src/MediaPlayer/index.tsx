@@ -54,7 +54,7 @@ export interface DataProps {
    */
   progressFrequency?: number;
   /**
-   * Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.
+   * Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client Id](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.
    */
   soundcloudConfig?: {
     clientId: string,

@@ -32,7 +32,13 @@ export const extendsStyleKeys: any = {
   "&:focus": true,
   "&:disabled": true
 };
-let StyleManager: ReactUWP.StyleManager;
+export interface StyleManagerConfig {
+  theme?: ReactUWP.ThemeType;
+  globalClassName?: string;
+  styleDidUpdate?: () => void;
+}
+
+let StyleManager: new(config: StyleManagerConfig) => ReactUWP.StyleManager;
 StyleManager = class {
   globalClassName: string;
   theme: ReactUWP.ThemeType;
@@ -47,11 +53,7 @@ StyleManager = class {
     [key: string]: boolean;
   } = {};
 
-  constructor(config: {
-    theme?: ReactUWP.ThemeType;
-    globalClassName?: string;
-    styleDidUpdate?: () => void;
-  }) {
+  constructor(config: StyleManagerConfig) {
     const { globalClassName, theme, styleDidUpdate } = config;
     this.styleDidUpdate = styleDidUpdate || (() => {});
     this.globalClassName = globalClassName ? `${globalClassName}-` : "";

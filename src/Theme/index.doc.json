@@ -235,13 +235,13 @@
         },
         {
           "name": "updateToast",
-          "initializerText": " (toastID: number, toast: React.ReactNode) => {\n    if (this.toastWrapper) this.toastWrapper.updateToast(toastID, toast);\n  }",
-          "type": "(toastID: number, toast: ReactNode) => void"
+          "initializerText": " (toastId: number, toast: React.ReactNode) => {\n    if (this.toastWrapper) this.toastWrapper.updateToast(toastId, toast);\n  }",
+          "type": "(toastId: number, toast: ReactNode) => void"
         },
         {
           "name": "deleteToast",
-          "initializerText": " (toastID: number) => {\n    this.state.currTheme.toasts[toastID] = void 0;\n  }",
-          "type": "(toastID: number) => void"
+          "initializerText": " (toastId: number) => {\n    this.state.currTheme.toasts[toastId] = void 0;\n  }",
+          "type": "(toastId: number) => void"
         },
         {
           "name": "handleScrollReveal",
