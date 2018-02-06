@@ -56,7 +56,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
-  toastID: number;
+  toastId: number;
   hiddenTimer: any;
   closeTimer: any;
   customAnimate: CustomAnimate;
@@ -71,10 +71,11 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   componentDidMount() {
     const { theme } = this.context;
-    this.toastID = theme.toasts.length;
-    theme.addToast(this.trueRender());
-    this.customAnimateElm = findDOMNode(this.customAnimate) as HTMLDivElement;
-    this.addCloseDelay();
+    theme.addToast(this.trueRender(), (toastId) => {
+      this.toastId = toastId;
+      this.customAnimateElm = findDOMNode(this.customAnimate) as HTMLDivElement;
+      this.addCloseDelay();
+    });
   }
 
   addCloseDelay = () => {
@@ -91,7 +92,9 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   }
 
   componentDidUpdate() {
-    this.context.theme.updateToast(this.toastID, this.trueRender());
+    if (this.toastId !== void 0) {
+      this.context.theme.updateToast(this.toastId, this.trueRender());
+    }
 
     if (!this.customAnimateElm) {
       this.customAnimateElm = findDOMNode(this.customAnimate) as HTMLDivElement;
@@ -118,7 +121,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   componentWillUnmount() {
     const { deleteToast } = this.context.theme;
-    deleteToast(this.toastID);
+    deleteToast(this.toastId);
 
     clearTimeout(this.hiddenTimer);
     clearTimeout(this.closeTimer);

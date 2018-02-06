@@ -6,7 +6,7 @@ export interface DataProps {}
 export interface ToastWrapperProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface ToastWrapperState {
-  toasts?: React.ReactNode[];
+  toasts?: React.ReactElement<any>[];
 }
 
 export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrapperState> {
@@ -17,16 +17,17 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
-  addToast = (toast: React.ReactNode) => {
+  addToast = (toast: React.ReactElement<any>) => {
     const { theme } = this.context;
     const { toasts } = this.state;
-    theme.toasts.push(toast);
+    const key = theme.toasts.length;
+    theme.toasts.push(React.cloneElement(toast, { key }));
     this.setState({ toasts: theme.toasts });
   }
 
-  updateToast = (toastID: number, toast: React.ReactNode) => {
+  updateToast = (toastId: number, toast: React.ReactElement<any>) => {
     const { theme } = this.context;
-    theme.toasts[toastID] = toast;
+    theme.toasts[toastId] = toast;
     this.setState({ toasts: theme.toasts });
   }
 
@@ -60,7 +61,7 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
     return (
       toasts && toasts.length > 0 ? (
         <div {...attributes} {...rootStyleClasses}>
-          {[toasts]}
+          {toasts}
         </div>
       ) : null
     );
