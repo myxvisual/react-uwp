@@ -81,9 +81,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   addCloseDelay = () => {
     clearTimeout(this.closeTimer);
     const { closeDelay, onToggleShowToast } = this.props;
-    if (closeDelay === void 0) {
-      return;
-    } else if (this.state.showToast) {
+    if (closeDelay !== void 0 && this.state.showToast) {
       this.closeTimer = setTimeout(() => {
         this.setState({ showToast: false });
         onToggleShowToast(false);

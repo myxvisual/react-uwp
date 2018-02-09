@@ -367,7 +367,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return needGenerateAcrylic;
   }
 
-  findToastNodeTimers: any[] = [];
+  findToastNodeTimers: NodeJS.Timer[] = [];
   toastId = -1;
   addToast = (toast: React.ReactElement<any>, callback?: (toastId?: number) => void, increaseId = true, currToastId?: number) => {
     let toastId = currToastId !== void 0 ? currToastId : this.toastId;
