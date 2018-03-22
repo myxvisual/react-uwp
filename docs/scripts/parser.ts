@@ -20,7 +20,7 @@ export class Parser {
   constructor(options?: ts.CompilerOptions, host?: ts.CompilerHost) {
     const defaultOptions: ts.CompilerOptions = {
       target: ts.ScriptTarget.ES5,
-      maxNodeModuleJsDepth: 4,
+      maxNodeModuleJsDepth: 1,
       module: ts.ModuleKind.CommonJS
     };
     this.options = options || defaultOptions;

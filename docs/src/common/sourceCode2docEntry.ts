@@ -1,7 +1,7 @@
-import Parser from "../../scripts/Parser";
-import * as ts from "typescript";
-
 export function sourceCode2docEntry(input?: any): any {
+  const Parser = require("../../scripts/Parser");
+  const ts = window["ts"];
+
   const options = 1 ? {
     module: ts.ModuleKind.AMD,
     target: ts.ScriptTarget.ES5,
@@ -12,7 +12,7 @@ export function sourceCode2docEntry(input?: any): any {
     target: ts.ScriptTarget.ES5,
     maxNodeModuleJsDepth: 4,
     module: ts.ModuleKind.CommonJS
-  } as ts.CompilerOptions;
+  } as any;
 
   let inputFileName = options.jsx ? "module.tsx" : "module.ts";
   let sourceFile = ts.createSourceFile(inputFileName, input, options.target || ts.ScriptTarget.ES5);

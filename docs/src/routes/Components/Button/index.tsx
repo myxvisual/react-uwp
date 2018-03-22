@@ -6,8 +6,6 @@ import CodeExample from "../../../components/CodeExample";
 
 import * as sourceCode from "!raw!react-uwp/Button/index.tsx";
 import sourceCode2docEntry from "common/sourceCode2docEntry";
-const docEntry = sourceCode2docEntry(sourceCode);
-
 import * as readmeText from "!raw!./README.md";
 
 import SimpleExample from "./SimpleExample";
@@ -27,6 +25,7 @@ export default class Button extends React.Component {
   props: any;
 
   render() {
+    const docEntry = sourceCode2docEntry(sourceCode);
     const {
       location,
       params,
@@ -38,14 +37,14 @@ export default class Button extends React.Component {
 
     return (
       <ComponentDetail
-        readmeText={readmeText as any}
-        docEntry={docEntry}
+      readmeText={readmeText as any}
+      docEntry={docEntry}
       >
         <CodeExample
           title="Simple Examples"
           code={SimpleExampleCode as any}
           description={SimpleExampleDesc as any}
-        >
+          >
           <SimpleExample />
         </CodeExample>
 
