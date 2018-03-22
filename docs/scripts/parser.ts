@@ -1,8 +1,4 @@
 import * as ts from "typescript";
-import * as path from "path";
-import * as fs from "fs";
-
-process.chdir(__dirname);
 
 export interface DocEntry {
   fileName?: string;
@@ -20,20 +16,20 @@ export interface DocEntry {
   initializerText?: string;
 }
 
-process.chdir(__dirname);
-
 export class Parser {
-  constructor(options?: ts.CompilerOptions) {
+  constructor(options?: ts.CompilerOptions, host?: ts.CompilerHost) {
     const defaultOptions: ts.CompilerOptions = {
       target: ts.ScriptTarget.ES5,
       maxNodeModuleJsDepth: 4,
       module: ts.ModuleKind.CommonJS
     };
     this.options = options || defaultOptions;
+    this.host = host;
   }
 
-  private fileNames: string[];
+  private rootNames: string[];
   private options: ts.CompilerOptions;
+  private host: ts.CompilerHost;
 
   private program: ts.Program;
   private checker: ts.TypeChecker;
@@ -43,37 +39,25 @@ export class Parser {
   private output: DocEntry = {};
   getResultCallback: (result: DocEntry) => void;
 
-  parse = (fileName: string | string[], callback = (result?: DocEntry) => {}) => {
-    const fileNames = Array.isArray(fileName) ? fileName : [fileName];
-    this.fileNames = fileNames;
-    this.program = ts.createProgram(fileNames, this.options);
+  parse = (fileName: string | string[], callback = (result?: DocEntry) => { }) => {
+    const rootNames = Array.isArray(fileName) ? fileName : [fileName];
+    this.rootNames = rootNames;
+    this.program = ts.createProgram(rootNames, this.options, this.host);
     this.checker = this.program.getTypeChecker();
-    this.sourceFiles = this.program.getSourceFiles();
+    this.sourceFiles = this.program.getSourceFiles() as ts.SourceFile[];
 
-    for (const fileName of this.fileNames) {
+    for (const fileName of this.rootNames) {
       this.currSourceFile = this.program.getSourceFile(fileName);
       this.visit(this.currSourceFile);
-      ts.forEachChild(this.currSourceFile , this.visit);
+      ts.forEachChild(this.currSourceFile, this.visit);
     }
 
     callback(this.output);
-    console.log(`${fileName} is compiled.`);
     return this.output;
   }
 
-  parseHot = (fileName: string | string[], callback = (result?: DocEntry) => {}) => {
-    console.log(`${fileName} is hot compiling.`);
-    const fileNames = Array.isArray(fileName) ? fileName : [fileName];
-    for (const fileName of fileNames) {
-      fs.watchFile(fileName, (curr, prev) => {
-        console.log(`${fileName} is hot compiling.`);
-        this.parse(fileName, callback);
-      });
-    }
-    return this.parse(fileName, callback);
-  }
-
   private visit = (node: ts.Node) => {
+    if (!node) return;
     this.currNode = node;
     let symbol: ts.Symbol = null;
 
@@ -154,7 +138,7 @@ export class Parser {
           if (declaration) {
             const docEntry: DocEntry = {};
             symbol = this.checker.getSymbolAtLocation(declaration.name);
-            let documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+            let documentation = ts.displayPartsToString(symbol.getDocumentationComment(void 0));
             docEntry.documentation = documentation || void 0;
             docEntry.name = symbol.getName();
             docEntry.type = this.checker.typeToString(this.checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration));
@@ -204,10 +188,10 @@ export class Parser {
       "16777220": "prototype"
     };
 
-    const name = symbol.flags !== ts.SymbolFlags.Interface ?  symbol.getName() : symbol.name;
+    const name = symbol.flags !== ts.SymbolFlags.Interface ? symbol.getName() : symbol.name;
     let isRequired: boolean;
     const isSourceFile = symbol.flags === 512;
-    const documentation = ts.displayPartsToString(symbol.getDocumentationComment()) || void 0;
+    const documentation = ts.displayPartsToString(symbol.getDocumentationComment(void 0)) || void 0;
 
     // console.log(name, symbol.flags);
 
@@ -244,9 +228,9 @@ export class Parser {
 
     if (!getAllAst) {
       return {
-          name,
-          documentation,
-          extends: extendsDocEntry
+        name,
+        documentation,
+        extends: extendsDocEntry
       };
     }
 
@@ -272,23 +256,22 @@ export class Parser {
 
     if (symbol.flags === ts.SymbolFlags.Interface || symbol.flags === ts.SymbolFlags.Class) {
       return {
-          name,
-          exports: exportsDocEntry,
-          members: membersDocEntry,
-          documentation,
-          extends: extendsDocEntry
+        name,
+        exports: exportsDocEntry,
+        members: membersDocEntry,
+        documentation,
+        extends: extendsDocEntry
       };
     }
 
     let type: string;
 
     try {
-      type = customType[symbol.flags];
-      if (!type) {
-        type = this.checker.typeToString(this.checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration));
-      }
-    } catch (err) {}
-    type = type || "any";
+      type = this.checker.typeToString(this.checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration));
+    } catch (err) { }
+    if (!type) {
+      type = customType[symbol.flags] || "any";
+    }
 
     return {
       name,
@@ -304,7 +287,7 @@ export class Parser {
   serializeSignature = (signature: ts.Signature) => ({
     parameters: signature.parameters.map(symbol => this.serializeSymbol(symbol)),
     returnType: this.checker.typeToString(signature.getReturnType()),
-    documentation: ts.displayPartsToString(signature.getDocumentationComment()) || void 0
+    documentation: ts.displayPartsToString(signature.getDocumentationComment(void 0)) || void 0
   })
 
   serializeSourceFile = (symbol: ts.Symbol) => {
@@ -371,3 +354,5 @@ export class Parser {
     "106500": "ClassMember"
   };
 }
+
+export default Parser;

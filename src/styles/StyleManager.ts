@@ -191,7 +191,7 @@ StyleManager = class {
       secondClassName = `-${key}${secondClassName}`;
     }
 
-    const { dynamicStyle, ...styleProperties } = isStyleClasses ? styleItem.style : styleItem;
+    const { dynamicStyle, ...styleProperties } = (isStyleClasses ? styleItem.style : styleItem) as any;
     const sheet = this.addStyleWithUpdate(
       styleProperties,
       `${className}${secondClassName}`

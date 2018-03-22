@@ -4,7 +4,10 @@ import * as PropTypes from "prop-types";
 import ComponentDetail from "../../../components/ComponentDetail";
 import CodeExample from "../../../components/CodeExample";
 
-import * as docEntry from "react-uwp/Button/index.doc.json";
+import * as sourceCode from "!raw!react-uwp/Button/index.tsx";
+import sourceCode2docEntry from "common/sourceCode2docEntry";
+const docEntry = sourceCode2docEntry(sourceCode);
+
 import * as readmeText from "!raw!./README.md";
 
 import SimpleExample from "./SimpleExample";
@@ -19,8 +22,9 @@ import InlineStyleExample from "./InlineStyleExample";
 import * as InlineStyleExampleCode from "!raw!./InlineStyleExample.tsx";
 import * as InlineStyleExampleDesc from "!raw!./InlineStyleExample.md";
 
-export default class Button extends React.Component<any> {
+export default class Button extends React.Component {
   static contextTypes = { theme: PropTypes.object };
+  props: any;
 
   render() {
     const {

@@ -1,4 +1,4 @@
-import { Parser } from "./parser";
+import { Parser } from "./Parser";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -11,7 +11,7 @@ if (!fs.existsSync(file)) {
   file = `../../src/${buildComponentName}/index.tsx`;
 }
 
-const result = parser.parseHot(
+const result = parser.parse(
   path.resolve(__dirname, file),
   result => {
     const fileName = result.fileName.replace(/\.tsx?/, ".doc.json");

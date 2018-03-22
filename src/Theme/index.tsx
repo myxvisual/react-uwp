@@ -66,7 +66,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   toastWrapper: ToastWrapper;
   prevStyleManager: ReactUWP.StyleManager = null;
 
-  getDefaultTheme = () => {
+  getDefaultTheme: () => ReactUWP.ThemeType = () => {
     let { theme, autoSaveTheme } = this.props;
 
     if (!IS_NODE_ENV && autoSaveTheme && !theme) {
@@ -78,7 +78,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return theme;
   }
 
-  getLocalStorageTheme = () => {
+  getLocalStorageTheme: () => ReactUWP.ThemeType  = () => {
     let themeConfig: any = {};
     let { theme } = this.props;
 
@@ -113,7 +113,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return theme;
   }
 
-  generateAcrylicTextures = (currTheme: ReactUWP.ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => {
+  generateAcrylicTextures: (currTheme: ReactUWP.ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => void = (currTheme: ReactUWP.ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => {
     const { onGeneratedAcrylic } = this.props;
     this.acrylicTextureCount = 0;
     const baseConfig = {
@@ -189,7 +189,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     );
   }
 
-  bindNewThemeMethods = (theme: ReactUWP.ThemeType) => {
+  bindNewThemeMethods: (theme: ReactUWP.ThemeType) => void = (theme: ReactUWP.ThemeType) => {
     const { scrollBarStyleSelector } = this.props;
     const styleManager: ReactUWP.StyleManager =  new StyleManager({ theme });
     styleManager.addCSSTextWithUpdate(getBaseCSSText(theme, "uwp-base", scrollBarStyleSelector));
@@ -207,7 +207,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     } as ReactUWP.ThemeType);
   }
 
-  handleNewTheme = (theme: ReactUWP.ThemeType) => {
+  handleNewTheme: (theme: ReactUWP.ThemeType) => void = (theme: ReactUWP.ThemeType) => {
     this.props.themeWillUpdate(theme);
   }
 
@@ -219,7 +219,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     })()
   };
 
-  getChildContext() {
+  getChildContext: () => { theme: ReactUWP.ThemeType } = () => {
     return { theme: this.state.currTheme };
   }
 
@@ -291,7 +291,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     window.removeEventListener("scroll", this.handleScrollReveal);
   }
 
-  updateTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
+  updateTheme: (newTheme?: ReactUWP.ThemeType, callback?: (theme?: ReactUWP.ThemeType) => void) => void = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
     const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
 
     this.handleNewTheme(newTheme);
@@ -306,9 +306,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
   }
 
-  forceUpdateTheme = (currTheme: ReactUWP.ThemeType) => this.setState({ currTheme });
+  forceUpdateTheme: (currTheme: ReactUWP.ThemeType) => void = (currTheme: ReactUWP.ThemeType) => this.setState({ currTheme });
 
-  saveTheme = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
+  saveTheme: (currTheme: ReactUWP.ThemeType) => void = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
     localStorage.setItem(customLocalStorageName, JSON.stringify({
       themeName: newTheme.themeName,
       accent: newTheme.accent,
@@ -330,7 +330,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
   }
 
-  sureNeedGenerateAcrylic = (newTheme: ReactUWP.ThemeType): boolean => {
+  sureNeedGenerateAcrylic: (newTheme: ReactUWP.ThemeType) => boolean = (newTheme: ReactUWP.ThemeType): boolean => {
     const { currTheme } = this.state;
     let needGenerateAcrylic = newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
 
@@ -367,7 +367,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return needGenerateAcrylic;
   }
 
-  findToastNodeTimers: NodeJS.Timer[] = [];
+  findToastNodeTimers: any[] = [];
   toastId = -1;
   addToast = (toast: React.ReactElement<any>, callback?: (toastId?: number) => void, increaseId = true, currToastId?: number) => {
     let toastId = currToastId !== void 0 ? currToastId : this.toastId;

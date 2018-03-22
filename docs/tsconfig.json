@@ -10,7 +10,7 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "removeComments": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noLib": false,
     "lib": ["dom", "es5", "es2015", "es2016.array.include"],
     "typeRoots": [
