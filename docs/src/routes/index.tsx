@@ -47,7 +47,7 @@ function getRoutes(path = "/") {
         require.ensure([], (require) => {
           const Child = require("./Home").default;
           cb(null, () => (
-            <Wrapper>
+            <Wrapper needScreenInfo>
               <Child />
             </Wrapper>
           ));

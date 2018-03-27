@@ -27,7 +27,7 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
 
   updateToast = (toastId: number, toast: React.ReactElement<any>) => {
     const { theme } = this.context;
-    theme.toasts[toastId] = toast;
+    theme.toasts[toastId] = React.cloneElement(toast, { key: toastId });
     this.setState({ toasts: theme.toasts });
   }
 
@@ -59,11 +59,11 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
     });
 
     return (
-      toasts && toasts.length > 0 ? (
+      toasts && toasts.length > 0 && (
         <div {...attributes} {...rootStyleClasses}>
           {toasts}
         </div>
-      ) : null
+      )
     );
   }
 }

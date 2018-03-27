@@ -36,7 +36,9 @@ export interface DataProps {
   showCloseIcon?: boolean;
 }
 
-export interface ToastProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ToastProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
+  key?: any;
+}
 
 export interface ToastState {
   showToast?: boolean;
@@ -152,6 +154,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       closeDelay,
       showCloseIcon,
       className,
+      key,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -169,36 +172,37 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         appearAnimate={false}
         wrapperStyle={styles.root}
         ref={customAnimate => this.customAnimate = customAnimate}
+        key={key}
       >
-      <div
-        {...attributes}
-        style={styleClasses.wrapper.style}
-        className={theme.classNames(styleClasses.wrapper.className, className)}
-      >
-        <div {...styleClasses.card}>
-          {logoNode}
-          <span {...styleClasses.descContent}>
-            <p {...styleClasses.title}>{title}</p>
-            {typeof description === "string" ? (
-              <p {...styleClasses.description}>{description}</p>
-            ) : (description && description.map((desc, index) => (
-              <p {...styleClasses.description} key={`${index}`}>
-                {desc}
-              </p>
-            )))}
-          </span>
+        <div
+          {...attributes}
+          style={styleClasses.wrapper.style}
+          className={theme.classNames(styleClasses.wrapper.className, className)}
+        >
+          <div {...styleClasses.card}>
+            {logoNode}
+            <span {...styleClasses.descContent}>
+              <p {...styleClasses.title}>{title}</p>
+              {typeof description === "string" ? (
+                <p {...styleClasses.description}>{description}</p>
+              ) : (description && description.map((desc, index) => (
+                <p {...styleClasses.description} key={`${index}`}>
+                  {desc}
+                </p>
+              )))}
+            </span>
+          </div>
+          {showCloseIcon && (
+            <Icon
+              style={styles.closeIcon}
+              hoverStyle={{ color: theme.baseHigh }}
+              onClick={() => this.toggleShowToast(false)}
+            >
+              ClearLegacy
+            </Icon>
+          )}
+          {children}
         </div>
-        {showCloseIcon && (
-          <Icon
-            style={styles.closeIcon}
-            hoverStyle={{ color: theme.baseHigh }}
-            onClick={() => this.toggleShowToast(false)}
-          >
-            ClearLegacy
-          </Icon>
-        )}
-        {children}
-      </div>
       </CustomAnimate>
     );
   }

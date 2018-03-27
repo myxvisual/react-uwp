@@ -11,7 +11,9 @@ export interface DataProps {
   path?: string;
 }
 
-export interface WrapperWithCategoriesProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface WrapperWithCategoriesProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactElement<any>;
+}
 
 export interface WrapperWithCategoriesState {
   renderContentWidth?: number | string;
@@ -20,7 +22,6 @@ export interface WrapperWithCategoriesState {
 
 const HEADER_HEIGHT = 60;
 const FOOTER_HEIGHT = 260;
-
 export default class WrapperWithCategories extends React.Component<WrapperWithCategoriesProps, WrapperWithCategoriesState> {
   static defaultProps: WrapperWithCategoriesProps = {
     path: "/"
@@ -44,30 +45,15 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
     const { path, children } = this.props;
     const { renderContentWidth, screenType } = this.state;
     const { theme } = this.context;
-    const styles = getStyles(this);
     const notPhoneTablet = screenType !== "phone" && screenType !== "tablet";
+    const styles = getStyles(this);
 
     return (
       <Wrapper onChangeRenderContentWidth={this.handleChangeRenderContentWidth}>
-        <div
-          style={theme.prefixStyle({
-            display: "flex",
-            flexDirection: "row",
-            width: renderContentWidth,
-            minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
-            margin: "0 auto"
-          })}
-        >
-          {notPhoneTablet ? <DocsTreeView path={path} /> : null}
-          <div
-            style={theme.prefixStyle({
-              background: theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh,
-              width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
-              ...(theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent")),
-              minHeight: "100%"
-            })}
-          >
-            {React.cloneElement(children as any, { renderContentWidth, screenType })}
+        <div style={styles.wrapper}>
+          {notPhoneTablet && <DocsTreeView path={path} />}
+          <div style={styles.side}>
+            {React.cloneElement(children, { renderContentWidth, screenType })}
           </div>
         </div>
       </Wrapper>
@@ -75,14 +61,14 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
   }
 }
 
-function getStyles(wrapperWithCategories: WrapperWithCategories): {
-  root?: React.CSSProperties;
-} {
+function getStyles(wrapperWithCategories: WrapperWithCategories) {
   const {
     context: { theme },
-    props: { style }
+    props: { style },
+    state: { screenType, renderContentWidth }
   } = wrapperWithCategories;
   const { prefixStyle } = theme;
+  const notPhoneTablet = screenType !== "phone" && screenType !== "tablet";
 
   return {
     root: prefixStyle({
@@ -90,6 +76,19 @@ function getStyles(wrapperWithCategories: WrapperWithCategories): {
       color: theme.baseMediumHigh,
       background: theme.altMediumHigh,
       ...style
-    })
+    }) as React.CSSProperties,
+    wrapper: prefixStyle({
+      display: "flex",
+      flexDirection: "row",
+      width: renderContentWidth,
+      minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
+      margin: "0 auto"
+    }),
+    side: prefixStyle({
+      background: theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh,
+      width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
+      ...(theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent")),
+      minHeight: "100%"
+    }) as React.CSSProperties
   };
 }

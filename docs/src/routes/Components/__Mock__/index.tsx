@@ -22,6 +22,8 @@ export default class Mock extends React.Component<any> {
       router,
       routeParams,
       routes,
+      renderContentWidth,
+      screenType,
       ...attributes
     } = this.props;
 

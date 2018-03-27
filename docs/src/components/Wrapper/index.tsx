@@ -15,6 +15,7 @@ import FloatNav from "react-uwp/FloatNav";
 import Tooltip from "react-uwp/Tooltip";
 
 export interface DataProps {
+  needScreenInfo?: boolean;
   onChangeRenderContentWidth?: (renderContentWidth?: string | number, screenType?: "phone" | "tablet" | "laptop" | "pc") => void;
 }
 
@@ -22,6 +23,7 @@ export interface WrapperProps extends DataProps, Router.RouteProps {
   className?: string;
   id?: string;
   style?: React.CSSProperties;
+  children?: React.ReactElement<any>;
 }
 
 export interface WrapperState {
@@ -36,7 +38,8 @@ const emptyFunc = () => {};
 
 export default class Wrapper extends React.Component<WrapperProps, WrapperState> {
   static defaultProps = {
-    onChangeRenderContentWidth: emptyFunc
+    onChangeRenderContentWidth: emptyFunc,
+    needScreenInfo: false
   };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -92,7 +95,8 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
       id,
       style,
       path,
-      children
+      children,
+      needScreenInfo
     } = this.props;
     const { renderContentWidth, screenType, headerHeight } = this.state;
     const { theme } = this.context;
@@ -131,7 +135,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
             minHeight: renderContentHeight
           }}
         >
-          {React.cloneElement(children as any, { renderContentWidth, screenType, renderContentHeight })}
+          {React.cloneElement(children, needScreenInfo ? { renderContentWidth, screenType, renderContentHeight } : void 0)}
         </div>
         <Footer footerHeight={FOOTER_HEIGHT} renderContentWidth={renderContentWidth} />
         <div style={{ position: "fixed", right: 20, bottom: 40, zIndex: theme.zIndex.toast - 1 }}>

@@ -102,6 +102,7 @@ export class Icon extends React.Component<IconProps, IconState> {
       style: inlineStyle,
       extendsClassName: className
     });
+    const icon = icons[children as any] || children;
 
     return (
       <PseudoClasses
@@ -110,7 +111,11 @@ export class Icon extends React.Component<IconProps, IconState> {
         onMouseLeave={this.handleMouseLeave}
         {...styleClasses}
       >
-        {React.createElement(useSVGElement ? "text" as "span" : "span", {}, icons[children as any] || children)}
+        {useSVGElement ? (
+          <text>{icon}</text>
+        ) : (
+          <span>{icon}</span>
+        )}
       </PseudoClasses>
     );
   }

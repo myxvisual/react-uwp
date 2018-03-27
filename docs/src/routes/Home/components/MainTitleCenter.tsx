@@ -38,7 +38,7 @@ export default class MainTitleCenter extends React.PureComponent<MainTitleCenter
         style={styles.root}
       >
         <h5 style={styles.title}>{title}</h5>
-        <p style={styles.description}>{description}</p>
+        <div style={styles.description}>{description}</div>
         <ElementState style={styles.link} hoverStyle={{ color: theme.baseMediumHigh }}>
           <Link to={link}>
             <span>
