@@ -80,7 +80,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     const { tabFocusIndex } = this.state;
     if (defaultFocusTabIndex !== void 0 && defaultFocusTabIndex !== tabFocusIndex) {
       this.setState({
-        tabFocusIndex
+        tabFocusIndex: defaultFocusTabIndex
       });
     }
   }
