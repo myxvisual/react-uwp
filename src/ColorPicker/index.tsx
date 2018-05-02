@@ -107,10 +107,9 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
         ctx.arc(_xPosition, _yPosition, _r, 0, _pi_2 * i / 360, true);
       }
       ctx.closePath();
-      const radialGradient = ctx.createRadialGradient(_xPosition, _yPosition, _r, _xPosition, _yPosition, 0);
-      radialGradient.addColorStop(0, tinycolor(`hsv(${Math.abs(i)}, 100%, ${v * 100}%)`).toHexString());
-      radialGradient.addColorStop(1, tinycolor(`hsv(${Math.abs(i)}, 0%, ${v * 100}%)`).toHexString());
-      ctx.closePath();
+      const radialGradient = ctx.createRadialGradient(_xPosition, _yPosition, 0, _xPosition, _yPosition, _r);
+      radialGradient.addColorStop(0, tinycolor(`hsv(${Math.abs(i)}, 0%, ${v * 100}%)`).toHexString());
+      radialGradient.addColorStop(1, tinycolor(`hsv(${Math.abs(i)}, 100%, ${v * 100}%)`).toHexString());
       ctx.fillStyle = radialGradient;
       ctx.fill();
     }
