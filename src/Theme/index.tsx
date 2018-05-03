@@ -7,7 +7,6 @@ import getTheme from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
 import getBaseCSSText from "./getBaseCSSText";
-import generateAcrylicTexture from "../styles/generateAcrylicTexture";
 import { setSegoeMDL2AssetsFonts } from "../styles/fonts/segoe-mdl2-assets";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 
@@ -65,6 +64,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   cacheLightAcrylicTextures: ReactUWP.ThemeType;
   toastWrapper: ToastWrapper;
   prevStyleManager: ReactUWP.StyleManager = null;
+  backgroundEl: RenderToBody;
 
   getDefaultTheme: () => ReactUWP.ThemeType = () => {
     let { theme, autoSaveTheme } = this.props;
@@ -113,82 +113,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return theme;
   }
 
-  generateAcrylicTextures: (currTheme: ReactUWP.ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => void = (currTheme: ReactUWP.ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) => {
-    const { onGeneratedAcrylic } = this.props;
-    this.acrylicTextureCount = 0;
-    const baseConfig = {
-      blurSize: 24,
-      noiseSize: 1,
-      noiseOpacity: 0.2
-    };
-    let backgrounds: string[] = [];
-
-    const callback = (image: string, key: number) => {
-      if (key === 4) {
-        this.acrylicTextureCount += 1;
-        Object.assign(currTheme.acrylicTexture40, {
-          tintColor: currTheme.chromeMediumLow,
-          tintOpacity: 0.4,
-          background: `url(${image}) no-repeat fixed top left / cover`,
-          ...baseConfig
-        });
-      }
-      if (key === 6) {
-        this.acrylicTextureCount += 1;
-        Object.assign(currTheme.acrylicTexture60, {
-          tintColor: currTheme.chromeLow,
-          tintOpacity: 0.6,
-          background: `url(${image}) no-repeat fixed top left / cover`,
-          ...baseConfig
-        });
-      }
-      if (key === 8) {
-        this.acrylicTextureCount += 1;
-        Object.assign(currTheme.acrylicTexture80, {
-          tintColor: currTheme.chromeLow,
-          tintOpacity: 0.8,
-          background: `url(${image}) no-repeat fixed top left / cover`,
-          ...baseConfig
-        });
-      }
-
-      if (this.acrylicTextureCount === 3) {
-        currTheme.haveAcrylicTextures = true;
-        onGeneratedAcrylic(currTheme);
-        if (themeCallback) themeCallback(currTheme);
-        return currTheme;
-      }
-    };
-
-    generateAcrylicTexture(
-      currTheme.desktopBackgroundImage,
-      currTheme.chromeMediumLow,
-      0.4,
-      void 0,
-      void 0,
-      void 0,
-      image => callback(image, 4)
-    );
-    generateAcrylicTexture(
-      currTheme.desktopBackgroundImage,
-      currTheme.chromeLow,
-      0.6,
-      void 0,
-      void 0,
-      void 0,
-      image => callback(image, 6)
-    );
-    generateAcrylicTexture(
-      currTheme.desktopBackgroundImage,
-      currTheme.chromeLow,
-      0.8,
-      void 0,
-      void 0,
-      void 0,
-      image => callback(image, 8)
-    );
-  }
-
   bindNewThemeMethods: (theme: ReactUWP.ThemeType) => void = (theme: ReactUWP.ThemeType) => {
     const { scrollBarStyleSelector } = this.props;
     const styleManager: ReactUWP.StyleManager =  new StyleManager({ theme });
@@ -201,7 +125,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       updateToast: this.updateToast,
       deleteToast: this.deleteToast,
       scrollRevealListener: this.handleScrollReveal,
-      generateAcrylicTextures: this.generateAcrylicTextures,
       forceUpdateTheme: this.forceUpdateTheme,
       styleManager
     } as ReactUWP.ThemeType);
@@ -236,7 +159,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
     if (currTheme.useFluentDesign && currTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
       this.handleNewTheme(currTheme);
-      this.generateAcrylicTextures(currTheme, currTheme => this.setState({ currTheme }));
+      currTheme.generateAcrylicTextures(currTheme, currTheme => this.setState({ currTheme }));
     }
 
     window.addEventListener("scroll", this.handleScrollReveal);
@@ -260,7 +183,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         }, () => {
           if (needGenerateAcrylic) {
             this.handleNewTheme(theme);
-            this.generateAcrylicTextures(theme, currTheme => this.setState({ currTheme }));
+            theme.generateAcrylicTextures(theme, currTheme => this.setState({ currTheme }));
           }
         });
       }
@@ -301,7 +224,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       callback(newTheme);
       if (needGenerateAcrylic) {
         this.handleNewTheme(newTheme);
-        this.generateAcrylicTextures(newTheme, currTheme => this.setState({ currTheme }));
+        newTheme.generateAcrylicTextures(newTheme, currTheme => this.setState({ currTheme }));
       }
     });
   }
@@ -325,7 +248,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       callback(newTheme);
       if (needGenerateAcrylic) {
         this.handleNewTheme(newTheme);
-        this.generateAcrylicTextures(newTheme, currTheme => this.setState({ currTheme }));
+        newTheme.generateAcrylicTextures(newTheme, currTheme => this.setState({ currTheme }));
       }
     });
   }
@@ -474,27 +397,32 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       left: 0,
       width: "100%",
       height: "100%",
-      background: currTheme.desktopBackground,
+      background: (currTheme.useFluentDesign && currTheme.desktopBackgroundImage) ? currTheme.desktopBackground : currTheme.altHigh,
       pointerEvents: "none"
+    };
+    currTheme.generateAcrylicTextures.callback = (theme) => {
+      if (this.backgroundEl) {
+        Object.assign(this.backgroundEl.rootElm.style, backgroundStyle, { background: theme.desktopBackground } as React.CSSProperties);
+      }
+      if (onGeneratedAcrylic) onGeneratedAcrylic();
     };
 
     return (
       <div
         {...attributes}
-        {...theme.prepareStyle({
+        {...currTheme.prepareStyle({
           style: rootStyle,
           className: "theme-root",
           extendsClassName: className ? `${this.themeClassName} ${className}` : this.themeClassName
         })}
       >
-        {currTheme.useFluentDesign && currTheme.desktopBackgroundImage && (
-          <RenderToBody
-            {...theme.prepareStyle({
-              style: backgroundStyle,
-              className: "fluent-background"
-            })}
-          />
-        )}
+        <RenderToBody
+          ref={backgroundEl => this.backgroundEl = backgroundEl}
+          {...currTheme.prepareStyle({
+            style: backgroundStyle,
+            className: "fluent-background"
+          })}
+        />
         <RenderToBody>
           <ToastWrapper ref={toastWrapper => this.toastWrapper = toastWrapper} />
         </RenderToBody>

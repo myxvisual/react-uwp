@@ -43,7 +43,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     defaultColor: "hsv(210, 100%, 100%)",
     onChangeColor: emptyFunc,
     onChangedColor: emptyFunc,
-    onChangedColorTimeout: 250
+    onChangedColorTimeout: 1000 / 24
   };
 
   state: ColorPickerState = tinycolor(this.props.defaultColor).toHsv();
@@ -56,6 +56,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
   originBodyStyle = IS_NODE_ENV ? void 0 : { ...document.body.style };
   colorSelectorElm: HTMLDivElement;
   colorMainBarElm: HTMLDivElement;
+  slider: Slider;
 
   componentDidMount() {
     this.renderCanvas();
@@ -139,14 +140,20 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     ctx.scale(devicePixelRatio, devicePixelRatio);
   }
 
+  colorBarTimer: any = null;
   handleColorBarChange = (v: number) => {
+    clearTimeout(this.colorBarTimer);
     const { h, s } = this.state;
-    const { onChangeColor, onChangedColor } = this.props;
+    const { onChangeColor, onChangedColor, onChangedColorTimeout } = this.props;
     const colorHexString = tinycolor({ h, s, v }).toHexString();
     onChangeColor(colorHexString);
-    this.setState({ v }, () => onChangedColor(colorHexString));
+    this.setState({ v }, () => onChangeColor(colorHexString));
+    this.colorBarTimer = setTimeout(() => {
+      onChangedColor(colorHexString);
+    }, onChangedColorTimeout);
   }
 
+  clickTimer: any = null;
   handleChooseColor = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>, isClickEvent = true) => {
     e.preventDefault();
     const isTouchEvent = e.type.includes("touch");
@@ -181,10 +188,19 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     if (s > 1) s = 1;
 
     const colorHexString = tinycolor({ h, s, v }).toHexString();
+    if (this.slider) {
+      const halfLightColor = tinycolor({ h, s, v: 1 });
+      this.slider.barElm.style.backgroundImage = `linear-gradient(90deg, #000, ${halfLightColor.toHexString()})`;
+    }
+
     if (isClickEvent && e.type === "click") {
       onChangeColor(colorHexString);
-      onChangedColor(colorHexString);
-      this.setState({ h, s });
+      this.setState({ h, s }, () => {
+        clearTimeout(this.clickTimer);
+        this.clickTimer = setTimeout(() => {
+          onChangedColor(colorHexString);
+        }, 0);
+      });
     } else {
       onChangeColor(colorHexString);
       clearTimeout(this.moveColorTimer);
@@ -298,6 +314,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
         </div>
         <Slider
           maxValue={1}
+          ref={slider => this.slider = slider}
           onChangeValue={this.handleColorBarChange}
           style={{ marginTop: size * 0.0125, width: "100%" }}
           initValue={v}

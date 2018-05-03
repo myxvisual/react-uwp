@@ -2,6 +2,7 @@ import * as tinycolor from "tinycolor2";
 import setSegoeMDL2AssetsFonts from "./fonts/segoe-mdl2-assets";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 import prefixAll from "../common/prefixAll";
+import generateAcrylicTexture from "./generateAcrylicTexture";
 
 if (!IS_NODE_ENV) {
   setSegoeMDL2AssetsFonts();
@@ -154,8 +155,87 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
         return styleClasses;
       }
     },
+
     classNames(...classNames) {
       return classNames.reduce((prev, curr) => (prev || "") + (curr ? ` ${curr}` : ""));
+    },
+
+    generateAcrylicTextures(currTheme: ReactUWP.ThemeType, themeCallback?: (theme?: ReactUWP.ThemeType) => void) {
+      this.acrylicTextureCount = 0;
+      const baseConfig = {
+        blurSize: 24,
+        noiseSize: 1,
+        noiseOpacity: 0.2
+      };
+      let backgrounds: string[] = [];
+
+      const callback = (image: string, key: number) => {
+        if (key === 4) {
+          this.acrylicTextureCount += 1;
+          Object.assign(currTheme.acrylicTexture40, {
+            tintColor: currTheme.chromeMediumLow,
+            tintOpacity: 0.4,
+            background: `url(${image}) no-repeat fixed top left / cover`,
+            ...baseConfig
+          });
+        }
+        if (key === 6) {
+          this.acrylicTextureCount += 1;
+          Object.assign(currTheme.acrylicTexture60, {
+            tintColor: currTheme.chromeLow,
+            tintOpacity: 0.6,
+            background: `url(${image}) no-repeat fixed top left / cover`,
+            ...baseConfig
+          });
+        }
+        if (key === 8) {
+          this.acrylicTextureCount += 1;
+          Object.assign(currTheme.acrylicTexture80, {
+            tintColor: currTheme.chromeLow,
+            tintOpacity: 0.8,
+            background: `url(${image}) no-repeat fixed top left / cover`,
+            ...baseConfig
+          });
+        }
+
+        if (this.acrylicTextureCount === 3) {
+          currTheme.haveAcrylicTextures = true;
+          if (themeCallback) themeCallback(currTheme);
+
+          if (this.generateAcrylicTextures.callback) {
+            this.generateAcrylicTextures.callback(currTheme);
+          }
+          return currTheme;
+        }
+      };
+
+      generateAcrylicTexture(
+        currTheme.desktopBackgroundImage,
+        currTheme.chromeMediumLow,
+        0.4,
+        void 0,
+        void 0,
+        void 0,
+        image => callback(image, 4)
+      );
+      generateAcrylicTexture(
+        currTheme.desktopBackgroundImage,
+        currTheme.chromeLow,
+        0.6,
+        void 0,
+        void 0,
+        void 0,
+        image => callback(image, 6)
+      );
+      generateAcrylicTexture(
+        currTheme.desktopBackgroundImage,
+        currTheme.chromeLow,
+        0.8,
+        void 0,
+        void 0,
+        void 0,
+        image => callback(image, 8)
+      );
     },
 
     toasts: [],
