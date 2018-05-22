@@ -1,6 +1,7 @@
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 import isUnitlessNumber from "../common/react/isUnitlessNumber";
+import isElectronEnv from "../common/electron/IS_ELECTRON_ENV";
 
 export const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
 export const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !(isUnitlessNumber as any)[key]) ? `${value}px` : value);
