@@ -5,7 +5,7 @@ const Prefixer = require("inline-style-prefixer");
 
 import IS_NODE_ENV from "./nodeJS/IS_NODE_ENV";
 
-const prefixAll = (userAgent?: string | false) => {
+function prefixAll(userAgent?: string | false): (style?: React.CSSProperties) => React.CSSProperties {
   const isServer = IS_NODE_ENV;
 
   if (userAgent === false) {
