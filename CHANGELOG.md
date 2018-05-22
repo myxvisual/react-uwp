@@ -1,3 +1,23 @@
+<a name="1.1.9"></a>
+## [1.1.9](https://github.com/myxvisual/react-uwp/compare/v1.1.8...v1.1.9) (2018-05-22)
+
+
+### Bug Fixes
+
+* Fixed canvas color wheel render bug and Close [#46](https://github.com/myxvisual/react-uwp/issues/46) ([2d1f616](https://github.com/myxvisual/react-uwp/commit/2d1f616))
+* Fixed IS_NODE_ENV support detect electron environment and close [#47](https://github.com/myxvisual/react-uwp/issues/47) ([f3faeda](https://github.com/myxvisual/react-uwp/commit/f3faeda))
+* Fixed Toast doesn't show bug ([6db882a](https://github.com/myxvisual/react-uwp/commit/6db882a))
+* Fixed wrong custom theme and inline style links and Close [#43](https://github.com/myxvisual/react-uwp/issues/43) ([46049d8](https://github.com/myxvisual/react-uwp/commit/46049d8))
+
+
+### Features
+
+* Add Dynamic TypeScript DocGen Parser ([818f23a](https://github.com/myxvisual/react-uwp/commit/818f23a))
+* Add theme.prepareStyles support typescript generics ([a52f038](https://github.com/myxvisual/react-uwp/commit/a52f038))
+* Add theme.styleManager support typescript generics ([a5053ee](https://github.com/myxvisual/react-uwp/commit/a5053ee))
+
+
+
 <a name="1.1.8"></a>
 ## [1.1.8](https://github.com/myxvisual/react-uwp/compare/v1.1.7...v1.1.8) (2017-11-27)
 
