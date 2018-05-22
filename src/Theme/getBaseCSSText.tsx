@@ -1,5 +1,6 @@
 
-const getBaseCSS = (theme: ReactUWP.ThemeType, themeClassName = "uwp-base", scrollBarStyleSelector = "*") => `* {
+function getBaseCSS(theme: ReactUWP.ThemeType, themeClassName = "uwp-base", scrollBarStyleSelector = "*") {
+  return `* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -49,5 +50,6 @@ ${scrollBarStyleSelector}::-webkit-scrollbar {
   border-radius: none;
 }
 `;
+}
 
 export default getBaseCSS;
