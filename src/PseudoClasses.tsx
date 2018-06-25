@@ -22,7 +22,7 @@ export class PseudoClasses extends React.Component<PseudoClassesProps> {
   componentDidMount() {
     const { context: { theme }, props: { style, children } } = this;
     if (theme.useInlineStyle || style) {
-      this.rootElm = findDOMNode(this);
+      this.rootElm = findDOMNode(this) as Element;
     }
   }
 

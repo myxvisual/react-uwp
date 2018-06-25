@@ -38,25 +38,29 @@ export default class FlipViewItem extends React.Component<FlipViewItemProps> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const styles = getStyles(this);
+    const inlineStyles = getStyles(this);
+    const styles = theme.prepareStyles({
+      styles: inlineStyles,
+      className: "links"
+    });
 
     return (
       <Link
         {...attributes as any}
-        style={styles.root}
+        className={styles.root.className}
         to={link}
       >
-        <div style={styles.desc}>
-          <p style={styles.title}>{title}</p>
-          <p style={styles.description}>{description}</p>
-          <button style={styles.button}>
+        <div className={styles.desc.className}>
+          <p className={styles.title.className}>{title}</p>
+          <p className={styles.description.className}>{description}</p>
+          <button className={styles.button.className}>
             {linkInfo}
-            <Icon style={styles.icon}>
+            <Icon style={inlineStyles.icon}>
               ScrollChevronRightLegacy
             </Icon>
           </button>
         </div>
-        <img src={image} style={styles.image} />
+        <img src={image} className={styles.image.className} />
       </Link>
     );
   }
@@ -93,7 +97,7 @@ function getStyles(flipViewItem: FlipViewItem): {
       fontWeight: "lighter",
       textDecoration: "none",
       ...style
-    }),
+    } as any),
     desc: isPhoneScreen ? prefixStyle({
       width: "100%",
       flex: "0 0 auto",

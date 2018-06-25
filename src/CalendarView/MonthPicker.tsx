@@ -78,7 +78,7 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
                   )
                 ),
                 border: "2px solid transparent"
-              }}
+              } as React.CSSProperties}
               className={styles.monthItem.className}
               onClick={() => onChooseMonth(index)}
               key={`${index}`}

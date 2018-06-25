@@ -25,7 +25,7 @@ function prefixAll(userAgent?: string | false): (style?: React.CSSProperties) =>
   } else {
     return (style?: React.CSSProperties) => {
       if (!style) return;
-      const stylePrefixed = Prefixer.prefixAll(style) as React.CSSProperties;
+      const stylePrefixed = Prefixer.prefixAll(style);
       const isFlex = ["flex", "inline-flex"].includes(style.display);
 
       // We can't apply this join with react-dom:

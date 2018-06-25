@@ -24,6 +24,7 @@ export interface ExpandedItem {
   focusColor?: string;
 }
 import IconButton from "../IconButton";
+import { Theme } from "react-uwp/Theme";
 
 export interface DataProps {
   /**
@@ -187,14 +188,14 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
                 }}
                 href={href}
                 onClick={e => { onFocusItem(index); if (onClick) onClick(e); }}
-                style={{
+                style={theme.prefixStyle({
                   ...linkStyleClasses.style,
                   flexDirection: isFloatRight ? "row" : "row-reverse",
                   justifyContent: isHovered ? "space-between" : "center",
                   color: hoverIndexArray[index] ? "#fff" : theme.baseHigh,
                   background: (isFirst || isHovered) ? (theme.accent || focusColor) : theme.altHigh,
                   width: hoverIndexArray[index] ? expandedWidth : initWidth
-                }}
+                })}
                 className={linkStyleClasses.className}
                 key={`${index}`}
               >

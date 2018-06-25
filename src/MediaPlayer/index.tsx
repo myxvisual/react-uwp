@@ -272,7 +272,7 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
     if (this.state.fullScreenMode) {
       this.existFullscreen();
     }
-    const rootElm: any = findDOMNode(this.reactPlayer).children[0];
+    const rootElm: any = (findDOMNode(this.reactPlayer) as Element).children[0];
     if (rootElm.requestFullscreen) {
       rootElm.requestFullscreen();
     } else if (rootElm.msRequestFullscreen) {

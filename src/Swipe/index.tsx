@@ -382,11 +382,11 @@ export default class Swipe extends React.Component<SwipeProps, SwipeState> {
             (!stopSwipe && !isSingleChildren) ? this.mouseOrTouchDownHandler : void 0
           }
           ref="content"
-          style={{
+          style={theme.prefixStyle({
             ...styles.content.style,
             transform: `translate${isHorizontal ? "X" : "Y"}(${-focusIndex * 100 / childrenLength}%)`,
             transition: haveAnimate ? transition : void 0
-          }}
+          })}
           className={styles.content.className}
         >
           {childrenArray.map((child, index) => (
@@ -455,6 +455,6 @@ function getStyles(swipe: Swipe): {
       userSelect: "none",
       userDrag: "none",
       WebkitUserDrag: "none"
-    })
+    } as any)
   };
 }

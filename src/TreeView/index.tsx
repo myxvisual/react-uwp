@@ -289,7 +289,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
                 background: (focus && showFocus) ? theme.accent : (
                   isVisited ? theme.listAccentLow : "none"
                 )
-              }}
+              } as React.CSSProperties}
               ref={elm => behindElm = elm}
             />
           </div>

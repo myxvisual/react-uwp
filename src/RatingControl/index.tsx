@@ -114,12 +114,12 @@ export class RatingControl extends React.Component<RatingControlProps, RatingCon
 
     const renderRatings = (notRated = true) => (
       <div
-        style={{
+        style={theme.prefixStyle({
           ...(notRated ? styles.group.style : styles.groupMask.style),
           ...(notRated ? void 0 : {
             clipPath: `polygon(0% 0%, ${offset}px 0%, ${offset}px 100%, 0% 100%)`,
           } as React.CSSProperties)
-        }}
+        })}
         className={notRated ? styles.group.className : styles.groupMask.className}
       >
         {Array(maxRating).fill(0).map((zero, index) => (

@@ -182,7 +182,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           style={{
             ...styles.wrapper.style,
             border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`
-          }}
+          } as React.CSSProperties}
           className={styles.wrapper.className}
           onMouseEnter={(e) => {
             if (!showList) e.currentTarget.style.border = `2px solid ${showList ? theme.baseLow : theme.baseHigh}`;
@@ -202,7 +202,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
                   ...styles.value.style,
                   height: (isCurrent || showList) ? itemHeight : 0,
                   background: (isCurrent && showList) ? theme.listAccentLow : "none"
-                }}
+                } as React.CSSProperties}
                 onClick={() => this.toggleShowList(value)}
                 onMouseEnter={!showList ? itemAttributes.onMouseEnter : (e) => {
                   e.currentTarget.style.background = isCurrent ? theme.listAccentMedium : theme.useFluentDesign ? theme.listLow : theme.chromeMedium;

@@ -127,7 +127,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
                   ) : (
                     theme.useFluentDesign ? theme.listLow : theme.chromeLow
                   ))
-                }}
+                } as React.CSSProperties}
                 className={styles.dayItem.className}
                 onClick={() => onChooseDay(date)}
                 key={`${index}`}

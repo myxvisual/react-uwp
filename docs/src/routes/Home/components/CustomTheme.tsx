@@ -38,7 +38,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps> {
           <div>
             <ScrollReveal {...{ ...slideLeftInProps, speed: 850 }}>
             <div style={{ width: 320, fontWeight: "lighter" }}>
-              <Icon style={{ fontSize: 120, linHeight: 1.6 }}>Color</Icon>
+              <Icon style={{ fontSize: 120, linHeight: 1.6 } as React.CSSProperties}>Color</Icon>
               <p style={{ fontSize: 24 }}>Custom Beautiful Themes</p>
               <p style={{ fontSize: 13 }}>React-UWP just to achieve design specifications, more simple design of different themes, let you have complete design freedom.</p>
             </div>

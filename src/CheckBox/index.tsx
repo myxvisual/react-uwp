@@ -164,7 +164,7 @@ function getStyles(checkBox: CheckBox): {
   });
 
   const iconParentHover = { border: `2px solid ${theme.baseHigh}` };
-  let iconParent: React.CSSProperties;
+  let iconParent: ReactUWP.CustomCSSProperties;
 
   switch (checked) {
     case true: {

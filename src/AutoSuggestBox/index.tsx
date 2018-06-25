@@ -264,7 +264,7 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
 function getStyles(autoSuggestBox: AutoSuggestBox): {
   root?: React.CSSProperties;
   listView?: React.CSSProperties;
-  icon?: React.CSSProperties;
+  icon?: ReactUWP.CustomCSSProperties;
 } {
   const { context, props: {
     style,

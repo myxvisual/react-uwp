@@ -75,7 +75,7 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
                 ...styles.yearItem.style,
                 background: isNow ? theme.accent : theme.useFluentDesign ? theme.altLow : theme.altHigh,
                 border: "2px solid transparent"
-              }}
+              } as React.CSSProperties}
               className={styles.yearItem.className}
               onClick={() => onChooseYear(year)}
               key={`${index}`}

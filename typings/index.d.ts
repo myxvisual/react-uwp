@@ -170,7 +170,7 @@ export interface ThemeType {
 
   chromeWhite?: string;
 
-  prefixStyle?: (style?: React.CSSProperties) => React.CSSProperties;
+  prefixStyle?: (style?: CustomCSSProperties) => React.CSSProperties;
   prepareStyle?: (config?: {
     style?: CustomCSSProperties;
     className?: string;

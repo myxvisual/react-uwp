@@ -150,7 +150,7 @@ StyleManager = class {
   }, callback?: (theme?: ReactUWP.ThemeType) => StyleClasses): StyleClasses {
     let newStyles: StyleClasses = {};
     let { style, className } = config || {} as StyleClasses;
-    if (callback) style = callback(this.theme);
+    if (callback) style = callback(this.theme) as CustomCSSProperties;
 
     const { dynamicStyle, ...styleProperties } = style;
     className = className || "";

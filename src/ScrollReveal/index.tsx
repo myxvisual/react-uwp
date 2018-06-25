@@ -65,7 +65,7 @@ export class ScrollReveal extends React.Component<ScrollRevealProps> {
   animated: boolean = false;
 
   componentDidMount() {
-    this.rootElm = findDOMNode(this);
+    this.rootElm = findDOMNode(this) as Element;
     this.context.theme.scrollReveals.push(this as any);
   }
 

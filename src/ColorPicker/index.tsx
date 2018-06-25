@@ -361,22 +361,22 @@ function getStyles(colorPicker: ColorPicker): {
       alignItems: "center",
       justifyContent: "space-between"
     }),
-    mainBoard: {
+    mainBoard: prefixStyle({
       userDrag: "none",
       margin: 0,
       userSelect: "none"
-    },
+    } as any),
     colorMainBar: {
       height: size * 0.8125,
       marginLeft: size * 0.025,
       width: size * 0.125,
       background: currColor
     },
-    colorSelector: {
+    colorSelector: prefixStyle({
       pointerEvents: "none",
       userDrag: "none",
       position: "absolute"
-    }
+    } as any)
   };
 }
 

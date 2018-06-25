@@ -45,9 +45,9 @@
   },
   "devDependencies": {
     "@types/murmurhash-js": "^1.0.2",
-    "@types/react": "^16.0.0",
-    "@types/react-dom": "^16.0.0",
-    "@types/react-transition-group": "^2.0.2",
+    "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-transition-group": "^2.0.11",
     "babel-eslint": "^7.2.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -67,7 +67,7 @@
     "tslint": "^5.2.0",
     "tslint-eslint-rules": "^4.1.1",
     "tslint-no-circular-imports": "^0.1.0",
-    "typescript": "^2.4.1"
+    "typescript": "^2.9.2"
   },
   "dependencies": {
     "@types/core-js": "^0.9.41",
@@ -75,7 +75,6 @@
     "@types/node": "^8.0.1",
     "@types/prismjs": "^1.6.2",
     "@types/prop-types": "^15.5.1",
-    "@types/react-transition-group": "^1.1.0",
     "@types/tinycolor2": "^1.1.1",
     "inline-style-prefixer": "^3.0.5",
     "keycode": "^2.1.8",
