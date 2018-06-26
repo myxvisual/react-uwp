@@ -6,6 +6,7 @@ import getStripedBackground from "react-uwp/styles/getStripedBackground";
 import Wrapper from "../Wrapper";
 import Icon from "react-uwp/Icon";
 import DocsTreeView from "../DocsTreeView";
+import { render } from "../../../../node_modules/@types/react-dom";
 
 export interface DataProps {
   path?: string;
@@ -22,11 +23,31 @@ export interface WrapperWithCategoriesState {
 
 const HEADER_HEIGHT = 60;
 const FOOTER_HEIGHT = 260;
+const { innerWidth } = window;
+let screenType: any;
+let renderContentWidth: any;
+if (innerWidth < 960) {
+  screenType = "phone";
+  renderContentWidth = "100%";
+} else if (innerWidth >= 960 && innerWidth < 1366) {
+  screenType = "tablet";
+  renderContentWidth = 960;
+} else if (innerWidth >= 1366 && innerWidth < 1920) {
+  screenType = "laptop";
+  renderContentWidth = 1280;
+} else {
+  screenType = "pc";
+  renderContentWidth = 1600;
+}
+
 export default class WrapperWithCategories extends React.Component<WrapperWithCategoriesProps, WrapperWithCategoriesState> {
   static defaultProps: WrapperWithCategoriesProps = {
     path: "/"
   };
-  state: WrapperWithCategoriesState = {};
+  state: WrapperWithCategoriesState = {
+    renderContentWidth,
+    screenType
+  };
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };

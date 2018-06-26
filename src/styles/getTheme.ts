@@ -28,6 +28,7 @@ export interface ThemeConfig {
   desktopBackgroundImage?: string;
   userAgent?: string;
   useInlineStyle?: boolean;
+  useRevealEffect?: boolean;
 }
 
 export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType {
@@ -39,12 +40,14 @@ export default function getTheme(themeConfig?: ThemeConfig): ReactUWP.ThemeType 
     useFluentDesign,
     desktopBackgroundImage,
     userAgent,
-    useInlineStyle
+    useInlineStyle,
+    useRevealEffect
   } = themeConfig;
 
   themeName = themeName || "dark";
   accent = accent || "#0078D7";
   useFluentDesign = useFluentDesign === void 0 ? false : useFluentDesign;
+  useRevealEffect = useRevealEffect === void 0 ? true : false;
 
   const isDark = themeName === "dark";
   const baseHigh = isDark ? "#fff" : "#000";

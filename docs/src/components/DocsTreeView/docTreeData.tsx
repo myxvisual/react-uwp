@@ -15,8 +15,7 @@ export default [{
   }, {
     "titleNode": "Acrylic"
   }, {
-    "titleNode": "Reveal",
-    hidden: true
+    "titleNode": "Reveal"
   }, {
     "titleNode": "Typography"
   }, {

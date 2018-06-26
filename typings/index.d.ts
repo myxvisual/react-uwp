@@ -121,6 +121,7 @@ export interface ThemeType {
   desktopBackgroundImage?: string;
   desktopBackground?: string;
   useInlineStyle?: boolean;
+  useRevealEffect?: boolean;
 
   haveAcrylicTextures?: boolean;
   acrylicTexture40?: AcrylicTexture;

@@ -359,6 +359,25 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     localStorage.setItem(customLocalStorageName, "");
   }
 
+  themeMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // const { currTheme } = this.state;
+    // const { onMouseMove } = this.props;
+
+    // console.log(e.clientX, e.clientY);
+    // if (onMouseMove) onMouseMove(e);
+    // if (currTheme.useRevealEffect) {
+    // }
+  }
+
+  themeMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { currTheme } = this.state;
+    const { onMouseDown } = this.props;
+    if (onMouseDown) onMouseDown(e);
+    if (currTheme.useRevealEffect) {
+      console.log(e.currentTarget);
+    }
+  }
+
   render() {
     const {
       autoSaveTheme,
@@ -415,6 +434,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           className: "theme-root",
           extendsClassName: className ? `${this.themeClassName} ${className}` : this.themeClassName
         })}
+        onMouseMove={this.themeMouseMove}
+        onMouseDown={this.themeMouseDown}
       >
         <RenderToBody
           ref={backgroundEl => this.backgroundEl = backgroundEl}

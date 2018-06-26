@@ -1,16 +1,18 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import RevealItem from "react-uwp/Reveal/RevealItem";
+import RevealContainer from "react-uwp/Reveal/RevealContainer";
 
 export interface DataProps {}
 
-export interface MockProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface RevealProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export interface MockState {}
+export interface RevealState {}
 
-export class Mock extends React.Component<MockProps, MockState> {
-  static defaultProps: MockProps = {};
+export class Reveal extends React.Component<RevealProps, RevealState> {
+  static defaultProps: RevealProps = {};
 
-  state: MockState = {};
+  state: RevealState = {};
 
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -21,7 +23,7 @@ export class Mock extends React.Component<MockProps, MockState> {
     const inlineStyles = getStyles(this);
     const styles = theme.prepareStyles({
       styles: inlineStyles,
-      className: "Mock"
+      className: "Reveal"
     });
 
     return (
@@ -29,27 +31,28 @@ export class Mock extends React.Component<MockProps, MockState> {
         {...attributes}
         className={styles.root.className}
       >
-        Mock
+        <RevealContainer>
+          <RevealItem>
+            Reveal
+          </RevealItem>
+        </RevealContainer>
       </div>
     );
   }
 }
 
-function getStyles(Mock: Mock) {
+function getStyles(Reveal: Reveal) {
   const {
     context: { theme },
     props: { style }
-  } = Mock;
+  } = Reveal;
   const { prefixStyle } = theme;
 
   return {
     root: prefixStyle({
-      fontSize: 14,
-      color: theme.baseMediumHigh,
-      background: theme.altMediumHigh,
       ...style
     })
   };
 }
 
-export default Mock;
+export default Reveal;

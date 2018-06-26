@@ -48,10 +48,6 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
     headerHeight: 60
   };
 
-  componentWillMount() {
-    this.resize();
-  }
-
   componentDidMount() {
     addCSSRule("body { overflow-x: hidden; }");
     window.addEventListener("resize", this.resize);

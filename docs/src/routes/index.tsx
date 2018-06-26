@@ -139,6 +139,13 @@ function getRoutes(path = "/") {
           }, "react-uwp-style-Acrylic");
         }
       }, {
+        path: "Reveal",
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require("./Styles/Reveal").default);
+          }, "react-uwp-style-Reveal");
+        }
+      }, {
         path: "Animation",
         getComponent: (location: Location, cb: RouterCallback) => {
           require.ensure([], (require) => {
