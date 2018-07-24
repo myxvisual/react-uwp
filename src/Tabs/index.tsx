@@ -110,9 +110,9 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
 
     const childrenArray = React.Children.toArray(children);
     const isAvailableArray = childrenArray && childrenArray.length > 0;
-    const tabs: Tab[] | false  = isAvailableArray && childrenArray.filter((child: any) => child.type === Tab) as any;
-    const currTab: Tab | false = tabs && tabs[tabFocusIndex] as any;
-    const tabTitle = currTab && currTab.props.title;
+    const tabs: Tab[] | false  = isAvailableArray && childrenArray.filter((child: any) => child.type && (child.type === Tab || child.type.displayName === "Tab")) as any;
+    const currTab: Tab | false = tabs && tabs[tabFocusIndex];
+    const tabTitle: string | false = currTab && currTab.props.title;
 
     const inlineStyles = getStyles(this);
     const styles = theme.prepareStyles({
@@ -139,7 +139,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
               key={`${index}`}
               onClick={() => this.setState({ tabFocusIndex: index })}
             >
-              {renderTitle(tab.props.title || `Tabs Items ${index + 1}`)}
+              {renderTitle(tabTitle || `Tabs Items ${index + 1}`)}
             </span>
           ))}
         </div>
@@ -149,7 +149,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
             speed={animateSpeed}
             enterStyle={animateEnterStyle}
             leaveStyle={animateLeaveStyle}
-            wrapperStyle={{ width: "100%", height: "100%" }}
+            wrapperStyle={{ width: "100%", height: "100%", ...tabStyle }}
             appearAnimate={false}
           >
             {normalRender}
