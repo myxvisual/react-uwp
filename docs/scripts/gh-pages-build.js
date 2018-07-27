@@ -63,6 +63,7 @@ function savePublicVersionsFile() {
 }
 
 function buildDocs() {
+  execSyncWithLog('git reset --hard')
   execSyncWithLog('git checkout gh-pages')
   execSyncWithLog('git reset --hard')
   execSyncWithLog('git pull')
