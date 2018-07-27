@@ -41,7 +41,7 @@ function setListItemsUrl(path = "/") {
     let title: string;
     let titleNode: any = listData.titleNode;
     title = convert2string(titleNode);
-    title = title.replace(/\s/gim, "-");
+    title = title.replace(/\s/gim, "-").toLowerCase();
 
     if (names.includes(title)) {
       listData.expanded = true;
@@ -75,6 +75,8 @@ function setListItemsUrl(path = "/") {
     }
   };
   setUrl(listItem);
+
+  console.log(docTreeData);
 }
 
 export interface DataProps {
