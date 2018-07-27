@@ -1,3 +1,15 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/myxvisual/react-uwp/compare/v1.1.9...v1.2.0) (2018-07-27)
+
+
+### Bug Fixes
+
+* Fixed prfixAll types error ([0c720bf](https://github.com/myxvisual/react-uwp/commit/0c720bf))
+* Fixed render tab title bug ([7745cf1](https://github.com/myxvisual/react-uwp/commit/7745cf1))
+* Fixed theme types error ([aa9e494](https://github.com/myxvisual/react-uwp/commit/aa9e494))
+
+
+
 <a name="1.1.9"></a>
 ## [1.1.9](https://github.com/myxvisual/react-uwp/compare/v1.1.8...v1.1.9) (2018-05-22)
 
