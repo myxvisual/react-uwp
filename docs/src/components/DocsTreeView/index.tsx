@@ -75,8 +75,6 @@ function setListItemsUrl(path = "/") {
     }
   };
   setUrl(listItem);
-
-  console.log(docTreeData);
 }
 
 export interface DataProps {
