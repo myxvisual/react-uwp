@@ -80,8 +80,8 @@ function buildDocs() {
 
   buildBowerRelease(versionNumber)
 
-  execSyncWithLog('git checkout gh-pages')
   execSyncWithLog('git reset --hard')
+  execSyncWithLog('git checkout gh-pages')
   fse.copySync('../build/README.md', '../../README.md', { overwrite: true })
   fse.copySync('../build/404.html', '../../404.html', { overwrite: true })
 
