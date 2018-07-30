@@ -121,10 +121,9 @@ function buildDocs() {
   }
   savePublicVersionsFile()
 
-  const options = { cwd: rootDir, stdio: 'inherit' }
-  execSync('git add -A', options)
-  execSync(`git commit -m 'Update ${version}' Docs`, options)
-  execSync(`git push${useForcePush ? ' -f' : ''}`, options)
+  execSyncWithLog('git add -A')
+  execSyncWithLog(`git commit -m 'Update ${version}' Docs`)
+  execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
 function replaceWebpackPublicPath(versionNumb) {
