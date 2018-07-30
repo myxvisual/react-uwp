@@ -122,7 +122,7 @@ function buildDocs() {
   savePublicVersionsFile()
 
   execSyncWithLog('git add -A')
-  execSyncWithLog(`git commit -m 'Update ${version}' Docs`)
+  execSyncWithLog(`git commit -m 'Update ${version} Docs'`)
   execSyncWithLog(`git push${useForcePush ? ' -f' : ''}`)
 }
 
