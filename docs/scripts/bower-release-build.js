@@ -20,7 +20,7 @@ module.exports = function buildBowerRelease(version) {
   const isExistVersion = logs.includes(version)
   if (!isExistVersion) {
     try {
-      execSync(`git add -A && git commit --allow-empty -m ${(version && version.slice(1)) || 'Update bower files'} && git tag ${version} && git push origin --tags`, bowerDirOptions)
+      execSync(`git add -A && git commit --allow-empty -m ${(version) || 'Update bower files'} && git tag ${version} && git push origin --tags`, bowerDirOptions)
     } catch (err) {
       console.error(err)
     }
