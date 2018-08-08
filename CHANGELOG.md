@@ -1,3 +1,13 @@
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/myxvisual/react-uwp/compare/v1.2.0...v1.2.1) (2018-08-08)
+
+
+### Bug Fixes
+
+* Fixed Tab titles rendering as all Closes [#57](https://github.com/myxvisual/react-uwp/issues/57) ([d2d241b](https://github.com/myxvisual/react-uwp/commit/d2d241b))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/myxvisual/react-uwp/compare/v1.1.9...v1.2.0) (2018-07-27)
 
