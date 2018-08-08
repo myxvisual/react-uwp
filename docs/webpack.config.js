@@ -97,11 +97,11 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ] : [
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      comments: false,
-      sourceMap: false,
-      compress: { warnings: false }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   beautify: false,
+    //   comments: false,
+    //   sourceMap: false,
+    //   compress: { warnings: false }
+    // })
   ])
 }
