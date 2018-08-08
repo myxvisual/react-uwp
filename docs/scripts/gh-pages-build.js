@@ -78,8 +78,6 @@ function buildDocs() {
   execSyncWithLog('cd ../../ && npm install && cd docs && npm run build')
   fse.copySync('../public', '../build', { overwrite: true })
 
-  buildBowerRelease(versionNumber)
-
   execSyncWithLog('git reset --hard')
   execSyncWithLog('git checkout gh-pages')
   fse.copySync('../build/README.md', '../../README.md', { overwrite: true })
@@ -156,4 +154,5 @@ function replaceWebpackPublicPath(versionNumb) {
 }
 
 saveVersionsFile()
+buildBowerRelease(versionNumber)
 buildDocs()
