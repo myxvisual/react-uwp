@@ -153,6 +153,6 @@ function replaceWebpackPublicPath(versionNumb) {
   )
 }
 
-// saveVersionsFile()
+saveVersionsFile()
 buildBowerRelease(versionNumber)
-// buildDocs()
+buildDocs()
