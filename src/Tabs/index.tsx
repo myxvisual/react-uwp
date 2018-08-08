@@ -133,15 +133,18 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
         className={styles.root.className}
       >
         <div {...styles.titles}>
-          {tabs && tabs.map((tab, index) => (
-            <span
-              {...(index === tabFocusIndex ? styles.titleFocus : styles.title)}
-              key={`${index}`}
-              onClick={() => this.setState({ tabFocusIndex: index })}
-            >
-              {renderTitle(tabTitle || `Tabs Items ${index + 1}`)}
-            </span>
-          ))}
+          {tabs && tabs.map((tab, index) => {
+            const tabTitle = tab.props.title || `Tabs Items ${index + 1}`;
+            return (
+              <span
+                {...(index === tabFocusIndex ? styles.titleFocus : styles.title)}
+                key={`${index}`}
+                onClick={() => this.setState({ tabFocusIndex: index })}
+              >
+                {renderTitle(tabTitle)}
+              </span>
+            );
+          })}
         </div>
         {useAnimate ? (
           <CustomAnimate
