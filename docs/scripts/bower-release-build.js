@@ -16,10 +16,14 @@ module.exports = function buildBowerRelease(version) {
   }
 
   fse.copySync('../public/static', bowerDir, { overwrite: true })
-  try {
-    execSync(`git add -A && git commit --allow-empty -m ${(version && version.slice(1)) || 'Update bower files'} && git tag ${version} && git push origin --tags`, bowerDirOptions)
-  } catch (err) {
-    console.error(err)
+  const logs = execSync('git tag').toString()
+  const isExistVersion = logs.includes(version)
+  if (!isExistVersion) {
+    try {
+      execSync(`git add -A && git commit --allow-empty -m ${(version && version.slice(1)) || 'Update bower files'} && git tag ${version} && git push origin --tags`, bowerDirOptions)
+    } catch (err) {
+      console.error(err)
+    }
+    console.log('bower-release is finished')
   }
-  console.log('bower-release is finished')
 }
