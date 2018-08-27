@@ -60,3 +60,4 @@
 ### Flipview
  - [ ] Flipview missed delay props
  - [ ] Flipview render twice
+ - [ ] Flipview onSwipe callback
