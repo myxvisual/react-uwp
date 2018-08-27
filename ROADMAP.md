@@ -56,3 +56,7 @@
 
 ### Toast
 - [ ] Toast
+
+### Flipview
+ - [ ] Flipview missed delay props
+ - [ ] Flipview render twice
