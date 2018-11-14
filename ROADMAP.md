@@ -61,3 +61,7 @@
  - [ ] Flipview missed delay props
  - [ ] Flipview render twice
  - [ ] Flipview onSwipe callback
+ 
+### TODO
+- [ ] Slider Add with Step
+- [ ] Add StyleManager support child Style
