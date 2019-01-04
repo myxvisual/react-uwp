@@ -35,6 +35,10 @@ export interface DataProps {
    * Set Menu Item hovered style.
    */
   hoverStyle?: React.CSSProperties;
+  /**
+   * Set Menu Item expanded method.
+   */
+  expandedMethod?: "active" | "hover";
 }
 
 export interface AnyAttributes {
@@ -50,7 +54,8 @@ export interface MenuItemState {
 export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
   static defaultProps: MenuItemProps = {
     itemWidth: 240,
-    itemHeight: 44
+    itemHeight: 44,
+    expandedMethod: "hover"
   };
 
   state: MenuItemState = {
@@ -118,6 +123,7 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
       defaultExpanded,
       className,
       hoverStyle,
+      expandedMethod,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -127,6 +133,7 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
       className: "menu",
       styles: inlineStyles
     });
+    const isHoverToggled = expandedMethod === "hover";
 
     const iconProps = {
       size: itemHeight,
@@ -138,6 +145,8 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
         {...attributes}
         className={theme.classNames(styles.root.className, className)}
         style={styles.root.style}
+        onMouseEnter={isHoverToggled ? () => this.toggleExpanded(true) : void 0}
+        onMouseLeave={isHoverToggled ? () => this.toggleExpanded(false) : void 0}
       >
       <div ref={rootElm => this.rootElm = rootElm}>
         <Icon {...iconProps}>
@@ -152,14 +161,21 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
               cursor: "pointer",
               pointerEvents: "all"
             }}
-            onClick={this.toggleExpanded}
+            onClick={isHoverToggled ? void 0 : this.toggleExpanded}
           >
             ScrollChevronRightLegacy
           </Icon>
         )}
         {children && (
           <div {...styles.child}>
-            {children}
+            {children && React.Children.map(children, (child: any, index) => {
+              return child.type === MenuItem ? React.cloneElement(child, {
+                itemWidth,
+                itemHeight,
+                hoverStyle,
+                expandedMethod
+              }) : child;
+            })}
           </div>
         )}
       </div>
@@ -215,8 +231,8 @@ function getStyles(menuItem: MenuItem): {
       pointerEvents: expanded ? "all" : "none",
       transition: "all .25s",
       position: "absolute",
-      top: 0,
-      left: "98%",
+      top: -1,
+      left: "100%",
       width: "100%",
       background: theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow,
       border: `1px solid ${theme.listLow}`

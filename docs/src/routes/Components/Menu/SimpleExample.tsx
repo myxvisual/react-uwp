@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import Menu, { MenuItem } from "react-uwp/Menu";
+import Separator from "react-uwp/Separator";
 
 const baseStyle: React.CSSProperties = {
   margin: "10px 0",
@@ -15,7 +16,7 @@ export default class SimpleExample extends React.Component {
   render() {
     return (
       <div style={baseStyle}>
-        <Menu>
+        <Menu menuItemHeight={36} expandedMethod="hover">
         <MenuItem
           icon="Share"
           label="Share"
@@ -28,10 +29,15 @@ export default class SimpleExample extends React.Component {
           icon="Delete"
           label="Delete"
         />
+        <Separator />
         <MenuItem label="Rename" />
         <MenuItem label="Select" />
         <MenuItem label="Child Menu">
-          <MenuItem label="Rename" />
+          <MenuItem label="Rename">
+            <MenuItem
+              label="Test"
+            />
+          </MenuItem>
           <MenuItem
             icon="Delete"
             label="Delete"

@@ -55,6 +55,12 @@
           "documentation": "Set Menu Item hovered style.",
           "isRequired": false,
           "type": "CSSProperties"
+        },
+        {
+          "name": "expandedMethod",
+          "documentation": "Set Menu Item expanded method.",
+          "isRequired": false,
+          "type": "\"active\" | \"hover\""
         }
       ]
     },
@@ -102,6 +108,12 @@
           "documentation": "Set Menu Item hovered style.",
           "isRequired": false,
           "type": "CSSProperties"
+        },
+        {
+          "name": "expandedMethod",
+          "documentation": "Set Menu Item expanded method.",
+          "isRequired": false,
+          "type": "\"active\" | \"hover\""
         }
       ]
     },
@@ -130,7 +142,7 @@
       "exports": [
         {
           "name": "prototype",
-          "type": "prototype"
+          "type": "any"
         },
         {
           "name": "defaultProps",
@@ -167,5 +179,5 @@
       "type": "(menu: Menu) => { root?: CSSProperties; }"
     }
   ],
-  "type": "typeof \"D:/react-uwp/src/Menu/index\""
+  "type": "typeof \"C:/[Work]/react-uwp/src/Menu/index\""
 }

@@ -21,6 +21,10 @@ export interface DataProps {
    * Set Menu Item hovered style.
    */
   menuItemHoverStyle?: React.CSSProperties;
+  /**
+   * Set Menu Item expanded method.
+   */
+  expandedMethod?: "active" | "hover";
 }
 
 export interface MenuItemProps {
@@ -52,6 +56,10 @@ export interface MenuItemProps {
    * Set Menu Item hovered style.
    */
   hoverStyle?: React.CSSProperties;
+  /**
+   * Set Menu Item expanded method.
+   */
+  expandedMethod?: "active" | "hover";
 }
 
 export interface AnyAttributes {
@@ -80,6 +88,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       menuItemHoverStyle,
       children,
       className,
+      expandedMethod,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -95,13 +104,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         {...attributes}
         {...styleClasses}
       >
-        {children && React.Children.map(children, (child: any, index) => (
-          child.type === Menu ? React.cloneElement(child, {
+        {children && React.Children.map(children, (child: any, index) => {
+          return child.type === MenuItem ? React.cloneElement(child, {
             itemWidth: menuItemWidth,
             itemHeight: menuItemHeight,
-            hoverStyle: menuItemHoverStyle
-          }) : child
-        ))}
+            hoverStyle: menuItemHoverStyle,
+            expandedMethod: expandedMethod
+          }) : child;
+        })}
       </div>
     );
   }
