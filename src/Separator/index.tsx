@@ -27,7 +27,7 @@ export class Separator extends React.Component<SeparatorProps> {
 
     const styleClasses = theme.prepareStyle({
       style: theme.prefixStyle({
-        display: "inline-block",
+        display: isColumn ? "inline-block" : "block",
         flex: "0 0 auto",
         width: isColumn ? 1 : "100%",
         height: isColumn ? "100%" : 1,
