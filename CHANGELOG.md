@@ -1,10 +1,17 @@
 <a name="1.2.2"></a>
-## [1.2.2](https://github.com/myxvisual/react-uwp/compare/v1.2.1...v1.2.2) (2018-09-28)
+## [1.2.2](https://github.com/myxvisual/react-uwp/compare/v1.2.1...v1.2.2) (2019-01-23)
 
 
 ### Bug Fixes
 
 * Fixed navigator.userAgent empty error and Close [#60](https://github.com/myxvisual/react-uwp/issues/60) ([e120cbb](https://github.com/myxvisual/react-uwp/commit/e120cbb))
+
+
+### Features
+
+* Add ContentDialog support empty button ([50aaf4f](https://github.com/myxvisual/react-uwp/commit/50aaf4f))
+* Update Menu support deep child ([27319ec](https://github.com/myxvisual/react-uwp/commit/27319ec))
+* Update Separator row mode style ([5660399](https://github.com/myxvisual/react-uwp/commit/5660399))
 
 
 

@@ -8,12 +8,14 @@
     "preinstall": "cd docs && npm install",
     "start": "cd docs && npm start",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "build": "npm-run-all build:copy build:source && node scripts/rewriteFile",
-    "build:docs": "cd docs && npm run build:docs",
+    "nextVersion": "npm-run-all nextGitTag",
+    "publish:docs": "cd docs && npm run build:docs",
+    "publish:npm": "npm-run-all build:copy build:source && node scripts/rewriteFile",
+    "build:npm": "npm-run-all build:copy build:source && node scripts/rewriteFile",
     "build:copy": "node ./scripts/copy-build-files.js",
     "build:source": "tsc --rootDir ./src --outDir ./build",
-    "publish:next-version": "",
     "commit": "git-cz ",
+    "nextGitTag": "node ./scripts/nextGitTag",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "repository": {
