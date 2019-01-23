@@ -76,7 +76,6 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             {...statusBarProps}
             defaultShow={showStatusBarDialog}
             primaryButtonAction={this.toggleShowStatusBarDialog}
-            secondaryButtonAction={this.toggleShowStatusBarDialog}
             closeButtonAction={this.toggleShowStatusBarDialog}
             onCloseDialog={() => {
               this.setState({ showStatusBarDialog: false });
@@ -96,6 +95,8 @@ export default class SimpleExample extends React.Component<{}, SimpleExampleStat
             primaryButtonAction={this.toggleShowDialog}
             secondaryButtonAction={this.toggleShowDialog}
             closeButtonAction={this.toggleShowDialog}
+            primaryButtonText="Sure"
+            secondaryButtonText={null}
             onCloseDialog={() => {
               this.setState({ showDialog: false });
             }}

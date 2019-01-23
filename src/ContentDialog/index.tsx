@@ -206,20 +206,20 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
             </div>
             {contentNode}
             <div {...styles.content}>
-              <div {...styles.buttonGroup}>
-                <Button
+              {(primaryButtonText || secondaryButtonText) && <div {...styles.buttonGroup}>
+                {primaryButtonText && <Button
                   onClick={e => { primaryButtonAction(e), this.closeDialog(); }}
                   style={inlineStyles.button}
                 >
                   {primaryButtonText}
-                </Button>
-                <Button
+                </Button>}
+                {secondaryButtonText && <Button
                   onClick={e => { secondaryButtonAction(e), this.closeDialog(); }}
                   style={inlineStyles.button}
                 >
                   {secondaryButtonText}
-                </Button>
-              </div>
+                </Button>}
+              </div>}
             </div>
           </div>
         </div>
@@ -243,7 +243,9 @@ function getStyles(contentDialog: ContentDialog): {
   const { context, props: {
     style,
     background,
-    padding
+    padding,
+    primaryButtonText,
+    secondaryButtonText
   }, state: { showDialog } } = contentDialog;
   const { theme } = context;
   const { prefixStyle } = theme;
@@ -333,7 +335,7 @@ function getStyles(contentDialog: ContentDialog): {
       justifyContent: "space-between"
     }),
     button: {
-      width: "calc(50% - 2px)"
+      width: (primaryButtonText && secondaryButtonText) ? "calc(50% - 2px)" : "100%"
     }
   };
 }
