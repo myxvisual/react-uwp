@@ -10,7 +10,7 @@ const bowerDir = '../../../react-uwp-bower'
 const outDirOptions = { cwd: outDir, stdio: 'inherit' }
 const bowerDirOptions = { cwd: bowerDir, stdio: 'inherit' }
 
-module.exports = function buildBowerRelease(version) {
+function buildBowerRelease(version) {
   if (!fs.existsSync(bowerDir)) {
     execSync('git clone https://github.com/myxvisual/react-uwp-bower', outDirOptions)
   }
@@ -27,3 +27,5 @@ module.exports = function buildBowerRelease(version) {
     console.log('bower-release is finished')
   }
 }
+
+module.exports = buildBowerRelease
