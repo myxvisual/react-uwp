@@ -1,6 +1,6 @@
 {
   "name": "react-uwp",
-  "version": "v1.2.3",
+  "version": "1.2.3",
   "description": "UWP Design & Fluent Design UiKit by React",
   "main": "index.js",
   "scripts": {

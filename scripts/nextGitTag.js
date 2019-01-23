@@ -14,7 +14,7 @@ const nextVersion = `v${nextVersionStr.slice(0, nextVersionStr.length - 2)}${nex
 console.log(`next git tag version is ${nextVersion}`)
 
 const packageData = require('../package.json')
-packageData.version = `${nextVersion}`
+packageData.version = `${nextVersion.slice(1)}`
 fs.writeFileSync('../package.json', JSON.stringify(packageData, null, 2))
 
 runCommandsAndLog(

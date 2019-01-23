@@ -25,7 +25,7 @@ const versions = JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
 const versionIsHEAD = version === 'HEAD'
 const useForcePush = args[3] === '-p'
 const versionNumber = versionIsHEAD ? (
-  `v${JSON.parse(fs.readFileSync('../../package.json', 'utf8')).version}`
+  execSync('git describe --abbrev=0 --tags').toString().trim() || 'v1.0.0'
 ) : version
 
 function execSyncWithLog(command) {

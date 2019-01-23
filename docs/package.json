@@ -10,7 +10,7 @@
     "server:dev": "cross-env NODE_ENV=development ts-node server.ts",
     "server:prod": "cross-env NODE_ENV=production ts-node server.ts",
     "build": "npm-run-all clean-react-types build:webpack build-html:prod",
-    "build:docs": "node scripts/gh-pages-build HEAD",
+    "build:docs": "node scripts/gh-pages-build",
     "check:build": "test -d \"./build\" && rm -r \"./build\" || exit 0",
     "build:ts": "npm run check:build-ts && tsc -p ./tsconfig.build.json",
     "build-html:dev": "cross-env NODE_ENV=development node ./scripts/buildHTML.js",
