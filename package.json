@@ -8,7 +8,7 @@
     "preinstall": "cd docs && npm install",
     "start": "cd docs && npm start",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "nextVersion": "npm-run-all nextGitTag build:npm publish:npm",
+    "nextVersion": "npm-run-all nextGitTag build:npm publish:npm publish:docs",
     "publish:docs": "cd docs && npm run build:docs",
     "publish:npm": "cd build && npm publish",
     "build:npm": "npm-run-all build:copy build:source && node scripts/rewriteFile",
