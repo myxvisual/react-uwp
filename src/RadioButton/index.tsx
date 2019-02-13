@@ -24,6 +24,22 @@ export interface DataProps {
    * Set RadioButton `label`.
    */
   label?: string;
+  /**
+   * Set RadioButton outside shape style.
+   */
+  radioStyle?: React.CSSProperties;
+  /**
+   * Set RadioButton outside shape checked style.
+   */
+  radioCheckedStyle?: React.CSSProperties;
+  /**
+   * Set RadioButton inside dot style.
+   */
+  radioDotStyle?: React.CSSProperties;
+  /**
+   * Set RadioButton inside dot checked style.
+   */
+  radioDotCheckedStyle?: React.CSSProperties;
 }
 
 export interface RadioButtonProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
@@ -83,6 +99,10 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
       disabled,
       label,
       className,
+      radioStyle,
+      radioCheckedStyle,
+      radioDotStyle,
+      radioDotCheckedStyle,
       ...attributes
     } = this.props;
     const { currChecked, hovered } = this.state;
@@ -98,9 +118,9 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
         onClick={disabled ? void 0 : this.handleClick}
         onMouseEnter={disabled ? void 0 : this.handleMouseEnter}
         onMouseLeave={disabled ? void 0 : this.handleMouseLeave}
-        {...styles.wrapper}
+        {...styles.radioShape}
       >
-        <div {...styles.content} />
+        <div {...styles.radioDot} />
       </div>
     );
 
@@ -129,7 +149,11 @@ function getStyles(radioButton: RadioButton) {
     props: {
       style,
       size,
-      disabled
+      disabled,
+      radioStyle,
+      radioCheckedStyle,
+      radioDotStyle,
+      radioDotCheckedStyle
     },
     state: {
       currChecked,
@@ -144,7 +168,7 @@ function getStyles(radioButton: RadioButton) {
       ...rootStyle,
       ...style
     }) : rootStyle,
-    wrapper: theme.prefixStyle({
+    radioShape: theme.prefixStyle({
       position: "relative",
       flex: "0 0 auto",
       display: "inline-block",
@@ -156,9 +180,11 @@ function getStyles(radioButton: RadioButton) {
       width: size,
       height: size,
       overflow: "hidden",
-      transition: "all .25s ease-in-out"
+      transition: "all .25s ease-in-out",
+      ...radioStyle,
+      ...(currChecked ? radioCheckedStyle : void 0)
     }),
-    content: theme.prefixStyle({
+    radioDot: theme.prefixStyle({
       position: "absolute",
       top: 0,
       left: 0,
@@ -172,7 +198,9 @@ function getStyles(radioButton: RadioButton) {
       borderRadius: dotSize,
       width: dotSize,
       height: dotSize,
-      transform: `scale(${currChecked ? 1 : 0})`
+      transform: `scale(${currChecked ? 1 : 0})`,
+      ...radioDotStyle,
+      ...(currChecked ? radioDotCheckedStyle : void 0)
     }),
     label: theme.prefixStyle({
       display: "flex",

@@ -52,6 +52,30 @@
           "documentation": "Set RadioButton `label`.",
           "isRequired": false,
           "type": "string"
+        },
+        {
+          "name": "radioStyle",
+          "documentation": "Set RadioButton outside shape style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "radioCheckedStyle",
+          "documentation": "Set RadioButton outside shape checked style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "radioDotStyle",
+          "documentation": "Set RadioButton inside dot style.",
+          "isRequired": false,
+          "type": "CSSProperties"
+        },
+        {
+          "name": "radioDotCheckedStyle",
+          "documentation": "Set RadioButton inside dot checked style.",
+          "isRequired": false,
+          "type": "CSSProperties"
         }
       ]
     },
@@ -100,7 +124,7 @@
       "exports": [
         {
           "name": "prototype",
-          "type": "prototype"
+          "type": "any"
         },
         {
           "name": "defaultProps",
@@ -157,8 +181,8 @@
     },
     {
       "name": "getStyles",
-      "type": "(radioButton: RadioButton) => { root: any; wrapper: any; content: any; label: any; labelText: { f..."
+      "type": "(radioButton: RadioButton) => { root: any; radioShape: any; radioDot: any; label: any; labelText:..."
     }
   ],
-  "type": "typeof \"D:/react-uwp/src/RadioButton/index\""
+  "type": "typeof \"C:/[Work]/react-uwp/src/RadioButton/index\""
 }
