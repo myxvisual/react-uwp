@@ -1,10 +1,10 @@
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
 import isUnitlessNumber from "../common/react/isUnitlessNumber";
-import isElectronEnv from "../common/electron/IS_ELECTRON_ENV";
+import { Theme } from "./getTheme";
 
 export const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
-export const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !(isUnitlessNumber as any)[key]) ? `${value}px` : value);
+export const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !isUnitlessNumber[key]) ? `${value}px` : value);
 
 export interface CustomCSSProperties extends React.CSSProperties {
   "&:hover"?: React.CSSProperties;
@@ -34,15 +34,14 @@ export const extendsStyleKeys: any = {
   "&:disabled": true
 };
 export interface StyleManagerConfig {
-  theme?: ReactUWP.ThemeType;
-  globalClassName?: string;
+  theme?: Theme;
+  prefixClassName?: string;
   styleDidUpdate?: () => void;
 }
 
-let StyleManager: new(config: StyleManagerConfig) => ReactUWP.StyleManager;
-StyleManager = class {
-  globalClassName: string;
-  theme: ReactUWP.ThemeType;
+export class StyleManager {
+  prefixClassName: string;
+  theme: Theme;
   themeId: number = 0;
   styleElement: HTMLStyleElement = null;
   sheets: {
@@ -55,14 +54,14 @@ StyleManager = class {
   } = {};
 
   constructor(config: StyleManagerConfig) {
-    const { globalClassName, theme, styleDidUpdate } = config;
+    const { prefixClassName, theme, styleDidUpdate } = config;
     this.styleDidUpdate = styleDidUpdate || (() => {});
-    this.globalClassName = globalClassName ? `${globalClassName}-` : "";
+    this.prefixClassName = prefixClassName ? `${prefixClassName}-` : "";
     this.setupTheme(theme);
     this.setupStyleElement();
   }
 
-  setupTheme = (theme?: ReactUWP.ThemeType): void => {
+  setupTheme = (theme?: Theme): void => {
     this.theme = theme;
     this.themeId = createHash([theme.accent, theme.themeName, theme.useFluentDesign].join(", "));
   }
@@ -95,7 +94,7 @@ StyleManager = class {
     const id = createHash(`${this.themeId}: ${JSON.stringify(style)}`);
     if (this.sheets[id]) return this.sheets[id];
 
-    const classNameWithHash = `${this.globalClassName}${className}-${id}`;
+    const classNameWithHash = `${this.prefixClassName}${className}-${id}`;
     const styleKeys = Object.keys(style);
     let CSSText = "";
     let contentCSSText = "";
@@ -147,7 +146,7 @@ StyleManager = class {
   setStyleToManager(config?: {
     style?: CustomCSSProperties;
     className?: string;
-  }, callback?: (theme?: ReactUWP.ThemeType) => StyleClasses): StyleClasses {
+  }, callback?: (theme?: Theme) => StyleClasses): StyleClasses {
     let newStyles: StyleClasses = {};
     let { style, className } = config || {} as StyleClasses;
     if (callback) style = callback(this.theme) as CustomCSSProperties;
@@ -166,7 +165,7 @@ StyleManager = class {
   setStylesToManager(config?: {
     styles: { [key: string]: StyleClasses | CustomCSSProperties };
     className?: string;
-  }, callback?: (theme?: ReactUWP.ThemeType) => { [key: string]: StyleClasses }): { [key: string]: StyleClasses } {
+  }, callback?: (theme?: Theme) => { [key: string]: StyleClasses }): { [key: string]: StyleClasses } {
   const newStyles: {
     [key: string]: {
       className?: string;
@@ -220,6 +219,6 @@ StyleManager = class {
       this.styleDidUpdate();
     }
   }
-} as any;
+};
 
 export default StyleManager;
