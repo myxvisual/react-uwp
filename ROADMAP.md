@@ -65,3 +65,5 @@
 ### TODO
 - [ ] Slider Add with Step
 - [ ] Add StyleManager support child Style
+- [ ] Split StyleManager to package
+- [ ] Update Docs Parser
