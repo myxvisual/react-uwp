@@ -45,6 +45,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
+  "types": "index.d.ts",
   "devDependencies": {
     "@types/murmurhash-js": "^1.0.2",
     "@types/react": "^16.4.1",
