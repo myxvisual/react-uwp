@@ -6,12 +6,14 @@ export function isSupportBackdropFilter() {
   if (CSS && CSS.supports) {
     return CSS.supports("backdrop-filter", propertyValue);
   } else {
-    const { style } = document.createElement("div");
+    let elm = document.createElement("div");
+    const { style } = elm;
     isSupported = style[propertyName] !== void 0;
     if (isSupported) {
       style[propertyName] = propertyValue;
       isSupported = style.cssText.length !== 0;
     }
+    elm = null;
 
     return isSupported;
   }
