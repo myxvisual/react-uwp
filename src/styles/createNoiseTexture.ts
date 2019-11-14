@@ -1,6 +1,7 @@
+const now = performance.now();
 const patternCanvas = document.createElement("canvas");
 const patternCtx = patternCanvas.getContext("2d");
-const patternSize = 40;
+const patternSize = 100;
 const patternRectSize = patternSize * 4;
 patternCanvas.width = patternRectSize;
 patternCanvas.height = patternRectSize;
@@ -44,3 +45,5 @@ for (let x = 0; x < lineX; x++) {
     drawPattern(x * patternSize, y * patternSize);
   }
 }
+
+console.log(`run time by: ${performance.now() - now}ms`);
