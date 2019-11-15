@@ -34,7 +34,7 @@ export default class CustomTheme extends React.Component<any> {
               background={theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow}
               defaultValue={theme.isDarkTheme ? "Dark" : "Light"}
               onChangeValue={value => {
-                theme.saveTheme(getTheme({
+                theme.updateTheme(getTheme({
                   themeName: value.toLowerCase() as any,
                   accent: theme.accent,
                   useFluentDesign: theme.useFluentDesign,
@@ -47,7 +47,7 @@ export default class CustomTheme extends React.Component<any> {
               defaultChecked={theme.useFluentDesign}
               label="Use New Fluent Design"
               onCheck={useFluentDesign => {
-                theme.saveTheme(getTheme({
+                theme.updateTheme(getTheme({
                   themeName: theme.themeName,
                   accent: theme.accent,
                   useFluentDesign,
@@ -62,7 +62,7 @@ export default class CustomTheme extends React.Component<any> {
               onChangeValue={desktopBackgroundImage => {
                 const image = new Image();
                 image.addEventListener("load", function(e) {
-                  theme.saveTheme(getTheme({
+                  theme.updateTheme(getTheme({
                     themeName: theme.themeName,
                     accent: theme.accent,
                     useFluentDesign: theme.useFluentDesign,
@@ -99,7 +99,7 @@ export default class CustomTheme extends React.Component<any> {
                 const file = e.currentTarget.files[0];
                 const reader  = new FileReader();
                   reader.addEventListener("load", () => {
-                    theme.saveTheme(getTheme({
+                    theme.updateTheme(getTheme({
                       themeName: theme.themeName,
                       accent: theme.accent,
                       useFluentDesign: theme.useFluentDesign,
@@ -117,7 +117,7 @@ export default class CustomTheme extends React.Component<any> {
           style={{ margin: "10px 0" }}
           defaultColor={theme.accent}
           onChangedColor={accent => {
-            theme.saveTheme(getTheme({
+            theme.updateTheme(getTheme({
               themeName: theme.themeName,
               accent,
               useFluentDesign: theme.useFluentDesign,

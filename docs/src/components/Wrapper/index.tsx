@@ -158,7 +158,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
               </IconButton>,
               title: "Toggle Fluent Design",
               onClick: () => {
-                theme.saveTheme(getTheme({
+                theme.updateTheme(getTheme({
                   themeName: theme.themeName,
                   accent: theme.accent,
                   useFluentDesign: !theme.useFluentDesign,
@@ -174,7 +174,7 @@ export default class Wrapper extends React.Component<WrapperProps, WrapperState>
               </IconButton>,
               title: "Toggle Theme",
               onClick: () => {
-                theme.saveTheme(getTheme({
+                theme.updateTheme(getTheme({
                   themeName: theme.isDarkTheme ? "light" : "dark",
                   accent: theme.accent,
                   useFluentDesign: theme.useFluentDesign,

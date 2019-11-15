@@ -22,7 +22,6 @@ export class ThemeWrapper extends React.Component {
     return (
       <Theme
         theme={theme}
-        autoSaveTheme
         needGenerateAcrylic={false}
         themeWillUpdate={setStaticAcrylicTexture}
       >

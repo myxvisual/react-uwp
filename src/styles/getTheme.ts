@@ -63,6 +63,115 @@ export class Theme {
   userAgent?: string;
   useInlineStyle?: boolean;
   desktopBackgroundImage?: string;
+  fonts?: {
+    sansSerifFonts: string;
+    segoeMDL2Assets: string;
+  };
+
+  styleManager?: StyleManager;
+  scrollReveals?: ScrollRevealType[] = [];
+  scrollRevealListener?: (e?: Event) => void;
+
+  desktopBackground?: string;
+
+  haveAcrylicTextures?: boolean;
+  acrylicTexture40?: AcrylicTexture;
+  acrylicTexture60?: AcrylicTexture;
+  acrylicTexture80?: AcrylicTexture;
+  accentLighter1?: string;
+  accentLighter2?: string;
+  accentLighter3?: string;
+  accentDarker1?: string;
+  accentDarker2?: string;
+  accentDarker3?: string;
+
+  baseLow?: string;
+  baseMediumLow?: string;
+  baseMedium?: string;
+  baseMediumHigh?: string;
+  baseHigh?: string;
+
+  altLow?: string;
+  altMediumLow?: string;
+  altMedium?: string;
+  altMediumHigh?: string;
+  altHigh?: string;
+
+  listLow?: string;
+  listMedium?: string;
+  listAccentLow?: string;
+  listAccentMedium?: string;
+  listAccentHigh?: string;
+
+  chromeLow?: string;
+  chromeMediumLow?: string;
+  chromeMedium?: string;
+  chromeHigh?: string;
+
+  chromeAltLow?: string;
+
+  chromeDisabledLow?: string;
+  chromeDisabledHigh?: string;
+
+  chromeBlackLow?: string;
+  chromeBlackMediumLow?: string;
+  chromeBlackMedium?: string;
+  chromeBlackHigh?: string;
+
+  chromeWhite?: string;
+
+  prefixStyle: (style?: CustomCSSProperties) => React.CSSProperties;
+  prepareStyle: (config?: {
+    style?: CustomCSSProperties;
+    className?: string;
+    extendsClassName?: string;
+  }, callback?: (theme?: Theme) => StyleClasses) => StyleClasses ;
+  prepareStyles: <T>(
+    config?: {
+      styles: T;
+      className?: string;
+    },
+    callback?: (theme?: Theme) => { [P in keyof T]: StyleClasses }
+  ) => { [P in keyof T]: StyleClasses };
+  classNames?: (...classNames: string[]) => string;
+
+  isDarkTheme?: boolean;
+  updateTheme?: (theme: Theme) => void;
+  forceUpdateTheme?: (theme: Theme) => void;
+  generateAcrylicTextures?: (currTheme: Theme, themeCallback?: (theme?: Theme) => void) => void;
+
+  toasts?: React.ReactElement<any>[];
+  addToast?: (toast: React.ReactElement<any>, callback?: (toastId?: number) => void) => void;
+  updateToast?: (toastId: number, toast: React.ReactElement<any>) => void;
+  deleteToast?: (toastId: number) => void;
+
+  typographyStyles?: {
+    header?: React.CSSProperties;
+    subHeader?: React.CSSProperties;
+
+    title?: React.CSSProperties;
+    subTitle?: React.CSSProperties;
+    subTitleAlt?: React.CSSProperties;
+
+    base?: React.CSSProperties;
+    baseAlt?: React.CSSProperties;
+    body?: React.CSSProperties;
+
+    captionAlt?: React.CSSProperties;
+    caption?: React.CSSProperties;
+  };
+  zIndex?: {
+    listView?: number;
+    calendarView?: number;
+    flyout?: number;
+    tooltip?: number;
+    dropDownMenu?: number;
+    commandBar?: number;
+    contentDialog?: number;
+    mediaPlayer?: number;
+    header?: number;
+    toast?: number;
+  };
 
   constructor(themeConfig?: ThemeConfig) {
     let {
@@ -78,9 +187,9 @@ export class Theme {
     useFluentDesign = useFluentDesign === void 0 ? false : useFluentDesign;
     useInlineStyle = useInlineStyle === void 0 ? false : useInlineStyle;
 
-    const isDark = themeName === "dark";
-    const baseHigh = isDark ? "#fff" : "#000";
-    const altHigh = isDark ? "#000" : "#fff";
+    const isDarkTheme = themeName === "dark";
+    const baseHigh = isDarkTheme ? "#fff" : "#000";
+    const altHigh = isDarkTheme ? "#000" : "#fff";
     const baseHighColor = tinycolor(baseHigh);
     const altHighColor = tinycolor(altHigh);
     const accentColor = tinycolor(accent);
@@ -152,14 +261,14 @@ export class Theme {
       listAccentMedium: accentColor.setAlpha(0.8).toRgbString(),
       listAccentHigh: accentColor.setAlpha(0.9).toRgbString(),
 
-      chromeLow: isDark ? "#171717" : "#f2f2f2",
-      chromeMediumLow: isDark ? "#2b2b2b" : "#f2f2f2",
-      chromeMedium: isDark ? "#1f1f1f" : "#e6e6e6",
-      chromeHigh: isDark ? "#767676" : "#ccc",
+      chromeLow: isDarkTheme ? "#171717" : "#f2f2f2",
+      chromeMediumLow: isDarkTheme ? "#2b2b2b" : "#f2f2f2",
+      chromeMedium: isDarkTheme ? "#1f1f1f" : "#e6e6e6",
+      chromeHigh: isDarkTheme ? "#767676" : "#ccc",
 
-      chromeAltLow: isDark ? "#f2f2f2" : "#171717",
-      chromeDisabledLow: isDark ? "#858585" : "#7a7a7a",
-      chromeDisabledHigh: isDark ? "#333" : "#ccc",
+      chromeAltLow: isDarkTheme ? "#f2f2f2" : "#171717",
+      chromeDisabledLow: isDarkTheme ? "#858585" : "#7a7a7a",
+      chromeDisabledHigh: isDarkTheme ? "#333" : "#ccc",
 
       chromeBlackLow: tinycolor("#000").setAlpha(0.2).toRgbString(),
       chromeBlackMediumLow: tinycolor("#000").setAlpha(0.4).toRgbString(),
@@ -167,7 +276,7 @@ export class Theme {
       chromeBlackHigh: "#000",
       chromeWhite: "#fff",
 
-      isDarkTheme: isDark,
+      isDarkTheme: isDarkTheme,
 
       prefixStyle: prefixAll(userAgent),
 
@@ -353,120 +462,10 @@ export class Theme {
 
     Object.assign(this, theme);
   }
-
-  fonts?: {
-    sansSerifFonts: string;
-    segoeMDL2Assets: string;
-  };
-
-  styleManager?: StyleManager;
-  scrollReveals?: ScrollRevealType[] = [];
-  scrollRevealListener?: (e?: Event) => void;
-
-  desktopBackground?: string;
-
-  haveAcrylicTextures?: boolean;
-  acrylicTexture40?: AcrylicTexture;
-  acrylicTexture60?: AcrylicTexture;
-  acrylicTexture80?: AcrylicTexture;
-  accentLighter1?: string;
-  accentLighter2?: string;
-  accentLighter3?: string;
-  accentDarker1?: string;
-  accentDarker2?: string;
-  accentDarker3?: string;
-
-  baseLow?: string;
-  baseMediumLow?: string;
-  baseMedium?: string;
-  baseMediumHigh?: string;
-  baseHigh?: string;
-
-  altLow?: string;
-  altMediumLow?: string;
-  altMedium?: string;
-  altMediumHigh?: string;
-  altHigh?: string;
-
-  listLow?: string;
-  listMedium?: string;
-  listAccentLow?: string;
-  listAccentMedium?: string;
-  listAccentHigh?: string;
-
-  chromeLow?: string;
-  chromeMediumLow?: string;
-  chromeMedium?: string;
-  chromeHigh?: string;
-
-  chromeAltLow?: string;
-
-  chromeDisabledLow?: string;
-  chromeDisabledHigh?: string;
-
-  chromeBlackLow?: string;
-  chromeBlackMediumLow?: string;
-  chromeBlackMedium?: string;
-  chromeBlackHigh?: string;
-
-  chromeWhite?: string;
-
-  prefixStyle: (style?: CustomCSSProperties) => React.CSSProperties;
-  prepareStyle: (config?: {
-    style?: CustomCSSProperties;
-    className?: string;
-    extendsClassName?: string;
-  }, callback?: (theme?: Theme) => StyleClasses) => StyleClasses ;
-  prepareStyles: <T>(
-    config?: {
-      styles: T;
-      className?: string;
-    },
-    callback?: (theme?: Theme) => { [P in keyof T]: StyleClasses }
-  ) => { [P in keyof T]: StyleClasses };
-  classNames?: (...classNames: string[]) => string;
-
-  isDarkTheme?: boolean;
-  updateTheme?: (theme: Theme) => void;
-  forceUpdateTheme?: (theme: Theme) => void;
-  saveTheme?: (theme: Theme) => void;
-  generateAcrylicTextures?: (currTheme: Theme, themeCallback?: (theme?: Theme) => void) => void;
-
-  toasts?: React.ReactElement<any>[];
-  addToast?: (toast: React.ReactElement<any>, callback?: (toastId?: number) => void) => void;
-  updateToast?: (toastId: number, toast: React.ReactElement<any>) => void;
-  deleteToast?: (toastId: number) => void;
-
-  typographyStyles?: {
-    header?: React.CSSProperties;
-    subHeader?: React.CSSProperties;
-
-    title?: React.CSSProperties;
-    subTitle?: React.CSSProperties;
-    subTitleAlt?: React.CSSProperties;
-
-    base?: React.CSSProperties;
-    baseAlt?: React.CSSProperties;
-    body?: React.CSSProperties;
-
-    captionAlt?: React.CSSProperties;
-    caption?: React.CSSProperties;
-  };
-  zIndex?: {
-    listView?: number;
-    calendarView?: number;
-    flyout?: number;
-    tooltip?: number;
-    dropDownMenu?: number;
-    commandBar?: number;
-    contentDialog?: number;
-    mediaPlayer?: number;
-    header?: number;
-    toast?: number;
-  };
 }
 
 export default function getTheme(themeConfig?: ThemeConfig): Theme {
   const theme = new Theme(themeConfig);
+
   return theme;
 }

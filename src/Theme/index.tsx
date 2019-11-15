@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
+import { handleScrollReveal } from "./handleScrollReveal";
 import StyleManager from "../styles/StyleManager";
 import darkTheme from "../styles/darkTheme";
 import getTheme, { Theme as ThemeType } from "../styles/getTheme";
@@ -16,10 +17,6 @@ export interface DataProps {
    * Set theme object. [ThemeType](https://github.com/myxvisual/react-uwp/blob/master/src/index.d.ts#L43), Usually use [getTheme](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L28) function to get it.
    */
   theme?: ThemeType;
-  /**
-   * For simple development, autoSaveTheme can read and save theme to `localStorage`. use global context `theme.saveTheme` method to save.
-   */
-  autoSaveTheme?: boolean;
   /**
    * set theme will update callback.
    */
@@ -44,7 +41,6 @@ export interface ThemeState {
   currTheme?: ThemeType;
 }
 
-const customLocalStorageName = "__REACT_UWP__";
 const baseClassName = "react-uwp-theme";
 const themeCallback: (theme?: ThemeType) => void = () => {};
 
@@ -67,80 +63,35 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   backgroundEl: RenderToBody;
 
   getDefaultTheme: () => ThemeType = () => {
-    let { theme, autoSaveTheme } = this.props;
-
-    if (!IS_NODE_ENV && autoSaveTheme && !theme) {
-      theme = this.getLocalStorageTheme();
-    } else {
-      theme = theme || darkTheme;
-    }
-
-    return theme;
-  }
-
-  getLocalStorageTheme: () => ThemeType  = () => {
-    let themeConfig: any = {};
     let { theme } = this.props;
-
-    if (theme) {
-      Object.assign(themeConfig, {
-        themeName: theme.themeName,
-        accent: theme.accent,
-        useFluentDesign: theme.useFluentDesign,
-        desktopBackgroundImage: theme.desktopBackgroundImage
-      });
-    }
-
-    const storageString = localStorage.getItem(customLocalStorageName);
-    if (storageString) {
-      let data: any = {};
-      try {
-        data = JSON.parse(storageString);
-        const { themeName, accent, useFluentDesign, desktopBackgroundImage } = data;
-        theme = getTheme({
-          themeName: themeName === void 0 ? themeConfig.themeName : themeName,
-          accent: accent === void 0 ? themeConfig.accent : accent,
-          useFluentDesign: useFluentDesign === void 0 ? themeConfig.useFluentDesign : useFluentDesign,
-          desktopBackgroundImage: desktopBackgroundImage === void 0 ? themeConfig.desktopBackgroundImage : desktopBackgroundImage
-        });
-      } catch (error) {
-        theme = this.props.theme || darkTheme;
-      }
-    } else {
-      theme = this.props.theme || darkTheme;
-    }
+    theme = theme || darkTheme;
 
     return theme;
   }
+
+  state: ThemeState = {
+    currTheme: this.getDefaultTheme()
+  };
 
   bindNewThemeMethods: (theme: ThemeType) => void = (theme: ThemeType) => {
     const { scrollBarStyleSelector } = this.props;
-    const styleManager: ReactUWP.StyleManager =  new StyleManager({ theme }) as any;
-    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme as any, "uwp-base", scrollBarStyleSelector));
+    const styleManager: ReactUWP.StyleManager =  new StyleManager({ theme });
+    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme, "uwp-base", scrollBarStyleSelector));
     Object.assign(theme, {
       desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
       updateTheme: this.updateTheme,
-      saveTheme: this.saveTheme,
       addToast: this.addToast,
       updateToast: this.updateToast,
       deleteToast: this.deleteToast,
       scrollRevealListener: this.handleScrollReveal,
       forceUpdateTheme: this.forceUpdateTheme,
       styleManager
-    } as any);
+    });
   }
 
   handleNewTheme: (theme: ThemeType) => void = (theme: ThemeType) => {
     this.props.themeWillUpdate(theme);
   }
-
-  state: ThemeState = {
-    currTheme: (() => {
-      const theme = this.getDefaultTheme();
-      this.handleNewTheme(theme);
-      return theme;
-    })()
-  };
 
   getChildContext: () => { theme: ThemeType } = () => {
     return { theme: this.state.currTheme };
@@ -148,13 +99,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
   componentDidMount() {
     const { currTheme } = this.state;
-
-    if (IS_NODE_ENV && this.props.autoSaveTheme) {
-      const currTheme = this.getLocalStorageTheme();
-      this.props.themeWillUpdate(currTheme);
-      this.setState({ currTheme });
-    }
-
     if (IS_NODE_ENV) setSegoeMDL2AssetsFonts();
 
     if (currTheme.useFluentDesign && currTheme.desktopBackgroundImage && this.props.needGenerateAcrylic) {
@@ -170,7 +114,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     const { currTheme } = this.state;
     const needGenerateAcrylic = this.sureNeedGenerateAcrylic(theme);
 
-    if (nextProps && nextProps.theme && !this.props.autoSaveTheme) {
+    if (nextProps && nextProps.theme) {
       if (
         theme.accent !== currTheme.accent ||
         theme.themeName !== currTheme.themeName ||
@@ -191,7 +135,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentWillUpdate(nextProps: ThemeProps, nextState: ThemeState) {
-    this.prevStyleManager = this.state.currTheme.styleManager as any;
+    this.prevStyleManager = this.state.currTheme.styleManager;
   }
 
   componentDidUpdate() {
@@ -230,28 +174,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   forceUpdateTheme: (currTheme: ThemeType) => void = (currTheme: ThemeType) => this.setState({ currTheme });
-
-  saveTheme: (currTheme: ThemeType) => void = (newTheme?: ThemeType, callback = themeCallback) => {
-    localStorage.setItem(customLocalStorageName, JSON.stringify({
-      themeName: newTheme.themeName,
-      accent: newTheme.accent,
-      useFluentDesign: newTheme.useFluentDesign,
-      desktopBackgroundImage: newTheme.desktopBackgroundImage
-    }));
-
-    const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
-
-    this.handleNewTheme(newTheme);
-    this.setState({
-      currTheme: newTheme
-    }, () => {
-      callback(newTheme);
-      if (needGenerateAcrylic) {
-        this.handleNewTheme(newTheme);
-        newTheme.generateAcrylicTextures(newTheme, currTheme => this.setState({ currTheme }));
-      }
-    });
-  }
 
   sureNeedGenerateAcrylic: (newTheme: ThemeType) => boolean = (newTheme: ThemeType): boolean => {
     const { currTheme } = this.state;
@@ -292,7 +214,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
   findToastNodeTimers: any[] = [];
   toastId = -1;
-  addToast = (toast: React.ReactElement<any>, callback?: (toastId?: number) => void, increaseId = true, currToastId?: number) => {
+  addToast(toast: React.ReactElement<any>, callback?: (toastId?: number) => void, increaseId = true, currToastId?: number) {
     let toastId = currToastId !== void 0 ? currToastId : this.toastId;
     if (increaseId) {
       toastId += 1;
@@ -310,58 +232,20 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     }
   }
 
-  updateToast = (toastId: number, toast: React.ReactElement<any>) => {
+  updateToast(toastId: number, toast: React.ReactElement<any>) {
     if (this.toastWrapper) this.toastWrapper.updateToast(toastId, toast);
   }
 
-  deleteToast = (toastId: number) => {
+  deleteToast(toastId: number) {
     this.state.currTheme.toasts[toastId] = void 0;
   }
 
   handleScrollReveal = (e?: Event) => {
-    const { currTheme } = this.state;
-    for (const scrollReveal of currTheme.scrollReveals) {
-      const {
-        rootElm,
-        animated,
-        setEnterStyle,
-        setLeaveStyle,
-        props: {
-          topOffset,
-          bottomOffset
-        }
-      } = scrollReveal;
-      if (!rootElm) return;
-      const { top, height } = rootElm.getBoundingClientRect();
-      const { innerHeight } = window;
-
-      let isIn = false;
-      if (height > innerHeight) {
-        isIn = top < innerHeight - height * height && top > - height * 0.5;
-      } else {
-        isIn = top > 0 + topOffset && top + height + bottomOffset < innerHeight;
-      }
-      if (isIn) {
-        if (!animated) {
-          setEnterStyle();
-          scrollReveal.animated = true;
-        }
-      } else {
-        if (animated) {
-          setLeaveStyle();
-          scrollReveal.animated = false;
-        }
-      }
-    }
-  }
-
-  cleanLocalStorage = () => {
-    localStorage.setItem(customLocalStorageName, "");
+    handleScrollReveal(this.state.currTheme);
   }
 
   render() {
     const {
-      autoSaveTheme,
       theme,
       onGeneratedAcrylic,
       children,
