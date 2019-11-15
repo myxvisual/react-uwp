@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean-react-types": "rm -rf node_modules/@types/react",
+    "clean-react-types": "rm -rf node_modules/@types/react node_modules/@types/node",
     "start": "npm-run-all clean-react-types build-html:dev server:dev",
     "preprod": "npm-run-all build server:prod",
     "server:dev": "cross-env NODE_ENV=development ts-node server.ts",

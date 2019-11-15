@@ -73,3 +73,5 @@ export { ScaleInOut, SlideInOut, FadeInOut, CustomAnimate } from "./Animate";
 
 export { Theme as ThemeType } from "./styles/getTheme";
 export { StyleManager, CustomCSSProperties } from "./styles/StyleManager";
+
+export as namespace ReactUWP;

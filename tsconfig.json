@@ -29,6 +29,9 @@
     "**/*.ts",
     "**/*.tsx"
   ],
+  "files": [
+    "./src/index.d.ts"
+  ],
   "include": [
     "*.ts",
     "**/*.ts",
