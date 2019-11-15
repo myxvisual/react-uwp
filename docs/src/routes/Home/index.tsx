@@ -13,7 +13,6 @@ import FlipViewItem from "./components/FlipViewItem";
 import Categories from "./components/Categories";
 import Banner from "./components/Banner";
 import CustomTheme from "./components/CustomTheme";
-import IndexOfComponentsByFunction from "../Components/IndexOfComponentsByFunction";
 
 const docVersion = getRootPath();
 export interface DataProps extends WrapperState {}
@@ -130,16 +129,6 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             height={((isPhoneScreen ? window.innerWidth : renderContentWidth) as any) / 2}
           />
         </div>
-        <IndexOfComponentsByFunction
-          style={{
-            padding: 20,
-            margin: "0 auto",
-            width: renderContentWidth,
-            background: theme.useFluentDesign ? theme.acrylicTexture80.background : (
-              theme.isDarkTheme ? "hsla(0, 0%, 3%, 1)" : "hsla(0, 0%, 97%, 1)"
-            )
-          }}
-        />
 
         <Toast
           defaultShow={showToast}
