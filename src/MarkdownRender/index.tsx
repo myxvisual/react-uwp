@@ -56,7 +56,7 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
               break;
             }
           }
-          return Prism.highlight(code, Prism.languages[lang]);
+          return Prism.highlight(code, Prism.languages[lang], lang);
         } catch (err) {}
       }
     });

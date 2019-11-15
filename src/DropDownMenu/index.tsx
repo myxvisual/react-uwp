@@ -7,10 +7,6 @@ import Icon from "../Icon";
 
 export interface DataProps {
   /**
-   * Set default show value, `value` must is one of `values`, default is `values[0]`.
-   */
-  defaultValue?: string | string[];
-  /**
    * Set DropDownMenu values.
    */
   values?: string[];
@@ -44,7 +40,12 @@ export interface DataProps {
   itemAttributes?: React.HTMLAttributes<HTMLDivElement>;
 }
 
-export interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Set default show value, `value` must is one of `values`, default is `values[0]`.
+   */
+  defaultValue?: string | string[];
+}
 
 export interface DropDownMenuState {
   showList?: boolean;

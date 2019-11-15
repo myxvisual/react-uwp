@@ -52,8 +52,8 @@ export default function generateAcrylicTexture(
         const url = URL.createObjectURL(blob);
         callback(url);
       });
-    } else if (HTMLCanvasElement.prototype.msToBlob) {
-      const blob = canvas.msToBlob();
+    } else if (HTMLCanvasElement.prototype["msToBlob"]) {
+      const blob = canvas["msToBlob"]();
       const url = URL.createObjectURL(blob);
       callback(url);
     } else {

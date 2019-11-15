@@ -1,49 +1,74 @@
-const now = performance.now();
-const patternCanvas = document.createElement("canvas");
-const patternCtx = patternCanvas.getContext("2d");
-const patternSize = 100;
-const patternRectSize = patternSize * 4;
-patternCanvas.width = patternRectSize;
-patternCanvas.height = patternRectSize;
+function createNoiseTexture() {
+  const now = performance.now();
 
-const drawCanvas = document.createElement("canvas");
-const drawCtx = drawCanvas.getContext("2d");
-const drawSize = 1000;
-drawCanvas.width = drawSize;
-drawCanvas.height = drawSize;
+  const noiseCanvas = document.createElement("canvas");
+  const noiseCtx = noiseCanvas.getContext("2d");
+  const noiseSize = 100;
+  const noiseRectSize = Math.ceil(Math.sqrt(Math.pow(noiseSize, 2) * 2));
+  const noiseOffset = (noiseRectSize - noiseSize) / 2;
+  noiseCanvas.width = noiseRectSize;
+  noiseCanvas.height = noiseRectSize;
 
-document.body.appendChild(patternCanvas);
-document.body.appendChild(drawCanvas);
+  const cacheCanvas = document.createElement("canvas");
+  const cacheCtx = cacheCanvas.getContext("2d");
+  cacheCanvas.width = noiseSize;
+  cacheCanvas.height = noiseSize;
+  const cacheCenter = noiseSize / 2;
 
-const noiseImageData = patternCtx.createImageData(patternRectSize, patternRectSize);
-const pixels = noiseImageData.data;
-const baseLight = .7;
-const maxLight = 1;
+  const drawCanvas = document.createElement("canvas");
+  const drawCtx = drawCanvas.getContext("2d");
+  const drawSize = 1000;
+  drawCanvas.width = drawSize;
+  drawCanvas.height = drawSize;
 
-const pixelSize = pixels.length;
-for (let i = 0; i < pixelSize; i += 4) {
-  pixels[i] = pixels[i + 1] = pixels[i + 2] = (baseLight + Math.random() * (maxLight - baseLight)) * 255; // Set a random gray
-  pixels[i + 3] = 255; // 100% opaque
-}
-patternCtx.putImageData(noiseImageData, 0, 0);
+  document.body.appendChild(noiseCanvas);
+  document.body.appendChild(cacheCanvas);
+  document.body.appendChild(drawCanvas);
 
+  const noiseImageData = noiseCtx.createImageData(noiseRectSize, noiseRectSize);
+  const pixels = noiseImageData.data;
+  const baseLight = .7;
+  const maxLight = 1;
 
-function getNoiseOffset() {
-  return Math.floor(Math.random() * (patternRectSize - patternSize * 2));
-}
-
-function drawPattern(x, y) {
-  const imageData = patternCtx.getImageData(getNoiseOffset(), getNoiseOffset(), patternSize, patternSize);
-  drawCtx.putImageData(imageData, x, y);
-}
-
-const lineX = Math.ceil(drawCanvas.width / patternSize);
-const lineY = Math.ceil(drawCanvas.height / patternSize);
-
-for (let x = 0; x < lineX; x++) {
-  for (let y = 0; y < lineY; y++) {
-    drawPattern(x * patternSize, y * patternSize);
+  const pixelSize = pixels.length;
+  for (let i = 0; i < pixelSize; i += 4) {
+    pixels[i] = pixels[i + 1] = pixels[i + 2] = (baseLight + Math.random() * (maxLight - baseLight)) * 255; // Set a random gray
+    pixels[i + 3] = 255; // 100% opaque
   }
-}
+  noiseCtx.putImageData(noiseImageData, 0, 0);
 
-console.log(`run time by: ${performance.now() - now}ms`);
+  cacheCtx.save();
+  function setCacheNoise() {
+    cacheCtx.restore();
+
+    const randomNumb = Math.random();
+    if (1) {
+      const offset = Math.floor(randomNumb * noiseOffset);
+      cacheCtx.translate(-offset, -offset);
+      cacheCtx.drawImage(noiseCanvas, 0, 0);
+      cacheCtx.translate(offset, offset);
+    } else {
+      const degrees = Math.PI / 180 * randomNumb * 360;
+      cacheCtx.translate(cacheCenter, cacheCenter);
+      cacheCtx.rotate(degrees);
+      cacheCtx.drawImage(noiseCanvas, -cacheCenter, -cacheCenter);
+    }
+  }
+
+  function drawPattern(x, y) {
+    setCacheNoise();
+    drawCtx.drawImage(cacheCanvas, x, y);
+  }
+
+  const lineX = Math.ceil(drawCanvas.width / noiseSize);
+  const lineY = Math.ceil(drawCanvas.height / noiseSize);
+
+
+  for (let x = 0; x < lineX; x++) {
+    for (let y = 0; y < lineY; y++) {
+      drawPattern(x * noiseSize, y * noiseSize);
+    }
+  }
+
+  console.log(`run time by: ${performance.now() - now}ms`);
+}

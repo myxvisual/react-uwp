@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import StyleManager from "../styles/StyleManager";
 import darkTheme from "../styles/darkTheme";
-import getTheme from "../styles/getTheme";
+import getTheme, { Theme as ThemeType } from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
 import getBaseCSSText from "./getBaseCSSText";
@@ -15,7 +15,7 @@ export interface DataProps {
   /**
    * Set theme object. [ThemeType](https://github.com/myxvisual/react-uwp/blob/master/typings/index.d.ts#L43), Usually use [getTheme](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L28) function to get it.
    */
-  theme?: ReactUWP.ThemeType;
+  theme?: ThemeType;
   /**
    * For simple development, autoSaveTheme can read and save theme to `localStorage`. use global context `theme.saveTheme` method to save.
    */
@@ -23,11 +23,11 @@ export interface DataProps {
   /**
    * set theme will update callback.
    */
-  themeWillUpdate?: (theme?: ReactUWP.ThemeType) => void;
+  themeWillUpdate?: (theme?: ThemeType) => void;
   /**
    * onGeneratedAcrylic callback, base acrylic textures is base64 url image, for production, you can set this callback, post image to your server, and update theme(use this callback will not auto update theme).
    */
-  onGeneratedAcrylic?: (theme?: ReactUWP.ThemeType) => void;
+  onGeneratedAcrylic?: (theme?: ThemeType) => void;
   /**
    * for production if you have generated acrylic textures, you can disabled generation acrylic textures.
    */
@@ -41,12 +41,12 @@ export interface DataProps {
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export interface ThemeState {
-  currTheme?: ReactUWP.ThemeType;
+  currTheme?: ThemeType;
 }
 
 const customLocalStorageName = "__REACT_UWP__";
 const baseClassName = "react-uwp-theme";
-const themeCallback: (theme?: ReactUWP.ThemeType) => void = () => {};
+const themeCallback: (theme?: ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
@@ -60,13 +60,13 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   };
   acrylicTextureCount = 0;
   themeClassName = "react-uwp-theme-dark";
-  cacheDarkAcrylicTextures: ReactUWP.ThemeType;
-  cacheLightAcrylicTextures: ReactUWP.ThemeType;
+  cacheDarkAcrylicTextures: ThemeType;
+  cacheLightAcrylicTextures: ThemeType;
   toastWrapper: ToastWrapper;
   prevStyleManager: ReactUWP.StyleManager = null;
   backgroundEl: RenderToBody;
 
-  getDefaultTheme: () => ReactUWP.ThemeType = () => {
+  getDefaultTheme: () => ThemeType = () => {
     let { theme, autoSaveTheme } = this.props;
 
     if (!IS_NODE_ENV && autoSaveTheme && !theme) {
@@ -78,7 +78,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return theme;
   }
 
-  getLocalStorageTheme: () => ReactUWP.ThemeType  = () => {
+  getLocalStorageTheme: () => ThemeType  = () => {
     let themeConfig: any = {};
     let { theme } = this.props;
 
@@ -113,10 +113,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return theme;
   }
 
-  bindNewThemeMethods: (theme: ReactUWP.ThemeType) => void = (theme: ReactUWP.ThemeType) => {
+  bindNewThemeMethods: (theme: ThemeType) => void = (theme: ThemeType) => {
     const { scrollBarStyleSelector } = this.props;
-    const styleManager: ReactUWP.StyleManager =  new StyleManager({ theme });
-    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme, "uwp-base", scrollBarStyleSelector));
+    const styleManager: ReactUWP.StyleManager =  new StyleManager({ theme }) as any;
+    styleManager.addCSSTextWithUpdate(getBaseCSSText(theme as any, "uwp-base", scrollBarStyleSelector));
     Object.assign(theme, {
       desktopBackground: `url(${theme.desktopBackgroundImage}) no-repeat fixed top left / cover`,
       updateTheme: this.updateTheme,
@@ -127,10 +127,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       scrollRevealListener: this.handleScrollReveal,
       forceUpdateTheme: this.forceUpdateTheme,
       styleManager
-    } as ReactUWP.ThemeType);
+    } as any);
   }
 
-  handleNewTheme: (theme: ReactUWP.ThemeType) => void = (theme: ReactUWP.ThemeType) => {
+  handleNewTheme: (theme: ThemeType) => void = (theme: ThemeType) => {
     this.props.themeWillUpdate(theme);
   }
 
@@ -142,7 +142,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     })()
   };
 
-  getChildContext: () => { theme: ReactUWP.ThemeType } = () => {
+  getChildContext: () => { theme: ThemeType } = () => {
     return { theme: this.state.currTheme };
   }
 
@@ -191,7 +191,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentWillUpdate(nextProps: ThemeProps, nextState: ThemeState) {
-    this.prevStyleManager = this.state.currTheme.styleManager;
+    this.prevStyleManager = this.state.currTheme.styleManager as any;
   }
 
   componentDidUpdate() {
@@ -214,7 +214,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     window.removeEventListener("scroll", this.handleScrollReveal);
   }
 
-  updateTheme: (newTheme?: ReactUWP.ThemeType, callback?: (theme?: ReactUWP.ThemeType) => void) => void = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
+  updateTheme: (newTheme?: ThemeType, callback?: (theme?: ThemeType) => void) => void = (newTheme?: ThemeType, callback = themeCallback) => {
     const needGenerateAcrylic = this.sureNeedGenerateAcrylic(newTheme);
 
     this.handleNewTheme(newTheme);
@@ -229,9 +229,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
   }
 
-  forceUpdateTheme: (currTheme: ReactUWP.ThemeType) => void = (currTheme: ReactUWP.ThemeType) => this.setState({ currTheme });
+  forceUpdateTheme: (currTheme: ThemeType) => void = (currTheme: ThemeType) => this.setState({ currTheme });
 
-  saveTheme: (currTheme: ReactUWP.ThemeType) => void = (newTheme?: ReactUWP.ThemeType, callback = themeCallback) => {
+  saveTheme: (currTheme: ThemeType) => void = (newTheme?: ThemeType, callback = themeCallback) => {
     localStorage.setItem(customLocalStorageName, JSON.stringify({
       themeName: newTheme.themeName,
       accent: newTheme.accent,
@@ -253,7 +253,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
   }
 
-  sureNeedGenerateAcrylic: (newTheme: ReactUWP.ThemeType) => boolean = (newTheme: ReactUWP.ThemeType): boolean => {
+  sureNeedGenerateAcrylic: (newTheme: ThemeType) => boolean = (newTheme: ThemeType): boolean => {
     const { currTheme } = this.state;
     let needGenerateAcrylic = newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
 
@@ -265,7 +265,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           acrylicTexture40: currTheme.acrylicTexture40,
           acrylicTexture60: currTheme.acrylicTexture60,
           acrylicTexture80: currTheme.acrylicTexture80
-        } as ReactUWP.ThemeType);
+        } as ThemeType);
         needGenerateAcrylic = false;
       }
       if (newTheme.useFluentDesign) {
@@ -283,7 +283,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
           acrylicTexture40: currTheme.acrylicTexture40,
           acrylicTexture60: currTheme.acrylicTexture60,
           acrylicTexture80: currTheme.acrylicTexture80
-        } as ReactUWP.ThemeType);
+        } as ThemeType);
       }
     }
     needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign && this.props.needGenerateAcrylic;
@@ -400,7 +400,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       background: (currTheme.useFluentDesign && currTheme.desktopBackgroundImage) ? currTheme.desktopBackground : currTheme.altHigh,
       pointerEvents: "none"
     };
-    currTheme.generateAcrylicTextures.callback = (theme) => {
+    currTheme.generateAcrylicTextures["callback"] = (theme) => {
       if (this.backgroundEl) {
         Object.assign(this.backgroundEl.rootElm.style, backgroundStyle, { background: theme.desktopBackground } as React.CSSProperties);
       }
