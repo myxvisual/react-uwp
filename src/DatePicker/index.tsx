@@ -2,13 +2,13 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
 
-import AddBlurEvent from "../common/AddBlurEvent";
+import AddBlurEvent from "../utils/AddBlurEvent";
 import Separator from "../Separator";
 import IconButton from "../IconButton";
 import PseudoClasses from "../PseudoClasses";
 import ListView from "../ListView";
-import scrollToYEasing from "../common/browser/scrollToYEasing";
-import { dayList, monthList, getLastDayOfMonth } from "../common/date.utils";
+import scrollToYEasing from "../utils/browser/scrollToYEasing";
+import { dayList, monthList, getLastDayOfMonth } from "../utils/date.utils";
 
 export interface DataProps {
   /**

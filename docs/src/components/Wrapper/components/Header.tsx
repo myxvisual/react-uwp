@@ -14,7 +14,7 @@ export interface DataProps extends WrapperState {
   headerHeight?: number;
   docVersion?: string;
 }
-import getCurrVersion from "common/getCurrVersion";
+import getCurrVersion from "utils/getCurrVersion";
 
 export interface HeaderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 export interface HeaderState {

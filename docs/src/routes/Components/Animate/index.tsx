@@ -2,10 +2,13 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import ComponentDetail from "components/ComponentDetail";
-import * as docEntry from "react-uwp/Animate/CustomAnimate.doc.json";
+import CodeExample from "components/CodeExample";
+
+import * as sourceCode from "!raw!react-uwp/Animate/CustomAnimate.tsx";
+import sourceCode2docEntry from "utils/sourceCode2docEntry";
+
 import * as readmeText from "!raw!./README.md";
 
-import CodeExample from "components/CodeExample";
 
 import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
@@ -29,6 +32,7 @@ export default class CustomAnimate extends React.Component<any> {
       screenType,
       ...attributes
     } = this.props;
+    const docEntry = sourceCode2docEntry(sourceCode);
 
     return (
       <ComponentDetail

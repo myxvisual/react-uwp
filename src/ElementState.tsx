@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as PropTypes from "prop-types";
 
-import setStyleToElement from "./common/setStyleToElement";
+import setStyleToElement from "./utils/setStyleToElement";
 
 export interface DataProps {
   children?: React.ReactElement<any>;

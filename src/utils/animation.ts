@@ -1,4 +1,4 @@
-import * as easings from "../common/easing";
+import * as easings from "../utils/easing";
 
 const oldWindow: any = window;
 const requestAnimationFrame = (

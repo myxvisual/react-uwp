@@ -7,13 +7,17 @@ const __DEV__ = process.env.NODE_ENV !== 'production'
 const { outputPath, publicPath } = require('./config')
 
 const excludeVendor = []
-const vendor = __DEV__ ? (
-  Object.keys(JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8')).dependencies).filter(vendor => !excludeVendor.includes(vendor))
-) : [
+const includeVendor = [
   'react',
   'react-dom',
-  'react-router'
+  'react-router',
+  'typescript'
 ]
+const packageDependNames = Object.keys(JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8')).dependencies)
+const vendor = __DEV__ ? (
+  packageDependNames.filter(vendor => !excludeVendor.includes(vendor))
+) : includeVendor
+
 const library = `[name]${__DEV__ ? '_dev' : '_prod'}_lib`
 module.exports = {
   entry: { vendor },

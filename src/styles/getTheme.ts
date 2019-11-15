@@ -1,7 +1,7 @@
 import * as tinycolor from "tinycolor2";
 import setSegoeMDL2AssetsFonts from "./fonts/segoe-mdl2-assets";
-import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
-import prefixAll from "../common/prefixAll";
+import IS_NODE_ENV from "../utils/nodeJS/IS_NODE_ENV";
+import prefixAll from "../utils/prefixAll";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
 

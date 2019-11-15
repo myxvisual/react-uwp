@@ -9,7 +9,7 @@ import IconLayout from "components/Icons/IconLayout";
 import IconStyle from "components/Icons/IconStyle";
 import IconToolkits from "components/Icons/IconToolkits";
 import ScrollReveal from "react-uwp/ScrollReveal";
-import getRootPath from "common/getRootPath";
+import getRootPath from "utils/getRootPath";
 
 export interface DataProps {}
 export interface CategoriesProps extends DataProps, React.HTMLAttributes<HTMLDivElement>, WrapperState {}

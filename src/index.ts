@@ -65,7 +65,7 @@ export { default as Toggle, ToggleProps, ToggleState } from "./Toggle";
 export { default as Tooltip, TooltipProps, TooltipState } from "./Tooltip";
 export { default as TreeView, TreeViewProps, TreeViewState } from "./TreeView";
 
-export { default as addCSSRule } from "./common/browser/addCSSRule";
+export { default as addCSSRule } from "./utils/browser/addCSSRule";
 export { default as darkTheme } from "./styles/darkTheme";
 export { default as getTheme } from "./styles/getTheme";
 export { default as lightTheme } from "./styles/lightTheme";

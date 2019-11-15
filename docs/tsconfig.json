@@ -25,8 +25,8 @@
       "components/*": ["./src/components/*"],
       "assets": ["./src/assets"],
       "assets/*": ["./src/assets/*"],
-      "common": ["./src/common"],
-      "common/*": ["./src/common/*"],
+      "utils": ["./src/utils"],
+      "utils/*": ["./src/utils/*"],
       "constant": ["./src/constant"],
       "constant/*": ["./src/constant/*"]
     },
@@ -35,6 +35,9 @@
   "filesGlob": [
     "**/*.ts",
     "**/*.tsx"
+  ],
+  "files": [
+    "../src/index.d.ts"
   ],
   "include": [
     "./server.ts",

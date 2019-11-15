@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean-react-types": "rm -rf node_modules/@types/react node_modules/@types/node",
-    "start": "npm-run-all clean-react-types build-html:dev server:dev",
+    "clean-types": "rm -rf node_modules/@types/react node_modules/@types/node",
+    "start": "npm-run-all clean-types build-html:dev server:dev",
     "preprod": "npm-run-all build server:prod",
     "server:dev": "cross-env NODE_ENV=development ts-node server.ts",
     "server:prod": "cross-env NODE_ENV=production ts-node server.ts",
-    "build": "npm-run-all clean-react-types build:webpack build-html:prod",
+    "build": "npm-run-all clean-types build:webpack build-html:prod",
     "build:docs": "node scripts/gh-pages-build",
     "check:build": "test -d \"./build\" && rm -r \"./build\" || exit 0",
     "build:ts": "npm run check:build-ts && tsc -p ./tsconfig.build.json",
@@ -27,7 +27,8 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.2",
     "react-router": "^3.0.5",
-    "react-title-component": "^1.0.1"
+    "react-title-component": "^1.0.1",
+    "typescript": "^3.7.2"
   },
   "devDependencies": {
     "@types/express": "^4.0.35",

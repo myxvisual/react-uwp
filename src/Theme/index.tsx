@@ -8,7 +8,7 @@ import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
 import getBaseCSSText from "./getBaseCSSText";
 import { setSegoeMDL2AssetsFonts } from "../styles/fonts/segoe-mdl2-assets";
-import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
+import IS_NODE_ENV from "../utils/nodeJS/IS_NODE_ENV";
 
 export { getTheme };
 export interface DataProps {

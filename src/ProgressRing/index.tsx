@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import vendors from "../common/browser/vendors";
+import vendors from "../utils/browser/vendors";
 const vendorPrefixes: string[] = vendors.map(str => str ? `-${str}-` : str);
 
 export interface DataProps {

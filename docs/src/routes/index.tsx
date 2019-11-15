@@ -5,7 +5,7 @@ import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/styles/getTheme";
 import Wrapper from "../components/Wrapper";
 import WrapperWithCategories from "../components/WrapperWithCategories";
-import setStaticAcrylicTexture from "common/setStaticAcrylicTexture";
+import setStaticAcrylicTexture from "utils/setStaticAcrylicTexture";
 
 export interface RouterCallback {
   (error: any, component?: any): void;

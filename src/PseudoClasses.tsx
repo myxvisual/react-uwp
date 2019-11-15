@@ -3,7 +3,7 @@ import { findDOMNode } from "react-dom";
 import * as PropTypes from "prop-types";
 
 import ElementState, { ElementStateProps } from "./ElementState";
-import spreadObject from "./common/spreadObject";
+import spreadObject from "./utils/spreadObject";
 
 const pseudoClassesNames = ["&:hover", "&:active", "&:visited", "&:focus", "&:disabled"];
 

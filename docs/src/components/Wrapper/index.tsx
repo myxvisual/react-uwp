@@ -2,13 +2,13 @@ import * as React from "react";
 import * as Router from "react-router";
 import * as PropTypes from "prop-types";
 
-import scrollToYEasing from "react-uwp/common/browser/scrollToYEasing";
+import scrollToYEasing from "react-uwp/utils/browser/scrollToYEasing";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import getTheme from "react-uwp/styles/getTheme";
-import getRootPath from "common/getRootPath";
-import addCSSRule from "react-uwp/common/browser/addCSSRule";
+import getRootPath from "utils/getRootPath";
+import addCSSRule from "react-uwp/utils/browser/addCSSRule";
 
 import IconButton from "react-uwp/IconButton";
 import FloatNav from "react-uwp/FloatNav";

@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import PseudoClasses from "../PseudoClasses";
-import vendors from "../common/browser/vendors";
+import vendors from "../utils/browser/vendors";
 
 export interface ListItem {
   itemNode?: React.ReactNode;

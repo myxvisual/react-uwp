@@ -31,8 +31,10 @@ export function sourceCode2docEntry(input?: any): any {
     directoryExists: function () { return true; },
     getDirectories: function () { return []; }
   };
+
   const parser = new Parser(options, compilerHost);
   const docEntry = parser.parse(inputFileName);
+
   return docEntry;
 }
 

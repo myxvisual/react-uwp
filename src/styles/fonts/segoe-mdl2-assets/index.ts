@@ -9,7 +9,7 @@ export default function setSegoeMDL2AssetsFonts() {
 
 export { setSegoeMDL2AssetsFonts };
 
-// import addCSSRule from "../../common/browser/addCSSRule";
+// import addCSSRule from "../../utils/browser/addCSSRule";
 // addCSSRule(
 // `@font-face {
 //   font-family: "Segoe MDL2 Assets";

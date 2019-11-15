@@ -5,7 +5,7 @@ import * as PropTypes from "prop-types";
 import Image from "react-uwp/Image";
 import MediaPlayer from "react-uwp/MediaPlayer";
 import Toast from "react-uwp/Toast";
-import getRootPath from "common/getRootPath";
+import getRootPath from "utils/getRootPath";
 
 import FlipView, { FlipViewProps } from "react-uwp/FlipView";
 import { WrapperState } from "components/Wrapper";

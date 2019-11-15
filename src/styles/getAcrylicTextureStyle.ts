@@ -1,4 +1,4 @@
-import { isSupportBackdropFilter } from "../common/browser/backdropFilterDetector";
+import { isSupportBackdropFilter } from "../utils/browser/backdropFilterDetector";
 
 export function getAcrylicTextureStyle(): CSSStyleDeclaration {
   const isSupported = isSupportBackdropFilter();

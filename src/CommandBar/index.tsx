@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
 
-import AddBlurEvent from "../common/AddBlurEvent";
+import AddBlurEvent from "../utils/AddBlurEvent";
 import AppBarButton from "../AppBarButton";
 import AppBarSeparator from "../AppBarSeparator";
 import ListView from "../ListView";

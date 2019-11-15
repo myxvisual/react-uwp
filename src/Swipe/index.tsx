@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import shallowEqual from "../common/shallowEqual";
-import IS_NODE_ENV from "../common/nodeJS/IS_NODE_ENV";
+import shallowEqual from "../utils/shallowEqual";
+import IS_NODE_ENV from "../utils/nodeJS/IS_NODE_ENV";
 
 export interface DataProps {
   initialFocusIndex?: number;

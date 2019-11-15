@@ -2,8 +2,8 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
 
-import AddBlurEvent from "../common/AddBlurEvent";
-import shallowEqual from "../common/shallowEqual";
+import AddBlurEvent from "../utils/AddBlurEvent";
+import shallowEqual from "../utils/shallowEqual";
 import Button from "../Button";
 import IconButton from "../IconButton";
 import RenderToBody from "../RenderToBody";

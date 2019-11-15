@@ -103,7 +103,7 @@ export default class CustomTheme extends React.Component<any> {
                       themeName: theme.themeName,
                       accent: theme.accent,
                       useFluentDesign: theme.useFluentDesign,
-                      desktopBackgroundImage: reader.result
+                      desktopBackgroundImage: reader.result.toString()
                     }));
                   }, false);
                 if (file) {

@@ -2,12 +2,12 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
 
-import AddBlurEvent from "../common/AddBlurEvent";
+import AddBlurEvent from "../utils/AddBlurEvent";
 import Separator from "../Separator";
 import IconButton from "../IconButton";
 import PseudoClasses from "../PseudoClasses";
 import ListView from "../ListView";
-import scrollToYEasing from "../common/browser/scrollToYEasing";
+import scrollToYEasing from "../utils/browser/scrollToYEasing";
 
 export interface DataProps {
   /**

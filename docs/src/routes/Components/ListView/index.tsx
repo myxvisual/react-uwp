@@ -3,7 +3,8 @@ import * as PropTypes from "prop-types";
 
 import ComponentDetail from "components/ComponentDetail";
 import MarkdownRender from "react-uwp/MarkdownRender";
-import * as docEntry from "react-uwp/ListView/index.doc.json";
+import * as sourceCode from "!raw!react-uwp/ListView/index.tsx";
+import sourceCode2docEntry from "utils/sourceCode2docEntry";
 import * as readmeText from "!raw!./README.md";
 import * as itemTypeText from "!raw!./ListItemType.md";
 
@@ -26,6 +27,7 @@ export default class ListView extends React.Component<any> {
       routes,
       ...attributes
     } = this.props;
+    const docEntry = sourceCode2docEntry(sourceCode);
 
     return (
       <ComponentDetail

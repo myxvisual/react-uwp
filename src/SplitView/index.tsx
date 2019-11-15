@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
 
-import AddBlurEvent from "../common/AddBlurEvent";
+import AddBlurEvent from "../utils/AddBlurEvent";
 import SplitViewPane, { SplitViewPaneProps } from "./SplitViewPane";
 export { SplitViewPane, SplitViewPaneProps };
 
