@@ -1,5 +1,4 @@
 import * as createHash from "murmurhash-js/murmurhash3_gc";
-import IS_NODE_ENV from "../utils/nodeJS/IS_NODE_ENV";
 import isUnitlessNumber from "../utils/react/isUnitlessNumber";
 import { Theme } from "./getTheme";
 
@@ -34,65 +33,49 @@ export const extendsStyleKeys: any = {
   "&:disabled": true
 };
 export interface StyleManagerConfig {
-  theme?: Theme;
   prefixClassName?: string;
-  styleDidUpdate?: () => void;
 }
 
 export class StyleManager {
   prefixClassName: string;
   theme: Theme;
-  themeId: number = 0;
-  styleElement: HTMLStyleElement = null;
   sheets: {
     [key: string]: Sheet
   } = {};
-  styleDidUpdate: () => void;
   CSSText: string = "";
   addedCSSText: {
     [key: string]: boolean;
   } = {};
+  onSheetsUpdate(sheets?: {
+    [key: string]: Sheet
+  }) {}
 
-  constructor(config: StyleManagerConfig) {
-    const { prefixClassName, theme, styleDidUpdate } = config;
-    this.styleDidUpdate = styleDidUpdate || (() => {});
+  constructor(config?: StyleManagerConfig) {
+    const { prefixClassName } = config || {};
     this.prefixClassName = prefixClassName ? `${prefixClassName}-` : "";
-    this.setupTheme(theme);
-    this.setupStyleElement();
-  }
-
-  setupTheme = (theme?: Theme): void => {
-    this.theme = theme;
-    this.themeId = createHash([theme.accent, theme.themeName, theme.useFluentDesign].join(", "));
-  }
-
-  setupStyleElement = (): void => {
-    if (IS_NODE_ENV) return;
-    if (!this.styleElement) {
-      const name = `data-uwp-jss-${this.themeId}`;
-      this.styleElement = document.createElement("style");
-      this.styleElement.setAttribute(name, "");
-      document.head.appendChild(this.styleElement);
-    }
   }
 
   cleanStyleSheet = (): void => {
-    if (this.styleElement) document.head.removeChild(this.styleElement);
     this.theme = null;
     this.sheets = {};
     this.CSSText = "";
-    this.styleElement = null;
   }
 
   style2CSSText = (style: React.CSSProperties): string => style ? Object.keys(style).map(key => (
     `  ${replace2Dashes(key)}: ${getStyleValue(key, style[key])};`
   )).join("\n") : void 0
 
-  sheetsToString = (): string => `\n${Object.keys(this.sheets).map(id => this.sheets[id].CSSText).join("")}`;
+  sheetsToString = () => `\n${Object.keys(this.sheets).map(id => this.sheets[id].CSSText).join("")}`;
 
-  addStyle = (style: CustomCSSProperties, className = "", callback = () => {}): Sheet => {
-    const id = createHash(`${this.themeId}: ${JSON.stringify(style)}`);
-    if (this.sheets[id]) return this.sheets[id];
+  getAllCSSText = () => `${this.sheetsToString()}\n${this.CSSText}`;
+
+  addStyle = (style: CustomCSSProperties, className = ""): Sheet => {
+    const id = createHash(JSON.stringify(style));
+
+    if (this.sheets[id]) {
+      this.onSheetsUpdate(this.sheets);
+      return this.sheets[id];
+    }
 
     const classNameWithHash = `${this.prefixClassName}${className}-${id}`;
     const styleKeys = Object.keys(style);
@@ -117,30 +100,19 @@ export class StyleManager {
     CSSText += extendsCSSText;
 
     this.sheets[id] = { CSSText, classNameWithHash, id, className };
-    callback();
+    this.onSheetsUpdate(this.sheets);
+
     return this.sheets[id];
   }
 
-  addStyleWithUpdate = (style: CustomCSSProperties, className = ""): Sheet => {
-    return this.addStyle(style, className, this.renderSheets);
-  }
-
-  addCSSText = (CSSText: string, callback: (shouldUpdate?: boolean) => void = () => {}): void => {
+  addCSSText = (CSSText: string): void => {
     const hash = createHash(CSSText);
     const shouldUpdate = !this.addedCSSText[hash];
     if (shouldUpdate) {
       this.addedCSSText[hash] = true;
       this.CSSText += CSSText;
     }
-    callback(shouldUpdate);
-  }
-
-  addCSSTextWithUpdate = (CSSText: string): void => {
-    this.addCSSText(CSSText, shouldUpdate => {
-      if (this.styleElement && shouldUpdate) {
-        this.updateStyleElement(this.styleElement.textContent += CSSText);
-      }
-    });
+    this.onSheetsUpdate(this.sheets);
   }
 
   setStyleToManager(config?: {
@@ -153,7 +125,7 @@ export class StyleManager {
 
     const { dynamicStyle, ...styleProperties } = style;
     className = className || "";
-    const sheet = this.addStyleWithUpdate(styleProperties, className);
+    const sheet = this.addStyle(styleProperties, className);
     newStyles = {
       className: sheet.classNameWithHash,
       style: dynamicStyle
@@ -166,59 +138,43 @@ export class StyleManager {
     styles: { [key: string]: StyleClasses | CustomCSSProperties };
     className?: string;
   }, callback?: (theme?: Theme) => { [key: string]: StyleClasses }): { [key: string]: StyleClasses } {
-  const newStyles: {
-    [key: string]: {
-      className?: string;
-      style?: React.CSSProperties;
+    const newStyles: {
+      [key: string]: {
+        className?: string;
+        style?: React.CSSProperties;
+      }
+    } = {};
+    let { className, styles } = config;
+    if (callback) styles = callback(this.theme);
+    className = className || "";
+    const keys = Object.keys(styles);
+
+    for (const key of keys) {
+      let styleItem: StyleClasses = styles[key] as StyleClasses;
+      if (!styleItem) continue;
+
+      const isStyleClasses = styleItem.className || styleItem.style;
+      let secondClassName: string = `-${key}`;
+
+      if (isStyleClasses) {
+        secondClassName = styleItem.className;
+        secondClassName = secondClassName ? `-${secondClassName}` : "";
+        secondClassName = `-${key}${secondClassName}`;
+      }
+
+      const { dynamicStyle, ...styleProperties } = (isStyleClasses ? styleItem.style : styleItem) as any;
+      const sheet = this.addStyle(
+        styleProperties,
+        `${className}${secondClassName}`
+      );
+      newStyles[key] = {
+        className: sheet.classNameWithHash,
+        style: dynamicStyle
+      };
     }
-  } = {};
-  let { className, styles } = config;
-  if (callback) styles = callback(this.theme);
-  className = className || "";
-  const keys = Object.keys(styles);
 
-  let CSSText = "";
-  for (const key of keys) {
-    let styleItem: StyleClasses = styles[key] as StyleClasses;
-    if (!styleItem) continue;
-
-    const isStyleClasses = styleItem.className || styleItem.style;
-    let secondClassName: string = `-${key}`;
-
-    if (isStyleClasses) {
-      secondClassName = styleItem.className;
-      secondClassName = secondClassName ? `-${secondClassName}` : "";
-      secondClassName = `-${key}${secondClassName}`;
-    }
-
-    const { dynamicStyle, ...styleProperties } = (isStyleClasses ? styleItem.style : styleItem) as any;
-    const sheet = this.addStyleWithUpdate(
-      styleProperties,
-      `${className}${secondClassName}`
-    );
-    newStyles[key] = {
-      className: sheet.classNameWithHash,
-      style: dynamicStyle
-    };
-    CSSText += `${sheet.CSSText}\n`;
+    return newStyles;
   }
-
-  return newStyles;
 }
-
-  renderSheets = (): void => {
-    let textContent = this.sheetsToString();
-    textContent += this.CSSText;
-    this.updateStyleElement(textContent);
-  }
-
-  updateStyleElement = (textContent: string): void => {
-    const name = `data-uwp-jss-${this.themeId}`;
-    if (this.styleElement) {
-      this.styleElement.textContent = textContent;
-      this.styleDidUpdate();
-    }
-  }
-};
 
 export default StyleManager;

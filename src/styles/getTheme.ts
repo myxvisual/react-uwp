@@ -1,14 +1,10 @@
 import * as tinycolor from "tinycolor2";
-import setSegoeMDL2AssetsFonts from "./fonts/segoe-mdl2-assets";
-import IS_NODE_ENV from "../utils/nodeJS/IS_NODE_ENV";
 import prefixAll from "../utils/prefixAll";
+import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
 
-if (!IS_NODE_ENV) {
-  setSegoeMDL2AssetsFonts();
-}
-
+const styleManager = new StyleManager();
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l * (1 - coefficient);
@@ -49,9 +45,10 @@ export interface ThemeConfig {
   themeName?: "dark" | "light";
   accent?: string;
   useFluentDesign?: boolean;
-  userAgent?: string;
-  useInlineStyle?: boolean;
   desktopBackgroundImage?: string;
+
+  useInlineStyle?: boolean;
+  userAgent?: string;
 }
 
 export type ThemeName = "dark" | "light";
@@ -68,12 +65,12 @@ export class Theme {
     segoeMDL2Assets: string;
   };
 
-  styleManager?: StyleManager;
+  styleManager?: StyleManager = styleManager;
   scrollReveals?: ScrollRevealType[] = [];
-  scrollRevealListener?: (e?: Event) => void;
 
   desktopBackground?: string;
 
+  acrylicTextureCount?: number;
   haveAcrylicTextures?: boolean;
   acrylicTexture40?: AcrylicTexture;
   acrylicTexture60?: AcrylicTexture;
@@ -136,14 +133,16 @@ export class Theme {
   classNames?: (...classNames: string[]) => string;
 
   isDarkTheme?: boolean;
-  updateTheme?: (theme: Theme) => void;
-  forceUpdateTheme?: (theme: Theme) => void;
-  generateAcrylicTextures?: (currTheme: Theme, themeCallback?: (theme?: Theme) => void) => void;
+  generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
 
-  toasts?: React.ReactElement<any>[];
-  addToast?: (toast: React.ReactElement<any>, callback?: (toastId?: number) => void) => void;
-  updateToast?: (toastId: number, toast: React.ReactElement<any>) => void;
-  deleteToast?: (toastId: number) => void;
+  toasts?: Map<Toast, boolean>;
+  addToast?: (toast: Toast) => void;
+  updateToast?: (toast: Toast) => void;
+  removeToast?: (toast: Toast) => void;
+  onToastsUpdate?: (toasts?: Toast[]) => void;
+
+  updateTheme: (theme: Theme) => void;
+  onThemeUpdate?: (theme?: Theme) => void;
 
   typographyStyles?: {
     header?: React.CSSProperties;
@@ -198,6 +197,7 @@ export class Theme {
     const altMedium = altHighColor.setAlpha(0.6).toRgbString();
     const altMediumHigh = altHighColor.setAlpha(0.8).toRgbString();
 
+    // theme base config.
     Object.assign(this, {
       themeName,
       accent,
@@ -207,7 +207,8 @@ export class Theme {
       desktopBackgroundImage
     });
 
-    const theme: Theme = {
+    // theme base styles.
+    Object.assign(this, {
       themeName,
       fonts: {
         sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
@@ -215,13 +216,12 @@ export class Theme {
       },
       useInlineStyle: Boolean(useInlineStyle),
 
-      styleManager: void 0,
-
       useFluentDesign,
-      desktopBackground: void 0,
+      desktopBackground: `url(${desktopBackgroundImage}) no-repeat fixed top left / cover`,
       desktopBackgroundImage,
 
       haveAcrylicTextures: false,
+      acrylicTextureCount: 0,
       acrylicTexture40: {
         background: altMediumLow
       },
@@ -233,7 +233,6 @@ export class Theme {
       },
 
       scrollReveals: [],
-      scrollRevealListener: void 0,
 
       accent,
       accentLighter1: lighten(accentColor.toHexString(), 0.5),
@@ -277,119 +276,6 @@ export class Theme {
       chromeWhite: "#fff",
 
       isDarkTheme: isDarkTheme,
-
-      prefixStyle: prefixAll(userAgent),
-
-      prepareStyle(config, callback) {
-        if (!this.styleManager) return;
-        const { extendsClassName, ...managerConfig } = config;
-        if (this.useInlineStyle) {
-          managerConfig.className += extendsClassName ? ` ${extendsClassName}` : "";
-          return managerConfig;
-        } else {
-          const styleClasses = this.styleManager.setStyleToManager(managerConfig, callback);
-          styleClasses.className += extendsClassName ? ` ${extendsClassName}` : "";
-          return styleClasses;
-        }
-      },
-
-      prepareStyles(config, callback) {
-        if (!this.styleManager) return;
-        if (this.useInlineStyle) {
-          const { styles } = config;
-          const result: any = {};
-          for (let key in styles) {
-            result[key] = { style: styles[key] };
-          }
-          return result;
-        } else {
-          const styleClasses = this.styleManager.setStylesToManager(config, callback);
-          return styleClasses;
-        }
-      },
-
-      classNames(...classNames) {
-        return classNames.reduce((prev, curr) => (prev || "") + (curr ? ` ${curr}` : ""));
-      },
-
-      generateAcrylicTextures(currTheme: Theme, themeCallback?: (theme?: Theme) => void) {
-        this.acrylicTextureCount = 0;
-        const baseConfig = {
-          blurSize: 24,
-          noiseSize: 1,
-          noiseOpacity: 0.2
-        };
-
-        const callback = (image: string, key: number) => {
-          if (key === 4) {
-            this.acrylicTextureCount += 1;
-            Object.assign(currTheme.acrylicTexture40, {
-              tintColor: currTheme.chromeMediumLow,
-              tintOpacity: 0.4,
-              background: `url(${image}) no-repeat fixed top left / cover`,
-              ...baseConfig
-            });
-          }
-          if (key === 6) {
-            this.acrylicTextureCount += 1;
-            Object.assign(currTheme.acrylicTexture60, {
-              tintColor: currTheme.chromeLow,
-              tintOpacity: 0.6,
-              background: `url(${image}) no-repeat fixed top left / cover`,
-              ...baseConfig
-            });
-          }
-          if (key === 8) {
-            this.acrylicTextureCount += 1;
-            Object.assign(currTheme.acrylicTexture80, {
-              tintColor: currTheme.chromeLow,
-              tintOpacity: 0.8,
-              background: `url(${image}) no-repeat fixed top left / cover`,
-              ...baseConfig
-            });
-          }
-
-          if (this.acrylicTextureCount === 3) {
-            currTheme.haveAcrylicTextures = true;
-            if (themeCallback) themeCallback(currTheme);
-
-            if (this.generateAcrylicTextures.callback) {
-              this.generateAcrylicTextures.callback(currTheme);
-            }
-            return currTheme;
-          }
-        };
-
-        generateAcrylicTexture(
-          currTheme.desktopBackgroundImage,
-          currTheme.chromeMediumLow,
-          0.4,
-          void 0,
-          void 0,
-          void 0,
-          image => callback(image, 4)
-        );
-        generateAcrylicTexture(
-          currTheme.desktopBackgroundImage,
-          currTheme.chromeLow,
-          0.6,
-          void 0,
-          void 0,
-          void 0,
-          image => callback(image, 6)
-        );
-        generateAcrylicTexture(
-          currTheme.desktopBackgroundImage,
-          currTheme.chromeLow,
-          0.8,
-          void 0,
-          void 0,
-          void 0,
-          image => callback(image, 8)
-        );
-      },
-
-      toasts: [],
 
       typographyStyles: {
         header: {
@@ -458,9 +344,152 @@ export class Theme {
         mediaPlayer: 2147483647,
         toast: 310
       }
+    } as Partial<Theme>);
+
+    // theme styleManager.
+    Object.assign(this, {
+      prefixStyle: prefixAll(userAgent),
+      prepareStyle: (config, callback) => {
+        if (!this.styleManager) return;
+        const { extendsClassName, ...managerConfig } = config;
+        if (this.useInlineStyle) {
+          managerConfig.className += extendsClassName ? ` ${extendsClassName}` : "";
+          return managerConfig;
+        } else {
+          const styleClasses = this.styleManager.setStyleToManager(managerConfig, callback);
+          styleClasses.className += extendsClassName ? ` ${extendsClassName}` : "";
+          return styleClasses;
+        }
+      },
+
+      prepareStyles: (config, callback) => {
+        if (!this.styleManager) return;
+        if (this.useInlineStyle) {
+          const { styles } = config;
+          const result: any = {};
+          for (let key in styles) {
+            result[key] = { style: styles[key] };
+          }
+          return result;
+        } else {
+          const styleClasses = this.styleManager.setStylesToManager(config as any, callback);
+          return styleClasses;
+        }
+      },
+
+      classNames: (...classNames) => {
+        return classNames.reduce((prev, curr) => (prev || "") + (curr ? ` ${curr}` : ""));
+      }
+    } as Theme);
+
+    // generateAcrylicTextures method.
+    this.generateAcrylicTextures = (themeCallback?: (theme?: Theme) => void) => {
+      this.acrylicTextureCount = 0;
+      const baseConfig = {
+        blurSize: 24,
+        noiseSize: 1,
+        noiseOpacity: 0.2
+      };
+
+      const callback = (image: string, key: number) => {
+        if (key === 4) {
+          this.acrylicTextureCount += 1;
+          Object.assign(this.acrylicTexture40, {
+            tintColor: this.chromeMediumLow,
+            tintOpacity: 0.4,
+            background: `url(${image}) no-repeat fixed top left / cover`,
+            ...baseConfig
+          });
+        }
+        if (key === 6) {
+          this.acrylicTextureCount += 1;
+          Object.assign(this.acrylicTexture60, {
+            tintColor: this.chromeLow,
+            tintOpacity: 0.6,
+            background: `url(${image}) no-repeat fixed top left / cover`,
+            ...baseConfig
+          });
+        }
+        if (key === 8) {
+          this.acrylicTextureCount += 1;
+          Object.assign(this.acrylicTexture80, {
+            tintColor: this.chromeLow,
+            tintOpacity: 0.8,
+            background: `url(${image}) no-repeat fixed top left / cover`,
+            ...baseConfig
+          });
+        }
+
+        if (this.acrylicTextureCount === 3) {
+          this.haveAcrylicTextures = true;
+          if (themeCallback) themeCallback(this);
+          return this;
+        }
+      };
+
+      generateAcrylicTexture(
+        this.desktopBackgroundImage,
+        this.chromeMediumLow,
+        0.4,
+        void 0,
+        void 0,
+        void 0,
+        image => callback(image, 4)
+      );
+      generateAcrylicTexture(
+        this.desktopBackgroundImage,
+        this.chromeLow,
+        0.6,
+        void 0,
+        void 0,
+        void 0,
+        image => callback(image, 6)
+      );
+      generateAcrylicTexture(
+        this.desktopBackgroundImage,
+        this.chromeLow,
+        0.8,
+        void 0,
+        void 0,
+        void 0,
+        image => callback(image, 8)
+      );
     };
 
-    Object.assign(this, theme);
+    // toasts storage.
+    Object.assign(this, {
+      toasts: new Map<Toast, boolean>(),
+      addToast: toast => {
+        if (!this.toasts.has(toast)) {
+          this.toasts.set(toast, true);
+        }
+        if (this.onToastsUpdate) {
+          this.onToastsUpdate(Array.from(this.toasts.keys()));
+        }
+      },
+      updateToast: toast => {
+        if (this.toasts.has(toast)) {
+          this.toasts.set(toast, true);
+        }
+        if (this.onToastsUpdate) {
+          this.onToastsUpdate(Array.from(this.toasts.keys()));
+        }
+      },
+      removeToast: toast => {
+        if (this.toasts.has(toast)) {
+          this.toasts.delete(toast);
+        }
+        if (this.onToastsUpdate) {
+          this.onToastsUpdate(Array.from(this.toasts.keys()));
+        }
+      }
+    } as Theme);
+
+    // update theme method.
+    this.updateTheme = (newTheme: Theme) => {
+      if (this.onThemeUpdate) this.onThemeUpdate(newTheme);
+    };
+
   }
 }
 

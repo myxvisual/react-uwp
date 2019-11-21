@@ -27,7 +27,7 @@ export default function setStaticAcrylicTexture(theme: ReactUWP.ThemeType) {
     }
   } else {
     if (theme.useFluentDesign && !theme.haveAcrylicTextures) {
-      theme.generateAcrylicTextures(theme, newTheme => theme.updateTheme(newTheme));
+      theme.generateAcrylicTextures(newTheme => theme.updateTheme(newTheme));
     }
   }
 }

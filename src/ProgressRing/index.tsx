@@ -104,7 +104,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes CircleLoopFade {
     } = this.props;
     const { theme } = this.context;
     const onlyClassName = this.getOnlyClassName();
-    theme.styleManager.addCSSTextWithUpdate(this.getCSSText(onlyClassName));
+    theme.styleManager.addCSSText(this.getCSSText(onlyClassName));
 
     const inlineStyles = getStyles(this);
     const styles = theme.prepareStyles({

@@ -81,7 +81,7 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
     }
 
     const CSSText = getCSSText(theme, `react-uwp-markdown`) + "\n" + markdownStyleString;
-    theme.styleManager.addCSSTextWithUpdate(CSSText);
+    theme.styleManager.addCSSText(CSSText);
   }
 
   render() {

@@ -1,12 +1,12 @@
 
-function getBaseCSS(theme: ReactUWP.ThemeType, themeClassName = "uwp-base", scrollBarStyleSelector = "*") {
+function getBaseCSS(theme: ReactUWP.ThemeType, scrollBarStyleSelector = "*") {
   return `* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.${themeClassName} * {
+* {
   font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
 }
 
@@ -34,18 +34,18 @@ ${scrollBarStyleSelector}::-webkit-scrollbar {
   -webkit-appearance: none
 }
 
-.${themeClassName} *:after, .${themeClassName} *:before {
+*:after, *:before {
   box-sizing: border-box;
 }
 
-.${themeClassName} {
+{
   -webkit-text-size-adjust: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.${themeClassName} input, .${themeClassName} textarea {
+input, textarea {
   box-shadow: none;
   border-radius: none;
 }

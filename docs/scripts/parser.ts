@@ -160,7 +160,7 @@ export class Parser {
         break;
       }
       default: {
-        console.log(`Missing parse kind: ${node.kind}`);
+        // console.log(`Missing parse kind: ${node.kind}`);
         break;
       }
     }
@@ -195,9 +195,8 @@ export class Parser {
     try {
       documentation = ts.displayPartsToString(symbol.getDocumentationComment(void 0)) || void 0;
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
-
     // console.log(name, symbol.flags);
 
     let newSymbol: any = symbol;
