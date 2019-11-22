@@ -55,9 +55,19 @@ export class StyleManager {
     this.prefixClassName = prefixClassName ? `${prefixClassName}-` : "";
   }
 
-  cleanStyleSheet = (): void => {
+  cleanAllStyles() {
+    this.cleanSheets();
+    this.cleanCSSText();
+  }
+
+  cleanSheets = (): void => {
     this.theme = null;
     this.sheets = {};
+  }
+
+  cleanCSSText() {
+    this.theme = null;
+    this.addedCSSText = {};
     this.CSSText = "";
   }
 
@@ -105,13 +115,20 @@ export class StyleManager {
     return this.sheets[id];
   }
 
-  addCSSText = (CSSText: string): void => {
+  addCSSText = (CSSText: string) => {
     const hash = createHash(CSSText);
     const shouldUpdate = !this.addedCSSText[hash];
     if (shouldUpdate) {
       this.addedCSSText[hash] = true;
       this.CSSText += CSSText;
     }
+    this.onSheetsUpdate(this.sheets);
+  }
+
+  removeCSSText = (CSSText: string) => {
+    const hash = createHash(CSSText);
+    this.addedCSSText[hash] = false;
+    this.CSSText = this.CSSText.replace(CSSText, "");
     this.onSheetsUpdate(this.sheets);
   }
 

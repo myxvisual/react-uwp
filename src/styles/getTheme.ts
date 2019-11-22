@@ -4,7 +4,6 @@ import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
 
-const styleManager = new StyleManager();
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l * (1 - coefficient);
@@ -65,7 +64,7 @@ export class Theme {
     segoeMDL2Assets: string;
   };
 
-  styleManager?: StyleManager = styleManager;
+  styleManager?: StyleManager = new StyleManager();
   scrollReveals?: ScrollRevealType[] = [];
 
   desktopBackground?: string;
@@ -386,9 +385,7 @@ export class Theme {
     this.generateAcrylicTextures = (themeCallback?: (theme?: Theme) => void) => {
       this.acrylicTextureCount = 0;
       const baseConfig = {
-        blurSize: 24,
-        noiseSize: 1,
-        noiseOpacity: 0.2
+        blurSize: 24
       };
 
       const callback = (image: string, key: number) => {
@@ -427,33 +424,27 @@ export class Theme {
         }
       };
 
-      generateAcrylicTexture(
-        this.desktopBackgroundImage,
-        this.chromeMediumLow,
-        0.4,
-        void 0,
-        void 0,
-        void 0,
-        image => callback(image, 4)
-      );
-      generateAcrylicTexture(
-        this.desktopBackgroundImage,
-        this.chromeLow,
-        0.6,
-        void 0,
-        void 0,
-        void 0,
-        image => callback(image, 6)
-      );
-      generateAcrylicTexture(
-        this.desktopBackgroundImage,
-        this.chromeLow,
-        0.8,
-        void 0,
-        void 0,
-        void 0,
-        image => callback(image, 8)
-      );
+      generateAcrylicTexture({
+        image: this.desktopBackgroundImage,
+        tintColor: this.chromeMediumLow,
+        tintOpacity: 0.4,
+        blurSize: baseConfig.blurSize,
+        callback: image => callback(image, 4)
+      });
+      generateAcrylicTexture({
+        image: this.desktopBackgroundImage,
+        tintColor: this.chromeLow,
+        tintOpacity: 0.6,
+        blurSize: baseConfig.blurSize,
+        callback: image => callback(image, 6)
+      });
+      generateAcrylicTexture({
+        image: this.desktopBackgroundImage,
+        tintColor: this.chromeLow,
+        tintOpacity: 0.8,
+        blurSize: baseConfig.blurSize,
+        callback: image => callback(image, 8)
+      });
     };
 
     // toasts storage.

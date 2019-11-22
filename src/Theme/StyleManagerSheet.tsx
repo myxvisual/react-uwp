@@ -11,7 +11,7 @@ export class StyleManagerSheet extends React.Component<StyleManagerSheetState, S
 
   render() {
     return (
-      <style>{this.state.CSSText}</style>
+      <style scoped>{this.state.CSSText}</style>
     );
   }
 }

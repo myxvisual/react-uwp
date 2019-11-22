@@ -75,34 +75,55 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentDidMount() {
+    this.setThemeHelper(this.state.currTheme);
     window.addEventListener("scroll", this.handleScrollReveal);
   }
 
   componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScrollReveal);
+    this.state.currTheme.styleManager.cleanAllStyles();
+    this.removeTheme(this.state.currTheme);
+
     const {
-      currTheme: {
-        acrylicTexture40,
-        acrylicTexture60,
-        acrylicTexture80,
-        styleManager
-      }
-    } = this.state;
+      acrylicTexture40,
+      acrylicTexture60,
+      acrylicTexture80
+  } = this.state.currTheme;
     URL.revokeObjectURL(acrylicTexture40.background);
     URL.revokeObjectURL(acrylicTexture60.background);
     URL.revokeObjectURL(acrylicTexture80.background);
-    styleManager.cleanStyleSheet();
+  }
 
-    window.removeEventListener("scroll", this.handleScrollReveal);
+  removeTheme(prevTheme: ThemeType, newTheme?: ThemeType) {
+    const {
+      styleManager
+    } = prevTheme;
+    const { scrollBarStyleSelector } = this.props;
+
+    if (newTheme) {
+      styleManager.onSheetsUpdate = (() => {
+        if (this.styleManagerSheet) {
+          this.styleManagerSheet.setState(() => ({ CSSText: styleManager.getAllCSSText() }));
+        }
+      });
+
+      styleManager.removeCSSText(getBaseCSSText(prevTheme, scrollBarStyleSelector));
+      const CSSText = getBaseCSSText(newTheme, scrollBarStyleSelector);
+      styleManager.addCSSText(CSSText);
+      newTheme.styleManager.addCSSText(CSSText);
+    } else {
+      styleManager.removeCSSText(getBaseCSSText(prevTheme, scrollBarStyleSelector));
+    }
   }
 
   componentWillReceiveProps(nextProps: ThemeProps) {
-    const { theme } = nextProps;
-    this.setState(() => ({ currTheme: theme }));
+    this.updateTheme(nextProps.theme);
   }
 
   setThemeHelper(theme: ThemeType) {
     const { scrollBarStyleSelector } = this.props;
     const { styleManager } = theme;
+
     styleManager.addCSSText(getBaseCSSText(theme, scrollBarStyleSelector));
     styleManager.onSheetsUpdate = (() => {
       if (this.styleManagerSheet) {
@@ -112,7 +133,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
     Object.assign(theme, {
       onThemeUpdate: currTheme => {
-        this.setState({ currTheme });
+        this.updateTheme(currTheme);
       },
       onToastsUpdate: (toasts) => {
         const { toastWrapper } = this;
@@ -134,46 +155,12 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   updateTheme(currTheme: ThemeType) {
-    this.setState(() => ({ currTheme }));
+    this.setState((prevState) => {
+      this.removeTheme(prevState.currTheme, currTheme);
+      this.setThemeHelper(currTheme);
+      return { currTheme };
+    });
   }
-
-  // sureNeedGenerateAcrylic(newTheme: ThemeType) {
-  //   const { currTheme } = this.state;
-  //   let needGenerateAcrylic = newTheme.desktopBackgroundImage && this.props.needGenerateAcrylic;
-
-  //   if (needGenerateAcrylic &&
-  //     newTheme.desktopBackgroundImage === currTheme.desktopBackgroundImage
-  //   ) {
-  //     if (currTheme.useFluentDesign) {
-  //       Object.assign(currTheme.isDarkTheme ? this.cacheDarkAcrylicTextures : this.cacheLightAcrylicTextures, {
-  //         acrylicTexture40: currTheme.acrylicTexture40,
-  //         acrylicTexture60: currTheme.acrylicTexture60,
-  //         acrylicTexture80: currTheme.acrylicTexture80
-  //       } as ThemeType);
-  //       needGenerateAcrylic = false;
-  //     }
-  //     if (newTheme.useFluentDesign) {
-  //       if (newTheme.isDarkTheme && this.cacheDarkAcrylicTextures.acrylicTexture40 || (
-  //         !newTheme.isDarkTheme && this.cacheLightAcrylicTextures.acrylicTexture40
-  //       )) {
-  //         Object.assign(newTheme, newTheme.isDarkTheme ? this.cacheDarkAcrylicTextures : this.cacheLightAcrylicTextures);
-  //         needGenerateAcrylic = false;
-  //       } else {
-  //         needGenerateAcrylic = true;
-  //       }
-  //     } else {
-  //       needGenerateAcrylic = false;
-  //       Object.assign(newTheme, {
-  //         acrylicTexture40: currTheme.acrylicTexture40,
-  //         acrylicTexture60: currTheme.acrylicTexture60,
-  //         acrylicTexture80: currTheme.acrylicTexture80
-  //       } as ThemeType);
-  //     }
-  //   }
-  //   needGenerateAcrylic = needGenerateAcrylic && newTheme.useFluentDesign && this.props.needGenerateAcrylic;
-
-  //   return needGenerateAcrylic;
-  // }
 
   handleScrollReveal = (e?: Event) => {
     handleScrollReveal(this.state.currTheme);
@@ -192,7 +179,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
-    this.setThemeHelper(currTheme);
 
     const styles = getStyles(this);
     const classes = currTheme.prepareStyles({
