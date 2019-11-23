@@ -3,7 +3,9 @@ import prefixAll from "../utils/prefixAll";
 import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
+import { getAcrylicTextureStyle, AcrylicConfig, isSupportBackdropFilter } from "./getAcrylicTextureStyle";
 
+const supportedBackdropFilter = isSupportBackdropFilter();
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l * (1 - coefficient);
@@ -17,6 +19,7 @@ export function lighten(color: string, coefficient: number) {
 }
 
 export interface AcrylicTexture {
+  style?: React.CSSProperties;
   tintColor?: string;
   tintOpacity?: number;
   blurSize?: number;
@@ -381,39 +384,68 @@ export class Theme {
       }
     } as Theme);
 
+    const blurSize = 24;
+    const acrylicTexture40Config: AcrylicConfig = {
+      tintColor: this.chromeMedium,
+      opacity: .4,
+      blurSize
+    };
+    this.acrylicTexture40.style = getAcrylicTextureStyle(acrylicTexture40Config);
+    this.acrylicTexture40.background = this.acrylicTexture40.style.background as string;
+
+    const acrylicTexture60Config: AcrylicConfig = {
+      tintColor: this.chromeMediumLow,
+      opacity: .6,
+      blurSize
+    };
+    this.acrylicTexture60.style = getAcrylicTextureStyle(acrylicTexture60Config);
+    this.acrylicTexture60.background = this.acrylicTexture60.style.background as string;
+
+    const acrylicTexture80Config: AcrylicConfig = {
+      tintColor: this.chromeLow,
+      opacity: .8,
+      blurSize
+    };
+    this.acrylicTexture80.style = getAcrylicTextureStyle(acrylicTexture80Config);
+    this.acrylicTexture80.background = this.acrylicTexture80.style.background as string;
+
     // generateAcrylicTextures method.
     this.generateAcrylicTextures = (themeCallback?: (theme?: Theme) => void) => {
+      if (supportedBackdropFilter) {
+        return;
+      }
       this.acrylicTextureCount = 0;
-      const baseConfig = {
-        blurSize: 24
-      };
 
       const callback = (image: string, key: number) => {
+        const background = `url(${image}) no-repeat fixed top left / cover`;
         if (key === 4) {
           this.acrylicTextureCount += 1;
           Object.assign(this.acrylicTexture40, {
-            tintColor: this.chromeMediumLow,
-            tintOpacity: 0.4,
-            background: `url(${image}) no-repeat fixed top left / cover`,
-            ...baseConfig
+            tintColor: acrylicTexture40Config.tintColor,
+            tintOpacity: acrylicTexture40Config.opacity,
+            style: { background },
+            background,
+            blurSize
           });
         }
         if (key === 6) {
           this.acrylicTextureCount += 1;
           Object.assign(this.acrylicTexture60, {
-            tintColor: this.chromeLow,
-            tintOpacity: 0.6,
-            background: `url(${image}) no-repeat fixed top left / cover`,
-            ...baseConfig
+            tintColor: acrylicTexture60Config.tintColor,
+            tintOpacity: acrylicTexture60Config.opacity,
+            style: { background },
+            background,
+            blurSize
           });
         }
         if (key === 8) {
           this.acrylicTextureCount += 1;
           Object.assign(this.acrylicTexture80, {
-            tintColor: this.chromeLow,
-            tintOpacity: 0.8,
-            background: `url(${image}) no-repeat fixed top left / cover`,
-            ...baseConfig
+            tintColor: acrylicTexture80Config.tintColor,
+            tintOpacity: acrylicTexture80Config.opacity,
+            style: { background },
+            background,
+            blurSize
           });
         }
 
@@ -428,21 +460,21 @@ export class Theme {
         image: this.desktopBackgroundImage,
         tintColor: this.chromeMediumLow,
         tintOpacity: 0.4,
-        blurSize: baseConfig.blurSize,
+        blurSize,
         callback: image => callback(image, 4)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
         tintColor: this.chromeLow,
         tintOpacity: 0.6,
-        blurSize: baseConfig.blurSize,
+        blurSize,
         callback: image => callback(image, 6)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
         tintColor: this.chromeLow,
         tintOpacity: 0.8,
-        blurSize: baseConfig.blurSize,
+        blurSize,
         callback: image => callback(image, 8)
       });
     };

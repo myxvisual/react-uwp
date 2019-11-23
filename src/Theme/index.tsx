@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 
 import { handleScrollReveal } from "./handleScrollReveal";
 import darkTheme from "../styles/darkTheme";
-import getTheme, { Theme as ThemeType, ThemeConfig } from "../styles/getTheme";
+import getTheme, { Theme as ThemeType } from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
 import { StyleManagerSheet } from "./StyleManagerSheet";
@@ -145,7 +145,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       }
     } as ThemeType);
 
-    if (theme.useFluentDesign && theme.desktopBackgroundImage && theme.acrylicTextureCount !== 3) {
+    if (theme.useFluentDesign && theme.desktopBackgroundImage) {
       theme.generateAcrylicTextures(currTheme => {
         this.setState({ currTheme });
         this.handleThemeUpdate(currTheme);

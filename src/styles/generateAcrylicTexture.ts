@@ -16,6 +16,11 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
   const configStr = JSON.stringify({ image, tintColor, tintOpacity, blurSize });
   let acrylicTexture = acrylicTextureMap.get(configStr);
 
+  function updatAcrylicTexture() {
+    if (callback) callback(acrylicTexture);
+    acrylicTextureMap.set(configStr, acrylicTexture);
+  }
+
   if (acrylicTexture) {
     callback(acrylicTexture);
     return;
@@ -25,6 +30,7 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
   const context = canvas.getContext("2d");
   const imageNode = new Image();
   imageNode.crossOrigin = "Anonymous";
+  imageNode.src = image;
 
   imageNode.onload = () => {
     let { naturalWidth, naturalHeight } = imageNode;
@@ -47,18 +53,17 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
     if (HTMLCanvasElement.prototype.toBlob) {
       canvas.toBlob((blob) => {
         acrylicTexture = URL.createObjectURL(blob);
+        updatAcrylicTexture();
       });
     } else if (HTMLCanvasElement.prototype["msToBlob"]) {
       const blob = canvas["msToBlob"]();
       acrylicTexture = URL.createObjectURL(blob);
+      updatAcrylicTexture();
     } else {
       acrylicTexture = canvas.toDataURL("image/jpg");
+      updatAcrylicTexture();
     }
-
-    acrylicTextureMap.set(configStr, acrylicTexture);
-    if (callback) callback(acrylicTexture);
   };
-
 }
 
 
