@@ -351,11 +351,11 @@ function getStyles(treeView: TreeView): {
   const { prefixStyle } = theme;
   return {
     root: prefixStyle({
+      // ...(background ? { ...theme.acrylicTexture60.style, background } : theme.acrylicTexture60.style),
       fontSize: 14,
       overflowX: "hidden",
       overflowY: "auto",
       color: theme.baseMediumHigh,
-      background: background || (theme.useFluentDesign ? theme.acrylicTexture60.background : "none"),
       width: itemHeight * 10,
       padding: "0 16px",
       ...style

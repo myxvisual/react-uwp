@@ -2,12 +2,12 @@ import { isSupportBackdropFilter } from "../utils/browser/backdropFilterDetector
 
 export { isSupportBackdropFilter };
 
-export interface AcrylicConfig { tintColor: string; opacity: number; blurSize: number; }
+export interface AcrylicConfig { tintColor: string; blurSize: number; }
 
 export function getAcrylicTextureStyle(config: AcrylicConfig) {
   const isSupported = isSupportBackdropFilter();
   let style: React.CSSProperties;
-  const { tintColor, opacity, blurSize } = config;
+  const { tintColor, blurSize } = config;
   if (isSupported) {
     style = {
       /**

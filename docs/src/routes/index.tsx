@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Router, RouteComponent, browserHistory } from "react-router";
+import { Router, browserHistory } from "react-router";
 
 import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/styles/getTheme";
 import Wrapper from "../components/Wrapper";
 import WrapperWithCategories from "../components/WrapperWithCategories";
-import setStaticAcrylicTexture from "utils/setStaticAcrylicTexture";
 
 export interface RouterCallback {
   (error: any, component?: any): void;
@@ -22,8 +21,6 @@ export class ThemeWrapper extends React.Component {
     return (
       <Theme
         theme={theme}
-        needGenerateAcrylic={false}
-        // themeWillUpdate={setStaticAcrylicTexture}
       >
         {children}
       </Theme>

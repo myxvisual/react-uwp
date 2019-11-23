@@ -218,11 +218,7 @@ function getStyles(header: Header): {
     root: prefixStyle({
       fontSize: 14,
       color: theme.baseHigh,
-      background: theme.useFluentDesign ? (
-        theme.isDarkTheme ? "hsla(0, 0%, 0%, 0.95)" : "hsla(0, 0%, 100%, 0.95)"
-      ) : (
-        theme.isDarkTheme ? "hsla(0, 0%, 5%, 0.85)" : "hsla(0, 0%, 95%, 0.85)"
-      ),
+      ...theme.acrylicTexture40.style,
       boxShadow: theme.isDarkTheme ? void 0 : `0 2px 8px ${theme.listLow}`,
       width: "100%",
       height: headerHeight,

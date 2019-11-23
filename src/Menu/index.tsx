@@ -128,9 +128,9 @@ function getStyles(menu: Menu): {
 
   return {
     root: prefixStyle({
+      ...theme.acrylicTexture60.style,
       width: 240,
       color: theme.baseHigh,
-      background: theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow,
       border: `1px solid ${theme.listLow}`,
       ...style
     })

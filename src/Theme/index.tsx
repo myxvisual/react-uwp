@@ -6,8 +6,6 @@ import darkTheme from "../styles/darkTheme";
 import getTheme, { Theme as ThemeType } from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
-import { StyleManagerSheet } from "./StyleManagerSheet";
-import getBaseCSSText from "./getBaseCSSText";
 
 export { getTheme };
 export interface DataProps {
@@ -16,21 +14,13 @@ export interface DataProps {
    */
   theme?: ThemeType;
   /**
+   * toogle desktopBackground show.
+   */
+  enableDesktopBackground?: boolean;
+  /**
    * set theme will update callback.
    */
   themeWillUpdate?: (theme?: ThemeType) => void;
-  /**
-   * onGeneratedAcrylic callback, base acrylic textures is base64 url image, for production, you can set this callback, post image to your server, and update theme(use this callback will not auto update theme).
-   */
-  onGeneratedAcrylic?: (theme?: ThemeType) => void;
-  /**
-   * for production if you have generated acrylic textures, you can disabled generation acrylic textures.
-   */
-  needGenerateAcrylic?: boolean;
-  /**
-   * default is "*", set all element scroll bar style to uwp style.
-   */
-  scrollBarStyleSelector?: string;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -39,27 +29,25 @@ export interface ThemeState {
   currTheme?: ThemeType;
 }
 
-const baseClassName = "react-uwp-theme";
 const themeCallback: (theme?: ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
-    needGenerateAcrylic: true,
-    onGeneratedAcrylic: themeCallback,
-    themeWillUpdate: themeCallback,
-    scrollBarStyleSelector: "*"
+    enableDesktopBackground: true,
+    themeWillUpdate: themeCallback
   };
   static childContextTypes = {
     theme: PropTypes.object
   };
   cacheDarkAcrylicTextures: ThemeType;
   cacheLightAcrylicTextures: ThemeType;
-  styleManagerSheet: StyleManagerSheet;
   toastWrapper: ToastWrapper;
+  styleEl: HTMLStyleElement;
 
-  getDefaultTheme() {
-    const { theme } = this.props;
-    return theme ? getTheme(theme) : darkTheme;
+  getThemeFromProps(props: ThemeProps) {
+    const { theme } = props;
+    let currTheme = theme || darkTheme;
+    return currTheme;
   }
 
   handleThemeUpdate: (theme: ThemeType) => void = (theme: ThemeType) => {
@@ -67,7 +55,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   state: ThemeState = {
-    currTheme: this.getDefaultTheme()
+    currTheme: this.getThemeFromProps(this.props)
   };
 
   getChildContext() {
@@ -76,65 +64,53 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
   componentDidMount() {
     this.setThemeHelper(this.state.currTheme);
+    this.updateAllCSSToEl();
     window.addEventListener("scroll", this.handleScrollReveal);
+  }
+
+  componentDidUpdate() {
+    this.updateAllCSSToEl();
   }
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScrollReveal);
-    this.state.currTheme.styleManager.cleanAllStyles();
-    this.removeTheme(this.state.currTheme);
 
     const {
       acrylicTexture40,
       acrylicTexture60,
       acrylicTexture80
   } = this.state.currTheme;
-    URL.revokeObjectURL(acrylicTexture40.background);
-    URL.revokeObjectURL(acrylicTexture60.background);
-    URL.revokeObjectURL(acrylicTexture80.background);
-  }
-
-  removeTheme(prevTheme: ThemeType, newTheme?: ThemeType) {
-    const {
-      styleManager
-    } = prevTheme;
-    const { scrollBarStyleSelector } = this.props;
-
-    if (newTheme) {
-      styleManager.onSheetsUpdate = (() => {
-        if (this.styleManagerSheet) {
-          this.styleManagerSheet.setState(() => ({ CSSText: styleManager.getAllCSSText() }));
-        }
-      });
-
-      styleManager.removeCSSText(getBaseCSSText(prevTheme, scrollBarStyleSelector));
-      const CSSText = getBaseCSSText(newTheme, scrollBarStyleSelector);
-      styleManager.addCSSText(CSSText);
-      newTheme.styleManager.addCSSText(CSSText);
-    } else {
-      styleManager.removeCSSText(getBaseCSSText(prevTheme, scrollBarStyleSelector));
-    }
+    // URL.revokeObjectURL(acrylicTexture40.background);
+    // URL.revokeObjectURL(acrylicTexture60.background);
+    // URL.revokeObjectURL(acrylicTexture80.background);
   }
 
   componentWillReceiveProps(nextProps: ThemeProps) {
-    this.updateTheme(nextProps.theme);
+    const currTheme = this.getThemeFromProps(nextProps);
+    if (currTheme !== this.state.currTheme) {
+      this.setState(() => ({ currTheme }), () => {
+        this.setThemeHelper(currTheme);
+      });
+    }
+  }
+
+  updateAllCSSToEl() {
+    // const now = performance.now();
+    if (this.styleEl) {
+      this.styleEl.textContent = this.state.currTheme.styleManager.getAllCSSText();
+    }
+    // console.log(performance.now() - now);
   }
 
   setThemeHelper(theme: ThemeType) {
-    const { scrollBarStyleSelector } = this.props;
-    const { styleManager } = theme;
-
-    styleManager.addCSSText(getBaseCSSText(theme, scrollBarStyleSelector));
-    styleManager.onSheetsUpdate = (() => {
-      if (this.styleManagerSheet) {
-        this.styleManagerSheet.setState(() => ({ CSSText: styleManager.getAllCSSText() }));
+    theme.styleManager.onRemoveCSSText = (CSSText => {
+      if (this.styleEl && this.styleEl.textContent.includes(CSSText)) {
+        this.styleEl.textContent += this.styleEl.style.cssText.replace(CSSText, "");
       }
     });
 
     Object.assign(theme, {
-      onThemeUpdate: currTheme => {
-        this.updateTheme(currTheme);
-      },
+      updateTheme: this.updateTheme,
       onToastsUpdate: (toasts) => {
         const { toastWrapper } = this;
         if (toastWrapper) {
@@ -145,37 +121,32 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       }
     } as ThemeType);
 
-    if (theme.useFluentDesign && theme.desktopBackgroundImage) {
-      theme.generateAcrylicTextures(currTheme => {
-        this.setState({ currTheme });
-        this.handleThemeUpdate(currTheme);
-      });
+    if (theme.useFluentDesign && theme.desktopBackground) {
+      theme.generateAcrylicTextures(currTheme => this.setState({ currTheme }));
     }
-    this.handleThemeUpdate(theme);
   }
 
-  updateTheme(currTheme: ThemeType) {
-    this.setState((prevState) => {
-      this.removeTheme(prevState.currTheme, currTheme);
+  updateTheme = (currTheme: ThemeType) => {
+    currTheme.removeBaseCSSText(this.state.currTheme);
+    this.setState({ currTheme }, () => {
       this.setThemeHelper(currTheme);
-      return { currTheme };
     });
   }
 
   handleScrollReveal = (e?: Event) => {
+    e.stopPropagation();
+    e.preventDefault();
     handleScrollReveal(this.state.currTheme);
   }
 
   render() {
     const {
       theme,
-      onGeneratedAcrylic,
+      enableDesktopBackground,
       children,
       style,
       className,
-      needGenerateAcrylic,
       themeWillUpdate,
-      scrollBarStyleSelector,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
@@ -189,11 +160,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     return (
       <div {...attributes} {...classes.root}>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
-        <StyleManagerSheet
-          CSSText={currTheme.styleManager.getAllCSSText()}
-          ref={styleManagerSheet => this.styleManagerSheet = styleManagerSheet}
-        />
-        <RenderToBody {...classes.desktopBackground} />
+        <style type="text/css" scoped ref={styleEl => this.styleEl = styleEl} />
+        {enableDesktopBackground && <RenderToBody {...classes.desktopBackground} />}
         <RenderToBody>
           <ToastWrapper
             toastEls={Array.from(currTheme.toasts.keys()).map(toast => toast.virtualRender())}
@@ -208,7 +176,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
 function getStyles(context: Theme) {
   const { currTheme } = context.state;
-  const { style, needGenerateAcrylic } = context.props;
+  const { style } = context.props;
   return {
     root: {
       fontSize: 14,
@@ -216,9 +184,7 @@ function getStyles(context: Theme) {
       color: currTheme.baseHigh,
       display: "inline-block",
       verticalAlign: "middle",
-      background: currTheme.useFluentDesign ? (
-        currTheme.acrylicTextureCount === 3 ? "none" : (needGenerateAcrylic ? currTheme.altMediumHigh : "none")
-      ) : currTheme.altHigh,
+      background: currTheme.useFluentDesign ? "tranparent" : currTheme.altHigh,
       width: "100%",
       height: "100%",
       ...style

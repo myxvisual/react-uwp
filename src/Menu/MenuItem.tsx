@@ -226,6 +226,7 @@ function getStyles(menuItem: MenuItem): {
       textOverflow: "ellipsis"
     },
     child: prefixStyle({
+      ...theme.acrylicTexture60.style,
       transform: `translate3d(${expanded ? 0 : `-${itemHeight}px`}, 0, 0)`,
       opacity: expanded ? 1 : 0,
       pointerEvents: expanded ? "all" : "none",
@@ -234,7 +235,6 @@ function getStyles(menuItem: MenuItem): {
       top: -1,
       left: "100%",
       width: "100%",
-      background: theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow,
       border: `1px solid ${theme.listLow}`
     })
   };

@@ -274,7 +274,7 @@ function getStyles(contentDialog: ContentDialog): {
       ...style
     }),
     container: prefixStyle({
-      background: background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh),
+      ...theme.acrylicTexture80.style,
       border: `1px solid ${theme.baseLow}`,
       flex: "0 0 auto",
       width: "80%",

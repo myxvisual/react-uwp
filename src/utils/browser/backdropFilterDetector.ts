@@ -3,7 +3,7 @@ export function isSupportBackdropFilter() {
   const propertyName = "backdropFilter";
   const propertyValue = "blur(10px)";
 
-  if (CSS && CSS.supports) {
+  if (global["CSS"] && CSS.supports) {
     return CSS.supports("backdrop-filter", propertyValue);
   } else {
     let elm = document.createElement("div");

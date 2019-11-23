@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import AutoSuggestBox from "react-uwp/AutoSuggestBox";
-
 export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
@@ -21,6 +19,7 @@ export default class SimpleExample extends React.Component {
       outline: "none",
       border: `1px solid ${theme.listAccentLow}`
     };
+    
     return (
       <div
         style={theme.prefixStyle({
@@ -34,13 +33,13 @@ export default class SimpleExample extends React.Component {
           background: theme.desktopBackground
         })}
       >
-        <span style={{ ...itemStyle, background: theme.acrylicTexture40.background }}>
+        <span style={{ ...itemStyle, ...theme.acrylicTexture40.style }}>
           theme.acrylicTexture40.background
         </span>
-        <span style={{ ...itemStyle, background: theme.acrylicTexture60.background }}>
+        <span style={{ ...itemStyle, ...theme.acrylicTexture60.style }}>
           theme.acrylicTexture60.background
         </span>
-        <span style={{ ...itemStyle, background: theme.acrylicTexture80.background }}>
+        <span style={{ ...itemStyle, ...theme.acrylicTexture80.style }}>
           theme.acrylicTexture80.background
         </span>
       </div>

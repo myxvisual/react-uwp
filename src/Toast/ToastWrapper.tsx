@@ -20,8 +20,7 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { style, className, ...attributes } = this.props;
-    const { toastEls } = this.state;
+    const { style, className, toastEls, ...attributes } = this.props;
     const { theme } = this.context;
 
     const rootStyleClasses = theme.prepareStyle({
@@ -47,9 +46,9 @@ export class ToastWrapper extends React.Component<ToastWrapperProps, ToastWrappe
     });
 
     return (
-      toastEls && toastEls.length > 0 && (
+      this.state.toastEls && this.state.toastEls.length > 0 && (
         <div {...attributes} {...rootStyleClasses}>
-          {toastEls}
+          {toastEls.map((toastEl, key) => React.cloneElement(toastEl, { key }))}
         </div>
       )
     );

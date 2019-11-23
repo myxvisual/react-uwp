@@ -4,7 +4,13 @@ import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
 import { getAcrylicTextureStyle, AcrylicConfig, isSupportBackdropFilter } from "./getAcrylicTextureStyle";
+import { getThemeBaseCSS, getGlobalBaseCSS } from "./getBaseCSSText";
 
+export const fonts = {
+  sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
+  segoeMDL2Assets: "Segoe MDL2 Assets"
+};
+const styleManager = new StyleManager();
 const supportedBackdropFilter = isSupportBackdropFilter();
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
@@ -67,7 +73,7 @@ export class Theme {
     segoeMDL2Assets: string;
   };
 
-  styleManager?: StyleManager = new StyleManager();
+  styleManager?: StyleManager = styleManager;
   scrollReveals?: ScrollRevealType[] = [];
 
   desktopBackground?: string;
@@ -119,33 +125,6 @@ export class Theme {
 
   chromeWhite?: string;
 
-  prefixStyle: (style?: CustomCSSProperties) => React.CSSProperties;
-  prepareStyle: (config?: {
-    style?: CustomCSSProperties;
-    className?: string;
-    extendsClassName?: string;
-  }, callback?: (theme?: Theme) => StyleClasses) => StyleClasses ;
-  prepareStyles: <T>(
-    config?: {
-      styles: T;
-      className?: string;
-    },
-    callback?: (theme?: Theme) => { [P in keyof T]: StyleClasses }
-  ) => { [P in keyof T]: StyleClasses };
-  classNames?: (...classNames: string[]) => string;
-
-  isDarkTheme?: boolean;
-  generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
-
-  toasts?: Map<Toast, boolean>;
-  addToast?: (toast: Toast) => void;
-  updateToast?: (toast: Toast) => void;
-  removeToast?: (toast: Toast) => void;
-  onToastsUpdate?: (toasts?: Toast[]) => void;
-
-  updateTheme: (theme: Theme) => void;
-  onThemeUpdate?: (theme?: Theme) => void;
-
   typographyStyles?: {
     header?: React.CSSProperties;
     subHeader?: React.CSSProperties;
@@ -173,6 +152,38 @@ export class Theme {
     header?: number;
     toast?: number;
   };
+
+  prefixStyle: (style?: CustomCSSProperties) => React.CSSProperties;
+  prepareStyle: (config?: {
+    style?: CustomCSSProperties;
+    className?: string;
+    extendsClassName?: string;
+  }, callback?: (theme?: Theme) => StyleClasses) => StyleClasses ;
+  prepareStyles: <T>(
+    config?: {
+      styles: T;
+      className?: string;
+    },
+    callback?: (theme?: Theme) => { [P in keyof T]: StyleClasses }
+  ) => { [P in keyof T]: StyleClasses };
+  classNames?: (...classNames: string[]) => string;
+
+  isDarkTheme?: boolean;
+
+  removeBaseCSSText(theme: Theme) {
+    styleManager.removeCSSText(getThemeBaseCSS(theme));
+  }
+  generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
+
+  toasts?: Map<Toast, boolean>;
+  addToast?: (toast: Toast) => void;
+  updateToast?: (toast: Toast) => void;
+  removeToast?: (toast: Toast) => void;
+  onToastsUpdate?: (toasts?: Toast[]) => void;
+
+  updateTheme: (theme: Theme) => void;
+
+  getAcrylicTextureStyle = getAcrylicTextureStyle;
 
   constructor(themeConfig?: ThemeConfig) {
     let {
@@ -212,10 +223,7 @@ export class Theme {
     // theme base styles.
     Object.assign(this, {
       themeName,
-      fonts: {
-        sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
-        segoeMDL2Assets: "Segoe MDL2 Assets"
-      },
+      fonts,
       useInlineStyle: Boolean(useInlineStyle),
 
       useFluentDesign,
@@ -349,6 +357,8 @@ export class Theme {
     } as Partial<Theme>);
 
     // theme styleManager.
+    styleManager.addCSSText(getGlobalBaseCSS());
+    styleManager.addCSSText(getThemeBaseCSS(this));
     Object.assign(this, {
       prefixStyle: prefixAll(userAgent),
       prepareStyle: (config, callback) => {
@@ -386,24 +396,21 @@ export class Theme {
 
     const blurSize = 24;
     const acrylicTexture40Config: AcrylicConfig = {
-      tintColor: this.chromeMedium,
-      opacity: .4,
+      tintColor: this.altMediumLow,
       blurSize
     };
     this.acrylicTexture40.style = getAcrylicTextureStyle(acrylicTexture40Config);
     this.acrylicTexture40.background = this.acrylicTexture40.style.background as string;
 
     const acrylicTexture60Config: AcrylicConfig = {
-      tintColor: this.chromeMediumLow,
-      opacity: .6,
+      tintColor: this.altLow,
       blurSize
     };
     this.acrylicTexture60.style = getAcrylicTextureStyle(acrylicTexture60Config);
     this.acrylicTexture60.background = this.acrylicTexture60.style.background as string;
 
     const acrylicTexture80Config: AcrylicConfig = {
-      tintColor: this.chromeLow,
-      opacity: .8,
+      tintColor: void 0,
       blurSize
     };
     this.acrylicTexture80.style = getAcrylicTextureStyle(acrylicTexture80Config);
@@ -422,7 +429,6 @@ export class Theme {
           this.acrylicTextureCount += 1;
           Object.assign(this.acrylicTexture40, {
             tintColor: acrylicTexture40Config.tintColor,
-            tintOpacity: acrylicTexture40Config.opacity,
             style: { background },
             background,
             blurSize
@@ -432,7 +438,6 @@ export class Theme {
           this.acrylicTextureCount += 1;
           Object.assign(this.acrylicTexture60, {
             tintColor: acrylicTexture60Config.tintColor,
-            tintOpacity: acrylicTexture60Config.opacity,
             style: { background },
             background,
             blurSize
@@ -442,7 +447,6 @@ export class Theme {
           this.acrylicTextureCount += 1;
           Object.assign(this.acrylicTexture80, {
             tintColor: acrylicTexture80Config.tintColor,
-            tintOpacity: acrylicTexture80Config.opacity,
             style: { background },
             background,
             blurSize
@@ -450,9 +454,7 @@ export class Theme {
         }
 
         if (this.acrylicTextureCount === 3) {
-          this.haveAcrylicTextures = true;
           if (themeCallback) themeCallback(this);
-          return this;
         }
       };
 
@@ -507,12 +509,6 @@ export class Theme {
         }
       }
     } as Theme);
-
-    // update theme method.
-    this.updateTheme = (newTheme: Theme) => {
-      if (this.onThemeUpdate) this.onThemeUpdate(newTheme);
-    };
-
   }
 }
 

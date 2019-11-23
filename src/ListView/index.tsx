@@ -72,8 +72,6 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     const { isDarkTheme } = theme;
     const isFocus = focus || focusIndex === index;
     const defaultBG = isFocus ? theme.listAccentLow : "none";
-    const focusBG = isFocus ? theme.listAccentHigh : (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.listLow);
-    const clickBG = isFocus ? theme.accent : theme.chromeHigh;
 
     const itemStyles = theme.prepareStyle({
       className: "list-view-item",
@@ -81,7 +79,8 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
         background: defaultBG,
         color: disabled ? theme.baseLow : theme.baseHigh,
         "&:hover": {
-          background: focusBG
+          ...theme.acrylicTexture40.style,
+          background: isFocus ? theme.listAccentHigh : theme.acrylicTexture40.style.background
         },
         "&:active": {
           transform: "scale(0.99)"
@@ -155,10 +154,10 @@ function getStyles(listView: ListView): {
 } {
   const { context, props: { listItemStyle, background, style } } = listView;
   const { theme } = context;
-  const { prefixStyle } = theme;
 
   return {
     root: theme.prefixStyle({
+      ...(background ? { ...theme.acrylicTexture60.style, background } : theme.acrylicTexture60.style),
       width: 320,
       display: "inline-block",
       verticalAlign: "middle",
@@ -166,7 +165,6 @@ function getStyles(listView: ListView): {
       padding: "8px 0",
       color: theme.baseMediumHigh,
       border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.altHigh}`,
-      background: background || (theme.useFluentDesign ? theme.acrylicTexture60.background : theme.chromeLow),
       transition: "all .25s",
       ...style
     }),

@@ -89,14 +89,10 @@ function getStyles(footer: Footer): {
 
   return {
     root: prefixStyle({
+      ...theme.acrylicTexture40.style,
       zIndex: theme.zIndex.header,
       fontSize: 14,
       color: theme.baseHigh,
-      background: theme.useFluentDesign ? (
-        theme.isDarkTheme ? "hsla(0, 0%, 0%, 0.95)" : "hsla(0, 0%, 100%, 0.95)"
-      ) : (
-        theme.isDarkTheme ? "hsla(0, 0%, 5%, 0.85)" : "hsla(0, 0%, 95%, 0.85)"
-      ),
       minHeight: footerHeight,
       ...style
     }),

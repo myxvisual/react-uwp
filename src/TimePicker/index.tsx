@@ -294,7 +294,6 @@ function getStyles(TimePicker: TimePicker): {
     }
   } = TimePicker;
   const { prefixStyle } = theme;
-  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
 
   return {
     root: prefixStyle({
@@ -316,12 +315,12 @@ function getStyles(TimePicker: TimePicker): {
       ...style
     }),
     pickerModal: prefixStyle({
+      ...theme.acrylicTexture80.style,
       overflow: "hidden",
       flex: "0 0 auto",
       display: "flex",
       flexDirection: "column",
       position: "absolute",
-      background: currBackground,
       top: 0,
       left: 0,
       width: "100%",

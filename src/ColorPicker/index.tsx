@@ -339,8 +339,7 @@ function getStyles(colorPicker: ColorPicker): {
     context: { theme },
     props: {
       style,
-      size,
-      defaultColor
+      size
     },
     state: { h, s, v }
   } = colorPicker;

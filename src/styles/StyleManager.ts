@@ -1,6 +1,7 @@
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 import isUnitlessNumber from "../utils/react/isUnitlessNumber";
 import { Theme } from "./getTheme";
+import { CSSProperties } from "react";
 
 export const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
 export const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !isUnitlessNumber[key]) ? `${value}px` : value);
@@ -46,9 +47,8 @@ export class StyleManager {
   addedCSSText: {
     [key: string]: boolean;
   } = {};
-  onSheetsUpdate(sheets?: {
-    [key: string]: Sheet
-  }) {}
+  onAddCSSText(CSSText?: string) {}
+  onRemoveCSSText(CSSText?: string) {}
 
   constructor(config?: StyleManagerConfig) {
     const { prefixClassName } = config || {};
@@ -83,17 +83,15 @@ export class StyleManager {
     const id = createHash(JSON.stringify(style));
 
     if (this.sheets[id]) {
-      this.onSheetsUpdate(this.sheets);
       return this.sheets[id];
     }
 
     const classNameWithHash = `${this.prefixClassName}${className}-${id}`;
-    const styleKeys = Object.keys(style);
     let CSSText = "";
     let contentCSSText = "";
     let extendsCSSText = "";
 
-    for (const styleKey of styleKeys) {
+    for (const styleKey in style) {
       if (extendsStyleKeys[styleKey]) {
         const extendsStyle = style[styleKey];
         if (extendsStyle) {
@@ -110,7 +108,7 @@ export class StyleManager {
     CSSText += extendsCSSText;
 
     this.sheets[id] = { CSSText, classNameWithHash, id, className };
-    this.onSheetsUpdate(this.sheets);
+    this.onAddCSSText(CSSText);
 
     return this.sheets[id];
   }
@@ -121,15 +119,15 @@ export class StyleManager {
     if (shouldUpdate) {
       this.addedCSSText[hash] = true;
       this.CSSText += CSSText;
+      this.onAddCSSText(CSSText);
     }
-    this.onSheetsUpdate(this.sheets);
   }
 
   removeCSSText = (CSSText: string) => {
     const hash = createHash(CSSText);
     this.addedCSSText[hash] = false;
     this.CSSText = this.CSSText.replace(CSSText, "");
-    this.onSheetsUpdate(this.sheets);
+    this.onRemoveCSSText(CSSText);
   }
 
   setStyleToManager(config?: {

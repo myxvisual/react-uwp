@@ -251,7 +251,6 @@ function getStyles(dropDownMenu: DropDownMenu) {
   } = dropDownMenu;
   const { prefixStyle } = theme;
 
-  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.chromeLow);
   const haveWrapperStyle = wrapperAttributes && wrapperAttributes.style;
   const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
 
@@ -266,11 +265,11 @@ function getStyles(dropDownMenu: DropDownMenu) {
       zIndex
     }) as React.CSSProperties,
     wrapper: prefixStyle({
+      ...theme.acrylicTexture80.style,
       position: "absolute",
       top: 0,
       left: 0,
       color: theme.baseMediumHigh,
-      background: currBackground,
       width: itemWidth,
       height: showList ? values.length * itemHeight + 16 : itemHeight + padding,
       overflowX: "hidden",

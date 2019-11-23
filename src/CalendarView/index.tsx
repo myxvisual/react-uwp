@@ -315,12 +315,12 @@ function getStyles(calendarView: CalendarView): {
 
   return {
     root: prefixStyle({
+      ...theme.acrylicTexture80.style,
       display: "inline-block",
       verticalAlign: "middle",
       fontSize: 14,
       color: theme.baseHigh,
       width: 296,
-      background: background || (theme.useFluentDesign ? theme.acrylicTexture80.background : theme.altHigh),
       border: `2px solid ${theme.baseLow}`,
       ...style
     }),

@@ -343,7 +343,6 @@ function getStyles(NavigationView: NavigationView): {
   let minHeight = isMinimal ? 0 : 48;
   if (navigationTopNodes) minHeight += 48 * navigationTopNodes.length;
   if (navigationBottomNodes) minHeight += 48 * navigationBottomNodes.length;
-  const currBackground = background || (theme.useFluentDesign ? theme.acrylicTexture40.background : theme.altHigh);
   const transition = "width .25s ease-in-out";
 
   return {
@@ -356,12 +355,12 @@ function getStyles(NavigationView: NavigationView): {
       ...style
     }),
     topIcon: prefixStyle({
+      ...theme.acrylicTexture40.style,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
       width: isMinimal ? "100%" : expandedWidth,
-      background: currBackground,
       flex: "0 0 auto",
       zIndex: 1
     }),
@@ -375,6 +374,7 @@ function getStyles(NavigationView: NavigationView): {
       textOverflow: "ellipsis"
     }),
     paneParent: prefixStyle({
+      ...(isMinimal ? theme.acrylicTexture40.style : {}),
       display: "inline-block",
       verticalAlign: "top",
       width: isMinimal ? "100%" : (isOverLay ? currInitWidth : (expanded ? expandedWidth : currInitWidth)),
@@ -383,22 +383,20 @@ function getStyles(NavigationView: NavigationView): {
       zIndex: isOverLay || isMinimal ? 1 : void 0,
       position: isOverLay ? "absolute" : void 0,
       top: isOverLay ? 0 : void 0,
-      background: isMinimal ? currBackground : void 0,
       transition
     }),
     pane: prefixStyle({
+      ...theme.acrylicTexture40.style,
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
       justifyContent: "space-between",
-      background: currBackground,
       overflow: isMinimal ? void 0 : "hidden",
       width: expanded ? expandedWidth : (isMinimal ? 0 : currInitWidth),
       ...(isMinimal ? {
         position: "absolute",
         top: 0,
         left: 0,
-        background: currBackground
       } as React.CSSProperties : void 0),
       height: "100%",
       transition,
