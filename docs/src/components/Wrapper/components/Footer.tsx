@@ -89,7 +89,7 @@ function getStyles(footer: Footer): {
 
   return {
     root: prefixStyle({
-      ...theme.acrylicTexture40.style,
+      ...theme.acrylicTexture20.style,
       zIndex: theme.zIndex.header,
       fontSize: 14,
       color: theme.baseHigh,

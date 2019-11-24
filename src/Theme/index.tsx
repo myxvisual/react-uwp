@@ -17,7 +17,10 @@ export interface DataProps {
   /**
    * toogle desktopBackground show.
    */
-  enableDesktopBackground?: boolean;
+  desktopBackgroundConfig?: {
+    enableRender?: boolean;
+    renderToScreen?: boolean;
+  };
   /**
    * set theme will update callback.
    */
@@ -30,11 +33,15 @@ export interface ThemeState {
   currTheme?: ThemeType;
 }
 
+const desktopBgDefaultConfig = {
+  enableRender: true,
+  renderToScreen: true
+}
 const themeCallback: (theme?: ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
-    enableDesktopBackground: true,
+    desktopBackgroundConfig: desktopBgDefaultConfig,
     themeWillUpdate: themeCallback
   };
   static childContextTypes = {
@@ -149,9 +156,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   render() {
-    const {
+    let {
       theme,
-      enableDesktopBackground,
+      desktopBackgroundConfig,
       children,
       style,
       className,
@@ -159,6 +166,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
+    desktopBackgroundConfig = desktopBackgroundConfig || desktopBgDefaultConfig;
+    const { enableRender, renderToScreen } = desktopBackgroundConfig
 
     const styles = getStyles(this);
     const classes = currTheme.prepareStyles({
@@ -166,15 +175,13 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       styles
     });
 
-    // if (this.styleEl) {
-    //   console.log("rule length: ", this.styleEl.sheet["rules"].length);
-    // }
-
     return (
       <div {...attributes} {...classes.root}>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
         <style type="text/css" scoped ref={styleEl => this.styleEl = styleEl} />
-        {enableDesktopBackground && <RenderToBody {...classes.desktopBackground} />}
+        {enableRender && (
+           renderToScreen ? <RenderToBody {...classes.desktopBackground} /> : <div {...classes.desktopBackground} />
+        )}
         <RenderToBody>
           <ToastWrapper
             toastEls={Array.from(currTheme.toasts.keys()).map(toast => toast.virtualRender())}
@@ -189,9 +196,15 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
 function getStyles(context: Theme) {
   const { currTheme } = context.state;
-  const { style } = context.props;
+  let { style, desktopBackgroundConfig } = context.props;
+  desktopBackgroundConfig = desktopBackgroundConfig || desktopBgDefaultConfig;
+  const { enableRender, renderToScreen } = desktopBackgroundConfig
+  const isInsideBg = enableRender && !renderToScreen;
+
   return {
     root: {
+      position: "relative",
+      overflow: isInsideBg ? "hidden" : void 0,
       fontSize: 14,
       fontFamily: currTheme.fonts.sansSerifFonts,
       color: currTheme.baseHigh,
@@ -203,7 +216,7 @@ function getStyles(context: Theme) {
       ...style
     } as React.CSSProperties,
     desktopBackground: {
-      position: "fixed",
+      position: isInsideBg ? "absolute" : "fixed",
       zIndex: -1,
       top: 0,
       left: 0,

@@ -135,28 +135,38 @@ export class StyleManager {
     const shouldUpdate = !this.addedCSSText[hash];
     if (shouldUpdate) {
       this.resultCSSText += CSSText;
-      const textSize = CSSText.length;
-      let currRule = "";
-      let leftBraces = 0;
       const rules = new Map<string, boolean>();
-      for (let i = 0; i < textSize; i ++) {
-        const char = CSSText[i];
-        currRule += char;
-        if (char === "{") {
-          leftBraces += 1;
-        }
-        if (char === "}") {
-          leftBraces -= 1;
-          if (leftBraces === 0) {
-            this.setRules2allRules(rules, currRule);
-            currRule = "";
-          }
-        }
-      }
+      this.cssText2rules(CSSText, currRule => {
+        this.setRules2allRules(rules, currRule);
+      });
       this.addedCSSText[hash] = { CSSText, rules };
       this.onAddCSSText(CSSText);
       this.onAddRules(rules);
     }
+  }
+
+  cssText2rules(cssText: string, onNewReule?: (rule?: string) => void) {
+    let currRule = "";
+    const rules: string[] = [];
+    let leftBraces = 0;
+    const textSize = cssText.length;
+    for (let i = 0; i < textSize; i ++) {
+      const char = cssText[i];
+      currRule += char;
+      if (char === "{") {
+        leftBraces += 1;
+      }
+      if (char === "}") {
+        leftBraces -= 1;
+        if (leftBraces === 0) {
+          if (onNewReule) onNewReule(currRule);
+          rules.push(currRule);
+          currRule = "";
+        }
+      }
+    }
+
+    return rules;
   }
 
   removeCSSText = (CSSText: string) => {

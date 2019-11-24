@@ -8,6 +8,7 @@ import * as readmeDoc1 from "!raw!./README1.md";
 import * as readmeDoc2 from "!raw!./README2.md";
 import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
+import { getTheme } from "react-uwp";
 
 export interface DataProps {}
 
@@ -36,6 +37,11 @@ export default class Acrylic extends React.Component<AcrylicProps> {
           title="Simple Examples"
           code={SimpleExampleCode as any}
           useSingleTheme
+          newTheme={getTheme({
+            themeName: theme.themeName,
+            useFluentDesign: true,
+            desktopBackgroundImage: require("assets/images/blurBackground/viktor-jakovlev-LL4gcqlNvPU-unsplash.jpg")
+          })}
         >
           <SimpleExample />
         </CodeExample>

@@ -14,6 +14,7 @@ export interface DataProps {
   doubleThemeStyle?: React.CSSProperties;
   useChromeColor?: boolean;
   direction?: "row" | "column";
+  newTheme?: ReactUWP.ThemeType;
 }
 
 export interface CodeExampleProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -50,6 +51,7 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
       useChromeColor,
       direction,
       useSingleTheme,
+      newTheme,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -87,6 +89,7 @@ ${code}
             }}
             useSingleTheme={useSingleTheme}
             direction={direction}
+            newTheme={newTheme}
           >
             {children}
           </DoubleThemeRender>

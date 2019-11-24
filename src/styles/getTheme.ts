@@ -4,13 +4,12 @@ import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
 import { getAcrylicTextureStyle, AcrylicConfig, isSupportBackdropFilter } from "./getAcrylicTextureStyle";
-import { getThemeBaseCSS, getGlobalBaseCSS } from "./getBaseCSSText";
-
+import { getThemeBaseCSS } from "./getBaseCSSText";
+export { getAcrylicTextureStyle };
 export const fonts = {
   sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
   segoeMDL2Assets: "Segoe MDL2 Assets"
 };
-const styleManager = new StyleManager();
 const supportedBackdropFilter = isSupportBackdropFilter();
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
@@ -63,7 +62,7 @@ export interface ThemeConfig {
 }
 
 export type ThemeName = "dark" | "light";
-const defaultAcrylicConfig: ThemeConfig["acrylicConfig"] = { blurSize: 8 };
+const defaultAcrylicConfig: ThemeConfig["acrylicConfig"] = { blurSize: 24 };
 
 export class Theme {
   themeName?: ThemeName;
@@ -84,9 +83,11 @@ export class Theme {
 
   acrylicTextureCount?: number;
   haveAcrylicTextures?: boolean;
+  acrylicTexture20?: AcrylicTexture;
   acrylicTexture40?: AcrylicTexture;
   acrylicTexture60?: AcrylicTexture;
   acrylicTexture80?: AcrylicTexture;
+  acrylicTexture100?: AcrylicTexture;
   accentLighter1?: string;
   accentLighter2?: string;
   accentLighter3?: string;
@@ -174,8 +175,8 @@ export class Theme {
 
   isDarkTheme?: boolean;
 
-  removeBaseCSSText(theme: Theme) {
-    styleManager.removeCSSText(getThemeBaseCSS(theme));
+  removeThemeCSSText(theme: Theme) {
+    this.styleManager.removeCSSText(getThemeBaseCSS(theme));
   }
   generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
 
@@ -240,15 +241,11 @@ export class Theme {
 
       haveAcrylicTextures: false,
       acrylicTextureCount: 0,
-      acrylicTexture40: {
-        background: altMediumLow
-      },
-      acrylicTexture60: {
-        background: altMedium
-      },
-      acrylicTexture80: {
-        background: altMediumHigh
-      },
+      acrylicTexture20: {},
+      acrylicTexture40: {},
+      acrylicTexture60: {},
+      acrylicTexture80: {},
+      acrylicTexture100: {},
 
       scrollReveals: [],
 
@@ -405,26 +402,36 @@ export class Theme {
       }
     } as Theme);
 
+    const acrylicTexture20Config: AcrylicConfig = {
+      tintColor: this.altMediumHigh,
+      blurSize
+    };
     const acrylicTexture40Config: AcrylicConfig = {
+      tintColor: this.altMedium,
+      blurSize
+    };
+    const acrylicTexture60Config: AcrylicConfig = {
       tintColor: this.altMediumLow,
       blurSize
     };
-    this.acrylicTexture40.style = getAcrylicTextureStyle(acrylicTexture40Config);
-    this.acrylicTexture40.background = this.acrylicTexture40.style.background as string;
-
-    const acrylicTexture60Config: AcrylicConfig = {
+    const acrylicTexture80Config: AcrylicConfig = {
       tintColor: this.altLow,
       blurSize
     };
-    this.acrylicTexture60.style = getAcrylicTextureStyle(acrylicTexture60Config);
-    this.acrylicTexture60.background = this.acrylicTexture60.style.background as string;
-
-    const acrylicTexture80Config: AcrylicConfig = {
-      tintColor: void 0,
+    const acrylicTexture100Config: AcrylicConfig = {
+      tintColor: "",
       blurSize
     };
+    this.acrylicTexture20.style = getAcrylicTextureStyle(acrylicTexture20Config);
+    this.acrylicTexture40.style = getAcrylicTextureStyle(acrylicTexture40Config);
+    this.acrylicTexture60.style = getAcrylicTextureStyle(acrylicTexture60Config);
     this.acrylicTexture80.style = getAcrylicTextureStyle(acrylicTexture80Config);
+    this.acrylicTexture100.style = getAcrylicTextureStyle(acrylicTexture100Config);
+    this.acrylicTexture20.background = this.acrylicTexture20.style.background as string;
+    this.acrylicTexture40.background = this.acrylicTexture40.style.background as string;
+    this.acrylicTexture60.background = this.acrylicTexture60.style.background as string;
     this.acrylicTexture80.background = this.acrylicTexture80.style.background as string;
+    this.acrylicTexture100.background = this.acrylicTexture100.style.background as string;
 
     // generateAcrylicTextures method.
     this.generateAcrylicTextures = (themeCallback?: (theme?: Theme) => void) => {

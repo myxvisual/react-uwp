@@ -12,8 +12,8 @@ export default class SimpleExample extends React.Component {
       fontSize: 14,
       fontWeight: "lighter",
       textAlign: "center",
-      width: 320,
-      height: 320,
+      width: 200,
+      height: 200,
       lineHeight: "320px",
       margin: 10,
       outline: "none",
@@ -33,14 +33,20 @@ export default class SimpleExample extends React.Component {
           background: theme.desktopBackground
         })}
       >
+        <span style={{ ...itemStyle, ...theme.acrylicTexture20.style }}>
+          theme.acrylicTexture20.style
+        </span>
         <span style={{ ...itemStyle, ...theme.acrylicTexture40.style }}>
-          theme.acrylicTexture40.background
+          theme.acrylicTexture40.style
         </span>
         <span style={{ ...itemStyle, ...theme.acrylicTexture60.style }}>
-          theme.acrylicTexture60.background
+          theme.acrylicTexture60.style
         </span>
         <span style={{ ...itemStyle, ...theme.acrylicTexture80.style }}>
-          theme.acrylicTexture80.background
+          theme.acrylicTexture80.style
+        </span>
+        <span style={{ ...itemStyle, ...theme.acrylicTexture100.style }}>
+          theme.acrylicTexture100.style
         </span>
       </div>
     );

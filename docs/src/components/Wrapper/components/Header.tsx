@@ -216,7 +216,7 @@ function getStyles(header: Header): {
 
   return {
     root: prefixStyle({
-      ...theme.acrylicTexture40.style,
+      ...theme.acrylicTexture20.style,
       fontSize: 14,
       color: theme.baseHigh,
       boxShadow: theme.isDarkTheme ? void 0 : `0 2px 8px ${theme.listLow}`,
