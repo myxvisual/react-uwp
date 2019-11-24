@@ -152,7 +152,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
       if (this.state.currDisplayMode !== "compact") {
         this.setState({
           currDisplayMode: "compact",
-          currInitWidth: 0
+          currInitWidth: this.props.initWidth
         });
       }
     } else {
