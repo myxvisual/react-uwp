@@ -48,13 +48,9 @@ input, textarea {
  * @param selectors 
  * getBaseCSS(theme, ":scope")
  */
-export function getThemeBaseCSS(theme: ReactUWP.ThemeType, selectors = ":scope") {
+export function getThemeBaseCSS(theme: ReactUWP.ThemeType, selectors = "") {
   return `${selectors} * ::placeholder {
   color: ${theme.baseLow};
-}
-
-${selectors} * ::placeholder {
-  color: ${theme.baseMedium};
 }
 
 ${selectors} *::-webkit-scrollbar-track {

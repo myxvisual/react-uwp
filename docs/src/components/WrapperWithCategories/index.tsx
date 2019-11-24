@@ -85,8 +85,7 @@ function getStyles(wrapperWithCategories: WrapperWithCategories) {
       margin: "0 auto"
     }),
     side: prefixStyle({
-      background: theme.altMediumLow,
-      // ...theme.acrylicTexture60.style,
+      ...theme.acrylicTexture60.style,
       width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
       ...(theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent")),
       minHeight: "100%"

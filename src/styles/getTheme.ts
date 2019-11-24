@@ -54,12 +54,16 @@ export interface ThemeConfig {
   accent?: string;
   useFluentDesign?: boolean;
   desktopBackgroundImage?: string;
+  acrylicConfig?: {
+    blurSize?: number;
+  };
 
   useInlineStyle?: boolean;
   userAgent?: string;
 }
 
 export type ThemeName = "dark" | "light";
+const defaultAcrylicConfig: ThemeConfig["acrylicConfig"] = { blurSize: 8 };
 
 export class Theme {
   themeName?: ThemeName;
@@ -73,7 +77,7 @@ export class Theme {
     segoeMDL2Assets: string;
   };
 
-  styleManager?: StyleManager = styleManager;
+  styleManager?: StyleManager;
   scrollReveals?: ScrollRevealType[] = [];
 
   desktopBackground?: string;
@@ -192,12 +196,16 @@ export class Theme {
       useFluentDesign,
       userAgent,
       useInlineStyle,
-      desktopBackgroundImage
+      desktopBackgroundImage,
+      acrylicConfig
     } = themeConfig || ({} as ThemeConfig);
     themeName = themeName || "dark";
     accent = accent || "#0078D7";
     useFluentDesign = useFluentDesign === void 0 ? false : useFluentDesign;
     useInlineStyle = useInlineStyle === void 0 ? false : useInlineStyle;
+    acrylicConfig = acrylicConfig || defaultAcrylicConfig;
+    acrylicConfig.blurSize = acrylicConfig.blurSize === void 0 ? defaultAcrylicConfig.blurSize : defaultAcrylicConfig.blurSize;
+    const { blurSize } = acrylicConfig;
 
     const isDarkTheme = themeName === "dark";
     const baseHigh = isDarkTheme ? "#fff" : "#000";
@@ -357,25 +365,28 @@ export class Theme {
     } as Partial<Theme>);
 
     // theme styleManager.
-    styleManager.addCSSText(getGlobalBaseCSS());
-    styleManager.addCSSText(getThemeBaseCSS(this));
+    this.styleManager = new StyleManager();
     Object.assign(this, {
       prefixStyle: prefixAll(userAgent),
-      prepareStyle: (config, callback) => {
+      prepareStyle: (config) => {
         if (!this.styleManager) return;
         const { extendsClassName, ...managerConfig } = config;
         if (this.useInlineStyle) {
-          managerConfig.className += extendsClassName ? ` ${extendsClassName}` : "";
+          if (extendsClassName) {
+            managerConfig.className += ` ${extendsClassName}`;
+          }
           return managerConfig;
         } else {
-          const styleClasses = this.styleManager.setStyleToManager(managerConfig, callback);
-          styleClasses.className += extendsClassName ? ` ${extendsClassName}` : "";
+          const styleClasses = this.styleManager.setStyleToManager(managerConfig);
+          if (extendsClassName) {
+            styleClasses.className += ` ${extendsClassName}`;
+          }
           return styleClasses;
         }
       },
-
-      prepareStyles: (config, callback) => {
+      prepareStyles: (config) => {
         if (!this.styleManager) return;
+
         if (this.useInlineStyle) {
           const { styles } = config;
           const result: any = {};
@@ -384,17 +395,16 @@ export class Theme {
           }
           return result;
         } else {
-          const styleClasses = this.styleManager.setStylesToManager(config as any, callback);
+          const styleClasses = this.styleManager.setStylesToManager(config as any);
           return styleClasses;
         }
       },
 
       classNames: (...classNames) => {
-        return classNames.reduce((prev, curr) => (prev || "") + (curr ? ` ${curr}` : ""));
+        return classNames.reduce((prev, curr) => prev + (curr ? ` ${curr}` : ""));
       }
     } as Theme);
 
-    const blurSize = 24;
     const acrylicTexture40Config: AcrylicConfig = {
       tintColor: this.altMediumLow,
       blurSize

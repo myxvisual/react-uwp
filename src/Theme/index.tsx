@@ -6,6 +6,7 @@ import darkTheme from "../styles/darkTheme";
 import getTheme, { Theme as ThemeType } from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
+import { getThemeBaseCSS, getGlobalBaseCSS } from "../styles/getBaseCSSText";
 
 export { getTheme };
 export interface DataProps {
@@ -88,27 +89,34 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   componentWillReceiveProps(nextProps: ThemeProps) {
     const currTheme = this.getThemeFromProps(nextProps);
     if (currTheme !== this.state.currTheme) {
-      this.setState(() => ({ currTheme }), () => {
-        this.setThemeHelper(currTheme);
-      });
+      this.setThemeHelper(currTheme);
+      this.setState({ currTheme });
     }
   }
 
   updateAllCSSToEl() {
     // const now = performance.now();
     if (this.styleEl) {
-      this.styleEl.textContent = this.state.currTheme.styleManager.getAllCSSText();
+      this.state.currTheme.styleManager.inserAllRule2el(this.styleEl);
     }
     // console.log(performance.now() - now);
   }
 
-  setThemeHelper(theme: ThemeType) {
-    theme.styleManager.onRemoveCSSText = (CSSText => {
-      if (this.styleEl && this.styleEl.textContent.includes(CSSText)) {
-        this.styleEl.textContent += this.styleEl.style.cssText.replace(CSSText, "");
-      }
+  setStyleManagerUpdate(theme: ThemeType) {
+    theme.styleManager.onAddRules = (rules => {
+      rules.forEach((inserted, rule) => {
+        if (!inserted) {
+          theme.styleManager.insertRule2el(this.styleEl, rule);
+          rules.set(rule, true);
+        }
+      });
     });
+  }
 
+  setThemeHelper(theme: ThemeType) {
+    theme.styleManager.addCSSText(getGlobalBaseCSS());
+    theme.styleManager.addCSSText(getThemeBaseCSS(theme));
+    this.setStyleManagerUpdate(theme);
     Object.assign(theme, {
       updateTheme: this.updateTheme,
       onToastsUpdate: (toasts) => {
@@ -127,10 +135,11 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   updateTheme = (currTheme: ThemeType) => {
-    currTheme.removeBaseCSSText(this.state.currTheme);
-    this.setState({ currTheme }, () => {
-      this.setThemeHelper(currTheme);
+    this.state.currTheme.styleManager.allRules.forEach((inserted, rule) => {
+      currTheme.styleManager.allRules.set(rule, inserted);
     });
+    this.setThemeHelper(currTheme);
+    this.setState({ currTheme });
   }
 
   handleScrollReveal = (e?: Event) => {
@@ -156,6 +165,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       className: "theme",
       styles
     });
+
+    // if (this.styleEl) {
+    //   console.log("rule length: ", this.styleEl.sheet["rules"].length);
+    // }
 
     return (
       <div {...attributes} {...classes.root}>

@@ -155,7 +155,7 @@ return (
   text-decoration: underline;
 }
 
-.${className} h1, {
+.${className} h1 {
   line-height: 2;
   font-size: 24px;
   border-bottom: 2px solid ${theme.listAccentMedium};

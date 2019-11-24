@@ -1,5 +1,16 @@
 # RoadMap
 
+### New StyleManager
+- [ ] ProgressBar
+- [ ] ProgressRing
+- [ ] All Base Componnents
+- [ ] MarkdownRender
+- [ ] Table
+- [ ] NoiseTexture
+
+### Dynamic BorderSize
+- [ ] Todo
+
 ### Commands
 - [x] CommandBar
 

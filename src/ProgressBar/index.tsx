@@ -94,7 +94,7 @@ ${vendorPrefixes.map(str => `@${str}keyframes ProgressBar {
       styles: inlineStyles
     });
     const onlyClassName = this.getOnlyClassName();
-    theme.styleManager.addCSSText(this.getCSSText(onlyClassName));
+    // theme.styleManager.addCSSText(this.getCSSText(onlyClassName));
 
     return (
       <div
