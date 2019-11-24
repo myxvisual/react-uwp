@@ -148,7 +148,7 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
   }
 
   autoResize = (e?: Event) => {
-    if (window.innerWidth < 1280) {
+    if (window.innerWidth >= 1280) {
       if (this.state.currDisplayMode !== "compact") {
         this.setState({
           currDisplayMode: "compact",
