@@ -441,7 +441,7 @@ export class Theme {
     this.generateAcrylicTextures = (themeCallback?: (theme?: Theme) => void) => {
       this.acrylicTextureCount = 0;
 
-      const callback = (image: string, key: number) => {
+      const callback = (image: string, key: number, isCanvasFilter?: boolean) => {
         const background = `url(${image}) no-repeat fixed top left / cover`;
         this.acrylicTextureCount += 1;
 
@@ -505,31 +505,31 @@ export class Theme {
         image: this.desktopBackgroundImage,
         tintColor: acrylicTexture20Config.tintColor,
         blurSize,
-        callback: image => callback(image, 2)
+        callback: (image, isCanvasFilter) => callback(image, 2, isCanvasFilter)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
         tintColor: acrylicTexture40Config.tintColor,
         blurSize,
-        callback: image => callback(image, 4)
+        callback: (image, isCanvasFilter) => callback(image, 4, isCanvasFilter)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
         tintColor: acrylicTexture60Config.tintColor,
         blurSize,
-        callback: image => callback(image, 6)
+        callback: (image, isCanvasFilter) => callback(image, 6, isCanvasFilter)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
         tintColor: acrylicTexture80Config.tintColor,
         blurSize,
-        callback: image => callback(image, 8)
+        callback: (image, isCanvasFilter) => callback(image, 8, isCanvasFilter)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
         tintColor: acrylicTexture100Config.tintColor,
         blurSize,
-        callback: image => callback(image, 10)
+        callback: (image, isCanvasFilter) => callback(image, 10, isCanvasFilter)
       });
     };
 

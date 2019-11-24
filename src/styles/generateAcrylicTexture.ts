@@ -5,10 +5,10 @@ export interface AcrylicTextureConfig {
   image: string;
   tintColor: string;
   blurSize?: number;
-  callback?: (image?: string) => void;
+  callback?: (image?: string, isCanvasFilter?: boolean) => void;
 }
 
-const acrylicTextureMap = new Map<string, string>();
+const acrylicTextureMap = new Map<string, { texture?: string; isCanvasFilter?: boolean; }>();
 export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
   let { image, tintColor, blurSize, callback } = config;
   blurSize = blurSize || 24;
@@ -16,13 +16,15 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
   let acrylicTexture = acrylicTextureMap.get(configStr);
 
   function updatAcrylicTexture() {
-    if (callback) callback(acrylicTexture);
+    if (callback) callback(acrylicTexture.texture, acrylicTexture.isCanvasFilter);
     acrylicTextureMap.set(configStr, acrylicTexture);
   }
 
   if (acrylicTexture) {
-    callback(acrylicTexture);
+    callback(acrylicTexture.texture, acrylicTexture.isCanvasFilter);
     return;
+  } else {
+    acrylicTexture = {};
   }
 
   const canvas = document.createElement("canvas");
@@ -44,22 +46,43 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
 
     canvas.width = naturalWidth;
     canvas.height = naturalHeight;
-    context.drawImage(imageNode, 0, 0, naturalWidth, naturalHeight);
-    stackBlurCanvas.canvasRGBA(canvas, 0, 0, naturalWidth, naturalHeight, blurSize);
 
-    context.fillStyle = tinycolor2(tintColor).toRgbString();
-    context.fillRect(0, 0, naturalWidth, naturalHeight);
+    const fillRect = () => {
+      context.fillStyle = tinycolor2(tintColor).toRgbString();
+      context.fillRect(0, 0, naturalWidth, naturalHeight);
+    };
+    const drawImage = () => {
+      context.drawImage(imageNode, 0, 0, naturalWidth, naturalHeight);
+    };
+    // const now = performance.now();
+    // blur image.
+    const isCanvasFilter = false && "filter" in context; // canvas filter is not good.
+    if (isCanvasFilter) {
+      context.filter = `blur(${blurSize}px)`;
+      drawImage();
+      context.filter = "blur(0px)";
+      fillRect();
+    } else {
+      drawImage();
+      stackBlurCanvas.canvasRGBA(canvas, 0, 0, naturalWidth, naturalHeight, blurSize);
+      fillRect();
+    }
+    // console.log(performance.now() - now);
+
     if (HTMLCanvasElement.prototype.toBlob) {
       canvas.toBlob((blob) => {
-        acrylicTexture = URL.createObjectURL(blob);
+        acrylicTexture.texture = URL.createObjectURL(blob);
+        acrylicTexture.isCanvasFilter = isCanvasFilter;
         updatAcrylicTexture();
       });
     } else if (HTMLCanvasElement.prototype["msToBlob"]) {
       const blob = canvas["msToBlob"]();
-      acrylicTexture = URL.createObjectURL(blob);
+      acrylicTexture.texture = URL.createObjectURL(blob);
+      acrylicTexture.isCanvasFilter = isCanvasFilter;
       updatAcrylicTexture();
     } else {
-      acrylicTexture = canvas.toDataURL("image/jpg");
+      acrylicTexture.texture = canvas.toDataURL("image/jpg");
+      acrylicTexture.isCanvasFilter = isCanvasFilter;
       updatAcrylicTexture();
     }
   };
