@@ -4,16 +4,15 @@ import * as tinycolor2 from "tinycolor2";
 export interface AcrylicTextureConfig {
   image: string;
   tintColor: string;
-  tintOpacity: number;
   blurSize?: number;
   callback?: (image?: string) => void;
 }
 
 const acrylicTextureMap = new Map<string, string>();
 export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
-  let { image, tintColor, tintOpacity, blurSize, callback } = config;
+  let { image, tintColor, blurSize, callback } = config;
   blurSize = blurSize || 24;
-  const configStr = JSON.stringify({ image, tintColor, tintOpacity, blurSize });
+  const configStr = JSON.stringify({ image, tintColor, blurSize });
   let acrylicTexture = acrylicTextureMap.get(configStr);
 
   function updatAcrylicTexture() {
@@ -48,7 +47,7 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
     context.drawImage(imageNode, 0, 0, naturalWidth, naturalHeight);
     stackBlurCanvas.canvasRGBA(canvas, 0, 0, naturalWidth, naturalHeight, blurSize);
 
-    context.fillStyle = tinycolor2(tintColor).setAlpha(tintOpacity).toRgbString();
+    context.fillStyle = tinycolor2(tintColor).toRgbString();
     context.fillRect(0, 0, naturalWidth, naturalHeight);
     if (HTMLCanvasElement.prototype.toBlob) {
       canvas.toBlob((blob) => {

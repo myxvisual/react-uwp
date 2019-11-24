@@ -1,46 +1,37 @@
-import { fonts } from "./getTheme";
-
-export function getGlobalBaseCSS() {
-  return `* {
+export function getBaseCSS(selectors = "") {
+  return `${selectors} * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
 
-*::-webkit-scrollbar:vertical {
-  width: 6px;
-}
-
-*::-webkit-scrollbar:horizontal {
-  height: 6px
-}
-
-*::-webkit-scrollbar {
-  -webkit-appearance: none
-}
-
-*:after, *:before {
-  box-sizing: border-box;
-}
-
-* {
   -webkit-text-size-adjust: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
 }
 
-input, textarea {
+${selectors} *::after, ${selectors} *::before {
+  box-sizing: border-box;
+}
+
+${selectors} input, ${selectors} textarea {
   box-shadow: none;
   border-radius: none;
 }
 
-* {
-  font-family: ${fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
+${selectors} *::-webkit-scrollbar:vertical {
+  width: 6px;
+}
+
+${selectors} *::-webkit-scrollbar:horizontal {
+  height: 6px
+}
+
+${selectors} *::-webkit-scrollbar {
+  -webkit-appearance: none
 }
 `;
 }
-
 
 /**
  * 
@@ -49,8 +40,8 @@ input, textarea {
  * getBaseCSS(theme, ":scope")
  */
 export function getThemeBaseCSS(theme: ReactUWP.ThemeType, selectors = "") {
-  return `${selectors} * ::placeholder {
-  color: ${theme.baseLow};
+  const baseCSSText = `${selectors} *::placeholder {
+  color: ${theme.baseMediumHigh};
 }
 
 ${selectors} *::-webkit-scrollbar-track {
@@ -60,7 +51,8 @@ ${selectors} *::-webkit-scrollbar-track {
 ${selectors} *::-webkit-scrollbar-thumb {
   background-color: ${theme.useFluentDesign ? theme.baseLow : theme.baseMediumLow};
 }
-`;
+`
+  return baseCSSText;
 }
 
 export default getThemeBaseCSS;

@@ -6,9 +6,12 @@ import darkTheme from "../styles/darkTheme";
 import getTheme, { Theme as ThemeType } from "../styles/getTheme";
 import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
-import { getThemeBaseCSS, getGlobalBaseCSS } from "../styles/getBaseCSSText";
+import { getThemeBaseCSS, getBaseCSS } from "../styles/getBaseCSSText";
+import { isSupportBackdropFilter } from "../styles/getAcrylicTextureStyle";
 
+const supportedBackdropFilter = isSupportBackdropFilter();
 export { getTheme };
+
 export interface DataProps {
   /**
    * Set theme object. [ThemeType](https://github.com/myxvisual/react-uwp/blob/master/src/index.d.ts#L43), Usually use [getTheme](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L28) function to get it.
@@ -25,6 +28,10 @@ export interface DataProps {
    * set theme will update callback.
    */
   themeWillUpdate?: (theme?: ThemeType) => void;
+  /**
+   * use canvas generate AcrylicTextures to replace CSS backdropFilter style.
+   */
+  forcGenerateAcrylicTextures?: boolean;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -42,7 +49,8 @@ const themeCallback: (theme?: ThemeType) => void = () => {};
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
     desktopBackgroundConfig: desktopBgDefaultConfig,
-    themeWillUpdate: themeCallback
+    themeWillUpdate: themeCallback,
+    forcGenerateAcrylicTextures: false
   };
   static childContextTypes = {
     theme: PropTypes.object
@@ -121,8 +129,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   setThemeHelper(theme: ThemeType) {
-    theme.styleManager.addCSSText(getGlobalBaseCSS());
-    theme.styleManager.addCSSText(getThemeBaseCSS(theme));
+    theme.styleManager.addCSSText(getBaseCSS());
+    theme.styleManager.addCSSText(getThemeBaseCSS(theme, `.${theme.themeClassName}`));
     this.setStyleManagerUpdate(theme);
     Object.assign(theme, {
       updateTheme: this.updateTheme,
@@ -137,7 +145,11 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     } as ThemeType);
 
     if (theme.useFluentDesign && theme.desktopBackground) {
-      theme.generateAcrylicTextures(currTheme => this.setState({ currTheme }));
+      if (!supportedBackdropFilter || this.props.forcGenerateAcrylicTextures) {
+        theme.generateAcrylicTextures(currTheme => {
+          this.setState({ currTheme });
+        });
+      }
     }
   }
 
@@ -163,6 +175,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       style,
       className,
       themeWillUpdate,
+      forcGenerateAcrylicTextures,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
@@ -176,7 +189,11 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
 
     return (
-      <div {...attributes} {...classes.root}>
+      <div
+        {...attributes}
+        style={classes.root.style}
+        className={currTheme.classNames(className, classes.root.className, currTheme.themeClassName)}
+      >
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
         <style type="text/css" scoped ref={styleEl => this.styleEl = styleEl} />
         {enableRender && (

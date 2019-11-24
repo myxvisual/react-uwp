@@ -4,13 +4,16 @@ import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
 import { getAcrylicTextureStyle, AcrylicConfig, isSupportBackdropFilter } from "./getAcrylicTextureStyle";
-import { getThemeBaseCSS } from "./getBaseCSSText";
-export { getAcrylicTextureStyle };
+import * as createHash from "murmurhash-js/murmurhash3_gc";
+
+export { getThemeBaseCSS, getBaseCSS } from "./getBaseCSSText";
+export { getAcrylicTextureStyle, isSupportBackdropFilter };
+
 export const fonts = {
   sansSerifFonts: "Segoe UI, Microsoft YaHei, Open Sans, sans-serif, Hiragino Sans GB, Arial, Lantinghei SC, STHeiti, WenQuanYi Micro Hei, SimSun",
   segoeMDL2Assets: "Segoe MDL2 Assets"
 };
-const supportedBackdropFilter = isSupportBackdropFilter();
+
 export function darken(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l * (1 - coefficient);
@@ -174,10 +177,6 @@ export class Theme {
   classNames?: (...classNames: string[]) => string;
 
   isDarkTheme?: boolean;
-
-  removeThemeCSSText(theme: Theme) {
-    this.styleManager.removeCSSText(getThemeBaseCSS(theme));
-  }
   generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
 
   toasts?: Map<Toast, boolean>;
@@ -187,10 +186,13 @@ export class Theme {
   onToastsUpdate?: (toasts?: Toast[]) => void;
 
   updateTheme: (theme: Theme) => void;
+  themeHash: number;
+  themeClassName: string;
 
   getAcrylicTextureStyle = getAcrylicTextureStyle;
 
   constructor(themeConfig?: ThemeConfig) {
+    themeConfig = themeConfig || {};
     let {
       themeName,
       accent,
@@ -199,7 +201,7 @@ export class Theme {
       useInlineStyle,
       desktopBackgroundImage,
       acrylicConfig
-    } = themeConfig || ({} as ThemeConfig);
+    } = themeConfig;
     themeName = themeName || "dark";
     accent = accent || "#0078D7";
     useFluentDesign = useFluentDesign === void 0 ? false : useFluentDesign;
@@ -208,6 +210,8 @@ export class Theme {
     acrylicConfig.blurSize = acrylicConfig.blurSize === void 0 ? defaultAcrylicConfig.blurSize : defaultAcrylicConfig.blurSize;
     const { blurSize } = acrylicConfig;
 
+    this.themeHash = createHash(JSON.stringify(themeConfig));
+    this.themeClassName = `react-uwp-${this.themeHash}`;
     const isDarkTheme = themeName === "dark";
     const baseHigh = isDarkTheme ? "#fff" : "#000";
     const altHigh = isDarkTheme ? "#000" : "#fff";
@@ -398,7 +402,7 @@ export class Theme {
       },
 
       classNames: (...classNames) => {
-        return classNames.reduce((prev, curr) => prev + (curr ? ` ${curr}` : ""));
+        return classNames.filter(className => Boolean(className)).reduce((prev, curr) => `${prev} ${curr}`);
       }
     } as Theme);
 
@@ -419,7 +423,7 @@ export class Theme {
       blurSize
     };
     const acrylicTexture100Config: AcrylicConfig = {
-      tintColor: "",
+      tintColor: "rgba(0, 0, 0, 0)",
       blurSize
     };
     this.acrylicTexture20.style = getAcrylicTextureStyle(acrylicTexture20Config);
@@ -435,66 +439,97 @@ export class Theme {
 
     // generateAcrylicTextures method.
     this.generateAcrylicTextures = (themeCallback?: (theme?: Theme) => void) => {
-      if (supportedBackdropFilter) {
-        return;
-      }
       this.acrylicTextureCount = 0;
 
       const callback = (image: string, key: number) => {
         const background = `url(${image}) no-repeat fixed top left / cover`;
-        if (key === 4) {
-          this.acrylicTextureCount += 1;
-          Object.assign(this.acrylicTexture40, {
-            tintColor: acrylicTexture40Config.tintColor,
-            style: { background },
-            background,
-            blurSize
-          });
-        }
-        if (key === 6) {
-          this.acrylicTextureCount += 1;
-          Object.assign(this.acrylicTexture60, {
-            tintColor: acrylicTexture60Config.tintColor,
-            style: { background },
-            background,
-            blurSize
-          });
-        }
-        if (key === 8) {
-          this.acrylicTextureCount += 1;
-          Object.assign(this.acrylicTexture80, {
-            tintColor: acrylicTexture80Config.tintColor,
-            style: { background },
-            background,
-            blurSize
-          });
+        this.acrylicTextureCount += 1;
+
+        switch (key) {
+          case 2: {
+            Object.assign(this.acrylicTexture20, {
+              tintColor: acrylicTexture20Config.tintColor,
+              style: { background },
+              background,
+              blurSize
+            });
+            break;
+          }
+          case 4: {
+            Object.assign(this.acrylicTexture40, {
+              tintColor: acrylicTexture40Config.tintColor,
+              style: { background },
+              background,
+              blurSize
+            });
+            break;
+          }
+          case 6: {
+            Object.assign(this.acrylicTexture60, {
+              tintColor: acrylicTexture60Config.tintColor,
+              style: { background },
+              background,
+              blurSize
+            });
+            break;
+          }
+          case 8: {
+            Object.assign(this.acrylicTexture80, {
+              tintColor: acrylicTexture80Config.tintColor,
+              style: { background },
+              background,
+              blurSize
+            });
+            break;
+          }
+          case 10: {
+            Object.assign(this.acrylicTexture100, {
+              tintColor: acrylicTexture100Config.tintColor,
+              style: { background },
+              background,
+              blurSize
+            });
+            break;
+          }
+          default: {
+            break;
+          }
         }
 
-        if (this.acrylicTextureCount === 3) {
+        if (this.acrylicTextureCount === 5) {
           if (themeCallback) themeCallback(this);
         }
       };
 
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
-        tintColor: this.chromeMediumLow,
-        tintOpacity: 0.4,
+        tintColor: acrylicTexture20Config.tintColor,
+        blurSize,
+        callback: image => callback(image, 2)
+      });
+      generateAcrylicTexture({
+        image: this.desktopBackgroundImage,
+        tintColor: acrylicTexture40Config.tintColor,
         blurSize,
         callback: image => callback(image, 4)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
-        tintColor: this.chromeLow,
-        tintOpacity: 0.6,
+        tintColor: acrylicTexture60Config.tintColor,
         blurSize,
         callback: image => callback(image, 6)
       });
       generateAcrylicTexture({
         image: this.desktopBackgroundImage,
-        tintColor: this.chromeLow,
-        tintOpacity: 0.8,
+        tintColor: acrylicTexture80Config.tintColor,
         blurSize,
         callback: image => callback(image, 8)
+      });
+      generateAcrylicTexture({
+        image: this.desktopBackgroundImage,
+        tintColor: acrylicTexture100Config.tintColor,
+        blurSize,
+        callback: image => callback(image, 10)
       });
     };
 
