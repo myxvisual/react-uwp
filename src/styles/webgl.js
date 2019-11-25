@@ -32,15 +32,16 @@ class WebGLRender {
     const { gl } = this
     if (!this.program) this.program = gl.createProgram()
 
-    gl.enable(gl.BLEND)
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE)
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)  // Clear to black, fully opaque
     gl.clearDepth(1.0)                 // Clear everything
-    gl.enable(gl.DEPTH_TEST)           // Enable depth testing
-    gl.depthFunc(gl.LEQUAL)            // Near things obscure far things
-  
     // Clear the canvas before we start drawing on it.
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    gl.enable(gl.BLEND)
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE)
+    gl.enable(gl.DEPTH_TEST)           // Enable depth testing
+    gl.depthFunc(gl.LEQUAL)            // Near things obscure far things
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)  // Clear to black, fully opaque
+  
   }
 
   init() {
@@ -81,14 +82,16 @@ class WebGLRender {
     this.setUniforms()
     gl.drawArrays(gl.TRIANGLES, 0, 6)
 
+    // this.clearAlpha()
     this.cleanup()
   }
 
-  clear2alpha() {
+  clearAlpha() {
     const { gl } = this
 
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+    gl.clearColor(1, 1, 1, 1)
     gl.colorMask(false, false, false, true)
-    gl.clearColor(0, 0, 0, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
   }
 
@@ -175,6 +178,11 @@ const shaders = [{
 }]
 
 const webGLRender = new WebGLRender({ shaders, width: 200, height: 200 })
-webGLRender.clear2alpha()
 console.log(webGLRender)
-webGLRender.toUrl(url => console.log(url))
+webGLRender.toUrl(url => {
+  const img = document.createElement('img')
+  document.body.style.background = 'red'
+  img.style.background = 'red'
+  img.src = url
+  document.body.append(img)
+})
