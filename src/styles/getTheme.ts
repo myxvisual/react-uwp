@@ -406,25 +406,31 @@ export class Theme {
       }
     } as Theme);
 
+    let backgroundImage;
     const acrylicTexture20Config: AcrylicConfig = {
       tintColor: this.altMediumHigh,
-      blurSize
+      blurSize,
+      backgroundImage
     };
     const acrylicTexture40Config: AcrylicConfig = {
       tintColor: this.altMedium,
-      blurSize
+      blurSize,
+      backgroundImage
     };
     const acrylicTexture60Config: AcrylicConfig = {
       tintColor: this.altMediumLow,
-      blurSize
+      blurSize,
+      backgroundImage
     };
     const acrylicTexture80Config: AcrylicConfig = {
       tintColor: this.altLow,
-      blurSize
+      blurSize,
+      backgroundImage
     };
     const acrylicTexture100Config: AcrylicConfig = {
       tintColor: "rgba(0, 0, 0, 0)",
-      blurSize
+      blurSize,
+      backgroundImage
     };
     this.acrylicTexture20.style = getAcrylicTextureStyle(acrylicTexture20Config);
     this.acrylicTexture40.style = getAcrylicTextureStyle(acrylicTexture40Config);

@@ -18,7 +18,7 @@ export interface DataProps {
    */
   theme?: ThemeType;
   /**
-   * toogle desktopBackground show.
+   * toggle desktopBackground show.
    */
   desktopBackgroundConfig?: {
     enableRender?: boolean;
@@ -31,7 +31,7 @@ export interface DataProps {
   /**
    * use canvas generate AcrylicTextures to replace CSS backdropFilter style.
    */
-  forcGenerateAcrylicTextures?: boolean;
+  forceGenerateAcrylicTextures?: boolean;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -43,14 +43,14 @@ export interface ThemeState {
 const desktopBgDefaultConfig = {
   enableRender: true,
   renderToScreen: true
-}
+};
 const themeCallback: (theme?: ThemeType) => void = () => {};
 
 export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
     desktopBackgroundConfig: desktopBgDefaultConfig,
     themeWillUpdate: themeCallback,
-    forcGenerateAcrylicTextures: false
+    forceGenerateAcrylicTextures: false
   };
   static childContextTypes = {
     theme: PropTypes.object
@@ -145,7 +145,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     } as ThemeType);
 
     if (theme.useFluentDesign && theme.desktopBackground) {
-      if (!supportedBackdropFilter || this.props.forcGenerateAcrylicTextures) {
+      if (!supportedBackdropFilter || this.props.forceGenerateAcrylicTextures) {
         theme.generateAcrylicTextures(currTheme => {
           this.setState({ currTheme });
         });
@@ -175,12 +175,12 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       style,
       className,
       themeWillUpdate,
-      forcGenerateAcrylicTextures,
+      forceGenerateAcrylicTextures,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
     desktopBackgroundConfig = desktopBackgroundConfig || desktopBgDefaultConfig;
-    const { enableRender, renderToScreen } = desktopBackgroundConfig
+    const { enableRender, renderToScreen } = desktopBackgroundConfig;
 
     const styles = getStyles(this);
     const classes = currTheme.prepareStyles({
@@ -215,7 +215,7 @@ function getStyles(context: Theme) {
   const { currTheme } = context.state;
   let { style, desktopBackgroundConfig } = context.props;
   desktopBackgroundConfig = desktopBackgroundConfig || desktopBgDefaultConfig;
-  const { enableRender, renderToScreen } = desktopBackgroundConfig
+  const { enableRender, renderToScreen } = desktopBackgroundConfig;
   const isInsideBg = enableRender && !renderToScreen;
 
   return {

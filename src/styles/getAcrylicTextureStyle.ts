@@ -2,22 +2,19 @@ import { isSupportBackdropFilter } from "../utils/browser/backdropFilterDetector
 
 export { isSupportBackdropFilter };
 
-export interface AcrylicConfig { tintColor: string; blurSize: number; }
+export interface AcrylicConfig { tintColor: string; blurSize: number; backgroundImage?: string; }
 
 export function getAcrylicTextureStyle(config: AcrylicConfig) {
   const isSupported = isSupportBackdropFilter();
   let style: React.CSSProperties;
-  const { tintColor, blurSize } = config;
+  const { tintColor, blurSize, backgroundImage } = config;
   if (isSupported) {
     style = {
       /**
        * Add theme.baseLow color.
        */
-      backgroundColor: tintColor,
-      /**
-       * Add noise texture.
-       */
-      backgroundImage: "",
+      backgroundColor: `${tintColor}`,
+      backgroundImage,
       /**
        * Add blur filter.
        */
