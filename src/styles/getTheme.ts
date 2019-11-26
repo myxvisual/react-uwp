@@ -482,12 +482,13 @@ export class Theme {
         }
 
         this.acrylicTextureCount += 1;
+        const style = { background, backgroundBlendMode: "overlay" };
 
         switch (key) {
           case 2: {
             Object.assign(this.acrylicTexture20, {
               tintColor: acrylicTexture20Config.tintColor,
-              style: { background },
+              style,
               background,
               blurSize
             });
@@ -496,7 +497,7 @@ export class Theme {
           case 4: {
             Object.assign(this.acrylicTexture40, {
               tintColor: acrylicTexture40Config.tintColor,
-              style: { background },
+              style,
               background,
               blurSize
             });
@@ -505,7 +506,7 @@ export class Theme {
           case 6: {
             Object.assign(this.acrylicTexture60, {
               tintColor: acrylicTexture60Config.tintColor,
-              style: { background },
+              style,
               background,
               blurSize
             });
@@ -514,7 +515,7 @@ export class Theme {
           case 8: {
             Object.assign(this.acrylicTexture80, {
               tintColor: acrylicTexture80Config.tintColor,
-              style: { background },
+              style,
               background,
               blurSize
             });
@@ -523,7 +524,7 @@ export class Theme {
           case 10: {
             Object.assign(this.acrylicTexture100, {
               tintColor: acrylicTexture100Config.tintColor,
-              style: { background },
+              style,
               background,
               blurSize
             });
@@ -576,13 +577,13 @@ export class Theme {
       if (this.backgroundTexture) {
         if (callback) callback(this);
       } else {
-      const webGLRender = new WebGLRender({ fragmentSource: noiseFrag, width: screen.availWidth, height: screen.availHeight });
-      webGLRender.render();
-      webGLRender.toUrl(url => {
-        this.backgroundTexture = url;
-        this.mergeAcrylicStyles(blurSize);
-        if (callback) callback(this);
-      });
+        const webGLRender = new WebGLRender({ fragmentSource: noiseFrag, width: screen.availWidth, height: screen.availHeight });
+        webGLRender.render();
+        webGLRender.toUrl(url => {
+          this.backgroundTexture = url;
+          this.mergeAcrylicStyles(blurSize);
+          if (callback) callback(this);
+        });
       }
     };
     // Add to generateAcrylicTextures method to theme.

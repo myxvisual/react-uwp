@@ -82,7 +82,7 @@ void main(){
 
     if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
       const linkErrLog = gl.getProgramInfoLog(this.program);
-      console.error(linkErrLog);
+      console.log(linkErrLog);
       this.cleanup();
       return;
     }
@@ -114,18 +114,10 @@ void main(){
   }
 
   setUniforms() {
-    const { gl, program } = this;
-
-    const resolution = new Float32Array([this.width, this.height]);
+    const { gl, program, width, height } = this;
+    const resolution = new Float32Array([width, height]);
     const resolutionLoc = gl.getUniformLocation(program, "iResolution");
     gl.uniform2f(resolutionLoc, resolution[0], resolution[1]);
-  }
-
-  toUrl(cb?: (url?: string) => void) {
-    this.canvas.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      if (cb) cb(url);
-    });
   }
 
   clearAlpha() {
@@ -148,27 +140,38 @@ void main(){
     }
     if (program) gl.deleteProgram(program);
   }
+
+  toUrl(cb?: (url?: string) => void) {
+    this.canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      if (cb) cb(url);
+    });
+  }
 }
 
 const noiseFrag =
 `#ifdef GL_ES
 precision mediump float;
 #endif
-
 uniform vec2 iResolution;
 float random (in vec2 st) {
     return fract(sin(dot(st.xy,
                          vec2(12.9898,78.233)))
                 * 43758.5453123);
 }
-
 void main() {
     vec2 st = gl_FragCoord.xy / iResolution.xy;
     st.x *= iResolution.x / iResolution.y;
-    float r = random(st * 1.0);
-    gl_FragColor = vec4(vec3(1.0), r * .2);
+    float r = random(st * 1.);
+    gl_FragColor = vec4(vec3(1.), r * .2);
 }
 `;
+
+// const webGLRender = new WebGLRender({ fragmentSource: noiseFrag, width: 200, height: 200 });
+// webGLRender.render();
+// webGLRender.toUrl(url => {
+//   console.log(url);
+// });
 
 export {
   WebGLRenderProps,

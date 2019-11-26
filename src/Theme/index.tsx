@@ -32,6 +32,11 @@ export interface DataProps {
    * use canvas generate AcrylicTextures to replace CSS backdropFilter style.
    */
   forceGenerateAcrylicTextures?: boolean;
+
+  /**
+   * Set noise texture style.
+   */
+  enableNoiseTexture?: boolean;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -50,7 +55,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
     desktopBackgroundConfig: desktopBgDefaultConfig,
     themeWillUpdate: themeCallback,
-    forceGenerateAcrylicTextures: false
+    forceGenerateAcrylicTextures: true,
+    enableNoiseTexture: true
   };
   static childContextTypes = {
     theme: PropTypes.object
@@ -140,6 +146,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   setThemeHelper(theme: ThemeType, prevTheme?: ThemeType) {
+    const { enableNoiseTexture, forceGenerateAcrylicTextures } = this.props;
     this.mergeStyleManager(theme, prevTheme);
 
     Object.assign(theme, {
@@ -154,22 +161,23 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       }
     } as ThemeType);
 
-    if (theme.useFluentDesign && theme.desktopBackground) {
+    if (theme.useFluentDesign) {
       const themeCallback = currTheme => {
-        this.state.currTheme.styleManager.allRules.forEach((inserted, rule) => {
-          currTheme.styleManager.allRules.set(rule, inserted);
-        });
-        theme.styleManager.addCSSText(getBaseCSS());
-        theme.styleManager.addCSSText(getThemeBaseCSS(currTheme, `.${currTheme.themeClassName}`));
-        this.setStyleManagerUpdate(currTheme);
+        this.mergeStyleManager(currTheme, this.state.currTheme);
         this.setState({ currTheme });
       };
-      if (!supportedBackdropFilter || this.props.forceGenerateAcrylicTextures) {
-        theme.generateBackgroundTexture(() => {
+      if (theme.desktopBackground && (!supportedBackdropFilter || forceGenerateAcrylicTextures)) {
+        if (enableNoiseTexture) {
+          theme.generateBackgroundTexture(currTheme => {
+            currTheme.generateAcrylicTextures(themeCallback);
+          });
+        } else {
           theme.generateAcrylicTextures(themeCallback);
-        });
+        }
       } else {
-        theme.generateBackgroundTexture(themeCallback);
+        if (enableNoiseTexture) {
+          theme.generateBackgroundTexture(themeCallback);
+        }
       }
     }
   }

@@ -13,7 +13,8 @@ export function getAcrylicTextureStyle(config: AcrylicConfig) {
       /**
        * Add theme.baseLow color.
        */
-      background: background ? `${tintColor}, ${background}` : `${tintColor}`,
+      background: background ? `${background}, ${tintColor}` : `${tintColor}`,
+      backgroundBlendMode: "overlay",
       /**
        * Add blur filter.
        */
@@ -24,7 +25,8 @@ export function getAcrylicTextureStyle(config: AcrylicConfig) {
       /**
        * Add polyfill texture theme.acrylicText40.
        */
-      background: tintColor
+      background: tintColor,
+      backgroundBlendMode: "overlay"
     };
   }
 
