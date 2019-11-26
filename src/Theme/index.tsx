@@ -128,10 +128,20 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     });
   }
 
-  setThemeHelper(theme: ThemeType) {
-    theme.styleManager.addCSSText(getBaseCSS());
-    theme.styleManager.addCSSText(getThemeBaseCSS(theme, `.${theme.themeClassName}`));
-    this.setStyleManagerUpdate(theme);
+  mergeStyleManager(newTheme: ThemeType, prevTheme?: ThemeType) {
+    if (prevTheme) {
+      prevTheme.styleManager.allRules.forEach((inserted, rule) => {
+        newTheme.styleManager.allRules.set(rule, inserted);
+      });
+    }
+    this.setStyleManagerUpdate(newTheme);
+    newTheme.styleManager.addCSSText(getBaseCSS());
+    newTheme.styleManager.addCSSText(getThemeBaseCSS(newTheme, `.${newTheme.themeClassName}`));
+  }
+
+  setThemeHelper(theme: ThemeType, prevTheme?: ThemeType) {
+    this.mergeStyleManager(theme, prevTheme);
+
     Object.assign(theme, {
       updateTheme: this.updateTheme,
       onToastsUpdate: (toasts) => {
@@ -145,19 +155,27 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     } as ThemeType);
 
     if (theme.useFluentDesign && theme.desktopBackground) {
-      if (!supportedBackdropFilter || this.props.forceGenerateAcrylicTextures) {
-        theme.generateAcrylicTextures(currTheme => {
-          this.setState({ currTheme });
+      const themeCallback = currTheme => {
+        this.state.currTheme.styleManager.allRules.forEach((inserted, rule) => {
+          currTheme.styleManager.allRules.set(rule, inserted);
         });
+        theme.styleManager.addCSSText(getBaseCSS());
+        theme.styleManager.addCSSText(getThemeBaseCSS(currTheme, `.${currTheme.themeClassName}`));
+        this.setStyleManagerUpdate(currTheme);
+        this.setState({ currTheme });
+      };
+      if (!supportedBackdropFilter || this.props.forceGenerateAcrylicTextures) {
+        theme.generateBackgroundTexture(() => {
+          theme.generateAcrylicTextures(themeCallback);
+        });
+      } else {
+        theme.generateBackgroundTexture(themeCallback);
       }
     }
   }
 
   updateTheme = (currTheme: ThemeType) => {
-    this.state.currTheme.styleManager.allRules.forEach((inserted, rule) => {
-      currTheme.styleManager.allRules.set(rule, inserted);
-    });
-    this.setThemeHelper(currTheme);
+    this.setThemeHelper(currTheme, this.state.currTheme);
     this.setState({ currTheme });
   }
 
@@ -194,7 +212,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         style={classes.root.style}
         className={currTheme.classNames(className, classes.root.className, currTheme.themeClassName)}
       >
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
+        <link key="not-change" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
         <style type="text/css" scoped ref={styleEl => this.styleEl = styleEl} />
         {enableRender && (
            renderToScreen ? <RenderToBody {...classes.desktopBackground} /> : <div {...classes.desktopBackground} />

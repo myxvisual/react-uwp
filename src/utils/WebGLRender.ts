@@ -1,17 +1,11 @@
-export interface WebGLRenderProps {
+interface WebGLRenderProps {
   vertexSource?: string;
   fragmentSource?: string;
   width?: number;
   height?: number;
 }
 
-export interface ShaderItem {
-  source?: string;
-  shader?: WebGLShader;
-  type?: "VERTEX_SHADER" | "FRAGMENT_SHADER";
-}
-
-export class WebGLRender {
+class WebGLRender {
   frags: string[] = [];
   canvas: HTMLCanvasElement;
   gl: WebGLRenderingContext;
@@ -69,7 +63,8 @@ void main(){
     canvas.width = width;
     canvas.height = height;
 
-    if (![gl, program, canvas, width, height, vertexSource, fragmentSource].every(isExisted => Boolean(isExisted))) return;
+    const enableRunRender = [gl, program, canvas, width, height, vertexSource, fragmentSource].every(isExisted => Boolean(isExisted));
+    if (!enableRunRender) return;
 
     const shaderSources = [{ source: vertexSource, type: gl.VERTEX_SHADER }, { source: fragmentSource, type: gl.FRAGMENT_SHADER }];
     const glShaders = shaderSources.map(shaderSource => {
@@ -104,7 +99,7 @@ void main(){
     this.setUniforms();
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-    // this.cleanup();
+    this.cleanup();
   }
 
   setAttribs() {
@@ -155,10 +150,8 @@ void main(){
   }
 }
 
-export const noiseFrag =
-`// Title: Random
-
-#ifdef GL_ES
+const noiseFrag =
+`#ifdef GL_ES
 precision mediump float;
 #endif
 
@@ -177,9 +170,8 @@ void main() {
 }
 `;
 
-// const webGLRender = new WebGLRender({ fragmentSource: noiseFrag, width: screen.availWidth, height: screen.availHeight });
-// webGLRender.render();
-// webGLRender.cleanup();
-// webGLRender.toUrl(url => {
-//   console.log(url);
-// });
+export {
+  WebGLRenderProps,
+  WebGLRender,
+  noiseFrag
+};

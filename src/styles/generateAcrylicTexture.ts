@@ -1,5 +1,6 @@
 import * as stackBlurCanvas from "stackblur-canvas";
 import * as tinycolor2 from "tinycolor2";
+import { toUrl } from "../utils/canvasHelper";
 
 export interface AcrylicTextureConfig {
   image: string;
@@ -15,7 +16,7 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
   const configStr = JSON.stringify({ image, tintColor, blurSize });
   let acrylicTexture = acrylicTextureMap.get(configStr);
 
-  function updatAcrylicTexture() {
+  function updateAcrylicTexture() {
     if (callback) callback(acrylicTexture.texture, acrylicTexture.isCanvasFilter);
     acrylicTextureMap.set(configStr, acrylicTexture);
   }
@@ -69,22 +70,11 @@ export default function generateAcrylicTexture(config: AcrylicTextureConfig) {
     }
     // console.log(performance.now() - now);
 
-    if (HTMLCanvasElement.prototype.toBlob) {
-      canvas.toBlob((blob) => {
-        acrylicTexture.texture = URL.createObjectURL(blob);
-        acrylicTexture.isCanvasFilter = isCanvasFilter;
-        updatAcrylicTexture();
-      });
-    } else if (HTMLCanvasElement.prototype["msToBlob"]) {
-      const blob = canvas["msToBlob"]();
-      acrylicTexture.texture = URL.createObjectURL(blob);
+    toUrl(canvas, imageUrl => {
+      acrylicTexture.texture = imageUrl;
       acrylicTexture.isCanvasFilter = isCanvasFilter;
-      updatAcrylicTexture();
-    } else {
-      acrylicTexture.texture = canvas.toDataURL("image/jpg");
-      acrylicTexture.isCanvasFilter = isCanvasFilter;
-      updatAcrylicTexture();
-    }
+      updateAcrylicTexture();
+    });
   };
 }
 

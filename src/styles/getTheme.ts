@@ -5,6 +5,7 @@ import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager"
 import generateAcrylicTexture from "./generateAcrylicTexture";
 import { getAcrylicTextureStyle, AcrylicConfig, isSupportBackdropFilter } from "./getAcrylicTextureStyle";
 import * as createHash from "murmurhash-js/murmurhash3_gc";
+import { WebGLRender, noiseFrag } from "../utils/WebGLRender";
 
 export { getThemeBaseCSS, getBaseCSS } from "./getBaseCSSText";
 export { getAcrylicTextureStyle, isSupportBackdropFilter };
@@ -63,6 +64,7 @@ export interface ThemeConfig {
   useInlineStyle?: boolean;
   userAgent?: string;
 }
+type ThemeCallback = (theme?: Theme) => void;
 
 export type ThemeName = "dark" | "light";
 const defaultAcrylicConfig: ThemeConfig["acrylicConfig"] = { blurSize: 24 };
@@ -86,6 +88,7 @@ export class Theme {
 
   acrylicTextureCount?: number;
   haveAcrylicTextures?: boolean;
+  backgroundTexture?: string;
   acrylicTexture20?: AcrylicTexture;
   acrylicTexture40?: AcrylicTexture;
   acrylicTexture60?: AcrylicTexture;
@@ -177,7 +180,6 @@ export class Theme {
   classNames?: (...classNames: string[]) => string;
 
   isDarkTheme?: boolean;
-  generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
 
   toasts?: Map<Toast, boolean>;
   addToast?: (toast: Toast) => void;
@@ -190,6 +192,62 @@ export class Theme {
   themeClassName: string;
 
   getAcrylicTextureStyle = getAcrylicTextureStyle;
+
+  generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
+  generateBackgroundTexture?: (themeCallback?: (theme?: Theme) => void) => void;
+
+  getTextureBackground(texture: string) {
+    return `url(${texture}) no-repeat fixed top left / cover`;
+  }
+
+  mergeAcrylicStyles(blurSize: number) {
+    let { backgroundTexture } = this;
+    let background = backgroundTexture ? this.getTextureBackground(backgroundTexture) : "";
+    const acrylicTexture20Config: AcrylicConfig = {
+      tintColor: this.altMediumHigh,
+      blurSize,
+      background
+    };
+    const acrylicTexture40Config: AcrylicConfig = {
+      tintColor: this.altMedium,
+      blurSize,
+      background
+    };
+    const acrylicTexture60Config: AcrylicConfig = {
+      tintColor: this.altMediumLow,
+      blurSize,
+      background
+    };
+    const acrylicTexture80Config: AcrylicConfig = {
+      tintColor: this.altLow,
+      blurSize,
+      background
+    };
+    const acrylicTexture100Config: AcrylicConfig = {
+      tintColor: "rgba(0, 0, 0, 0)",
+      blurSize,
+      background
+    };
+
+    this.acrylicTexture20.style = getAcrylicTextureStyle(acrylicTexture20Config);
+    this.acrylicTexture40.style = getAcrylicTextureStyle(acrylicTexture40Config);
+    this.acrylicTexture60.style = getAcrylicTextureStyle(acrylicTexture60Config);
+    this.acrylicTexture80.style = getAcrylicTextureStyle(acrylicTexture80Config);
+    this.acrylicTexture100.style = getAcrylicTextureStyle(acrylicTexture100Config);
+    this.acrylicTexture20.background = this.acrylicTexture20.style.background as string;
+    this.acrylicTexture40.background = this.acrylicTexture40.style.background as string;
+    this.acrylicTexture60.background = this.acrylicTexture60.style.background as string;
+    this.acrylicTexture80.background = this.acrylicTexture80.style.background as string;
+    this.acrylicTexture100.background = this.acrylicTexture100.style.background as string;
+
+    return {
+      acrylicTexture20Config,
+      acrylicTexture40Config,
+      acrylicTexture60Config,
+      acrylicTexture80Config,
+      acrylicTexture100Config
+    };
+  }
 
   constructor(themeConfig?: ThemeConfig) {
     themeConfig = themeConfig || {};
@@ -406,49 +464,23 @@ export class Theme {
       }
     } as Theme);
 
-    let backgroundImage;
-    const acrylicTexture20Config: AcrylicConfig = {
-      tintColor: this.altMediumHigh,
-      blurSize,
-      backgroundImage
-    };
-    const acrylicTexture40Config: AcrylicConfig = {
-      tintColor: this.altMedium,
-      blurSize,
-      backgroundImage
-    };
-    const acrylicTexture60Config: AcrylicConfig = {
-      tintColor: this.altMediumLow,
-      blurSize,
-      backgroundImage
-    };
-    const acrylicTexture80Config: AcrylicConfig = {
-      tintColor: this.altLow,
-      blurSize,
-      backgroundImage
-    };
-    const acrylicTexture100Config: AcrylicConfig = {
-      tintColor: "rgba(0, 0, 0, 0)",
-      blurSize,
-      backgroundImage
-    };
-    this.acrylicTexture20.style = getAcrylicTextureStyle(acrylicTexture20Config);
-    this.acrylicTexture40.style = getAcrylicTextureStyle(acrylicTexture40Config);
-    this.acrylicTexture60.style = getAcrylicTextureStyle(acrylicTexture60Config);
-    this.acrylicTexture80.style = getAcrylicTextureStyle(acrylicTexture80Config);
-    this.acrylicTexture100.style = getAcrylicTextureStyle(acrylicTexture100Config);
-    this.acrylicTexture20.background = this.acrylicTexture20.style.background as string;
-    this.acrylicTexture40.background = this.acrylicTexture40.style.background as string;
-    this.acrylicTexture60.background = this.acrylicTexture60.style.background as string;
-    this.acrylicTexture80.background = this.acrylicTexture80.style.background as string;
-    this.acrylicTexture100.background = this.acrylicTexture100.style.background as string;
+    const {
+      acrylicTexture20Config,
+      acrylicTexture40Config,
+      acrylicTexture60Config,
+      acrylicTexture80Config,
+      acrylicTexture100Config
+    } = this.mergeAcrylicStyles(blurSize);
 
     // generateAcrylicTextures method.
-    this.generateAcrylicTextures = (themeCallback?: (theme?: Theme) => void) => {
+    const generateAcrylicTextures = (themeCallback?: ThemeCallback) => {
       this.acrylicTextureCount = 0;
+      const callback = (acrylicTextureUrl: string, key: number, isCanvasFilter?: boolean) => {
+        let background = this.getTextureBackground(acrylicTextureUrl);
+        if (this.backgroundTexture) {
+          background = `${background}, ${this.getTextureBackground(this.backgroundTexture)}`;
+        }
 
-      const callback = (image: string, key: number, isCanvasFilter?: boolean) => {
-        const background = `url(${image}) no-repeat fixed top left / cover`;
         this.acrylicTextureCount += 1;
 
         switch (key) {
@@ -538,6 +570,23 @@ export class Theme {
         callback: (image, isCanvasFilter) => callback(image, 10, isCanvasFilter)
       });
     };
+
+    // add generateBackgroundTexture method to theme.
+    this.generateBackgroundTexture = (callback?: ThemeCallback) => {
+      if (this.backgroundTexture) {
+        if (callback) callback(this);
+      } else {
+      const webGLRender = new WebGLRender({ fragmentSource: noiseFrag, width: screen.availWidth, height: screen.availHeight });
+      webGLRender.render();
+      webGLRender.toUrl(url => {
+        this.backgroundTexture = url;
+        this.mergeAcrylicStyles(blurSize);
+        if (callback) callback(this);
+      });
+      }
+    };
+    // Add to generateAcrylicTextures method to theme.
+    this.generateAcrylicTextures = generateAcrylicTextures;
 
     // toasts storage.
     Object.assign(this, {
