@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import RevealEffect from "../RevealEffect";
 
 import Icon from "../Icon";
 
@@ -291,7 +292,9 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
                 )
               } as React.CSSProperties}
               ref={elm => behindElm = elm}
-            />
+            >
+              <RevealEffect />
+            </div>
           </div>
           {haveChild && (
             <div {...listStyles.child}>
@@ -374,6 +377,7 @@ function getStyles(treeView: TreeView): {
       transition: "all .25s 0s ease-in-out"
     }),
     titleNode: prefixStyle({
+      pointerEvents: "none",
       color: "inherit",
       zIndex: 1,
       width: "100%",

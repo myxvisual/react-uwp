@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import RevealEffect from "../RevealEffect";
 
 import PseudoClasses from "../PseudoClasses";
 import Icon from "../Icon";
@@ -73,6 +74,7 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
           {labelPosition !== "collapsed" && <p {...styles.label}>
             {label}
           </p>}
+          <RevealEffect />
         </div>
       </PseudoClasses>
     );
@@ -104,6 +106,7 @@ function getStyles(AppBarButtonButton: AppBarButtonButton): {
 
   return {
     root: prefixStyle({
+      position: "relative",
       fontSize: 14,
       color: theme.baseMediumHigh,
       background: "none",

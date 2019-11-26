@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import PseudoClasses from "../PseudoClasses";
-import vendors from "../utils/browser/vendors";
+import RevealEffect from "../RevealEffect";
 
 export interface ListItem {
   itemNode?: React.ReactNode;
@@ -76,11 +76,12 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     const itemStyles = theme.prepareStyle({
       className: "list-view-item",
       style: theme.prefixStyle({
+        position: "relative",
         background: defaultBG,
         color: disabled ? theme.baseLow : theme.baseHigh,
         "&:hover": {
           ...theme.acrylicTexture40.style,
-          background: isFocus ? theme.listAccentHigh : theme.acrylicTexture40.style.background
+          background: isFocus ? theme.listAccentHigh : theme.baseLow
         },
         "&:active": {
           transform: "scale(0.99)"
@@ -99,6 +100,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
           }}
         >
           {itemNode}
+        <RevealEffect />
         </div>
       </PseudoClasses>
     );
@@ -157,7 +159,6 @@ function getStyles(listView: ListView): {
 
   return {
     root: theme.prefixStyle({
-      ...(background ? { ...theme.acrylicTexture60.style, background } : theme.acrylicTexture60.style),
       width: 320,
       display: "inline-block",
       verticalAlign: "middle",

@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import PseudoClasses from "../PseudoClasses";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
+import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -81,6 +82,7 @@ export class Button extends React.Component<ButtonProps> {
     const buttonStyles = theme.prepareStyle({
       className: "button-root",
       style: {
+        position: "relative",
         display: "inline-block",
         verticalAlign: "middle",
         cursor: "pointer",
@@ -126,6 +128,7 @@ export class Button extends React.Component<ButtonProps> {
               <Icon {...iconStyles}>
                 {icon}
               </Icon>
+              <RevealEffect />
             </button>
           ) : (
             <button>
@@ -135,10 +138,12 @@ export class Button extends React.Component<ButtonProps> {
               <span style={labelStyle}>
                 {children}
               </span>
+              <RevealEffect />
             </button>
           )) : (
             <button>
               {children}
+              <RevealEffect />
             </button>
           )
         )}

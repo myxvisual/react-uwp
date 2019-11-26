@@ -202,6 +202,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       className,
       themeWillUpdate,
       forceGenerateAcrylicTextures,
+      enableNoiseTexture,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
