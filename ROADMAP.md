@@ -6,7 +6,10 @@
 - [ ] All Base Componnents
 - [ ] MarkdownRender
 - [ ] Table
-- [ ] NoiseTexture
+- [x] NoiseTexture
+- [ ] RevealEffect
+- [ ] Tooltip performance
+- [ ] AcrylicStyles support other theme
 
 ### Dynamic BorderSize
 - [ ] Todo
