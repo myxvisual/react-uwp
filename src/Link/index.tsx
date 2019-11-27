@@ -18,7 +18,7 @@ export default class Link extends React.Component<LinkProps> {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { style, className, ...attributes } = this.props;
+    const { style, children, className, ...attributes } = this.props;
     const { theme } = this.context;
     const inlineStyle = theme.prefixStyle({
       fontSize: 14,
@@ -40,7 +40,9 @@ export default class Link extends React.Component<LinkProps> {
 
     return (
       <PseudoClasses {...styleClasses}>
-        <a {...attributes} />
+        <a {...attributes}>
+          {children}
+        </a>
       </PseudoClasses>
     );
   }

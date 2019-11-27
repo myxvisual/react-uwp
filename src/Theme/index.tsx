@@ -8,6 +8,7 @@ import RenderToBody from "../RenderToBody";
 import ToastWrapper from "../Toast/ToastWrapper";
 import { getThemeBaseCSS, getBaseCSS } from "../styles/getBaseCSSText";
 import { isSupportBackdropFilter } from "../styles/getAcrylicTextureStyle";
+import GlobalRevealStore from "../RevealEffect/GlobalRevealStore";
 
 const supportedBackdropFilter = isSupportBackdropFilter();
 export { getTheme };
@@ -69,6 +70,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   getThemeFromProps(props: ThemeProps) {
     const { theme } = props;
     let currTheme = theme || darkTheme;
+    // this.mergeStyleManager(currTheme);
     return currTheme;
   }
 
@@ -127,6 +129,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     theme.styleManager.onAddRules = (rules => {
       rules.forEach((inserted, rule) => {
         if (!inserted) {
+          console.log(rule);
           theme.styleManager.insertRule2el(this.styleEl, rule);
           rules.set(rule, true);
         }
@@ -141,8 +144,12 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       });
     }
     this.setStyleManagerUpdate(newTheme);
-    newTheme.styleManager.addCSSText(getBaseCSS());
-    newTheme.styleManager.addCSSText(getThemeBaseCSS(newTheme, `.${newTheme.themeClassName}`));
+    this.addCSSText2theme(newTheme);
+  }
+
+  addCSSText2theme(theme: ThemeType) {
+    theme.styleManager.addCSSText(getBaseCSS());
+    theme.styleManager.addCSSText(getThemeBaseCSS(theme, `.${theme.themeClassName}`));
   }
 
   setThemeHelper(theme: ThemeType, prevTheme?: ThemeType) {
@@ -214,13 +221,15 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       className: "theme",
       styles
     });
+    console.log("render theme.");
 
     return (
       <div
         {...attributes}
         style={classes.root.style}
         className={currTheme.classNames(className, classes.root.className, currTheme.themeClassName)}
-      >
+        >
+        <GlobalRevealStore theme={currTheme} />
         <link key="not-change" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
         <style type="text/css" scoped ref={styleEl => this.styleEl = styleEl} />
         {enableRender && (

@@ -35,7 +35,17 @@ function getRoutes(path = "/") {
     </WrapperWithCategories>
   );
 
-  return {
+  return false ? {
+    component: ThemeWrapper,
+    path,
+    indexRoute: {
+      getComponent: (location: Location, cb: RouterCallback) => {
+        require.ensure([], (require) => {
+          cb(null, require("./Test").default);
+        }, "react-uwp-Test");
+      }
+    }
+  } : {
     path,
     component: ThemeWrapper,
     indexRoute: {
@@ -51,6 +61,15 @@ function getRoutes(path = "/") {
       }
     },
     childRoutes: [{
+      path: "test",
+      indexRoute: {
+        getComponent: (location: Location, cb: RouterCallback) => {
+          require.ensure([], (require) => {
+            cb(null, require("./Test").default);
+          }, "react-uwp-Test");
+        }
+      }
+    }, {
       path: "get-started",
       component: CategoriesWrapper,
       indexRoute: {

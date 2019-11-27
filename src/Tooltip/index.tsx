@@ -188,7 +188,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
-
+    console.error("render");
     const tooltipStyle = this.getTooltipStyle();
     return (
       <div

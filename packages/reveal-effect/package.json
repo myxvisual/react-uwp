@@ -1,0 +1,39 @@
+{
+  "name": "reveal-effect",
+  "version": "1.1.6",
+  "description": "Fluent design system reveal effect.",
+  "main": "build/index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "reveal-effect",
+    "uwp-design",
+    "fluent-design"
+  ],
+  "author": "myxvisual",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myxvisual/reveal-effect.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/myxvisual/reveal-effect/issues"
+  },
+  "types": "build/index.d.ts",
+  "devDependencies": {
+    "@types/d3-ease": "^1.0.9",
+    "@types/gsap": "^1.20.2",
+    "@types/node": "^12.11.5",
+    "@types/tinycolor2": "^1.4.2",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "d3-ease": "^1.0.5",
+    "gsap": "^3.0.1",
+    "tinycolor2": "^1.4.1"
+  }
+}

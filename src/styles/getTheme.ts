@@ -7,7 +7,8 @@ import { getAcrylicTextureStyle, AcrylicConfig, isSupportBackdropFilter } from "
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 import { WebGLRender, noiseFrag } from "../utils/WebGLRender";
 
-export { getThemeBaseCSS, getBaseCSS } from "./getBaseCSSText";
+import { getThemeBaseCSS, getBaseCSS } from "./getBaseCSSText";
+export { getThemeBaseCSS, getBaseCSS };
 export { getAcrylicTextureStyle, isSupportBackdropFilter };
 
 export const fonts = {
@@ -25,6 +26,20 @@ export function lighten(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l + (100 - hsl.l) * coefficient;
   return tinycolor(hsl).toRgbString();
+}
+
+/** Set reveal effect config. */
+export interface BorderRevalConfig {
+  /** Set hover borderWidth. */
+  borderWidth?: number;
+  /** Set hover size. */
+  hoverSize?: number;
+  /** Set effectEnable type, default is both. */
+  effectEnable?: "hover" | "border" | "both";
+  /** Set borderType, default is inside. */
+  borderType?: "inside" | "outside";
+  /** Set borderColor. */
+  borderColor?: string;
 }
 
 export interface AcrylicTexture {
@@ -83,6 +98,7 @@ export class Theme {
 
   styleManager?: StyleManager;
   scrollReveals?: ScrollRevealType[] = [];
+  borderRevealMap: Map<HTMLCanvasElement, BorderRevalConfig> = new Map();
 
   desktopBackground?: string;
 
@@ -429,6 +445,8 @@ export class Theme {
 
     // theme styleManager.
     this.styleManager = new StyleManager();
+    this.styleManager.addCSSText(getBaseCSS());
+    this.styleManager.addCSSText(getThemeBaseCSS(this, `.${this.themeClassName}`));
     Object.assign(this, {
       prefixStyle: prefixAll(userAgent),
       prepareStyle: (config) => {

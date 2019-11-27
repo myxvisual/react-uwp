@@ -8,6 +8,7 @@
     "allowJs": false,
     "declaration": true,
     "jsx": "react",
+    "downlevelIteration": true,
     "experimentalDecorators": true,
     "removeComments": true,
     "noImplicitAny": false,
