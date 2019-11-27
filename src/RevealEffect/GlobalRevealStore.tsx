@@ -30,17 +30,17 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   addListeners() {
-    // document.addEventListener("scroll", this.drawBorders, true);
-    // window.addEventListener("mousemove", this.drawBorders, true);
-    // window.addEventListener("mouseenter", this.drawBorders, true);
-    // document.addEventListener("click", this.drawBorders, true);
+    document.addEventListener("scroll", this.drawBorders, true);
+    window.addEventListener("mousemove", this.drawBorders, true);
+    window.addEventListener("mouseenter", this.drawBorders, true);
+    document.addEventListener("click", this.drawBorders, true);
   }
 
   removeListeners() {
-    // document.removeEventListener("scroll", this.drawBorders, true);
-    // window.removeEventListener("mousemove", this.drawBorders, true);
-    // window.removeEventListener("mouseenter", this.drawBorders, true);
-    // document.removeEventListener("click", this.drawBorders, true);
+    document.removeEventListener("scroll", this.drawBorders, true);
+    window.removeEventListener("mousemove", this.drawBorders, true);
+    window.removeEventListener("mouseenter", this.drawBorders, true);
+    document.removeEventListener("click", this.drawBorders, true);
   }
 
   checkOverlap(rect1: OverlapRect, rect2: OverlapRect) {

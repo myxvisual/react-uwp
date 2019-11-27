@@ -129,7 +129,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     theme.styleManager.onAddRules = (rules => {
       rules.forEach((inserted, rule) => {
         if (!inserted) {
-          console.log(rule);
           theme.styleManager.insertRule2el(this.styleEl, rule);
           rules.set(rule, true);
         }

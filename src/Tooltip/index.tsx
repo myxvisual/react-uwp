@@ -97,7 +97,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     }, this.props.closeDelay);
   }
 
-  getStyle = (showTooltip = false, positionStyle = {}): React.CSSProperties =>  {
+  getStyle = (showTooltip = false, positionStyle?: React.CSSProperties): React.CSSProperties =>  {
     const { context: { theme }, props: { style, background } } = this;
     return theme.prefixStyle({
       height: 28,
@@ -105,7 +105,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
       padding: "4px 8px",
-      transition: "all .25s 0s ease-in-out",
+      transition: (!showTooltip && !positionStyle) ? void 0 : "transform .25s 0s ease-in-out, opacity .25s 0s ease-in-out",
       border: `1px solid ${theme.useFluentDesign ? theme.listLow : theme.baseLow}`,
       color: theme.baseMediumHigh,
       background: background || theme.chromeMedium,
@@ -188,7 +188,6 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    console.error("render");
     const tooltipStyle = this.getTooltipStyle();
     return (
       <div
