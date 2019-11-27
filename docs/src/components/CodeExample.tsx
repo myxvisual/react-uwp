@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as ReactDOM from "react-dom";
 import * as PropTypes from "prop-types";
 
 import Icon from "react-uwp/Icon";
@@ -29,7 +30,19 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
+  mdRender: MarkdownRender;
   toggleShowCode = (showCode?: any) => {
+    const el = ReactDOM.findDOMNode(this.mdRender) as HTMLDivElement;
+    if (el) {
+      const codeEl = el.children[0] as HTMLDivElement;
+      const contentEl = codeEl.children[0] as HTMLDivElement;
+      const height = `${contentEl.clientHeight + 20}px`;
+      if (codeEl.style.height !== height) {
+        codeEl.style.height = height;
+      } else {
+        codeEl.style.height = "0px";
+      }
+    }
     if (typeof showCode === "boolean") {
       if (showCode !== this.state.showCode) {
         this.setState({ showCode });
@@ -56,6 +69,7 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
     } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const classes = theme.prepareStyles({ styles });
     const { showCode } = this.state;
     const codeText = `\`\`\`jsx
 ${code}
@@ -75,12 +89,12 @@ ${code}
               verticalPosition="bottom"
               horizontalPosition="left"
             >
-              <Icon style={styles.icon}>
+              <Icon {...classes.icon}>
                 {"\uE011"}
               </Icon>
             </Tooltip>
           </div>
-          {codeText && <MarkdownRender style={styles.code} text={codeText} />}
+          {codeText && <MarkdownRender ref={mdRender => this.mdRender = mdRender} {...classes.code} text={codeText} />}
           <DoubleThemeRender
             useChromeColor={useChromeColor}
             themeStyle={{
@@ -94,7 +108,7 @@ ${code}
             {children}
           </DoubleThemeRender>
         </div>
-        {description && <MarkdownRender style={styles.desc} text={description} />}
+        {description && <MarkdownRender {...classes.desc} text={description} />}
       </div>
     );
   }
@@ -131,14 +145,15 @@ function getStyles(codeExample: CodeExample): {
       color: "#fff",
       background: theme.accent,
       cursor: "pointer",
-      padding: "10px 8px",
+      padding: "4px 8px",
+      lineHeight: 1,
       ...style
     }),
     code: prefixStyle({
-      maxHeight: showCode ? 400 : 0,
-      overflow: "auto",
+      overflow: "hidden",
+      height: 0,
       width: "100%",
-      transition: "max-height .25s 0s",
+      transition: "height .25s 0s",
       padding: "0px 4px",
       ...style
     }),
