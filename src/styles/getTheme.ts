@@ -89,6 +89,7 @@ export class Theme {
   scrollReveals?: ScrollRevealType[] = [];
 
   revealConfig: RevealConfig;
+  currHoverSize: number;
   hoverGradientMap: Map<string, CanvasGradient> = new Map();
   reveaEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
 

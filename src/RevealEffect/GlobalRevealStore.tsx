@@ -69,15 +69,16 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
     // Add hover size.
     let { hoverSize } = theme.revealConfig;
-    for (const [borderCanvas, revealConfig] of reveaEffectMap) {
-      if (!borderCanvas) return;
-      const rootEl = borderCanvas.parentElement;
-      const isOnRoot = rootEl.contains(hoverEl);
-      if (isOnRoot) {
-        hoverSize = revealConfig.hoverSize;
-        break;
-      }
-    }
+    if (theme.currHoverSize !== void 0) hoverSize = theme.currHoverSize;
+    // for (const [borderCanvas, revealConfig] of reveaEffectMap) {
+    //   if (!borderCanvas) return;
+    //   const rootEl = borderCanvas.parentElement;
+    //   const isOnRoot = rootEl.contains(hoverEl);
+    //   if (isOnRoot) {
+    //     hoverSize = revealConfig.hoverSize;
+    //     break;
+    //   }
+    // }
 
     const effectRect = {
       left: clientX - hoverSize,

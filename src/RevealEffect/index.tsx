@@ -82,9 +82,9 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       } as CSSStyleDeclaration);
 
       if (effectEnable === "border") return;
-      // this.parentEl.addEventListener("mouseenter", this.drawHoverEffect, true);
-      // this.parentEl.addEventListener("mousemove", this.drawHoverEffect, true);
-      // this.parentEl.addEventListener("mouseleave", this.cleanHoverEffect, true);
+      this.parentEl.addEventListener("mouseenter", this.drawHoverEffect, true);
+      this.parentEl.addEventListener("mousemove", this.drawHoverEffect, true);
+      this.parentEl.addEventListener("mouseleave", this.cleanHoverEffect, true);
     }
   }
 
@@ -103,6 +103,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       hoverColor,
       effectEnable
     } = theme.reveaEffectMap.get(this.borderCanvasEl);
+    theme.currHoverSize = hoverSize;
   
     if (!this.hoverCtx) {
       this.hoverCtx = this.hoverCanvasEl.getContext("2d");
@@ -124,6 +125,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
   }
 
   cleanHoverEffect = (e?: MouseEvent) => {
+    this.context.theme.currHoverSize = void 0;
     const hoverCtx = this.hoverCanvasEl.getContext("2d");
     hoverCtx.clearRect(0, 0, this.hoverCanvasEl.width, this.hoverCanvasEl.height);
   }
