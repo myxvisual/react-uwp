@@ -1,13 +1,15 @@
 import * as tinycolor from "tinycolor2";
+import * as createHash from "murmurhash-js/murmurhash3_gc";
+
 import prefixAll from "../utils/prefixAll";
 import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
 import { getAcrylicTextureStyle, AcrylicConfig, isSupportBackdropFilter } from "./getAcrylicTextureStyle";
-import * as createHash from "murmurhash-js/murmurhash3_gc";
 import { WebGLRender, noiseFrag } from "../utils/WebGLRender";
-
 import { getThemeBaseCSS, getBaseCSS } from "./getBaseCSSText";
+import { DataProps as RevealConfig } from "../RevealEffect";
+
 export { getThemeBaseCSS, getBaseCSS };
 export { getAcrylicTextureStyle, isSupportBackdropFilter };
 
@@ -26,20 +28,6 @@ export function lighten(color: string, coefficient: number) {
   const hsl = tinycolor(color).toHsl();
   hsl.l = hsl.l + (100 - hsl.l) * coefficient;
   return tinycolor(hsl).toRgbString();
-}
-
-/** Set reveal effect config. */
-export interface BorderRevalConfig {
-  /** Set hover borderWidth. */
-  borderWidth?: number;
-  /** Set hover size. */
-  hoverSize?: number;
-  /** Set effectEnable type, default is both. */
-  effectEnable?: "hover" | "border" | "both";
-  /** Set borderType, default is inside. */
-  borderType?: "inside" | "outside";
-  /** Set borderColor. */
-  borderColor?: string;
 }
 
 export interface AcrylicTexture {
@@ -75,6 +63,7 @@ export interface ThemeConfig {
   acrylicConfig?: {
     blurSize?: number;
   };
+  revealConfig?: RevealConfig;
 
   useInlineStyle?: boolean;
   userAgent?: string;
@@ -98,7 +87,35 @@ export class Theme {
 
   styleManager?: StyleManager;
   scrollReveals?: ScrollRevealType[] = [];
-  borderRevealMap: Map<HTMLCanvasElement, BorderRevalConfig> = new Map();
+
+  revealConfig: RevealConfig;
+  hoverGradientMap: Map<string, CanvasGradient> = new Map();
+  reveaEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
+
+  getRevealConfig(prevConfig?: RevealConfig, newConfig?: RevealConfig) {
+    let defaultConfig: Required<RevealConfig> = {
+      effectEnable: "both",
+      hoverSize: 100,
+      hoverColor: this.baseMediumLow,
+      borderWidth: 2,
+      borderColor: this.baseMediumHigh
+    };
+
+    if (prevConfig) {
+      if (newConfig) {
+        defaultConfig = { ...prevConfig } as Required<RevealConfig>;
+      } else {
+       newConfig = prevConfig; 
+      }
+      for (let key in newConfig) {
+        const value = newConfig[key];
+        if (value !== void 0) {
+          defaultConfig[key] = newConfig[key];
+        }
+      }
+    }
+    return defaultConfig
+  }
 
   desktopBackground?: string;
 
@@ -278,7 +295,8 @@ export class Theme {
       userAgent,
       useInlineStyle,
       desktopBackgroundImage,
-      acrylicConfig
+      acrylicConfig,
+      revealConfig
     } = themeConfig;
     themeName = themeName || "dark";
     accent = accent || "#0078D7";
@@ -442,6 +460,9 @@ export class Theme {
         toast: 310
       }
     } as Partial<Theme>);
+
+    // set reveal config, by colors after.
+    this.revealConfig = this.getRevealConfig(revealConfig);
 
     // theme styleManager.
     this.styleManager = new StyleManager();

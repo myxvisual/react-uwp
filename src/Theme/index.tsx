@@ -220,7 +220,6 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       className: "theme",
       styles
     });
-    console.log("render theme.");
 
     return (
       <div

@@ -68,6 +68,7 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   componentWillUnmount() {
     clearTimeout(this.timer);
+    clearTimeout(this.unShowTimer);
   }
 
   showTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -90,11 +91,16 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   }
 
   unShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.timer = setTimeout(() => {
+    const close = () => {
       this.setState({
         showTooltip: false
       });
-    }, this.props.closeDelay);
+    }
+    if (this.props.closeDelay) {
+      this.timer = setTimeout(close, this.props.closeDelay);
+    } else {
+      close();
+    }
   }
 
   getStyle = (showTooltip = false, positionStyle?: React.CSSProperties): React.CSSProperties =>  {

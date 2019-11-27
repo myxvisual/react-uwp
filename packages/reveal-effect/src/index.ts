@@ -1,7 +1,7 @@
 import tinyColor from "tinycolor2";
 import * as easing from "d3-ease";
 import * as gsap from "gsap";
-import { drawElement2Ctx, DrawType } from "./hepler";
+import { drawElement2Ctx, DrawType } from "./helper";
 
 interface RevealStore {
     hoverCanvas: HTMLCanvasElement;
