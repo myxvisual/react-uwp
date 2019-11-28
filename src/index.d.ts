@@ -62,7 +62,7 @@ export { Theme, ThemeProps, ThemeState } from "./Theme";
 export { default as TimePicker, TimePickerProps, TimePickerState } from "./TimePicker";
 export { default as Toast, ToastProps, ToastState } from "./Toast";
 export { default as Toggle, ToggleProps, ToggleState } from "./Toggle";
-export { default as Tooltip, TooltipProps, TooltipState } from "./Tooltip";
+export { default as Tooltip, TooltipProps } from "./Tooltip";
 export { default as TreeView, TreeViewProps, TreeViewState } from "./TreeView";
 
 export { default as addCSSRule } from "./utils/browser/addCSSRule";

@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import { drawRectAtRange, createRadialGradient, frameMS, getNow } from "./helper";
+import { drawRectAtRange, createRadialGradient } from "./helper";
+import { Throttle } from "../utils/Throttle";
 import * as tinyColor from "tinycolor2";
 
 export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
@@ -107,13 +108,9 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
   }
 
   hoverCtx: CanvasRenderingContext2D;
-  hoverPrevDrawTime: number = getNow();
+  drawHoverThrottle = new Throttle();
   drawHoverEffect = (e?: MouseEvent) => {
-    const now = getNow();
-    if (now - this.hoverPrevDrawTime < frameMS) {
-      return;
-    }
-    this.hoverPrevDrawTime = now;
+    if (!this.drawHoverThrottle.shouldFunctionRun()) return;
 
     updateCanvasRect(this.borderCanvasEl);
     const { offsetX, offsetY } = e;
@@ -208,6 +205,7 @@ function getStyles(RevealEffect: RevealEffect) {
     root: prefixStyle({
       background: "none",
       position: "absolute",
+      pointerEvents: "none",
       left: 0,
       top: 0,
       width: 0,

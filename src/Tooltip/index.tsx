@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { Throttle } from "../utils/Throttle";
 
 export interface DataProps {
   /**
@@ -31,7 +32,7 @@ export interface DataProps {
    */
   autoCloseTimeout?: number;
   /**
-   * Set close delay time (ms).
+   * Set close delay by time (ms).
    */
   closeDelay?: number;
   /**
@@ -41,11 +42,10 @@ export interface DataProps {
 }
 export interface TooltipProps extends DataProps, React.HTMLAttributes<HTMLSpanElement> {}
 
-export interface TooltipState {
-  showTooltip?: boolean;
-}
+export class Tooltip extends React.Component<TooltipProps> {
+  static contextTypes = { theme: PropTypes.object };
+  context: { theme: ReactUWP.ThemeType };
 
-export class Tooltip extends React.Component<TooltipProps, TooltipState> {
   static defaultProps: TooltipProps = {
     verticalPosition: "top",
     horizontalPosition: "center",
@@ -54,56 +54,48 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     autoCloseTimeout: 750,
     closeDelay: 0
   };
-
-  state: TooltipState = {
-    showTooltip: false
-  };
   rootElm: HTMLDivElement;
   tooltipElm: HTMLSpanElement;
-  timer: any = null;
-  unShowTimer: any = null;
+  showTooltip: boolean = false;
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
-
-  componentWillUnmount() {
-    clearTimeout(this.timer);
-    clearTimeout(this.unShowTimer);
-  }
-
-  showTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
-    clearTimeout(this.unShowTimer);
-    const show = () => {
-      this.setState({
-        showTooltip: true
-      });
-    };
-    if (this.props.autoClose) {
-      show();
-      this.timer = setTimeout(() => {
-        this.setState({
-          showTooltip: false
-        });
-      }, this.props.autoCloseTimeout);
-    } else {
-      show();
+  atuoCloseTimer: any = null;
+  showThrottle = new Throttle();
+  toggleShow = (e?: React.MouseEvent<HTMLDivElement>) => {
+    if (!this.showThrottle.shouldFunctionRun()) return;
+    clearTimeout(this.atuoCloseTimer);
+    if (this.showTooltip) return;
+    this.showTooltip = true;
+    const classes = this.getTooltipClasses();
+    const { tooltipElm, props: { autoClose, autoCloseTimeout } } = this;
+    if (tooltipElm) {
+      if (autoClose && autoCloseTimeout) {
+        this.atuoCloseTimer = setTimeout(this.toggleHide, autoCloseTimeout);
+      }
+      Object.assign(tooltipElm, classes);
     }
   }
 
-  unShowTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
-    const close = () => {
-      this.setState({
-        showTooltip: false
-      });
-    }
-    if (this.props.closeDelay) {
-      this.timer = setTimeout(close, this.props.closeDelay);
-    } else {
-      close();
+  hideThrottle = new Throttle();
+  closeDelayTimer: any = null;
+  toggleHide = (e?: React.MouseEvent<HTMLDivElement>) => {
+    if (!this.hideThrottle.shouldFunctionRun()) return;
+    clearTimeout(this.closeDelayTimer);
+    if (!this.showTooltip) return;
+    this.showTooltip = false;
+    const classes = this.getTooltipClasses();
+    const { tooltipElm, props: { closeDelay } } = this;
+    if (tooltipElm) {
+      if (closeDelay) {
+        this.closeDelayTimer = setTimeout(() => {
+          Object.assign(tooltipElm, classes);
+        }, closeDelay);
+        return;
+      }
+      Object.assign(tooltipElm, classes);
     }
   }
 
-  getStyle = (showTooltip = false, positionStyle?: React.CSSProperties): React.CSSProperties =>  {
+  getBaseStyle = (showTooltip = false, positionStyle?: React.CSSProperties): React.CSSProperties =>  {
     const { context: { theme }, props: { style, background } } = this;
     return theme.prefixStyle({
       height: 28,
@@ -128,14 +120,13 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
 
   getTooltipStyle = (): React.CSSProperties => {
     const { rootElm, tooltipElm } = this;
-    if (!(rootElm && tooltipElm)) return this.getStyle();
+    if (!(rootElm && tooltipElm)) return this.getBaseStyle();
 
-    const { theme } = this.context;
     const { verticalPosition, horizontalPosition, margin } = this.props;
     const { width, height } = rootElm.getBoundingClientRect();
     const containerWidth = tooltipElm.getBoundingClientRect().width;
     const containerHeight = tooltipElm.getBoundingClientRect().height;
-    const { showTooltip } = this.state;
+    const { showTooltip } = this;
     const positionStyle: React.CSSProperties = {};
     const isVerticalCenter = verticalPosition === "center";
 
@@ -175,7 +166,20 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
         }
       }
     }
-    return this.getStyle(showTooltip, positionStyle);
+
+    return this.getBaseStyle(showTooltip, positionStyle);
+  }
+
+  getTooltipClasses() {
+    const { theme } = this.context;
+    const { className } = this.props;
+    const tooltipStyle = this.getTooltipStyle();
+    const classes = theme.prepareStyle({
+      className: "tooltip",
+      style: tooltipStyle,
+      extendsClassName: className
+    });
+    return classes;
   }
 
   render() {
@@ -195,22 +199,24 @@ export class Tooltip extends React.Component<TooltipProps, TooltipState> {
     } = this.props;
     const { theme } = this.context;
     const tooltipStyle = this.getTooltipStyle();
+    const classes = theme.prepareStyle({
+      className: "tooltip",
+      style: tooltipStyle,
+      extendsClassName: className
+    });
+
     return (
       <div
         style={{ position: "relative", display: "inline-block" }}
         ref={rootElm => this.rootElm = rootElm}
-        onMouseEnter={this.showTooltip}
-        onClick={this.showTooltip}
-        onMouseLeave={this.unShowTooltip}
+        onMouseEnter={this.toggleShow}
+        onClick={this.toggleShow}
+        onMouseLeave={this.toggleHide}
       >
         <span
           ref={tooltipElm => this.tooltipElm = tooltipElm}
           {...attributes}
-          {...theme.prepareStyle({
-            className: "tooltip",
-            style: tooltipStyle,
-            extendsClassName: className
-          })}
+          {...classes}
         >
           {content || contentNode}
         </span>

@@ -126,7 +126,7 @@ export function drawRectAtRange(
   ctx.restore();
 }
 
-export function createRadialGradient(ctx: CanvasRenderingContext2D, colorStr: string, timingFunc = easing.easeCubicInOut) {
+export function createRadialGradient(ctx: CanvasRenderingContext2D, colorStr: string, timingFunc = easing.easeQuadInOut) {
   const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
   const tColor = tinyColor(colorStr);
   const hsla = tColor.toHsl();
@@ -139,14 +139,4 @@ export function createRadialGradient(ctx: CanvasRenderingContext2D, colorStr: st
   }
 
   return { hslaStr, gradient };
-}
-
-export const frameMS = Math.floor(1000 / 120);
-
-export function getNow() {
-  if ("performance" in window) {
-    return performance.now();
-  } else {
-    return Date.now();
-  }
 }

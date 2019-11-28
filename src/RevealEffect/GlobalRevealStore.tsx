@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Theme } from "../styles/getTheme";
-import { drawElement2Ctx, DrawType, drawRectAtRange, createRadialGradient, frameMS, getNow, inRectInside } from "./helper"; import * as tinyColor from "tinycolor2";
+import { drawElement2Ctx, DrawType, drawRectAtRange, createRadialGradient, inRectInside } from "./helper"; import * as tinyColor from "tinycolor2";
 import { updateCanvasRect } from "./index";
+import { Throttle } from "../utils/Throttle";
 
 export interface DataProps {
   theme: Theme;
@@ -17,7 +18,6 @@ export interface OverlapRect {
 export interface GlobalRevealStoreProps extends DataProps {}
 
 export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
-  borderPrevDrawTime = getNow();
   currPosition: {
     clientX?: number;
     clientY?: number;
@@ -58,12 +58,9 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     return Math.max(rect1.left, rect2.left) < Math.min(rect1.right, rect2.right) && Math.max(rect1.top, rect2.top) < Math.min(rect1.bottom, rect2.bottom);
   }
 
+  drawBorderThrottle = new Throttle();
   drawBorders = (e: MouseEvent) => {
-    const now = getNow();
-    if (now - this.borderPrevDrawTime < frameMS) {
-      return;
-    }
-    this.borderPrevDrawTime = now;
+    if (!this.drawBorderThrottle.shouldFunctionRun()) return;
 
     const { theme } = this.props;
     const { revealEffectMap } = theme;
