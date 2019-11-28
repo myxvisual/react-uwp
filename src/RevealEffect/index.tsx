@@ -3,6 +3,46 @@ import * as PropTypes from "prop-types";
 import { drawRectAtRange, createRadialGradient, frameMS, getNow } from "./helper";
 import * as tinyColor from "tinycolor2";
 
+export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
+  const hoverCanvasEl = borderCanvasEl.previousElementSibling as HTMLCanvasElement;
+  const parentEl = borderCanvasEl.parentElement as HTMLElement;
+  if (!parentEl) return;
+  const style = window.getComputedStyle(parentEl);
+  const {
+      borderTopWidth,
+      borderLeftWidth,
+      width,
+      height
+  } = style;
+
+  const btWidth = Number.parseFloat(borderTopWidth);
+  const blWidth = Number.parseFloat(borderLeftWidth);
+  const elWidth = Number.parseFloat(width);
+  const elHeight = Number.parseFloat(height);
+
+  if (borderCanvasEl.width !== elWidth) borderCanvasEl.width = elWidth;
+  if (borderCanvasEl.height !== elHeight) borderCanvasEl.height = elHeight;
+  if (hoverCanvasEl.width !== elWidth) hoverCanvasEl.width = elWidth;
+  if (hoverCanvasEl.height !== elHeight) hoverCanvasEl.height = elHeight;
+
+  const currStyle = {
+    left: blWidth ? `-${blWidth}px` : "0px",
+    top: btWidth ? `-${btWidth}px` : "0px",
+    width,
+    height
+  } as CSSStyleDeclaration;
+
+  for (let key in currStyle) {
+    const value = currStyle[key];
+    if (borderCanvasEl.style[key] !== value) {
+      borderCanvasEl.style[key] = value;
+    }
+    if (hoverCanvasEl.style[key] !== value) {
+      hoverCanvasEl.style[key] = value;
+    }
+  }
+}
+
 export interface DataProps {
   /** Set effectEnable type, default is both. */
   effectEnable?: "hover" | "border" | "both";
@@ -21,6 +61,10 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
   parentEl: HTMLElement;
+  currPosition = {
+    clientX: 0,
+    clientY: 0
+  };
   hoverCanvasEl: HTMLCanvasElement;
   borderCanvasEl: HTMLCanvasElement;
 
@@ -52,36 +96,10 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       hoverColor,
       borderColor
     });
-    theme.reveaEffectMap.set(this.borderCanvasEl, currRevealConfig);
+    theme.revealEffectMap.set(this.borderCanvasEl, currRevealConfig);
 
     this.parentEl = this.borderCanvasEl.parentElement;
-    if (this.parentEl) {
-      const style = window.getComputedStyle(this.parentEl);
-      const {
-          borderTopWidth,
-          borderLeftWidth,
-          width,
-          height
-      } = style;
-      this.borderCanvasEl.width = Number.parseFloat(width);
-      this.borderCanvasEl.height = Number.parseFloat(height);
-      this.hoverCanvasEl.width = Number.parseFloat(width);
-      this.hoverCanvasEl.height = Number.parseFloat(height);
-
-      Object.assign(this.borderCanvasEl.style, {
-        left: `-${borderLeftWidth}`,
-        top: `-${borderTopWidth}`,
-        width,
-        height
-      } as CSSStyleDeclaration);
-      Object.assign(this.hoverCanvasEl.style, {
-        left: `-${borderLeftWidth}`,
-        top: `-${borderTopWidth}`,
-        width,
-        height
-      } as CSSStyleDeclaration);
-
-      if (effectEnable === "border") return;
+    if (this.parentEl && effectEnable !== "border") {
       this.parentEl.addEventListener("mouseenter", this.drawHoverEffect, true);
       this.parentEl.addEventListener("mousemove", this.drawHoverEffect, true);
       this.parentEl.addEventListener("mouseleave", this.cleanHoverEffect, true);
@@ -96,19 +114,22 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       return;
     }
     this.hoverPrevDrawTime = now;
+
+    updateCanvasRect(this.borderCanvasEl);
     const { offsetX, offsetY } = e;
     const { theme } = this.context;
     const {
       hoverSize,
       hoverColor,
       effectEnable
-    } = theme.reveaEffectMap.get(this.borderCanvasEl);
+    } = theme.revealEffectMap.get(this.borderCanvasEl);
     theme.currHoverSize = hoverSize;
-  
+
     if (!this.hoverCtx) {
       this.hoverCtx = this.hoverCanvasEl.getContext("2d");
     }
     this.hoverCtx.clearRect(0, 0, this.hoverCanvasEl.width, this.hoverCanvasEl.height);
+
     const hslaStr = tinyColor(hoverColor).toHslString();
     let hoverGradient = theme.hoverGradientMap.get(hslaStr);
     if (!hoverGradient) {
@@ -131,7 +152,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
   }
 
   removeDOMNode() {
-    this.context.theme.reveaEffectMap.delete(this.borderCanvasEl);
+    this.context.theme.revealEffectMap.delete(this.borderCanvasEl);
     if (this.parentEl) {
       this.parentEl.removeEventListener("mouseenter", this.drawHoverEffect, true);
       this.parentEl.removeEventListener("mousemove", this.drawHoverEffect, true);

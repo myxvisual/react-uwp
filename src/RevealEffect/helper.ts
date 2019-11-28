@@ -14,6 +14,15 @@ export function getBorderRadius(style: CSSStyleDeclaration) {
   };
 }
 
+/**
+ * Detect cursor is inside to rect.
+ * @param position The mouse cursor position.
+ * @param rect The DOMRect.
+ */
+export function inRectInside(position: { left: number; top: number }, rect: DOMRect) {
+  return (position.left > rect.left && position.left < rect.right && position.top > rect.top && position.top < rect.bottom);
+}
+
 export function drawRadiusRect(ctx: CanvasRenderingContext2D, rect: { x: number, y: number, w: number, h: number }, radius: { borderTopLeftRadius: number; borderTopRightRadius: number; borderBottomLeftRadius: number; borderBottomRightRadius: number; }) {
   const { x, y, w, h } = rect;
   const {
@@ -128,7 +137,7 @@ export function createRadialGradient(ctx: CanvasRenderingContext2D, colorStr: st
       let alpha = timingFunc(x);
       gradient.addColorStop(x / 2, `hsla(${hsla.h}, ${hsla.h * 100}%, ${hsla.l * 100}%, ${(1 - alpha) * hsla.a})`);
   }
-  
+
   return { hslaStr, gradient };
 }
 

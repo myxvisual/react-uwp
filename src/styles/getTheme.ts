@@ -91,7 +91,7 @@ export class Theme {
   revealConfig: RevealConfig;
   currHoverSize: number;
   hoverGradientMap: Map<string, CanvasGradient> = new Map();
-  reveaEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
+  revealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
 
   getRevealConfig(prevConfig?: RevealConfig, newConfig?: RevealConfig) {
     let defaultConfig: Required<RevealConfig> = {
@@ -106,7 +106,7 @@ export class Theme {
       if (newConfig) {
         defaultConfig = { ...prevConfig } as Required<RevealConfig>;
       } else {
-       newConfig = prevConfig; 
+       newConfig = prevConfig;
       }
       for (let key in newConfig) {
         const value = newConfig[key];
@@ -115,7 +115,7 @@ export class Theme {
         }
       }
     }
-    return defaultConfig
+    return defaultConfig;
   }
 
   desktopBackground?: string;
