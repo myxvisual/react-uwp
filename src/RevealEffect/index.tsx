@@ -27,8 +27,8 @@ export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
   if (hoverCanvasEl.height !== elHeight) hoverCanvasEl.height = elHeight;
 
   const currStyle = {
-    left: blWidth ? `-${blWidth}px` : "0px",
-    top: btWidth ? `-${btWidth}px` : "0px",
+    left: blWidth ? `-${blWidth / 2}px` : "0px",
+    top: btWidth ? `-${btWidth / 2}px` : "0px",
     width,
     height
   } as CSSStyleDeclaration;

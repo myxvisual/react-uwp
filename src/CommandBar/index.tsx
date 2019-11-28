@@ -133,7 +133,6 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
     const { currExpanded } = this.state;
     const { theme } = this.context;
     const defaultHeight = isMinimal ? 24 : 48;
-    const expandedHeight = 72;
     const inlineStyles = getStyles(this);
     const styles = theme.prepareStyles({
       className: "command-bar",

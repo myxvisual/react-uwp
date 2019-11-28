@@ -80,8 +80,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
         background: defaultBG,
         color: disabled ? theme.baseLow : theme.baseHigh,
         "&:hover": {
-          ...theme.acrylicTexture40.style,
-          background: isFocus ? theme.listAccentHigh : theme.baseLow
+          ...(isFocus ? theme.acrylicTexture40.style : theme.acrylicTexture60.style),
         },
         "&:active": {
           transform: "scale(0.99)"
@@ -170,6 +169,7 @@ function getStyles(listView: ListView): {
       ...style
     }),
     item: theme.prefixStyle({
+      ...theme.acrylicTexture60.style,
       cursor: "default",
       padding: 8,
       width: "100%",

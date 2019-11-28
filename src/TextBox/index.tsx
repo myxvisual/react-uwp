@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -122,6 +123,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
     };
 
     const rootWrapperStyle: React.CSSProperties = {
+      position: "relative",
       lineHeight: "32px",
       height: 32,
       width: 296,
@@ -132,8 +134,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       alignItems: "center",
       color: focused ? "#000" : theme.baseHigh,
       background: focused ? "#fff" : currBackground || "none",
-      boxShadow: focused ? `inset 0px 0px 0 2px ${this.context.theme.accent}` : hovered ? `inset 0px 0px 0 2px ${theme.baseMedium}` : `inset 0px 0px 0 2px ${theme.baseLow}`,
-      border: "none",
+      border: focused ? `2px solid ${this.context.theme.accent}` : hovered ? `2px solid ${theme.baseMedium}` : `2px solid ${theme.baseLow}`,
       transition: "all .25s"
     };
 
@@ -143,6 +144,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
         ...style
       }) : {} as React.CSSProperties,
       input: theme.prefixStyle({
+        display: "block",
         ...(haveChild ? {
           paddingLeft: rightNode ? 8 : void 0,
           paddingRight: leftNode ? 8 : void 0,
@@ -155,6 +157,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
           transition: "all .25s"
         } : rootWrapperStyle),
         ...(haveChild ? void 0 : style),
+        margin: 0,
         ...textBoxStyle
       }) as React.CSSProperties
     };
@@ -194,6 +197,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
         {normalRender}
         {children}
         {rightNode}
+        {!focused && <RevealEffect />}
       </div>
     ) : normalRender;
   }

@@ -98,7 +98,7 @@ export class Theme {
       effectEnable: "both",
       hoverSize: 100,
       hoverColor: this.baseMediumLow,
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: this.baseMediumHigh
     };
 

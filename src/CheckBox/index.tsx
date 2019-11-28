@@ -209,6 +209,7 @@ function getStyles(checkBox: CheckBox): {
 
   return {
     wrapper: theme.prefixStyle({
+      position: "relative",
       display: "inline-block",
       verticalAlign: "middle",
       ...style
