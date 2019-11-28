@@ -1,4 +1,4 @@
-import * as tinycolor from "tinycolor2";
+import * as tinyColor from "tinycolor2";
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 
 import prefixAll from "../utils/prefixAll";
@@ -19,15 +19,15 @@ export const fonts = {
 };
 
 export function darken(color: string, coefficient: number) {
-  const hsl = tinycolor(color).toHsl();
+  const hsl = tinyColor(color).toHsl();
   hsl.l = hsl.l * (1 - coefficient);
-  return tinycolor(hsl).toRgbString();
+  return tinyColor(hsl).toRgbString();
 }
 
 export function lighten(color: string, coefficient: number) {
-  const hsl = tinycolor(color).toHsl();
+  const hsl = tinyColor(color).toHsl();
   hsl.l = hsl.l + (100 - hsl.l) * coefficient;
-  return tinycolor(hsl).toRgbString();
+  return tinyColor(hsl).toRgbString();
 }
 
 export interface AcrylicTexture {
@@ -312,9 +312,9 @@ export class Theme {
     const isDarkTheme = themeName === "dark";
     const baseHigh = isDarkTheme ? "#fff" : "#000";
     const altHigh = isDarkTheme ? "#000" : "#fff";
-    const baseHighColor = tinycolor(baseHigh);
-    const altHighColor = tinycolor(altHigh);
-    const accentColor = tinycolor(accent);
+    const baseHighColor = tinyColor(baseHigh);
+    const altHighColor = tinyColor(altHigh);
+    const accentColor = tinyColor(accent);
 
     const altMediumLow = altHighColor.setAlpha(0.4).toRgbString();
     const altMedium = altHighColor.setAlpha(0.6).toRgbString();
@@ -385,9 +385,9 @@ export class Theme {
       chromeDisabledLow: isDarkTheme ? "#858585" : "#7a7a7a",
       chromeDisabledHigh: isDarkTheme ? "#333" : "#ccc",
 
-      chromeBlackLow: tinycolor("#000").setAlpha(0.2).toRgbString(),
-      chromeBlackMediumLow: tinycolor("#000").setAlpha(0.4).toRgbString(),
-      chromeBlackMedium: tinycolor("#000").setAlpha(0.8).toRgbString(),
+      chromeBlackLow: tinyColor("#000").setAlpha(0.2).toRgbString(),
+      chromeBlackMediumLow: tinyColor("#000").setAlpha(0.4).toRgbString(),
+      chromeBlackMedium: tinyColor("#000").setAlpha(0.8).toRgbString(),
       chromeBlackHigh: "#000",
       chromeWhite: "#fff",
 

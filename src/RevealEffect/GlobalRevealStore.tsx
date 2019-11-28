@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Theme } from "../styles/getTheme";
-import { drawElement2Ctx, DrawType, drawRectAtRange, createRadialGradient, frameMS, getNow, inRectInside } from "./helper";
-import * as tinyColor from "tinycolor2";
+import { drawElement2Ctx, DrawType, drawRectAtRange, createRadialGradient, frameMS, getNow, inRectInside } from "./helper"; import * as tinyColor from "tinycolor2";
 import { updateCanvasRect } from "./index";
 
 export interface DataProps {
@@ -18,7 +17,6 @@ export interface OverlapRect {
 export interface GlobalRevealStoreProps extends DataProps {}
 
 export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
-  borderMaskGradient: CanvasGradient;
   borderPrevDrawTime = getNow();
   currPosition: {
     clientX?: number;
@@ -46,12 +44,14 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     document.removeEventListener("click", this.drawBorders, true);
   }
 
-  getBorderMaskGradient(ctx: CanvasRenderingContext2D) {
-    if (!this.borderMaskGradient) {
-      const { gradient } = createRadialGradient(ctx, "#fff");
-      this.borderMaskGradient = gradient;
+  getBorderMaskGradient(ctx: CanvasRenderingContext2D, borderColor: string) {
+    const { theme } = this.props;
+    let gradient = theme.hoverGradientMap.get(borderColor);
+    if (!gradient) {
+      gradient = createRadialGradient(ctx, borderColor).gradient;
+      theme.hoverGradientMap.set(borderColor, gradient);
     }
-    return this.borderMaskGradient;
+    return gradient;
   }
 
   checkOverlap(rect1: OverlapRect, rect2: OverlapRect) {
@@ -108,7 +108,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
         if (effectEnable === "hover") return;
 
         borderCtx.globalCompositeOperation = "source-over";
-        const gradient = this.getBorderMaskGradient(borderCtx);
+        const gradient = this.getBorderMaskGradient(borderCtx, tinyColor(borderColor).toHslString());
         drawRectAtRange(borderCtx, {
           x: clientX - rootRect.left,
           y: clientY - rootRect.top,
@@ -118,17 +118,17 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
         borderCtx.globalCompositeOperation = "destination-in";
         borderCtx.lineWidth = borderWidth;
-        borderCtx.fillStyle = borderColor;
-        borderCtx.strokeStyle = borderColor;
+        borderCtx.fillStyle = "#fff";
+        borderCtx.strokeStyle = "#fff";
         drawElement2Ctx(borderCtx, borderCanvas.parentElement, DrawType.Stroke, false);
 
         // add to hoverRootEls.
         const isInside = inRectInside({ left: clientX, top: clientY }, borderCanvas.getBoundingClientRect());
         if (isInside) hoverCanvasList.push(borderCanvas);
-        const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
-        const hoverCtx = hoverCanvas.getContext("2d");
-        hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
       }
+      const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
+      const hoverCtx = hoverCanvas.getContext("2d");
+      hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
     }
 
     // draw hover effect.

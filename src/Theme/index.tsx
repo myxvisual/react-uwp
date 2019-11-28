@@ -66,6 +66,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   cacheLightAcrylicTextures: ThemeType;
   toastWrapper: ToastWrapper;
   styleEl: HTMLStyleElement;
+  useUpdateTheme: boolean = false;
 
   getThemeFromProps(props: ThemeProps) {
     const { theme } = props;
@@ -111,7 +112,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
   componentWillReceiveProps(nextProps: ThemeProps) {
     const currTheme = this.getThemeFromProps(nextProps);
-    if (currTheme !== this.state.currTheme) {
+    if (currTheme !== this.state.currTheme && !this.useUpdateTheme) {
       this.setThemeHelper(currTheme);
       this.setState({ currTheme });
     }
@@ -189,6 +190,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   updateTheme = (currTheme: ThemeType) => {
+    this.useUpdateTheme = true;
     this.setThemeHelper(currTheme, this.state.currTheme);
     this.setState({ currTheme });
   }
