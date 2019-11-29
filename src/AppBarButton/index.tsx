@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import RevealEffect from "../RevealEffect";
+import RevealEffect, { RevealEffectProps } from "../RevealEffect";
 
 import PseudoClasses from "../PseudoClasses";
 import Icon from "../Icon";
@@ -26,6 +26,10 @@ export interface DataProps {
    * Set label display position.
    */
   labelPosition?: "right" | "bottom" | "collapsed";
+  /**
+   * Set RevealEffect, check the styles/reveal-effect.
+   */
+  revealConfig?: RevealEffectProps;
 }
 
 export interface AppBarButtonButtonProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -45,6 +49,7 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
       label,
       className,
       labelPosition,
+      revealConfig,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -74,7 +79,7 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
           {labelPosition !== "collapsed" && <p {...styles.label}>
             {label}
           </p>}
-          <RevealEffect />
+          <RevealEffect {...revealConfig} />
         </div>
       </PseudoClasses>
     );

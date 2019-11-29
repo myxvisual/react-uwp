@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
+import RevealEffect, { RevealEffectProps } from "../RevealEffect";
 
 import AddBlurEvent from "../utils/AddBlurEvent";
 import AppBarButton from "../AppBarButton";
@@ -52,6 +53,10 @@ export interface DataProps {
    * Set custom background.
    */
   background?: string;
+  /**
+   * Set RevealEffect, check the styles/reveal-effect.
+   */
+  revealConfig?: RevealEffectProps;
 }
 
 export interface CommandBarProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -127,6 +132,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
       expanded,
       isMinimal,
       verticalPosition,
+      revealConfig,
       background,
       ...attributes
     } = this.props;
@@ -151,6 +157,9 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
             )).map((child: any, index: number) => (
               React.cloneElement(child, {
                 labelPosition,
+                revealConfig: {
+                  effectEnable: "disabled"
+                },
                 key: index,
                 style: child.type === AppBarSeparator ? {
                   height: 24
@@ -159,6 +168,9 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
             ))}
             <AppBarButton
               labelPosition="bottom"
+              revealConfig={{
+                effectEnable: "disabled"
+              }}
               style={inlineStyles.moreLegacy}
               iconStyle={{
                 maxWidth: defaultHeight,
@@ -182,6 +194,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
               />
             )}
           </div>
+        <RevealEffect {...revealConfig} />
         </div>
       </div>
     );
@@ -228,6 +241,7 @@ function getStyles(commandBar: CommandBar): {
   }
   return {
     wrapper: theme.prefixStyle({
+      position: "relative",
       height: inBottom ? "auto" : defaultHeight,
       display: "block",
       zIndex: currExpanded ? theme.zIndex.commandBar : void 0,

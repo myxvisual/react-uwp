@@ -73,8 +73,6 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     if (!isScrollEvent) {
       this.currPosition = { clientX, clientY };
     }
-    const currEl = e.target as HTMLElement;
-    const borderCanvasEls: HTMLCanvasElement[] = [];
 
     // Add hover size.
     let { hoverSize } = theme.revealConfig;
@@ -95,33 +93,37 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
       const rootRect = rootEl.getBoundingClientRect();
 
       const isOverlap = this.checkOverlap(effectRect, rootRect);
+      const isInside = inRectInside({ left: clientX, top: clientY }, borderCanvas.getBoundingClientRect());
       const borderCtx = borderCanvas.getContext("2d");
       borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
 
-      if (isOverlap) {
+      if (isOverlap || isInside) {
         updateCanvasRect(borderCanvas);
-        borderCanvasEls.push(borderCanvas);
         const { borderColor, borderWidth, effectEnable } = revealConfig;
-        if (effectEnable === "hover") return;
+        const disabledBorder = effectEnable === "hover" || effectEnable === "disabled";
+        const disabledHover = effectEnable === "border" || effectEnable === "disabled";
 
-        borderCtx.globalCompositeOperation = "source-over";
-        const gradient = this.getBorderMaskGradient(borderCtx, tinyColor(borderColor).toHslString());
-        drawRectAtRange(borderCtx, {
-          x: clientX - rootRect.left,
-          y: clientY - rootRect.top,
-          scale: 1,
-          size: hoverSize * 2
-        }, gradient);
+        if (!disabledBorder || isInside) {
+          borderCtx.globalCompositeOperation = "source-over";
+          const gradient = this.getBorderMaskGradient(borderCtx, tinyColor(borderColor).toHslString());
+          drawRectAtRange(borderCtx, {
+            x: clientX - rootRect.left,
+            y: clientY - rootRect.top,
+            scale: 1,
+            size: hoverSize * 2
+          }, gradient);
 
-        borderCtx.globalCompositeOperation = "destination-in";
-        borderCtx.lineWidth = borderWidth;
-        borderCtx.fillStyle = "#fff";
-        borderCtx.strokeStyle = "#fff";
-        drawElement2Ctx(borderCtx, borderCanvas.parentElement, DrawType.Stroke, false);
+          borderCtx.globalCompositeOperation = "destination-in";
+          borderCtx.lineWidth = borderWidth;
+          borderCtx.fillStyle = "#fff";
+          borderCtx.strokeStyle = "#fff";
+          drawElement2Ctx(borderCtx, borderCanvas.parentElement, DrawType.Stroke, false);
+        }
 
         // add to hoverRootEls.
-        const isInside = inRectInside({ left: clientX, top: clientY }, borderCanvas.getBoundingClientRect());
-        if (isInside) hoverCanvasList.push(borderCanvas);
+        if (isInside && !disabledHover) {
+          hoverCanvasList.push(borderCanvas);
+        }
       }
       const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
       const hoverCtx = hoverCanvas.getContext("2d");
