@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import { drawRectAtRange, createRadialGradient } from "./helper";
+import { drawRectAtRange, createRadialGradient, drawBorder } from "./helper";
 import { Throttle } from "../utils/Throttle";
 import * as tinyColor from "tinycolor2";
 
@@ -107,10 +107,25 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
     const disabledHover = effectEnable === "border" || effectEnable === "disabled";
     if (this.parentEl && !disabledHover) {
       theme.revealEffectMap.set(this.borderCanvasEl, currRevealConfig);
+      if (currRevealConfig.effectRange === "self") {
+        theme.selfRangeRevealEffectMap.set(this.borderCanvasEl, currRevealConfig);
+      }
       this.parentEl.addEventListener("mouseenter", this.drawHoverEffect, false);
       this.parentEl.addEventListener("mousemove", this.drawHoverEffect, false);
       this.parentEl.addEventListener("mouseleave", this.cleanHoverEffect, false);
     }
+  }
+
+  getGradient = (hslaStr: string) => {
+    const { theme } = this.context;
+    let cachedGradient = theme.reveaGradientMap.get(hslaStr);
+    if (!cachedGradient) {
+      const { gradient } = createRadialGradient(this.hoverCtx, hslaStr);
+      cachedGradient = gradient;
+      theme.reveaGradientMap.set(hslaStr, gradient);
+    }
+
+    return cachedGradient;
   }
 
   hoverCtx: CanvasRenderingContext2D;
@@ -123,35 +138,49 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
     const { theme } = this.context;
     const {
       hoverSize,
-      hoverColor
+      hoverColor,
+      borderWidth,
+      borderColor,
+      effectRange
     } = theme.revealEffectMap.get(this.borderCanvasEl);
     theme.currHoverSize = hoverSize;
 
     this.parentElRect = this.parentEl.getBoundingClientRect();
+    const [x, y] = [clientX - this.parentElRect.x, clientY - this.parentElRect.y];
     if (!this.hoverCtx) {
       this.hoverCtx = this.hoverCanvasEl.getContext("2d");
     }
     this.hoverCtx.clearRect(0, 0, this.hoverCanvasEl.width, this.hoverCanvasEl.height);
 
     const hslaStr = tinyColor(hoverColor).toHslString();
-    let hoverGradient = theme.hoverGradientMap.get(hslaStr);
-    if (!hoverGradient) {
-      const { gradient } = createRadialGradient(this.hoverCtx, hoverColor);
-      hoverGradient = gradient;
-      theme.hoverGradientMap.set(hslaStr, gradient);
-    }
+    const hoverGradient = this.getGradient(hslaStr);
     drawRectAtRange(this.hoverCtx, {
-      x: clientX - this.parentElRect.x,
-      y: clientY - this.parentElRect.y,
+      x,
+      y,
       scale: 1,
       size: hoverSize * 2
     }, hoverGradient);
+
+    if (theme.selfRangeRevealEffectMap.size > 0 && effectRange === "self") {
+      const hslaStr = tinyColor(borderColor).toHslString();
+      const gradient = this.getGradient(hslaStr);
+      drawBorder({
+        borderCanvas: this.borderCanvasEl,
+        hoverSize,
+        borderWidth,
+        gradient,
+        x,
+        y
+      });
+    }
   }
 
   cleanHoverEffect = (e?: MouseEvent) => {
     this.context.theme.currHoverSize = void 0;
     const hoverCtx = this.hoverCanvasEl.getContext("2d");
+    const borderCtx = this.borderCanvasEl.getContext("2d");
     hoverCtx.clearRect(0, 0, this.hoverCanvasEl.width, this.hoverCanvasEl.height);
+    borderCtx.clearRect(0, 0, this.borderCanvasEl.width, this.borderCanvasEl.height);
   }
 
   removeDOMNode() {

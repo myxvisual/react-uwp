@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Theme } from "../styles/getTheme";
-import { drawElement2Ctx, DrawType, drawRectAtRange, createRadialGradient, inRectInside } from "./helper"; import * as tinyColor from "tinycolor2";
+import { drawElement2Ctx, DrawType, drawRectAtRange, createRadialGradient, inRectInside, drawBorder, drawHover } from "./helper"; import * as tinyColor from "tinycolor2";
 import { updateCanvasRect } from "./index";
 import { Throttle } from "../utils/Throttle";
 
@@ -46,10 +46,10 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
   getBorderMaskGradient(ctx: CanvasRenderingContext2D, borderColor: string) {
     const { theme } = this.props;
-    let gradient = theme.hoverGradientMap.get(borderColor);
+    let gradient = theme.reveaGradientMap.get(borderColor);
     if (!gradient) {
       gradient = createRadialGradient(ctx, borderColor).gradient;
-      theme.hoverGradientMap.set(borderColor, gradient);
+      theme.reveaGradientMap.set(borderColor, gradient);
     }
     return gradient;
   }
@@ -64,8 +64,21 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
     const { theme } = this.props;
     const { revealEffectMap } = theme;
-    if (revealEffectMap.size === 0) return;
 
+    // break by self effect.
+    let isSelfBorder = false;
+    const hadSelfRange = theme.selfRangeRevealEffectMap.size > 0;
+    if (hadSelfRange) {
+      for (const [borderCanvas, revealConfig] of revealEffectMap) {
+        if (borderCanvas.parentElement.contains(e.target as HTMLElement)) {
+          isSelfBorder = true;
+        }
+      }
+    }
+    if (isSelfBorder) return;
+    
+    if (revealEffectMap.size === 0) return;
+    // read all revealEffectMap.
     const isScrollEvent = e.type === "scroll";
     const { clientX, clientY } = isScrollEvent ? this.currPosition : e;
     if (!(clientX && clientY)) return;
@@ -86,65 +99,40 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     };
     let hoverCanvasList: HTMLCanvasElement[] = [];
 
-    let hadSelfRangBorder = false;
-    let prevDeepCanvas: HTMLCanvasElement = null;
     // draw border effect.
     for (const [borderCanvas, revealConfig] of revealEffectMap) {
       if (!borderCanvas) return;
-      // updateCanvasRect.
+      const borderCtx = borderCanvas.getContext("2d");
       const rootEl = borderCanvas.parentElement;
       const rootRect = rootEl.getBoundingClientRect();
+      const { borderColor, borderWidth, effectEnable, effectRange } = revealConfig;
+      const disabledBorder = effectEnable === "hover" || effectEnable === "disabled";
+      const disabledHover = effectEnable === "border" || effectEnable === "disabled";
+      const [x, y] = [clientX - rootRect.left, clientY - rootRect.top];
+      borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
+
+      // draw border effect func.
+      const drawBorderEffect = () => {
+        if (disabledBorder) return;
+        const gradient = this.getBorderMaskGradient(borderCtx, tinyColor(borderColor).toHslString());
+        drawBorder({
+          borderCanvas,
+          hoverSize,
+          borderWidth,
+          gradient,
+          x,
+          y
+        });
+      };
 
       const isOverlap = this.checkOverlap(effectRect, rootRect);
       const isInside = inRectInside({ left: clientX, top: clientY }, borderCanvas.getBoundingClientRect());
-      const borderCtx = borderCanvas.getContext("2d");
       borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
 
-      if (isOverlap || isInside) {
+      if ((isOverlap || isInside) && !theme.selfRangeRevealEffectMap.get(borderCanvas)) {
+      // updateCanvasRect.
         updateCanvasRect(borderCanvas);
-        const { borderColor, borderWidth, effectEnable, effectRange } = revealConfig;
-        const disabledBorder = effectEnable === "hover" || effectEnable === "disabled";
-        const disabledHover = effectEnable === "border" || effectEnable === "disabled";
-        const isSelfRange = effectRange === "self";
-
-        const drawBorderEffect = () => {
-          // draw border effect.
-          if (disabledBorder) return;
-          borderCtx.globalCompositeOperation = "source-over";
-          const gradient = this.getBorderMaskGradient(borderCtx, tinyColor(borderColor).toHslString());
-          drawRectAtRange(borderCtx, {
-            x: clientX - rootRect.left,
-            y: clientY - rootRect.top,
-            scale: 1,
-            size: hoverSize * 2
-          }, gradient);
-
-          borderCtx.globalCompositeOperation = "destination-in";
-          borderCtx.lineWidth = borderWidth;
-          borderCtx.fillStyle = "#fff";
-          borderCtx.strokeStyle = "#fff";
-          drawElement2Ctx(borderCtx, borderCanvas.parentElement, DrawType.Stroke, false);
-        };
-
-        if (isSelfRange) hadSelfRangBorder = true;
-        if (hadSelfRangBorder) {
-          if (isSelfRange && isInside) {
-            if (!prevDeepCanvas) {
-              prevDeepCanvas = borderCanvas;
-              drawBorderEffect();
-            } else {
-              const isAfter = borderCanvas.compareDocumentPosition(prevDeepCanvas) & Node.DOCUMENT_POSITION_FOLLOWING;
-              if (!isAfter) {
-                const ctx = prevDeepCanvas.getContext("2d");
-                ctx.clearRect(0, 0, prevDeepCanvas.width, prevDeepCanvas.height);
-                prevDeepCanvas = borderCanvas;
-                drawBorderEffect();
-              }
-            }
-          }
-        } else {
-          drawBorderEffect();
-        }
+        drawBorderEffect();
 
         // add to hoverRootEls.
         if (isInside && !disabledHover) {
@@ -165,25 +153,25 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     updateCanvasRect(borderCanvasEl);
     const revealConfig = revealEffectMap.get(borderCanvasEl);
     theme.currHoverSize = revealConfig.hoverSize;
+    
     const hoverCanvasEl = borderCanvasEl.previousElementSibling as HTMLCanvasElement;
     const hoverCtx = hoverCanvasEl.getContext("2d");
-    hoverCtx.clearRect(0, 0, hoverCanvasEl.width, hoverCanvasEl.height);
-
     const hslaStr = tinyColor(revealConfig.hoverColor).toHslString();
-    let hoverGradient = theme.hoverGradientMap.get(hslaStr);
+    let hoverGradient = theme.reveaGradientMap.get(hslaStr);
     if (!hoverGradient) {
       const { gradient } = createRadialGradient(hoverCtx, revealConfig.hoverColor);
       hoverGradient = gradient;
-      theme.hoverGradientMap.set(hslaStr, gradient);
+      theme.reveaGradientMap.set(hslaStr, gradient);
     }
     const hoverRect = hoverCanvasEl.getBoundingClientRect();
 
-    drawRectAtRange(hoverCtx, {
+    drawHover({
+     hoverCanvas: hoverCanvasEl,
+      hoverSize: theme.currHoverSize,
+      gradient: hoverGradient,
       x: clientX - hoverRect.x,
-      y: clientY - hoverRect.y,
-      scale: 1,
-      size: revealConfig.hoverSize * 2
-    }, hoverGradient);
+      y: clientY - hoverRect.y
+    });
   }
 
   grawBorder(borderCtx: CanvasRenderingContext2D) {

@@ -90,8 +90,9 @@ export class Theme {
 
   revealConfig: RevealConfig;
   currHoverSize: number;
-  hoverGradientMap: Map<string, CanvasGradient> = new Map();
+  reveaGradientMap: Map<string, CanvasGradient> = new Map();
   revealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
+  selfRangeRevealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
 
   getRevealConfig(prevConfig?: RevealConfig, newConfig?: RevealConfig) {
     let defaultConfig: Required<RevealConfig> = {

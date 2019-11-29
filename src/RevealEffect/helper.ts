@@ -140,3 +140,62 @@ export function createRadialGradient(ctx: CanvasRenderingContext2D, colorStr: st
 
   return { hslaStr, gradient };
 }
+
+export function drawBorder(config: {
+  borderCanvas: HTMLCanvasElement;
+  hoverSize: number;
+  borderWidth: number;
+  gradient: CanvasGradient;
+  x: number;
+  y: number;
+}) {
+  const {
+    borderCanvas,
+    hoverSize,
+    borderWidth,
+    gradient,
+    x,
+    y
+  } = config;
+  const borderCtx = borderCanvas.getContext("2d");
+  borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
+  
+  borderCtx.globalCompositeOperation = "source-over";
+  drawRectAtRange(borderCtx, {
+    x,
+    y,
+    scale: 1,
+    size: hoverSize * 2
+  }, gradient);
+
+  borderCtx.globalCompositeOperation = "destination-in";
+  borderCtx.lineWidth = borderWidth;
+  borderCtx.fillStyle = "#fff";
+  borderCtx.strokeStyle = "#fff";
+  drawElement2Ctx(borderCtx, borderCanvas.parentElement, DrawType.Stroke, false);
+}
+
+export function drawHover(config: {
+  hoverCanvas: HTMLCanvasElement;
+  hoverSize: number;
+  gradient: CanvasGradient;
+  x: number;
+  y: number;
+}) {
+  const {
+    hoverCanvas,
+    hoverSize,
+    gradient,
+    x,
+    y
+  } = config;
+  const hoverCtx = hoverCanvas.getContext("2d");
+  hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
+
+  drawRectAtRange(hoverCtx, {
+    x,
+    y,
+    scale: 1,
+    size: hoverSize * 2
+  }, gradient);
+}
