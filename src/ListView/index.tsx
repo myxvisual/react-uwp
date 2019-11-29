@@ -99,7 +99,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
           }}
         >
           {itemNode}
-        <RevealEffect />
+        <RevealEffect effectRange="self" />
         </div>
       </PseudoClasses>
     );

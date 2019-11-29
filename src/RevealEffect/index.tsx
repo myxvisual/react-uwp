@@ -16,10 +16,10 @@ export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
       height
   } = style;
 
-  const btWidth = Number.parseFloat(borderTopWidth);
-  const blWidth = Number.parseFloat(borderLeftWidth);
-  const elWidth = Number.parseFloat(width);
-  const elHeight = Number.parseFloat(height);
+  const btWidth = Number.parseInt(borderTopWidth);
+  const blWidth = Number.parseInt(borderLeftWidth);
+  const elWidth = Number.parseInt(width);
+  const elHeight = Number.parseInt(height);
 
   if (borderCanvasEl.width !== elWidth) borderCanvasEl.width = elWidth;
   if (borderCanvasEl.height !== elHeight) borderCanvasEl.height = elHeight;
@@ -55,6 +55,8 @@ export interface DataProps {
   borderWidth?: number;
   /** Set borderColor. */
   borderColor?: string;
+  /** Set effect enable range. */
+  effectRange?: "self" | "all";
 }
 
 export interface RevealEffectProps extends DataProps, React.HTMLAttributes<HTMLCanvasElement> {}
@@ -89,14 +91,16 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       hoverSize,
       hoverColor,
       borderWidth,
-      borderColor
+      borderColor,
+      effectRange
     } = this.props;
     const currRevealConfig = theme.getRevealConfig(theme.revealConfig, {
       borderWidth,
       hoverSize,
       effectEnable,
       hoverColor,
-      borderColor
+      borderColor,
+      effectRange
     });
 
     this.parentEl = this.borderCanvasEl.parentElement;
@@ -166,6 +170,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       effectEnable,
       hoverColor,
       borderColor,
+      effectRange,
       ...attributes
     } = this.props;
     const { theme } = this.context;

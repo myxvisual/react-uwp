@@ -293,7 +293,7 @@ export class TreeView extends React.Component<TreeViewProps, TreeViewState> {
               } as React.CSSProperties}
               ref={elm => behindElm = elm}
             >
-              <RevealEffect hoverSize={100} borderColor={theme.baseLow} borderWidth={1} />
+              <RevealEffect effectRange="self" />
             </div>
           </div>
           {haveChild && (

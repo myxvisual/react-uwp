@@ -97,9 +97,10 @@ export class Theme {
     let defaultConfig: Required<RevealConfig> = {
       effectEnable: "both",
       hoverSize: 100,
-      hoverColor: this.baseMediumLow,
+      hoverColor: this.baseLow,
       borderWidth: 1,
-      borderColor: this.baseMediumHigh
+      borderColor: this.baseMediumHigh,
+      effectRange: "all"
     };
 
     if (prevConfig) {

@@ -31,17 +31,17 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   addListeners() {
-    document.addEventListener("scroll", this.drawBorders, true);
-    window.addEventListener("mousemove", this.drawBorders, true);
-    window.addEventListener("mouseenter", this.drawBorders, true);
-    document.addEventListener("click", this.drawBorders, true);
+    document.addEventListener("scroll", this.drawEffects, true);
+    window.addEventListener("mousemove", this.drawEffects, true);
+    window.addEventListener("mouseenter", this.drawEffects, true);
+    document.addEventListener("click", this.drawEffects, true);
   }
 
   removeListeners() {
-    document.removeEventListener("scroll", this.drawBorders, true);
-    window.removeEventListener("mousemove", this.drawBorders, true);
-    window.removeEventListener("mouseenter", this.drawBorders, true);
-    document.removeEventListener("click", this.drawBorders, true);
+    document.removeEventListener("scroll", this.drawEffects, true);
+    window.removeEventListener("mousemove", this.drawEffects, true);
+    window.removeEventListener("mouseenter", this.drawEffects, true);
+    document.removeEventListener("click", this.drawEffects, true);
   }
 
   getBorderMaskGradient(ctx: CanvasRenderingContext2D, borderColor: string) {
@@ -59,7 +59,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   drawBorderThrottle = new Throttle();
-  drawBorders = (e: MouseEvent) => {
+  drawEffects = (e: MouseEvent) => {
     if (!this.drawBorderThrottle.shouldFunctionRun()) return;
 
     const { theme } = this.props;
@@ -77,14 +77,17 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     // Add hover size.
     let { hoverSize } = theme.revealConfig;
     if (theme.currHoverSize !== void 0) hoverSize = theme.currHoverSize;
+    const halfHoverSize = hoverSize / 2;
     const effectRect = {
-      left: clientX - hoverSize,
-      top: clientY - hoverSize,
-      right: clientX + 2 * hoverSize,
-      bottom: clientY + 2 * hoverSize
+      left: clientX - halfHoverSize,
+      top: clientY - halfHoverSize,
+      right: clientX + hoverSize,
+      bottom: clientY + hoverSize
     };
     let hoverCanvasList: HTMLCanvasElement[] = [];
 
+    let hadSelfRangBorder = false;
+    let prevDeepCanvas: HTMLCanvasElement = null;
     // draw border effect.
     for (const [borderCanvas, revealConfig] of revealEffectMap) {
       if (!borderCanvas) return;
@@ -99,11 +102,14 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
       if (isOverlap || isInside) {
         updateCanvasRect(borderCanvas);
-        const { borderColor, borderWidth, effectEnable } = revealConfig;
+        const { borderColor, borderWidth, effectEnable, effectRange } = revealConfig;
         const disabledBorder = effectEnable === "hover" || effectEnable === "disabled";
         const disabledHover = effectEnable === "border" || effectEnable === "disabled";
+        const isSelfRange = effectRange === "self";
 
-        if (!disabledBorder || isInside) {
+        const drawBorderEffect = () => {
+          // draw border effect.
+          if (disabledBorder) return;
           borderCtx.globalCompositeOperation = "source-over";
           const gradient = this.getBorderMaskGradient(borderCtx, tinyColor(borderColor).toHslString());
           drawRectAtRange(borderCtx, {
@@ -118,6 +124,26 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
           borderCtx.fillStyle = "#fff";
           borderCtx.strokeStyle = "#fff";
           drawElement2Ctx(borderCtx, borderCanvas.parentElement, DrawType.Stroke, false);
+        };
+
+        if (isSelfRange) hadSelfRangBorder = true;
+        if (hadSelfRangBorder) {
+          if (isSelfRange && isInside) {
+            if (!prevDeepCanvas) {
+              prevDeepCanvas = borderCanvas;
+              drawBorderEffect();
+            } else {
+              const isAfter = borderCanvas.compareDocumentPosition(prevDeepCanvas) & Node.DOCUMENT_POSITION_FOLLOWING;
+              if (!isAfter) {
+                const ctx = prevDeepCanvas.getContext("2d");
+                ctx.clearRect(0, 0, prevDeepCanvas.width, prevDeepCanvas.height);
+                prevDeepCanvas = borderCanvas;
+                drawBorderEffect();
+              }
+            }
+          }
+        } else {
+          drawBorderEffect();
         }
 
         // add to hoverRootEls.
@@ -133,7 +159,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     // draw hover effect.
     if (!isScrollEvent) return;
     // deeper dom, common like A.children -> A.
-    hoverCanvasList = hoverCanvasList.sort((a, b) => a.parentElement.compareDocumentPosition(b.parentElement) & 2 ? -1 : 1);
+    hoverCanvasList = hoverCanvasList.sort((a, b) => a.parentElement.compareDocumentPosition(b.parentElement) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
     const borderCanvasEl = hoverCanvasList[0];
     if (!borderCanvasEl) return;
     updateCanvasRect(borderCanvasEl);
@@ -158,6 +184,10 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
       scale: 1,
       size: revealConfig.hoverSize * 2
     }, hoverGradient);
+  }
+
+  grawBorder(borderCtx: CanvasRenderingContext2D) {
+    
   }
 
   render() {
