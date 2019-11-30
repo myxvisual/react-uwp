@@ -321,7 +321,7 @@ function getStyles(calendarView: CalendarView): {
       fontSize: 14,
       color: theme.baseHigh,
       width: 296,
-      border: `2px solid ${theme.baseLow}`,
+      border: `${theme.borderWidth}px solid ${theme.baseLow}`,
       ...style
     }),
     title: prefixStyle({

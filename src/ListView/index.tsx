@@ -4,6 +4,7 @@ import * as PropTypes from "prop-types";
 import PseudoClasses from "../PseudoClasses";
 import RevealEffect, { RevealEffectProps } from "../RevealEffect";
 import Separator from "../Separator";
+import AppBarSeparator from "../AppBarSeparator";
 
 export interface ListItem {
   itemNode?: React.ReactNode;
@@ -82,23 +83,26 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     const itemStyles = theme.prepareStyle({
       className: "list-view-item",
       style: theme.prefixStyle({
+        ...inlineStyles.item,
         flex: "0 0 auto",
         position: "relative",
         background: defaultBG,
         borderTop: "1px solid transparent",
         borderBottom: "1px solid transparent",
         color: disabled ? theme.baseLow : theme.baseHigh,
+        ...(isFocus ? theme.acrylicTexture40.style : theme.acrylicTexture60.style),
         "&:hover": {
-          ...(isFocus ? theme.acrylicTexture40.style : theme.acrylicTexture60.style),
+          ...(isFocus ? theme.acrylicTexture20.style : theme.acrylicTexture60.style),
         },
         "&:active": {
           transform: "scale(0.99)"
         },
-        ...inlineStyles.item,
         ...style
       })
     });
-    const isSeparator = itemNode && typeof itemNode === "object" && itemNode.type === Separator;
+    const isSeparator = itemNode && typeof itemNode === "object" && (
+      itemNode.type === Separator || itemNode.type === AppBarSeparator
+    );
 
     return (
       <PseudoClasses {...itemStyles} key={`${index}`}>
@@ -180,7 +184,6 @@ function getStyles(listView: ListView): {
       ...style
     }),
     item: theme.prefixStyle({
-      ...theme.acrylicTexture60.style,
       cursor: "default",
       padding: 8,
       width: "100%",

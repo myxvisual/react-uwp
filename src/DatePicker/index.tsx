@@ -9,6 +9,7 @@ import PseudoClasses from "../PseudoClasses";
 import ListView from "../ListView";
 import scrollToYEasing from "../utils/browser/scrollToYEasing";
 import { dayList, monthList, getLastDayOfMonth } from "../utils/date.utils";
+import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -190,7 +191,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
           {...attributes}
           style={styles.root.style}
           className={theme.classNames(styles.root.className, className)}
-        ref={rootElm => this.rootElm = rootElm}
+          ref={rootElm => this.rootElm = rootElm}
         >
           <div {...styles.pickerModal}>
             <div {...styles.listViews}>
@@ -235,6 +236,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
                 }}
               >
                 AcceptLegacy
+                <RevealEffect />
               </IconButton>
               <IconButton
                 style={inlineStyles.iconButton}
@@ -244,6 +246,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
                 }}
               >
                 ClearLegacy
+                <RevealEffect />
               </IconButton>
             </div>
           </div>
@@ -267,6 +270,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
           >
             {currYear}
           </span>
+          <RevealEffect />
         </div>
       </PseudoClasses>
     );
@@ -288,8 +292,7 @@ function getStyles(datePicker: DatePicker): {
     props: {
       style,
       inputItemHeight,
-      pickerItemHeight,
-      background
+      pickerItemHeight
     },
     state: {
       showPicker
@@ -306,26 +309,26 @@ function getStyles(datePicker: DatePicker): {
       alignItems: "center",
       verticalAlign: "middle",
       color: theme.baseMediumHigh,
-      boxShadow: `inset 0 0 0 2px ${theme.baseMediumLow}`,
+      border: `${theme.borderWidth}px solid ${theme.baseMediumLow}`,
       height: inputItemHeight,
       lineHeight: `${inputItemHeight}px`,
       position: "relative",
       transition: "all .25s ease-in-out",
       "&:hover": {
-        boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}`
+        border: `${theme.borderWidth}px solid ${theme.baseMediumLow}`
       },
       ...style
     }),
     pickerModal: prefixStyle({
-      ...theme.acrylicTexture80.style,
+      ...theme.acrylicTexture60.style,
       overflow: "hidden",
       flex: "0 0 auto",
       display: "flex",
       flexDirection: "column",
       position: "absolute",
       top: 0,
-      left: 0,
-      width: "100%",
+      left: -theme.borderWidth,
+      width: `calc(100% + ${theme.borderWidth * 2}px)`,
       opacity: showPicker ? 1 : 0,
       transform: `scaleY(${showPicker ? 1 : 0}) translateY(-50%)`,
       transformOrigin: "top",
@@ -373,6 +376,7 @@ function getStyles(datePicker: DatePicker): {
       zIndex: theme.zIndex.flyout + 1
     },
     iconButton: {
+      position: "relative",
       verticalAlign: "top",
       width: "50%",
       height: pickerItemHeight

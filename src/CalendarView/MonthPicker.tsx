@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import SlideInOut from "./SlideInOut";
+import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   date?: Date;
@@ -23,12 +24,12 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
 
   handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, isNow: boolean) => {
     const { theme } = this.context;
-    e.currentTarget.style.border = `2px solid ${isNow ? theme.baseHigh : theme.baseLow}`;
+    e.currentTarget.style.border = `${theme.borderWidth}px solid ${isNow ? theme.baseHigh : theme.baseLow}`;
   }
 
   handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>, isNow: boolean) => {
     const { theme } = this.context;
-    e.currentTarget.style.border = "2px solid transparent";
+    e.currentTarget.style.border = `${theme.borderWidth}px solid transparent`;
   }
 
   getMonthsArray = () => {
@@ -70,6 +71,7 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
               onMouseLeave={(e) => this.handleMouseLeave(e, isNow)}
               style={{
                 ...styles.monthItem.style,
+                position: "relative",
                 background: isNow ? theme.accent : (
                   theme.useFluentDesign ? (
                     isCurrYear ? theme.altLow : theme.listLow
@@ -77,13 +79,14 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
                     isCurrYear ? theme.altHigh : theme.chromeLow
                   )
                 ),
-                border: "2px solid transparent"
+                border: `${theme.borderWidth}px solid transparent`
               } as React.CSSProperties}
               className={styles.monthItem.className}
               onClick={() => onChooseMonth(index)}
               key={`${index}`}
             >
               {`${month}`}
+              <RevealEffect hoverSize={80} />
             </button>;
           })}
         </div>
@@ -102,10 +105,11 @@ function getStyles(monthPicker: MonthPicker): {
   } = monthPicker;
   const { prefixStyle } = theme;
 
+  const fullHeight = 296 - theme.borderWidth * 2;
   return {
     root: prefixStyle({
       width: 296,
-      height: 292,
+      height: fullHeight,
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
@@ -117,8 +121,8 @@ function getStyles(monthPicker: MonthPicker): {
       outline: "none",
       color: theme.baseHigh,
       border: "none",
-      width: 292 / 4,
-      height: 292 / 4
+      width: fullHeight / 4,
+      height: fullHeight / 4
     }
   };
 }

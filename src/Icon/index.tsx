@@ -65,7 +65,7 @@ export class Icon extends React.Component<IconProps, IconState> {
   }
 
   render() {
-    const {
+    let {
       size,
       className,
       style,
@@ -102,7 +102,12 @@ export class Icon extends React.Component<IconProps, IconState> {
       style: inlineStyle,
       extendsClassName: className
     });
-    const icon = icons[children as any] || children;
+    if (children) {
+      children = React.Children.map(children, child => {
+        const newIcon = icons[child as any];
+        return newIcon || child;
+      });
+    }
 
     return (
       <PseudoClasses
@@ -112,9 +117,9 @@ export class Icon extends React.Component<IconProps, IconState> {
         {...styleClasses}
       >
         {useSVGElement ? (
-          <text>{icon}</text>
+          <text>{children}</text>
         ) : (
-          <span>{icon}</span>
+          <span>{children}</span>
         )}
       </PseudoClasses>
     );

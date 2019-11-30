@@ -8,9 +8,9 @@ import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   /**
-   * Control `Button` border size.
+   * Control `Button` borderWidth.
    */
-  borderSize?: string;
+  borderWidth?: number;
   /**
    * Is onMouseEnter Inline Style will assign to default `hoverStyle`.
    */
@@ -52,7 +52,6 @@ const labelStyle: React.CSSProperties = {
 };
 export class Button extends React.Component<ButtonProps> {
   static defaultProps: ButtonProps = {
-    borderSize: "2px",
     iconPosition: "left"
   };
 
@@ -63,7 +62,7 @@ export class Button extends React.Component<ButtonProps> {
 
   render() {
     const {
-      borderSize,
+      borderWidth: borderSize,
       style,
       className,
       hoverStyle,
@@ -78,6 +77,7 @@ export class Button extends React.Component<ButtonProps> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
+    const currBorderWidth = borderSize === void 0 ? theme.borderWidth : borderSize;
 
     const buttonStyles = theme.prepareStyle({
       className: "button-root",
@@ -90,11 +90,11 @@ export class Button extends React.Component<ButtonProps> {
         outline: "none",
         padding: "4px 16px",
         transition: "all .25s",
-        border: `${borderSize} solid transparent`,
+        border: `${currBorderWidth}px solid transparent`,
         background: background || theme.baseLow,
         ...theme.prefixStyle(style),
         "&:hover": disabled ? void 0 : {
-          border: `2px solid ${theme.baseMediumLow}`
+          border: `${currBorderWidth}px solid ${theme.baseMediumLow}`
         },
         "&:active": disabled ? void 0 : {
           background: theme.baseMediumLow

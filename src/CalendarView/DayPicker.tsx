@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import  * as dateUtils from "../utils/date.utils";
 import SlideInOut from "./SlideInOut";
+import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   date?: Date;
@@ -29,7 +30,6 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
     const { theme } = this.context;
     const { chooseISODates } = this.props;
     const isChoose = chooseISODates.includes(date.toISOString());
-    e.currentTarget.style.boxShadow = isChoose ? `inset 0 0 0 2px ${theme.accent}, inset 0 0 0px 4px ${theme.altHigh}` : `inset 0 0 0 2px ${theme.baseMedium}`;
     e.currentTarget.style.background = isChoose ? theme.accent : (isCurrMonth ? (
       theme.useFluentDesign ? theme.altLow : theme.altHigh
     ) : (
@@ -42,7 +42,6 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
     const { theme } = this.context;
     const { chooseISODates } = this.props;
     const isChoose = chooseISODates.includes(date.toISOString());
-    e.currentTarget.style.boxShadow = isChoose ? `inset 0 0 0 2px ${theme.accent}, inset 0 0 0px 4px ${theme.altMedium}` : `inset 0 0 0 2px ${theme.baseLow}`;
     e.currentTarget.style.background = isChoose ? theme.accent : (isCurrMonth ? (
       theme.useFluentDesign ? theme.altLow : theme.altHigh
     ) : (
@@ -120,9 +119,10 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
                 onMouseLeave={(e) => this.handleMouseLeave(e, date, isCurrMonth, isNow)}
                 style={{
                   ...styles.dayItem.style,
-                  boxShadow: isNow ? `inset 0 0 0 2px ${theme.accent}, inset 0 0 0px 4px ${theme.altHigh}` : (isChoose ? `inset 0 0 0 2px ${theme.accent}, inset 0 0 0px 4px ${theme.altMedium}` : `inset 0 0 0 2px ${theme.baseLow}`),
+                  position: "relative",
+                  border: `${theme.borderWidth}px solid ${theme.baseLow}`,
                   color: isCurrMonth ? theme.baseHigh : theme.baseLow,
-                  background: (isNow || isChoose) ? theme.accent : (isCurrMonth ? (
+                  background: (isNow || isChoose) ? (isNow ? theme.accent : theme.listAccentLow) : (isCurrMonth ? (
                     theme.useFluentDesign ? theme.altLow : theme.altHigh
                   ) : (
                     theme.useFluentDesign ? theme.listLow : theme.chromeLow
@@ -133,6 +133,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
                 key={`${index}`}
               >
                 {day}
+                <RevealEffect hoverSize={40} />
               </button>;
             })}
           </div>
@@ -155,9 +156,10 @@ function getStyles(dayPicker: DayPicker): {
   } = dayPicker;
   const { prefixStyle } = theme;
 
+  const fullHeight = 296 - theme.borderWidth * 2;
   return {
     container: prefixStyle({
-      height: 292,
+      height: fullHeight,
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
@@ -166,7 +168,7 @@ function getStyles(dayPicker: DayPicker): {
     }),
     root: prefixStyle({
       width: 296,
-      height: 292 / 7 * 6 - 2,
+      height: fullHeight  / 7 * 6 - theme.borderWidth,
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
@@ -181,7 +183,7 @@ function getStyles(dayPicker: DayPicker): {
       border: "none",
       outline: "none",
       color: theme.baseHigh,
-      width: 292 / 7,
+      width: fullHeight  / 7,
       height: 40
     },
     dayItem: {
@@ -190,8 +192,8 @@ function getStyles(dayPicker: DayPicker): {
       background: "none",
       outline: "none",
       color: theme.baseHigh,
-      width: 292 / 7,
-      height: 292 / 7
+      width: fullHeight / 7,
+      height: fullHeight / 7
     }
   };
 }

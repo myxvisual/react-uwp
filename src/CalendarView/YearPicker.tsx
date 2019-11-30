@@ -2,6 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import SlideInOut from "./SlideInOut";
+import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   date?: Date;
@@ -27,12 +28,12 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
 
   handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, isNow: boolean) => {
     const { theme } = this.context;
-    e.currentTarget.style.border = `2px solid ${isNow ? theme.baseHigh : theme.baseLow}`;
+    e.currentTarget.style.border = `${theme.borderWidth}px solid ${isNow ? theme.baseHigh : theme.baseLow}`;
   }
 
   handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>, isNow: boolean) => {
     const { theme } = this.context;
-    e.currentTarget.style.border = "2px solid transparent";
+    e.currentTarget.style.border = `${theme.borderWidth}px solid transparent`;
   }
 
   getYearsArray = () => {
@@ -73,14 +74,16 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
               onMouseLeave={(e) => this.handleMouseLeave(e, isNow)}
               style={{
                 ...styles.yearItem.style,
+                position: "relative",
                 background: isNow ? theme.accent : theme.useFluentDesign ? theme.altLow : theme.altHigh,
-                border: "2px solid transparent"
+                border: `${theme.borderWidth}px solid transparent`
               } as React.CSSProperties}
               className={styles.yearItem.className}
               onClick={() => onChooseYear(year)}
               key={`${index}`}
             >
               {year}
+              <RevealEffect hoverSize={80} />
             </button>;
           })}
         </div>
@@ -99,10 +102,11 @@ function getStyles(YearPicker: YearPicker): {
   } = YearPicker;
   const { prefixStyle } = theme;
 
+  const fullHeight = 296 - theme.borderWidth * 2;
   return {
     root: prefixStyle({
       width: 296,
-      height: 292,
+      height: fullHeight,
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
@@ -114,8 +118,8 @@ function getStyles(YearPicker: YearPicker): {
       outline: "none",
       color: theme.baseHigh,
       border: "none",
-      width: 292 / 4,
-      height: 292 / 4
+      width: fullHeight / 4,
+      height: fullHeight / 4
     }
   };
 }

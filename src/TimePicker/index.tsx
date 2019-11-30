@@ -8,6 +8,7 @@ import IconButton from "../IconButton";
 import PseudoClasses from "../PseudoClasses";
 import ListView from "../ListView";
 import scrollToYEasing from "../utils/browser/scrollToYEasing";
+import RevealEffect from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -182,7 +183,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
         style={styles.root.style}
         className={theme.classNames(styles.root.className, className)}
         ref={rootElm => this.rootElm = rootElm}
-        >
+      >
         <div {...styles.pickerModal}>
           <div {...styles.listViews}>
             <ListView
@@ -231,6 +232,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
               }}
             >
               AcceptLegacy
+              <RevealEffect />
             </IconButton>
             <IconButton
               style={inlineStyles.iconButton}
@@ -242,6 +244,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
               }}
             >
               ClearLegacy
+              <RevealEffect />
             </IconButton>
           </div>
         </div>
@@ -265,6 +268,7 @@ export class TimePicker extends React.Component<TimePickerProps, TimePickerState
         >
           {currTimeType}
         </span>
+        <RevealEffect />
       </div>
       </PseudoClasses>
     );
@@ -304,26 +308,26 @@ function getStyles(TimePicker: TimePicker): {
       alignItems: "center",
       verticalAlign: "middle",
       color: theme.baseMediumHigh,
-      boxShadow: `inset 0 0 0 2px ${theme.baseMediumLow}`,
+      border: `${theme.borderWidth}px solid ${theme.baseMediumLow}`,
       height: inputItemHeight,
       lineHeight: `${inputItemHeight}px`,
       position: "relative",
       transition: "all .25s ease-in-out",
       "&:hover": {
-        boxShadow: `inset 0 0 0 2px ${theme.baseMediumHigh}`
+        border: `${theme.borderWidth}px solid ${theme.baseMediumLow}`
       },
       ...style
     }),
     pickerModal: prefixStyle({
-      ...theme.acrylicTexture80.style,
+      ...theme.acrylicTexture60.style,
       overflow: "hidden",
       flex: "0 0 auto",
       display: "flex",
       flexDirection: "column",
       position: "absolute",
       top: 0,
-      left: 0,
-      width: "100%",
+      left: -theme.borderWidth,
+      width: `calc(100% + ${theme.borderWidth * 2}px)`,
       opacity: showPicker ? 1 : 0,
       transform: `scaleY(${showPicker ? 1 : 0}) translateY(-50%)`,
       transformOrigin: "top",
@@ -371,6 +375,7 @@ function getStyles(TimePicker: TimePicker): {
       zIndex: theme.zIndex.flyout + 1
     },
     iconButton: {
+      position: "relative",
       verticalAlign: "top",
       width: "50%",
       height: pickerItemHeight

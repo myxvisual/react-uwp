@@ -277,6 +277,7 @@ function getStyles(commandBar: CommandBar): {
       transition
     }),
     secondaryCommands: {
+      ...theme.acrylicTexture60.style,
       width: "auto",
       maxWidth: 240,
       zIndex: theme.zIndex.commandBar,

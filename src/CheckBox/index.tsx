@@ -155,7 +155,7 @@ function getStyles(checkBox: CheckBox): {
     alignItems: "center",
     justifyContent: "center",
     color: theme.altHigh,
-    border: `2px solid ${theme.baseMediumHigh}`,
+    border: `${theme.borderWidth}px solid ${theme.baseMediumHigh}`,
     width: `${size}px`,
     height: `${size}px`,
     background: background || "none",
@@ -163,17 +163,17 @@ function getStyles(checkBox: CheckBox): {
     overflow: "hidden"
   });
 
-  const iconParentHover = { border: `2px solid ${theme.baseHigh}` };
+  const iconParentHover = { border: `${theme.borderWidth}px solid ${theme.baseHigh}` };
   let iconParent: ReactUWP.CustomCSSProperties;
 
   switch (checked) {
     case true: {
       iconParent = {
         ...iconParentBase,
-        border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${theme.accent}`,
+        border: disabled ? `${theme.borderWidth}px solid ${theme.baseLow}` : `${theme.borderWidth}px solid ${theme.accent}`,
         "&:hover": disabled ? void 0 : iconParentHover,
         "&:disabled": {
-          border: `2px solid ${theme.baseLow}`
+          border: `${theme.borderWidth}px solid ${theme.baseLow}`
         }
       };
       break;
@@ -181,10 +181,10 @@ function getStyles(checkBox: CheckBox): {
     case false: {
       iconParent = {
         ...iconParentBase,
-        border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${theme.baseMediumHigh}`,
+        border: disabled ? `${theme.borderWidth}px solid ${theme.baseLow}` : `${theme.borderWidth}px solid ${theme.baseMediumHigh}`,
         "&:hover": disabled ? void 0 : iconParentHover,
         "&:disabled": {
-          border: `2px solid ${theme.baseLow}`
+          border: `${theme.borderWidth}px solid ${theme.baseLow}`
         }
       };
       break;
@@ -192,10 +192,10 @@ function getStyles(checkBox: CheckBox): {
     case null: {
       iconParent = {
         ...iconParentBase,
-        border: disabled ? `2px solid ${theme.baseLow}` : `2px solid ${theme.baseMediumHigh}`,
+        border: disabled ? `${theme.borderWidth}px solid ${theme.baseLow}` : `${theme.borderWidth}px solid ${theme.baseMediumHigh}`,
         "&:hover": disabled ? void 0 : iconParentHover,
         "&:disabled": {
-          border: `2px solid ${theme.baseLow}`
+          border: `${theme.borderWidth}px solid ${theme.baseLow}`
         }
       };
       break;
