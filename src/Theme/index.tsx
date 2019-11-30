@@ -9,6 +9,7 @@ import ToastWrapper from "../Toast/ToastWrapper";
 import { getThemeBaseCSS, getBaseCSS } from "../styles/getBaseCSSText";
 import { isSupportBackdropFilter } from "../styles/getAcrylicTextureStyle";
 import GlobalRevealStore from "../RevealEffect/GlobalRevealStore";
+import { Throttle } from "../utils/Throttle";
 
 const supportedBackdropFilter = isSupportBackdropFilter();
 export { getTheme };
@@ -195,7 +196,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     this.setState({ currTheme });
   }
 
+  scrollThrottle = new Throttle();
   handleScrollReveal = (e?: Event) => {
+    if (!this.scrollThrottle.shouldFunctionRun()) return;
     e.stopPropagation();
     e.preventDefault();
     handleScrollReveal(this.state.currTheme);

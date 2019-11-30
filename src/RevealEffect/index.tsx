@@ -1,8 +1,12 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import { drawRectAtRange, createRadialGradient, drawBorder } from "./helper";
-import { Throttle } from "../utils/Throttle";
 import * as tinyColor from "tinycolor2";
+import { ResizeObserver as ResizeObserverPolyfill } from '@juggle/resize-observer';
+import { drawRectAtRange, createRadialGradient, drawBorder, drawHover } from "./helper";
+import { drawGlobalEffects } from "./GlobalRevealStore";
+import { Throttle, frameMS } from "../utils/Throttle";
+
+const ResizeObserver: typeof ResizeObserverPolyfill = window["ResizeObserver"] || ResizeObserverPolyfill;
 
 export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
   const hoverCanvasEl = borderCanvasEl.previousElementSibling as HTMLCanvasElement;
@@ -71,6 +75,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
   };
   hoverCanvasEl: HTMLCanvasElement;
   borderCanvasEl: HTMLCanvasElement;
+  resizeOb: ResizeObserverPolyfill;
 
   componentDidMount() {
     this.updateDOMNode();
@@ -84,6 +89,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
     this.removeDOMNode();
   }
 
+  resizeTimer: any = null;
   updateDOMNode() {
     const { theme } = this.context;
     const {
@@ -102,7 +108,6 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       borderColor,
       effectRange
     });
-
     this.parentEl = this.borderCanvasEl.parentElement;
     const disabledHover = effectEnable === "border" || effectEnable === "disabled";
     if (this.parentEl && !disabledHover) {
@@ -110,9 +115,10 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       if (currRevealConfig.effectRange === "self") {
         theme.selfRangeRevealEffectMap.set(this.borderCanvasEl, currRevealConfig);
       }
-      this.parentEl.addEventListener("mouseenter", this.drawHoverEffect, false);
-      this.parentEl.addEventListener("mousemove", this.drawHoverEffect, false);
-      this.parentEl.addEventListener("mouseleave", this.cleanHoverEffect, false);
+      this.parentEl.addEventListener("click", this.drawEffect, false);
+      this.parentEl.addEventListener("mouseenter", this.drawEffect, false);
+      this.parentEl.addEventListener("mousemove", this.drawEffect, false);
+      this.parentEl.addEventListener("mouseleave", this.cleanEffect, false);
     }
   }
 
@@ -130,19 +136,39 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
 
   hoverCtx: CanvasRenderingContext2D;
   drawHoverThrottle = new Throttle();
-  drawHoverEffect = (e?: MouseEvent) => {
+  drawEffect = (e?: MouseEvent) => {
     if (!this.drawHoverThrottle.shouldFunctionRun()) return;
 
     updateCanvasRect(this.borderCanvasEl);
     const { clientX, clientY } = e;
+    this.currPosition = { clientX, clientY };
     const { theme } = this.context;
+    const revealConfig = theme.revealEffectMap.get(this.borderCanvasEl);
+    if (!revealConfig) return;
+
+    if (!this.resizeOb) {
+      this.resizeOb = new ResizeObserver((entries, observer) => {
+        entries.forEach(entry => {
+          clearTimeout(this.resizeTimer);
+          if (entry.target === this.parentEl) {
+            this.resizeTimer = setTimeout(() => {
+              this.updateDOMNode();
+              this.drawEffect(this.currPosition as MouseEvent);
+              drawGlobalEffects(e, theme);
+            }, frameMS);
+          }
+        });
+      });
+      this.resizeOb.observe(this.parentEl);
+    }
+
     const {
       hoverSize,
       hoverColor,
       borderWidth,
       borderColor,
       effectRange
-    } = theme.revealEffectMap.get(this.borderCanvasEl);
+    } = revealConfig;
     theme.currHoverSize = hoverSize;
 
     this.parentElRect = this.parentEl.getBoundingClientRect();
@@ -152,6 +178,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
     }
     this.hoverCtx.clearRect(0, 0, this.hoverCanvasEl.width, this.hoverCanvasEl.height);
 
+    // draw self hover effect.
     const hslaStr = tinyColor(hoverColor).toHslString();
     const hoverGradient = this.getGradient(hslaStr);
     drawRectAtRange(this.hoverCtx, {
@@ -161,6 +188,7 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       size: hoverSize * 2
     }, hoverGradient);
 
+    // draw self border effect.
     if (theme.selfRangeRevealEffectMap.size > 0 && effectRange === "self") {
       const hslaStr = tinyColor(borderColor).toHslString();
       const gradient = this.getGradient(hslaStr);
@@ -175,20 +203,29 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
     }
   }
 
-  cleanHoverEffect = (e?: MouseEvent) => {
+  cleanEffect = (e?: MouseEvent) => {
     this.context.theme.currHoverSize = void 0;
     const hoverCtx = this.hoverCanvasEl.getContext("2d");
     const borderCtx = this.borderCanvasEl.getContext("2d");
     hoverCtx.clearRect(0, 0, this.hoverCanvasEl.width, this.hoverCanvasEl.height);
     borderCtx.clearRect(0, 0, this.borderCanvasEl.width, this.borderCanvasEl.height);
+    if (this.resizeOb) {
+      this.resizeOb.disconnect();
+      this.resizeOb = null;
+    }
   }
 
   removeDOMNode() {
+    if (this.resizeOb) {
+      this.resizeOb.disconnect();
+      this.resizeOb = null;
+    }
     this.context.theme.revealEffectMap.delete(this.borderCanvasEl);
     if (this.parentEl) {
-      this.parentEl.removeEventListener("mouseenter", this.drawHoverEffect, false);
-      this.parentEl.removeEventListener("mousemove", this.drawHoverEffect, false);
-      this.parentEl.removeEventListener("mouseleave", this.cleanHoverEffect, false);
+      this.parentEl.removeEventListener("click", this.drawEffect, false);
+      this.parentEl.removeEventListener("mouseenter", this.drawEffect, false);
+      this.parentEl.removeEventListener("mousemove", this.drawEffect, false);
+      this.parentEl.removeEventListener("mouseleave", this.cleanEffect, false);
     }
   }
 
