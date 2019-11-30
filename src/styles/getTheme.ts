@@ -63,6 +63,7 @@ export interface ThemeConfig {
   acrylicConfig?: {
     blurSize?: number;
   };
+  borderWidth?: number;
   revealConfig?: RevealConfig;
 
   useInlineStyle?: boolean;
@@ -94,33 +95,9 @@ export class Theme {
   revealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
   selfRangeRevealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
 
-  getRevealConfig(prevConfig?: RevealConfig, newConfig?: RevealConfig) {
-    let defaultConfig: Required<RevealConfig> = {
-      effectEnable: "both",
-      hoverSize: 100,
-      hoverColor: this.baseLow,
-      borderWidth: 1,
-      borderColor: this.baseMediumHigh,
-      effectRange: "all"
-    };
-
-    if (prevConfig) {
-      if (newConfig) {
-        defaultConfig = { ...prevConfig } as Required<RevealConfig>;
-      } else {
-       newConfig = prevConfig;
-      }
-      for (let key in newConfig) {
-        const value = newConfig[key];
-        if (value !== void 0) {
-          defaultConfig[key] = newConfig[key];
-        }
-      }
-    }
-    return defaultConfig;
-  }
-
   desktopBackground?: string;
+
+  borderWidth: number;
 
   acrylicTextureCount?: number;
   haveAcrylicTextures?: boolean;
@@ -223,6 +200,32 @@ export class Theme {
   removeToast?: (toast: Toast) => void;
   onToastsUpdate?: (toasts?: Toast[]) => void;
 
+  getRevealConfig(prevConfig?: RevealConfig, newConfig?: RevealConfig) {
+    let defaultConfig: Required<RevealConfig> = {
+      effectEnable: "both",
+      hoverSize: 100,
+      hoverColor: this.baseLow,
+      borderWidth: 1,
+      borderColor: this.baseMediumHigh,
+      effectRange: "all"
+    };
+
+    if (prevConfig) {
+      if (newConfig) {
+        defaultConfig = { ...prevConfig } as Required<RevealConfig>;
+      } else {
+       newConfig = prevConfig;
+      }
+      for (let key in newConfig) {
+        const value = newConfig[key];
+        if (value !== void 0) {
+          defaultConfig[key] = newConfig[key];
+        }
+      }
+    }
+    return defaultConfig;
+  }
+
   updateTheme: (theme: Theme) => void;
   themeHash: number;
   themeClassName: string;
@@ -299,6 +302,7 @@ export class Theme {
       useInlineStyle,
       desktopBackgroundImage,
       acrylicConfig,
+      borderWidth,
       revealConfig
     } = themeConfig;
     themeName = themeName || "dark";
@@ -306,6 +310,7 @@ export class Theme {
     useFluentDesign = useFluentDesign === void 0 ? false : useFluentDesign;
     useInlineStyle = useInlineStyle === void 0 ? false : useInlineStyle;
     acrylicConfig = acrylicConfig || defaultAcrylicConfig;
+    borderWidth = borderWidth === void 0 ? 1 : borderWidth;
     acrylicConfig.blurSize = acrylicConfig.blurSize === void 0 ? defaultAcrylicConfig.blurSize : defaultAcrylicConfig.blurSize;
     const { blurSize } = acrylicConfig;
 
@@ -351,6 +356,7 @@ export class Theme {
       acrylicTexture100: {},
 
       scrollReveals: [],
+      borderWidth,
 
       accent,
       accentLighter1: lighten(accentColor.toHexString(), 0.5),

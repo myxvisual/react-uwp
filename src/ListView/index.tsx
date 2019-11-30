@@ -2,7 +2,8 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 
 import PseudoClasses from "../PseudoClasses";
-import RevealEffect from "../RevealEffect";
+import RevealEffect, { RevealEffectProps } from "../RevealEffect";
+import Separator from "../Separator";
 
 export interface ListItem {
   itemNode?: React.ReactNode;
@@ -33,6 +34,10 @@ export interface DataProps {
    * Set Custom Background.
    */
   background?: string;
+  /**
+   * Set RevealEffect, check the styles/reveal-effect.
+   */
+  revealConfig?: RevealEffectProps;
 }
 
 export interface ListViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -44,7 +49,8 @@ export interface ListViewState {
 const emptyFunc = () => {};
 export class ListView extends React.Component<ListViewProps, ListViewState> {
   static defaultProps: ListViewProps = {
-    onChooseItem: emptyFunc
+    onChooseItem: emptyFunc,
+    revealConfig: { effectRange: "self" }
   };
 
   state: ListViewState = {
@@ -65,19 +71,22 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
   }
 
   getItemNode = (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {
+    const { revealConfig } = this.props;
     const { inlineStyles } = this;
     const { theme } = this.context;
     const { onChooseItem, background } = this.props;
     const { focusIndex } = this.state;
-    const { isDarkTheme } = theme;
     const isFocus = focus || focusIndex === index;
     const defaultBG = isFocus ? theme.listAccentLow : "none";
 
     const itemStyles = theme.prepareStyle({
       className: "list-view-item",
       style: theme.prefixStyle({
+        flex: "0 0 auto",
         position: "relative",
         background: defaultBG,
+        borderTop: "1px solid transparent",
+        borderBottom: "1px solid transparent",
         color: disabled ? theme.baseLow : theme.baseHigh,
         "&:hover": {
           ...(isFocus ? theme.acrylicTexture40.style : theme.acrylicTexture60.style),
@@ -89,6 +98,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
         ...style
       })
     });
+    const isSeparator = itemNode && typeof itemNode === "object" && itemNode.type === Separator;
 
     return (
       <PseudoClasses {...itemStyles} key={`${index}`}>
@@ -99,7 +109,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
           }}
         >
           {itemNode}
-        <RevealEffect effectRange="self" />
+        {!isSeparator && <RevealEffect {...revealConfig} />}
         </div>
       </PseudoClasses>
     );
@@ -112,6 +122,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
       onChooseItem,
       background,
       defaultFocusListIndex,
+      revealConfig,
       ...attributes
     } = this.props;
     const { theme } = this.context;

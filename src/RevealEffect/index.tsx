@@ -2,7 +2,7 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import * as tinyColor from "tinycolor2";
 import { ResizeObserver as ResizeObserverPolyfill } from '@juggle/resize-observer';
-import { drawRectAtRange, createRadialGradient, drawBorder, drawHover } from "./helper";
+import { drawRectAtRange, createRadialGradient, drawBorder } from "./helper";
 import { drawGlobalEffects } from "./GlobalRevealStore";
 import { Throttle, frameMS } from "../utils/Throttle";
 
@@ -31,8 +31,8 @@ export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
   if (hoverCanvasEl.height !== elHeight) hoverCanvasEl.height = elHeight;
 
   const currStyle = {
-    left: blWidth ? `-${blWidth / 2}px` : "0px",
-    top: btWidth ? `-${btWidth / 2}px` : "0px",
+    left: blWidth ? `${-blWidth}px` : "0px",
+    top: btWidth ? `${-btWidth}px` : "0px",
     width,
     height
   } as CSSStyleDeclaration;
@@ -279,6 +279,7 @@ function getStyles(RevealEffect: RevealEffect) {
       background: "none",
       position: "absolute",
       pointerEvents: "none",
+      flex: "0 0 auto",
       left: 0,
       top: 0,
       width: 0,

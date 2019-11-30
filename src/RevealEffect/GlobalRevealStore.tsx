@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Theme } from "../styles/getTheme";
-import { drawElement2Ctx, DrawType, drawRectAtRange, createRadialGradient, inRectInside, drawBorder, drawHover } from "./helper"; import * as tinyColor from "tinycolor2";
+import { createRadialGradient, inRectInside, drawBorder, drawHover } from "./helper"; import * as tinyColor from "tinycolor2";
 import { Theme as ThemeType } from "react-uwp/styles/getTheme";
 import { updateCanvasRect } from "./index";
 import { Throttle } from "../utils/Throttle";
@@ -40,8 +40,6 @@ const drawBorderThrottle = new Throttle();
 export function drawGlobalEffects(e: MouseEvent, theme: ThemeType) {
   if (!drawBorderThrottle.shouldFunctionRun()) return;
   const { revealEffectMap } = theme;
-
-
   // break by self effect.
   // let isSelfBorder = false;
   // const hadSelfRange = theme.selfRangeRevealEffectMap.size > 0;

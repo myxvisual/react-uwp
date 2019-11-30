@@ -134,7 +134,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       alignItems: "center",
       color: focused ? "#000" : theme.baseHigh,
       background: focused ? "#fff" : currBackground || "none",
-      border: focused ? `2px solid ${this.context.theme.accent}` : hovered ? `2px solid ${theme.baseMedium}` : `2px solid ${theme.baseLow}`,
+      border: focused ? `${theme.borderWidth}px solid ${theme.accent}` : hovered ? `${theme.borderWidth}px solid ${theme.baseMedium}` : `${theme.borderWidth}px solid ${theme.baseLow}`,
       transition: "all .25s"
     };
 
