@@ -31,7 +31,7 @@ export class Throttle {
     }
   }
 
-  shouldFunctionRun() {
+  shouldFunctionRun = () => {
     const now = getNow();
     const remainTime = now - this.prevRuntime;
     this.remainTime = remainTime;
@@ -44,7 +44,8 @@ export class Throttle {
   }
 
   runTimer: any = null;
-  startRunFunc() {
+  startRunFunc = () => {
+    this.enableRunFunc = true;
     clearTimeout(this.runTimer);
     if (!this.enableRunFunc) return;
     this.runFunc();
@@ -56,7 +57,7 @@ export class Throttle {
     }
   }
 
-  endRuncFunc() {
+  endRuncFunc = () => {
     clearTimeout(this.runTimer);
     this.enableRunFunc = false;
   }
