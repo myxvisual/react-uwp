@@ -39,6 +39,10 @@ export interface DataProps {
    * Set RevealEffect, check the styles/reveal-effect.
    */
   revealConfig?: RevealEffectProps;
+  /**
+   * Set reveal-effect enbale reszie envent.
+   */
+  enableResizeObserver?: boolean;
 }
 
 export interface ListViewProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -72,7 +76,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
   }
 
   getItemNode = (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {
-    const { revealConfig } = this.props;
+    const { revealConfig, enableResizeObserver } = this.props;
     const { inlineStyles } = this;
     const { theme } = this.context;
     const { onChooseItem, background } = this.props;
@@ -127,6 +131,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
       background,
       defaultFocusListIndex,
       revealConfig,
+      enableResizeObserver,
       ...attributes
     } = this.props;
     const { theme } = this.context;

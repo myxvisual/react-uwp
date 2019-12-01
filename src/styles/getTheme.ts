@@ -94,6 +94,9 @@ export class Theme {
   reveaGradientMap: Map<string, CanvasGradient> = new Map();
   revealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
   selfRangeRevealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
+  hoverBorderCanvas: HTMLCanvasElement;
+  addGlobalListeners?: () => void;
+  removeGlobalListeners?: () => void;
 
   desktopBackground?: string;
 

@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Theme } from "../styles/getTheme";
-import { createRadialGradient, inRectInside, drawBorder, drawHover } from "./helper"; import * as tinyColor from "tinycolor2";
+import { createRadialGradient, inRectInside, drawBorder, drawHover, updateCanvasRect } from "./helper"; import * as tinyColor from "tinycolor2";
 import { Theme as ThemeType } from "react-uwp/styles/getTheme";
-import { updateCanvasRect } from "./index";
 import { Throttle } from "../utils/Throttle";
-
+import { ResizeObserver as ResizeObserverPolyfill } from '@juggle/resize-observer';
 export interface DataProps {
   theme: Theme;
 }
@@ -36,9 +35,8 @@ function checkOverlap(rect1: OverlapRect, rect2: OverlapRect) {
 }
 
 const drawBorderThrottle = new Throttle();
-
-export function drawGlobalEffects(e: MouseEvent, theme: ThemeType) {
-  if (!drawBorderThrottle.shouldFunctionRun()) return;
+export function drawGlobalEffects(e: MouseEvent, theme: ThemeType, useThrottle = true) {
+  if (useThrottle && !drawBorderThrottle.shouldFunctionRun()) return;
   const { revealEffectMap } = theme;
   // break by self effect.
   // let isSelfBorder = false;
@@ -105,7 +103,6 @@ export function drawGlobalEffects(e: MouseEvent, theme: ThemeType) {
     borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
 
     if ((isOverlap || isInside) && !theme.selfRangeRevealEffectMap.get(borderCanvas)) {
-    // updateCanvasRect.
       updateCanvasRect(borderCanvas);
       drawBorderEffect();
 
@@ -152,35 +149,88 @@ export function drawGlobalEffects(e: MouseEvent, theme: ThemeType) {
 export interface GlobalRevealStoreProps extends DataProps {}
 
 export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
+  currPosition = {
+    clientX: 0,
+    clientY: 0
+  };
+
   componentDidMount() {
     this.addListeners();
+    window.addEventListener("transitionrun", this.handleTransintionRun, false);
+    window.addEventListener("transitionend", this.handleTransintionEnd, false);
   }
 
   componentWillUnmount() {
+    window.removeEventListener("transitionrun", this.handleTransintionRun, false);
+    window.removeEventListener("transitionend", this.handleTransintionEnd, false);
     this.removeListeners();
   }
 
-  addListeners() {
-    document.addEventListener("scroll", this.drawEffects, true);
-    window.addEventListener("mousemove", this.drawEffects, true);
-    window.addEventListener("mouseenter", this.drawEffects, true);
-    window.addEventListener("mouseleave", this.drawEffects, true);
-    document.addEventListener("click", this.drawEffects, true);
+  transitionRunThrottle = new Throttle({
+    runFunc: () => {
+      console.log("123123123");
+      // drawGlobalEffects(this.currPosition as MouseEvent, this.props.theme, false);
+    }
+  });
+  handleTransintionRun = (e: TransitionEvent) => {
+    this.transitionRunThrottle.endRuncFunc();
+    const { theme } = this.props;
+    const { revealEffectMap } = theme;
+    const currEl = e.target as HTMLElement;
+    if (currEl) {
+      for (const [borderCanvas, revealConfig] of revealEffectMap) {
+        if (currEl.contains(borderCanvas.parentElement)) {
+          // drawGlobalEffects(this.currPosition as MouseEvent, theme, false);
+          break;
+        }
+      }
+    }
+    this.transitionRunThrottle.startRunFunc();
   }
 
-  removeListeners() {
-    document.removeEventListener("scroll", this.drawEffects, true);
-    window.removeEventListener("mousemove", this.drawEffects, true);
+  handleTransintionEnd = (e: TransitionEvent) => {
+    this.transitionRunThrottle.endRuncFunc();
+    const { theme } = this.props;
+    const { revealEffectMap } = theme;
+    const currEl = e.target as HTMLElement;
+    if (currEl) {
+      for (const [borderCanvas, revealConfig] of revealEffectMap) {
+        if (currEl.contains(borderCanvas.parentElement)) {
+          drawGlobalEffects(this.currPosition as MouseEvent, theme, false);
+          break;
+        }
+      }
+    }
+  }
+
+  addListeners() {
+    // window.addEventListener("scroll", this.drawEffects, true);
+    // window.addEventListener("click", this.drawEffects, true); 
+    window.addEventListener("mouseenter", this.drawEffects, true);
+    window.addEventListener("mousemove", this.drawEffects, true);
+    window.addEventListener("mouseleave", this.drawEffects, true);
+  }
+
+  removeListeners() { 
+    // window.removeEventListener("scroll", this.drawEffects, true);
+    // window.removeEventListener("click", this.drawEffects, true);
     window.removeEventListener("mouseenter", this.drawEffects, true);
+    window.removeEventListener("mousemove", this.drawEffects, true);
     window.removeEventListener("mouseleave", this.drawEffects, true);
-    document.removeEventListener("click", this.drawEffects, true);
   }
 
   drawEffects = (e: MouseEvent) => {
+    const { clientX, clientY } = e;
+    if (clientX && clientY) {
+      this.currPosition = { clientX, clientY };
+    }
     drawGlobalEffects(e, this.props.theme);
   }
 
   render() {
+    const { theme } = this.props;
+    theme.addGlobalListeners = this.addListeners;
+    theme.removeGlobalListeners = this.removeListeners;
     return null;
   }
 }

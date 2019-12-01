@@ -83,7 +83,7 @@ export function drawElement2Ctx(ctx: CanvasRenderingContext2D, element: HTMLElem
       borderLeftWidth,
       borderRightWidth
   } = style;
-  const [topWidth, bottomWidth, leftWidth, rightWidth] = [borderTopWidth, borderBottomWidth, borderLeftWidth, borderRightWidth].map(t => px2numb(t));
+  const [topWidth, bottomWidth, leftWidth, rightWidth] = [borderTopWidth, borderBottomWidth, borderLeftWidth, borderRightWidth].map(t => Number.parseInt(t));
   const isExistBorder = [topWidth, bottomWidth, leftWidth, rightWidth].some(t => Boolean(t));
   const isStroke = drawType === DrawType.Stroke;
 
@@ -198,4 +198,41 @@ export function drawHover(config: {
     scale: 1,
     size: hoverSize * 2
   }, gradient);
+}
+
+export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
+  const hoverCanvasEl = borderCanvasEl.previousElementSibling as HTMLCanvasElement;
+  const parentEl = borderCanvasEl.parentElement as HTMLElement;
+  if (!parentEl) return;
+  const style = window.getComputedStyle(parentEl);
+  const {
+      borderTopWidth,
+      borderLeftWidth,
+      width,
+      height
+  } = style;
+
+  const btWidth = Number.parseInt(borderTopWidth);
+  const blWidth = Number.parseInt(borderLeftWidth);
+  const elWidth = Number.parseInt(width);
+  const elHeight = Number.parseInt(height);
+
+  const isSameBorderEl = borderCanvasEl.width === elWidth && borderCanvasEl.height === elHeight;
+  const isSameHoverEl = hoverCanvasEl.width === elWidth && hoverCanvasEl.height === elHeight;
+
+  const currStyle = {
+    left: blWidth ? `${-blWidth}px` : "0px",
+    top: btWidth ? `${-btWidth}px` : "0px",
+    width,
+    height,
+    display: "block"
+  } as CSSStyleDeclaration;
+  if (!isSameBorderEl) {
+    Object.assign(borderCanvasEl, { width: elWidth, height: elHeight });
+    Object.assign(borderCanvasEl.style, currStyle);
+  }
+  if (!isSameHoverEl) {
+    Object.assign(hoverCanvasEl, { width: elWidth, height: elHeight });
+    Object.assign(hoverCanvasEl.style, currStyle);
+  }
 }
