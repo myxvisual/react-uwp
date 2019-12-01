@@ -160,10 +160,10 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
       const isOverlap = checkOverlap(effectRect, parentRect);
       const isInside = inRectInside({ left: clientX, top: clientY }, parentRect);
       
-      updateCanvasRect(borderCanvas);
       borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
       const isSelfRange = effectRange === "self";
       if ((isOverlap || isInside)) {
+        updateCanvasRect(borderCanvas);
         const enableDrawBorder = effectEnable === "border" || effectEnable === "both";
         if (enableDrawBorder && (!isSelfRange || this.hoverBorderCanvas === borderCanvas)) {
           const gradient = getGradient(borderCtx, borderColor, theme);
