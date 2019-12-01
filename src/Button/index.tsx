@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import PseudoClasses from "../PseudoClasses";
 import Icon from "../Icon";
 import Tooltip from "../Tooltip";
-import RevealEffect from "../RevealEffect";
+import RevealEffect, { RevealEffectProps } from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -43,6 +43,10 @@ export interface DataProps {
    * Set custom Button `background`.
    */
   background?: string;
+  /**
+   * Set RevealEffect, check the styles/reveal-effect.
+   */
+  revealConfig?: RevealEffectProps;
 }
 
 export interface ButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
@@ -74,6 +78,7 @@ export class Button extends React.Component<ButtonProps> {
       tooltip,
       background,
       activeStyle,
+      revealConfig,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -143,7 +148,7 @@ export class Button extends React.Component<ButtonProps> {
           )) : (
             <button>
               {children}
-              <RevealEffect />
+              <RevealEffect {...revealConfig} />
             </button>
           )
         )}

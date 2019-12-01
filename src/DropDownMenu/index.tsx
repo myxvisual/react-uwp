@@ -4,6 +4,7 @@ import { codes } from "keycode";
 
 import AddBlurEvent from "../utils/AddBlurEvent";
 import Icon from "../Icon";
+import RevealEffect, { RevealEffectProps } from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -38,6 +39,10 @@ export interface DataProps {
    * Set `itemElm` HTMLAttributes.
    */
   itemAttributes?: React.HTMLAttributes<HTMLDivElement>;
+  /**
+   * Set RevealEffect, check the styles/reveal-effect.
+   */
+  revealConfig?: RevealEffectProps;
 }
 
 export interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
@@ -67,7 +72,8 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     itemAttributes: {
       onMouseEnter: emptyFunc,
       onMouseLeave: emptyFunc
-    }
+    },
+    // revealConfig: { effectRange: "self" }
   };
 
   state: DropDownMenuState = {
@@ -160,6 +166,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       background,
       padding,
       style,
+      revealConfig,
       ...attributes
     } = this.props;
     const { showList, currentValue, currentValues } = this.state;
@@ -182,15 +189,13 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           ref={wrapperElm => this.wrapperElm = wrapperElm}
           style={{
             ...styles.wrapper.style,
-            border: `${showList ? "1px" : "2px"} solid ${theme.baseLow}`
+            border: showList ? `${theme.borderWidth}px solid ${theme.baseMedium}` : void 0,
           } as React.CSSProperties}
           className={styles.wrapper.className}
           onMouseEnter={(e) => {
-            if (!showList) e.currentTarget.style.border = `2px solid ${showList ? theme.baseLow : theme.baseHigh}`;
             if (wrapperAttributes.onMouseEnter) wrapperAttributes.onMouseEnter(e);
           }}
           onMouseLeave={(e) => {
-            if (!showList) e.currentTarget.style.border = `2px solid ${theme.baseLow}`;
             if (wrapperAttributes.onMouseLeave) wrapperAttributes.onMouseLeave(e);
           }}
         >
@@ -201,7 +206,11 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
                 className={styles.value.className}
                 style={{
                   ...styles.value.style,
-                  height: (isCurrent || showList) ? itemHeight : 0,
+                  height: (isCurrent || showList) ? (showList ? showList : "100%") : 0,
+                  borderTop: showList ? `${theme.borderWidth}px solid transparent` : `${theme.borderWidth}px solid ${theme.baseLow}`,
+                  borderBottom: showList ? `${theme.borderWidth}px solid transparent` : `${theme.borderWidth}px solid ${theme.baseLow}`,
+                  borderLeft: showList ? void 0 : `${theme.borderWidth}px solid ${theme.baseLow}`,
+                  borderRight: showList ? void 0 : `${theme.borderWidth}px solid ${theme.baseLow}`,
                   background: (isCurrent && showList) ? theme.listAccentLow : "none"
                 } as React.CSSProperties}
                 onClick={() => this.toggleShowList(value)}
@@ -223,10 +232,12 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
                     ChevronDown4Legacy
                   </Icon>
                 ) : null}
+                <RevealEffect {...revealConfig} />
               </div>
             );
           })}
         </div>
+        {/* <RevealEffect {...revealConfig} /> */}
       </div>
     );
   }
@@ -280,6 +291,7 @@ function getStyles(dropDownMenu: DropDownMenu) {
       overflowY: showList && haveWrapperStyle ? wrapperAttributes.style.overflowY : "hidden"
     }),
     value: prefixStyle({
+      position: "relative",
       width: itemWidth,
       display: "flex",
       padding: "0 8px",
