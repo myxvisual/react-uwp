@@ -1,5 +1,4 @@
 # How Use Fonts in React-UWP
----
 
 In current version, we only export two group fonts, [theme.fonts.sansSerifFonts](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L58) and [theme.fonts.segoeMDL2Assets](https://github.com/myxvisual/react-uwp/blob/master/src/styles/getTheme.ts#L59), example code:
 

@@ -5,6 +5,7 @@ import { codes } from "keycode";
 import AddBlurEvent from "../utils/AddBlurEvent";
 import Icon from "../Icon";
 import PseudoClasses from "../PseudoClasses";
+import RevealEffect, { RevealEffectProps } from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -39,6 +40,10 @@ export interface DataProps {
    * Set Menu Item expanded method.
    */
   expandedMethod?: "active" | "hover";
+  /**
+   * Set RevealEffect, check the styles/reveal-effect.
+   */
+  revealConfig?: RevealEffectProps;
 }
 
 export interface AnyAttributes {
@@ -124,6 +129,7 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
       className,
       hoverStyle,
       expandedMethod,
+      revealConfig,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -178,6 +184,7 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
             })}
           </div>
         )}
+        <RevealEffect effectRange="self" {...revealConfig} />
       </div>
       </PseudoClasses>
     );
@@ -204,6 +211,9 @@ function getStyles(menuItem: MenuItem): {
 
   return {
     root: prefixStyle({
+      position: "relative",
+      border: `${theme.borderWidth}px solid transparent`,
+      borderWidth: `${theme.borderWidth}px 0px`,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -212,7 +222,7 @@ function getStyles(menuItem: MenuItem): {
       fontSize: itemHeight / 3,
       lineHeight: `${itemHeight}px`,
       width: "100%",
-      position: children ? "relative" : void 0,
+      // position: children ? "relative" : void 0,
       "&:hover": hoverStyle || {
         background: theme.listLow
       },
