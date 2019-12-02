@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import Icon from "../Icon";
 import PseudoClasses from "../PseudoClasses";
+import RevealEffect, { RevealEffectProps } from "../RevealEffect";
 
 export interface DataProps {
   /**
@@ -29,6 +30,10 @@ export interface DataProps {
    * Set show label text.
    */
   showLabel?: boolean;
+  /**
+   * Set RevealEffect, check the styles/reveal-effect.
+   */
+  revealConfig?: RevealEffectProps;
 }
 
 export interface SplitViewCommandProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -56,6 +61,7 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
       isTenFt,
       iconStyle,
       showLabel,
+      revealConfig,
       ...attributes
     } = this.props;
     const { theme } = this.context;
@@ -86,7 +92,7 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
       <PseudoClasses {...rootStyleClasses}>
       <div {...attributes}>
         {(visited && !isTenFt) ? <div {...visitedBorderStyleClasses}/> : null}
-        <Icon {...iconStyleClasses}>
+        <Icon style={inlineStyles.icon}>
           {icon}
         </Icon>
         {label && (
@@ -94,6 +100,7 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
             {label}
           </div>
         )}
+        <RevealEffect {...revealConfig} />
       </div>
       </PseudoClasses>
     );
@@ -118,6 +125,8 @@ function getStyles(splitViewCommand: SplitViewCommand) {
     root: prefixStyle({
       fontSize: 14,
       color: theme.baseMediumHigh,
+      border: `${theme.borderWidth}px solid transparent`,
+      borderWidth: `${theme.borderWidth}px 0px`,
       background: isTenFt ? (visited ? theme.listAccentLow : "none") : "none",
       width: "100%",
       display: "flex",
