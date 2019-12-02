@@ -78,10 +78,16 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   localDrawThrottle = new Throttle();
-  drawLocalEffect = (event: Event, borderCanvas: HTMLCanvasElement, disabledThrottle = false) => {
+  handleDrawLocalEffect = (event: Event, borderCanvas: HTMLCanvasElement) => {
+    this.drawLocalEffect(event, borderCanvas);
+    // this.localDrawThrottle.runOnceByThrotlle(() => {
+    //   console.count("runOnceByThrotlle");
+    //   this.drawLocalEffect(event, borderCanvas);
+    // })
+  }
+  drawLocalEffect = (event: Event, borderCanvas: HTMLCanvasElement) => {
     if (!borderCanvas) return;
     const { clientX, clientY } = this.updatePosition(event);
-    if (!this.localDrawThrottle.shouldFunctionRun() && !disabledThrottle) return;
     const { theme, theme: { revealEffectMap } } = this.props;
     const parentEl = borderCanvas.parentElement;
     const revealConfig = revealEffectMap.get(borderCanvas);
@@ -132,7 +138,15 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     }
   }
 
+  localCleanThrottle = new Throttle();
+  handleCleanLocalEffect = (event: Event, borderCanvas: HTMLCanvasElement) => {
+    this.cleanLocalEffect(event, borderCanvas);
+    // this.localCleanThrottle.runOnceByThrotlle(() => {
+    //   this.cleanLocalEffect(event, borderCanvas);
+    // })
+  }
   cleanLocalEffect = (e: Event, borderCanvas: HTMLCanvasElement) => {
+    clearTimeout(this.localDrawThrottle.runOnceTime);
     const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
     if (!hoverCanvas || !hoverCanvas) return;
     const borderCtx = borderCanvas.getContext("2d");
@@ -143,9 +157,14 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   globalDrawThrottle = new Throttle();
-  drawGlobalEffects = (e: Event, disabledThrottle = false) => {
+  handleDrawGlobalEffect = (event: Event) => {
+    // this.drawGlobalEffects(event);
+    this.globalDrawThrottle.runOnceByThrotlle(() => {
+      this.drawGlobalEffects(event);
+    })
+  }
+  drawGlobalEffects = (e: Event) => {
     const { clientX, clientY } = this.updatePosition(e);
-    if (!this.globalDrawThrottle.shouldFunctionRun() && !disabledThrottle) return;
     const { theme, theme: { revealEffectMap } } = this.props;
     if (revealEffectMap.size === 0) return;
 
@@ -202,14 +221,14 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
   addBorderCanvasLocalListeners(borderCanvas: HTMLCanvasElement) {
     const parentEl = borderCanvas.parentElement;
-    parentEl.addEventListener("mouseenter", e => this.drawLocalEffect(e, borderCanvas), false);
-    parentEl.addEventListener("mouseover", e => this.drawLocalEffect(e, borderCanvas), false);
-    parentEl.addEventListener("mousemove", e => this.drawLocalEffect(e, borderCanvas), false);
-    parentEl.addEventListener("mouseout", e => this.cleanLocalEffect(e, borderCanvas), false);
-    parentEl.addEventListener("mouseleave", e => this.cleanLocalEffect(e, borderCanvas), false);
-    parentEl.addEventListener("touchstart", e => this.drawLocalEffect(e, borderCanvas), false);
-    parentEl.addEventListener("touchmove", e => this.drawLocalEffect(e, borderCanvas), false);
-    parentEl.addEventListener("touchend", e => this.cleanLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("mouseenter", e => this.handleDrawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("mouseover", e => this.handleDrawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("mousemove", e => this.handleDrawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("touchstart", e => this.handleDrawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("touchmove", e => this.handleDrawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("mouseout", e => this.handleCleanLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("mouseleave", e => this.handleCleanLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("touchend", e => this.handleCleanLocalEffect(e, borderCanvas), false);
   }
 
   addLocalListeners() {
@@ -228,24 +247,26 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   addGlobalListeners() {
-    window.addEventListener("mouseenter", this.drawGlobalEffects, true);
-    window.addEventListener("mouseover", this.drawGlobalEffects, true);
-    window.addEventListener("mousemove", this.drawGlobalEffects, true);
+    window.addEventListener("mouseenter", this.handleDrawGlobalEffect, true);
+    window.addEventListener("mouseover", this.handleDrawGlobalEffect, true);
+    window.addEventListener("mousemove", this.handleDrawGlobalEffect, true);
+    window.addEventListener("touchstart", this.handleDrawGlobalEffect, true);
+    window.addEventListener("touchmove", this.handleDrawGlobalEffect, true);
+
     window.addEventListener("mouseout", this.cleanGlobalEffects, true);
     window.addEventListener("mouseleave", this.cleanGlobalEffects, true);
-    window.addEventListener("touchstart", this.drawGlobalEffects, true);
-    window.addEventListener("touchmove", this.drawGlobalEffects, true);
     window.addEventListener("touchend", this.cleanGlobalEffects, true);
   }
 
   removeGlobalListeners() {
-    window.removeEventListener("mouseenter", this.drawGlobalEffects, true);
-    window.removeEventListener("mouseover", this.drawGlobalEffects, true);
-    window.removeEventListener("mousemove", this.drawGlobalEffects, true);
+    window.removeEventListener("mouseenter", this.handleDrawGlobalEffect, true);
+    window.removeEventListener("mouseover", this.handleDrawGlobalEffect, true);
+    window.removeEventListener("mousemove", this.handleDrawGlobalEffect, true);
+    window.removeEventListener("touchstart", this.handleDrawGlobalEffect, true);
+    window.removeEventListener("touchmove", this.handleDrawGlobalEffect, true);
+
     window.removeEventListener("mouseout", this.cleanGlobalEffects, true);
     window.removeEventListener("mouseleave", this.cleanGlobalEffects, true);
-    window.removeEventListener("touchstart", this.drawGlobalEffects, true);
-    window.removeEventListener("touchmove", this.drawGlobalEffects, true);
     window.removeEventListener("touchend", this.cleanGlobalEffects, true);
   }
 
