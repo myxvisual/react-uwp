@@ -22,3 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 
 docs/build
+
+.env

@@ -43,6 +43,7 @@
   ],
   "exclude": [
     "./docs",
+    "./packages",
     "./__mocks__",
     "./node_modules"
   ]

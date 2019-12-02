@@ -60,11 +60,11 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       borderColor,
       effectRange
     });
-    theme.addBorderCnavs(this.borderCanvasEl, currRevealConfig);
+    theme.addBorderCanvas(this.borderCanvasEl, currRevealConfig);
   }
 
   removeDOMNode() {
-    this.context.theme.removeBorderCnavs(this.borderCanvasEl);
+    this.context.theme.removeBorderCanvas(this.borderCanvasEl);
   }
 
   render() {

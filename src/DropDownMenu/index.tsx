@@ -232,7 +232,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
                     ChevronDown4Legacy
                   </Icon>
                 ) : null}
-                <RevealEffect {...revealConfig} />
+                <RevealEffect {...revealConfig} effectRange={showList ? "self" : "all"} />
               </div>
             );
           })}

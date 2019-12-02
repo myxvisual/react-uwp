@@ -57,7 +57,7 @@ export class Throttle {
     }
   }
 
-  endRuncFunc = () => {
+  endRunFunc = () => {
     clearTimeout(this.runTimer);
     this.enableRunFunc = false;
   }

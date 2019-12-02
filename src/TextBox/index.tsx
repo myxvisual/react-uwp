@@ -139,24 +139,22 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
     };
 
     const inlineStyles = {
-      root: haveChild ? theme.prefixStyle({
+      root: theme.prefixStyle({
         ...rootWrapperStyle,
         ...style
-      }) : {} as React.CSSProperties,
+      }),
       input: theme.prefixStyle({
         display: "block",
-        ...(haveChild ? {
-          paddingLeft: rightNode ? 8 : void 0,
-          paddingRight: leftNode ? 8 : void 0,
-          width: "100%",
-          height: "100%",
-          background: "none",
-          border: "none",
-          outline: "none",
-          color: "inherit",
-          transition: "all .25s"
-        } : rootWrapperStyle),
-        ...(haveChild ? void 0 : style),
+        paddingLeft: rightNode ? 8 : void 0,
+        paddingRight: leftNode ? 8 : void 0,
+        width: "100%",
+        height: "100%",
+        background: "none",
+        border: "none",
+        outline: "none",
+        color: "inherit",
+        transition: "all .25s",
+        ...style,
         margin: 0,
         ...textBoxStyle
       }) as React.CSSProperties
@@ -185,7 +183,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
       />
     );
 
-    return haveChild ? (
+    return (
       <div
         ref={rootElm => this.rootElm = rootElm}
         {...attributes as any}
@@ -199,7 +197,7 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
         {rightNode}
         {!focused && <RevealEffect />}
       </div>
-    ) : normalRender;
+    );
   }
 }
 

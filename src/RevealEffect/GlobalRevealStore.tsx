@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Theme } from "../styles/getTheme";
-import { createRadialGradient, inRectInside, drawBorder, drawHover, updateCanvasRect } from "./helper"; import * as tinyColor from "tinycolor2";
+import { createRadialGradient, inRectInside, drawBorder, drawHover, updateCanvasRect } from "./helper";
+import * as tinyColor from "tinycolor2";
 import { Theme as ThemeType } from "react-uwp/styles/getTheme";
 import { Throttle } from "../utils/Throttle";
-import { ResizeObserver as ResizeObserverPolyfill } from '@juggle/resize-observer';
+import { ResizeObserver as ResizeObserverPolyfill } from "@juggle/resize-observer";
 const ResizeObserver: typeof ResizeObserverPolyfill = window["ResizeObserver"] || ResizeObserverPolyfill;
 
 export interface DataProps {
@@ -18,10 +19,10 @@ export interface OverlapRect {
 }
 
 function getGradient(ctx: CanvasRenderingContext2D, borderColor: string, theme: ThemeType) {
-  let gradient = theme.reveaGradientMap.get(borderColor);
+  let gradient = theme.revealGradientMap.get(borderColor);
   if (!gradient) {
     gradient = createRadialGradient(ctx, borderColor).gradient;
-    theme.reveaGradientMap.set(borderColor, gradient);
+    theme.revealGradientMap.set(borderColor, gradient);
   }
   return gradient;
 }
@@ -55,35 +56,40 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   componentWillUnmount() {
-    this.uninitAll();
+    this.unInitAll();
   }
 
   initAll() {
     this.addLocalListeners();
     this.addGlobalListeners();
     this.addResizeObserver();
-    window.addEventListener("transitionrun", this.handleTransintionRun, false);
-    window.addEventListener("transitionend", this.handleTransintionEnd, false);
+    window.addEventListener("transitionstart", this.handleTransitionRun, true);
+    window.addEventListener("transitionrun", this.handleTransitionRun, true);
+    window.addEventListener("transitionend", this.handleTransitionEnd, true);
   }
 
-  uninitAll() {
+  unInitAll() {
     this.removeLocalListeners();
     this.removeGlobalListeners();
-    this.remoeResizeObserver();
-    window.removeEventListener("transitionrun", this.handleTransintionRun, false);
-    window.removeEventListener("transitionend", this.handleTransintionEnd, false);
+    this.removeResizeObserver();
+    window.removeEventListener("transitionstart", this.handleTransitionRun, true);
+    window.removeEventListener("transitionrun", this.handleTransitionRun, true);
+    window.removeEventListener("transitionend", this.handleTransitionEnd, true);
   }
 
-  locaalDrawThrottle = new Throttle();
+  localDrawThrottle = new Throttle();
   drawLocalEffect = (event: Event, borderCanvas: HTMLCanvasElement, disabledThrottle = false) => {
+    if (!borderCanvas) return;
     const { clientX, clientY } = this.updatePosition(event);
-    if (!this.locaalDrawThrottle.shouldFunctionRun() && !disabledThrottle) return;
+    if (!this.localDrawThrottle.shouldFunctionRun() && !disabledThrottle) return;
     const { theme, theme: { revealEffectMap } } = this.props;
     const parentEl = borderCanvas.parentElement;
     const revealConfig = revealEffectMap.get(borderCanvas);
     if (!revealConfig) return;
     const { hoverSize, borderWidth, borderColor, hoverColor, effectEnable } = revealConfig;
-    this.hoverBorderCanvas = borderCanvas;
+    if (effectEnable !== "disabled") {
+      this.hoverBorderCanvas = borderCanvas;
+    }
     theme.currHoverSize = hoverSize;
 
     const borderCtx = borderCanvas.getContext("2d");
@@ -94,6 +100,10 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     const enableDrawBorder = effectEnable === "border" || effectEnable === "both";
     const enableDrawHover = effectEnable === "hover" || effectEnable === "both";
 
+    if (effectEnable !== "disabled" && "stopPropagation" in event) {
+      event.stopPropagation();
+    }
+
     updateCanvasRect(borderCanvas);
     if (enableDrawBorder) {
       drawBorder({
@@ -102,7 +112,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
         borderWidth,
         gradient: borderGradient,
         x,
-        y 
+        y
       });
     }
 
@@ -123,8 +133,9 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   cleanLocalEffect = (e: Event, borderCanvas: HTMLCanvasElement) => {
-    const borderCtx = borderCanvas.getContext("2d");
     const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
+    if (!hoverCanvas || !hoverCanvas) return;
+    const borderCtx = borderCanvas.getContext("2d");
     const hoverCtx = hoverCanvas.getContext("2d");
     borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
     hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
@@ -137,7 +148,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     if (!this.globalDrawThrottle.shouldFunctionRun() && !disabledThrottle) return;
     const { theme, theme: { revealEffectMap } } = this.props;
     if (revealEffectMap.size === 0) return;
-  
+
     // Add hover size.
     let { hoverSize } = theme.revealConfig;
     if (theme.currHoverSize !== void 0) hoverSize = theme.currHoverSize;
@@ -148,7 +159,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
       right: clientX + hoverSize,
       bottom: clientY + hoverSize
     };
-  
+
     // draw border effect.
     for (const [borderCanvas, revealConfig] of revealEffectMap) {
       const borderCtx = borderCanvas.getContext("2d");
@@ -156,10 +167,10 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
       const parentRect = parentEl.getBoundingClientRect();
       const { borderColor, borderWidth, effectEnable, effectRange } = revealConfig;
       const [x, y] = [clientX - parentRect.left, clientY - parentRect.top];
-  
+
       const isOverlap = checkOverlap(effectRect, parentRect);
       const isInside = inRectInside({ left: clientX, top: clientY }, parentRect);
-      
+
       borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
       const isSelfRange = effectRange === "self";
       if ((isOverlap || isInside)) {
@@ -175,11 +186,11 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
             x,
             y
           });
-        };
+        }
       }
     }
   }
-  
+
   cleanGlobalEffects = (e: Event) => {
     this.updatePosition(e);
     const { theme: { revealEffectMap } } = this.props;
@@ -191,10 +202,14 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
   addBorderCanvasLocalListeners(borderCanvas: HTMLCanvasElement) {
     const parentEl = borderCanvas.parentElement;
-    parentEl.addEventListener("click", e => this.drawLocalEffect(e, borderCanvas), false);
     parentEl.addEventListener("mouseenter", e => this.drawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("mouseover", e => this.drawLocalEffect(e, borderCanvas), false);
     parentEl.addEventListener("mousemove", e => this.drawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("mouseout", e => this.cleanLocalEffect(e, borderCanvas), false);
     parentEl.addEventListener("mouseleave", e => this.cleanLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("touchstart", e => this.drawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("touchmove", e => this.drawLocalEffect(e, borderCanvas), false);
+    parentEl.addEventListener("touchend", e => this.cleanLocalEffect(e, borderCanvas), false);
   }
 
   addLocalListeners() {
@@ -213,32 +228,39 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   addGlobalListeners() {
-    // window.addEventListener("scroll", this.drawGlobalEffects, true);
-    window.addEventListener("click", this.drawGlobalEffects, true);
     window.addEventListener("mouseenter", this.drawGlobalEffects, true);
+    window.addEventListener("mouseover", this.drawGlobalEffects, true);
     window.addEventListener("mousemove", this.drawGlobalEffects, true);
+    window.addEventListener("mouseout", this.cleanGlobalEffects, true);
     window.addEventListener("mouseleave", this.cleanGlobalEffects, true);
+    window.addEventListener("touchstart", this.drawGlobalEffects, true);
+    window.addEventListener("touchmove", this.drawGlobalEffects, true);
+    window.addEventListener("touchend", this.cleanGlobalEffects, true);
   }
 
-  removeGlobalListeners() { 
-    // window.removeEventListener("scroll", this.drawGlobalEffects, true);
-    window.removeEventListener("click", this.drawGlobalEffects, true);
+  removeGlobalListeners() {
     window.removeEventListener("mouseenter", this.drawGlobalEffects, true);
+    window.removeEventListener("mouseover", this.drawGlobalEffects, true);
     window.removeEventListener("mousemove", this.drawGlobalEffects, true);
+    window.removeEventListener("mouseout", this.cleanGlobalEffects, true);
     window.removeEventListener("mouseleave", this.cleanGlobalEffects, true);
+    window.removeEventListener("touchstart", this.drawGlobalEffects, true);
+    window.removeEventListener("touchmove", this.drawGlobalEffects, true);
+    window.removeEventListener("touchend", this.cleanGlobalEffects, true);
   }
 
   addCanvasOb = (borderCanvas: HTMLCanvasElement) => {
+    if (!borderCanvas) return;
     const parentEl = borderCanvas.parentElement as HTMLElement;
     const observer = new ResizeObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.target === parentEl) {
+      for (const entry of entries) {
+        if (this.hoverBorderCanvas && entry.target === this.hoverBorderCanvas.parentElement) {
           this.drawLocalEffect({
             target: parentEl as EventTarget,
             type: void 0
-          } as Event, borderCanvas);
+          } as Event, this.hoverBorderCanvas);
         }
-      });
+      }
     });
     observer.observe(parentEl);
     this.resizeObserverMap.set(borderCanvas, observer);
@@ -251,46 +273,76 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   }
 
   removeCanvasOb = (borderCanvas: HTMLCanvasElement) => {
-    const reszieObserver = this.resizeObserverMap.get(borderCanvas);
-    if (reszieObserver) {
-      reszieObserver.disconnect();
+    const resizeObserver = this.resizeObserverMap.get(borderCanvas);
+    if (resizeObserver) {
+      resizeObserver.disconnect();
       this.resizeObserverMap.delete(borderCanvas);
     }
   }
-  remoeResizeObserver = () => {
-    for (const [borderCanvas, reszieObserver] of this.resizeObserverMap) {
-      reszieObserver.disconnect();
+  removeResizeObserver = () => {
+    for (const [borderCanvas, resizeObserver] of this.resizeObserverMap) {
+      resizeObserver.disconnect();
       this.resizeObserverMap.delete(borderCanvas);
     }
   }
 
+  reflowProps = ["transform", "left", "top", "right", "bottom"];
   transitionRunThrottle = new Throttle({
     runFunc: () => {
       this.drawGlobalEffects(this.currPosition as MouseEvent);
     }
   });
-  handleTransintionRun = (e: TransitionEvent) => {
-    this.transitionRunThrottle.startRunFunc();
-    for (const [borderCanvas] of this.props.theme.revealEffectMap) {
-      const reflowProps = ["transform", "left", "top", "right", "width", "height"];
-      if (reflowProps.includes(e.propertyName)) {
-        const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
-        const hoverCtx = hoverCanvas.getContext("2d");
-        hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
+  handleTransitionRun = (e: TransitionEvent) => {
+    const { theme } = this.props;
+    const isHTMLElement = e && e.target && "contains" in e.target;
+    if (this.reflowProps.includes(e.propertyName)) {
+      if (isHTMLElement && (e.target as HTMLElement).contains(this.hoverBorderCanvas)) {
+        this.transitionRunThrottle.startRunFunc();
       }
     }
   }
 
-  handleTransintionEnd = (e: TransitionEvent) => {
-    this.transitionRunThrottle.endRuncFunc();
+  handleTransitionEnd = (e: TransitionEvent) => {
     const { theme } = this.props;
     const { revealEffectMap } = theme;
-    const currEl = e.currentTarget as HTMLElement;
-    if (currEl && "contains" in currEl) {
+    const isHTMLElement = e && e.target && "contains" in e.target;
+    let isReflowCanvas = false;
+
+    const isReflow = this.reflowProps.includes(e.propertyName);
+    if (isReflow) {
       for (const [borderCanvas] of revealEffectMap) {
-        if (currEl.contains(borderCanvas.parentElement)) {
-          this.drawGlobalEffects(this.currPosition as MouseEvent, true);
+        if (isReflowCanvas = isHTMLElement && (e.target as HTMLElement).contains(borderCanvas)) {
+          this.transitionRunThrottle.endRunFunc();
+          // this.drawGlobalEffects(this.currPosition as MouseEvent, true);
+          this.drawGlobalEffects(this.currPosition as MouseEvent);
           break;
+        }
+      }
+    }
+    if (isReflow && isReflowCanvas) {
+      // find curr focus element.
+      let findNewFocus = false;
+      const focusElements = document.elementsFromPoint(this.currPosition.clientX, this.currPosition.clientY);
+      for (const focusElement of focusElements) {
+        if (findNewFocus) break;
+        for (const [borderCanvas, revealConfig] of revealEffectMap) {
+          if (borderCanvas.parentElement === focusElement && revealConfig.effectEnable !== "disabled") {
+            this.hoverBorderCanvas = borderCanvas;
+            break;
+          }
+        }
+      }
+
+      for (const [borderCanvas] of revealEffectMap) {
+        if (borderCanvas !== this.hoverBorderCanvas) {
+          const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
+          const hoverCtx = hoverCanvas.getContext("2d");
+          hoverCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
+        } else {
+          this.drawLocalEffect({
+            target: this.hoverBorderCanvas.parentElement as EventTarget,
+            type: void 0
+          } as Event, this.hoverBorderCanvas);
         }
       }
     }
@@ -301,11 +353,11 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     theme.onAddBorderCanvas = borderCanvas => {
       this.addBorderCanvasLocalListeners(borderCanvas);
       this.addCanvasOb(borderCanvas);
-    }
+    };
     theme.onRemoveBorderCanvas = borderCanvas => {
       this.removeBorderCanvasLocalListeners(borderCanvas);
       this.removeCanvasOb(borderCanvas);
-    }
+    };
     return null;
   }
 }

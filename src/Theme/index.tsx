@@ -39,6 +39,7 @@ export interface DataProps {
    * Set noise texture style.
    */
   enableNoiseTexture?: boolean;
+  enableGlobalThemeCSSText?: boolean;
 }
 
 export interface ThemeProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -58,7 +59,8 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     desktopBackgroundConfig: desktopBgDefaultConfig,
     themeWillUpdate: themeCallback,
     forceGenerateAcrylicTextures: true,
-    enableNoiseTexture: true
+    enableNoiseTexture: true,
+    enableGlobalThemeCSSText: true
   };
   static childContextTypes = {
     theme: PropTypes.object
@@ -149,8 +151,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   addCSSText2theme(theme: ThemeType) {
+    const { currTheme } = this.state;
+    const selector = currTheme ? `.${theme.themeClassName}` : "";
     theme.styleManager.addCSSText(getBaseCSS());
-    theme.styleManager.addCSSText(getThemeBaseCSS(theme, `.${theme.themeClassName}`));
+    theme.styleManager.addCSSText(getThemeBaseCSS(theme, selector));
   }
 
   setThemeHelper(theme: ThemeType, prevTheme?: ThemeType) {
@@ -214,6 +218,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       themeWillUpdate,
       forceGenerateAcrylicTextures,
       enableNoiseTexture,
+      enableGlobalThemeCSSText,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;

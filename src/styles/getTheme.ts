@@ -91,22 +91,22 @@ export class Theme {
 
   revealConfig: RevealConfig;
   currHoverSize: number;
-  reveaGradientMap: Map<string, CanvasGradient> = new Map();
+  revealGradientMap: Map<string, CanvasGradient> = new Map();
   revealEffectMap: Map<HTMLCanvasElement, RevealConfig> = new Map();
   hoverBorderCanvas: HTMLCanvasElement;
-  addBorderCnavs(borderCanvas: HTMLCanvasElement, revleaConfig: RevealConfig) {
+  addBorderCanvas(borderCanvas: HTMLCanvasElement, revealConfig: RevealConfig) {
     if (!this.revealEffectMap.get(borderCanvas)) {
-      this.onAddBorderCanvas(borderCanvas, revleaConfig);
+      this.onAddBorderCanvas(borderCanvas, revealConfig);
     }
-    this.revealEffectMap.set(borderCanvas, revleaConfig);
+    this.revealEffectMap.set(borderCanvas, revealConfig);
   }
-  removeBorderCnavs(borderCanvas: HTMLCanvasElement,) {
+  removeBorderCanvas(borderCanvas: HTMLCanvasElement) {
     if (this.revealEffectMap.get(borderCanvas)) {
       this.onRemoveBorderCanvas(borderCanvas);
     }
     this.revealEffectMap.delete(borderCanvas);
   }
-  onAddBorderCanvas(borderCanvas?: HTMLCanvasElement, revleaConfig?: RevealConfig) {}
+  onAddBorderCanvas(borderCanvas?: HTMLCanvasElement, revealConfig?: RevealConfig) {}
   onRemoveBorderCanvas(borderCanvas?: HTMLCanvasElement) {}
 
   desktopBackground?: string;
