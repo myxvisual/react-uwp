@@ -66,39 +66,106 @@ The UI framework for Windows provides an extensive library of controls that supp
           }
         />
 
+        <MarkdownRender text="> AppBarButton" />
         <AppBarButton />
+
+        <MarkdownRender text="> AutoSuggestBox" />
         <AutoSuggestBox />
+
+        <MarkdownRender text="> Button" />
         <Button />
+
+        <MarkdownRender text="> CheckBox" />
         <CheckBox />
+
+        <MarkdownRender text="> CommandBar" />
         <CommandBar />
+
+        <MarkdownRender text="> ContentDialog" />
         <ContentDialog />
+
+        <MarkdownRender text="> CalendarView" />
         <CalendarView />
+
+        <MarkdownRender text="> CalendarDatePicker" />
         <CalendarDatePicker />
+
+        <MarkdownRender text="> DatePicker" />
         <DatePicker />
+
+        <MarkdownRender text="> TimePicker" />
         <TimePicker />
+
+        <MarkdownRender text="> DropDownMenu" />
         <DropDownMenu />
+
+        <MarkdownRender text="> Flyout" />
         <Flyout />
+
+        <MarkdownRender text="> HyperLink" />
         <HyperLink />
+
+        <MarkdownRender text="> Icon" />
         <Icon />
+
+        <MarkdownRender text="> IconButton" />
         <IconButton />
+
+        <MarkdownRender text="> PasswordBox" />
         <PasswordBox />
+
+        <MarkdownRender text="> ProgressBar" />
         <ProgressBar />
+
+        <MarkdownRender text="> ProgressRing" />
         <ProgressRing />
+
+        <MarkdownRender text="> RadioButton" />
         <RadioButton />
+
+        <MarkdownRender text="> RatingControl" />
         <RatingControl />
+
+        <MarkdownRender text="> ScrollReveal" />
         <ScrollReveal />
+
+        <MarkdownRender text="> Separator" />
         <Separator />
+
+        <MarkdownRender text="> Slider" />
         <Slider />
+
+        <MarkdownRender text="> SplitViewCommand" />
         <SplitViewCommand />
+
+        <MarkdownRender text="> TextBox" />
         <TextBox />
+
+        <MarkdownRender text="> Toggle" />
         <Toggle />
+
+        <MarkdownRender text="> Tooltip" />
         <Tooltip />
+
+        <MarkdownRender text="> TreeView" />
         <TreeView />
+
+        <MarkdownRender text="> Menu" />
         <Menu />
+
+        <MarkdownRender text="> ListView" />
         <ListView />
+
+        <MarkdownRender text="> Image" />
         <Image />
+
+        <MarkdownRender text="> FlipView" />
         <FlipView />
+
+        <MarkdownRender text="> NavigationView" />
         <NavigationView />
+
+        <MarkdownRender text="> SplitView" />
         <SplitView />
       </div>
     );
