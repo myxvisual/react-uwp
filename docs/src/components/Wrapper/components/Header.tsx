@@ -174,20 +174,15 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               )}
               <div style={{ width: isPhoneScreen ? 80 : 120 }}>
                 <DropDownMenu
-                  wrapperAttributes={{
-                    style: {
-                      maxHeight: 174
-                    }
-                  }}
                   style={{
+                    maxHeight: 140,
+                    width: isPhoneScreen ? 80 : 120,
                     zIndex: theme.zIndex.header + 1,
                     position: "fixed",
                     top: isPhoneScreen ? 9 : 14,
                     right: isPhoneScreen ? 20 : (window.innerWidth - (renderContentWidth as any)) / 2
                   }}
-                  itemWidth={isPhoneScreen ? 80 : 120}
                   defaultValue={currVersion}
-                  background={theme.altHigh}
                   values={currVersions}
                   onChangeValue={this.handleChangeVersion}
                 />

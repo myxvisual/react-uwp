@@ -100,7 +100,7 @@ export class SplitViewCommand extends React.Component<SplitViewCommandProps> {
             {label}
           </div>
         )}
-        <RevealEffect {...revealConfig} />
+        <RevealEffect {...revealConfig} effectRange="self" />
       </div>
       </PseudoClasses>
     );

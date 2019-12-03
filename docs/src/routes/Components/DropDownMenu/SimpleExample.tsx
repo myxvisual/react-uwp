@@ -26,16 +26,13 @@ export default class SimpleExample extends React.Component {
         />
 
         <DropDownMenu
-          style={baseStyle}
           values={["A", "B", "C"]}
-          itemHeight={32}
-          itemWidth={320}
+          style={{ ...baseStyle, width: 320 }}
         />
 
         <DropDownMenu
-          style={baseStyle}
-          values={["---", "A", "a"]}
-          background={theme.useFluentDesign ? theme.acrylicTexture40.background : theme.altHigh}
+          style={{ ...baseStyle, width: "100%", display: "block", height: 40 }}
+          values={["--- Full Width ---", "A", "a"]}
         />
       </div>
     );

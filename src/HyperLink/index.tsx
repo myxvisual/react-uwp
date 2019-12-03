@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import RevealEffect from "../RevealEffect";
 
 import Link from "../Link";
 export interface DataProps {
@@ -34,7 +33,6 @@ export class HyperLink extends React.Component<HyperLinkProps> {
         children={
           <React.Fragment>
             {this.props.children}
-            <RevealEffect />
           </React.Fragment>
         }
       />

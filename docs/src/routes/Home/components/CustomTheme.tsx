@@ -53,7 +53,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps> {
                   "Dark",
                   "Light"
                 ]}
-                background={theme.useFluentDesign ? theme.acrylicTexture40.background : theme.chromeLow}
+                style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.chromeLow }}
                 defaultValue={theme.isDarkTheme ? "Dark" : "Light"}
                 onChangeValue={value => {
                   theme.updateTheme(getTheme({
