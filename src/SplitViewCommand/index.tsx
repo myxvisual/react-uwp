@@ -123,6 +123,7 @@ function getStyles(splitViewCommand: SplitViewCommand) {
 
   return {
     root: prefixStyle({
+      flex: "0 0 auto",
       fontSize: 14,
       color: theme.baseMediumHigh,
       border: `${theme.borderWidth}px solid transparent`,

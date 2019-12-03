@@ -13,13 +13,9 @@ export interface DataProps {
    */
   text?: string;
   /**
-   * Use Custom Markdown CSS style in dark theme mode.
+   * Use Custom Markdown CSSText.
    */
-  darkThemeCSSString?: string;
-  /**
-   * Use Custom Markdown CSS style in light theme mode.
-   */
-  lightThemeCSSString?: string;
+  CSSText?: string;
 }
 
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -71,16 +67,9 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
   }
 
   updateThemeStyle = () => {
-    const { darkThemeCSSString, lightThemeCSSString } = this.props;
+    const { CSSText: newCSSText } = this.props;
     const { theme } = this.context;
-    let markdownStyleString: any;
-    if (theme.isDarkTheme) {
-      markdownStyleString = darkThemeCSSString || prismOkaidiaCSS;
-    } else {
-      markdownStyleString = lightThemeCSSString || prismCoyCSS;
-    }
-
-    const CSSText = getCSSText(theme, `react-uwp-markdown`) + "\n" + markdownStyleString;
+    const CSSText = getCSSText(theme, `react-uwp-markdown-${theme.themeName}`) + `\n${theme.isDarkTheme ? prismOkaidiaCSS : prismCoyCSS}` + newCSSText || "";
     theme.styleManager.addCSSText(CSSText);
   }
 
@@ -92,7 +81,7 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
       <div>
         <div
           {...attributes}
-          className={`react-uwp-markdown ${className || ""}`}
+          className={`react-uwp-markdown-${theme.themeName} ${className || ""}`}
           dangerouslySetInnerHTML={{ __html: marked(text) }}
         />
       </div>
@@ -126,8 +115,8 @@ return (
   overflow-x: hidden;
 }
 
-.${className} a, .${className} h1, .${className} h2, .${className} h3, .${className} h4, .${className} h5, .${className} h6 {
-  line-height: 1.4;
+.${className} h1, .${className} h2, .${className} h3, .${className} h4, .${className} h5, .${className} h6 {
+  line-height: 1.8;
   font-weight: 300;
   margin: 16px 0 4px;
   color: ${theme.baseHigh};
@@ -185,10 +174,10 @@ return (
 }
 
 .${className} hr {
-  margin: 4px 0;
+  margin: 8px 0;
   border: 0;
   width: 100%;
-  border-top: 2px solid ${theme.listAccentMedium};
+  border-top: 1px solid ${theme.listAccentLow};
 }
 
 .${className} ol > li {
@@ -201,7 +190,7 @@ return (
 }
 
 .${className} blockquote {
-  border-left: 2px solid ${theme.listAccentLow};
+  border-left: 4px solid ${theme.listAccentLow};
   padding-left: 15px;
   margin: 20px 0px 35px;
 }
@@ -219,10 +208,10 @@ return (
 
 .${className} pre {
   font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
-  background: none !important;
+  background: none;
   border: 1px solid ${theme.listLow};
-  border-left: 4px solid ${theme.listAccentMedium} !important;
-  border-radius: 0 !important;
+  border-left: 4px solid ${theme.listAccentMedium};
+  border-radius: 0;
   padding: 12px;
   margin: 10px 0;
   font-size: 14px;
@@ -245,12 +234,12 @@ return (
 
 code[class*="language-"], pre[class*="language-"] {
   ${theme.isDarkTheme ? (
-    "background: none !important;"
+    "background: none;"
   ) : (
     ""
   )}
-  text-shadow: none !important;
-  box-shadow: none !important;
+  text-shadow: none;
+  box-shadow: none;
 }
 
 .${className} table {

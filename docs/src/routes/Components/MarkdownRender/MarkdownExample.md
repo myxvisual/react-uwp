@@ -1,89 +1,245 @@
 ---
+__Advertisement :)__
 
-# Markdown -X (New Markdwon Editor)
-![image](https://www.antcores.com/static/images/markdown-x-banner.svg)
-- ** can be bold font, more convenient real-time preview markdown document **
-- Simply enter the document
-- support shortcut keys to customize
-- make your input more convenient
+- __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image
+  resize in browser.
+- __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly
+  i18n with plurals support and easy syntax.
 
-> In addition to export Markdown format documents, you can also output `PDF` document,` HTML` and other mainstream files
->> Support online storage and offline storage, support `offline editing`.
+You will like those projects!
 
-### layout is easier
-##### Customize the title
+---
 
-##### Easy to enter Latex
-`` `Math
-F (x) = \ int _ {- \ infty} ^ \ infty
-    \ Hat f (\ xi) \, e ^ {2 \ pi i \ xi x}
-    \, D \ xi
-`` ``
+# h1 Heading 8-)
+## h2 Heading
+### h3 Heading
+#### h4 Heading
+##### h5 Heading
+###### h6 Heading
 
-Header | header
---- | ---
-Row1 col 1 | row1 col2
-Row2 col1 | row2 col2
 
-``` js
-Import {x, y} as p from 'point';
-Const ANSWER = 42;
+## Horizontal Rules
 
-Class Car extends Vehicle {
-  Constructor (speed, cost) {
-    Super (speed);
+___
 
-    Var c = Symbol ('cost');
-    This [c] = cost;
+---
 
-    This.intro = `This is a car runs at
-      $ {Speed} .`;
-  }
-}
+***
 
-For (let num of [1, 2, 3]) {
-  Console.log (num + 0b111110111);
-}
 
-Function $ initHighlight (block, flags) {
-  Try {
-    If (block.className.search (/ \ bno \ -highlight \ b /)! = -1)
-      Return processBlock (block.function, true, 0x0F) + 'class = ""';
-  } Catch (e) {
-    / * Handle exception * /
-    Var e4x =
-        <Div> Example
-            <P> 1234 </ p> </ div>;
-  }
-  For (var i = 0/2; i <classes.length; i ++) {// "0/2" should not be parsed as regexp
-    If (checkCondition (classes [i]) === undefined)
-      Return / \ d + [\ s /] / g;
-  }
-  Console.log (Array.every (classes, Boolean));
-}
+## Typographic replacements
 
-Export $ initHighlight;
+Enable typographer option to see result.
+
+(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+
+test.. test... test..... test?..... test!....
+
+!!!!!! ???? ,,  -- ---
+
+"Smartypants, double quotes" and 'single quotes'
+
+
+## Emphasis
+
+**This is bold text**
+
+__This is bold text__
+
+*This is italic text*
+
+_This is italic text_
+
+~~Strikethrough~~
+
+
+## Blockquotes
+
+
+> Blockquotes can also be nested...
+>> ...by using additional greater-than signs right next to each other...
+> > > ...or with spaces between arrows.
+
+
+## Lists
+
+Unordered
+
++ Create a list by starting a line with `+`, `-`, or `*`
++ Sub-lists are made by indenting 2 spaces:
+  - Marker character change forces new list start:
+    * Ac tristique libero volutpat at
+    + Facilisis in pretium nisl aliquet
+    - Nulla volutpat aliquam velit
++ Very easy!
+
+Ordered
+
+1. Lorem ipsum dolor sit amet
+2. Consectetur adipiscing elit
+3. Integer molestie lorem at massa
+
+
+1. You can use sequential numbers...
+1. ...or keep all the numbers as `1.`
+
+Start numbering with offset:
+
+57. foo
+1. bar
+
+
+## Code
+
+Inline `code`
+
+Indented code
+
+    // Some comments
+    line 1 of code
+    line 2 of code
+    line 3 of code
+
+
+Block code "fences"
+
+```
+Sample text here...
 ```
 
-##### Synchronous scroll & live preview
-##### Easy to put pictures
-![image](https://www.antcores.com/static/images/grass.jpg)
+Syntax highlighting
 
-`` `` `` `` `` `` `` `
+``` js
+var foo = function (bar) {
+  return bar++;
+};
 
-### Todo List
-- [x] Code is highlighted
-- [x] shortcuts
-- [x] fast rendering
-- [] style correction
-- [] custom sync scrolling
-- [] output PDF HTML
-- [] custom shortcut module display
-- [] React reconstruction
-- [] Custom Short KeyBoard
+console.log(foo(5));
+```
 
-# The Online
+## Tables
+
+| Option | Description |
+| ------ | ----------- |
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
+
+Right aligned columns
+
+| Option | Description |
+| ------:| -----------:|
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
 
 
+## Links
 
-######--------------- [Online Editor](https://www.antcores.com/markdown_mx) ----------- 
+[link text](http://dev.nodeca.com)
+
+[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+
+Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
+
+
+## Images
+
+![Minion](https://octodex.github.com/images/minion.png)
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+
+Like links, Images also have a footnote style syntax
+
+![Alt text][id]
+
+With a reference later in the document defining the URL location:
+
+[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
+
+
+## Plugins
+
+The killer feature of `markdown-it` is very effective support of
+[syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
+
+
+### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
+
+> Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum:
+>
+> Shortcuts (emoticons): :-) :-( 8-) ;)
+
+see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
+
+
+### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
+
+- 19^th^
+- H~2~O
+
+
+### [\<ins>](https://github.com/markdown-it/markdown-it-ins)
+
+++Inserted text++
+
+
+### [\<mark>](https://github.com/markdown-it/markdown-it-mark)
+
+==Marked text==
+
+
+### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
+
+Footnote 1 link[^first].
+
+Footnote 2 link[^second].
+
+Inline footnote^[Text of inline footnote] definition.
+
+Duplicated footnote reference[^second].
+
+[^first]: Footnote **can have markup**
+
+    and multiple paragraphs.
+
+[^second]: Footnote text.
+
+
+### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
+
+Term 1
+
+:   Definition 1
+with lazy continuation.
+
+Term 2 with *inline markup*
+
+:   Definition 2
+
+        { some code, part of Definition 2 }
+
+    Third paragraph of definition 2.
+
+_Compact style:_
+
+Term 1
+  ~ Definition 1
+
+Term 2
+  ~ Definition 2a
+  ~ Definition 2b
+
+
+### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
+
+This is HTML abbreviation example.
+
+It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
+
+*[HTML]: Hyper Text Markup Language
+
+### [Custom containers](https://github.com/markdown-it/markdown-it-container)
+
+::: warning
+*here be dragons*
+:::

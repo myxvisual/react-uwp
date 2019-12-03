@@ -11,7 +11,6 @@ export default class SimpleExample extends React.Component {
   context: { theme: ReactUWP.ThemeType };
 
   render() {
-    const { theme } = this.context;
     return (
       <div>
         <DropDownMenu
@@ -31,7 +30,13 @@ export default class SimpleExample extends React.Component {
         />
 
         <DropDownMenu
-          style={{ ...baseStyle, width: "100%", display: "block", height: 40 }}
+          style={{
+            ...baseStyle,
+            width: "100%",
+            lineHeight: "40px",
+            display: "block",
+            height: 40
+          }}
           values={["--- Full Width ---", "A", "a"]}
         />
       </div>

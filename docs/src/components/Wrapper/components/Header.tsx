@@ -179,6 +179,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                     width: isPhoneScreen ? 80 : 120,
                     zIndex: theme.zIndex.header + 1,
                     position: "fixed",
+                    overflowY: "auto",
                     top: isPhoneScreen ? 9 : 14,
                     right: isPhoneScreen ? 20 : (window.innerWidth - (renderContentWidth as any)) / 2
                   }}

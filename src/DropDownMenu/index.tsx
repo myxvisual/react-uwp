@@ -34,11 +34,9 @@ export interface DropDownMenuState {
   currentValues?: string[];
 }
 
+const defaultStyle: React.CSSProperties = { height: 32, overflowY: "hidden" };
 const emptyFunc = () => {};
 export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
-  static defaultProps: DropDownMenuProps = {
-    onChangeValue: emptyFunc
-  };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
   state: DropDownMenuState = {
@@ -113,7 +111,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));
     }
     if (currentValue !== this.state.currentValue) {
-      this.props.onChangeValue(currentValue);
+      this.props.onChangeValue && this.props.onChangeValue(currentValue);
     }
     this.setState({
       currentValue,
@@ -157,7 +155,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
               style={{
                 ...classes.value.style,
                 background: (isCurrent && showList) ? theme.listAccentLow : "none",
-                height: isCurrent ? "100%" : void 0
+                height: showList ? (this.itemHeight) : (isCurrent ? "100%" : 0)
               } as React.CSSProperties}
               onClick={() => this.toggleShowList(value)}
               onMouseEnter={!showList ? void 0 : (e) => {
@@ -212,7 +210,8 @@ function getStyles(dropDownMenu: DropDownMenu) {
       transition: "all .25s 0s ease-in-out",
       ...theme.acrylicTexture60.style,
       ...style,
-      height: showList ? "auto" : style.height,
+      height: showList ? "auto" : (style.height || defaultStyle.height),
+      overflowY: style.overflowY || defaultStyle.overflowY,
       zIndex
     }) as React.CSSProperties,
     value: prefixStyle({
@@ -228,7 +227,7 @@ function getStyles(dropDownMenu: DropDownMenu) {
       borderLeft: showList ? `0px solid transparent` : "none",
       borderRight: showList ? `0px solid transparent` : "none",
       borderTop: showList ? `${theme.borderWidth}px solid transparent` : "none",
-      borderBottom: showList ? `${theme.borderWidth}px solid transparent` : "none",
+      borderBottom: showList ? `${theme.borderWidth}px solid transparent` : "none"
     }),
     content: {
       textAlign: "left",
@@ -238,7 +237,7 @@ function getStyles(dropDownMenu: DropDownMenu) {
       overflow: "hidden",
       wordWrap: "normal",
       whiteSpace: "nowrap",
-      lineHeight: "28px",
+      lineHeight: style.lineHeight === void 0 ? `${style.height || defaultStyle.height}px` : style.lineHeight,
       textOverflow: "ellipsis"
     } as React.CSSProperties
   };

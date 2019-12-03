@@ -154,7 +154,6 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
         outline: "none",
         color: "inherit",
         transition: "all .25s",
-        ...style,
         margin: 0,
         ...textBoxStyle
       }) as React.CSSProperties

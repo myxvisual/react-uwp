@@ -46,7 +46,7 @@ export class Throttle {
   }
 
   runOnceTime: any = null;
-  runOnceByThrotlle = (method: Function) => {
+  runOnceByThrottle = (method: Function) => {
     clearTimeout(this.runOnceTime);
     const shouldRun = this.shouldFunctionRun();
     if (shouldRun) {

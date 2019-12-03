@@ -129,8 +129,8 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
   globalDrawThrottle = new Throttle();
   handleDrawGlobalEffect = (event: Event) => {
-    // if (event.type) console.count("event draw.");
-    this.globalDrawThrottle.runOnceByThrotlle(() => {
+    this.globalDrawThrottle.runOnceByThrottle(() => {
+      // if (event.type) console.count("event draw.");
       this.drawGlobalEffects(event);
     });
   }
@@ -276,7 +276,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     window.removeEventListener("transitionend", this.handleTransitionEnd, true);
   }
 
-  reflowProps = ["transform", "left", "top", "right", "bottom"];
+  reflowProps = ["transform"];
   transitionRunThrottle = new Throttle({
     runFunc: () => {
       this.drawGlobalEffects(this.currPosition as MouseEvent);
@@ -286,7 +286,8 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     const isHTMLElement = e && e.target && "contains" in e.target;
     if (this.reflowProps.includes(e.propertyName)) {
       if (isHTMLElement && (e.target as HTMLElement).contains(this.hoverBorderCanvas)) {
-        // console.count("transition draw.");
+        // console.count("transitionrun draw.");
+        this.drawGlobalEffects(this.currPosition as MouseEvent);
         this.transitionRunThrottle.startRunFunc();
       }
     }
@@ -302,6 +303,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     if (isReflow) {
       for (const [borderCanvas] of revealEffectMap) {
         if (isReflowCanvas = isHTMLElement && (e.target as HTMLElement).contains(borderCanvas)) {
+          // console.count("transitionend draw.");
           this.transitionRunThrottle.endRunFunc();
           this.drawGlobalEffects(this.currPosition as MouseEvent);
           break;

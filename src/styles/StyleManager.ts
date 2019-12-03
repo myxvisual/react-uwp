@@ -242,7 +242,7 @@ export class StyleManager {
           styleEl.textContent += rule;
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     }
   }
