@@ -47,6 +47,7 @@ void main(){
     if (!this.canvas) this.canvas = document.createElement("canvas");
     if (!this.gl) this.gl = this.canvas.getContext("webgl");
     const { gl } = this;
+    if (!this.gl) return;
     if (!this.program) this.program = gl.createProgram();
 
     gl.clearDepth(1.0);                                  // Clear everything.
@@ -131,6 +132,7 @@ void main(){
 
   cleanup() {
     const { gl, program, buffers } = this;
+    if (!gl) return;
     gl.useProgram(null);
     if (buffers) {
       for (const key in buffers) {

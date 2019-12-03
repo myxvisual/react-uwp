@@ -649,6 +649,7 @@ export class Theme {
           this.backgroundTexture = url;
           this.mergeAcrylicStyles(blurSize);
           if (callback) callback(this);
+          webGLRender.cleanup();
         });
       }
     };

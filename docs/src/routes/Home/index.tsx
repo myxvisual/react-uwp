@@ -68,7 +68,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
           style={{
             width: "100%",
             height: FLIP_HEIGHT,
-            background: theme.useFluentDesign ? theme.acrylicTexture80.background : theme.listLow
+            ...theme.acrylicTexture60.style
           }}
         >
           <FlipView
@@ -118,9 +118,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         <CustomTheme
           renderContentWidth={renderContentWidth}
           screenType={screenType}
-          style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : `linear-gradient(90deg, ${theme.listLow}, transparent)` }}
+          style={{ padding: "140px 0", ...theme.acrylicTexture40.style }}
         />
-        <div style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : void 0 }}>
+        <div style={{ padding: "120px 0", ...theme.acrylicTexture80.style }}>
           <MediaPlayer
             displayMode={isPhoneScreen ? "minimum" : "default"}
             style={{ margin: "0 auto", width: isPhoneScreen ? window.innerWidth : renderContentWidth, display: "block" }}
