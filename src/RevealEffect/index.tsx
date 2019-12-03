@@ -13,7 +13,7 @@ export interface DataProps {
   /** Set borderColor. */
   borderColor?: string;
   /** Set effect enable range. */
-  effectRange?: "self" | "all";
+  effectRange?: "self" | "others" | "all";
 }
 
 export interface RevealEffectProps extends DataProps, React.HTMLAttributes<HTMLCanvasElement> {

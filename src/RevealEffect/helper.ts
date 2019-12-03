@@ -159,7 +159,7 @@ export function drawBorder(config: {
   } = config;
   const borderCtx = borderCanvas.getContext("2d");
   borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
-  
+
   borderCtx.globalCompositeOperation = "source-over";
   drawRectAtRange(borderCtx, {
     x,

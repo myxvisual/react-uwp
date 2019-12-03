@@ -1,4 +1,6 @@
-export const frameMS = Math.floor(1000 / 48);
+export const frameMS = Math.floor(1000 / 60);
+export const loweFrameMS = Math.floor(1000 / 24);
+export const highFrameMS = Math.floor(1000 / 120);
 
 export function getNow() {
   if ("performance" in window) {
