@@ -1,6 +1,6 @@
 {
-  "app.js": "js/app.e639f.js",
-  "common.js": "js/common.e639f.js",
+  "app.js": "js/app.321fd.js",
+  "common.js": "js/common.321fd.js",
   "images\\Tactile-13-1024x683.jpeg": "images/Tactile-13-1024x683.3m3YK.jpeg",
   "images\\acrylic.png": "images/acrylic.2Fsrj.png",
   "images\\antcores.png": "images/antcores.-W40M.png",
@@ -37,7 +37,7 @@
   "react-uwp-Components-Flyout.js": "js/react-uwp-Components-Flyout.5c399.js",
   "react-uwp-Components-HyperLink.js": "js/react-uwp-Components-HyperLink.817b9.js",
   "react-uwp-Components-Icon.js": "js/react-uwp-Components-Icon.7f81c.js",
-  "react-uwp-Components-IconButton.js": "js/react-uwp-Components-IconButton.562b8.js",
+  "react-uwp-Components-IconButton.js": "js/react-uwp-Components-IconButton.d5a7b.js",
   "react-uwp-Components-Image.js": "js/react-uwp-Components-Image.668da.js",
   "react-uwp-Components-IndexOfComponentsByFunction.js": "js/react-uwp-Components-IndexOfComponentsByFunction.cbaf8.js",
   "react-uwp-Components-ListView.js": "js/react-uwp-Components-ListView.d1744.js",
@@ -57,7 +57,7 @@
   "react-uwp-Components-SplitViewCommand.js": "js/react-uwp-Components-SplitViewCommand.0a761.js",
   "react-uwp-Components-Tabs.js": "js/react-uwp-Components-Tabs.b88ea.js",
   "react-uwp-Components-TextBox.js": "js/react-uwp-Components-TextBox.ba3be.js",
-  "react-uwp-Components-Theme.js": "js/react-uwp-Components-Theme.14549.js",
+  "react-uwp-Components-Theme.js": "js/react-uwp-Components-Theme.4ec24.js",
   "react-uwp-Components-Toast.js": "js/react-uwp-Components-Toast.28669.js",
   "react-uwp-Components-Toggle.js": "js/react-uwp-Components-Toggle.0a5d0.js",
   "react-uwp-Components-Tooltip.js": "js/react-uwp-Components-Tooltip.45785.js",
@@ -76,7 +76,7 @@
   "react-uwp-Styles-StylingComponents.js": "js/react-uwp-Styles-StylingComponents.8c55d.js",
   "react-uwp-Styles-Typography.js": "js/react-uwp-Styles-Typography.5ce48.js",
   "react-uwp-Test.js": "js/react-uwp-Test.101e8.js",
-  "react-uwp-home.js": "js/react-uwp-home.a0f18.js",
+  "react-uwp-home.js": "js/react-uwp-home.07349.js",
   "react-uwp-style-Acrylic.js": "js/react-uwp-style-Acrylic.48f73.js",
   "react-uwp-style-Icons.js": "js/react-uwp-style-Icons.beb45.js"
 }
