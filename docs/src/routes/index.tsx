@@ -12,16 +12,15 @@ export interface RouterCallback {
 
 const useFluentDesign = true;
 const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
+// const theme = getTheme({ useFluentDesign, desktopBackgroundImage, backgroundTexture: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 16 16' style='enable-background:new 0 0 16 16' xml:space='preserve'%3E%3Crect width='16' fill='none' height='16'/%3E%3Crect x='0' y='0' fill='hsla(0, 0%, 100%, 0.2)' width='1' height='1'/%3E%3C/svg%3E") repeat top right / 16px` });
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 
-localStorage.setItem("__REACT_UWP__", "");
 export class ThemeWrapper extends React.Component {
   render() {
     const { children } = this.props;
     return (
       <Theme
-        forceGenerateAcrylicTextures
-        enableNoiseTexture
+        enableNoiseTexture={false}
         theme={theme}
       >
         {children}

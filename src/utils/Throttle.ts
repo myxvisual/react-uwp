@@ -1,6 +1,6 @@
 export const frameMS = Math.floor(1000 / 60);
 export const loweFrameMS = Math.floor(1000 / 24);
-export const highFrameMS = Math.floor(1000 / 120);
+export const highFrameMS = Math.floor(1000 / 144);
 
 export function getNow() {
   if ("performance" in window) {
@@ -57,16 +57,16 @@ export class Throttle {
   }
 
   runTimer: any = null;
-  startRunFunc = () => {
+  startRunFunc = (...args: any[]) => {
     this.enableRunFunc = true;
     clearTimeout(this.runTimer);
     if (!this.enableRunFunc) return;
-    this.runFunc();
+    this.runFunc(...args);
     const shouldRun = this.shouldFunctionRun();
     if (shouldRun) {
-      this.startRunFunc();
+      this.startRunFunc(...args);
     } else {
-      this.runTimer = setTimeout(this.startRunFunc, this.remainTime);
+      this.runTimer = setTimeout(() => this.startRunFunc(...args), this.remainTime);
     }
   }
 

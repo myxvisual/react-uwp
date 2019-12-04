@@ -1,5 +1,4 @@
 export function toBlob(canvas: HTMLCanvasElement, callback?: (blob?: Blob) => void) {
-
   if (HTMLCanvasElement.prototype.toBlob) {
     canvas.toBlob(callback);
   } else if (HTMLCanvasElement.prototype["msToBlob"]) {

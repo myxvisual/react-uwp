@@ -14,6 +14,10 @@ export interface DataProps {
   borderColor?: string;
   /** Set effect enable range. */
   effectRange?: "self" | "others" | "all";
+  /** Observer resize event. */
+  observerResize?: boolean;
+  /** addLister observerTransition by propertyName. */
+  observerTransition?: string | string[];
 }
 
 export interface RevealEffectProps extends DataProps, React.HTMLAttributes<HTMLCanvasElement> {
@@ -50,7 +54,9 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       hoverColor,
       borderWidth,
       borderColor,
-      effectRange
+      effectRange,
+      observerResize,
+      observerTransition
     } = this.props;
     const currRevealConfig = theme.getRevealConfig(theme.revealConfig, {
       borderWidth,
@@ -58,7 +64,9 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       effectEnable,
       hoverColor,
       borderColor,
-      effectRange
+      effectRange,
+      observerResize,
+      observerTransition
     });
     theme.addBorderCanvas(this.borderCanvasEl, currRevealConfig);
   }
@@ -75,6 +83,8 @@ export class RevealEffect extends React.Component<RevealEffectProps> {
       hoverColor,
       borderColor,
       effectRange,
+      observerResize,
+      observerTransition,
       ...attributes
     } = this.props;
     const { theme } = this.context;
