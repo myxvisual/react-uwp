@@ -7,6 +7,13 @@ import { Throttle } from "../utils/Throttle";
 import { ResizeObserver as ResizeObserverPolyfill } from "@juggle/resize-observer";
 const ResizeObserver: typeof ResizeObserverPolyfill = window["ResizeObserver"] || ResizeObserverPolyfill;
 
+// TODO: CSS border gradient.
+const borderStyle = {
+  borderImage: `radial-gradient(circle 120px at 50% 50%, red 0%, transparent 100%)`,
+  borderImageSlice: 1,
+  borderTop: `100px solid`
+};
+
 export interface DataProps {
   theme: Theme;
 }
@@ -49,7 +56,6 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
       if (entry.target) {
         for (const [borderCanvas] of revealEffectMap) {
           if (borderCanvas.parentElement === entry.target) {
-            // console.count("resize draw.");
             this.handleDrawGlobalEffect(this.currPosition as MouseEvent);
             isResize = true;
             break;
@@ -62,8 +68,8 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   componentDidMount() {
     this.initAll();
     const { theme: { revealEffectMap } } = this.props;
-    for (const [borderCanvas] of revealEffectMap) {
-      this.resizeObserver.observe(borderCanvas.parentElement);
+    for (const [borderCanvas, revealConfig] of revealEffectMap) {
+      if (revealConfig.observerResize) this.resizeObserver.observe(borderCanvas.parentElement);
     }
   }
 
@@ -130,7 +136,6 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
   globalDrawThrottle = new Throttle();
   handleDrawGlobalEffect = (event: Event) => {
     this.globalDrawThrottle.runOnceByThrottle(() => {
-      // if (event.type) console.count("event draw.");
       this.drawGlobalEffects(event);
     });
   }
@@ -254,9 +259,9 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     window.addEventListener("mouseleave", this.cleanGlobalEffects, true);
     window.addEventListener("touchend", this.cleanGlobalEffects, true);
 
-    window.addEventListener("transitionstart", this.handleTransitionRun, true);
-    window.addEventListener("transitionrun", this.handleTransitionRun, true);
-    window.addEventListener("transitionend", this.handleTransitionEnd, true);
+    document.body.addEventListener("transitionstart", this.handleTransitionRun, false);
+    document.body.addEventListener("transitionrun", this.handleTransitionRun, false);
+    document.body.addEventListener("transitionend", this.handleTransitionEnd, false);
   }
 
   removeGlobalListeners() {
@@ -271,42 +276,40 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     window.removeEventListener("mouseleave", this.cleanGlobalEffects, true);
     window.removeEventListener("touchend", this.cleanGlobalEffects, true);
 
-    window.removeEventListener("transitionstart", this.handleTransitionRun, true);
-    window.removeEventListener("transitionrun", this.handleTransitionRun, true);
-    window.removeEventListener("transitionend", this.handleTransitionEnd, true);
+    document.body.removeEventListener("transitionstart", this.handleTransitionRun, false);
+    document.body.removeEventListener("transitionrun", this.handleTransitionRun, false);
+    document.body.removeEventListener("transitionend", this.handleTransitionEnd, false);
   }
 
-  reflowProps = ["transform"];
+  reflowPropertyNames = ["transform", "left", "width", "top", "right", "width", "height"];
   transitionRunThrottle = new Throttle({
     runFunc: () => {
-      this.drawGlobalEffects(this.currPosition as MouseEvent);
+      this.handleDrawGlobalEffect(this.currPosition as MouseEvent);
     }
   });
   handleTransitionRun = (e: TransitionEvent) => {
-    const isHTMLElement = e && e.target && "contains" in e.target;
-    if (this.reflowProps.includes(e.propertyName)) {
-      if (isHTMLElement && (e.target as HTMLElement).contains(this.hoverBorderCanvas)) {
-        // console.count("transitionrun draw.");
-        this.drawGlobalEffects(this.currPosition as MouseEvent);
-        this.transitionRunThrottle.startRunFunc();
+    const { propertyName } = e;
+    const { revealEffectMap } = this.props.theme;
+    const transitionEl = e.target as HTMLElement;
+    if (this.reflowPropertyNames.includes(propertyName)) {
+      for (const [borderCanvas, revealConfig] of revealEffectMap) {
+        if (transitionEl.contains(borderCanvas) && revealConfig.observerTransition === propertyName) {
+          this.transitionRunThrottle.startRunFunc();
+          break;
+        }
       }
     }
   }
 
   handleTransitionEnd = (e: TransitionEvent) => {
-    const { theme } = this.props;
-    const { revealEffectMap } = theme;
-    const isHTMLElement = e && e.target && "contains" in e.target;
-    let isReflowCanvas = false;
-
-    const isReflow = this.reflowProps.includes(e.propertyName);
-    if (isReflow) {
-      for (const [borderCanvas] of revealEffectMap) {
-        if (isReflowCanvas = isHTMLElement && (e.target as HTMLElement).contains(borderCanvas)) {
-          // console.count("transitionend draw.");
+    const { propertyName } = e;
+    const { revealEffectMap } = this.props.theme;
+    const transitionEl = e.target as HTMLElement;
+    if (this.reflowPropertyNames.includes(propertyName)) {
+      for (const [borderCanvas, revealConfig] of revealEffectMap) {
+        if (transitionEl.contains(borderCanvas) && revealConfig.observerTransition === propertyName) {
           this.transitionRunThrottle.endRunFunc();
-          this.drawGlobalEffects(this.currPosition as MouseEvent);
-          break;
+          this.handleDrawGlobalEffect(this.currPosition as MouseEvent);
         }
       }
     }
@@ -314,10 +317,8 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
   render() {
     const { theme } = this.props;
-    theme.onAddBorderCanvas = borderCanvas => {
-      this.resizeObserver.observe(borderCanvas.parentElement);
-    };
-    theme.onRemoveBorderCanvas = borderCanvas => {
+    theme.onAddBorderCanvas = (borderCanvas, revealConfig) => {
+      if (revealConfig.observerResize) this.resizeObserver.observe(borderCanvas.parentElement);
     };
     return null;
   }

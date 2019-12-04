@@ -194,7 +194,7 @@ export class CommandBar extends React.Component<CommandBarProps, CommandBarState
               />
             )}
           </div>
-        <RevealEffect {...revealConfig} />
+          <RevealEffect observerTransition="height" {...revealConfig} />
         </div>
       </div>
     );

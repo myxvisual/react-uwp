@@ -83,7 +83,7 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
               key={`${index}`}
             >
               {year}
-              <RevealEffect hoverSize={80} />
+              <RevealEffect observerTransition="transform" hoverSize={80} />
             </button>;
           })}
         </div>

@@ -63,6 +63,7 @@ export interface ThemeConfig {
   acrylicConfig?: {
     blurSize?: number;
   };
+  backgroundTexture?: string;
   borderWidth?: number;
   revealConfig?: RevealConfig;
 
@@ -221,7 +222,9 @@ export class Theme {
       hoverColor: this.baseLow,
       borderWidth: 1,
       borderColor: this.baseMediumHigh,
-      effectRange: "all"
+      effectRange: "all",
+      observerResize: false,
+      observerTransition: ""
     };
 
     if (prevConfig) {
@@ -249,17 +252,17 @@ export class Theme {
   generateAcrylicTextures?: (themeCallback?: (theme?: Theme) => void) => void;
   generateBackgroundTexture?: (themeCallback?: (theme?: Theme) => void) => void;
 
-  getTextureBackground(texture: string) {
+  getTextureBgFromUrl(texture: string) {
     return `url(${texture}) no-repeat fixed top left / cover`;
   }
 
-  getBgTextureBackground(texture: string) {
-    return `url(${texture}) repeat`;
+  getBgTextureBackground(url: string) {
+    return `url(${url}) repeat`;
   }
 
   mergeAcrylicStyles(blurSize: number) {
     let { backgroundTexture } = this;
-    let background = backgroundTexture ? this.getTextureBackground(backgroundTexture) : "";
+    let background = backgroundTexture ? backgroundTexture : "";
     const acrylicTexture20Config: AcrylicConfig = {
       tintColor: this.altMediumHigh,
       blurSize,
@@ -317,7 +320,8 @@ export class Theme {
       desktopBackgroundImage,
       acrylicConfig,
       borderWidth,
-      revealConfig
+      revealConfig,
+      backgroundTexture
     } = themeConfig;
     themeName = themeName || "dark";
     accent = accent || "#0078D7";
@@ -327,6 +331,7 @@ export class Theme {
     borderWidth = borderWidth === void 0 ? 1 : borderWidth;
     acrylicConfig.blurSize = acrylicConfig.blurSize === void 0 ? defaultAcrylicConfig.blurSize : defaultAcrylicConfig.blurSize;
     const { blurSize } = acrylicConfig;
+    if (backgroundTexture) this.backgroundTexture = backgroundTexture;
 
     this.themeHash = createHash(JSON.stringify(themeConfig));
     this.themeClassName = `react-uwp-${this.themeHash}`;
@@ -542,9 +547,9 @@ export class Theme {
     const generateAcrylicTextures = (themeCallback?: ThemeCallback) => {
       this.acrylicTextureCount = 0;
       const callback = (acrylicTextureUrl: string, key: number, isCanvasFilter?: boolean) => {
-        let background = this.getTextureBackground(acrylicTextureUrl);
+        let background = this.getTextureBgFromUrl(acrylicTextureUrl);
         if (this.backgroundTexture) {
-          background = `${background}, ${this.getBgTextureBackground(this.backgroundTexture)}`;
+          background = `${background}, ${backgroundTexture}`;
         }
 
         this.acrylicTextureCount += 1;
@@ -646,7 +651,7 @@ export class Theme {
         const webGLRender = new WebGLRender({ fragmentSource: noiseFrag, width: screen.availWidth, height: screen.availHeight });
         webGLRender.render();
         webGLRender.toUrl(url => {
-          this.backgroundTexture = url;
+          this.backgroundTexture = this.getTextureBgFromUrl(url);
           this.mergeAcrylicStyles(blurSize);
           if (callback) callback(this);
           webGLRender.cleanup();

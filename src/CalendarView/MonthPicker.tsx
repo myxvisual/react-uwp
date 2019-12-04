@@ -86,7 +86,7 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
               key={`${index}`}
             >
               {`${month}`}
-              <RevealEffect hoverSize={80} />
+              <RevealEffect observerTransition="transform" hoverSize={80} />
             </button>;
           })}
         </div>

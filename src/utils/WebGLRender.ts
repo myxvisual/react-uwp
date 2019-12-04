@@ -1,3 +1,5 @@
+import { toUrl } from "./canvasHelper";
+
 interface WebGLRenderProps {
   vertexSource?: string;
   fragmentSource?: string;
@@ -144,10 +146,7 @@ void main(){
   }
 
   toUrl(cb?: (url?: string) => void) {
-    this.canvas.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      if (cb) cb(url);
-    });
+    toUrl(this.canvas, cb);
   }
 }
 

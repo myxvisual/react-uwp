@@ -133,7 +133,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
                 key={`${index}`}
               >
                 {day}
-                <RevealEffect hoverSize={40} />
+                <RevealEffect observerTransition="transform" hoverSize={40} />
               </button>;
             })}
           </div>

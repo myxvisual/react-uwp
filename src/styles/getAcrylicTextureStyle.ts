@@ -18,15 +18,17 @@ export function getAcrylicTextureStyle(config: AcrylicConfig) {
       /**
        * Add blur filter.
        */
-      backdropFilter: `blur(${blurSize}px)`
+      backdropFilter: `blur(${blurSize}px)`,
+      transform: "translate3d(0, 0, 0)"
     } as any;
   } else {
     style = {
       /**
        * Add polyfill texture theme.acrylicText40.
        */
-      background: tintColor,
-      backgroundBlendMode: "overlay"
+      background: background ? `${background}, ${tintColor}` : `${tintColor}`,
+      backgroundBlendMode: "overlay",
+      transform: "translate3d(0, 0, 0)"
     };
   }
 

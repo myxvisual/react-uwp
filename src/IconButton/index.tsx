@@ -31,7 +31,10 @@ export interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLBut
 
 export class IconButton extends React.Component<IconButtonProps> {
   static defaultProps: IconButtonProps = {
-    size: 48
+    size: 48,
+    revealConfig: {
+      effectEnable: "disabled"
+    }
   };
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };

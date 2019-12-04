@@ -58,7 +58,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   static defaultProps: ThemeProps = {
     desktopBackgroundConfig: desktopBgDefaultConfig,
     themeWillUpdate: themeCallback,
-    forceGenerateAcrylicTextures: false,
+    forceGenerateAcrylicTextures: true,
     enableNoiseTexture: false,
     enableGlobalThemeCSSText: true
   };
