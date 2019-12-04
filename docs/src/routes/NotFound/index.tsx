@@ -61,7 +61,7 @@ function getStyles(notFound: NotFound): {
 
   return {
     root: prefixStyle({
-      ...getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
+      background: getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
       fontSize: 14,
       color: theme.baseMediumHigh,
       padding: 40,

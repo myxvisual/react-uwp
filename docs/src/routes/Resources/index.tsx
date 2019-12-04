@@ -88,7 +88,7 @@ function getStyles(resources: Resources): {
       padding: 20,
       height: "100%",
       display: "flex",
-      ...getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
+      background: getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",

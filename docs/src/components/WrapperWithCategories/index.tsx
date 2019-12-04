@@ -87,7 +87,7 @@ function getStyles(wrapperWithCategories: WrapperWithCategories) {
     side: prefixStyle({
       ...theme.acrylicTexture60.style,
       width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
-      ...(theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent")),
+      background: theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
       minHeight: "100%"
     }) as React.CSSProperties
   };
