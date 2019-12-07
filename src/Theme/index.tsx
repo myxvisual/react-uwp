@@ -173,24 +173,24 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       }
     } as ThemeType);
 
+    const newThemeCallback = currTheme => {
+      this.mergeStyleManager(currTheme, this.state.currTheme);
+      this.setState({ currTheme });
+    };
     if (theme.useFluentDesign) {
-      const themeCallback = currTheme => {
-        this.mergeStyleManager(currTheme, this.state.currTheme);
-        this.setState({ currTheme });
-      };
       if (theme.desktopBackground && (!supportedBackdropFilter || forceGenerateAcrylicTextures)) {
         if (enableNoiseTexture) {
           theme.generateBackgroundTexture(currTheme => {
-            currTheme.generateAcrylicTextures(themeCallback);
+            currTheme.generateAcrylicTextures(newThemeCallback);
           });
         } else {
-          theme.generateAcrylicTextures(themeCallback);
+          theme.generateAcrylicTextures(newThemeCallback);
         }
-      } else {
-        if (enableNoiseTexture) {
-          theme.generateBackgroundTexture(themeCallback);
-        }
+      } else if (enableNoiseTexture) {
+        theme.generateBackgroundTexture(newThemeCallback);
       }
+    } else if (enableNoiseTexture) {
+      theme.generateBackgroundTexture(newThemeCallback);
     }
   }
 

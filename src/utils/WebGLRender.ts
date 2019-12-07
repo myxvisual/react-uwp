@@ -150,7 +150,7 @@ void main(){
   }
 }
 
-const noiseFrag =
+const getNoiseFrag = (color: { r: string; g: string; b: string; }) =>
 `#ifdef GL_ES
 precision mediump float;
 #endif
@@ -164,7 +164,7 @@ void main() {
     vec2 st = gl_FragCoord.xy / iResolution.xy;
     st.x *= iResolution.x / iResolution.y;
     float r = random(st * 1.);
-    gl_FragColor = vec4(vec3(1.), r * .2);
+    gl_FragColor = vec4(${color.r}, ${color.g}, ${color.b}, r * .2);
 }
 `;
 
@@ -177,5 +177,5 @@ void main() {
 export {
   WebGLRenderProps,
   WebGLRender,
-  noiseFrag
+  getNoiseFrag
 };

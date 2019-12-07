@@ -52,7 +52,7 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
       <Wrapper onChangeRenderContentWidth={this.handleChangeRenderContentWidth}>
         <div style={styles.wrapper}>
           {notPhoneTablet && <DocsTreeView path={path} />}
-          <div style={styles.side}>
+          <div style={styles.docContent}>
             {React.cloneElement(children, { renderContentWidth, screenType })}
           </div>
         </div>
@@ -84,11 +84,10 @@ function getStyles(wrapperWithCategories: WrapperWithCategories) {
       minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
       margin: "0 auto"
     }),
-    side: prefixStyle({
-      ...theme.acrylicTexture60.style,
+    docContent: prefixStyle({
       width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
-      background: theme.useFluentDesign ? void 0 : getStripedBackground(4, tinycolor(theme.baseHigh).setAlpha(0.025).toRgbString(), "transparent"),
-      minHeight: "100%"
+      minHeight: "100%",
+      ...theme.acrylicTexture60.style
     }) as React.CSSProperties
   };
 }
