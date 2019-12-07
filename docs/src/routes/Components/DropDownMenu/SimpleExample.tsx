@@ -3,8 +3,8 @@ import * as PropTypes from "prop-types";
 
 import DropDownMenu from "react-uwp/DropDownMenu";
 
-const baseStyle: React.CSSProperties = {
-  margin: "10px 20px 10px 0"
+const wrapperStyle: React.CSSProperties = {
+  margin: 10
 };
 export default class SimpleExample extends React.Component {
   static contextTypes = { theme: PropTypes.object };
@@ -12,31 +12,22 @@ export default class SimpleExample extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ width: "100%" }}>
         <DropDownMenu
-          style={baseStyle}
-          values={["1", "2"]}
-        />
-
-        <DropDownMenu
-          style={baseStyle}
+          wrapperStyle={wrapperStyle}
           values={["1", "2"]}
           defaultValue="2"
         />
 
         <DropDownMenu
           values={["A", "B", "C"]}
-          style={{ ...baseStyle, width: 320 }}
+          wrapperStyle={wrapperStyle}
+          style={{ width: 400, height: 40 }}
         />
 
         <DropDownMenu
-          style={{
-            ...baseStyle,
-            width: "100%",
-            lineHeight: "40px",
-            display: "block",
-            height: 40
-          }}
+          wrapperStyle={{ margin: "10px 0" }}
+          enableFullWidth
           values={["--- Full Width ---", "A", "a"]}
         />
       </div>

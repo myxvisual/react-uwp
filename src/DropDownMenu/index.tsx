@@ -16,6 +16,22 @@ export interface DataProps {
    */
   onChangeValue?: (value: string) => void;
   /**
+   * Set wrapper style.
+   */
+  wrapperStyle?: React.CSSProperties;
+  /**
+   * Set full width to DropDownMenu.
+   */
+  enableFullWidth?: boolean;
+  /**
+   * Set item selected style.
+   */
+  itemSelectedStyle?: React.CSSProperties;
+  /**
+   * Set item hover style.
+   */
+  itemHoverStyle?: React.CSSProperties;
+  /**
    * Set RevealEffect, check the styles/reveal-effect.
    */
   revealConfig?: RevealEffectProps;
@@ -34,10 +50,14 @@ export interface DropDownMenuState {
   currentValues?: string[];
 }
 
-const defaultStyle: React.CSSProperties = { height: 32, overflowY: "hidden" };
-const emptyFunc = () => {};
+export const defaultStyle: React.CSSProperties = {
+  display: "inline-block",
+  width: 296,
+  height: 32
+};
 export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
   static contextTypes = { theme: PropTypes.object };
+  static defaultProps: DropDownMenuProps = {};
   context: { theme: ReactUWP.ThemeType };
   state: DropDownMenuState = {
     currentValue: this.props.defaultValue || Array.isArray(this.props.values) && this.props.values[0],
@@ -128,20 +148,27 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       defaultValue,
       onChangeValue,
       style,
+      wrapperStyle,
       revealConfig,
+      enableFullWidth,
+      itemHoverStyle,
+      itemSelectedStyle,
       ...attributes
     } = this.props;
     const { showList, currentValue, currentValues } = this.state;
     const { theme } = this.context;
-    const { isDarkTheme } = theme;
 
     const inlineStyles = getStyles(this);
     const classes = theme.prepareStyles({
       className: "dropDownMenu",
       styles: inlineStyles
     });
+    const defaultItemSelectedStyle: React.CSSProperties = {
+      background: theme.listAccentLow
+    };
 
     return (
+      <span {...classes.wrapper}>
       <div
         {...attributes}
         {...classes.root}
@@ -151,26 +178,21 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           const isCurrent = currentValue === value;
           return (
             <div
-              className={classes.value.className}
+              className={classes[isCurrent ? "currValue" : "value"].className}
               style={{
                 ...classes.value.style,
-                background: (isCurrent && showList) ? theme.listAccentLow : "none",
-                height: showList ? (this.itemHeight) : (isCurrent ? "100%" : 0)
+                ...(isCurrent && showList ? (itemSelectedStyle || defaultItemSelectedStyle) : void 0),
+                height: showList ? (this.itemHeight) : (isCurrent ? "100%" : 0),
+                padding: showList || isCurrent ? 8 : 0
               } as React.CSSProperties}
               onClick={() => this.toggleShowList(value)}
-              onMouseEnter={!showList ? void 0 : (e) => {
-                e.currentTarget.style.background = isCurrent ? theme.listAccentMedium : theme.useFluentDesign ? theme.listLow : theme.chromeMedium;
-              }}
-              onMouseLeave={!showList ? void 0 : (e) => {
-                e.currentTarget.style.background = isCurrent ? theme.listAccentLow : "transparent";
-              }}
-              key={`${index}`}
+              key={index}
             >
-              <p {...classes.content}>
+              <p {...classes.valueContent}>
                 {value}
               </p>
               {!showList && isCurrent ? (
-                <Icon>
+                <Icon style={{ marginLeft: 8 }}>
                   ChevronDown4Legacy
                 </Icon>
               ) : null}
@@ -179,6 +201,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           );
         })}
       </div>
+      </span>
     );
   }
 }
@@ -187,49 +210,70 @@ export default DropDownMenu;
 
 
 function getStyles(dropDownMenu: DropDownMenu) {
-  const {
+  let {
     context: { theme },
     props: {
-      style
+      style,
+      wrapperStyle,
+      enableFullWidth,
+      itemHoverStyle
     },
     itemHeight,
     state: { showList }
   } = dropDownMenu;
   const { prefixStyle } = theme;
+  const newStyle = Object.assign({}, defaultStyle, style);
   const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
+  const defaultItemHoverStyle: React.CSSProperties = {
+    background: theme.baseLow
+  };
 
+  const currValue = {
+    border: `${theme.borderWidth}px solid transparent`,
+    position: "relative",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    background: "none",
+    padding: 8,
+    height: showList ? itemHeight : 0,
+    borderLeft: showList ? `0px solid transparent` : "none",
+    borderRight: showList ? `0px solid transparent` : "none",
+    borderTop: showList ? `${theme.borderWidth}px solid transparent` : "none",
+    borderBottom: showList ? `${theme.borderWidth}px solid transparent` : "none"
+  } as React.CSSProperties;
   return {
+    wrapper: prefixStyle({
+      flex: "0 0 auto",
+      display: "block",
+      width: enableFullWidth ? "100%" : newStyle.width,
+      height: newStyle.height,
+      ...wrapperStyle
+    }),
     root: prefixStyle({
       position: "relative",
-      display: "inline-block",
       verticalAlign: "middle",
-      width: 160,
       border: `${theme.borderWidth}px solid ${theme.baseLow}`,
       overflowX: "hidden",
       padding: showList ? "6px 0" : 0,
       transition: "all .25s 0s ease-in-out",
       ...theme.acrylicTexture60.style,
-      ...style,
-      height: showList ? "auto" : (style.height || defaultStyle.height),
-      overflowY: style.overflowY || defaultStyle.overflowY,
-      zIndex
+      ...newStyle,
+      zIndex,
+      width: enableFullWidth ? (style && style.width !== void 0 ? newStyle.width : "100%") : newStyle.width,
+      height: showList ? "auto" : newStyle.height
     }) as React.CSSProperties,
     value: prefixStyle({
-      border: `${theme.borderWidth}px solid transparent`,
-      position: "relative",
-      width: "100%",
+      ...currValue,
+      "&:hover": itemHoverStyle || defaultItemHoverStyle
+    }),
+    currValue: prefixStyle(currValue),
+    valueContent: {
       display: "flex",
-      padding: "0 8px",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "space-between",
-      height: showList ? itemHeight : 0,
-      borderLeft: showList ? `0px solid transparent` : "none",
-      borderRight: showList ? `0px solid transparent` : "none",
-      borderTop: showList ? `${theme.borderWidth}px solid transparent` : "none",
-      borderBottom: showList ? `${theme.borderWidth}px solid transparent` : "none"
-    }),
-    content: {
       textAlign: "left",
       cursor: "default",
       height: "100%",
@@ -237,7 +281,6 @@ function getStyles(dropDownMenu: DropDownMenu) {
       overflow: "hidden",
       wordWrap: "normal",
       whiteSpace: "nowrap",
-      lineHeight: style.lineHeight === void 0 ? `${style.height || defaultStyle.height}px` : style.lineHeight,
       textOverflow: "ellipsis"
     } as React.CSSProperties
   };

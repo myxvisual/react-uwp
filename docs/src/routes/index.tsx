@@ -20,6 +20,7 @@ export class ThemeWrapper extends React.Component {
     const { children } = this.props;
     return (
       <Theme
+        enableGlobalThemeCSSText
         enableNoiseTexture
         forceGenerateAcrylicTextures
         theme={theme}

@@ -12,6 +12,10 @@ import SimpleExample from "./SimpleExample";
 import * as SimpleExampleCode from "!raw!./SimpleExample";
 import * as SimpleExampleDesc from "!raw!./SimpleExample.md";
 
+import CustomStyle from "./CustomStyle";
+import * as CustomStyleCode from "!raw!./CustomStyle";
+import * as CustomStyleDesc from "!raw!./CustomStyle.md";
+
 export default class DropDownMenu extends React.Component<any> {
   static contextTypes = { theme: PropTypes.object };
 
@@ -40,6 +44,16 @@ export default class DropDownMenu extends React.Component<any> {
           useSingleTheme
         >
           <SimpleExample />
+        </CodeExample>
+
+        <CodeExample
+          title="Custom Style"
+          code={CustomStyleCode as any}
+          description={CustomStyleDesc as any}
+          doubleThemeStyle={{ padding: 20 }}
+          useSingleTheme
+        >
+          <CustomStyle />
         </CodeExample>
       </ComponentDetail>
     );

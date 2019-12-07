@@ -152,9 +152,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
   addCSSText2theme(theme: ThemeType) {
     const { currTheme } = this.state;
+    const { enableGlobalThemeCSSText } = this.props;
     const selector = currTheme ? `.${theme.themeClassName}` : "";
     theme.styleManager.addCSSText(getBaseCSS());
-    theme.styleManager.addCSSText(getThemeBaseCSS(theme, selector));
+    theme.styleManager.addCSSText(getThemeBaseCSS(theme, enableGlobalThemeCSSText ? "" : selector));
   }
 
   setThemeHelper(theme: ThemeType, prevTheme?: ThemeType) {
