@@ -17,7 +17,7 @@ export default class SimpleExample extends React.Component {
       lineHeight: "200px",
       margin: 10,
       outline: "none",
-      border: `${theme.borderWidth}px solid ${theme.listAccentLow}`
+      border: `1px solid ${theme.listAccentLow}`
     };
 
     return (
