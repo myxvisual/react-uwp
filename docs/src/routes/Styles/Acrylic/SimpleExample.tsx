@@ -14,12 +14,12 @@ export default class SimpleExample extends React.Component {
       textAlign: "center",
       width: 200,
       height: 200,
-      lineHeight: "320px",
+      lineHeight: "200px",
       margin: 10,
       outline: "none",
-      border: `1px solid ${theme.listAccentLow}`
+      border: `${theme.borderWidth}px solid ${theme.listAccentLow}`
     };
-    
+
     return (
       <div
         style={theme.prefixStyle({

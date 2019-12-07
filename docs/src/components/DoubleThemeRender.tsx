@@ -45,6 +45,7 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
         })}
       >
         {newTheme ? <Theme
+          enableNoiseTexture
           desktopBackgroundConfig={{
             renderToScreen: false,
             enableRender: true
@@ -66,10 +67,8 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
       >
         <Theme
           theme={darkTheme}
+          enableNoiseTexture
           style={prefixStyle({
-            background: theme.useFluentDesign ? void 0 : (
-              useChromeColor ? darkTheme.chromeLow : darkTheme.altHigh
-            ),
             ...prefixStyle({
               width: "50%",
               padding: "0 4px",
@@ -84,11 +83,9 @@ export default class DoubleThemeRender extends React.Component<DoubleThemeRender
           {children}
         </Theme>
         <Theme
+          enableNoiseTexture
           theme={lightTheme}
           style={prefixStyle({
-            background: theme.useFluentDesign ? void 0 : (
-              useChromeColor ? lightTheme.chromeLow : lightTheme.altHigh
-            ),
             ...currThemeStyle
           })}
         >
