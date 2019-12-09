@@ -108,7 +108,7 @@ export class Button extends React.Component<ButtonProps> {
           background: theme.baseMedium,
           cursor: "not-allowed",
           color: theme.baseMedium
-        }
+        },
       },
       extendsClassName: className
     });

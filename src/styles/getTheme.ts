@@ -251,7 +251,7 @@ export class Theme {
   generateBackgroundTexture?: (themeCallback?: (theme?: Theme) => void) => void;
 
   getBackgroundFromTexture(texture: string) {
-    return `url(${texture}) no-repeat fixed top left / cover`;
+    return `url(${texture})`;
   }
 
   mergeAcrylicStyles(blurSize: number) {
@@ -550,7 +550,7 @@ export class Theme {
       this.acrylicTextureCount = 0;
       const callback = (acrylicTextureUrl: string, key: number, isCanvasFilter?: boolean) => {
         const backgrounds: string[] = [];
-        backgrounds.push(this.getBackgroundFromTexture(acrylicTextureUrl));
+        backgrounds.push(this.getBackgroundFromTexture(acrylicTextureUrl) + " top left / cover no-repeat fixed");
         if (this.materialTexture) {
           backgrounds.push(this.getBackgroundFromTexture(this.materialTexture));
         }

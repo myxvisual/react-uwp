@@ -1,16 +1,16 @@
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 import isUnitlessNumber from "../utils/react/isUnitlessNumber";
+import { PseudoSelector, pseudoSelectorMap } from "./PseudoSelectors";
 
 export const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
 export const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !isUnitlessNumber[key]) ? `${value}px` : value);
 
-export interface CustomCSSProperties extends React.CSSProperties {
-  "&:hover"?: React.CSSProperties;
-  "&:active"?: React.CSSProperties;
-  "&:visited"?: React.CSSProperties;
-  "&:focus"?: React.CSSProperties;
-  "&:disabled"?: React.CSSProperties;
-  dynamicStyle?: React.CSSProperties;
+export type PseudoCSSProperties = {
+  [K in PseudoSelector]?: React.CSSProperties;
+};
+
+export interface CustomCSSProperties extends React.CSSProperties, PseudoCSSProperties {
+  inlineStyle?: React.CSSProperties;
 }
 
 export interface StyleClasses {
@@ -25,13 +25,6 @@ export interface Sheet {
   classNameWithHash?: string;
   id?: number;
 }
-
-export const extendsStyleKeys: any = {
-  "&:hover": true,
-  "&:active": true,
-  "&:focus": true,
-  "&:disabled": true
-};
 export interface StyleManagerConfig {
   prefixClassName?: string;
 }
@@ -63,7 +56,7 @@ export class StyleManager {
       rules.set(rule, true);
     } else {
       rules.set(rule, false);
-      this.allRules.set(rule, false)
+      this.allRules.set(rule, false);
     }
   }
 
@@ -103,7 +96,7 @@ export class StyleManager {
     const rules = new Map<string, boolean>();
 
     for (const styleKey in style) {
-      if (extendsStyleKeys[styleKey]) {
+      if (pseudoSelectorMap[styleKey]) {
         const extendsStyle = style[styleKey];
         if (extendsStyle) {
           const newRules = `.${classNameWithHash}${styleKey.slice(1)} { ${this.style2CSSText(extendsStyle)} }`;
@@ -179,7 +172,7 @@ export class StyleManager {
     let newStyles: StyleClasses = {};
     let { style, className } = config || {} as StyleClasses;
 
-    const { dynamicStyle, ...styleProperties } = style;
+    const { inlineStyle: dynamicStyle, ...styleProperties } = style;
     className = className || "";
     const sheet = this.addStyle(styleProperties, className);
     newStyles = {

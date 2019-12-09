@@ -185,6 +185,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                   }}
                   defaultValue={currVersion}
                   values={currVersions}
+                  key={Math.random()}
                   onChangeValue={this.handleChangeVersion}
                 />
               </div>

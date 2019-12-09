@@ -24,6 +24,10 @@ export interface DataProps {
    */
   enableFullWidth?: boolean;
   /**
+   * Set item style.
+   */
+  itemStyle?: React.CSSProperties;
+  /**
    * Set item selected style.
    */
   itemSelectedStyle?: React.CSSProperties;
@@ -46,8 +50,8 @@ export interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLD
 
 export interface DropDownMenuState {
   showList?: boolean;
-  currentValue?: string | string[];
-  currentValues?: string[];
+  currValue?: string | string[];
+  currValues?: string[];
 }
 
 export const defaultStyle: React.CSSProperties = {
@@ -60,45 +64,20 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
   static defaultProps: DropDownMenuProps = {};
   context: { theme: ReactUWP.ThemeType };
   state: DropDownMenuState = {
-    currentValue: this.props.defaultValue || Array.isArray(this.props.values) && this.props.values[0],
-    currentValues: (() => {
-      let { values, defaultValue } = this.props;
-      if (!Array.isArray(values)) return [];
-      values = [...values];
-      defaultValue = (defaultValue || values[0]) as string;
-      values.unshift(...values.splice(values.indexOf(defaultValue), 1));
-      return values;
-    })()
+    currValue: this.props.defaultValue || Array.isArray(this.props.values) && this.props.values[0],
+    currValues: this.props.values
   };
   addBlurEvent = new AddBlurEvent();
   rootElm: HTMLDivElement;
   itemHeight = 0;
-
-  componentWillReceiveProps(nextProps: DropDownMenuProps) {
-    if (!Array.isArray(nextProps.values)) return;
-    this.setState({
-      currentValue: nextProps.defaultValue || nextProps.values[0],
-      currentValues: (() => {
-        let { values, defaultValue } = nextProps;
-        values = [...values];
-        defaultValue = (defaultValue || values[0]) as string;
-        values.unshift(...values.splice(values.indexOf(defaultValue), 1));
-        return values;
-      })()
-    });
-  }
 
   addBlurEventMethod = () => {
     this.addBlurEvent.setConfig({
       addListener: this.state.showList,
       clickExcludeElm: this.rootElm,
       blurCallback: () => {
-        const { currentValue, currentValues } = this.state;
-        currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue as string), 1));
         this.setState({
-          currentValue,
-          showList: false,
-          currentValues
+          showList: false
         });
       },
       blurKeyCodes: [codes.esc]
@@ -115,32 +94,32 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     this.updateItemHeight();
   }
 
+  componentWillReceiveProps() {
+    this.updateItemHeight();
+  }
+
   componentWillUnmount() {
     this.addBlurEvent.cleanEvent();
   }
 
   updateItemHeight = () => {
-    if (this.rootElm) {
+    if (this.rootElm && !this.state.showList) {
       this.itemHeight = this.rootElm.getBoundingClientRect().height;
     }
   }
 
   toggleShowList = (currentValue: string) => {
-    const { currentValues, showList } = this.state;
-    if (showList) {
-      currentValues.unshift(...currentValues.splice(currentValues.indexOf(currentValue), 1));
-    }
-    if (currentValue !== this.state.currentValue) {
+    const { showList } = this.state;
+    if (currentValue !== this.state.currValue) {
       this.props.onChangeValue && this.props.onChangeValue(currentValue);
     }
     this.setState({
-      currentValue,
-      showList: !showList,
-      currentValues: showList ? currentValues : [...this.props.values]
+      currValue: currentValue,
+      showList: !showList
     });
   }
 
-  getValue = () => this.state.currentValue;
+  getValue = () => this.state.currValue;
 
   render() {
     const {
@@ -151,17 +130,18 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       wrapperStyle,
       revealConfig,
       enableFullWidth,
+      itemStyle,
       itemHoverStyle,
       itemSelectedStyle,
       ...attributes
     } = this.props;
-    const { showList, currentValue, currentValues } = this.state;
+    const { showList, currValue: currentValue, currValues: currentValues } = this.state;
     const { theme } = this.context;
 
-    const inlineStyles = getStyles(this);
+    const styles = getStyles(this);
     const classes = theme.prepareStyles({
       className: "dropDownMenu",
-      styles: inlineStyles
+      styles
     });
     const defaultItemSelectedStyle: React.CSSProperties = {
       background: theme.listAccentLow
@@ -178,12 +158,12 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
           const isCurrent = currentValue === value;
           return (
             <div
-              className={classes[isCurrent ? "currValue" : "value"].className}
+              className={classes[isCurrent ? "selectedItem" : "item"].className}
               style={{
-                ...classes.value.style,
+                ...classes.item.style,
                 ...(isCurrent && showList ? (itemSelectedStyle || defaultItemSelectedStyle) : void 0),
                 height: showList ? (this.itemHeight) : (isCurrent ? "100%" : 0),
-                padding: showList || isCurrent ? 8 : 0
+                padding: showList || isCurrent ? styles.item.padding : 0
               } as React.CSSProperties}
               onClick={() => this.toggleShowList(value)}
               key={index}
@@ -216,7 +196,8 @@ function getStyles(dropDownMenu: DropDownMenu) {
       style,
       wrapperStyle,
       enableFullWidth,
-      itemHoverStyle
+      itemHoverStyle,
+      itemStyle
     },
     itemHeight,
     state: { showList }
@@ -228,7 +209,7 @@ function getStyles(dropDownMenu: DropDownMenu) {
     background: theme.baseLow
   };
 
-  const currValue = {
+  const newItemStyle = {
     border: `${theme.borderWidth}px solid transparent`,
     position: "relative",
     width: "100%",
@@ -237,7 +218,8 @@ function getStyles(dropDownMenu: DropDownMenu) {
     alignItems: "center",
     justifyContent: "space-between",
     background: "none",
-    padding: 8,
+    padding: "0 8px",
+    ...itemStyle,
     height: showList ? itemHeight : 0,
     borderLeft: showList ? `0px solid transparent` : "none",
     borderRight: showList ? `0px solid transparent` : "none",
@@ -265,11 +247,11 @@ function getStyles(dropDownMenu: DropDownMenu) {
       width: enableFullWidth ? (style && style.width !== void 0 ? newStyle.width : "100%") : newStyle.width,
       height: showList ? "auto" : newStyle.height
     }) as React.CSSProperties,
-    value: prefixStyle({
-      ...currValue,
+    item: prefixStyle({
+      ...newItemStyle,
       "&:hover": itemHoverStyle || defaultItemHoverStyle
     }),
-    currValue: prefixStyle(currValue),
+    selectedItem: prefixStyle(newItemStyle),
     valueContent: {
       display: "flex",
       flexDirection: "row",

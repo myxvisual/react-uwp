@@ -1,0 +1,239 @@
+
+export type PseudoClasses =
+// https://github.com/w3c/csswg-drafts/blob/master/selectors-4/Overview.bs > Array.from($("#selector-examples").querySelectorAll("tbody > tr")).map(tr => tr.children[0].innerText).filter(s => s.includes("E:"))
+"&:not()" |
+"&:is()" |
+"&:where()" |
+"&:has()" |
+"&:dir()" |
+"&:lang()" |
+"&:any-link" |
+"&:link" |
+"&:visited" |
+"&:local-link" |
+"&:target" |
+"&:target-within" |
+"&:scope" |
+"&:current" |
+"&:current()" |
+"&:past" |
+"&:future" |
+"&:active" |
+"&:hover" |
+"&:focus" |
+"&:focus-within" |
+"&:focus-visible" |
+"&:enabled" |
+"&:disabled" |
+"&:read-write" |
+"&:read-only" |
+"&:placeholder-shown" |
+"&:default" |
+"&:checked" |
+"&:indeterminate" |
+"&:valid" |
+"&:invalid" |
+"&:in-range" |
+"&:out-of-range" |
+"&:required" |
+"&:optional" |
+"&:blank" |
+"&:user-invalid" |
+"&:root" |
+"&:empty" |
+"&:nth-child()" |
+"&:nth-last-child()" |
+"&:first-child" |
+"&:last-child" |
+"&:only-child" |
+"&:nth-of-type()" |
+"&:nth-last-of-type()" |
+"&:first-of-type" |
+"&:last-of-type" |
+"&:only-of-type" |
+"&:nth-col()" |
+"&:nth-last-col()" |
+// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
+"&:active" |
+"&:any-link" |
+"&:blank" |
+"&:checked" |
+"&:current" |
+"&:default" |
+"&:defined" |
+"&:dir()" |
+"&:disabled" |
+"&:drop" |
+"&:empty" |
+"&:enabled" |
+"&:first" |
+"&:first-child" |
+"&:first-of-type" |
+"&:fullscreen" |
+"&:future" |
+"&:focus" |
+"&:focus-visible" |
+"&:focus-within" |
+"&:has()" |
+"&:host" |
+"&:host()" |
+"&:host-context()" |
+"&:hover" |
+"&:indeterminate" |
+"&:in-range" |
+"&:invalid" |
+"&:is()" |
+"&:lang()" |
+"&:last-child" |
+"&:last-of-type" |
+"&:left" |
+"&:link" |
+"&:local-link" |
+"&:not()" |
+"&:nth-child()" |
+"&:nth-col()" |
+"&:nth-last-child()" |
+"&:nth-last-col()" |
+"&:nth-last-of-type()" |
+"&:nth-of-type()" |
+"&:only-child" |
+"&:only-of-type" |
+"&:optional" |
+"&:out-of-range" |
+"&:past" |
+"&:placeholder-shown" |
+"&:read-only" |
+"&:read-write" |
+"&:required" |
+"&:right" |
+"&:root" |
+"&:scope" |
+"&:target" |
+"&:target-within" |
+"&:user-invalid" |
+"&:valid" |
+"&:visited" |
+"&:where()";
+
+
+export type PseudoElements =
+// https://github.com/w3c/csswg-drafts/blob/master/css-pseudo-4/Overview.bs
+"&:after" |
+"&:before" |
+"&:first-letter" |
+"&:first-line" |
+"&::after" |
+"&::before" |
+"&::first-letter" |
+"&::first-line" |
+"&::grammar-error" |
+"&::inactive-selection" |
+"&::marker" |
+"&::placeholder" |
+"&::selection" |
+"&::spelling-error" |
+// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
+"&::after" |
+"&::backdrop" |
+"&::before" |
+"&::cue" |
+"&::cue-region" |
+"&::first-letter" |
+"&::first-line" |
+"&::grammar-error" |
+"&::marker" |
+"&::part()" |
+"&::placeholder" |
+"&::selection" |
+"&::slotted()" |
+"&::spelling-error"
+;
+
+export type PseudoSelector = PseudoClasses | PseudoElements;
+
+export const pseudoSelectorMap: { [K in PseudoSelector]: boolean; } = {
+  // https://github.com/w3c/csswg-drafts/blob/master/selectors-4/Overview.bs
+  "&:not()": true,
+  "&:is()": true,
+  "&:where()": true,
+  "&:has()": true,
+  "&:dir()": true,
+  "&:lang()": true,
+  "&:any-link": true,
+  "&:link": true,
+  "&:visited": true,
+  "&:local-link": true,
+  "&:target": true,
+  "&:target-within": true,
+  "&:scope": true,
+  "&:current": true,
+  "&:current()": true,
+  "&:past": true,
+  "&:future": true,
+  "&:active": true,
+  "&:hover": true,
+  "&:focus": true,
+  "&:focus-within": true,
+  "&:focus-visible": true,
+  "&:enabled": true,
+  "&:disabled": true,
+  "&:read-write": true,
+  "&:read-only": true,
+  "&:placeholder-shown": true,
+  "&:default": true,
+  "&:checked": true,
+  "&:indeterminate": true,
+  "&:valid": true,
+  "&:invalid": true,
+  "&:in-range": true,
+  "&:out-of-range": true,
+  "&:required": true,
+  "&:optional": true,
+  "&:blank": true,
+  "&:user-invalid": true,
+  "&:root": true,
+  "&:empty": true,
+  "&:nth-child()": true,
+  "&:nth-last-child()": true,
+  "&:first-child": true,
+  "&:last-child": true,
+  "&:only-child": true,
+  "&:nth-of-type()": true,
+  "&:nth-last-of-type()": true,
+  "&:first-of-type": true,
+  "&:last-of-type": true,
+  "&:only-of-type": true,
+  "&:nth-col()": true,
+  "&:nth-last-col()": true,
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
+  "&:defined": true,
+  "&:drop": true,
+  "&:first": true,
+  "&:fullscreen": true,
+  "&:host": true,
+  "&:host()": true,
+  "&:host-context()": true,
+  "&:left": true,
+  "&:right": true,
+  // https://github.com/w3c/csswg-drafts/blob/master/css-pseudo-4/Overview.bs
+  "&:after": true,
+  "&:before": true,
+  "&:first-letter": true,
+  "&:first-line": true,
+  "&::after": true,
+  "&::before": true,
+  "&::first-letter": true,
+  "&::first-line": true,
+  "&::grammar-error": true,
+  "&::inactive-selection": true,
+  "&::marker": true,
+  "&::placeholder": true,
+  "&::selection": true,
+  "&::spelling-error": true,
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
+  "&::backdrop": true,
+  "&::cue": true,
+  "&::cue-region": true,
+  "&::part()": true,
+  "&::slotted()": true
+};

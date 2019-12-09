@@ -87,6 +87,3 @@ export function isPatternRegularPolygon(sides: number) {
   // result is [1, 3, 4, 6].
   return 360 % outSideAngle === 0;
 }
-
-// const res = getRegularPolygon({ x: 0, y: 0 }, Math.sqrt(2));
-// console.log(res);

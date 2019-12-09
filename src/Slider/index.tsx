@@ -425,9 +425,9 @@ function getStyles(slider: Slider): {
       height: "100%",
       left: 0,
       top: 0,
-      dynamicStyle: {
+      inlineStyle: {
         transform: useCustomBackground ? void 0 : `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? (valueRatio - 1) : (1 - valueRatio)) * 100}%)`
-      }
+      } as React.CSSProperties
     }),
     controllerWrapper: prefixStyle({
       position: "absolute",
@@ -437,9 +437,9 @@ function getStyles(slider: Slider): {
       height: "100%",
       pointerEvents: "none",
       transition: currTransition,
-      dynamicStyle: {
+      inlineStyle: {
         transform: `translate${isHorizonMode ? "X" : "Y"}(${(isHorizonMode ? valueRatio : 1 - valueRatio) * 100}%)`
-      }
+      } as React.CSSProperties
     }),
     controller: prefixStyle({
       pointerEvents: "none",
