@@ -42,6 +42,8 @@
     "./typings/index.d.ts"
   ],
   "exclude": [
+    "./build",
+    "./scripts",
     "./docs",
     "./packages",
     "./__mocks__",

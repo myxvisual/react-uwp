@@ -69,7 +69,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
   };
   addBlurEvent = new AddBlurEvent();
   rootElm: HTMLDivElement;
-  itemHeight = 0;
+  itemHeight: string | number;
 
   addBlurEventMethod = () => {
     this.addBlurEvent.setConfig({
@@ -91,20 +91,20 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
 
   componentDidUpdate() {
     this.addBlurEventMethod();
-    this.updateItemHeight();
+    this.updateItemHeight(!this.state.showList);
   }
 
   componentWillReceiveProps() {
-    this.updateItemHeight();
+    this.updateItemHeight(!this.state.showList);
   }
 
   componentWillUnmount() {
     this.addBlurEvent.cleanEvent();
   }
 
-  updateItemHeight = () => {
-    if (this.rootElm && !this.state.showList) {
-      this.itemHeight = this.rootElm.getBoundingClientRect().height;
+  updateItemHeight = (needUpdate = true) => {
+    if (this.rootElm && needUpdate) {
+      this.itemHeight = window.getComputedStyle(this.rootElm).height;
     }
   }
 
