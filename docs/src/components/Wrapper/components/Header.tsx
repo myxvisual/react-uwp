@@ -167,9 +167,9 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                   <NavLink headerHeight={headerHeight} to={`${docVersion}/resources`}>
                     Resources
                   </NavLink>
-                  <NavLink headerHeight={headerHeight} to={`${docVersion}/showcase`}>
+                  {/* <NavLink headerHeight={headerHeight} to={`${docVersion}/showcase`}>
                     Showcase
-                  </NavLink>
+                  </NavLink> */}
                 </div>
               )}
               <div style={{ width: isPhoneScreen ? 80 : 120 }}>

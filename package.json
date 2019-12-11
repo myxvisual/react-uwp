@@ -49,6 +49,7 @@
   "devDependencies": {
     "@types/core-js": "^0.9.41",
     "@types/d3-ease": "^1.0.9",
+    "@types/inline-style-prefixer": "^5.0.0",
     "@types/marked": "0.0.28",
     "@types/murmurhash-js": "^1.0.2",
     "@types/node": "^8.0.1",
@@ -83,7 +84,7 @@
   "dependencies": {
     "@juggle/resize-observer": "^2.5.0",
     "d3-ease": "^1.0.6",
-    "inline-style-prefixer": "^3.0.5",
+    "inline-style-prefixer": "^5.0.0",
     "keycode": "^2.1.8",
     "marked": "^0.7.0",
     "murmurhash-js": "^1.0.0",

@@ -39,11 +39,7 @@ ${selectors} *::-webkit-scrollbar {
  * getBaseCSS(theme, ":scope")
  */
 export function getThemeBaseCSS(theme: ReactUWP.ThemeType, selectors = "") {
-  const baseCSSText = `${selectors} *::placeholder {
-  color: ${theme.baseMediumHigh};
-}
-
-${selectors} *::-webkit-scrollbar-track {
+  const baseCSSText = `${selectors} *::-webkit-scrollbar-track {
   background-color: ${theme.chromeLow};
 }
 

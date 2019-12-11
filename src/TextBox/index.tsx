@@ -155,6 +155,9 @@ export class TextBox extends React.Component<TextBoxProps, TextBoxState> {
         color: "inherit",
         transition: "all .25s",
         margin: 0,
+        "&::placeholder": {
+          color: theme.baseMediumHigh
+        },
         ...textBoxStyle
       }) as React.CSSProperties
     };

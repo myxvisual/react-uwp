@@ -1,7 +1,7 @@
 import * as tinyColor from "tinycolor2";
 import * as createHash from "murmurhash-js/murmurhash3_gc";
 
-import prefixAll from "../utils/prefixAll";
+import prefixAll from "./prefixAll";
 import { Toast } from "../Toast";
 import { StyleManager, CustomCSSProperties, StyleClasses } from "./StyleManager";
 import generateAcrylicTexture from "./generateAcrylicTexture";
@@ -65,7 +65,6 @@ export interface ThemeConfig {
   revealConfig?: RevealConfig;
 
   useInlineStyle?: boolean;
-  userAgent?: string;
 }
 type ThemeCallback = (theme?: Theme) => void;
 
@@ -76,7 +75,6 @@ export class Theme {
   themeName?: ThemeName;
   accent?: string;
   useFluentDesign?: boolean;
-  userAgent?: string;
   useInlineStyle?: boolean;
   desktopBackgroundImage?: string;
   fonts?: {
@@ -317,7 +315,6 @@ export class Theme {
       themeName,
       accent,
       useFluentDesign,
-      userAgent,
       useInlineStyle,
       desktopBackgroundImage,
       acrylicConfig,
@@ -353,7 +350,6 @@ export class Theme {
       themeName,
       accent,
       useFluentDesign,
-      userAgent,
       useInlineStyle,
       desktopBackgroundImage
     });
@@ -499,9 +495,10 @@ export class Theme {
     this.styleManager.addCSSText(getBaseCSS());
     this.styleManager.addCSSText(getThemeBaseCSS(this, `.${this.themeClassName}`));
     Object.assign(this, {
-      prefixStyle: prefixAll(userAgent),
+      prefixStyle: prefixAll(),
       prepareStyle: (config) => {
         if (!this.styleManager) return;
+
         const { extendsClassName, ...managerConfig } = config;
         if (this.useInlineStyle) {
           if (extendsClassName) {

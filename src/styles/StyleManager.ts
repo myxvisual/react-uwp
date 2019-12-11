@@ -9,6 +9,15 @@ export type PseudoCSSProperties = {
   [K in PseudoSelector]?: React.CSSProperties;
 };
 
+export type CSSDirectProperties = {
+  "@keyframes"?: {
+    from?: React.CSSProperties;
+    to?: React.CSSProperties;
+    [key: string]: React.CSSProperties;
+  };
+  "@font-face"?: React.CSSProperties;
+};
+
 export interface CustomCSSProperties extends React.CSSProperties, PseudoCSSProperties {
   inlineStyle?: React.CSSProperties;
 }
@@ -30,7 +39,7 @@ export interface StyleManagerConfig {
 }
 
 export class StyleManager {
-  prefixClassName: string;
+  prefixSelector: string;
   sheets: {
     [key: string]: Sheet;
   } = {};
@@ -48,7 +57,7 @@ export class StyleManager {
 
   constructor(config?: StyleManagerConfig) {
     const { prefixClassName } = config || {};
-    this.prefixClassName = prefixClassName ? `${prefixClassName}-` : "";
+    this.prefixSelector = prefixClassName ? `${prefixClassName}-` : "";
   }
 
   setRules2allRules(rules: Map<string, boolean>, rule: string) {
@@ -89,34 +98,34 @@ export class StyleManager {
       return this.sheets[id];
     }
 
-    const classNameWithHash = `${this.prefixClassName}${className}-${id}`;
+    const classNameWithHash = `${this.prefixSelector}${className}-${id}`;
     let CSSText = "";
-    let currStyleText = "";
-    let extendsRules = "";
+    let mainCSSText = "";
+    let pseudoCSSText = "";
     const rules = new Map<string, boolean>();
 
     for (const styleKey in style) {
       if (pseudoSelectorMap[styleKey]) {
         const extendsStyle = style[styleKey];
         if (extendsStyle) {
-          const newRules = `.${classNameWithHash}${styleKey.slice(1)} { ${this.style2CSSText(extendsStyle)} }`;
-          this.setRules2allRules(rules, newRules);
-          extendsRules += newRules;
+          const newExtendsCSSText = `.${classNameWithHash}${styleKey.slice(1)} { ${this.style2CSSText(extendsStyle)} }`;
+          this.setRules2allRules(rules, newExtendsCSSText);
+          pseudoCSSText += newExtendsCSSText;
         }
       } else {
         if (style[styleKey] !== void 0) {
-          currStyleText += `${replace2Dashes(styleKey)}: ${getStyleValue(styleKey, style[styleKey])}; `;
+          mainCSSText += `${replace2Dashes(styleKey)}: ${getStyleValue(styleKey, style[styleKey])}; `;
         }
       }
     }
 
-    const currRules = `.${classNameWithHash} { ${currStyleText}}`;
-    this.setRules2allRules(rules, currRules);
-    CSSText += currRules;
-    CSSText += extendsRules;
+    const currCSSText = `.${classNameWithHash} { ${mainCSSText}}`;
+    this.setRules2allRules(rules, currCSSText);
+    CSSText += currCSSText;
+    CSSText += pseudoCSSText;
 
     this.sheets[id] = { CSSText, classNameWithHash, id, className, rules };
-    this.onAddCSSText(currRules + extendsRules);
+    this.onAddCSSText(currCSSText + pseudoCSSText);
     this.onAddRules(rules);
 
     return this.sheets[id];
@@ -137,7 +146,7 @@ export class StyleManager {
     }
   }
 
-  cssText2rules(cssText: string, onNewReule?: (rule?: string) => void) {
+  cssText2rules(cssText: string, onNewRule?: (rule?: string) => void) {
     let currRule = "";
     const rules: string[] = [];
     let leftBraces = 0;
@@ -151,7 +160,7 @@ export class StyleManager {
       if (char === "}") {
         leftBraces -= 1;
         if (leftBraces === 0) {
-          if (onNewReule) onNewReule(currRule);
+          if (onNewRule) onNewRule(currRule);
           rules.push(currRule);
           currRule = "";
         }
@@ -172,12 +181,12 @@ export class StyleManager {
     let newStyles: StyleClasses = {};
     let { style, className } = config || {} as StyleClasses;
 
-    const { inlineStyle: dynamicStyle, ...styleProperties } = style;
+    const { inlineStyle, ...styleProperties } = style;
     className = className || "";
     const sheet = this.addStyle(styleProperties, className);
     newStyles = {
       className: sheet.classNameWithHash,
-      style: dynamicStyle
+      style: inlineStyle
     };
 
     return newStyles;
@@ -207,14 +216,14 @@ export class StyleManager {
         secondClassName = `-${key}${secondClassName}`;
       }
 
-      const { dynamicStyle, ...styleProperties } = (isStyleClasses ? styleItem.style : styleItem) as any;
+      const { inlineStyle, ...styleProperties } = (isStyleClasses ? styleItem.style : styleItem) as any;
       const sheet = this.addStyle(
         styleProperties,
         `${className}${secondClassName}`
       );
       newStyles[key] = {
         className: sheet.classNameWithHash,
-        style: dynamicStyle
+        style: inlineStyle
       };
     }
 
