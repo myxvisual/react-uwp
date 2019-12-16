@@ -3,7 +3,7 @@ import isUnitlessNumber from "../utils/react/isUnitlessNumber";
 import { PseudoSelector, pseudoSelectorMap } from "./PseudoSelectors";
 
 export const replace2Dashes = (key: string) => key.replace(/[A-Z]/g, $1 => `-${$1.toLowerCase()}`);
-export const getStyleValue = (key: string, value: string) => ((typeof value === "number" && !isUnitlessNumber[key]) ? `${value}px` : value);
+export const getStyleValue = (key: string, value: string) => (typeof value === "number" && !isUnitlessNumber[key]) ? `${value}px` : value;
 
 export type PseudoCSSProperties = {
   [K in PseudoSelector]?: React.CSSProperties;
@@ -83,9 +83,17 @@ export class StyleManager {
     this.resultCSSText = "";
   }
 
-  style2CSSText = (style: React.CSSProperties): string => style ? Object.keys(style).map(key => (
-    `${replace2Dashes(key)}: ${getStyleValue(key, style[key])};`
-  )).join(" ") : void 0
+  style2CSSText = (style: React.CSSProperties) => {
+    let cssText = "{ ";
+    if (style) {
+      for (let key in style) {
+        const value = style[key];
+        cssText += `${replace2Dashes(key)}: ${getStyleValue(key, value)};`;
+      }
+    }
+    cssText += " }";
+    return cssText;
+  }
 
   sheetsToString = () => `${Object.keys(this.sheets).map(id => this.sheets[id].CSSText).join("")}`;
 
@@ -108,7 +116,7 @@ export class StyleManager {
       if (pseudoSelectorMap[styleKey]) {
         const extendsStyle = style[styleKey];
         if (extendsStyle) {
-          const newExtendsCSSText = `.${classNameWithHash}${styleKey.slice(1)} { ${this.style2CSSText(extendsStyle)} }`;
+          const newExtendsCSSText = `.${classNameWithHash}${styleKey.slice(1)} ${this.style2CSSText(extendsStyle)}`;
           this.setRules2allRules(rules, newExtendsCSSText);
           pseudoCSSText += newExtendsCSSText;
         }
@@ -131,17 +139,30 @@ export class StyleManager {
     return this.sheets[id];
   }
 
-  addCSSText = (CSSText: string) => {
-    const hash = createHash(CSSText);
+  addStyleWithSelector = (selector: string, style: React.CSSProperties) => {
+    let cssText = `${selector} ${this.style2CSSText(style)}`;
+    this.addCSSText(cssText);
+  }
+
+  addStylesWithSelector = (styles: { [key: string]: React.CSSProperties; }) => {
+    for (let selector in styles) {
+      const style = styles[selector];
+      let cssText = `${selector} ${this.style2CSSText(style)}`;
+      this.addCSSText(cssText);
+    }
+  }
+
+  addCSSText = (cssText: string) => {
+    const hash = createHash(cssText);
     const shouldUpdate = !this.addedCSSText[hash];
     if (shouldUpdate) {
-      this.resultCSSText += CSSText;
+      this.resultCSSText += cssText;
       const rules = new Map<string, boolean>();
-      this.cssText2rules(CSSText, currRule => {
+      this.cssText2rules(cssText, currRule => {
         this.setRules2allRules(rules, currRule);
       });
-      this.addedCSSText[hash] = { CSSText, rules };
-      this.onAddCSSText(CSSText);
+      this.addedCSSText[hash] = { CSSText: cssText, rules };
+      this.onAddCSSText(cssText);
       this.onAddRules(rules);
     }
   }
@@ -170,11 +191,11 @@ export class StyleManager {
     return rules;
   }
 
-  removeCSSText = (CSSText: string) => {
-    const hash = createHash(CSSText);
+  removeCSSText = (cssText: string) => {
+    const hash = createHash(cssText);
     delete this.addedCSSText[hash];
-    this.resultCSSText = this.resultCSSText.replace(CSSText, "");
-    this.onRemoveCSSText(CSSText);
+    this.resultCSSText = this.resultCSSText.replace(cssText, "");
+    this.onRemoveCSSText(cssText);
   }
 
   setStyleToManager(config?: { style?: CustomCSSProperties; className?: string; }): StyleClasses {
@@ -249,7 +270,7 @@ export class StyleManager {
     }
   }
 
-  inserAllRule2el(styleEl: HTMLStyleElement) {
+  insertAllRule2el(styleEl: HTMLStyleElement) {
     this.allRules.forEach((inserted, rule) => {
       if (!inserted) {
         this.insertRule2el(styleEl, rule);

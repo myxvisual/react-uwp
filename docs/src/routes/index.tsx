@@ -21,8 +21,8 @@ export class ThemeWrapper extends React.Component {
     return (
       <Theme
         enableGlobalThemeCSSText
-        enableNoiseTexture
-        forceGenerateAcrylicTextures
+        enableNoiseTexture={true}
+        forceGenerateAcrylicTextures={true}
         theme={theme}
       >
         {children}

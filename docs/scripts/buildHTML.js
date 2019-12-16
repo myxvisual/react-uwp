@@ -39,7 +39,7 @@ function buildHTML() {
       {
         __DEV__,
         name: __DEV__ ? `/${publicPath}/js/${name}.js` : `/${publicPath}/${manifest[`${name}.js`]}`,
-        proxy: __DEV__ ? `http://${hostName}:${port}` : '',
+        proxy: '',
         common: __DEV__ ? `/${publicPath}/js/common.js` : `/${publicPath}/${manifest['common.js']}`,
         vendor: __DEV__ ? `/${publicPath}/vendor.dev.dll.js` : `/${publicPath}/${vendorManifest['vendor.js']}`
       }

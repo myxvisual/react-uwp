@@ -124,7 +124,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   updateAllCSSToEl() {
     // const now = performance.now();
     if (this.styleEl) {
-      this.state.currTheme.styleManager.inserAllRule2el(this.styleEl);
+      this.state.currTheme.styleManager.insertAllRule2el(this.styleEl);
     }
     // console.log(performance.now() - now);
   }

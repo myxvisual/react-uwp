@@ -494,9 +494,10 @@ export class Theme {
     this.styleManager = new StyleManager();
     this.styleManager.addCSSText(getBaseCSS());
     this.styleManager.addCSSText(getThemeBaseCSS(this, `.${this.themeClassName}`));
+    const prefixStyle = prefixAll();
     Object.assign(this, {
-      prefixStyle: prefixAll(),
-      prepareStyle: (config) => {
+      prefixStyle,
+      prepareStyle: config => {
         if (!this.styleManager) return;
 
         const { extendsClassName, ...managerConfig } = config;
@@ -547,9 +548,9 @@ export class Theme {
       this.acrylicTextureCount = 0;
       const callback = (acrylicTextureUrl: string, key: number, isCanvasFilter?: boolean) => {
         const backgrounds: string[] = [];
-        backgrounds.push(this.getBackgroundFromTexture(acrylicTextureUrl) + " top left / cover no-repeat fixed");
+        backgrounds.push(this.getBackgroundFromTexture(acrylicTextureUrl) + " left top / cover no-repeat fixed");
         if (this.materialTexture) {
-          backgrounds.push(this.getBackgroundFromTexture(this.materialTexture));
+          backgrounds.push(this.getBackgroundFromTexture(this.materialTexture) + " left top repeat fixed");
         }
         if (this.materialBackground) {
           backgrounds.push(this.materialBackground);
