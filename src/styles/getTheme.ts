@@ -492,8 +492,6 @@ export class Theme {
 
     // theme styleManager.
     this.styleManager = new StyleManager();
-    this.styleManager.addCSSText(getBaseCSS());
-    this.styleManager.addCSSText(getThemeBaseCSS(this, `.${this.themeClassName}`));
     const prefixStyle = prefixAll();
     Object.assign(this, {
       prefixStyle,

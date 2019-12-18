@@ -138,10 +138,19 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         }
       });
     });
+    theme.styleManager.onRemoveRules = (rules => {
+      rules.forEach((inserted, rule) => {
+        if (inserted) {
+          theme.styleManager.deleteRule2el(this.styleEl, rule);
+          rules.set(rule, false);
+        }
+      });
+    });
   }
 
   mergeStyleManager(newTheme: ThemeType, prevTheme?: ThemeType) {
     if (prevTheme) {
+      this.removeCSSText4theme(prevTheme);
       prevTheme.styleManager.allRules.forEach((inserted, rule) => {
         newTheme.styleManager.allRules.set(rule, inserted);
       });
@@ -150,10 +159,16 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     this.addCSSText2theme(newTheme);
   }
 
-  addCSSText2theme(theme: ThemeType) {
-    const { currTheme } = this.state;
+  removeCSSText4theme(theme: ThemeType) {
     const { enableGlobalThemeCSSText } = this.props;
-    const selector = currTheme ? `.${theme.themeClassName}` : "";
+    const selector = theme ? `.${theme.themeClassName}` : "";
+    const themeBaseCSSText = getThemeBaseCSS(theme, enableGlobalThemeCSSText ? "" : selector);
+    theme.styleManager.removeCSSText(themeBaseCSSText);
+  }
+
+  addCSSText2theme(theme: ThemeType) {
+    const { enableGlobalThemeCSSText } = this.props;
+    const selector = theme ? `.${theme.themeClassName}` : "";
     theme.styleManager.addCSSText(getBaseCSS());
     theme.styleManager.addCSSText(getThemeBaseCSS(theme, enableGlobalThemeCSSText ? "" : selector));
   }

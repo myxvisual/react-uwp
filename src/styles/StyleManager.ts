@@ -50,9 +50,14 @@ export class StyleManager {
       rules?: Map<string, boolean>;
     };
   } = {};
-  allRules: Map<string, boolean> = new Map();
+  allRules: Map<string, {
+    isInserted?: boolean;
+    ruleIndex?: number;
+  }> = new Map();
+  ruleIndList: number[] = [];
   onAddCSSText(CSSText?: string) {}
   onAddRules(rules?: Map<string, boolean>) {}
+  onRemoveRules(rules?: Map<string, boolean>) {}
   onRemoveCSSText(CSSText?: string) {}
 
   constructor(config?: StyleManagerConfig) {
@@ -60,12 +65,14 @@ export class StyleManager {
     this.prefixSelector = prefixClassName ? `${prefixClassName}-` : "";
   }
 
-  setRules2allRules(rules: Map<string, boolean>, rule: string) {
+  getRules4allRules(rules: Map<string, boolean>, rule: string) {
     if (this.allRules.get(rule)) {
       rules.set(rule, true);
     } else {
       rules.set(rule, false);
-      this.allRules.set(rule, false);
+      this.allRules.set(rule, {
+        isInserted: false
+      });
     }
   }
 
@@ -117,7 +124,7 @@ export class StyleManager {
         const extendsStyle = style[styleKey];
         if (extendsStyle) {
           const newExtendsCSSText = `.${classNameWithHash}${styleKey.slice(1)} ${this.style2CSSText(extendsStyle)}`;
-          this.setRules2allRules(rules, newExtendsCSSText);
+          this.getRules4allRules(rules, newExtendsCSSText);
           pseudoCSSText += newExtendsCSSText;
         }
       } else {
@@ -127,8 +134,8 @@ export class StyleManager {
       }
     }
 
-    const currCSSText = `.${classNameWithHash} { ${mainCSSText}}`;
-    this.setRules2allRules(rules, currCSSText);
+    const currCSSText = `.${classNameWithHash} { ${mainCSSText} }`;
+    this.getRules4allRules(rules, currCSSText);
     CSSText += currCSSText;
     CSSText += pseudoCSSText;
 
@@ -144,7 +151,7 @@ export class StyleManager {
     this.addCSSText(cssText);
   }
 
-  addStylesWithSelector = (styles: { [key: string]: React.CSSProperties; }) => {
+  addStylesWithSelector = (styles: { [selector: string]: React.CSSProperties; }) => {
     for (let selector in styles) {
       const style = styles[selector];
       let cssText = `${selector} ${this.style2CSSText(style)}`;
@@ -159,11 +166,28 @@ export class StyleManager {
       this.resultCSSText += cssText;
       const rules = new Map<string, boolean>();
       this.cssText2rules(cssText, currRule => {
-        this.setRules2allRules(rules, currRule);
+        this.getRules4allRules(rules, currRule);
       });
       this.addedCSSText[hash] = { CSSText: cssText, rules };
       this.onAddCSSText(cssText);
       this.onAddRules(rules);
+    }
+  }
+
+  removeCSSText = (cssText: string) => {
+    const hash = createHash(cssText);
+
+    const shouldUpdate = this.addedCSSText[hash];
+    if (shouldUpdate) {
+      this.resultCSSText = this.resultCSSText.replace(cssText, "");
+      const rules = new Map<string, boolean>();
+      this.cssText2rules(cssText, currRule => {
+        this.getRules4allRules(rules, currRule);
+      });
+
+      this.onRemoveCSSText(cssText);
+      this.onRemoveRules(rules);
+      delete this.addedCSSText[hash];
     }
   }
 
@@ -189,13 +213,6 @@ export class StyleManager {
     }
 
     return rules;
-  }
-
-  removeCSSText = (cssText: string) => {
-    const hash = createHash(cssText);
-    delete this.addedCSSText[hash];
-    this.resultCSSText = this.resultCSSText.replace(cssText, "");
-    this.onRemoveCSSText(cssText);
   }
 
   setStyleToManager(config?: { style?: CustomCSSProperties; className?: string; }): StyleClasses {
@@ -252,44 +269,66 @@ export class StyleManager {
   }
 
   insertRule2el(styleEl: HTMLStyleElement, rule: string, index?: number) {
-    if (rule && styleEl && !this.allRules.get(rule)) {
-      const { sheet } = styleEl;
-      const rulesSize = sheet["rules"].size;
+    if (rule && styleEl && !this.allRules.get(rule).isInserted) {
+      const sheet = styleEl.sheet as CSSStyleSheet;
+      const rulesSize = sheet.rules.length;
+      const ruleIndex = index === void 0 ? rulesSize : index;
 
+      if (!sheet) return;
       try {
         if ("insertRule" in sheet) {
-          (sheet as any)["insertRule"](rule, index === void 0 ? rulesSize : index);
+          sheet.insertRule(rule, ruleIndex);
         } else if ("appendRule" in sheet) {
           (sheet as any)["appendRule"](rule);
         } else {
           styleEl.textContent += rule;
         }
-      } catch (error) {
-        // console.error(error);
-      }
+
+        this.ruleIndList.push(ruleIndex);
+        this.allRules.set(rule, {
+          isInserted: true,
+          ruleIndex
+        });
+      } catch (error) {}
     }
   }
 
   insertAllRule2el(styleEl: HTMLStyleElement) {
-    this.allRules.forEach((inserted, rule) => {
-      if (!inserted) {
+    this.allRules.forEach((value, rule) => {
+      if (!value.isInserted) {
         this.insertRule2el(styleEl, rule);
-        this.allRules.set(rule, true);
       }
     });
   }
 
-  cleanRules(styleEl: HTMLStyleElement) {
-    if (styleEl) {
-      const { sheet } = styleEl;
-      const rules = sheet["rules"] as any;
-      if (rules && rules.length > 0) {
-        for (const rule of rules) {
-          (sheet as any)["deleteRule"](rule);
+  deleteRule2el(styleEl: HTMLStyleElement, rule: string) {
+    const sheetItem = this.allRules.get(rule);
+    if (rule && styleEl && sheetItem) {
+      const sheet = styleEl.sheet as CSSStyleSheet;
+      const { isInserted, ruleIndex } = sheetItem;
+      if (isInserted && sheet) {
+        const index = this.ruleIndList.indexOf(ruleIndex);
+        if (sheet[index]) {
+          sheet.deleteRule(index);
         }
+        this.ruleIndList.splice(index, 1);
       }
-      this.cleanAllStyles();
+      this.allRules.set(rule, {
+        isInserted: false,
+        ruleIndex
+      });
     }
+  }
+
+  deleteAllRule2el(styleEl: HTMLStyleElement) {
+    const sheet = styleEl.sheet as CSSStyleSheet;
+    const lastIndex = sheet.rules.length - 1;
+    for (let i = lastIndex; i > -1; i--) {
+      sheet.deleteRule(i);
+    }
+
+    this.allRules = new Map();
+    this.ruleIndList = [];
   }
 }
 
