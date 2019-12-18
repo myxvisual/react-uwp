@@ -69,7 +69,7 @@ export interface ThemeConfig {
 type ThemeCallback = (theme?: Theme) => void;
 
 export type ThemeName = "dark" | "light";
-const defaultAcrylicConfig: ThemeConfig["acrylicConfig"] = { blurSize: 24 };
+const defaultAcrylicConfig: ThemeConfig["acrylicConfig"] = { blurSize: 12 };
 
 export class Theme {
   themeName?: ThemeName;
@@ -556,7 +556,10 @@ export class Theme {
         const background = backgrounds.join(", ");
 
         this.acrylicTextureCount += 1;
-        const style = { background, backgroundBlendMode: "overlay" };
+        const style: CustomCSSProperties = {
+          background,
+          backgroundBlendMode: "overlay"
+        };
 
         switch (key) {
           case 2: {

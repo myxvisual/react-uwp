@@ -11,7 +11,7 @@ export function getAcrylicTextureStyle(config: AcrylicConfig, useFluentDesign = 
      * Add theme.baseLow color.
      */
     background: background ? `${background}, ${tintColor}` : tintColor,
-    backgroundBlendMode: "overlay",
+    backgroundBlendMode: "exclusion",
     /**
      * Add blur filter.
      */
@@ -22,7 +22,7 @@ export function getAcrylicTextureStyle(config: AcrylicConfig, useFluentDesign = 
      * Add theme.baseLow color.
      */
     background: background ? `linear-gradient(${tintColor}, ${tintColor}), ${background}` : tintColor,
-    backgroundBlendMode: "overlay"
+    backgroundBlendMode: "exclusion"
   };
 
   return style;

@@ -87,6 +87,7 @@
     "inline-style-prefixer": "^5.0.0",
     "keycode": "^2.1.8",
     "marked": "^0.7.0",
+    "mobile-detect": "^1.4.4",
     "murmurhash-js": "^1.0.0",
     "prismjs": "^1.17.1",
     "prop-types": "^15.5.8",

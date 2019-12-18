@@ -19,33 +19,40 @@ export default class SimpleExample extends React.Component {
       outline: "none",
       border: `1px solid ${theme.listAccentLow}`
     };
+    const styles = {
+      root: theme.prefixStyle({
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        flexWrap: "wrap",
+        width: "100%",
+        padding: "160px 0",
+        background: theme.desktopBackground
+      }),
+      acrylic20: { ...itemStyle, ...theme.acrylicTexture20.style },
+      acrylic40: { ...itemStyle, ...theme.acrylicTexture40.style },
+      acrylic60: { ...itemStyle, ...theme.acrylicTexture60.style },
+      acrylic80: { ...itemStyle, ...theme.acrylicTexture80.style },
+      acrylic100: { ...itemStyle, ...theme.acrylicTexture100.style }
+    };
+    const classes = theme.prepareStyles({ styles });
 
     return (
-      <div
-        style={theme.prefixStyle({
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          width: "100%",
-          padding: "160px 0",
-          background: theme.desktopBackground
-        })}
-      >
-        <span style={{ ...itemStyle, ...theme.acrylicTexture20.style }}>
+      <div {...classes.root}>
+        <span {...classes.acrylic20}>
           theme.acrylicTexture20.style
         </span>
-        <span style={{ ...itemStyle, ...theme.acrylicTexture40.style }}>
+        <span {...classes.acrylic40}>
           theme.acrylicTexture40.style
         </span>
-        <span style={{ ...itemStyle, ...theme.acrylicTexture60.style }}>
+        <span {...classes.acrylic60}>
           theme.acrylicTexture60.style
         </span>
-        <span style={{ ...itemStyle, ...theme.acrylicTexture80.style }}>
+        <span {...classes.acrylic80}>
           theme.acrylicTexture80.style
         </span>
-        <span style={{ ...itemStyle, ...theme.acrylicTexture100.style }}>
+        <span {...classes.acrylic100}>
           theme.acrylicTexture100.style
         </span>
       </div>
