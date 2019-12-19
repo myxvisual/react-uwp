@@ -22,7 +22,8 @@ export function getAcrylicTextureStyle(config: AcrylicConfig, useFluentDesign = 
      * Add theme.baseLow color.
      */
     background: background ? `linear-gradient(${tintColor}, ${tintColor}), ${background}` : tintColor,
-    backgroundBlendMode: "exclusion"
+    backgroundBlendMode: "exclusion",
+    transform: "translate3d(0, 0, 0)"
   };
 
   return style;

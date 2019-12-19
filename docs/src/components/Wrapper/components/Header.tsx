@@ -117,6 +117,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     const { currVersion, currVersions, showDocsTreeView } = this.state;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      className: "Header",
+      styles
+    });
     const isPhoneScreen = screenType === "phone";
     const isBigScreen = screenType === "pc" || screenType === "laptop";
 
@@ -138,9 +142,9 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         ) : null}
         <div
           {...attributes}
-          style={styles.root}
+          {...classes.root}
         >
-          <div style={styles.content}>
+          <div {...classes.content}>
             {!isBigScreen && (
               <IconButton
                 ref={navButton => this.navButton = navButton}
@@ -151,11 +155,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                 GlobalNavButton
               </IconButton>
             )}
-            <Link style={styles.logo} to={`${docVersion}/`}>
+            <Link {...classes.logo} to={`${docVersion}/`}>
               <ReactIcon height={isPhoneScreen ? 36 : 48} fill={theme.accent} />
               <p style={{ marginLeft: 2 }}>React UWP</p>
             </Link>
-            <div style={styles.navContent}>
+            <div {...classes.navContent}>
               {!isPhoneScreen && (
                 <div style={styles.links}>
                   <NavLink headerHeight={headerHeight} to={`${docVersion}/get-started`}>
@@ -213,7 +217,6 @@ function getStyles(header: Header): {
 
   return {
     root: prefixStyle({
-      ...theme.acrylicTexture20.style,
       fontSize: 14,
       color: theme.baseHigh,
       boxShadow: theme.isDarkTheme ? void 0 : `0 2px 8px ${theme.listLow}`,
@@ -227,7 +230,8 @@ function getStyles(header: Header): {
       left: 0,
       top: 0,
       zIndex: theme.zIndex.header,
-      ...style
+      ...style,
+      ...theme.acrylicTexture20.style
     }),
     content: prefixStyle({
       display: "flex",

@@ -18,15 +18,23 @@ const desktopBackgroundImage = require<string>("assets/images/blurBackground/jen
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 const isMobile = Boolean(md.mobile());
 
+const useBackdropCSS = {
+  enableNoiseTexture: true,
+  forceGenerateAcrylicTextures: false
+};
+const useCanvasAcrylic = {
+  enableNoiseTexture: true,
+  forceGenerateAcrylicTextures: true
+};
+
 export class ThemeWrapper extends React.Component {
   render() {
     const { children } = this.props;
     return (
       <Theme
         enableGlobalThemeCSSText
-        enableNoiseTexture
-        forceGenerateAcrylicTextures={!isMobile}
         theme={theme}
+        {...useBackdropCSS}
       >
         {children}
       </Theme>

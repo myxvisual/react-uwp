@@ -651,13 +651,14 @@ export class Theme {
 
     // add generateBackgroundTexture method to theme.
     this.generateBackgroundTexture = (callback?: ThemeCallback) => {
-      const webGLRender = new WebGLRender({ fragmentSource: getNoiseFrag(this.isDarkTheme ? { r: "1.", g: "1.", b: "1." } : { r: "0.", g: "0.", b: "0." }), width: screen.availWidth, height: screen.availHeight });
+      let webGLRender = new WebGLRender({ fragmentSource: getNoiseFrag(this.isDarkTheme ? { r: "1.", g: "1.", b: "1." } : { r: "0.", g: "0.", b: "0." }), width: screen.availWidth, height: screen.availHeight });
       webGLRender.render();
       webGLRender.toUrl(url => {
         this.materialTexture = url;
         this.mergeAcrylicStyles(blurSize);
         if (callback) callback(this);
         webGLRender.cleanup();
+        webGLRender = null;
       });
     };
     // Add to generateAcrylicTextures method to theme.

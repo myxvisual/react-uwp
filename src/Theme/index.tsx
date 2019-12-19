@@ -91,7 +91,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
   }
 
   componentDidMount() {
-    this.setThemeHelper(this.state.currTheme);
+    this.setThemeHelper(this.state.currTheme, null, newTheme => {
+      this.setState({ currTheme: newTheme });
+    });
     this.updateAllCSSToEl();
     window.addEventListener("scroll", this.handleScrollReveal);
   }
@@ -115,9 +117,12 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
 
   componentWillReceiveProps(nextProps: ThemeProps) {
     const currTheme = this.getThemeFromProps(nextProps);
-    if (currTheme !== this.state.currTheme && !this.useUpdateTheme) {
-      this.setThemeHelper(currTheme);
-      this.setState({ currTheme });
+    const prevTheme = this.state.currTheme;
+    if (currTheme !== prevTheme && !this.useUpdateTheme) {
+      this.setThemeHelper(currTheme, prevTheme, newTheme => {
+        this.mergeStyleManager(newTheme, prevTheme);
+        this.setState({ currTheme: newTheme });
+      });
     }
   }
 
@@ -173,7 +178,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     theme.styleManager.addCSSText(getThemeBaseCSS(theme, enableGlobalThemeCSSText ? "" : selector));
   }
 
-  setThemeHelper(theme: ThemeType, prevTheme?: ThemeType) {
+  setThemeHelper(theme: ThemeType, prevTheme?: ThemeType, themeCallback?: (currTheme?: ThemeType) => void) {
     const { enableNoiseTexture, forceGenerateAcrylicTextures } = this.props;
     this.mergeStyleManager(theme, prevTheme);
 
@@ -189,31 +194,30 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       }
     } as ThemeType);
 
-    const newThemeCallback = currTheme => {
-      this.mergeStyleManager(currTheme, this.state.currTheme);
-      this.setState({ currTheme });
-    };
     if (theme.useFluentDesign) {
       if (theme.desktopBackground && (!supportedBackdropFilter || forceGenerateAcrylicTextures)) {
         if (enableNoiseTexture) {
           theme.generateBackgroundTexture(currTheme => {
-            currTheme.generateAcrylicTextures(newThemeCallback);
+            currTheme.generateAcrylicTextures(themeCallback);
           });
         } else {
-          theme.generateAcrylicTextures(newThemeCallback);
+          theme.generateAcrylicTextures(themeCallback);
         }
       } else if (enableNoiseTexture) {
-        theme.generateBackgroundTexture(newThemeCallback);
+        theme.generateBackgroundTexture(themeCallback);
       }
     } else if (enableNoiseTexture) {
-      theme.generateBackgroundTexture(newThemeCallback);
+      theme.generateBackgroundTexture(themeCallback);
     }
   }
 
   updateTheme = (currTheme: ThemeType) => {
     this.useUpdateTheme = true;
-    this.setThemeHelper(currTheme, this.state.currTheme);
-    this.setState({ currTheme });
+    const prevTheme = this.state.currTheme;
+    this.setThemeHelper(currTheme, prevTheme, newTheme => {
+      this.mergeStyleManager(newTheme, prevTheme);
+      this.setState({ currTheme: newTheme });
+    });
   }
 
   scrollThrottle = new Throttle();
