@@ -1,8 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import * as tinycolor from "tinycolor2";
-import getStripedBackground from "react-uwp/styles/getStripedBackground";
 import Wrapper from "../Wrapper";
 import Icon from "react-uwp/Icon";
 import DocsTreeView from "../DocsTreeView";
