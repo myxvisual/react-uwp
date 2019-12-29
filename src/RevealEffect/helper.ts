@@ -15,6 +15,22 @@ export function getBorderRadius(style: CSSStyleDeclaration) {
 }
 
 /**
+ * Detect rectangle is overlap.
+ * @param rect1 - DOMRect
+ * @param rect2 - DOMRect
+ */
+export interface OverlapRect {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+}
+
+export function isRectangleOverlap(rect1: OverlapRect, rect2: OverlapRect) {
+    return Math.max(rect1.left, rect2.left) < Math.min(rect1.right, rect2.right) && Math.max(rect1.top, rect2.top) < Math.min(rect1.bottom, rect2.bottom);
+}
+
+/**
  * Detect cursor is inside to rect.
  * @param position The mouse cursor position.
  * @param rect The DOMRect.

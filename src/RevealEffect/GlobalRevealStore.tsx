@@ -35,7 +35,7 @@ function getGradient(ctx: CanvasRenderingContext2D, borderColor: string, theme: 
   return gradient;
 }
 
-function checkOverlap(rect1: OverlapRect, rect2: OverlapRect) {
+function isRectangleOverlap(rect1: OverlapRect, rect2: OverlapRect) {
   return Math.max(rect1.left, rect2.left) < Math.min(rect1.right, rect2.right) && Math.max(rect1.top, rect2.top) < Math.min(rect1.bottom, rect2.bottom);
 }
 
@@ -208,7 +208,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
 
       const isSelfRange = effectRange === "self";
       const isOthersRange = effectRange === "others";
-      const isOverlap = checkOverlap(effectRect, parentRect);
+      const isOverlap = isRectangleOverlap(effectRect, parentRect);
 
       borderCtx.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
 

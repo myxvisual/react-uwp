@@ -34,7 +34,7 @@ export class ThemeWrapper extends React.Component {
       <Theme
         enableGlobalThemeCSSText
         theme={theme}
-        {...useBackdropCSS}
+        {...(isMobile ? useBackdropCSS : useCanvasAcrylic)}
       >
         {children}
       </Theme>

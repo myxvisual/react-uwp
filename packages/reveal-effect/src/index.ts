@@ -36,7 +36,6 @@ const colorMap = new Map<string, ColorStore>();
  * @param rect1 - DOMRect
  * @param rect2 - DOMRect
  */
-
 export interface OverlapRect {
   left: number;
   right: number;
