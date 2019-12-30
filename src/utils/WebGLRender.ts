@@ -1,13 +1,13 @@
 import { toUrl } from "./canvasHelper";
 
-interface WebGLRenderProps {
+export interface WebGLRenderProps {
   vertexSource?: string;
   fragmentSource?: string;
   width?: number;
   height?: number;
 }
 
-class WebGLRender {
+export class WebGLRender {
   frags: string[] = [];
   canvas: HTMLCanvasElement;
   gl: WebGLRenderingContext;
@@ -47,7 +47,11 @@ void main(){
 
   init() {
     if (!this.canvas) this.canvas = document.createElement("canvas");
-    if (!this.gl) this.gl = this.canvas.getContext("webgl");
+    if (!this.gl) {
+      this.gl = this.canvas.getContext("webgl") || (
+        this.canvas.getContext("experimental-webgl") as WebGLRenderingContext
+      );
+    }
     const { gl } = this;
     if (!this.gl) return;
     if (!this.program) this.program = gl.createProgram();
@@ -119,7 +123,7 @@ void main(){
   setUniforms() {
     const { gl, program, width, height } = this;
     const resolution = new Float32Array([width, height]);
-    const resolutionLoc = gl.getUniformLocation(program, "iResolution");
+    const resolutionLoc = gl.getUniformLocation(program, "u_resolution");
     gl.uniform2f(resolutionLoc, resolution[0], resolution[1]);
   }
 
@@ -150,32 +154,64 @@ void main(){
   }
 }
 
-const getNoiseFrag = (color: { r: string; g: string; b: string; }) =>
+// @link https://thebookofshaders.com/edit.php#06/hsb-colorwheel.frag
+export const colorWheelFrag =
 `#ifdef GL_ES
 precision mediump float;
 #endif
-uniform vec2 iResolution;
-float random (in vec2 st) {
-    return fract(sin(dot(st.xy,
-                         vec2(12.9898,78.233)))
-                * 43758.5453123);
+
+#define TWO_PI 6.28318530718
+
+uniform vec2 u_resolution;
+
+//  Function from Iñigo Quiles
+//  https://www.shadertoy.com/view/MsS3Wc
+vec3 hsb2rgb( in vec3 c ){
+    vec3 rgb = clamp(abs(mod(c.x*6.0+vec3(0.0,4.0,2.0),
+                             6.0)-3.0)-1.0,
+                     0.0,
+                     1.0 );
+    rgb = rgb*rgb*(3.0-2.0*rgb);
+    return c.z * mix( vec3(1.0), rgb, c.y);
 }
-void main() {
-    vec2 st = gl_FragCoord.xy / iResolution.xy;
-    st.x *= iResolution.x / iResolution.y;
-    float r = random(st * 1.);
-    gl_FragColor = vec4(${color.r}, ${color.g}, ${color.b}, r * .2);
+
+void main(){
+    vec2 st = gl_FragCoord.xy/u_resolution;
+    vec3 color = vec3(0.0);
+
+    // Use polar coordinates instead of cartesian
+    vec2 toCenter = vec2(0.5)-st;
+    float angle = atan(toCenter.y,toCenter.x);
+    float radius = length(toCenter)*2.0;
+
+    // Map the angle (-PI to PI) to the Hue (from 0 to 1)
+    // and the Saturation to the radius
+    color = hsb2rgb(vec3((angle/TWO_PI)+0.5,radius,1.0));
+
+    gl_FragColor = vec4(color,1.0);
 }
 `;
 
-// const webGLRender = new WebGLRender({ fragmentSource: noiseFrag, width: 200, height: 200 });
-// webGLRender.render();
-// webGLRender.toUrl(url => {
-//   console.log(url);
-// });
+export const getNoiseFrag = (color: { r: string; g: string; b: string; }) =>
+`#ifdef GL_ES
+precision highp float;
+#endif
+uniform vec2 u_resolution;
 
-export {
-  WebGLRenderProps,
-  WebGLRender,
-  getNoiseFrag
-};
+// @link http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+highp float random(vec2 co) {
+  highp float a = 12.9898;
+  highp float b = 78.233;
+  highp float c = 43758.5453;
+  highp float dt= dot(co.xy ,vec2(a,b));
+  highp float sn= mod(dt,3.14);
+  return fract(sin(sn) * c);
+}
+
+void main() {
+  vec2 st = gl_FragCoord.xy / u_resolution.xy;
+  st.x *= u_resolution.x / u_resolution.y;
+  float r = random(st * 1.);
+  gl_FragColor = vec4(${color.r}, ${color.g}, ${color.b}, r * .7);
+}
+`;

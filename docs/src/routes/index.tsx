@@ -34,7 +34,7 @@ export class ThemeWrapper extends React.Component {
       <Theme
         enableGlobalThemeCSSText
         theme={theme}
-        {...(isMobile ? useBackdropCSS : useCanvasAcrylic)}
+        {...useBackdropCSS}
       >
         {children}
       </Theme>
@@ -49,17 +49,7 @@ function getRoutes(path = "/") {
     </WrapperWithCategories>
   );
 
-  return false ? {
-    component: ThemeWrapper,
-    path,
-    indexRoute: {
-      getComponent: (location: Location, cb: RouterCallback) => {
-        require.ensure([], (require) => {
-          cb(null, require("./Test").default);
-        }, "react-uwp-Test");
-      }
-    }
-  } : {
+  return {
     path,
     component: ThemeWrapper,
     indexRoute: {
