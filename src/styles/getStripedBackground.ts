@@ -9,7 +9,7 @@ export function getStripedBackground(config?: Config) {
   let { size, primaryColor, secondaryColor, direction } = config || {} as Config;
   size = size || 4;
   primaryColor = primaryColor || "#000";
-  secondaryColor =  secondaryColor || "#fff";
+  secondaryColor =  secondaryColor || "transparent";
   direction = direction || "ltr";
   const isLtr = direction === "ltr";
 

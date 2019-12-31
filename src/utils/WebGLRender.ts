@@ -212,6 +212,6 @@ void main() {
   vec2 st = gl_FragCoord.xy / u_resolution.xy;
   st.x *= u_resolution.x / u_resolution.y;
   float r = random(st * 1.);
-  gl_FragColor = vec4(${color.r}, ${color.g}, ${color.b}, r * .7);
+  gl_FragColor = vec4(${color.r}, ${color.g}, ${color.b}, r * .2);
 }
 `;

@@ -257,11 +257,10 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         style={classes.root.style}
         className={currTheme.classNames(className, classes.root.className, currTheme.themeClassName)}
         >
-        <feDropShadow floodColor=""></feDropShadow>
         <link key="not-change" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
         <style type="text/css" scoped ref={styleEl => this.styleEl = styleEl} />
         {enableRender && (
-           renderToScreen ? <RenderToBody {...classes.desktopBackground} /> : <div {...classes.desktopBackground} />
+          renderToScreen ? <RenderToBody {...classes.desktopBackground} /> : <div {...classes.desktopBackground} />
         )}
         <RenderToBody>
           <ToastWrapper

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Router, browserHistory } from "react-router";
 import * as MobileDetect from "mobile-detect";
 const md = new MobileDetect(window.navigator.userAgent);
+import getStripedBackground from "react-uwp/styles/getStripedBackground";
 
 import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/styles/getTheme";
