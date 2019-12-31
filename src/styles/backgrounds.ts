@@ -53,7 +53,8 @@ export function getAttributesString(attribute: Object) {
 }
 
 export function getProtrudingSquares(config: { mainColor: string; shadowColor: string; opacity: number; }) {
-  return `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 200 200'>
+  const dataImageType = `data:image/svg+xml;charset=utf-8,`;
+  let svgText = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 200 200'>
 <defs>
     <linearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'>
         <stop offset='0' stop-color='${config.shadowColor}' stop-opacity='0'/>
@@ -73,12 +74,37 @@ export function getProtrudingSquares(config: { mainColor: string; shadowColor: s
     <polygon fill='url(#b)' points='100 100 0 130 0 100 200 100 200 130'/>
 </g>
 </svg>`;
+  svgText = encodeURIComponent(svgText);
+  const backgroundStyle = " repeat";
+
+  return dataImageType + svgText + backgroundStyle;
 }
 
-export function get() {}
+export interface StripedConfig {
+  size?: number;
+  primaryColor?: string;
+  secondaryColor?: string;
+  direction?: "ltr" | "rtl";
+}
 
-export function getDot() {
-  return ``;
+export function getStriped(config?: StripedConfig) {
+  let { size, primaryColor, secondaryColor, direction } = config || {} as StripedConfig;
+  size = size || 4;
+  primaryColor = primaryColor || "#000";
+  secondaryColor =  secondaryColor || "transparent";
+  direction = direction || "ltr";
+  const isLtr = direction === "ltr";
+
+  return `linear-gradient(${isLtr ? 45 : 135}deg, ${primaryColor} 25%, ${secondaryColor} 0px, ${secondaryColor} 50%, ${primaryColor} 0px, ${primaryColor} 75%, ${secondaryColor} 0px) 0% 0% / ${size}px ${size}px ${primaryColor}`;
+}
+
+export function getDot(color = "#fff") {
+  const dataImageType = `data:image/svg+xml;charset=utf-8,`;
+  let svgText = `<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 16 16' style='enable-background:new 0 0 16 16' xml:space='preserve'><rect width='16' fill='none' height='16'/><rect x='0' y='0' fill='${color}' width='1' height='1'/></svg>`;
+  svgText = encodeURIComponent(svgText);
+  const backgroundStyle = " repeat";
+
+  return dataImageType + svgText + backgroundStyle;
 }
 
 // console.log(createFeDropShadow({ dx: 22, dy: 22, floodColor: "#fff", floodOpacity: 3 }));

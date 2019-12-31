@@ -2,7 +2,6 @@ import * as React from "react";
 import { Router, browserHistory } from "react-router";
 import * as MobileDetect from "mobile-detect";
 const md = new MobileDetect(window.navigator.userAgent);
-import getStripedBackground from "react-uwp/styles/getStripedBackground";
 
 import Theme from "react-uwp/Theme";
 import getTheme from "react-uwp/styles/getTheme";
@@ -15,7 +14,6 @@ export interface RouterCallback {
 
 const useFluentDesign = true;
 const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
-// const theme = getTheme({ useFluentDesign, desktopBackgroundImage, materialBackground: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 16 16' style='enable-background:new 0 0 16 16' xml:space='preserve'%3E%3Crect width='16' fill='none' height='16'/%3E%3Crect x='0' y='0' fill='hsla(0, 0%, 100%, 0.3)' width='1' height='1'/%3E%3C/svg%3E") repeat top right / 16px` });
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
 const isMobile = Boolean(md.mobile());
 
