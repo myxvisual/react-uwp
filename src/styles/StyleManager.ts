@@ -271,7 +271,8 @@ export class StyleManager {
   insertRule2el(styleEl: HTMLStyleElement, rule: string, index?: number) {
     if (rule && styleEl && !this.allRules.get(rule).isInserted) {
       const sheet = styleEl.sheet as CSSStyleSheet;
-      const rulesSize = sheet.rules.length;
+      const rules = sheet.rules || sheet.cssRules;
+      const rulesSize = rules.length;
       const ruleIndex = index === void 0 ? rulesSize : index;
 
       if (!sheet) return;
@@ -322,7 +323,9 @@ export class StyleManager {
 
   deleteAllRule2el(styleEl: HTMLStyleElement) {
     const sheet = styleEl.sheet as CSSStyleSheet;
-    const lastIndex = sheet.rules.length - 1;
+    const rules = sheet.rules || sheet.cssRules;
+    const rulesSize = rules.length;
+    const lastIndex = rulesSize - 1;
     for (let i = lastIndex; i > -1; i--) {
       sheet.deleteRule(i);
     }
