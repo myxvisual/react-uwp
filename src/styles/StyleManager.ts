@@ -193,21 +193,48 @@ export class StyleManager {
 
   cssText2rules(cssText: string, onNewRule?: (rule?: string) => void) {
     let currRule = "";
+    let selectorTexts: string[] = [];
+    let selectorTextIsEnd = false;
+    let selectorTextIndex = 0;
+
     const rules: string[] = [];
     let leftBraces = 0;
     const textSize = cssText.length;
     for (let i = 0; i < textSize; i ++) {
       const char = cssText[i];
-      currRule += char;
       if (char === "{") {
+        selectorTextIsEnd = true;
         leftBraces += 1;
       }
+
+      if (selectorTextIsEnd) {
+        currRule += char;
+      } else {
+        if (char === ",") {
+          selectorTextIndex += 1;
+        } else {
+          if (selectorTexts[selectorTextIndex]) {
+            selectorTexts[selectorTextIndex] += char;
+          } else {
+            selectorTexts[selectorTextIndex] = char;
+          }
+        }
+      }
+
       if (char === "}") {
         leftBraces -= 1;
         if (leftBraces === 0) {
-          if (onNewRule) onNewRule(currRule);
-          rules.push(currRule);
+          selectorTexts.forEach(selectorText => {
+            if (onNewRule) {
+              onNewRule(selectorText + currRule);
+            }
+            rules.push(selectorText + currRule);
+          });
+
           currRule = "";
+          selectorTexts = [];
+          selectorTextIsEnd = false;
+          selectorTextIndex = 0;
         }
       }
     }
