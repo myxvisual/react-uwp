@@ -523,7 +523,6 @@ export class Theme {
           }
           return result;
         } else {
-          console.warn(config)
           const styleClasses = this.styleManager.setStylesToManager(config as any);
           return styleClasses;
         }
