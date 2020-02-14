@@ -281,7 +281,7 @@ export class StyleManager {
         secondClassName = `-${key}${secondClassName}`;
       }
 
-      const { inlineStyle, ...styleProperties } = (isStyleClasses ? styleItem.style : styleItem) as any;
+      const { inlineStyle, ...styleProperties } = styleItem as any;
       const sheet = this.addStyle(
         styleProperties,
         `${className}${secondClassName}`
