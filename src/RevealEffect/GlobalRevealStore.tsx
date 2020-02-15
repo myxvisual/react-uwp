@@ -103,7 +103,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     const hoverCanvas = borderCanvas.previousElementSibling as HTMLCanvasElement;
     const borderCtx = borderCanvas.getContext("2d");
     const hoverCtx = hoverCanvas.getContext("2d");
-    const [x, y] = [clientX - parentRect.x, clientY - parentRect.y];
+    const [x, y] = [clientX - parentRect.left, clientY - parentRect.top];
     const enableDrawBorder = effectEnable === "border" || effectEnable === "both";
     const enableDrawHover = effectEnable === "hover" || effectEnable === "both";
 

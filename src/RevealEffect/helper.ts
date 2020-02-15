@@ -221,17 +221,16 @@ export function updateCanvasRect(borderCanvasEl: HTMLCanvasElement) {
   const parentEl = borderCanvasEl.parentElement as HTMLElement;
   if (!parentEl) return;
   const style = window.getComputedStyle(parentEl);
+  const { width: elWidth, height: elHeight } = parentEl.getBoundingClientRect();
   const {
-      borderTopWidth,
-      borderLeftWidth,
-      width,
-      height
+    borderTopWidth,
+    borderLeftWidth
   } = style;
 
   const btWidth = Number.parseInt(borderTopWidth);
   const blWidth = Number.parseInt(borderLeftWidth);
-  const elWidth = Number.parseInt(width);
-  const elHeight = Number.parseInt(height);
+  const width = `${elWidth}px`;
+  const height = `${elHeight}px`;
 
   const isSameBorderEl = borderCanvasEl.width === elWidth && borderCanvasEl.height === elHeight;
   const isSameHoverEl = hoverCanvasEl.width === elWidth && hoverCanvasEl.height === elHeight;
