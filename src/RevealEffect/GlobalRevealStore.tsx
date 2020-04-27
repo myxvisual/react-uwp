@@ -199,7 +199,7 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     }
 
     // find all border effect.
-    let borderCanvasList: HTMLCanvasElement[] = [];
+    let drawBorderCanvasList: HTMLCanvasElement[] = [];
     for (const [borderCanvas, revealConfig] of revealEffectMap) {
       const borderCtx = borderCanvas.getContext("2d");
       const parentEl = borderCanvas.parentElement;
@@ -215,8 +215,8 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
       if (isOverlap) {
         updateCanvasRect(borderCanvas);
         const enableDrawBorder = effectEnable === "border" || effectEnable === "both";
-        if (enableDrawBorder && !isSelfRange && !isOthersRange) {
-          borderCanvasList.push(borderCanvas);
+        if (enableDrawBorder && !isSelfRange && !isOthersRange && this.showRenderCanvas(borderCanvas)) {
+          drawBorderCanvasList.push(borderCanvas);
         }
       }
     }
@@ -225,16 +225,26 @@ export class GlobalRevealStore extends React.Component<GlobalRevealStoreProps> {
     if (foundFocusEl) {
       const revealConfig = revealEffectMap.get(this.hoverBorderCanvas);
       if (revealConfig.effectRange === "self") {
-        borderCanvasList = [];
+        drawBorderCanvasList = [];
       }
     }
-    for (const borderCanvas of borderCanvasList) {
+    for (const borderCanvas of drawBorderCanvasList) {
       this.drawByBorderCanvas(borderCanvas);
     }
 
     // draw hoverEl.
-    if (foundFocusEl) {
+    if (foundFocusEl && this.showRenderCanvas(this.hoverBorderCanvas)) {
       this.drawByBorderCanvas(this.hoverBorderCanvas, true);
+    }
+  }
+
+  showRenderCanvas(canvasEl: HTMLCanvasElement) {
+    const { parentElement } = canvasEl;
+    if (parentElement) {
+      const { pointerEvents, visibility, display, opacity } = window.getComputedStyle(parentElement);
+      return pointerEvents !== "none" && visibility !== "hidden" && display !== "none" && opacity !== "0";
+    } else {
+      return false;
     }
   }
 
