@@ -95,7 +95,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
   }
 
   componentWillReceiveProps() {
-    this.updateItemHeight(!this.state.showList);
+    this.updateItemHeight();
   }
 
   componentWillUnmount() {
@@ -146,6 +146,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
     const defaultItemSelectedStyle: React.CSSProperties = {
       background: theme.listAccentLow
     };
+    const newWrapperStyle = Object.assign({}, defaultStyle, style);
 
     return (
       <span {...classes.wrapper}>
@@ -162,7 +163,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
               style={{
                 ...classes.item.style,
                 ...(isCurrent && showList ? (itemSelectedStyle || defaultItemSelectedStyle) : void 0),
-                height: showList ? (this.itemHeight) : (isCurrent ? "100%" : 0),
+                height: showList ? ((newWrapperStyle && newWrapperStyle.height) ? newWrapperStyle.height : this.itemHeight) : (isCurrent ? "100%" : 0),
                 padding: showList || isCurrent ? styles.item.padding : 0
               } as React.CSSProperties}
               onClick={() => this.toggleShowList(value)}
@@ -203,7 +204,7 @@ function getStyles(dropDownMenu: DropDownMenu) {
     state: { showList }
   } = dropDownMenu;
   const { prefixStyle } = theme;
-  const newStyle = Object.assign({}, defaultStyle, style);
+  const newWrapperStyle = Object.assign({}, defaultStyle, style);
   const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
   const defaultItemHoverStyle: React.CSSProperties = {
     background: theme.baseLow
@@ -220,7 +221,7 @@ function getStyles(dropDownMenu: DropDownMenu) {
     background: "none",
     padding: "0 8px",
     ...itemStyle,
-    height: showList ? itemHeight : 0,
+    height: showList ? ((newWrapperStyle && newWrapperStyle.height) ? newWrapperStyle.height : itemHeight) : 0,
     borderLeft: showList ? `0px solid transparent` : "none",
     borderRight: showList ? `0px solid transparent` : "none",
     borderTop: showList ? `${theme.borderWidth}px solid transparent` : "none",
@@ -230,8 +231,8 @@ function getStyles(dropDownMenu: DropDownMenu) {
     wrapper: prefixStyle({
       flex: "0 0 auto",
       display: "block",
-      width: enableFullWidth ? "100%" : newStyle.width,
-      height: newStyle.height,
+      width: enableFullWidth ? "100%" : newWrapperStyle.width,
+      height: newWrapperStyle.height,
       ...wrapperStyle
     }),
     root: prefixStyle({
@@ -242,10 +243,10 @@ function getStyles(dropDownMenu: DropDownMenu) {
       padding: showList ? "6px 0" : 0,
       transition: "all .25s 0s ease-in-out",
       ...theme.acrylicTexture60.style,
-      ...newStyle,
+      ...newWrapperStyle,
       zIndex,
-      width: enableFullWidth ? (style && style.width !== void 0 ? newStyle.width : "100%") : newStyle.width,
-      height: showList ? "auto" : newStyle.height
+      width: enableFullWidth ? (style && style.width !== void 0 ? newWrapperStyle.width : "100%") : newWrapperStyle.width,
+      height: showList ? "auto" : newWrapperStyle.height
     }) as React.CSSProperties,
     item: prefixStyle({
       ...newItemStyle,
