@@ -188,7 +188,7 @@ export class Theme {
     toast?: number;
   };
 
-  prefixStyle: (style?: CustomCSSProperties) => React.CSSProperties;
+  prefixStyle: <T>(style?: CustomCSSProperties & T) => React.CSSProperties;
   prepareStyle: (config?: {
     style?: CustomCSSProperties;
     className?: string;

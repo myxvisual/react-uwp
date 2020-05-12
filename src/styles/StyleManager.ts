@@ -120,7 +120,7 @@ export class StyleManager {
     const rules = new Map<string, boolean>();
 
     for (const styleKey in style) {
-      if (pseudoSelectorMap[styleKey]) {
+      if (pseudoSelectorMap[styleKey] || styleKey.startsWith("&")) {
         const extendsStyle = style[styleKey];
         if (extendsStyle) {
           const newExtendsCSSText = `.${classNameWithHash}${styleKey.slice(1)} ${this.style2CSSText(extendsStyle)}`;
