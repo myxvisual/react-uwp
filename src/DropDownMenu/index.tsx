@@ -39,6 +39,10 @@ export interface DataProps {
    * Set RevealEffect, check the styles/reveal-effect.
    */
   revealConfig?: RevealEffectProps;
+  /**
+   * replace default dropdown icon.
+   */
+  iconNode?: React.ReactNode;
 }
 
 export interface DropDownMenuProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {
@@ -61,7 +65,9 @@ export const defaultStyle: React.CSSProperties = {
 };
 export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMenuState> {
   static contextTypes = { theme: PropTypes.object };
-  static defaultProps: DropDownMenuProps = {};
+  static defaultProps: DropDownMenuProps = {
+    iconNode: <Icon style={{ marginLeft: 8 }}>ChevronDown4Legacy</Icon>
+  };
   context: { theme: ReactUWP.ThemeType };
   state: DropDownMenuState = {
     currValue: this.props.defaultValue || Array.isArray(this.props.values) && this.props.values[0],
@@ -133,6 +139,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
       itemStyle,
       itemHoverStyle,
       itemSelectedStyle,
+      iconNode,
       ...attributes
     } = this.props;
     const { showList, currValue: currentValue, currValues: currentValues } = this.state;
@@ -172,11 +179,7 @@ export class DropDownMenu extends React.Component<DropDownMenuProps, DropDownMen
               <p {...classes.valueContent}>
                 {value}
               </p>
-              {!showList && isCurrent ? (
-                <Icon style={{ marginLeft: 8 }}>
-                  ChevronDown4Legacy
-                </Icon>
-              ) : null}
+              {!showList && isCurrent ? iconNode : null}
               {showList && <RevealEffect {...revealConfig} effectRange={showList ? "self" : "all"} />}
             </div>
           );
