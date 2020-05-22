@@ -4,8 +4,10 @@
 # Next Git Tag
 `npm run nextGitTag`
 
-# Npm version
-`npm version patch -m "release: Update tp %s"`
+# NPM version
+`npm version major -m "release: Update tp v%s"`
+`npm version minor -m "release: Update to v%s"`
+`npm version patch -m "release: Update to v%s"`
 
 # Publish GithubPage
 `npm run publish:docs`
