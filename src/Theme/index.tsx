@@ -36,6 +36,13 @@ export interface DataProps {
   forceGenerateAcrylicTextures?: boolean;
 
   /**
+   * Use the Cloudflare Content Delivery Network.
+   * Disable if you are going to provide your own copy.
+   * @default true
+   */
+  enableCDN?: boolean
+
+  /**
    * Set noise texture style.
    */
   enableNoiseTexture?: boolean;
@@ -59,6 +66,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
     desktopBackgroundConfig: desktopBgDefaultConfig,
     themeWillUpdate: themeCallback,
     forceGenerateAcrylicTextures: true,
+    enableCDN: true,
     enableNoiseTexture: false,
     enableGlobalThemeCSSText: true
   };
@@ -239,6 +247,7 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
       forceGenerateAcrylicTextures,
       enableNoiseTexture,
       enableGlobalThemeCSSText,
+      enableCDN,
       ...attributes
     } = this.props;
     const { currTheme } = this.state;
@@ -257,7 +266,9 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         style={classes.root.style}
         className={currTheme.classNames(className, classes.root.className, currTheme.themeClassName)}
         >
-        <link key="not-change" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
+        {enableCDN && (
+          <link key="not-change" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-uwp/1.1.0/css/segoe-mdl2-assets.css" />
+        )}
         <style type="text/css" ref={styleEl => this.styleEl = styleEl} />
         {enableRender && (
           renderToScreen ? <RenderToBody {...classes.desktopBackground} /> : <div {...classes.desktopBackground} />
