@@ -19,11 +19,15 @@ export class Mock extends React.Component<MockProps, MockState> {
     const { ...attributes } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      styles,
+      className: "Mock"
+    });
 
     return (
       <div
         {...attributes}
-        style={styles.root}
+        {...classes}
       >
         Mock
       </div>
@@ -40,9 +44,6 @@ function getStyles(mock: Mock) {
 
   return {
     root: prefixStyle({
-      fontSize: 14,
-      color: theme.baseMediumHigh,
-      background: theme.altMediumHigh,
       ...style
     })
   };

@@ -40,7 +40,7 @@ export interface DataProps {
    * Disable if you are going to provide your own copy.
    * @default true
    */
-  enableCDN?: boolean
+  enableCDN?: boolean;
 
   /**
    * Set noise texture style.
@@ -273,12 +273,12 @@ export class Theme extends React.Component<ThemeProps, ThemeState> {
         {enableRender && (
           renderToScreen ? <RenderToBody {...classes.desktopBackground} /> : <div {...classes.desktopBackground} />
         )}
-        <RenderToBody>
+        {currTheme.toasts.size > 0 && <RenderToBody>
           <ToastWrapper
             toastEls={Array.from(currTheme.toasts.keys()).map(toast => toast.virtualRender())}
             ref={toastWrapper => this.toastWrapper = toastWrapper}
           />
-        </RenderToBody>
+        </RenderToBody>}
         {children}
         <GlobalRevealStore theme={currTheme} />
       </div>

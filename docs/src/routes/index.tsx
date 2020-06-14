@@ -15,8 +15,8 @@ export interface RouterCallback {
 const useFluentDesign = true;
 const desktopBackgroundImage = require<string>("assets/images/blurBackground/jennifer-bailey-10753.jpg");
 const theme = getTheme({ useFluentDesign, desktopBackgroundImage });
-const isMobile = Boolean(md.mobile());
 
+// if use backdrop css, the browser performance had some issue.
 const useBackdropCSS = {
   enableNoiseTexture: true,
   forceGenerateAcrylicTextures: false
@@ -33,7 +33,7 @@ export class ThemeWrapper extends React.Component {
       <Theme
         enableGlobalThemeCSSText
         theme={theme}
-        {...useBackdropCSS}
+        {...useCanvasAcrylic}
       >
         {children}
       </Theme>

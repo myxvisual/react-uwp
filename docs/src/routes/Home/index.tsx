@@ -5,6 +5,7 @@ import * as PropTypes from "prop-types";
 import Image from "react-uwp/Image";
 import MediaPlayer from "react-uwp/MediaPlayer";
 import Toast from "react-uwp/Toast";
+import RevealEffect from "react-uwp/RevealEffect";
 import getRootPath from "utils/getRootPath";
 
 import FlipView, { FlipViewProps } from "react-uwp/FlipView";
@@ -61,16 +62,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     const { showToast } = this.state;
     const isPhoneScreen = screenType === "phone";
     const FLIP_HEIGHT = isPhoneScreen ? 240 : 500;
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      styles,
+      className: "Home"
+    });
 
     return (
       <div style={{ width: "100%" }}>
-        <div
-          style={{
-            width: "100%",
-            height: FLIP_HEIGHT,
-            ...theme.acrylicTexture60.style
-          }}
-        >
+        <div {...classes.flipViewWrp}>
           <FlipView
             style={{
               height: FLIP_HEIGHT,
@@ -104,6 +104,10 @@ export default class Home extends React.Component<HomeProps, HomeState> {
               image={require("../../assets/images/toolkits.png")}
             />
           </FlipView>
+          <RevealEffect
+            effectEnable="border"
+            hoverSize={300}
+          />
         </div>
         <Categories
           renderContentWidth={renderContentWidth}
@@ -141,4 +145,28 @@ export default class Home extends React.Component<HomeProps, HomeState> {
       </div>
     );
   }
+}
+
+function getStyles(Home: Home) {
+  const {
+    context: { theme },
+    props: { style, screenType }
+  } = Home;
+
+  const { prefixStyle } = theme;
+  const isPhoneScreen = screenType === "phone";
+  const FLIP_HEIGHT = isPhoneScreen ? 240 : 500;
+
+  return {
+    root: prefixStyle({
+      ...style
+    }),
+    flipViewWrp: prefixStyle({
+      width: "100%",
+      height: FLIP_HEIGHT,
+      position: "relative",
+      borderBottom: `1px solid ${theme.listLow}`,
+      ...theme.acrylicTexture60.style
+    })
+  };
 }

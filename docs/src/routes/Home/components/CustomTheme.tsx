@@ -8,6 +8,7 @@ import DropDownMenu from "react-uwp/DropDownMenu";
 import ColorPicker from "react-uwp/ColorPicker";
 import CheckBox from "react-uwp/CheckBox";
 import TextBox from "react-uwp/TextBox";
+import RevealEffect from "react-uwp/RevealEffect";
 import ScrollReveal, { slideLeftInProps, slideBottomInProps, scaleInProps } from "react-uwp/ScrollReveal";
 
 export interface DataProps {}
@@ -28,13 +29,17 @@ export default class CustomTheme extends React.Component<CustomThemeProps> {
     } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      styles,
+      className: "CustomTheme"
+    });
 
     return (
       <div
         {...attributes}
-        style={styles.root}
+        {...classes.root}
       >
-        <div style={styles.content}>
+        <div {...classes.content}>
           <div>
             <ScrollReveal {...{ ...slideLeftInProps, speed: 850 }}>
             <div style={{ width: 320, fontWeight: "lighter" }}>
@@ -45,7 +50,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps> {
             </ScrollReveal>
             <ScrollReveal {...{ ...slideBottomInProps, speed: 850, useWrapper: false }}>
             <div style={{ marginTop: 24 }}>
-              <p style={{ fontSize: 18, lineHeight: 1.6 }}>
+              <p style={{ fontSize: 18, lineHeight: 1.6, margin: "8px 0" }}>
                 Choose Theme
               </p>
               <DropDownMenu
@@ -53,7 +58,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps> {
                   "Dark",
                   "Light"
                 ]}
-                style={{ background: theme.useFluentDesign ? theme.acrylicTexture40.background : theme.chromeLow }}
+                wrapperStyle={{ margin: "8px 0" }}
                 defaultValue={theme.isDarkTheme ? "Dark" : "Light"}
                 onChangeValue={value => {
                   theme.updateTheme(getTheme({
@@ -65,7 +70,7 @@ export default class CustomTheme extends React.Component<CustomThemeProps> {
                 }}
               />
               <CheckBox
-                style={{ marginLeft: 8 }}
+                style={{ margin: "8px 0" }}
                 defaultChecked={theme.useFluentDesign}
                 label="Use New Fluent Design"
                 onCheck={useFluentDesign => {
@@ -151,15 +156,16 @@ export default class CustomTheme extends React.Component<CustomThemeProps> {
           />
           </ScrollReveal>
         </div>
+        <RevealEffect
+          effectEnable="border"
+          hoverSize={400}
+        />
       </div>
     );
   }
 }
 
-function getStyles(customTheme: CustomTheme): {
-  root?: React.CSSProperties;
-  content?: React.CSSProperties;
-} {
+function getStyles(customTheme: CustomTheme) {
   const {
     context: { theme },
     props: { style, renderContentWidth }
@@ -167,7 +173,11 @@ function getStyles(customTheme: CustomTheme): {
   const { prefixStyle } = theme;
 
   return {
-    root: prefixStyle(style),
+    root: prefixStyle({
+      position: "relative",
+      borderBottom: `1px solid ${theme.listLow}`,
+      ...style
+    }),
     content: prefixStyle({
       padding: 20,
       width: renderContentWidth,

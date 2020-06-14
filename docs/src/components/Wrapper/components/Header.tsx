@@ -15,8 +15,9 @@ export interface DataProps extends WrapperState {
   docVersion?: string;
 }
 import getCurrVersion from "utils/getCurrVersion";
+import RevealEffect from "react-uwp/RevealEffect";
 
-export interface HeaderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface HeaderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> { }
 export interface HeaderState {
   currVersion?: string;
   currVersions?: string[];
@@ -195,19 +196,18 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               </div>
             </div>
           </div>
+          <RevealEffect
+            effectEnable="both"
+            hoverSize={200}
+            effectRange="all"
+          />
         </div>
       </header>
     );
   }
 }
 
-function getStyles(header: Header): {
-  root?: React.CSSProperties;
-  content?: React.CSSProperties;
-  logo?: React.CSSProperties;
-  navContent?: React.CSSProperties;
-  links?: React.CSSProperties;
-} {
+function getStyles(header: Header) {
   const {
     context: { theme },
     props: { style, renderContentWidth, screenType, headerHeight }
@@ -230,16 +230,18 @@ function getStyles(header: Header): {
       left: 0,
       top: 0,
       zIndex: theme.zIndex.header,
+      borderBottom: `1px solid ${theme.listLow}`,
       ...style,
       ...theme.acrylicTexture20.style
     }),
     content: prefixStyle({
+      position: "relative",
       display: "flex",
       flexDirection: "row",
       justifyContent: isPhoneScreen ? "space-between" : void 0,
       width: renderContentWidth,
       height: "100%",
-      overflow: "auto",
+      overflow: "hidden",
       flexWrap: "nowrap"
     }),
     logo: prefixStyle({
