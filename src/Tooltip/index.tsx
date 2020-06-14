@@ -199,15 +199,17 @@ export class Tooltip extends React.Component<TooltipProps> {
     } = this.props;
     const { theme } = this.context;
     const tooltipStyle = this.getTooltipStyle();
-    const classes = theme.prepareStyle({
+    const classes = theme.prepareStyles({
       className: "tooltip",
-      style: tooltipStyle,
-      extendsClassName: className
+      styles: {
+        tooltip: tooltipStyle,
+        root: { position: "relative", display: "inline-block" }
+      }
     });
 
     return (
       <div
-        style={{ position: "relative", display: "inline-block" }}
+        {...classes.root}
         ref={rootElm => this.rootElm = rootElm}
         onMouseEnter={this.toggleShow}
         onClick={this.toggleShow}
@@ -216,7 +218,7 @@ export class Tooltip extends React.Component<TooltipProps> {
         <span
           ref={tooltipElm => this.tooltipElm = tooltipElm}
           {...attributes}
-          {...classes}
+          {...classes.tooltip}
         >
           {content || contentNode}
         </span>

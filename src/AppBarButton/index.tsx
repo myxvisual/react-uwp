@@ -54,29 +54,23 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
     } = this.props;
     const { theme } = this.context;
 
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
-      styles: inlineStyles,
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      styles,
       className: "app-bar-button"
     });
-
-    const rootProps = {
-      ...attributes,
-      style: styles.root.style,
-      className: theme.classNames(className, styles.root.className)
-    };
 
     return (
       <PseudoClasses
         {...attributes}
-        style={styles.root.style}
-        className={theme.classNames(className, styles.root.className)}
+        style={classes.root.style}
+        className={theme.classNames(className, classes.root.className)}
       >
         <div>
-          <Icon style={inlineStyles.icon}>
+          <Icon style={styles.icon}>
             {icon}
           </Icon>
-          {labelPosition !== "collapsed" && <p {...styles.label}>
+          {labelPosition !== "collapsed" && <p {...classes.label}>
             {label}
           </p>}
           <RevealEffect {...revealConfig} />
@@ -86,11 +80,7 @@ export class AppBarButtonButton extends React.Component<AppBarButtonButtonProps>
   }
 }
 
-function getStyles(AppBarButtonButton: AppBarButtonButton): {
-  root?: React.CSSProperties;
-  icon?: React.CSSProperties;
-  label?: React.CSSProperties;
-} {
+function getStyles(AppBarButtonButton: AppBarButtonButton) {
   const {
     context,
     props: {

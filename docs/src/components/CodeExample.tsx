@@ -69,7 +69,7 @@ export default class CodeExample extends React.Component<CodeExampleProps, CodeE
     } = this.props;
     const { theme } = this.context;
     const styles = getStyles(this);
-    const classes = theme.prepareStyles({ styles });
+    const classes = theme.prepareStyles({ styles, className: "CodeExample" });
     const { showCode } = this.state;
     const codeText = `\`\`\`jsx
 ${code}
@@ -78,18 +78,18 @@ ${code}
     return (
       <div
         {...attributes}
-        style={styles.root}
+        {...classes.root}
       >
         <div style={{ width: "100%", border: `1px solid ${theme.accent}` }}>
-          <div onClick={this.toggleShowCode} style={styles.title}>
-            <p style={{ fontSize: 15 }}>{title}</p>
+          <div onClick={this.toggleShowCode} {...classes.title}>
+            <p>{title}</p>
             <Tooltip
               style={{ width: 150 }}
               content={showCode ? "Hide Source Code" : "Show Source Code"}
               verticalPosition="bottom"
               horizontalPosition="left"
             >
-              <Icon {...classes.icon}>
+              <Icon style={styles.icon}>
                 {"\uE011"}
               </Icon>
             </Tooltip>
@@ -141,11 +141,11 @@ function getStyles(codeExample: CodeExample): {
       alignItems: "center",
       justifyContent: "space-between",
       width: "100%",
-      fontSize: 18,
+      fontSize: 14,
       color: "#fff",
       background: theme.accent,
       cursor: "pointer",
-      padding: 8,
+      padding: "4px 8px",
       lineHeight: 1,
       ...style
     }),

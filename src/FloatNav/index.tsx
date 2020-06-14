@@ -135,21 +135,21 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
       fontSize: 12
     });
 
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "float-nav",
-      styles: inlineStyles
+      styles
     });
 
     return (
       <div
         {...attributes}
-        style={styles.root.style}
-        className={theme.classNames(styles.root.className, className)}
+        {...classes.root}
+        className={theme.classNames(classes.root.className, className)}
       >
         <div
           {...attributes}
-          {...styles.wrapper}
+          {...classes.wrapper}
         >
           {React.Children.map(topNode, (child: React.ReactElement<any>, index) => (
             <div

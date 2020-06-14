@@ -45,7 +45,7 @@ export class Dots extends React.Component<DotsProps, DotsState> {
     const { focusSwipeIndex } = this.state;
     const { theme } = this.context;
 
-    const styles = theme.prepareStyles({
+    const classes = theme.prepareStyles({
       className: "flip-view-control",
       styles: {
         controlStyle,
@@ -55,8 +55,8 @@ export class Dots extends React.Component<DotsProps, DotsState> {
 
     return (
       count > 1 && showControl && (
-        <div {...styles.controlStyle}>
-          <div {...styles.controlContentStyle}>
+        <div {...classes.controlStyle}>
+          <div {...classes.controlContentStyle}>
             {Array(count).fill(0).map((numb, index) => (
               <Icon
                 style={iconStyle}

@@ -92,20 +92,20 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
     } = this.props;
     const { checked } = this.state;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "checkbox",
-      styles: inlineStyles
+      styles
     });
     const haveLabel = label !== void 0;
 
     const checkbox = (
       <PseudoClasses
-        {...styles.iconParent}
+        {...classes.iconParent}
         disabled={disabled}
       >
       <div ref={rootElm => this.rootElm = rootElm}>
-        <Icon style={inlineStyles.icon}>
+        <Icon style={styles.icon}>
           CheckMarkZeroWidthLegacy
         </Icon>
       </div>
@@ -116,13 +116,13 @@ export class CheckBox extends React.Component<CheckBoxProps, CheckBoxState> {
       <div
         {...attributes}
         onClick={this.handleClick}
-        {...styles.wrapper}
+        {...classes.wrapper}
       >
         {haveLabel ? (
-          <div {...styles.root}>
+          <div {...classes.root}>
             {checkbox}
             {label !== void 0 && (
-              <span {...styles.label}>
+              <span {...classes.label}>
                 {label}
               </span>
             )}

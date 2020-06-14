@@ -84,23 +84,23 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
   render() {
     const { date, onChooseDay, direction, chooseISODates, ...attributes } = this.props;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "calendar-view-day",
-      styles: inlineStyles
+      styles
     });
     const days = this.getDaysArray();
 
     return (
-      <div {...styles.container}>
-        <div {...styles.weeklyHead}>
+      <div {...classes.container}>
+        <div {...classes.weeklyHead}>
           {dateUtils.dayShortList.map((str, index) => (
-            <button {...styles.weeklyHeadItem} key={`${index}`}>{str}</button>
+            <button {...classes.weeklyHeadItem} key={`${index}`}>{str}</button>
           ))}
         </div>
         <SlideInOut
           {...(attributes as any)}
-          style={inlineStyles.root}
+          style={styles.root}
           mode="both"
           speed={350}
           direction={direction}
@@ -118,7 +118,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
                 onMouseEnter={(e) => this.handleMouseEnter(e, date, isCurrMonth, isNow)}
                 onMouseLeave={(e) => this.handleMouseLeave(e, date, isCurrMonth, isNow)}
                 style={{
-                  ...styles.dayItem.style,
+                  ...classes.dayItem.style,
                   position: "relative",
                   border: `${theme.borderWidth}px solid ${theme.baseLow}`,
                   color: isCurrMonth ? theme.baseHigh : theme.baseLow,
@@ -128,7 +128,7 @@ export default class DayPicker extends React.Component<DayPickerProps, {}> {
                     theme.useFluentDesign ? theme.listLow : theme.chromeLow
                   ))
                 } as React.CSSProperties}
-                className={styles.dayItem.className}
+                className={classes.dayItem.className}
                 onClick={() => onChooseDay(date)}
                 key={`${index}`}
               >

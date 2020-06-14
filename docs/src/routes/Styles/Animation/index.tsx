@@ -136,19 +136,19 @@ export default class Animation extends React.Component<AnimationProps, Animation
           </AnimateWrapper>
           <div>
             <DropDownMenu
-              style={styles.animateControls}
+              wrapperStyle={styles.animateControls}
               defaultValue={animateName}
               values={animateNames}
               onChangeValue={this.handleChooseAnimateMethod}
             />
             <DropDownMenu
-              style={styles.animateControls}
+              wrapperStyle={styles.animateControls}
               defaultValue={transitionTimingFunction}
               values={transitionTimingFunctions}
               onChangeValue={this.handleChooseTransitionTimingFunction}
             />
             <DropDownMenu
-              style={styles.animateControls}
+              wrapperStyle={styles.animateControls}
               defaultValue={mode}
               values={modeNames}
               onChangeValue={this.handleChooseMode}
@@ -196,15 +196,7 @@ export default class Animation extends React.Component<AnimationProps, Animation
   }
 }
 
-function getStyles(animation: Animation): {
-  root?: React.CSSProperties;
-  animate?: React.CSSProperties;
-  animateTitle?: React.CSSProperties;
-  animateControls?: React.CSSProperties;
-  count?: React.CSSProperties;
-  countNumb?: React.CSSProperties;
-  countControls?: React.CSSProperties;
-} {
+function getStyles(animation: Animation) {
   const {
     context: { theme },
     props: { style }
@@ -238,14 +230,14 @@ function getStyles(animation: Animation): {
       color: "#fff",
       fontWeight: "lighter",
       background: `${theme.altMediumHigh} url(${require("./images/Tactile-13-1024x683.jpeg")}) no-repeat center center / cover`
-    },
+    } as React.CSSProperties,
     animateControls: {
       margin: 4
-    },
+    } as React.CSSProperties,
     count: {
       margin: "40px 0"
-    },
-    countNumb: {
+    } as React.CSSProperties,
+    countNumb: prefixStyle({
       display: "block",
       color: "#fff",
       background: theme.accent,
@@ -256,7 +248,7 @@ function getStyles(animation: Animation): {
       lineHeight: 1,
       fontSize: 100,
       fontWeight: "lighter"
-    },
+    }),
     countControls: prefixStyle({
       display: "flex",
       flexDirection: "row",

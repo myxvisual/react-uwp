@@ -7,10 +7,25 @@ import Separator from "../Separator";
 import AppBarSeparator from "../AppBarSeparator";
 
 export interface ListItem {
+  /**
+   * set react node to item.
+   */
   itemNode?: React.ReactNode;
+  /**
+   * set to disabled.
+   */
   disabled?: boolean;
+  /**
+   * set to focused.
+   */
   focus?: boolean;
+  /**
+   * set to style to item node.
+   */
   style?: React.CSSProperties;
+  /**
+   * add onClick event callback.
+   */
   onClick?: (e?: React.MouseEvent<HTMLDivElement>) => void;
 }
 
@@ -40,7 +55,7 @@ export interface DataProps {
    */
   revealConfig?: RevealEffectProps;
   /**
-   * Set reveal-effect enbale reszie envent.
+   * Set reveal-effect enable resize event.
    */
   enableResizeObserver?: boolean;
 }
@@ -65,7 +80,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
   rootElm: HTMLDivElement;
-  inlineStyles: {
+  styles: {
     [key: string]: React.CSSProperties;
   } = null;
 
@@ -77,17 +92,17 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
 
   getItemNode = (itemNode: any, index: number, disabled?: boolean, focus?: boolean, style?: React.CSSProperties, onClick?: () => void) => {
     const { revealConfig, enableResizeObserver } = this.props;
-    const { inlineStyles } = this;
+    const { styles } = this;
     const { theme } = this.context;
     const { onChooseItem, background } = this.props;
     const { focusIndex } = this.state;
     const isFocus = focus || focusIndex === index;
     const defaultBG = isFocus ? theme.listAccentLow : "none";
 
-    const itemStyles = theme.prepareStyle({
+    const classes = theme.prepareStyle({
       className: "list-view-item",
       style: theme.prefixStyle({
-        ...inlineStyles.item,
+        ...styles.item,
         flex: "0 0 auto",
         position: "relative",
         background: defaultBG,
@@ -109,7 +124,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
     );
 
     return (
-      <PseudoClasses {...itemStyles} key={`${index}`}>
+      <PseudoClasses {...classes} key={`${index}`}>
         <div
           onClick={onClick}
           onMouseDown={disabled ? void 0 : e => {
@@ -135,12 +150,12 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "list-view",
-      styles: inlineStyles
+      styles
     });
-    this.inlineStyles = inlineStyles;
+    this.styles = styles;
 
     const listSourceAny: any = listSource;
 
@@ -148,7 +163,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
       <div
         ref={rootElm => this.rootElm = rootElm}
         {...attributes}
-        {...styles.root}
+        {...classes.root}
       >
         {listSourceAny && listSourceAny.map((listItem: any, index: number) => {
           if (React.isValidElement(listItem)) {
@@ -169,10 +184,7 @@ export class ListView extends React.Component<ListViewProps, ListViewState> {
   }
 }
 
-function getStyles(listView: ListView): {
-  root?: React.CSSProperties;
-  item?: React.CSSProperties;
-} {
+function getStyles(listView: ListView) {
   const { context, props: { listItemStyle, background, style } } = listView;
   const { theme } = context;
 

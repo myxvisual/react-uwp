@@ -50,17 +50,17 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
   render() {
     const { date, maxYear, minYear, direction, onChooseYear, ...attributes } = this.props;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "calendar-view-year",
-      styles: inlineStyles
+      styles
     });
     const years: number[] = this.getYearsArray();
 
     return (
       <SlideInOut
         {...(attributes as any)}
-        style={inlineStyles.root}
+        style={styles.root}
         mode="both"
         speed={350}
         direction={direction}
@@ -73,12 +73,12 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
               onMouseEnter={(e) => this.handleMouseEnter(e, isNow)}
               onMouseLeave={(e) => this.handleMouseLeave(e, isNow)}
               style={{
-                ...styles.yearItem.style,
+                ...classes.yearItem.style,
                 position: "relative",
                 background: isNow ? theme.accent : theme.useFluentDesign ? theme.altLow : theme.altHigh,
                 border: `${theme.borderWidth}px solid transparent`
               } as React.CSSProperties}
-              className={styles.yearItem.className}
+              className={classes.yearItem.className}
               onClick={() => onChooseYear(year)}
               key={`${index}`}
             >
@@ -92,10 +92,7 @@ export default class YearPicker extends React.Component<YearPickerProps, {}> {
   }
 }
 
-function getStyles(YearPicker: YearPicker): {
-  root?: React.CSSProperties;
-  yearItem?: React.CSSProperties;
-} {
+function getStyles(YearPicker: YearPicker) {
   const {
     context: { theme },
     props: { style }

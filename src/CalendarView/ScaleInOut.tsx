@@ -43,13 +43,13 @@ export default class ScaleInOut extends React.Component<ScaleInOutProps, ScaleIn
       mode,
       speed,
       style,
-      ...others
+      ...attributes
     } = this.props;
     const styles = getStyles(this);
 
     return (
       <ReactTransitionGroup
-        {...others as any}
+        {...attributes}
         style={styles.root}
         component="div"
       >

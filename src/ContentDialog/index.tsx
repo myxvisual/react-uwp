@@ -163,27 +163,27 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "content-dialog",
-      styles: inlineStyles
+      styles
     });
 
     return (
       <RenderToBody ref={renderToBody => this.renderToBody = renderToBody}>
         <div
           {...attributes}
-          style={styles.mask.style}
-          className={theme.classNames(styles.mask.className, className)}
+          style={classes.mask.style}
+          className={theme.classNames(classes.mask.className, className)}
         >
           <div
             ref={rootElm => this.rootElm = rootElm}
-            {...styles.container}
+            {...classes.container}
             onMouseEnter={this.containerMouseEnterHandle}
             onMouseLeave={this.containerMouseLeaveHandle}
           >
-            {statusBarTitle && <div {...styles.statusBar}>
-              <p {...styles.statusBarTitle}>
+            {statusBarTitle && <div {...classes.statusBar}>
+              <p {...classes.statusBarTitle}>
                 {statusBarTitle}
               </p>
               {showCloseButton
@@ -191,7 +191,7 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
                 <IconButton
                   onClick={closeButtonAction}
                   size={24}
-                  style={inlineStyles.iconButton}
+                  style={styles.iconButton}
                   hoverStyle={iconButtonHoverStyle}
                   activeStyle={iconButtonHoverStyle}
                 >
@@ -200,22 +200,22 @@ export class ContentDialog extends React.Component<ContentDialogProps, ContentDi
                 : null
               }
             </div>}
-            <div {...styles.titleWrapper}>
-              {title ? <h5 {...styles.title}>{title}</h5> : null}
+            <div {...classes.titleWrapper}>
+              {title ? <h5 {...classes.title}>{title}</h5> : null}
               {content && <p>{content}</p>}
             </div>
             {contentNode}
-            <div {...styles.content}>
-              {(primaryButtonText || secondaryButtonText) && <div {...styles.buttonGroup}>
+            <div {...classes.content}>
+              {(primaryButtonText || secondaryButtonText) && <div {...classes.buttonGroup}>
                 {primaryButtonText && <Button
                   onClick={e => { primaryButtonAction(e), this.closeDialog(); }}
-                  style={inlineStyles.button}
+                  style={styles.button}
                 >
                   {primaryButtonText}
                 </Button>}
                 {secondaryButtonText && <Button
                   onClick={e => { secondaryButtonAction(e), this.closeDialog(); }}
-                  style={inlineStyles.button}
+                  style={styles.button}
                 >
                   {secondaryButtonText}
                 </Button>}

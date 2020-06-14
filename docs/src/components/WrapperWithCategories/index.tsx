@@ -4,6 +4,8 @@ import * as PropTypes from "prop-types";
 import Wrapper from "../Wrapper";
 import Icon from "react-uwp/Icon";
 import DocsTreeView from "../DocsTreeView";
+import RevealEffect from "react-uwp/RevealEffect";
+
 
 export interface DataProps {
   path?: string;
@@ -45,13 +47,23 @@ export default class WrapperWithCategories extends React.Component<WrapperWithCa
     const { theme } = this.context;
     const notPhoneTablet = screenType !== "phone" && screenType !== "tablet";
     const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      styles,
+      className: "WrapperWithCategories"
+    });
 
     return (
       <Wrapper onChangeRenderContentWidth={this.handleChangeRenderContentWidth}>
-        <div style={styles.wrapper}>
+        <div {...classes.wrapper}>
           {notPhoneTablet && <DocsTreeView path={path} />}
-          <div style={styles.docContent}>
+          <div {...classes.docContent}>
             {React.cloneElement(children, { renderContentWidth, screenType })}
+            <RevealEffect
+              effectEnable="border"
+              hoverSize={400}
+              borderWidth={1}
+              effectRange="all"
+            />
           </div>
         </div>
       </Wrapper>
@@ -84,6 +96,8 @@ function getStyles(wrapperWithCategories: WrapperWithCategories) {
     }),
     docContent: prefixStyle({
       width: notPhoneTablet ? "calc(100% - 320px)" : "100%",
+      borderRight: `1px solid ${theme.listLow}`,
+      position: "relative",
       minHeight: "100%",
       ...theme.acrylicTexture60.style
     }) as React.CSSProperties

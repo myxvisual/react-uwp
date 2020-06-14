@@ -6,7 +6,6 @@ import MarkdownRender from "react-uwp/MarkdownRender";
 import * as sourceCode from "!raw!react-uwp/ListView/index.tsx";
 import sourceCode2docEntry from "utils/sourceCode2docEntry";
 import * as readmeText from "!raw!./README.md";
-import * as itemTypeText from "!raw!./ListItemType.md";
 
 import CodeExample from "components/CodeExample";
 
@@ -33,6 +32,7 @@ export default class ListView extends React.Component<any> {
       <ComponentDetail
         readmeText={readmeText as any}
         docEntry={docEntry}
+        renderOtherTypes={["ListItem"]}
       >
         <CodeExample
           title="Simple Examples"
@@ -43,7 +43,6 @@ export default class ListView extends React.Component<any> {
         >
           <SimpleExample />
         </CodeExample>
-        <MarkdownRender text={itemTypeText as any} />
       </ComponentDetail>
     );
   }

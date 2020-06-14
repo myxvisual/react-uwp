@@ -162,10 +162,10 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
       showPicker
     } = this.state;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "date-picker",
-      styles: inlineStyles
+      styles
     });
 
     const separator = <Separator direction="column" style={{ margin: 0 }} />;
@@ -185,20 +185,20 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
     return (
       <PseudoClasses
         {...attributes as any}
-        {...styles.root}
+        {...classes.root}
       >
         <div
           {...attributes}
-          style={styles.root.style}
-          className={theme.classNames(styles.root.className, className)}
+          style={classes.root.style}
+          className={theme.classNames(classes.root.className, className)}
           ref={rootElm => this.rootElm = rootElm}
         >
-          <div {...styles.pickerModal}>
-            <div {...styles.listViews}>
+          <div {...classes.pickerModal}>
+            <div {...classes.listViews}>
               <ListView
                 ref={monthListView => this.monthListView = monthListView}
-                style={inlineStyles.listView}
-                listItemStyle={inlineStyles.listItem}
+                style={styles.listView}
+                listItemStyle={styles.listItem}
                 defaultFocusListIndex={currMonth}
                 listSource={monthArray}
                 onChooseItem={month => {
@@ -207,8 +207,8 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
               />
               <ListView
                 ref={dateListView => this.dateListView = dateListView}
-                style={inlineStyles.listView}
-                listItemStyle={inlineStyles.listItem}
+                style={styles.listView}
+                listItemStyle={styles.listItem}
                 defaultFocusListIndex={this.dateIndex}
                 listSource={dateArray}
                 onChooseItem={dayIndex => {
@@ -217,8 +217,8 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
               />
               <ListView
                 ref={yearListView => this.yearListView = yearListView}
-                style={inlineStyles.listView}
-                listItemStyle={inlineStyles.listItem}
+                style={styles.listView}
+                listItemStyle={styles.listItem}
                 defaultFocusListIndex={this.yearIndex}
                 listSource={yearArray}
                 onChooseItem={yearIndex => {
@@ -226,9 +226,9 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
                 }}
               />
             </div>
-            <div {...styles.iconButtonGroup}>
+            <div {...classes.iconButtonGroup}>
               <IconButton
-                style={inlineStyles.iconButton}
+                style={styles.iconButton}
                 size={pickerItemHeight}
                 onClick={() => {
                   onChangeDate(currDate);
@@ -239,7 +239,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
                 <RevealEffect />
               </IconButton>
               <IconButton
-                style={inlineStyles.iconButton}
+                style={styles.iconButton}
                 size={pickerItemHeight}
                 onClick={() => {
                   this.setState({ currDate: this.prevDate, showPicker: false });
@@ -251,21 +251,21 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
             </div>
           </div>
           <span
-            {...styles.button}
+            {...classes.button}
             onClick={this.toggleShowPicker}
           >
             {monthList[currMonth]}
           </span>
           {separator}
           <span
-            {...styles.button}
+            {...classes.button}
             onClick={this.toggleShowPicker}
           >
             {currDateNumb}
           </span>
           {separator}
           <span
-            {...styles.button}
+            {...classes.button}
             onClick={this.toggleShowPicker}
           >
             {currYear}

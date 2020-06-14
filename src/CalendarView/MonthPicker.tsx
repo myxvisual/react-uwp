@@ -95,10 +95,7 @@ export default class MonthPicker extends React.Component<MonthPickerProps, {}> {
   }
 }
 
-function getStyles(monthPicker: MonthPicker): {
-  root?: React.CSSProperties;
-  monthItem?: React.CSSProperties;
-} {
+function getStyles(monthPicker: MonthPicker) {
   const {
     context: { theme },
     props: { style }
@@ -115,7 +112,7 @@ function getStyles(monthPicker: MonthPicker): {
       flexWrap: "wrap",
       ...style
     }),
-    monthItem: {
+    monthItem: prefixStyle({
       transition: "all .25s 0s ease-in-out",
       background: "none",
       outline: "none",
@@ -123,6 +120,6 @@ function getStyles(monthPicker: MonthPicker): {
       border: "none",
       width: fullHeight / 4,
       height: fullHeight / 4
-    }
+    })
   };
 }

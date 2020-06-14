@@ -111,20 +111,20 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "dialog",
-      styles: inlineStyles
+      styles
     });
 
     return (
       <RenderToBody
         {...attributes}
-        style={styles.root.style}
+        style={classes.root.style}
         ref={renderToBody => this.renderToBody = renderToBody}
-        className={theme.classNames(styles.root.className, className)}
+        className={theme.classNames(classes.root.className, className)}
       >
-        <div ref={rootElm => this.rootElm = rootElm} {...styles.content}>
+        <div ref={rootElm => this.rootElm = rootElm} {...classes.content}>
           {children}
         </div>
       </RenderToBody>

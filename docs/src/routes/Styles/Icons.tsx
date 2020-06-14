@@ -8,43 +8,11 @@ import Tooltip from "react-uwp/Tooltip";
 
 const iconNames = Object.keys(icons);
 
-let rootStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  margin: 8,
-  width: 80,
-  height: 80,
-  padding: "12px 4px 4px"
-};
-const iconStyle: React.CSSProperties = {
-  fontSize: 24
-};
-const descStyle: React.CSSProperties = {
-  width: "100%",
-  fontSize: 10,
-  marginTop: 8,
-  wordWrap: "break-word",
-  textAlign: "center"
-};
-const inputStyle: React.CSSProperties = {
-  position: "fixed",
-  left: 0,
-  top: 0,
-  display: "inherit",
-  overflow: "hidden",
-  border: "none",
-  outline: "none",
-  opacity: 0,
-  width: 40,
-  height: 0
-};
-
 export interface IconsState {
   currIconNames?: string[];
 }
 
-export default class Icons extends React.Component<void, IconsState> {
+export default class Icons extends React.Component<any, IconsState> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
 
@@ -89,20 +57,16 @@ export default class Icons extends React.Component<void, IconsState> {
 
   render() {
     const { context: { theme }, state: { currIconNames } } = this;
-    rootStyle = theme.prefixStyle(rootStyle);
 
-    const itemWrapperStyle = theme.prefixStyle({
-      cursor: "default",
-      width: "100%",
-      display: "flex",
-      alignItems: "flex-start",
-      justifyContent: "flex-start",
-      flexWrap: "wrap"
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      styles,
+      className: "Icons"
     });
 
     return (
       <div style={{ width: "100%", fontSize: 14 }}>
-        <input style={inputStyle} ref={inputElm => this.inputElm = inputElm} />
+        <input {...classes.input} ref={inputElm => this.inputElm = inputElm} />
         <div style={{ position: "relative", width: "100%", height: 60 }}>
           <div
             style={{
@@ -132,7 +96,7 @@ export default class Icons extends React.Component<void, IconsState> {
         <p style={{ lineHeight: 1.8, padding: 10 }}>
           Represents an icon that uses a glyph from the Segoe MDL2 Assets font as its content. ({currIconNames.length} icon)
         </p>
-        <div style={itemWrapperStyle}>
+        <div {...classes.itemWrapper}>
           {currIconNames.map((iconName, index) => (
             <Tooltip
               background={theme.listLow}
@@ -148,13 +112,13 @@ export default class Icons extends React.Component<void, IconsState> {
               key={`${index}`}
             >
               <div
-                style={rootStyle}
+                {...classes.root}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
                 key={`${index}`}
               >
-                <Icon style={iconStyle}>{iconName}</Icon>
-                <p style={descStyle}>{iconName}</p>
+                <Icon style={styles.icon}>{iconName}</Icon>
+                <p {...classes.desc}>{iconName}</p>
               </div>
             </Tooltip>
           ))}
@@ -162,4 +126,55 @@ export default class Icons extends React.Component<void, IconsState> {
       </div>
     );
   }
+}
+
+function getStyles(Icons: Icons) {
+  const {
+    context: { theme },
+    props: { style }
+  } = Icons;
+  const { prefixStyle } = theme;
+
+  return {
+    root: prefixStyle({
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      margin: 8,
+      width: 80,
+      height: 80,
+      padding: "12px 4px 4px",
+      ...style
+    }),
+    icon: prefixStyle({
+      fontSize: 24
+    }),
+    desc: prefixStyle({
+      width: "100%",
+      fontSize: 10,
+      marginTop: 8,
+      wordWrap: "break-word",
+      textAlign: "center"
+    }),
+    input: prefixStyle({
+      position: "fixed",
+      left: 0,
+      top: 0,
+      display: "inherit",
+      overflow: "hidden",
+      border: "none",
+      outline: "none",
+      opacity: 0,
+      width: 40,
+      height: 0
+    }),
+    itemWrapper: prefixStyle({
+      cursor: "default",
+      width: "100%",
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "flex-start",
+      flexWrap: "wrap"
+    })
+  };
 }

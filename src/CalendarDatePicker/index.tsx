@@ -120,9 +120,9 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
       showCalendarView
     } = this.state;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
-      styles: inlineStyles,
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
+      styles,
       className: "calendar-picker"
     });
 
@@ -134,24 +134,24 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
 
     return (
       <div
-        {...styles.root}
+        {...classes.root}
         onClick={this.toggleShowCalendarView}
         ref={rootElm => this.rootElm = rootElm}
       >
         <TextBox
           {...attributes}
           ref={textBox => this.textBox = textBox}
-          style={inlineStyles.input}
+          style={styles.input}
           placeholder={isInit ? placeholder : mmddyy }
           disabled
           rightNode={
-            <Icon style={inlineStyles.icon}>
+            <Icon style={styles.icon}>
               Calendar
             </Icon>
           }
         />
         <CalendarView
-          style={inlineStyles.calendarView}
+          style={styles.calendarView}
           defaultDate={defaultDate}
           onChangeDate={this.handleChangeDate}
         />
@@ -160,12 +160,7 @@ export class CalendarDatePicker extends React.Component<CalendarDatePickerProps,
   }
 }
 
-function getStyles(calendarDatePicker: CalendarDatePicker): {
-  root?: React.CSSProperties;
-  input?: React.CSSProperties;
-  icon?: React.CSSProperties;
-  calendarView?: React.CSSProperties;
-} {
+function getStyles(calendarDatePicker: CalendarDatePicker) {
   const {
     context,
     props: {
@@ -196,7 +191,7 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
       cursor: "pointer",
       color: theme.baseHigh
     },
-    calendarView: {
+    calendarView: theme.prefixStyle({
       position: "absolute",
       top: height,
       left: 0,
@@ -209,7 +204,7 @@ function getStyles(calendarDatePicker: CalendarDatePicker): {
       opacity: showCalendarView ? 1 : 0,
       pointerEvents: showCalendarView ? "all" : "none",
       transition: "all .25s ease"
-    }
+    })
   };
 }
 

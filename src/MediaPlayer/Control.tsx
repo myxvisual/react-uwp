@@ -114,10 +114,10 @@ export default class Control extends React.Component<ControlProps, ControlState>
     duration = duration || 0;
     const playedValue = played * duration;
     const isDefaultMode = displayMode === "default";
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "media-player-control",
-      styles: inlineStyles
+      styles
     });
 
     const playButton = <IconButton onClick={playOrPauseAction}>{playing ? "Pause" : "Play"}</IconButton>;
@@ -253,15 +253,14 @@ export default class Control extends React.Component<ControlProps, ControlState>
     return isDefaultMode ? (
       <div
         {...attributes}
-        className={theme.classNames(styles.root.className, className)}
-        style={styles.root.style}
+        className={theme.classNames(classes.root.className, className)}
       >
-        <div {...styles.sliderContainer}>
+        <div {...classes.sliderContainer}>
           {playSlider}
           <span style={{ marginLeft: 16 }}>{this.second2HHMMSS(playedValue)}</span>
           <span style={{ float: "right", marginRight: 16 }}>{this.second2HHMMSS(duration)}</span>
         </div>
-        <div {...styles.controlsGroup}>
+        <div {...classes.controlsGroup}>
           <div>
             {volumeButton}
             {subtitleButton}
@@ -284,7 +283,7 @@ export default class Control extends React.Component<ControlProps, ControlState>
         </div>
       </div>
     ) : (
-      <div {...styles.controlsGroup}>
+      <div {...classes.controlsGroup}>
         {playButton}
         {playSlider}
         {volumeButton}

@@ -210,10 +210,10 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
       ...attributes
     } = this.props;
     const { theme } = this.context;
-    const inlineStyles = getStyles(this);
-    const styles = theme.prepareStyles({
+    const styles = getStyles(this);
+    const classes = theme.prepareStyles({
       className: "calendar-view",
-      styles: inlineStyles
+      styles
     });
     const { viewDate, direction, chooseISODates, currPickerMode } = this.state;
     const title = this.getTitle();
@@ -221,10 +221,9 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
     return (
       <div
         {...attributes}
-        style={styles.root.style}
-        className={theme.classNames(styles.root.className, className)}
+        {...classes.root}
       >
-        <div {...styles.title}>
+        <div {...classes.title}>
           <FadeInOut
             appearAnimate={false}
             speed={250}
@@ -252,14 +251,14 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
           </FadeInOut>
           <div style={theme.prefixStyle({ display: "flex", flexDirection: "row" })}>
             <Icon
-              {...styles.titleIcon}
+              {...classes.titleIcon}
               onClick={this.prevAction}
               hoverStyle={{ color: theme.baseMedium }}
             >
               ChevronUp
             </Icon>
             <Icon
-              {...styles.titleIcon}
+              {...classes.titleIcon}
               onClick={this.nextAction}
               hoverStyle={{ color: theme.baseMedium }}
             >
@@ -269,7 +268,7 @@ export class CalendarView extends React.Component<CalendarViewProps, CalendarVie
         </div>
         <ScaleInOut
           appearAnimate={false}
-          {...styles.body}
+          {...classes.body}
           mode="both"
           minScale={0.4}
           speed={250}
