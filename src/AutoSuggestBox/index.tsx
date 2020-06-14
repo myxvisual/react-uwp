@@ -228,7 +228,6 @@ export class AutoSuggestBox extends React.Component<AutoSuggestBoxProps, AutoSug
       <TextBox
         {...attributes}
         style={inlineStyles.root}
-        className={theme.classNames(className, styles.root.className)}
         ref={textBox => this.textBox = textBox}
         onClick={this.showListSource}
         onKeyDown={this.handleInputKeyDown}
