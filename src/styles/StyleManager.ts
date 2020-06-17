@@ -295,29 +295,56 @@ export class StyleManager {
     return newStyles;
   }
 
+  insertRuleToStyleEl = (styleEl: HTMLStyleElement, rule: string, index: number) => {
+    const sheet = styleEl.sheet as CSSStyleSheet;
+
+    if ("insertRule" in sheet) {
+      sheet.insertRule(rule, index);
+    } else if ("appendRule" in sheet) {
+      (sheet as any)["appendRule"](rule);
+    } else {
+      styleEl.textContent += rule;
+    }
+  }
+
   insertRule2el(styleEl: HTMLStyleElement, rule: string, index?: number) {
-    if (rule && styleEl && !this.allRules.get(rule).isInserted) {
-      const sheet = styleEl.sheet as CSSStyleSheet;
-      const rules = sheet.rules || sheet.cssRules;
-      const rulesSize = rules.length;
-      const ruleIndex = index === void 0 ? rulesSize : index;
+    this.queueMethods.push({
+      method: () => {
+        if (rule && styleEl && !this.allRules.get(rule).isInserted) {
+          const sheet = styleEl.sheet as CSSStyleSheet;
+          const rules = sheet.rules || sheet.cssRules;
+          const rulesSize = rules.length;
+          const ruleIndex = index === void 0 ? rulesSize : index;
 
-      if (!sheet) return;
-      try {
-        if ("insertRule" in sheet) {
-          sheet.insertRule(rule, ruleIndex);
-        } else if ("appendRule" in sheet) {
-          (sheet as any)["appendRule"](rule);
-        } else {
-          styleEl.textContent += rule;
+          if (!sheet) return;
+          try {
+            this.insertRuleToStyleEl(styleEl, rule, ruleIndex);
+
+            const id = this.ruleIndList.length;
+            this.allRules.set(rule, {
+              isInserted: true,
+              ruleIndex: id
+            });
+            this.ruleIndList.push(id);
+          } catch (error) {}
         }
+      },
+      name: "insetRule2el"
+    });
+    this.runQueueMethods();
+  }
 
-        this.ruleIndList.push(ruleIndex);
-        this.allRules.set(rule, {
-          isInserted: true,
-          ruleIndex
-        });
-      } catch (error) {}
+  queueMethods: { method: Function; name: string; }[] = [];
+  runningQueueMethods = false;
+
+  runQueueMethods() {
+    const methodSize = this.queueMethods.length;
+    if (methodSize > 0 && this.runningQueueMethods === false) {
+      this.runningQueueMethods = true;
+      const queueMethod = this.queueMethods.shift();
+      queueMethod.method();
+      this.runningQueueMethods = false;
+      if (methodSize > 0) this.runQueueMethods();
     }
   }
 
@@ -330,19 +357,27 @@ export class StyleManager {
   }
 
   deleteRule2el(styleEl: HTMLStyleElement, rule: string) {
-    const sheetItem = this.allRules.get(rule);
-    if (rule && styleEl && sheetItem) {
-      const sheet = styleEl.sheet as CSSStyleSheet;
-      const { isInserted, ruleIndex } = sheetItem;
-      if (isInserted && sheet) {
-        const index = this.ruleIndList.indexOf(ruleIndex);
-        if (sheet.rules[index]) {
-          sheet.deleteRule(index);
+    this.queueMethods.push({
+      method: () => {
+        if (!rule) return;
+        const sheetItem = this.allRules.get(rule);
+        this.allRules.delete(rule);
+
+        if (styleEl && sheetItem) {
+          const sheet = styleEl.sheet as CSSStyleSheet;
+          const { isInserted, ruleIndex } = sheetItem;
+          if (isInserted && sheet) {
+            const sheetInd = this.ruleIndList.filter(t => t !== null).indexOf(ruleIndex);
+            if (sheet.rules[sheetInd]) {
+              sheet.deleteRule(sheetInd + 0);
+              this.ruleIndList.splice(sheetInd, 1, null);
+            }
+          }
         }
-        this.ruleIndList.splice(index, 1);
-      }
-      this.allRules.delete(rule);
-    }
+      },
+      name: "deleteRule2el"
+    });
+    this.runQueueMethods();
   }
 
   deleteAllRule2el(styleEl: HTMLStyleElement) {
