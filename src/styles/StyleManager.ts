@@ -336,15 +336,12 @@ export class StyleManager {
       const { isInserted, ruleIndex } = sheetItem;
       if (isInserted && sheet) {
         const index = this.ruleIndList.indexOf(ruleIndex);
-        if (sheet[index]) {
+        if (sheet.rules[index]) {
           sheet.deleteRule(index);
         }
         this.ruleIndList.splice(index, 1);
       }
-      this.allRules.set(rule, {
-        isInserted: false,
-        ruleIndex
-      });
+      this.allRules.delete(rule);
     }
   }
 
