@@ -26,7 +26,7 @@ export function darken(color: string, coefficient: number) {
 
 export function lighten(color: string, coefficient: number) {
   const hsl = tinyColor(color).toHsl();
-  hsl.l = hsl.l + (100 - hsl.l) * coefficient;
+  hsl.l = hsl.l + (1 - hsl.l) * coefficient;
   return tinyColor(hsl).toRgbString();
 }
 
@@ -55,6 +55,8 @@ export interface ScrollRevealType {
 export interface ThemeConfig {
   themeName?: "dark" | "light";
   accent?: string;
+  baseHigh?: string;
+  altHigh?: string;
   useFluentDesign?: boolean;
   desktopBackgroundImage?: string;
   acrylicConfig?: {
@@ -149,16 +151,21 @@ export class Theme {
   chromeHigh?: string;
 
   chromeAltLow?: string;
+  chromeAltMediumLow?: string;
+  chromeAltMedium?: string;
+  chromeAltHigh?: string;
 
-  chromeDisabledLow?: string;
-  chromeDisabledHigh?: string;
-
+  chromeBlack?: string;
   chromeBlackLow?: string;
   chromeBlackMediumLow?: string;
   chromeBlackMedium?: string;
   chromeBlackHigh?: string;
 
   chromeWhite?: string;
+  chromeWhiteLow?: string;
+  chromeWhiteMediumLow?: string;
+  chromeWhiteMedium?: string;
+  chromeWhiteHigh?: string;
 
   typographyStyles?: {
     header?: React.CSSProperties;
@@ -314,6 +321,8 @@ export class Theme {
     let {
       themeName,
       accent,
+      baseHigh,
+      altHigh,
       useFluentDesign,
       useInlineStyle,
       desktopBackgroundImage,
@@ -335,8 +344,11 @@ export class Theme {
     this.themeHash = createHash(JSON.stringify(themeConfig));
     this.themeClassName = `react-uwp-${this.themeHash}`;
     const isDarkTheme = themeName === "dark";
-    const baseHigh = isDarkTheme ? "#fff" : "#000";
-    const altHigh = isDarkTheme ? "#000" : "#fff";
+
+    const blackColor = "#000";
+    const whiteColor = "#fff";
+    if (!baseHigh) baseHigh = isDarkTheme ? whiteColor : blackColor;
+    if (!altHigh) altHigh = isDarkTheme ? blackColor : whiteColor;
     const baseHighColor = tinyColor(baseHigh);
     const altHighColor = tinyColor(altHigh);
     const accentColor = tinyColor(accent);
@@ -401,20 +413,28 @@ export class Theme {
       listAccentMedium: accentColor.setAlpha(0.8).toRgbString(),
       listAccentHigh: accentColor.setAlpha(0.9).toRgbString(),
 
-      chromeLow: isDarkTheme ? "#171717" : "#f2f2f2",
-      chromeMediumLow: isDarkTheme ? "#1f1f1f" : "#ececec",
-      chromeMedium: isDarkTheme ? "#2b2b2b" : "#e6e6e6",
-      chromeHigh: isDarkTheme ? "#767676" : "#ccc",
+      chromeLow: isDarkTheme ? lighten(altHigh, .05) : darken(altHigh, .05),
+      chromeMediumLow: isDarkTheme ? lighten(altHigh, .075) : darken(altHigh, .075),
+      chromeMedium: isDarkTheme ? lighten(altHigh, .1) : darken(altHigh, .1),
+      chromeHigh: isDarkTheme ? lighten(altHigh, .2) : darken(altHigh, .2),
 
-      chromeAltLow: isDarkTheme ? "#f2f2f2" : "#171717",
-      chromeDisabledLow: isDarkTheme ? "#858585" : "#7a7a7a",
-      chromeDisabledHigh: isDarkTheme ? "#333" : "#ccc",
+      chromeAltLow: isDarkTheme ? darken(baseHigh, .05) : lighten(baseHigh, .05),
+      chromeAltMediumLow: isDarkTheme ? darken(baseHigh, .075) : lighten(baseHigh, .075),
+      chromeAltMedium: isDarkTheme ? darken(baseHigh, .1) : lighten(baseHigh, .1),
+      chromeAltHigh: isDarkTheme ? darken(baseHigh, .2) : lighten(baseHigh, .2),
 
-      chromeBlackLow: tinyColor("#000").setAlpha(0.2).toRgbString(),
-      chromeBlackMediumLow: tinyColor("#000").setAlpha(0.4).toRgbString(),
-      chromeBlackMedium: tinyColor("#000").setAlpha(0.8).toRgbString(),
-      chromeBlackHigh: "#000",
-      chromeWhite: "#fff",
+      chromeBlack: blackColor,
+      chromeBlackLow: tinyColor(blackColor).setAlpha(0.2).toRgbString(),
+      chromeBlackMediumLow: tinyColor(blackColor).setAlpha(0.4).toRgbString(),
+      chromeBlackMedium: tinyColor(blackColor).setAlpha(0.8).toRgbString(),
+      chromeBlackHigh: blackColor,
+
+      // Added.
+      chromeWhite: whiteColor,
+      chromeWhiteLow: tinyColor(whiteColor).setAlpha(0.2).toRgbString(),
+      chromeWhiteMediumLow: tinyColor(whiteColor).setAlpha(0.4).toRgbString(),
+      chromeWhiteMedium: tinyColor(whiteColor).setAlpha(0.8).toRgbString(),
+      chromeWhiteHigh: blackColor,
 
       isDarkTheme: isDarkTheme,
 
