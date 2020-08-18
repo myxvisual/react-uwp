@@ -172,8 +172,10 @@ export class NavigationView extends React.Component<NavigationViewProps, Navigat
   }
 
   toggleExpanded = (expanded?: boolean) => {
-    if (typeof expanded === "boolean" && expanded !== this.state.expanded) {
-      this.setState({ expanded });
+    if (typeof expanded === "boolean") {
+      if (expanded !== this.state.expanded) {
+        this.setState({ expanded });
+      }
     } else {
       this.setState((prevState, prevProps) => ({  expanded: !prevState.expanded }));
     }
