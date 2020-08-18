@@ -94,6 +94,7 @@ module.exports = {
       manifest: require(`./${outputPath}/${publicPath}/vendor-manifest${__DEV__ ? '.dev' : '.prod'}.json`)
     })
   ].concat(__DEV__ ? [
+    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ] : [

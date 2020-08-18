@@ -10,8 +10,7 @@ const excludeVendor = []
 const includeVendor = [
   'react',
   'react-dom',
-  'react-router',
-  'typescript'
+  'react-router'
 ]
 const packageDependNames = Object.keys(JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8')).dependencies)
 const vendor = __DEV__ ? (

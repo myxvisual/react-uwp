@@ -79,7 +79,8 @@
     "tslint": "^5.2.0",
     "tslint-eslint-rules": "^4.1.1",
     "tslint-no-circular-imports": "^0.1.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "dependencies": {
     "@juggle/resize-observer": "^2.5.0",
