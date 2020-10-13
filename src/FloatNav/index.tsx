@@ -198,6 +198,9 @@ export class FloatNav extends React.Component<FloatNavProps, FloatNavState> {
                 onClick={e => { onFocusItem(index); if (onClick) onClick(e); }}
                 style={theme.prefixStyle({
                   ...linkStyleClasses.style,
+                  margin: 0,
+                  border: "none",
+                  outline: "none",
                   flexDirection: isFloatRight ? "row" : "row-reverse",
                   justifyContent: isHovered ? "space-between" : "center",
                   color: hoverIndexArray[index] ? "#fff" : theme.baseHigh,
@@ -254,7 +257,7 @@ function getStyles(floatNav: FloatNav) {
   const { prefixStyle } = theme;
   return {
     root: prefixStyle({
-      width: 48,
+      width: initWidth,
       background: theme.altHigh,
       ...style
     }) as React.CSSProperties,
@@ -263,7 +266,8 @@ function getStyles(floatNav: FloatNav) {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      alignItems: isFloatRight ? "flex-end" : "flex-start"
+      alignItems: isFloatRight ? "flex-end" : "flex-start",
+      ...style
     }),
     button: {
       background: theme.accent,

@@ -208,7 +208,7 @@ function getStyles(dropDownMenu: DropDownMenu) {
   } = dropDownMenu;
   const { prefixStyle } = theme;
   const newWrapperStyle = Object.assign({}, defaultStyle, style);
-  const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : 1);
+  const zIndex = (style && style.zIndex) ? style.zIndex : (showList ? theme.zIndex.dropDownMenu : void 0);
   const defaultItemHoverStyle: React.CSSProperties = {
     background: theme.baseLow
   };

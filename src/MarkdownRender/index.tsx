@@ -1,11 +1,17 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import * as Prism from "prismjs";
-import "prismjs/components/prism-jsx.min.js";
-import * as marked from "marked";
 import prismOkaidiaCSS from "./prismOkaidiaCSS";
 import prismCoyCSS from "./prismCoyCSS";
+import * as MarkdownIt from "markdown-it";
+
+export function getMd() {
+  return new MarkdownIt({
+    html: true,
+    linkify: true,
+    breaks: true
+  });
+}
 
 export interface DataProps {
   /**
@@ -16,6 +22,7 @@ export interface DataProps {
    * Use Custom Markdown CSSText.
    */
   CSSText?: string;
+  md?: MarkdownIt;
 }
 
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
@@ -23,40 +30,6 @@ export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTM
 export class MarkdownRender extends React.Component<MarkdownRenderProps> {
   static contextTypes = { theme: PropTypes.object };
   context: { theme: ReactUWP.ThemeType };
-
-  componentWillMount() {
-    marked.setOptions({
-      gfm: true,
-      tables: true,
-      breaks: false,
-      pedantic: false,
-      sanitize: false,
-      smartLists: true,
-      smartypants: false,
-      highlight(code, lang) {
-        try {
-          switch (lang) {
-            case "jsx": {
-              require("prismjs/components/prism-jsx.min.js");
-              break;
-            }
-            case "bash": {
-              require("prismjs/components/prism-bash.min.js");
-              break;
-            }
-            case "css": {
-              require("prismjs/components/prism-css.min.js");
-              break;
-            }
-            default: {
-              break;
-            }
-          }
-          return Prism.highlight(code, Prism.languages[lang], lang);
-        } catch (err) {}
-      }
-    });
-  }
 
   componentDidMount() {
     this.updateThemeStyle();
@@ -66,23 +39,39 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
     this.updateThemeStyle();
   }
 
+  getMd = () => {
+    const { md } = this.props;
+    if (md) {
+      return md;
+    } else {
+      return getMd();
+    }
+  }
+
   updateThemeStyle = () => {
     const { CSSText: newCSSText } = this.props;
     const { theme } = this.context;
-    const CSSText = getCSSText(theme, `react-uwp-markdown-${theme.themeName}`) + `\n${theme.isDarkTheme ? prismOkaidiaCSS : prismCoyCSS}` + newCSSText || "";
+    const CSSText = getMarkdownCSSText(theme, this.getClassName()) + `\n${theme.isDarkTheme ? prismOkaidiaCSS : prismCoyCSS}` + newCSSText || "";
     theme.styleManager.addCSSText(CSSText);
+  }
+
+  getClassName = () => {
+    const { theme } = this.context;
+    return `react-uwp-markdown-${theme.themeName}`;
   }
 
   render() {
     const { text, className, ...attributes } = this.props;
     const { theme } = this.context;
 
+    const md = this.getMd();
+    const html = md.render(text);
     return (
       <div>
         <div
           {...attributes}
-          className={`react-uwp-markdown-${theme.themeName} ${className || ""}`}
-          dangerouslySetInnerHTML={{ __html: marked(text) }}
+          className={`${this.getClassName()} ${className || ""}`}
+          dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>
     );
@@ -91,18 +80,17 @@ export class MarkdownRender extends React.Component<MarkdownRenderProps> {
 
 export default MarkdownRender;
 
-function getCSSText(theme: ReactUWP.ThemeType, className: string) {
+export function getMarkdownCSSText(theme: ReactUWP.ThemeType, className: string, fontSize = 14) {
 return (
 `.${className} {
-  /** background: ${theme.chromeMedium}; **/
   color: ${theme.baseMediumHigh};
   font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
+  font-size: ${fontSize}px;
 }
 
 .${className} img {
-  display: block;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 8px auto;
 }
 
 .${className} div {
@@ -123,19 +111,17 @@ return (
 }
 
 .${className} p {
+  margin: 12px 0;
   line-height: 1.6;
-  font-size: 14px;
 }
 
 .${className} strong {
   color: ${theme.baseHigh};
-  font-size: 16px;
 }
 
 .${className} a {
   font-size: inherit;
   color: ${theme.accent};
-  font-weight: lighter;
   text-decoration: none;
   transition: all .25s;
 }
@@ -185,7 +171,6 @@ return (
 }
 
 .${className} li {
-  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -196,7 +181,6 @@ return (
 }
 
 .${className} .language-math {
-  font-size: 24px;
   color: ${theme.baseHigh};
 }
 
@@ -214,7 +198,6 @@ return (
   border-radius: 0;
   padding: 12px;
   margin: 10px 0;
-  font-size: 14px;
   width: 100%;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -222,6 +205,7 @@ return (
 
 .${className} code {
   font-family: ${theme.fonts.sansSerifFonts.split(", ").map((font: string) => `"${font}"`).join(", ")};
+  background: ${theme.listLow};
   font-size: inherit;
   color: ${theme.accent};
   padding: 0px 4px;
@@ -229,7 +213,7 @@ return (
 }
 
 .${className} p > code, .${className} h1 > code, .${className} h2 > code, .${className} h3 > code, .${className} h4 > code, .${className} h5 > code, .${className} h6 > code {
-  background: ${theme.useFluentDesign ? theme.altMediumLow : theme.altMedium};
+  background: ${theme.listLow};
 }
 
 code[class*="language-"], pre[class*="language-"] {
