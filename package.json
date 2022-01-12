@@ -88,7 +88,7 @@
     "d3-ease": "^1.0.6",
     "inline-style-prefixer": "^3.0.5",
     "keycode": "^2.1.8",
-    "markdown-it": "^11.0.0",
+    "markdown-it": "^12.3.2",
     "mobile-detect": "^1.4.4",
     "murmurhash-js": "^1.0.0",
     "prismjs": "^1.17.1",
