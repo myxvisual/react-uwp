@@ -2,7 +2,7 @@ import * as React from "react";
 import { TransitionGroup as ReactTransitionGroup } from "react-transition-group";
 import * as PropTypes from "prop-types";
 
-import CustomAnimateChild from "./CustomAnimateChild";
+import CustomAnimateChild from "./Animate.CustomAnimateChild";
 
 export interface DataProps {
   /**

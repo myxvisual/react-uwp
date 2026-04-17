@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./CustomAnimate";
+import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./Animate.CustomAnimate";
 
 export interface DataProps extends CustomAnimateProps {
   minScale?: number;

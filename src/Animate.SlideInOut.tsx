@@ -1,13 +1,13 @@
 import * as React from "react";
 
-import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./CustomAnimate";
+import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./Animate.CustomAnimate";
 
 export interface DataProps extends CustomAnimateProps {
   position?: string;
   direction?: "top" | "bottom" | "left" | "right";
 }
 
-export class ScaleInOut extends React.Component<DataProps> {
+export class SlideInOut extends React.Component<DataProps> {
   static defaultProps: DataProps = {
     position: "100%",
     direction: "bottom"
@@ -30,4 +30,4 @@ export class ScaleInOut extends React.Component<DataProps> {
   }
 }
 
-export default ScaleInOut;
+export default SlideInOut;
