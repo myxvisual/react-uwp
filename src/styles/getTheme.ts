@@ -196,18 +196,10 @@ export class Theme {
   };
 
   prefixStyle: <T>(style?: CustomCSSProperties & T) => React.CSSProperties;
-  prepareStyle: (config?: {
-    style?: CustomCSSProperties;
-    className?: string;
-    extendsClassName?: string;
-  }, callback?: (theme?: Theme) => StyleClasses) => StyleClasses ;
-  prepareStyles: <T>(
-    config?: {
-      styles: T;
-      className?: string;
-    },
-    callback?: (theme?: Theme) => { [P in keyof T]: StyleClasses }
-  ) => { [P in keyof T]: StyleClasses };
+  prepareStyle: (style?: any, className?: string) => string;
+  prepareStyles: <T extends Record<string, any>>(
+    config: { styles: T; className?: string }
+  ) => { [P in keyof T]: string };
   classNames?: (...classNames: string[]) => string;
 
   isDarkTheme?: boolean;
@@ -515,37 +507,19 @@ export class Theme {
     const prefixStyle = prefixAll();
     Object.assign(this, {
       prefixStyle,
-      prepareStyle: config => {
-        if (!this.styleManager) return;
-
-        const { extendsClassName, ...managerConfig } = config;
-        if (this.useInlineStyle) {
-          if (extendsClassName) {
-            managerConfig.className += ` ${extendsClassName}`;
-          }
-          return managerConfig;
-        } else {
-          const styleClasses = this.styleManager.setStyleToManager(managerConfig);
-          if (extendsClassName) {
-            styleClasses.className += ` ${extendsClassName}`;
-          }
-          return styleClasses;
-        }
+      prepareStyle: (style, className) => {
+        if (!this.styleManager) return "";
+        return this.styleManager.addStyle(style, {
+          prefixName: this.styleManager.prefixSelector,
+          selector: className ? `.${className}` : undefined
+        });
       },
       prepareStyles: (config) => {
-        if (!this.styleManager) return;
-
-        if (this.useInlineStyle) {
-          const { styles } = config;
-          const result: any = {};
-          for (let key in styles) {
-            result[key] = { style: styles[key] };
-          }
-          return result;
-        } else {
-          const styleClasses = this.styleManager.setStylesToManager(config as any);
-          return styleClasses;
-        }
+        if (!this.styleManager) return {};
+        return this.styleManager.addStyles(config.styles, {
+          prefixName: this.styleManager.prefixSelector,
+          selector: config.className ? `.${config.className}` : undefined
+        });
       },
 
       classNames: (...classNames) => {
