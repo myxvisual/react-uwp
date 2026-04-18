@@ -1,5 +1,4 @@
-import { useTheme } from './hooks/useTheme';
-import * as React from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 import { TransitionGroup as ReactTransitionGroup } from "react-transition-group";
 
 import CustomAnimateChild from "./Animate.CustomAnimateChild";
@@ -66,83 +65,78 @@ function FirstChild(props: any) {
   const childrenArray = React.Children.toArray(props.children);
   return childrenArray[0] || null;
 }
-export class CustomAnimate extends React.Component<CustomAnimateProps> {
-  static defaultProps: CustomAnimateProps = {
-    leaveStyle: { opacity: 0 },
-    enterStyle: { opacity: 1 },
-    appearAnimate: true,
-    enterDelay: 0,
-    leaveDelay: 0,
-    mode: "in-out",
-    speed: 500,
-    component: "span",
-    useWrapper: true
-  };
-
-  customAnimateChildArray: CustomAnimateChild[] = [];
-
-  setLeaveStyle = () => {
-    for (const customAnimateChild of this.customAnimateChildArray) {
-      customAnimateChild.setLeaveStyle();
-    }
-  }
-
-  setEnterStyle = () => {
-    for (const customAnimateChild of this.customAnimateChildArray) {
-      customAnimateChild.setEnterStyle();
-    }
-  }
-
-  render() {
-    const {
-      appearAnimate,
-      children,
-      enterDelay,
-      leaveDelay,
-      mode,
-      speed,
-      style,
-      leaveStyle,
-      enterStyle,
-      transitionTimingFunction,
-      wrapperStyle,
-      component,
-      useWrapper,
-      ...others
-    } = this.props;
-
-    return (
-      <ReactTransitionGroup
-        {...others as any}
-        style={{
-          ...baseStyle,
-          ...(useWrapper ? wrapperStyle : leaveStyle)
-        }}
-        component={useWrapper ? component : FirstChild}
-      >
-        {React.Children.map(children, (child: any, index) => (
-          <CustomAnimateChild
-            ref={customAnimateChild => this.customAnimateChildArray[index] = customAnimateChild}
-            key={child.key}
-            enterDelay={enterDelay}
-            leaveDelay={leaveDelay}
-            mode={mode}
-            style={style}
-            speed={speed}
-            appearAnimate={appearAnimate}
-            leaveStyle={style ? { ...style, ...leaveStyle } : leaveStyle}
-            enterStyle={style ? { ...style, ...enterStyle } : enterStyle}
-            transitionTimingFunction={transitionTimingFunction}
-          >
-            {useWrapper ? <span style={{ ...baseStyle, width: "100%" }}>
-              {child}
-            </span> : child}
-          </CustomAnimateChild>
-        ))}
-      </ReactTransitionGroup>
-    );
-  }
+export interface CustomAnimateHandle {
+  setLeaveStyle: () => void;
+  setEnterStyle: () => void;
 }
+
+const CustomAnimate = forwardRef<CustomAnimateHandle, CustomAnimateProps>((props, ref) => {
+  const {
+    leaveStyle = { opacity: 0 },
+    enterStyle = { opacity: 1 },
+    appearAnimate = true,
+    enterDelay = 0,
+    leaveDelay = 0,
+    mode = "in-out",
+    speed = 500,
+    component = "span",
+    useWrapper = true,
+    children,
+    style,
+    transitionTimingFunction,
+    wrapperStyle,
+    ...others
+  } = props;
+
+  const customAnimateChildArray = useRef<CustomAnimateChild[]>([]);
+
+  // 暴露实例方法
+  useImperativeHandle(ref, () => ({
+    setLeaveStyle: () => {
+      customAnimateChildArray.current.forEach(child => child.setLeaveStyle());
+    },
+    setEnterStyle: () => {
+      customAnimateChildArray.current.forEach(child => child.setEnterStyle());
+    }
+  }));
+
+  return (
+    <ReactTransitionGroup
+      {...others as any}
+      style={{
+        ...baseStyle,
+        ...(useWrapper ? wrapperStyle : leaveStyle)
+      }}
+      component={useWrapper ? component : FirstChild}
+    >
+      {React.Children.map(children, (child: any, index) => (
+        <CustomAnimateChild
+          ref={customAnimateChild => {
+            if (customAnimateChild) {
+              customAnimateChildArray.current[index] = customAnimateChild;
+            }
+          }}
+          key={child.key}
+          enterDelay={enterDelay}
+          leaveDelay={leaveDelay}
+          mode={mode}
+          style={style}
+          speed={speed}
+          appearAnimate={appearAnimate}
+          leaveStyle={style ? { ...style, ...leaveStyle } : leaveStyle}
+          enterStyle={style ? { ...style, ...enterStyle } : enterStyle}
+          transitionTimingFunction={transitionTimingFunction}
+        >
+          {useWrapper ? <span style={{ ...baseStyle, width: "100%" }}>
+            {child}
+          </span> : child}
+        </CustomAnimateChild>
+      ))}
+    </ReactTransitionGroup>
+  );
+});
+
+CustomAnimate.displayName = 'CustomAnimate';
 
 const slideBottomInProps: CustomAnimateProps = {
   leaveStyle: {
