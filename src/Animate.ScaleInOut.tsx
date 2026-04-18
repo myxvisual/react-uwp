@@ -8,15 +8,12 @@ export interface DataProps extends CustomAnimateProps {
   maxScale?: number;
 }
 
-export class ScaleInOut extends React.Component<DataProps> {
-  static defaultProps: DataProps = {
-    leaveStyle: { transform: "scale(0)" },
-    enterStyle: { transform: "scale(1)" }
-  };
-
-  render() {
-    return <CustomAnimate {...this.props} />;
-  }
+const ScaleInOut: React.FC<DataProps> = ({
+  leaveStyle = { transform: "scale(0)" },
+  enterStyle = { transform: "scale(1)" },
+  ...props
+}) => {
+  return <CustomAnimate leaveStyle={leaveStyle} enterStyle={enterStyle} {...props} />;
 }
 
 export default ScaleInOut;

@@ -16,29 +16,21 @@ export interface DataProps {
 
 export interface SeparatorProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class Separator extends React.Component<SeparatorProps> {
-  static defaultProps: SeparatorProps = {
-    direction: "row"
-  };
+const Separator: React.FC<SeparatorProps> = ({
+  direction = "row",
+  className,
+  ...attributes
+}) => {
+  const theme = useTheme();
+  // Get all style classes in one call
+  const cls = getCls(theme, { direction, className, ...attributes });
 
-  render() {
-    const {
-      direction,
-      className,
-      ...attributes
-    } = this.props;
-    const { theme } = this.context;
-
-    // Get all style classes in one call
-    const cls = getCls(theme, this.props);
-
-    return (
-      <span
-        {...attributes}
-        className={cls.root}
-      />
-    );
-  }
+  return (
+    <span
+      {...attributes}
+      className={cls.root}
+    />
+  );
 }
 
 // ------------------------------

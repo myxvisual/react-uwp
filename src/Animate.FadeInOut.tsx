@@ -5,15 +5,12 @@ import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./Anima
 
 export interface DataProps extends CustomAnimateProps {}
 
-export class FadeInOut extends React.Component<DataProps> {
-  static defaultProps: DataProps = {
-    leaveStyle: { opacity: 0 },
-    enterStyle: { opacity: 1 }
-  };
-
-  render() {
-    return <CustomAnimate {...this.props} />;
-  }
+const FadeInOut: React.FC<DataProps> = ({
+  leaveStyle = { opacity: 0 },
+  enterStyle = { opacity: 1 },
+  ...props
+}) => {
+  return <CustomAnimate leaveStyle={leaveStyle} enterStyle={enterStyle} {...props} />;
 }
 
 export default FadeInOut;

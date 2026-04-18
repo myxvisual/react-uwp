@@ -31,38 +31,28 @@ export interface DataProps {
 
 export interface IconButtonProps extends DataProps, React.HTMLAttributes<HTMLButtonElement> {}
 
-export class IconButton extends React.Component<IconButtonProps> {
-  static defaultProps: IconButtonProps = {
-    size: 48,
-    revealConfig: {
-      effectEnable: "disabled"
-    }
-  };
+const IconButton: React.FC<IconButtonProps> = ({
+  size = 48,
+  revealConfig = { effectEnable: "disabled" },
+  children,
+  disabled,
+  ...attributes
+}) => {
+  const theme = useTheme();
+  // Get all style classes in one call
+  const cls = getCls(theme, { size, revealConfig, disabled, ...attributes });
 
-  render() {
-    const {
-      children,
-      disabled,
-      revealConfig,
-      ...attributes
-    } = this.props;
-    const { theme } = this.context;
-
-    // Get all style classes in one call
-    const cls = getCls(theme, this.props);
-
-    return (
-      <Icon
-        {...attributes}
-        style={cls.root}
-        hoverStyle={cls.hover}
-        activeStyle={cls.active}
-      >
-        {children}
-        <RevealEffect {...revealConfig} />
-      </Icon>
-    );
-  }
+  return (
+    <Icon
+      {...attributes}
+      style={cls.root}
+      hoverStyle={cls.hover}
+      activeStyle={cls.active}
+    >
+      {children}
+      <RevealEffect {...revealConfig} />
+    </Icon>
+  );
 }
 
 // ------------------------------
