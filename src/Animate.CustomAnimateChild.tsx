@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import { findDOMNode } from "react-dom";
@@ -10,8 +11,6 @@ export default class CustomAnimateChild extends React.Component<DataProps> {
   displayStyleTimer: any;
   rootElm: HTMLSpanElement;
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   componentWillAppear = this.props.appearAnimate ? (callback: () => void) => {
     if (this.props.mode !== "out") {

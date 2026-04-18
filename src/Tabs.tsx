@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Tab, { DataProps as TabProps } from './Tabs.Tab';
@@ -34,9 +35,9 @@ const Tabs: React.FC<TabsProps> = ({
   className,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [tabFocusIndex, setTabFocusIndex] = useState(defaultFocusTabIndex || 0);
-  const { theme } = context;
 
   // 同步defaultFocusTabIndex到state
   useEffect(() => {
@@ -159,8 +160,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-Tabs.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Tabs;

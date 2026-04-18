@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import ScaleInOut from './Animate.ScaleInOut';
 import SlideInOut from './Animate.SlideInOut';
 import FadeInOut from './Animate.FadeInOut';

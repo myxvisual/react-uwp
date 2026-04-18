@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SlideInOut from './Animate.SlideInOut';
@@ -8,9 +9,9 @@ export interface SemanticZoomProps extends DataProps, React.HTMLAttributes<HTMLD
 const SemanticZoom: React.FC<SemanticZoomProps> = ({
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showController, setShowController] = useState(false);
-  const { theme } = context;
 
   const toggleShowController = (value?: boolean) => {
     setShowController(prev => value ?? !prev);
@@ -55,8 +56,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-SemanticZoom.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default SemanticZoom;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -31,7 +32,8 @@ const TimePicker: React.FC<TimePickerProps> = ({
   className,
   background,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showPicker, setShowPicker] = useState(defaultShowPicker);
   const [currHour, setCurrHour] = useState(defaultHour);
   const [currMinute, setCurrMinute] = useState(defaultMinute);
@@ -41,7 +43,6 @@ const TimePicker: React.FC<TimePickerProps> = ({
   const hourListView = useRef<ListView>(null);
   const minuteListView = useRef<ListView>(null);
   const timeTypeListView = useRef<ListView>(null);
-  const { theme } = context;
 
   // 受控处理
   useEffect(() => {
@@ -300,8 +301,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-TimePicker.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default TimePicker;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import { codes } from "keycode";
@@ -70,8 +71,6 @@ export class MenuItem extends React.Component<MenuItemProps, MenuItemState> {
   addBlurEvent = new AddBlurEvent();
   rootElm: HTMLDivElement;
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   componentWillReceiveProps(nextProps: MenuItemProps) {
     const { defaultExpanded } = nextProps;

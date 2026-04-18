@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from './IconButton';
@@ -35,7 +36,8 @@ const FlipView: React.FC<FlipViewProps> = ({
   children,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [focusSwipeIndex, setFocusSwipeIndex] = useState(0);
   const [currCanAutoSwipe, setCurrCanAutoSwipe] = useState(autoSwipe);
   const [currShowNavigation, setCurrShowNavigation] = useState(showNavigation);
@@ -43,7 +45,6 @@ const FlipView: React.FC<FlipViewProps> = ({
   const swipeRef = useRef<Swipe>(null);
   const dotsRef = useRef<Dots>(null);
   const rootElmRef = useRef<HTMLDivElement>(null);
-  const { theme } = context;
 
   // 挂载标记
   useEffect(() => {
@@ -227,8 +228,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-FlipView.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default FlipView;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
@@ -6,8 +7,6 @@ export interface DataProps {}
 export interface TabProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export class Tab extends React.Component<TabProps> {
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const { children, style, ...attributes } = this.props;

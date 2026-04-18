@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
@@ -72,7 +73,8 @@ const MediaPlayer: React.FC<MediaPlayerProps> = ({
   className,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [currShowControl, setCurrShowControl] = useState(showControl);
   const [currPlaying, setCurrPlaying] = useState(playing);
   const [currVolume, setCurrVolume] = useState(volume);
@@ -88,7 +90,6 @@ const MediaPlayer: React.FC<MediaPlayerProps> = ({
   const mouseMoveTimer = useRef<NodeJS.Timeout | null>(null);
   const endTimer = useRef<NodeJS.Timeout | null>(null);
   const reactPlayer = useRef<any>(null);
-  const { theme } = context;
 
   // 同步props到state
   useEffect(() => {
@@ -321,8 +322,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-MediaPlayer.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default MediaPlayer;

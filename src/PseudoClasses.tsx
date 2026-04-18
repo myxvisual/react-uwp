@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import { findDOMNode } from "react-dom";
 import * as PropTypes from "prop-types";
@@ -14,8 +15,6 @@ export interface PseudoClassesProps {
 }
 
 export class PseudoClasses extends React.Component<PseudoClassesProps> {
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   rootElm: Element = null;
 

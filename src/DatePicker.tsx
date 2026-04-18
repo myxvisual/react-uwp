@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -32,7 +33,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   style,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showPicker, setShowPicker] = useState(false);
   const [currDate, setCurrDate] = useState(defaultDate);
   const prevDate = useRef(defaultDate);
@@ -41,7 +43,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const monthListView = useRef<ListView>(null);
   const dateListView = useRef<ListView>(null);
   const yearListView = useRef<ListView>(null);
-  const { theme } = context;
 
   // 受控处理defaultDate
   useEffect(() => {
@@ -288,8 +289,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-DatePicker.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default DatePicker;

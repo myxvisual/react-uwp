@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import RevealEffect from './RevealEffect';
@@ -32,12 +33,12 @@ const TextBox: React.FC<TextBoxProps> = ({
   className,
   children,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const rootElm = useRef<HTMLDivElement>(null);
   const inputElm = useRef<HTMLInputElement>(null);
-  const { theme } = context;
 
   const handleClick = () => {
     setHovered(false);
@@ -152,8 +153,5 @@ const TextBox: React.FC<TextBoxProps> = ({
   );
 };
 
-TextBox.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default TextBox;

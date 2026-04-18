@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as dateUtils from './utils/date.utils';
@@ -26,12 +27,12 @@ const CalendarView: React.FC<CalendarViewProps> = ({
   style,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [viewDate, setViewDate] = useState(new Date());
   const [direction, setDirection] = useState<'bottom' | 'top'>('bottom');
   const [chooseISODates, setChooseISODates] = useState<string[]>([]);
   const [currPickerMode, setCurrPickerMode] = useState<'year' | 'month' | 'day'>(pickerMode);
-  const { theme } = context;
 
   const nextAction = () => {
     switch (currPickerMode) {
@@ -261,8 +262,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-CalendarView.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default CalendarView;

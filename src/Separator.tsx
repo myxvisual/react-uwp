@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
@@ -20,8 +21,6 @@ export class Separator extends React.Component<SeparatorProps> {
   static defaultProps: SeparatorProps = {
     direction: "row"
   };
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

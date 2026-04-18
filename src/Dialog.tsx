@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -25,12 +26,12 @@ const Dialog: React.FC<DialogProps> = ({
   className,
   children,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showDialog, setShowDialog] = useState(defaultShow);
   const addBlurEvent = useRef(new AddBlurEvent()).current;
   const rootElm = useRef<HTMLDivElement>(null);
   const renderToBodyRef = useRef<RenderToBody>(null);
-  const { theme } = context;
 
   // 受控处理defaultShow
   useEffect(() => {
@@ -124,8 +125,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-Dialog.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Dialog;

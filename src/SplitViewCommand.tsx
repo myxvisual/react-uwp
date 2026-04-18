@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
@@ -26,8 +27,8 @@ const SplitViewCommand: React.FC<SplitViewCommandProps> = ({
   iconStyle,
   revealConfig,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
-  const { theme } = context;
+}) => {
+  const theme = useTheme();
   const styles = useMemo(() => getStyles(theme, { style, iconStyle, visited, isTenFt, showLabel }), [theme, style, iconStyle, visited, isTenFt, showLabel]);
 
   const rootCls = theme.prepareStyle({
@@ -117,9 +118,6 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-SplitViewCommand.contextTypes = {
-  theme: PropTypes.object
-};
 
 SplitViewCommand.displayName = "SplitViewCommand";
 

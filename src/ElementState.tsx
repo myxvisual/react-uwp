@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as PropTypes from "prop-types";
@@ -50,8 +51,6 @@ export default class ElementState extends React.Component<ElementStateProps, {}>
     onClick: emptyFunc
   };
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   rootElm: HTMLElement;
   originStyle: CSSStyleDeclaration;

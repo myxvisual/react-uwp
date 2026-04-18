@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RevealEffect, { RevealEffectProps } from './RevealEffect';
@@ -36,11 +37,11 @@ const FloatNav: React.FC<FloatNavProps> = ({
   revealConfig,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [currFocusItemIndex, setCurrFocusItemIndex] = useState<number | undefined>(focusItemIndex);
   const [hoverItem, setHoverItem] = useState<number | null>(null);
   const [hoverIndexArray, setHoverIndexArray] = useState<boolean[]>([]);
-  const { theme } = context;
 
   // 受控处理focusItemIndex
   useEffect(() => {
@@ -209,8 +210,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-FloatNav.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default FloatNav;

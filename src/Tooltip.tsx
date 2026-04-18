@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useRef, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Throttle } from './utils/Throttle';
@@ -29,7 +30,8 @@ const Tooltip: React.FC<TooltipProps> = ({
   content,
   contentNode,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const rootElm = useRef<HTMLDivElement>(null);
   const tooltipElm = useRef<HTMLSpanElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -37,7 +39,6 @@ const Tooltip: React.FC<TooltipProps> = ({
   const closeDelayTimer = useRef<NodeJS.Timeout | null>(null);
   const showThrottle = useRef(new Throttle()).current;
   const hideThrottle = useRef(new Throttle()).current;
-  const { theme } = context;
 
   const toggleShow = () => {
     if (!showThrottle.shouldFunctionRun()) return;
@@ -162,8 +163,5 @@ const getCls = (theme: ReactUWP.ThemeType, tooltipStyle: React.CSSProperties, cl
   };
 };
 
-Tooltip.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Tooltip;

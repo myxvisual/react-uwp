@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import IS_NODE_ENV from './utils/nodeJS/IS_NODE_ENV';
@@ -22,7 +23,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   style,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [hsv, setHsv] = useState<{ h: number; s: number; v: number }>(tinycolor(defaultColor).toHsv());
   const [dragging, setDragging] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,7 +36,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const colorSelectorElm = useRef<HTMLDivElement>(null);
   const colorMainBarElm = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<Slider>(null);
-  const { theme } = context;
 
   // 渲染Canvas
   const renderCanvas = () => {
@@ -336,8 +337,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-ColorPicker.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default ColorPicker;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
@@ -38,8 +39,6 @@ export class IconButton extends React.Component<IconButtonProps> {
       effectEnable: "disabled"
     }
   };
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   render() {
     const {

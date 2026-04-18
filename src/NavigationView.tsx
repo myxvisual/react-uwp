@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -51,7 +52,8 @@ const NavigationView: React.FC<NavigationViewProps> = ({
   focusNavigationNodeIndex,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState(defaultExpanded ?? false);
   const [focusNodeIndex, setFocusNodeIndex] = useState<number | undefined>(focusNavigationNodeIndex);
   const [currDisplayMode, setCurrDisplayMode] = useState<"overlay" | "compact" | "minimal">(displayMode);
@@ -59,7 +61,6 @@ const NavigationView: React.FC<NavigationViewProps> = ({
 
   const addBlurEvent = useRef(new AddBlurEvent());
   const paneElm = useRef<HTMLDivElement>(null);
-  const { theme } = context;
 
   // 同步props到state
   useEffect(() => {
@@ -366,8 +367,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-NavigationView.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default NavigationView;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
@@ -28,13 +29,13 @@ const Toast: React.FC<ToastProps> = ({
   className,
   children,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showToast, setShowToast] = useState(defaultShow);
   const hiddenTimer = useRef<NodeJS.Timeout | null>(null);
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
   const customAnimate = useRef<CustomAnimate>(null);
   const customAnimateElm = useRef<HTMLDivElement>(null);
-  const { theme } = context;
 
   // 受控处理
   useEffect(() => {
@@ -212,8 +213,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-Toast.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Toast;

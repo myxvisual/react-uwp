@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from './utils/shallowEqual';
@@ -36,7 +37,8 @@ const Swipe: React.FC<SwipeProps> = ({
   className,
   children,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const childrenArray = useMemo(() => React.Children.toArray(children), [children]);
   const childrenLength = childrenArray.length;
   const isSingleChildren = childrenLength === 1;
@@ -58,7 +60,6 @@ const Swipe: React.FC<SwipeProps> = ({
   const endClientY = useRef<number | undefined>(undefined);
   const setNextSliderTime = useRef<number>(0);
   const originBodyStyle = useRef(IS_NODE_ENV ? undefined : { ...document.body.style });
-  const { theme } = context;
 
   // 循环轮播逻辑
   const setNextSlider = () => {
@@ -380,8 +381,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-Swipe.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Swipe;

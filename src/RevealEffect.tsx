@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -24,10 +25,10 @@ const RevealEffect: React.FC<RevealEffectProps> = ({
   observerTransition,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const hoverCanvasEl = useRef<HTMLCanvasElement>(null);
   const borderCanvasEl = useRef<HTMLCanvasElement>(null);
-  const { theme } = context;
 
   // 挂载和更新时更新DOM节点
   useEffect(() => {
@@ -112,8 +113,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-RevealEffect.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default RevealEffect;

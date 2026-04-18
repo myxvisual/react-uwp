@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import { useContext, useState, useCallback } from "react";
 const ReactLazyLoad = require("react-lazyload").default;

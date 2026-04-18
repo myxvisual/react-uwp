@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
@@ -50,8 +51,6 @@ export default class Control extends React.Component<ControlProps, ControlState>
     showPlaybackChoose: false
   };
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   toggleShowPlaybackChoose = (showPlaybackChoose?: any) => {
     if (typeof showPlaybackChoose === "boolean") {

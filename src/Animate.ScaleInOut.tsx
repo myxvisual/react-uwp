@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 
 import CustomAnimate, { CustomAnimateProps as CustomAnimateProps } from "./Animate.CustomAnimate";

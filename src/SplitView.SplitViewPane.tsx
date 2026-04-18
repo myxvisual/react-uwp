@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
@@ -6,8 +7,6 @@ export interface DataProps {}
 export interface SplitViewPaneProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export class SplitViewPane extends React.Component<SplitViewPaneProps> {
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
   rootElm: HTMLDivElement;
 
   render() {

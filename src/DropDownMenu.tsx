@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -39,14 +40,14 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
   itemSelectedStyle,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showList, setShowList] = useState(false);
   const [currValue, setCurrValue] = useState<string | string[] | undefined>(defaultValue || (values.length > 0 ? values[0] : undefined));
   const [currValues, setCurrValues] = useState<string[]>(values);
   const addBlurEvent = useRef(new AddBlurEvent()).current;
   const rootElm = useRef<HTMLDivElement>(null);
   const itemHeight = useRef<string | number>("32px");
-  const { theme } = context;
 
   // 同步values变化
   useEffect(() => {
@@ -209,8 +210,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-DropDownMenu.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default DropDownMenu;

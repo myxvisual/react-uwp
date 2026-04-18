@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -42,11 +43,11 @@ const ContentDialog: React.FC<ContentDialogProps> = ({
   style,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showDialog, setShowDialog] = useState(defaultShow);
   const addBlurEvent = useRef(new AddBlurEvent()).current;
   const rootElm = useRef<HTMLDivElement>(null);
-  const { theme } = context;
   const iconButtonHoverStyle = { background: "#d00f2a", color: "#fff" };
 
   // 受控处理defaultShow
@@ -264,8 +265,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-ContentDialog.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default ContentDialog;

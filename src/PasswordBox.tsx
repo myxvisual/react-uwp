@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import TextBox from './TextBox';
@@ -17,10 +18,10 @@ const PasswordBox: React.FC<PasswordBoxProps> = ({
   onChangeValue,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [showPassword, setShowPassword] = useState(defaultShowPassword);
   const textBox = useRef<TextBox>(null);
-  const { theme } = context;
 
   const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     onChangeValue?.(e.currentTarget.value);
@@ -94,8 +95,5 @@ const getStyles = (theme: ReactUWP.ThemeType, style?: React.CSSProperties, passw
   };
 };
 
-PasswordBox.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default PasswordBox;

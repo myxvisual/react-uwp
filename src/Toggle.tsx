@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -21,9 +22,9 @@ const Toggle: React.FC<ToggleProps> = ({
   size = 18,
   checked,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [currToggled, setCurrToggled] = useState(checked ?? defaultToggled);
-  const { theme } = context;
 
   // 受控组件处理
   useEffect(() => {
@@ -140,8 +141,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   return { root, wrapper, button, label };
 };
 
-Toggle.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Toggle;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PseudoClasses from './PseudoClasses';
@@ -34,10 +35,10 @@ const ListView: React.FC<ListViewProps> = ({
   className,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [focusIndex, setFocusIndex] = useState<number | undefined>(defaultFocusListIndex);
   const rootElm = useRef<HTMLDivElement>(null);
-  const { theme } = context;
 
   // 受控处理defaultFocusListIndex
   useEffect(() => {
@@ -153,8 +154,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-ListView.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default ListView;

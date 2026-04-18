@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
@@ -28,9 +29,9 @@ const RatingControl: React.FC<RatingControlProps> = ({
   style,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [currRating, setCurrRating] = useState(defaultRating);
-  const { theme } = context;
 
   // 受控处理
   useEffect(() => {
@@ -140,8 +141,5 @@ const getStyles = (theme: ReactUWP.ThemeType, style?: React.CSSProperties) => {
   };
 };
 
-RatingControl.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default RatingControl;

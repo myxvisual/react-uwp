@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import IS_NODE_ENV from "./utils/nodeJS/IS_NODE_ENV";

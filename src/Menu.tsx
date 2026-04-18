@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from './Menu.MenuItem';
@@ -34,8 +35,8 @@ const Menu: React.FC<MenuProps> = ({
   expandedMethod,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
-  const { theme } = context;
+}) => {
+  const theme = useTheme();
   const styles = getStyles(theme, { style });
   const classes = theme.prepareStyle({
     className: "menu",
@@ -81,8 +82,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-Menu.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Menu;

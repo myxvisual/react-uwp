@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import IS_NODE_ENV from './utils/nodeJS/IS_NODE_ENV';
@@ -51,7 +52,8 @@ const Slider: React.FC<SliderProps> = ({
   useSimpleController,
   customControllerStyle,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [currValue, setCurrValue] = useState(initValue);
   const [hovered, setHovered] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -66,7 +68,6 @@ const Slider: React.FC<SliderProps> = ({
   const controllerElm = useRef<HTMLDivElement>(null);
   const barElm = useRef<HTMLDivElement>(null);
   const originBodyStyle = useRef(IS_NODE_ENV ? undefined : { ...document.body.style });
-  const { theme } = context;
 
   // 受控处理
   useEffect(() => {
@@ -381,8 +382,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-Slider.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default Slider;

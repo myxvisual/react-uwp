@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import { TransitionGroup as ReactTransitionGroup } from "react-transition-group";
 import * as PropTypes from "prop-types";
@@ -79,8 +80,6 @@ export class CustomAnimate extends React.Component<CustomAnimateProps> {
     useWrapper: true
   };
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
   customAnimateChildArray: CustomAnimateChild[] = [];
 
   setLeaveStyle = () => {

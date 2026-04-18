@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -25,14 +26,14 @@ const AutoSuggestBox: React.FC<AutoSuggestBoxProps> = ({
   style,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [typing, setTyping] = useState(false);
   const [showListSource, setShowListSource] = useState(false);
   const [focusListSourceIndex, setFocusListSourceIndex] = useState<number | undefined>(undefined);
   const textBox = useRef<TextBox>(null);
   const listView = useRef<ListView>(null);
   const inputTimer = useRef<NodeJS.Timeout | null>(null);
-  const { theme } = context;
 
   // 事件监听
   useEffect(() => {
@@ -217,8 +218,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-AutoSuggestBox.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default AutoSuggestBox;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -28,11 +29,11 @@ const SplitView: React.FC<SplitViewProps> = ({
   clickExcludeElms,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState(defaultExpanded);
   const addBlurEvent = useRef(new AddBlurEvent());
   const rootElm = useRef<HTMLDivElement>(null);
-  const { theme } = context;
 
   // 同步defaultExpanded props到state
   useEffect(() => {
@@ -165,8 +166,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-SplitView.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default SplitView;

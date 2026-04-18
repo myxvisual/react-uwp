@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 
 export interface DataProps {

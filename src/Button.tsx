@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
@@ -61,8 +62,6 @@ export class Button extends React.Component<ButtonProps> {
     iconPosition: "left"
   };
 
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
 
   refs: { container: HTMLButtonElement };
 

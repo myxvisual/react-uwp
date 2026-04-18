@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import prismOkaidiaCSS from './MarkdownRender.prismOkaidiaCSS';
@@ -24,9 +25,9 @@ const MarkdownRender: React.FC<MarkdownRenderProps> = ({
   md,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const cssAddedRef = useRef(false);
-  const { theme } = context;
 
   const getMdInstance = () => {
     return md || getMd();
@@ -263,8 +264,5 @@ code[class*="language-"], pre[class*="language-"] {
 `
 ); }
 
-MarkdownRender.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default MarkdownRender;

@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -25,14 +26,14 @@ const CalendarDatePicker: React.FC<CalendarDatePickerProps> = ({
   onClick,
   style,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [currDate, setCurrDate] = useState(defaultDate);
   const [isInit, setIsInit] = useState(true);
   const [showCalendarView, setShowCalendarView] = useState(false);
   const addBlurEvent = useRef(new AddBlurEvent()).current;
   const rootElm = useRef<HTMLDivElement>(null);
   const textBox = useRef<TextBox>(null);
-  const { theme } = context;
 
   // 点击外部关闭事件
   useEffect(() => {
@@ -135,8 +136,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-CalendarDatePicker.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default CalendarDatePicker;

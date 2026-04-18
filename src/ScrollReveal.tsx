@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
@@ -35,10 +36,10 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   wrapperStyle,
   style,
   children
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const customAnimate = useRef<CustomAnimate>(null);
   const selfRef = useRef(ScrollReveal);
-  const { theme } = context;
 
   // 生命周期：挂载/更新/卸载时处理scrollReveals
   useEffect(() => {
@@ -80,9 +81,6 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   );
 };
 
-ScrollReveal.contextTypes = {
-  theme: PropTypes.object
-};
 
 // 导出动画props
 export {

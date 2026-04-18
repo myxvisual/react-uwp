@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { codes } from 'keycode';
@@ -39,11 +40,11 @@ const CommandBar: React.FC<CommandBarProps> = ({
   style,
   className,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [currExpanded, setCurrExpanded] = useState(expanded);
   const rootElm = useRef<HTMLDivElement>(null);
   const addBlurEvent = useRef(new AddBlurEvent()).current;
-  const { theme } = context;
 
   // 受控处理expanded
   useEffect(() => {
@@ -234,8 +235,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
   };
 };
 
-CommandBar.contextTypes = {
-  theme: PropTypes.object
-};
 
 export default CommandBar;

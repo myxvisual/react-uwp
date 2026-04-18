@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 
 import Separator, { SeparatorProps } from "./Separator";

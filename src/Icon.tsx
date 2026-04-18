@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PseudoClasses from './PseudoClasses';
@@ -40,9 +41,9 @@ const Icon: React.FC<IconProps> = ({
   onMouseEnter,
   onMouseLeave,
   ...attributes
-}, context: { theme: ReactUWP.ThemeType }) => {
+}) => {
+  const theme = useTheme();
   const [hovered, setHovered] = useState(false);
-  const { theme } = context;
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
     onMouseEnter?.(e);
@@ -120,9 +121,6 @@ const getCls = (theme: ReactUWP.ThemeType, props: {
   return { root };
 };
 
-Icon.contextTypes = {
-  theme: PropTypes.object
-};
 
 export { icons };
 
