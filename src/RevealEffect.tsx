@@ -1,5 +1,5 @@
 import { useTheme } from './hooks/useTheme';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 
 export interface DataProps {
   effectEnable?: "hover" | "border" | "both" | "disabled";
@@ -29,9 +29,9 @@ const RevealEffect: React.FC<RevealEffectProps> = ({
   const hoverCanvasEl = useRef<HTMLCanvasElement>(null);
   const borderCanvasEl = useRef<HTMLCanvasElement>(null);
 
-  // 挂载和更新时更新DOM节点
-  useEffect(() => {
-    const currRevealConfig = theme.getRevealConfig(theme.revealConfig, {
+  // 缓存配置，避免重复计算
+  const currRevealConfig = useMemo(() => 
+    theme.getRevealConfig(theme.revealConfig, {
       borderWidth,
       hoverSize,
       effectEnable,
@@ -40,49 +40,51 @@ const RevealEffect: React.FC<RevealEffectProps> = ({
       effectRange,
       observerResize,
       observerTransition
-    });
-    theme.addBorderCanvas(borderCanvasEl.current, currRevealConfig);
+    }),
+    [borderWidth, hoverSize, effectEnable, hoverColor, borderColor, effectRange, observerResize, observerTransition, theme.revealConfig]
+  );
 
-    // 卸载时清理
+  // 挂载和更新时更新DOM节点
+  useEffect(() => {
+    const borderEl = borderCanvasEl.current;
+    const hoverEl = hoverCanvasEl.current;
+    
+    theme.addBorderCanvas(borderEl, currRevealConfig);
+    if (theme.addHoverCanvas && hoverEl) {
+      theme.addHoverCanvas(hoverEl, currRevealConfig);
+    }
+
+    // 卸载时完整清理两个canvas，防止内存泄漏
     return () => {
-      theme.removeBorderCanvas(borderCanvasEl.current);
+      theme.removeBorderCanvas(borderEl);
+      if (theme.removeHoverCanvas && hoverEl) {
+        theme.removeHoverCanvas(hoverEl);
+      }
     };
-  }, [
-    borderWidth,
-    hoverSize,
-    effectEnable,
-    hoverColor,
-    borderColor,
-    effectRange,
-    observerResize,
-    observerTransition,
-    theme
-  ]);
+  }, [currRevealConfig, theme]);
 
-  const styles = getStyles(theme, { style });
-  const classes = theme.prepareStyles({
-    styles,
-    className: "reveal-effect"
-  });
+  // 缓存样式计算结果，避免重复渲染时重复计算
+  const classes = useMemo(() => {
+    const styles = getStyles(theme, { style });
+    return theme.prepareStyles({
+      styles,
+      className: "reveal-effect"
+    });
+  }, [theme, style]);
+
+  // 复用canvas公共属性，减少重复代码
+  const canvasCommonProps = {
+    width: 0,
+    height: 0,
+    style: classes.root.style,
+    className: classes.root.className,
+    ...attributes
+  };
 
   return (
     <React.Fragment>
-      <canvas
-        width={0}
-        height={0}
-        ref={hoverCanvasEl}
-        style={classes.root.style}
-        className={classes.root.className}
-        {...attributes}
-      />
-      <canvas
-        width={0}
-        height={0}
-        ref={borderCanvasEl}
-        style={classes.root.style}
-        className={classes.root.className}
-        {...attributes}
-      />
+      <canvas ref={hoverCanvasEl} {...canvasCommonProps} />
+      <canvas ref={borderCanvasEl} {...canvasCommonProps} />
     </React.Fragment>
   );
 };
@@ -111,6 +113,5 @@ const getStyles = (theme: ReactUWP.ThemeType, props: {
     })
   };
 };
-
 
 export default RevealEffect;
