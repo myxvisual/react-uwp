@@ -1,9 +1,8 @@
-import * as React from "react";
-import * as PropTypes from "prop-types";
-
-import prismOkaidiaCSS from "./prismOkaidiaCSS";
-import prismCoyCSS from "./prismCoyCSS";
-import * as MarkdownIt from "markdown-it";
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import prismOkaidiaCSS from './MarkdownRender.prismOkaidiaCSS';
+import prismCoyCSS from './MarkdownRender.prismCoyCSS';
+import * as MarkdownIt from 'markdown-it';
 
 export function getMd() {
   return new MarkdownIt({
@@ -12,74 +11,59 @@ export function getMd() {
     breaks: true
   });
 }
-
 export interface DataProps {
-  /**
-   * The Markdown string.
-   */
   text?: string;
-  /**
-   * Use Custom Markdown CSSText.
-   */
   CSSText?: string;
   md?: MarkdownIt;
 }
-
 export interface MarkdownRenderProps extends DataProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export class MarkdownRender extends React.Component<MarkdownRenderProps> {
-  static contextTypes = { theme: PropTypes.object };
-  context: { theme: ReactUWP.ThemeType };
+const MarkdownRender: React.FC<MarkdownRenderProps> = ({
+  text,
+  CSSText,
+  md,
+  className,
+  ...attributes
+}, context: { theme: ReactUWP.ThemeType }) => {
+  const cssAddedRef = useRef(false);
+  const { theme } = context;
 
-  componentDidMount() {
-    this.updateThemeStyle();
-  }
+  const getMdInstance = () => {
+    return md || getMd();
+  };
 
-  componentDidUpdate() {
-    this.updateThemeStyle();
-  }
-
-  getMd = () => {
-    const { md } = this.props;
-    if (md) {
-      return md;
-    } else {
-      return getMd();
-    }
-  }
-
-  updateThemeStyle = () => {
-    const { CSSText: newCSSText } = this.props;
-    const { theme } = this.context;
-    const CSSText = getMarkdownCSSText(theme, this.getClassName()) + `\n${theme.isDarkTheme ? prismOkaidiaCSS : prismCoyCSS}` + newCSSText || "";
-    theme.styleManager.addCSSText(CSSText);
-  }
-
-  getClassName = () => {
-    const { theme } = this.context;
+  const getClassName = () => {
     return `react-uwp-markdown-${theme.themeName}`;
-  }
+  };
 
-  render() {
-    const { text, className, ...attributes } = this.props;
-    const { theme } = this.context;
+  const updateThemeStyle = () => {
+    const baseCSSText = getMarkdownCSSText(theme, getClassName()) + `\n${theme.isDarkTheme ? prismOkaidiaCSS : prismCoyCSS}${CSSText || ""}`;
+    theme.styleManager.addCSSText(baseCSSText);
+  };
 
-    const md = this.getMd();
-    const html = md.render(text);
-    return (
-      <div>
-        <div
-          {...attributes}
-          className={`${this.getClassName()} ${className || ""}`}
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-      </div>
-    );
-  }
-}
+  // 组件挂载和更新时更新样式
+  useEffect(() => {
+    updateThemeStyle();
+  }, [theme.themeName, CSSText]);
 
-export default MarkdownRender;
+  const mdInstance = getMdInstance();
+  const html = mdInstance.render(text || "");
+  const rootClassName = `${getClassName()} ${className || ""}`;
 
+  return (
+    <div>
+      <div
+        {...attributes}
+        className={rootClassName}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    </div>
+  );
+};
+
+// ------------------------------
+// Style generation function (bottom of file)
+// ------------------------------
 export function getMarkdownCSSText(theme: ReactUWP.ThemeType, className: string, fontSize = 14) {
 return (
 `.${className} {
@@ -278,3 +262,9 @@ code[class*="language-"], pre[class*="language-"] {
  }
 `
 ); }
+
+MarkdownRender.contextTypes = {
+  theme: PropTypes.object
+};
+
+export default MarkdownRender;
