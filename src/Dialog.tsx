@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { codes } from 'keycode';
 import AddBlurEvent from './utils/AddBlurEvent';
 import RenderToBody from './RenderToBody';

@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import * as React from "react";
-import * as PropTypes from "prop-types";
 import { codes } from "keycode";
 
 import AddBlurEvent from "../utils/AddBlurEvent";

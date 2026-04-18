@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useRef, useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { Throttle } from './utils/Throttle';
 
 export interface DataProps {

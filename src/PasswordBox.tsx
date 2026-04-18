@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import TextBox from './TextBox';
 import Icon from './Icon';
 

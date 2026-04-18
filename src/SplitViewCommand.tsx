@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Icon from './Icon';
 import PseudoClasses from './PseudoClasses';
 import RevealEffect, { RevealEffectProps } from './RevealEffect';

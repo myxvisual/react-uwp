@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import RevealEffect from './RevealEffect';
 
 export interface DataProps {

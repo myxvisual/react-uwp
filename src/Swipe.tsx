@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import shallowEqual from './utils/shallowEqual';
 import IS_NODE_ENV from './utils/nodeJS/IS_NODE_ENV';
 

@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import Icon from './Icon';
 import CustomAnimate, { slideRightInProps } from './Animate/CustomAnimate';

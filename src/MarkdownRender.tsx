@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import prismOkaidiaCSS from './MarkdownRender.prismOkaidiaCSS';
 import prismCoyCSS from './MarkdownRender.prismCoyCSS';
 import * as MarkdownIt from 'markdown-it';

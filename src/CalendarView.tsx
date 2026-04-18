@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import * as dateUtils from './utils/date.utils';
 import DayPicker from './CalendarView/DayPicker';
 import Icon from './Icon';

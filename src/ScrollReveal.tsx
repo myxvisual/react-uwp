@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import CustomAnimate, {
   fadeInProps,

@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Icon from './Icon';
 
 export interface DataProps {

@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 export interface DataProps {
   effectEnable?: "hover" | "border" | "both" | "disabled";

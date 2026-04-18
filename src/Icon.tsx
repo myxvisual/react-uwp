@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import PseudoClasses from './PseudoClasses';
 import iconsType from './Icon.icons';
 

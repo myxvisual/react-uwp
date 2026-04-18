@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import IconButton from './IconButton';
 import Swipe from './Swipe';
 import Dots from './FlipView.Dots';

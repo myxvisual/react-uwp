@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import RevealEffect, { RevealEffectProps } from "./RevealEffect";
 import Icon from "./Icon";

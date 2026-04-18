@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import SlideInOut from './Animate.SlideInOut';
 
 export interface DataProps {}

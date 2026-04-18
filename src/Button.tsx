@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import PseudoClasses from "./PseudoClasses";
 import Icon from "./Icon";
@@ -57,28 +56,19 @@ const labelStyle: React.CSSProperties = {
   verticalAlign: "middle"
 };
 
-export class Button extends React.Component<ButtonProps> {
-  static defaultProps: ButtonProps = {
-    iconPosition: "left"
-  };
-
-
-  refs: { container: HTMLButtonElement };
-
-  render() {
-    const {
-      children,
-      icon,
-      iconPosition,
-      disabled,
-      tooltip,
-      revealConfig,
-      ...attributes
-    } = this.props;
-    const { theme } = this.context;
-
-    // Get all style classes in one call
-    const cls = getCls(theme, this.props);
+const Button: React.FC<ButtonProps> = ({
+  children,
+  icon,
+  iconPosition = "left",
+  disabled,
+  tooltip,
+  revealConfig,
+  ...attributes
+}) => {
+  const theme = useTheme();
+  // Get all style classes in one call
+  const props = { children, icon, iconPosition, disabled, tooltip, revealConfig, ...attributes };
+  const cls = getCls(theme, props);
 
     const normalRender = (
       <PseudoClasses {...attributes} disabled={disabled} className={cls.button}>
@@ -117,8 +107,7 @@ export class Button extends React.Component<ButtonProps> {
         {normalRender}
       </Tooltip>
     ) : normalRender;
-  }
-}
+};
 
 // ------------------------------
 // Style generation function (bottom of file)

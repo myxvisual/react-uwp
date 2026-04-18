@@ -1,7 +1,6 @@
 import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import { findDOMNode } from "react-dom";
-import * as PropTypes from "prop-types";
 
 import ElementState, { ElementStateProps } from "./ElementState";
 import spreadObject from "./utils/spreadObject";

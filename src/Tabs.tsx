@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Tab, { DataProps as TabProps } from './Tabs.Tab';
 import CustomAnimate from './Animate.CustomAnimate';
 

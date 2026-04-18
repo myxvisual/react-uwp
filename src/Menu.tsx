@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React from 'react';
-import PropTypes from 'prop-types';
 import MenuItem from './Menu.MenuItem';
 export { MenuItem };
 

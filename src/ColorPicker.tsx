@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import IS_NODE_ENV from './utils/nodeJS/IS_NODE_ENV';
 import Slider from './Slider';
 import * as tinycolor from 'tinycolor2';

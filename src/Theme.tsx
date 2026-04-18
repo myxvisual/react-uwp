@@ -1,6 +1,5 @@
 import { useTheme } from './hooks/useTheme';
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 import { ThemeContext } from './hooks/useTheme';
 import { handleScrollReveal } from "./Theme.handleScrollReveal";

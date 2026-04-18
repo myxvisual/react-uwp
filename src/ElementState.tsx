@@ -1,7 +1,6 @@
 import { useTheme } from './hooks/useTheme';
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as PropTypes from "prop-types";
 
 import setStyleToElement from "./utils/setStyleToElement";
 
